@@ -1,4 +1,4 @@
-import FoodSearchedStores from "@/components/FoodSearchStore/FoodSearchedStores";
+import FoodSearchedStores from "@/components/Food/FoodSearchStore/FoodSearchedStores";
 import React from "react";
 
 const page = () => {

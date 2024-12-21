@@ -1,0 +1,22 @@
+import Image from "next/image";
+import React from "react";
+
+const NoItemFound = () => {
+  return (
+    <div className="min-h-[50vh] flex justify-center items-center w-full">
+      <div>
+        <Image
+          width={500}
+          height={500}
+          src="/png/no-item-found.png"
+          alt="notension"
+          className="object-cover w-80"
+        />
+
+        <p className="text-center text-deepGray">No item found!</p>
+      </div>
+    </div>
+  );
+};
+
+export default NoItemFound;

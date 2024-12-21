@@ -8,8 +8,10 @@ import {
   NEAREST_FOOD_STORE,
   SEARCH_FOOD_STORE,
 } from "@/api-endpoints/api-endpoint";
-import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
+import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+// import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+// import { handleDashboardReducer } from "@/redux/dashboardReducer";
 axios.defaults.withCredentials = true;
 
 export const useFood = () => {
@@ -116,18 +118,21 @@ export const useFood = () => {
     }
   };
 
-  const exploreStore = () => {
+  // storeId: "659be6cf89593390adb41141",
+  // custom_store_id: "FS111111",
+
+  const exploreStore = (data) => {
     // resetFoodStore();
 
     setProgressing(true);
     Axios.get(EXPLORE_FOOD_STORE, {
       params: {
-        storeId: "659be6cf89593390adb41141",
-        custom_store_id: "FS111111",
+        storeId: data?._id,
+        custom_store_id: data?.custom_store_id,
       },
     })
       .then((res) => {
-        console.log(res?.data?.result);
+        console.log("res?.data?.result", res?.data?.result);
 
         console.log("hello", res?.data?.result?.shopDetails[0]);
 

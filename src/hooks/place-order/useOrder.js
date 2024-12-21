@@ -1,20 +1,20 @@
 import React from "react";
 import axios from "axios";
-import { FOOD_URL } from "@/api-endpoints/secret";
 import {
-  FOOD_ORDER_INFO,
-  FOOD_PLACE_ORDER,
+  GROCERY_ORDER_INFO,
+  GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
+import { GROCERY_URL } from "@/api-endpoints/secret";
 
 axios.defaults.withCredentials = true;
 
 const Axios = axios.create({
-  baseURL: FOOD_URL,
+  baseURL: GROCERY_URL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -31,9 +31,8 @@ export const useOrder = () => {
   const placeOrder = (itemOrderObj) => {
     setProgressing(true);
 
-    //console.log("Click", itemOrderObj);
-
-    Axios.post(FOOD_PLACE_ORDER, itemOrderObj)
+    // console.log("Click", itemOrderObj);
+    Axios.post(GROCERY_PLACE_ORDER, itemOrderObj)
       .then((res) => {
         // console.log(res);
         if (res.data.success) {
@@ -53,6 +52,8 @@ export const useOrder = () => {
       })
       .catch((error) => {
         setProgressing(false);
+        // console.log("error:", error);
+
         toast.error("Failed to place order.");
         // console.log("result =", error?.response?.data?.errors);
         // const errorMsg = formatServerError(error?.response?.data?.errors);
@@ -62,27 +63,27 @@ export const useOrder = () => {
   const getOrderInfo = () => {
     //console.log('URL', URL);
     setProgressing(true);
-    Axios.get(FOOD_ORDER_INFO, {
+    Axios.get(GROCERY_ORDER_INFO, {
       params: {
         customerId: userInfo?._id,
         custom_customerId: userInfo?.custom_id,
       },
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
-        console.log("response?.data?.result", response?.data?.result);
+        // console.log("response?.data?.result", response?.data?.result);
         setProgressing(false);
         ///saveOrderInfoToReducer(response?.data?.result);
         dispatch(
           handleUserReducer({
-            type: "SAVE_FOOD_ORDER_INFO",
+            type: "SAVE_GROCERY_ORDER_INFO",
             data: response?.data?.result,
           })
         );
       })
       .catch((error) => {
-        console.log("Error : ", error.response);
+        // console.log("Error : ", error.response);
         setProgressing(false);
       });
     setTimeout(() => {

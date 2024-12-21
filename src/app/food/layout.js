@@ -1,9 +1,9 @@
-import LocationModal from "@/components/LocationModal/LocationModal";
+import LocationModal from "@/components/shared/LocationModal/LocationModal";
 
 export default function FoodLayout({ children }) {
   return (
     <>
-      <LocationModal />
+      {/* <LocationModal /> */}
       {children}
     </>
   );

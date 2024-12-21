@@ -1,4 +1,4 @@
-import FoodSection from "@/components/FoodSection/FoodSection";
+import FoodSection from "@/components/Food/FoodSection/FoodSection";
 import Link from "next/link";
 import React from "react";
 import { CiShop } from "react-icons/ci";

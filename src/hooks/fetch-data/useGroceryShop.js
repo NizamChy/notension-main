@@ -85,14 +85,17 @@ export const useGroceryShop = () => {
     }
   };
 
-  const exploreStore = () => {
+  // storeId: "6527d0a1b7199de299cd2284",
+  // custom_store_id: "GS111112",
+
+  const exploreStore = (data) => {
     // resetFoodStore();
 
     setProgressing(true);
     Axios.get(EXPLORE_GROCERY_STORE, {
       params: {
-        storeId: "6527d0a1b7199de299cd2284",
-        custom_store_id: "GS111112",
+        storeId: data?._id,
+        custom_store_id: data?.custom_store_id,
       },
     })
       .then((res) => {

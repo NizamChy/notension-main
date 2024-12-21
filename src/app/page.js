@@ -1,11 +1,16 @@
 import React from "react";
-import LocationModal from "../components/LocationModal/LocationModal";
 import Link from "next/link";
 import Image from "next/image";
+import LocationModal from "@/components/shared/LocationModal/LocationModal";
+import Footer from "@/components/shared/Footer/Footer";
+import Navbar from "@/components/shared/Navbar/Navbar";
 
 const page = () => {
   return (
     <>
+      <div className="pb-20">
+        <Navbar />
+      </div>
       <LocationModal />
       {/* <div className="flex justify-center gap-5 mt-10">
         <Link href="/grocery">
@@ -28,7 +33,7 @@ const page = () => {
       </div> */}
       <div className="flex justify-center gap-5 mt-16 px-3">
         <div className="w-full max-w-xs space-y-3 rounded-xl bg-white p-4 shadow-lg">
-          <Link href="/grocery">
+          <Link href="/grocery/all">
             <div className="group flex w-full justify-center overflow-hidden">
               <Image
                 width={400}
@@ -68,6 +73,7 @@ const page = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

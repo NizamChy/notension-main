@@ -1,4 +1,4 @@
-import FoodCategorySection from "@/components/FoodCategorySection/FoodCategorySection";
+import FoodCategorySection from "@/components/Food/FoodCategorySection/FoodCategorySection";
 
 import React from "react";
 

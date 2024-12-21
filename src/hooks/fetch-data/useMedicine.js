@@ -153,13 +153,16 @@ export const useMedicine = () => {
     }
   };
 
+  // storeId: "652fcf859e51f7d1601b02ed",
+  // custom_store_id: "MS111112",
+
   const exploreStore = (data) => {
     resetReducer();
     setProgressing(true);
     Axios.get(EXPLORE_MEDICINE_STORE, {
       params: {
-        storeId: "652fcf859e51f7d1601b02ed",
-        custom_store_id: "MS111112",
+        storeId: data?._id,
+        custom_store_id: data?.custom_store_id,
       },
     })
       .then((res) => {

@@ -2,10 +2,13 @@ import { FaLocationDot } from "react-icons/fa6";
 import Image from "next/image";
 import { IMAGE_URL } from "@/api-endpoints/secret";
 
-const ShopInfoCard = ({ shop, type }) => {
+const ShopInfoCard = ({ shop, onClick, type }) => {
   return (
-    <div className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300">
-      <div className="relative overflow-hidden  rounded-t-lg">
+    <div
+      onClick={onClick}
+      className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300"
+    >
+      <div className="relative overflow-hidden rounded-t-lg">
         <Image
           src={`${IMAGE_URL}/${type}-store-docs/${shop?.shop_banner_app}`}
           alt={`${shop?.shop_name} banner`}
@@ -14,9 +17,11 @@ const ShopInfoCard = ({ shop, type }) => {
           className="w-full h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
         />
 
-        <p className="bg-yellow-300 absolute bottom-3 left-3 rounded-lg px-2 py-0.5 text-sm font-semibold">
-          {shop?.delivery_notice}
-        </p>
+        {shop?.delivery_notice && (
+          <p className="bg-yellow-300 absolute bottom-3 left-3 rounded-lg px-2 py-0.5 text-sm font-semibold opacity-75">
+            {shop?.delivery_notice}
+          </p>
+        )}
       </div>
 
       <div className="p-4">

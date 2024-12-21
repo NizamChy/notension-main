@@ -1,5 +1,5 @@
-import SelectedCategory from "@/components/FoodCategorySection/SelectedCategory";
-import FoodStoreSearchBar from "@/components/FoodSearchStore/FoodStoreSearchBar";
+import SelectedCategory from "@/components/Food/FoodCategorySection/SelectedCategory";
+import FoodStoreSearchBar from "@/components/Food/FoodSearchStore/FoodStoreSearchBar";
 
 export default function FoodCategoryLayout({ children }) {
   return (
