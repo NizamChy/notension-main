@@ -25,7 +25,7 @@ const ShopInfo = () => {
           <div className="mt-6 space-y-1 w-full text-gray-700">
             <div className="flex items-center gap-2">
               <BsShop className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900">
+              <span className="font-semibold text-lg text-gray-900 text-nowrap">
                 Shop Name:
               </span>
               <span className="truncate font-medium">

@@ -9,9 +9,47 @@ import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const GroceryItems = ({ item }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const cartItem = cartItems.find((cartItem) => cartItem._id === item._id);
+  const groceryItems = useSelector((state) => state.cart.groceryItems);
+  const cartItem = groceryItems?.find((cartItem) => cartItem._id === item._id);
   const currentQuantity = cartItem ? cartItem.quantity : 0;
+
+  const visitedGroceryStore = useSelector(
+    (state) => state.dashboard.visitedGroceryStore
+  );
+
+  const groceryStoreInfo = useSelector((state) => state.cart.groceryStoreInfo);
+
+  // const cartItems = useSelector((state) => state.cart.cartItems);
+  // const cartItem = cartItems?.find((cartItem) => cartItem._id === item._id);
+  // const currentQuantity = cartItem ? cartItem.quantity : 0;
+
+  const addProduct = (product) => {
+    dispatch(
+      handleCartAction({
+        type: "ADD_TO_CART_GROCERY",
+        data: product,
+      })
+    );
+  };
+
+  const saveStoreAndProductInfo = (product) => {
+    addProduct(product);
+    dispatch(
+      handleCartAction({
+        type: "SAVE_GROCERY_STORE_INFO",
+        data: visitedGroceryStore,
+      })
+    );
+  };
+
+  const emptyCartItems = (product) => {
+    dispatch(
+      handleCartAction({
+        type: "CLEAR_CART_GROCERY",
+      })
+    );
+    saveStoreAndProductInfo(product);
+  };
 
   const handleAddToCart = () => {
     let product = {
@@ -30,12 +68,19 @@ const GroceryItems = ({ item }) => {
       inc_qty: 1,
       app_image: item?.app_image,
     };
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART",
-        data: product,
-      })
-    );
+
+    if (groceryItems.length > 0) {
+      if (
+        groceryStoreInfo?._id &&
+        groceryStoreInfo?._id !== visitedGroceryStore?._id
+      ) {
+        emptyCartItems(product);
+      } else {
+        addProduct(product);
+      }
+    } else {
+      saveStoreAndProductInfo(product);
+    }
   };
 
   return (
@@ -55,7 +100,7 @@ const GroceryItems = ({ item }) => {
               alt={item?.product_title_eng || "Product image"}
               width={400}
               height={400}
-              className="w-full h-auto object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
             <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-blue-500 top-4 right-3 md:right-4 rounded-full" />
           </div>
@@ -86,7 +131,7 @@ const GroceryItems = ({ item }) => {
                     onClick={() =>
                       dispatch(
                         handleCartAction({
-                          type: "DECREMENT_QUANTITY",
+                          type: "DECREMENT_QUANTITY_GROCERY",
                           data: { _id: item._id },
                         })
                       )
@@ -102,7 +147,7 @@ const GroceryItems = ({ item }) => {
                     onClick={() =>
                       dispatch(
                         handleCartAction({
-                          type: "INCREMENT_QUANTITY",
+                          type: "INCREMENT_QUANTITY_GROCERY",
                           data: { _id: item._id },
                         })
                       )

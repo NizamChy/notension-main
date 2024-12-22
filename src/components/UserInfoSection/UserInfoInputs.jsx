@@ -2,13 +2,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import FloatingInput from "../LoginSection/FloatingInput";
 import { useUser } from "@/hooks/fetch-data/useUser";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const UserInfoInputs = ({ phone, onClose, type }) => {
   const { progressing, userInfo, handleDataChange, getOtp, registerUser } =
     useUser();
 
   const router = useRouter();
+
+  const params = useParams();
+
   const otpSentRef = useRef(false);
   const [otp, setOtp] = useState("");
 
@@ -33,7 +36,8 @@ const UserInfoInputs = ({ phone, onClose, type }) => {
     registerUser();
     onClose();
     if (type === "cart") {
-      router.push("/checkout");
+      // router.push("/checkout");
+      router.push(`/grocery/${params?.store}/checkout`);
     } else if (type === "login") {
       router.push("/");
     }

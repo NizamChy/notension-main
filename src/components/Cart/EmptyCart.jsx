@@ -4,11 +4,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const EmptyCart = () => {
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const groceryItems = useSelector((state) => state.cart.groceryItems);
 
   return (
     <>
-      {cartItems.length == 0 && (
+      {groceryItems?.length == 0 && (
         <div className="flex flex-col justify-center items-center h-full">
           <Image
             src="/png/empty-cart.png"

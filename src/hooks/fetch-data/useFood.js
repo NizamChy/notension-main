@@ -134,8 +134,6 @@ export const useFood = () => {
       .then((res) => {
         console.log("res?.data?.result", res?.data?.result);
 
-        console.log("hello", res?.data?.result?.shopDetails[0]);
-
         if (
           res?.data?.result?.shopDetails[0]?.is_closed ||
           !res?.data?.result?.shopDetails[0]?.is_active ||

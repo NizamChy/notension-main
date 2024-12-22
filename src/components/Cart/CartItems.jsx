@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const CartItems = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const groceryItems = useSelector((state) => state.cart.groceryItems);
 
   return (
     <>
       <ul className="space-y-4">
-        {cartItems.map((item) => (
+        {groceryItems?.map((item) => (
           <li
             key={item._id}
             className="flex items-center justify-between gap-4 border-b pb-4"
@@ -53,7 +53,7 @@ const CartItems = () => {
                     onClick={() =>
                       dispatch(
                         handleCartAction({
-                          type: "DECREMENT_QUANTITY",
+                          type: "DECREMENT_QUANTITY_GROCERY",
                           data: { _id: item._id },
                         })
                       )
@@ -67,7 +67,7 @@ const CartItems = () => {
                     onClick={() =>
                       dispatch(
                         handleCartAction({
-                          type: "INCREMENT_QUANTITY",
+                          type: "INCREMENT_QUANTITY_GROCERY",
                           data: { _id: item._id },
                         })
                       )
@@ -84,7 +84,7 @@ const CartItems = () => {
               onClick={() =>
                 dispatch(
                   handleCartAction({
-                    type: "REMOVE_ITEM",
+                    type: "REMOVE_ITEM_GROCERY",
                     data: { _id: item._id },
                   })
                 )

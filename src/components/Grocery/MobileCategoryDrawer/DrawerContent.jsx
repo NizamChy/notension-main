@@ -1,12 +1,11 @@
 "use client";
 
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { MdPlayArrow } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
 import { CgProfile } from "react-icons/cg";
@@ -20,30 +19,30 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const dispatch = useDispatch();
 
+  const params = useParams();
+
   const userInfo = useSelector((state) => state.user.userInfo);
 
   console.log(userInfo);
 
   const router = useRouter();
 
-  const { exploreStore } = useGroceryShop();
-
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    router.push(`/type/${data.id}`);
+    router.push(`/grocery/${params?.store}/type/${data.id}`);
   };
 
   const handleSubtype = (subTypeId) => {
     toggleDrawer();
-    router.push(`/sub-type/${subTypeId}`);
+    router.push(`/grocery/${params?.store}/sub-type/${subTypeId}`);
     setActiveSubtype(subTypeId);
   };
 
   const handleCustomtype = (customTypeId) => {
     toggleDrawer();
-    router.push(`/custom-type/${customTypeId}`);
+    router.push(`/grocery/${params?.store}/custom-type/${customTypeId}`);
   };
 
   const handleLogout = () => {
@@ -55,10 +54,6 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
     toggleDrawer();
     openModal();
   };
-
-  useEffect(() => {
-    exploreStore();
-  }, []);
 
   return (
     <>

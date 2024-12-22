@@ -45,7 +45,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: "Food",
+  key: "root",
   storage,
   whitelist: ["user", "cart", "itemsByStore", "dashboard"],
 };

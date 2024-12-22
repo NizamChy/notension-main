@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-// import CommonModal from "../CommonModal/CommonModal";
 import LoginModalDetails from "./LoginModalDetails";
 import CartContent from "./CartContent";
 import { useParams, useRouter } from "next/navigation";
@@ -19,8 +18,15 @@ const Cart = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const groceryItems = useSelector((state) => state.cart.groceryItems);
+  // const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const totalAmountGrocery = useSelector(
+    (state) => state.cart.totalAmountGrocery
+  );
+
+  // const currentModule = useSelector((state) => state.dashboard.currentModule);
+
+  // console.log(currentModule);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
 
@@ -66,13 +72,13 @@ const Cart = () => {
             />
           </span>
           <p className="flex items-center gap-1 pb-0.5">
-            {cartItems.length} items
+            {groceryItems?.length} items
           </p>
         </div>
 
         <p className="font-medium flex items-center bg-secondary text-white rounded-bl-xl px-2 py-0.5">
           <TbCurrencyTaka />
-          {totalPrice?.toFixed(2) || 0}
+          {totalAmountGrocery?.toFixed(2) || 0}
         </p>
       </button>
 
@@ -82,7 +88,7 @@ const Cart = () => {
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-bold">Cart({cartItems.length})</h2>
+          <h2 className="text-xl font-bold">Cart({groceryItems?.length})</h2>
           <button
             onClick={toggleDrawer}
             className="text-2xl text-gray-600 hover:text-gray-800"

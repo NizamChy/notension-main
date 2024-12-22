@@ -11,8 +11,6 @@ const SpecialOffer = () => {
 
   return (
     <div>
-      <p className="text-3xl font-medium pb-5">Special Offer</p>
-
       {isLoading && (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center w-full">
           {Array.from({ length: 6 }).map((_, index) => (
@@ -21,11 +19,17 @@ const SpecialOffer = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
-        {specialOfferItem.map((item) => (
-          <GroceryItems key={item._id} item={item} />
-        ))}
-      </div>
+      {specialOfferItem.length > 0 && (
+        <>
+          <p className="text-3xl font-medium pb-5">Special Offer</p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+            {specialOfferItem.map((item) => (
+              <GroceryItems key={item._id} item={item} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

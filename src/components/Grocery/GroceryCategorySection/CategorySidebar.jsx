@@ -1,6 +1,5 @@
 "use client";
 
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { RiArrowRightSLine } from "react-icons/ri";
@@ -18,20 +17,15 @@ const CategorySidebar = () => {
 
   console.log(params?.store);
 
-  // const { exploreStore } = useGroceryShop();
-
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    // router.push(`/type/${data.id}`);
+
     router.push(`/grocery/${params?.store}/type/${data.id}`);
-    // console.log(`grocery/${params.store}/type/${data.id}`);
-    // console.log("params:", params);
   };
 
   const handleSubtype = (subTypeId) => {
-    // router.push(`/sub-type/${subTypeId}`);
     router.push(`/grocery/${params?.store}/sub-type/${subTypeId}`);
     setActiveSubtype(subTypeId);
   };
@@ -39,10 +33,6 @@ const CategorySidebar = () => {
   const handleCustomtype = (customTypeId) => {
     router.push(`/grocery/${params?.store}/custom-type/${customTypeId}`);
   };
-
-  // useEffect(() => {
-  //   exploreStore();
-  // }, []);
 
   return (
     <div className="max-w-screen-md hidden lg:block">

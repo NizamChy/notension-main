@@ -31,6 +31,12 @@ const CheckoutSection = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems);
 
+  // const groceryItems = useSelector((state) => state.cart.groceryItems);
+
+  const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
+    (state) => state.cart
+  );
+
   const { foodStoreInfo } = useSelector((state) => state.cart.cartItems);
   // const { foodStoreInfo } = useSelector((state) => state.foodStoreInfo);
 
@@ -38,18 +44,25 @@ const CheckoutSection = () => {
     (state) => state.dashboard.visitedGroceryStore
   );
 
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const { merchantId, customstore_id } = useSelector(
+    (state) => state.itemsByStore
+  );
+
+  const totalPrice = useSelector((state) => state.cart.totalAmountGrocery);
+
+  // const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  const minOrderAmount = visitedGroceryStore?.min_purchage_amount || 0;
-  const deliveryCharge = visitedGroceryStore?.max_delivery_charge || 0;
-  const minDeliveryCharge = visitedGroceryStore?.min_delivery_charge || 0;
-  const less = visitedGroceryStore?.less || 0;
-  const less_type = visitedGroceryStore?.less_type || "Percent";
-  const maximum_less = visitedGroceryStore?.maximum_less || 0;
-  const minimum_order_for_less =
-    visitedGroceryStore?.minimum_order_for_less || 0;
+  console.log("visitedGroceryStore : ", visitedGroceryStore);
+
+  const minOrderAmount = groceryStoreInfo?.min_purchage_amount || 0;
+  const deliveryCharge = groceryStoreInfo?.max_delivery_charge || 0;
+  const minDeliveryCharge = groceryStoreInfo?.min_delivery_charge || 0;
+  const less = groceryStoreInfo?.less || 0;
+  const less_type = groceryStoreInfo?.less_type || "Percent";
+  const maximum_less = groceryStoreInfo?.maximum_less || 0;
+  const minimum_order_for_less = groceryStoreInfo?.minimum_order_for_less || 0;
 
   const getGrandTotal = () => {
     let shippingCost = deliveryCharge;
@@ -89,7 +102,7 @@ const CheckoutSection = () => {
   }, []);
 
   const handleCustomerOrder = () => {
-    if (cartItems.length > 0 || images?.length > 0) {
+    if (groceryItems.length > 0 || images?.length > 0) {
       const itemOrderObj = {
         customer_id: userInfo?._id,
         custom_customer_id: userInfo?.custom_id,
@@ -101,18 +114,18 @@ const CheckoutSection = () => {
           latitude: 1232323,
           longitude: 2432343,
         },
-        // merchant_id: merchantId,
-        // custom_merchant_id: customstore_id,
-        merchant_id: visitedGroceryStore?._id,
-        custom_merchant_id: visitedGroceryStore?.custom_store_id,
+        merchant_id: merchantId,
+        custom_merchant_id: customstore_id,
+        // merchant_id: groceryStoreInfo?._id,
+        // custom_merchant_id: groceryStoreInfo?.custom_store_id,
         merchantInfo: {
-          shop_name: visitedGroceryStore?.shop_name,
-          shop_address: visitedGroceryStore?.shop_address,
-          contact_no: visitedGroceryStore?.contact_no,
-          alternative_contact_no: visitedGroceryStore?.alternative_contact_no,
+          shop_name: groceryStoreInfo?.shop_name,
+          shop_address: groceryStoreInfo?.shop_address,
+          contact_no: groceryStoreInfo?.contact_no,
+          alternative_contact_no: groceryStoreInfo?.alternative_contact_no,
         },
         order_list_image: [],
-        orderItems: cartItems,
+        orderItems: groceryItems,
         subTotal: totalPrice,
         less_amount: discount,
         vatAmount: 0,
