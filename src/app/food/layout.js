@@ -1,10 +1,10 @@
-import LocationModal from "@/components/shared/LocationModal/LocationModal";
+import Navbar from "@/components/Food/Navbar/Navbar";
 
 export default function FoodLayout({ children }) {
   return (
     <>
-      {/* <LocationModal /> */}
-      {children}
+      <Navbar />
+      <div className="pt-16">{children}</div>
     </>
   );
 }

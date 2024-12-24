@@ -9,9 +9,50 @@ import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const MedicineItems = ({ item }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const cartItem = cartItems.find((cartItem) => cartItem._id === item._id);
+
+  const medicineItems = useSelector((state) => state.cart.medicineItems);
+
+  const visitedMedicineStore = useSelector(
+    (state) => state.dashboard.visitedMedicineStore
+  );
+
+  const medicineStoreInfo = useSelector(
+    (state) => state.cart.medicineStoreInfo
+  );
+
+  const cartItem = medicineItems?.find(
+    (cartItem) => cartItem?._id === item?._id
+  );
+
   const currentQuantity = cartItem ? cartItem.quantity : 0;
+
+  const addProduct = (product) => {
+    dispatch(
+      handleCartAction({
+        type: "ADD_TO_CART_MEDICINE",
+        data: product,
+      })
+    );
+  };
+
+  const saveStoreAndProductInfo = (product) => {
+    addProduct(product);
+    dispatch(
+      handleCartAction({
+        type: "SAVE_MEDICINE_STORE_INFO",
+        data: visitedMedicineStore,
+      })
+    );
+  };
+
+  const emptyCartItems = (product) => {
+    dispatch(
+      handleCartAction({
+        type: "CLEAR_CART_MEDICINE",
+      })
+    );
+    saveStoreAndProductInfo(product);
+  };
 
   const handleAddToCart = () => {
     let product = {
@@ -30,22 +71,29 @@ const MedicineItems = ({ item }) => {
       inc_qty: 1,
       app_image: item?.app_image,
     };
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART",
-        data: product,
-      })
-    );
+
+    if (medicineItems.length > 0) {
+      if (
+        medicineStoreInfo?._id &&
+        medicineStoreInfo?._id !== visitedMedicineStore?._id
+      ) {
+        emptyCartItems(product);
+      } else {
+        addProduct(product);
+      }
+    } else {
+      saveStoreAndProductInfo(product);
+    }
   };
 
   return (
     <>
       <div className="flex justify-center lg:mb-8">
         <div
-          className="w-60 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
+          className="group w-60 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
           style={{ maxWidth: "240px" }}
         >
-          <div className="relative p-3">
+          <div className="relative overflow-hidden rounded-t-lg">
             <Image
               src={
                 item?.app_image
@@ -53,21 +101,21 @@ const MedicineItems = ({ item }) => {
                   : "/png/dummyImage.png"
               }
               alt={item?.item_title_eng || "Product image"}
-              width={200}
-              height={150}
-              className="rounded-lg object-contain w-full h-36 transform transition duration-500 hover:scale-110"
+              width={400}
+              height={400}
+              className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
-            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primary top-4 right-3 md:right-4 rounded-full" />
+            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-blue-500 top-4 right-3 md:right-4 rounded-full" />
           </div>
 
-          <div className="px-3 pb-3">
+          <div className="px-3 pb-3 pt-1">
             <div className="h-12 lg:h-14">
               <h5 className="text-sm md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.item_title_eng}
               </h5>
             </div>
 
-            <p className="text-sm md:text-lg font-medium pb-3 flex items-center text-primary">
+            <p className="text-sm md:text-lg font-medium pb-3 flex items-center text-primaryMedicine">
               <TbCurrencyTaka className="md:text-2xl" />
               {item?.sale_price}
             </p>
@@ -76,22 +124,22 @@ const MedicineItems = ({ item }) => {
               {currentQuantity === 0 ? (
                 <button
                   onClick={handleAddToCart}
-                  className="w-full py-2 px-4 bg-primary text-white font-medium rounded-lg text-sm hover:bg-secondary focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
+                  className="w-full py-2 px-4 bg-primaryMedicine text-white font-medium rounded-lg text-sm hover:bg-secondaryMedicine focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
                 >
                   Add to cart
                 </button>
               ) : (
-                <div className="w-full bg-primary rounded-lg flex items-center justify-between">
+                <div className="w-full bg-primaryMedicine rounded-lg flex items-center justify-between">
                   <button
                     onClick={() =>
                       dispatch(
                         handleCartAction({
-                          type: "DECREMENT_QUANTITY",
+                          type: "DECREMENT_QUANTITY_MEDICINE",
                           data: { _id: item._id },
                         })
                       )
                     }
-                    className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondary focus:outline-none transition-colors duration-200"
+                    className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                   >
                     -
                   </button>
@@ -102,12 +150,12 @@ const MedicineItems = ({ item }) => {
                     onClick={() =>
                       dispatch(
                         handleCartAction({
-                          type: "INCREMENT_QUANTITY",
+                          type: "INCREMENT_QUANTITY_MEDICINE",
                           data: { _id: item._id },
                         })
                       )
                     }
-                    className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondary focus:outline-none transition-colors duration-200"
+                    className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                   >
                     +
                   </button>

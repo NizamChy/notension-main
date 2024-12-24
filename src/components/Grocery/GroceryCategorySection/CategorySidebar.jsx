@@ -36,7 +36,7 @@ const CategorySidebar = () => {
 
   return (
     <div className="max-w-screen-md hidden lg:block">
-      <div className="h-full border-e ps-10 pe-4 max-w-screen-md py-16 bg-white">
+      <div className="h-full border-e ps-10 max-w-screen-md py-16 bg-white">
         <div className="overflow-y-auto h-[85vh] no-scrollbar mt-10">
           {typeInfo?.map((data, idx) => (
             <div className="border-b border-gray-400/10" key={data.id}>
@@ -70,7 +70,7 @@ const CategorySidebar = () => {
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-base hover:text-blue-500">
+                    <p className="font-medium text-base hover:text-primaryGrocery">
                       {data.name}
                     </p>
                   </div>
@@ -109,18 +109,18 @@ const CategorySidebar = () => {
                           <MdPlayArrow
                             className={`font-medium text-base ${
                               sub?.subtypeInfo?._id === activeSubtype
-                                ? "text-blue-500"
+                                ? "text-primaryGrocery"
                                 : "text-deepGray"
-                            } hover:text-blue-500`}
+                            } hover:text-primaryGrocery`}
                           />
                         </div>
                         <div className="flex-1">
                           <p
                             className={`font-medium text-base ${
                               sub?.subtypeInfo?._id === activeSubtype
-                                ? "text-blue-500"
+                                ? "text-primaryGrocery"
                                 : "text-deepGray"
-                            } hover:text-blue-500`}
+                            } hover:text-primaryGrocery`}
                           >
                             {sub.sub_type_name}
                           </p>

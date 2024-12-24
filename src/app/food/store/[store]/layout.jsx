@@ -2,32 +2,17 @@
 import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/CategoryBannerCarousel";
 import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
 import CategorySlider from "@/components/Food/CategorySidebar/CategorySlider";
+import Footer from "@/components/shared/Footer/Footer";
 import { useFood } from "@/hooks/fetch-data/useFood";
-// import CategoryBannerCarousel from "@/components/FoodCategorySection/CategoryBannerCarousel/CategoryBannerCarousel";
-// import CategorySidebar from "@/components/FoodCategorySection/CategorySidebar/CategorySidebar";
-// import CategorySlider from "@/components/FoodCategorySection/CategorySidebar/CategorySlider";
-// import MobileLocationButton from "@/components/MobileLocation/MobileLocationButton";
-// import Cart from "@/components/Cart/Cart";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-// import { useShop } from "@/hooks/fetch-data/useShop";
-// import LocationModal from "@/components/LocationModal/LocationModal";
 
 export default function RootLayout({ children }) {
   const foodItemsRef = useRef(null);
-  // const { exploreStore } = useShop();
+
   const { exploreStore } = useFood();
 
   const pathname = usePathname();
-
-  // const scrollToFoodItems = () => {
-  //   if (foodItemsRef.current) {
-  //     foodItemsRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "start",
-  //     });
-  //   }
-  // };
 
   const scrollToFoodItems = () => {
     if (foodItemsRef.current) {
@@ -47,22 +32,62 @@ export default function RootLayout({ children }) {
   }, []);
 
   return (
-    <div className="bg-[#F3F4F6] min-h-[100vh]">
-      {/* <Cart /> */}
-      <div className="flex gap-5 py-10 md:mx-10">
-        <div className="hidden lg:flex justify-center w-[25%]">
-          <CategorySidebar scrollToFoodItems={scrollToFoodItems} />
+    // <>
+    //   <div className="bg-[#F3F4F6] min-h-[100vh]">
+    //     {/* <Cart /> */}
+    //     <div className="flex gap-5 py-10">
+    //       <div className="hidden lg:flex justify-center w-[25%]">
+    //         <CategorySidebar scrollToFoodItems={scrollToFoodItems} />
+    //       </div>
+
+    //       <div className="lg:w-[70%]">
+    //         <CategoryBannerCarousel />
+    //         {pathname !== "/food-category" && <CategorySlider />}
+
+    //         <div ref={foodItemsRef}>{children}</div>
+    //         <Footer />
+    //       </div>
+    //     </div>
+    //   </div>
+    // </>
+
+    //   <div className="bg-[#F3F4F6] min-h-screen">
+    //   <div className="mx-auto flex flex-col lg:flex-row gap-5 py-10 px-4 md:px-20">
+    //     {/* Sidebar - Hidden on smaller screens */}
+    //     <div className="hidden lg:block lg:w-1/4 ml-auto">
+    //       <CategorySidebar scrollToFoodItems={scrollToFoodItems} />
+    //     </div>
+
+    //     {/* Main Content */}
+    //     <div className="w-full lg:w-3/4 ">
+    //       <CategoryBannerCarousel />
+    //       {pathname !== "/food-category" && <CategorySlider />}
+    //       <div ref={foodItemsRef} className="mt-5">
+    //         {children}
+    //       </div>
+    //       <Footer />
+    //     </div>
+    //   </div>
+    // </div>
+
+    <>
+      <div className="flex justify-center bg-[#F3F4F6]">
+        <div className="lg:w-[20%] hidden lg:block">
+          <div className="fixed top-0 left-0 w-[20%] h-full">
+            <CategorySidebar scrollToFoodItems={scrollToFoodItems} />
+          </div>
         </div>
 
-        <div className="lg:w-[70%]">
-          {/* <LocationModal /> */}
-          {/* <MobileLocationButton /> */}
+        <div className="w-full lg:w-[80%] ml-auto md:p-16">
           <CategoryBannerCarousel />
           {pathname !== "/food-category" && <CategorySlider />}
 
-          <div ref={foodItemsRef}>{children}</div>
+          <div ref={foodItemsRef} className="min-h-content mt-5">
+            {children}
+          </div>
+          <Footer />
         </div>
       </div>
-    </div>
+    </>
   );
 }

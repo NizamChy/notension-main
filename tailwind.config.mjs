@@ -16,6 +16,14 @@ export default {
         deepGray: "#3B3B3B",
         mediumGray: "#6C6C6C",
         lightGray: "#959595",
+
+        primaryGrocery: "#2196F3",
+        primaryBgGrocery: "#FEECF1",
+        secondaryGrocery: "#00215E",
+
+        primaryMedicine: "#41B3A2",
+        primaryBgMedicine: "#FEECF1",
+        secondaryMedicine: "#0D7C66",
       },
       height: {
         footer: "355px",

@@ -1,4 +1,3 @@
-// import SearchedProducts from "@/components/SearchBarSection/SearchedProducts";
 import SearchedProducts from "@/components/Grocery/SearchBarSection/SearchedProducts";
 import React from "react";
 

@@ -11,7 +11,7 @@ const MedicineStoreSearchBar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchText.trim().length > 1) {
-      router.push(`/medicine/search-store?query=${searchText}`);
+      router.push(`/medicine/all/search-store?query=${searchText}`);
     }
   };
 

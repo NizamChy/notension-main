@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { MdPlayArrow } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
-import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 
 const CategorySidebar = () => {
   const [isOpen, setIsOpen] = useState(null);
@@ -16,33 +15,26 @@ const CategorySidebar = () => {
 
   const params = useParams();
 
-  // const { exploreStore } = useMedicine();
-
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    // router.push(`/type/${data.id}`);
+
     router.push(`/medicine/${params?.store}/type/${data.id}`);
   };
 
   const handleSubtype = (subTypeId) => {
-    // router.push(`/sub-type/${subTypeId}`);
     router.push(`/medicine/${params?.store}/sub-type/${subTypeId}`);
     setActiveSubtype(subTypeId);
   };
 
   const handleCustomtype = (customTypeId) => {
-    router.push(`/custom-type/${customTypeId}`);
+    router.push(`/medicine/${params?.store}/custom-type/${customTypeId}`);
   };
-
-  // useEffect(() => {
-  //   exploreStore();
-  // }, []);
 
   return (
     <div className="max-w-screen-md hidden lg:block">
-      <div className="h-full border-e ps-10 pe-4 max-w-screen-md py-16 bg-white">
+      <div className="h-full border-e ps-7 max-w-screen-md py-16 bg-white">
         <div className="overflow-y-auto h-[85vh] no-scrollbar mt-10">
           {typeInfo?.map((data, idx) => (
             <div className="border-b border-gray-400/10" key={data.id}>
@@ -58,7 +50,7 @@ const CategorySidebar = () => {
                   }}
                   className={`transition-all duration-300 cursor-pointer px-2 ${
                     isOpen === idx
-                      ? "bg-green-100 text-secondary"
+                      ? "bg-green-100 text-secondaryMedicine"
                       : "text-deepGray"
                   } ${
                     idx === typeInfo.length - 1
@@ -80,7 +72,7 @@ const CategorySidebar = () => {
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-base hover:text-primary">
+                    <p className="font-medium text-base hover:text-primaryMedicine">
                       {data.name}
                     </p>
                   </div>
@@ -110,7 +102,7 @@ const CategorySidebar = () => {
                     >
                       <div
                         className={`cursor-pointer ${
-                          idx === data.subtype.length - 1
+                          idx === data?.subtype?.length - 1
                             ? "border-none"
                             : "border-b border-gray-400/10"
                         } py-4 flex items-center justify-between gap-4 ml-6`}
@@ -119,20 +111,20 @@ const CategorySidebar = () => {
                           <MdPlayArrow
                             className={`font-medium text-base ${
                               sub?.subtypeInfo?._id === activeSubtype
-                                ? "text-primary"
+                                ? "text-primaryMedicine"
                                 : "text-deepGray"
-                            } hover:text-primary`}
+                            } hover:text-primaryMedicine`}
                           />
                         </div>
                         <div className="flex-1">
                           <p
                             className={`font-medium text-base ${
                               sub?.subtypeInfo?._id === activeSubtype
-                                ? "text-primary"
+                                ? "text-primaryMedicine"
                                 : "text-deepGray"
-                            } hover:text-primary`}
+                            } hover:text-primaryMedicine`}
                           >
-                            {sub.sub_type_name}
+                            {sub?.sub_type_name}
                           </p>
                         </div>
                         {sub?.subtype?.length > 0 && (

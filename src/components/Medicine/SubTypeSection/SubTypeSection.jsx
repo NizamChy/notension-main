@@ -1,11 +1,9 @@
 "use client";
 
-// import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 import React, { useEffect, useState } from "react";
 import MedicineItems from "../MedicineItems/MedicineItems";
 import { useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-// import Loader from "../Loader/Loader";
 import Link from "next/link";
 import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
 import NoItemFound from "../NoItemSection/NoItemFound";
@@ -70,8 +68,7 @@ const SubTypeSection = () => {
               <li className="inline-flex items-center">
                 <Link
                   href={`/medicine/${params?.store}/type/${typeId}`}
-                  // href={`/type/${typeId}`}
-                  className="inline-flex items-center text-sm md:text-xl font-medium text-gray-700 hover:text-secondary"
+                  className="inline-flex items-center text-sm md:text-xl font-medium text-gray-700 hover:text-secondaryMedicine"
                 >
                   {typeName}
                 </Link>

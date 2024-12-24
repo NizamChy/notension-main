@@ -155,10 +155,54 @@ const dashboardReducer = createSlice({
           visitedGroceryStore: payload?.data,
         };
       } else if (payload.type == "EXPLORE_MED_STORE") {
+        // let status = true;
+        // if (payload?.data?.ShopDetails[0]?.show_product_price !== undefined) {
+        //   status = payload?.data?.ShopDetails[0]?.show_product_price;
+        // }
+
         let status = true;
+        let typeInfoGeneral = [];
         if (payload?.data?.ShopDetails[0]?.show_product_price !== undefined) {
           status = payload?.data?.ShopDetails[0]?.show_product_price;
         }
+
+        //
+        if (payload?.data?.ProductTypeByShop?.length > 0) {
+          // console.log(
+          //   "payload?.data?.ProductTypeByShop?.length : ",
+          //   payload?.data?.ProductTypeByShop?.length
+          // );
+          payload?.data?.ProductTypeByShop?.forEach((info, i) => {
+            if (info.statusType === "General") {
+              let eachTypeInfo = {
+                id: info?.typeInfo,
+                custom_type_id: info.custom_type_id,
+                name: info?.typeName,
+                image: "medical_equipment.png",
+                parent: null,
+                subtype: payload?.data?.ProductSubTypeByShop?.filter(
+                  (subtype) => subtype.typeInfo === info?.typeInfo
+                ),
+              };
+              //   typeInfoGeneral = {
+              //     ...typeInfoGeneral,
+              //     [info.custom_type_id]: eachTypeInfo,
+              //   };
+              typeInfoGeneral.push(eachTypeInfo);
+            } else {
+              let eachTypeInfo = {
+                id: info?.typeInfo,
+                custom_type_id: info.custom_type_id,
+                name: info?.typeName,
+                image: "medical_equipment.png",
+                parent: null,
+                subtype: [],
+              };
+              typeInfoGeneral.push(eachTypeInfo);
+            }
+          });
+        }
+        //
         //console.log('payload?.data?.ShopDetails[0]?.show_product_price : ', payload?.data?.ShopDetails[0]?.show_product_price);
         return {
           ...state,
@@ -168,6 +212,15 @@ const dashboardReducer = createSlice({
           subtypeInfoByShop: payload?.data?.ProductSubTypeByShop || [],
           DashboardSlider: payload?.data?.DashboardSlider || [],
           showProductPrice: status,
+          typeInfo: typeInfoGeneral,
+
+          // ...state,
+          // isLoading: false,
+          // visitedMedicineStore: payload?.data?.ShopDetails[0] || {},
+          // typeInfoByShop: payload?.data?.ProductTypeByShop || [],
+          // subtypeInfoByShop: payload?.data?.ProductSubTypeByShop || [],
+          // DashboardSlider: payload?.data?.DashboardSlider || [],
+          // showProductPrice: status,
         };
       } else if (payload.type == "VISITED_MED_STORE") {
         return {

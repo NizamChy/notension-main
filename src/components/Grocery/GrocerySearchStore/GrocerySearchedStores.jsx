@@ -1,6 +1,6 @@
 "use client";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
@@ -8,11 +8,26 @@ import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 
 const GrocerySearchedStores = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
-  const { handleSearchStore, progressing } = useGroceryShop();
+  const { exploreStore, handleSearchStore, progressing } = useGroceryShop();
+
+  const router = useRouter();
 
   const searchParams = useSearchParams();
 
   const searchText = searchParams.get("query");
+
+  const handleStoreClick = (shop) => {
+    if (!shop || !shop.shop_name) return;
+
+    const formattedShopName = shop.shop_name
+      .toLowerCase()
+      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
+      .replace(/\s+/g, "-"); // Replace spaces with hyphens
+
+    exploreStore(shop);
+
+    router.push(`/grocery/${formattedShopName}`);
+  };
 
   useEffect(() => {
     handleSearchStore(searchText, setNearestInfo);
@@ -38,7 +53,14 @@ const GrocerySearchedStores = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {nearestInfo.map((shop) => (
-          <ShopInfoCard key={shop._id} shop={shop} type="grocery" />
+          <ShopInfoCard
+            onClick={() => {
+              handleStoreClick(shop);
+            }}
+            key={shop._id}
+            shop={shop}
+            type="grocery"
+          />
         ))}
       </div>
     </div>

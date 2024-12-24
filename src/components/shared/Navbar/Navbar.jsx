@@ -91,11 +91,11 @@ const Navbar = () => {
             </button>
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
-                <li className="px-3 hover:underline">
+                {/* <li className="px-3 hover:underline">
                   <Link href={`/grocery/${params?.store}/orders`}>
                     My Orders
                   </Link>
-                </li>
+                </li> */}
                 <li className="px-3 hover:underline">
                   <Link href="#">Profile</Link>
                 </li>

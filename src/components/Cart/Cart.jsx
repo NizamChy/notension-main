@@ -14,34 +14,48 @@ const Cart = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = useParams();
+  const router = useRouter();
+
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  const {
+    groceryItems,
+    medicineItems,
+    totalAmountGrocery,
+    totalAmountMedicine,
+  } = useSelector((state) => state.cart);
+
+  const currentModule = useSelector((state) => state.dashboard.currentModule);
+
+  const module = currentModule.toLowerCase();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const groceryItems = useSelector((state) => state.cart.groceryItems);
-  // const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const totalAmountGrocery = useSelector(
-    (state) => state.cart.totalAmountGrocery
-  );
-
-  // const currentModule = useSelector((state) => state.dashboard.currentModule);
-
-  // console.log(currentModule);
-
   const toggleDrawer = () => setIsOpen(!isOpen);
-
-  const router = useRouter();
-  const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleCheckout = () => {
     if (userInfo._id) {
       toggleDrawer();
-      // router.push("/checkout");
-      router.push(`/grocery/${params?.store}/checkout`);
+      router.push(`/${module}/${params?.store}/checkout`);
     } else {
       toggleDrawer();
       openModal();
     }
+  };
+
+  const getPrimaryClass = () => {
+    if (module === "medicine") return "bg-primaryMedicine";
+    if (module === "grocery") return "bg-primaryGrocery";
+    if (module === "food") return "bg-primaryFood";
+    return "bg-primary";
+  };
+
+  const getSecondaryClass = () => {
+    if (module === "medicine") return "bg-secondaryMedicine";
+    if (module === "grocery") return "bg-secondaryGrocery";
+    if (module === "food") return "bg-secondaryFood";
+    return "bg-secondary";
   };
 
   useEffect(() => {
@@ -60,7 +74,7 @@ const Cart = () => {
     <>
       <button
         onClick={toggleDrawer}
-        className="fixed z-10 lg:z-50 top-1/2 right-0 bg-primary text-white rounded-s-xl shadow-lg"
+        className={`fixed z-10 lg:z-50 top-1/2 right-0 ${getPrimaryClass()} text-white rounded-s-xl shadow-lg`}
       >
         <div className="px-3 pt-3 pb-0.5">
           <span className="flex justify-center">
@@ -72,13 +86,26 @@ const Cart = () => {
             />
           </span>
           <p className="flex items-center gap-1 pb-0.5">
-            {groceryItems?.length} items
+            {module === "grocery" && (
+              <span> {groceryItems?.length} items </span>
+            )}
+            {module === "medicine" && (
+              <span> {medicineItems?.length} items </span>
+            )}
           </p>
         </div>
 
-        <p className="font-medium flex items-center bg-secondary text-white rounded-bl-xl px-2 py-0.5">
+        <p
+          className={`font-medium flex items-center ${getSecondaryClass()} text-white rounded-bl-xl px-2 py-0.5`}
+        >
           <TbCurrencyTaka />
-          {totalAmountGrocery?.toFixed(2) || 0}
+
+          {module === "grocery" && (
+            <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
+          )}
+          {module === "medicine" && (
+            <span>{totalAmountMedicine?.toFixed(2) || 0}</span>
+          )}
         </p>
       </button>
 
@@ -88,7 +115,11 @@ const Cart = () => {
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-bold">Cart({groceryItems?.length})</h2>
+          <h2 className="text-xl font-bold">
+            Cart
+            {module === "grocery" && <span> ({groceryItems?.length}) </span>}
+            {module === "medicine" && <span> ({medicineItems?.length}) </span>}
+          </h2>
           <button
             onClick={toggleDrawer}
             className="text-2xl text-gray-600 hover:text-gray-800"
@@ -97,7 +128,11 @@ const Cart = () => {
           </button>
         </div>
 
-        <CartContent handleCheckout={handleCheckout} />
+        <CartContent
+          handleCheckout={handleCheckout}
+          getPrimaryClass={getPrimaryClass}
+          getSecondaryClass={getSecondaryClass}
+        />
       </div>
 
       {isOpen && (

@@ -13,6 +13,11 @@ const cartReducer = createSlice({
     groceryItems: [],
     totalAmountGrocery: 0,
     groceryCartStartAt: 0,
+
+    medicineStoreInfo: {},
+    medicineItems: [],
+    totalAmountMedicine: 0,
+    medicineCartStartAt: 0,
   },
   reducers: {
     handleCartAction: (state, { payload }) => {
@@ -21,6 +26,10 @@ const cartReducer = createSlice({
       switch (type) {
         case "SAVE_GROCERY_STORE_INFO": {
           state.groceryStoreInfo = data;
+        }
+
+        case "SAVE_MEDICINE_STORE_INFO": {
+          state.medicineStoreInfo = data;
         }
 
         case "SAVE_FOOD_STORE_INFO": {
@@ -44,7 +53,7 @@ const cartReducer = createSlice({
 
         case "ADD_TO_CART_GROCERY": {
           if (state.groceryItems.length < 1) {
-            state.foodCartStartAt = new Date().getTime();
+            state.groceryCartStartAt = new Date().getTime();
           }
           const existingItem = state.groceryItems.find(
             (item) => item._id === data._id
@@ -57,8 +66,30 @@ const cartReducer = createSlice({
           break;
         }
 
+        case "ADD_TO_CART_MEDICINE": {
+          if (state.medicineItems.length < 1) {
+            state.medicineCartStartAt = new Date().getTime();
+          }
+          const existingItem = state.medicineItems.find(
+            (item) => item._id === data._id
+          );
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            state.medicineItems.push({ ...data, quantity: 1 });
+          }
+          break;
+        }
+
         case "REMOVE_ITEM_GROCERY": {
           state.groceryItems = state.groceryItems.filter(
+            (item) => item._id !== data._id
+          );
+          break;
+        }
+
+        case "REMOVE_ITEM_MEDICINE": {
+          state.medicineItems = state.medicineItems.filter(
             (item) => item._id !== data._id
           );
           break;
@@ -70,12 +101,34 @@ const cartReducer = createSlice({
           break;
         }
 
+        case "INCREMENT_QUANTITY_MEDICINE": {
+          const item = state.medicineItems.find(
+            (item) => item._id === data._id
+          );
+          if (item) item.quantity += 1;
+          break;
+        }
+
         case "DECREMENT_QUANTITY_GROCERY": {
           const item = state.groceryItems.find((item) => item._id === data._id);
           if (item && item.quantity > 1) {
             item.quantity -= 1;
           } else {
             state.groceryItems = state.groceryItems.filter(
+              (item) => item._id !== data._id
+            );
+          }
+          break;
+        }
+
+        case "DECREMENT_QUANTITY_MEDICINE": {
+          const item = state.medicineItems.find(
+            (item) => item._id === data._id
+          );
+          if (item && item.quantity > 1) {
+            item.quantity -= 1;
+          } else {
+            state.medicineItems = state.medicineItems.filter(
               (item) => item._id !== data._id
             );
           }
@@ -121,6 +174,13 @@ const cartReducer = createSlice({
           break;
         }
 
+        case "CLEAR_CART_MEDICINE": {
+          state.medicineCartStartAt = 0;
+          state.medicineItems = [];
+          state.totalAmountMedicine = 0;
+          break;
+        }
+
         default:
           return state;
       }
@@ -131,6 +191,11 @@ const cartReducer = createSlice({
       );
 
       state.totalAmountGrocery = state.groceryItems.reduce(
+        (total, item) => total + item.sale_price * item.quantity,
+        0
+      );
+
+      state.totalAmountMedicine = state.medicineItems?.reduce(
         (total, item) => total + item.sale_price * item.quantity,
         0
       );

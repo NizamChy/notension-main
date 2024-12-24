@@ -58,8 +58,13 @@ const FoodItems = ({ item }) => {
   return (
     <>
       <div className="flex justify-center lg:mb-8">
-        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <div className="relative p-3">
+        <div
+          // className="group w-full max-w-sm  bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+
+          className="group w-60 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
+          style={{ maxWidth: "240px" }}
+        >
+          {/* <div className="relative p-3">
             <Image
               src={`${FOOD_ITEMS_IMAGES}/${item?.app_image}`}
               alt="food image"
@@ -69,9 +74,24 @@ const FoodItems = ({ item }) => {
             />
 
             <FaHeart className="absolute size-7 p-1 text-xl text-white hover:text-primary top-6 right-6 border border-white hover:border-primary rounded-full" />
+          </div> */}
+
+          <div className="relative overflow-hidden rounded-t-lg">
+            <Image
+              src={
+                item?.app_image
+                  ? `${FOOD_ITEMS_IMAGES}/${item?.app_image}`
+                  : "/png/dummyImage.png"
+              }
+              alt={item?.product_title_eng || "Product image"}
+              width={400}
+              height={400}
+              className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+            />
+            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-blue-500 top-4 right-3 md:right-4 rounded-full" />
           </div>
 
-          <div className="px-3 pb-3">
+          <div className="px-3 pb-3 pt-1">
             <div className="h-12 lg:h-14">
               <h5 className="text-sm md:text-base font-semibold text-gray-900 line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}

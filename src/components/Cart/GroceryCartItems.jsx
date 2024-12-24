@@ -7,7 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 
-const CartItems = () => {
+const GroceryCartItems = () => {
   const dispatch = useDispatch();
   const groceryItems = useSelector((state) => state.cart.groceryItems);
 
@@ -100,4 +100,4 @@ const CartItems = () => {
   );
 };
 
-export default CartItems;
+export default GroceryCartItems;

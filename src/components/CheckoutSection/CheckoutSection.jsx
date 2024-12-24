@@ -29,32 +29,17 @@ const CheckoutSection = () => {
 
   const { progressing, placeOrder, getOrderInfo } = useOrder();
 
-  const cartItems = useSelector((state) => state.cart.cartItems);
-
-  // const groceryItems = useSelector((state) => state.cart.groceryItems);
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
     (state) => state.cart
-  );
-
-  const { foodStoreInfo } = useSelector((state) => state.cart.cartItems);
-  // const { foodStoreInfo } = useSelector((state) => state.foodStoreInfo);
-
-  const visitedGroceryStore = useSelector(
-    (state) => state.dashboard.visitedGroceryStore
   );
 
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );
 
-  const totalPrice = useSelector((state) => state.cart.totalAmountGrocery);
-
-  // const totalPrice = useSelector((state) => state.cart.totalPrice);
-
-  const userInfo = useSelector((state) => state.user.userInfo);
-
-  console.log("visitedGroceryStore : ", visitedGroceryStore);
+  const totalPrice = totalAmountGrocery;
 
   const minOrderAmount = groceryStoreInfo?.min_purchage_amount || 0;
   const deliveryCharge = groceryStoreInfo?.max_delivery_charge || 0;
@@ -97,10 +82,6 @@ const CheckoutSection = () => {
     setGrandTotal(total);
   };
 
-  useEffect(() => {
-    getGrandTotal();
-  }, []);
-
   const handleCustomerOrder = () => {
     if (groceryItems.length > 0 || images?.length > 0) {
       const itemOrderObj = {
@@ -137,8 +118,6 @@ const CheckoutSection = () => {
         customer_review: "",
       };
 
-      console.log(itemOrderObj);
-
       const formData = new FormData();
 
       formData.append("orderObj", JSON.stringify(itemOrderObj));
@@ -149,11 +128,15 @@ const CheckoutSection = () => {
     }
   };
 
+  useEffect(() => {
+    getGrandTotal();
+  }, [totalPrice]);
+
   return (
     <div className="flex justify-center py-20 mt-10">
       <div className="bg-white p-4 w-full md:w-96">
         <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
-          <p className="text-primary text-xl font-medium underline flex items-center gap-2">
+          <p className="text-primaryGrocery text-xl font-medium underline flex items-center gap-2">
             <span className="mt-1">
               <MdContactPhone />
             </span>
@@ -227,7 +210,7 @@ const CheckoutSection = () => {
           <div className="flex justify-center">
             <button
               onClick={handleCustomerOrder}
-              className="mt-4 px-4 py-1 bg-primary text-white rounded-md w-full"
+              className="mt-4 px-4 py-1 bg-primaryGrocery hover:bg-secondaryGrocery text-white rounded-md w-full"
             >
               PLACE ORDER
             </button>

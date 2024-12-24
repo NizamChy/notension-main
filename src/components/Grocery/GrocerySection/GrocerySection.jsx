@@ -2,9 +2,7 @@
 
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import React, { useEffect, useState } from "react";
-// import ShopInfoCard from "../ShopInfoSection/ShopInfoCard";
-// import ShopInfoCardSkeleton from "../ShopInfoSection/ShopInfoCardSkeleton";
-// import NoStoreFound from "../ShopInfoSection/NoStoreFound";
+
 import { useRouter } from "next/navigation";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "@/components/ShopInfoSection/ShopInfoCardSkeleton";
@@ -21,11 +19,6 @@ const GrocerySection = () => {
   useEffect(() => {
     getNearestGroceryStoreInfo(setNearestInfo);
   }, []);
-
-  // const handleStoreClick = (shop) => {
-  //   console.log("shop", shop);
-  //   console.log("shop_name:", shop?.shop_name);
-  // };
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
@@ -72,20 +65,3 @@ const GrocerySection = () => {
 };
 
 export default GrocerySection;
-
-// {
-//   "_id": "667fbfd7bb00a058878f518e",
-//   "custom_store_id": "GS111168",
-//   "shop_name": "Tatka Mart SuperShop",
-//   "shop_address": "Opposite Delta Hospita, Mirjarpoll,Panchlaish,  Chittagong. ",
-//   "less": 0,
-//   "less_notice": null,
-//   "delivery_notice": null,
-//   "shop_banner_app": "1719648214515-320743613.webp",
-//   "is_closed": false,
-//   "distance": 119.25339889145114
-// }
-
-// Tatka Mart SuperShop
-
-// tatka-mart-supershop

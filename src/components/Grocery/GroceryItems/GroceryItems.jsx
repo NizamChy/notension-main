@@ -9,15 +9,18 @@ import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const GroceryItems = ({ item }) => {
   const dispatch = useDispatch();
+
   const groceryItems = useSelector((state) => state.cart.groceryItems);
-  const cartItem = groceryItems?.find((cartItem) => cartItem._id === item._id);
-  const currentQuantity = cartItem ? cartItem.quantity : 0;
 
   const visitedGroceryStore = useSelector(
     (state) => state.dashboard.visitedGroceryStore
   );
 
   const groceryStoreInfo = useSelector((state) => state.cart.groceryStoreInfo);
+
+  const cartItem = groceryItems?.find((cartItem) => cartItem._id === item._id);
+
+  const currentQuantity = cartItem ? cartItem.quantity : 0;
 
   // const cartItems = useSelector((state) => state.cart.cartItems);
   // const cartItem = cartItems?.find((cartItem) => cartItem._id === item._id);

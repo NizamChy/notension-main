@@ -20,7 +20,7 @@ const ShopInfo = () => {
             height={300}
             alt="shop banner"
             src={`${IMAGE_URL}/grocery-store-docs/${visitedGroceryStore?.shop_banner_web}`}
-            className="rounded-lg overflow-hidden border w-full object-cover"
+            className="rounded-lg overflow-hidden border w-full h-full object-cover"
           />
           <div className="mt-6 space-y-1 w-full text-gray-700">
             <div className="flex items-center gap-2">

@@ -31,12 +31,18 @@ export const useMedicine = () => {
   const { userLatitude, userLongitude, districtId, userInfo } = useSelector(
     (state) => state.user
   );
+
   // const { merchantId, customstore_id } = useSelector(
   //   (state) => state.itemsByStoreReducer
   // );
+
   // const { specialOfferItem, dealOfTheDay } = useSelector(
   //   (state) => state.itemsByStoreReducer
   // );
+
+  const { merchantId, customstore_id } = useSelector(
+    (state) => state.itemsByStore
+  );
 
   const Axios = axios.create({
     baseURL: MEDICINE_URL,
@@ -183,9 +189,16 @@ export const useMedicine = () => {
           //     },
           //   ]);
         } else {
+          // dispatch(
+          //   handleDashboardReducer({
+          //     type: "EXPLORE_STORE",
+          //     data: res?.data?.result,
+          //   })
+          // );
+
           dispatch(
             handleDashboardReducer({
-              type: "EXPLORE_STORE",
+              type: "EXPLORE_MED_STORE",
               data: res?.data?.result,
             })
           );
@@ -196,13 +209,6 @@ export const useMedicine = () => {
               data: res?.data?.result,
             })
           );
-
-          // dispatch(
-          //   handleDashboardReducer({
-          //     type: "EXPLORE_MED_STORE",
-          //     data: res?.data?.result,
-          //   })
-          // );
         }
         setProgressing(false);
       })
@@ -211,6 +217,9 @@ export const useMedicine = () => {
         console.log(error);
       });
   };
+
+  // merchantId: "652fcf859e51f7d1601b02ed",
+  // custom_store_id: "MS111112",
 
   const handleSearch = (searchText, pageNo, setPageNo) => {
     if (searchText.length > 1) {
@@ -221,8 +230,8 @@ export const useMedicine = () => {
       Axios.get(SEARCH_MEDICINE_ITEMS, {
         params: {
           search: searchText,
-          merchantId: "652fcf859e51f7d1601b02ed",
-          custom_store_id: "MS111112",
+          merchantId: merchantId,
+          custom_store_id: customstore_id,
           page: pageNo,
         },
       })
@@ -256,8 +265,8 @@ export const useMedicine = () => {
     let dataURL = MEDICINE_ITEMS_BY_SUBTYPE;
 
     let parameter = {
-      merchantId: "652fcf859e51f7d1601b02ed",
-      custom_store_id: "MS111112",
+      merchantId: merchantId,
+      custom_store_id: customstore_id,
       page: pageNo,
     };
 
@@ -285,6 +294,7 @@ export const useMedicine = () => {
           setProgressing(false);
           setPageNo(pageNo + 1);
           saveItemsToReducer(res?.data?.result);
+          console.log(res?.data?.result);
         }
 
         if (pageNo === 1 && res?.data?.result?.length < 1) {
