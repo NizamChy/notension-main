@@ -10,9 +10,9 @@ import Image from "next/image";
 
 const CategoryBannerCarousel = () => {
   const images = [
-    "/png/food-banner.png",
-    "/png/food-banner-2.png",
-    "/png/food-banner-3.png",
+    "/png/food-banner1.png",
+    "/png/food-banner2.png",
+    "/png/food-banner3.png",
   ];
 
   return (

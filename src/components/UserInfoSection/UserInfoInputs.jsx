@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import FloatingInput from "../LoginSection/FloatingInput";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const UserInfoInputs = ({ phone, onClose, type }) => {
   const { progressing, userInfo, handleDataChange, getOtp, registerUser } =
@@ -14,6 +15,10 @@ const UserInfoInputs = ({ phone, onClose, type }) => {
 
   const otpSentRef = useRef(false);
   const [otp, setOtp] = useState("");
+
+  const currentModule = useSelector((state) => state.dashboard.currentModule);
+
+  const module = currentModule.toLowerCase();
 
   const sendSms = () => {
     // console.log("sendSms triggered");
@@ -37,7 +42,12 @@ const UserInfoInputs = ({ phone, onClose, type }) => {
     onClose();
     if (type === "cart") {
       // router.push("/checkout");
-      router.push(`/grocery/${params?.store}/checkout`);
+
+      if (module === "food") {
+        router.push(`/${module}/store/checkout`);
+      } else {
+        router.push(`/${module}/${params?.store}/checkout`);
+      }
     } else if (type === "login") {
       router.push("/");
     }

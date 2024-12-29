@@ -6,11 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
-// import SerchBar from "../SearchBarSection/SerchBar";
-// import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 import { handleUserReducer } from "@/redux/userReducer";
 import { useParams } from "next/navigation";
-// import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -21,9 +18,14 @@ const Navbar = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
+  // const currentModule = useSelector((state) => state.dashboard.currentModule);
+
+  // const module = currentModule.toLowerCase();
+
+  // console.log("module from navbar : ", module);
+
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
-    // toast.success("User logged out successfully");
   };
 
   useEffect(() => {
@@ -43,21 +45,15 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
-      {/* <MobileCategoryDrawer /> */}
-
       <Link href="/" className="hidden lg:block">
         <Image
           width={500}
           height={500}
-          src="/png/notension.png"
+          src="/png/notension-logo.png"
           alt="notension"
           className="object-cover w-32 lg:w-56 lg:h-10"
         />
       </Link>
-
-      {/* <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
-        <SerchBar />
-      </div> */}
 
       {userInfo._id && (
         <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">

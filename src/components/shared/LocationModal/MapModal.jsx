@@ -1,7 +1,7 @@
 "use client";
 import Map from "../Map/Map";
 
-const MapModal = ({ isOpen, onCloseModal, setNavLocation }) => {
+const MapModal = ({ isOpen, onCloseModal }) => {
   return (
     <div
       onClick={onCloseModal}
@@ -35,9 +35,7 @@ const MapModal = ({ isOpen, onCloseModal, setNavLocation }) => {
           </svg>
         </button>
 
-        {isOpen && (
-          <Map onCloseModal={onCloseModal} setNavLocation={setNavLocation} />
-        )}
+        {isOpen && <Map onCloseModal={onCloseModal} />}
       </div>
     </div>
   );

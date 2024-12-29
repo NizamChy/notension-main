@@ -11,20 +11,11 @@ import { useRouter } from "next/navigation";
 const FoodSection = () => {
   const [catId, setCatId] = useState(null);
   const [nearestInfo, setNearestInfo] = useState([]);
-  const {
-    exploreFoodModule,
-    exploreStore,
-    getNearestFoodStoreInfo,
-    progressing,
-  } = useFood();
+  const { exploreStore, getNearestFoodStoreInfo, progressing } = useFood();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-
-  // useEffect(() => {
-  //   exploreFoodModule();
-  // }, []);
 
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
 

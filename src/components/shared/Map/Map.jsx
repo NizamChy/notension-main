@@ -4,10 +4,11 @@ import { handleUserReducer } from "@/redux/userReducer";
 import loader from "@/utils/googleMapsLoader";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const Map = ({ onCloseModal, setNavLocation }) => {
+const Map = ({ onCloseModal }) => {
   const [map, setMap] = useState(null);
   const [currentPosition, setCurrentPosition] = useState(null);
   const [districts, setDistricts] = useState([]);
@@ -15,6 +16,8 @@ const Map = ({ onCloseModal, setNavLocation }) => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
   const [isMapMoving, setIsMapMoving] = useState(false);
+
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -65,9 +68,9 @@ const Map = ({ onCloseModal, setNavLocation }) => {
       );
     }
 
-    setNavLocation(searchInfo[0]?.district_name);
-
     onCloseModal();
+
+    router.push("/");
   };
 
   useEffect(() => {
@@ -311,54 +314,13 @@ const Map = ({ onCloseModal, setNavLocation }) => {
 
         {/* Fixed Flag Image at the Center */}
         <Image
-          // src="/png/location-flag.png"
-          src={
-            isMapMoving
-              ? "/png/moving-flag.png" // Show moving flag when map is moving
-              : "/png/location-flag.png" // Default flag
-          }
+          src={isMapMoving ? "/png/moving-flag.png" : "/png/location-flag.png"}
           alt="Fixed Flag"
           width={40}
           height={40}
           className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-full pointer-events-none"
         />
       </div>
-
-      {/* <div className="h-[55vh] relative">
-        <div ref={mapRef} id="map" className="h-full">
-          <img
-          src="/png/location-flag.png"
-          alt="Fixed Marker"
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -100%)",
-            width: "40px",
-            height: "40px",
-            pointerEvents: "none",
-          }}
-        />
-        </div>
-
-        <Image
-          src="/png/location-flag.png"
-          alt="flag"
-          width={40}
-          height={40}
-          className="absolute top-[50%] left-[50%]"
-        />
-      </div> */}
-
-      {/* <div>
-        <Image
-          src="/png/location-flag.png"
-          alt="flag"
-          width={40}
-          height={40}
-          className="absolute top-[50%] left-[50%]"
-        />
-      </div> */}
 
       <div className="flex justify-center gap-2">
         <button

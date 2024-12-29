@@ -22,7 +22,9 @@ const FoodCategorySection = () => {
   return (
     <>
       {progressing ? (
-        <Loader />
+        <div className="min-h-content flex justify-center items-center">
+          <Loader />
+        </div>
       ) : (
         <div className="p-5 lg:p-20 min-h-content">
           {/* Section 1 */}

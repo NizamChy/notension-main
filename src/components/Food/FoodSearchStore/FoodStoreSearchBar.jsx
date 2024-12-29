@@ -9,10 +9,20 @@ const FoodStoreSearchBar = () => {
 
   const router = useRouter();
 
+  // useEffect(() => {
+  //   const currentUrl = window.location.href;
+  //   const pathSegments = currentUrl.split("/");
+  //   const categoryId = pathSegments[pathSegments.length - 1];
+  //   setCatId(categoryId);
+  // }, []);
+
   useEffect(() => {
-    const currentUrl = window.location.href;
-    const pathSegments = currentUrl.split("/");
-    const categoryId = pathSegments[pathSegments.length - 1];
+    const currentUrl = new URL(window.location.href);
+    const pathSegments = currentUrl.pathname.split("/");
+    const categoryId = pathSegments.find((segment) =>
+      /^[a-f0-9]{24}$/.test(segment)
+    );
+
     setCatId(categoryId);
   }, []);
 

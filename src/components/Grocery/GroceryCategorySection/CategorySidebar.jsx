@@ -15,8 +15,6 @@ const CategorySidebar = () => {
 
   const params = useParams();
 
-  console.log(params?.store);
-
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {

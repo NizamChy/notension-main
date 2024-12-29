@@ -5,9 +5,9 @@ const cartReducer = createSlice({
   name: "cart",
   initialState: {
     foodStoreInfo: {},
+    foodItems: [],
+    totalAmountFood: 0,
     foodCartStartAt: 0,
-    cartItems: [],
-    totalPrice: 0,
 
     groceryStoreInfo: {},
     groceryItems: [],
@@ -22,8 +22,13 @@ const cartReducer = createSlice({
   reducers: {
     handleCartAction: (state, { payload }) => {
       const { type, data } = payload;
+      console.log("type   111", type);
 
       switch (type) {
+        case "SAVE_FOOD_STORE_INFO": {
+          state.foodStoreInfo = data;
+        }
+
         case "SAVE_GROCERY_STORE_INFO": {
           state.groceryStoreInfo = data;
         }
@@ -32,21 +37,17 @@ const cartReducer = createSlice({
           state.medicineStoreInfo = data;
         }
 
-        case "SAVE_FOOD_STORE_INFO": {
-          state.foodStoreInfo = data;
-        }
-
-        case "ADD_TO_CART": {
-          if (state.cartItems.length < 1) {
+        case "ADD_TO_CART_FOOD": {
+          if (state.foodItems.length < 1) {
             state.foodCartStartAt = new Date().getTime();
           }
-          const existingItem = state.cartItems.find(
+          const existingItem = state.foodItems.find(
             (item) => item._id === data._id
           );
           if (existingItem) {
             existingItem.quantity += 1;
           } else {
-            state.cartItems.push({ ...data, quantity: 1 });
+            state.foodItems.push({ ...data, quantity: 1 });
           }
           break;
         }
@@ -81,6 +82,13 @@ const cartReducer = createSlice({
           break;
         }
 
+        case "REMOVE_ITEM_FOOD": {
+          state.foodItems = state.foodItems.filter(
+            (item) => item._id !== data._id
+          );
+          break;
+        }
+
         case "REMOVE_ITEM_GROCERY": {
           state.groceryItems = state.groceryItems.filter(
             (item) => item._id !== data._id
@@ -95,6 +103,12 @@ const cartReducer = createSlice({
           break;
         }
 
+        case "INCREMENT_QUANTITY_FOOD": {
+          const item = state.foodItems.find((item) => item._id === data._id);
+          if (item) item.quantity += 1;
+          break;
+        }
+
         case "INCREMENT_QUANTITY_GROCERY": {
           const item = state.groceryItems.find((item) => item._id === data._id);
           if (item) item.quantity += 1;
@@ -106,6 +120,18 @@ const cartReducer = createSlice({
             (item) => item._id === data._id
           );
           if (item) item.quantity += 1;
+          break;
+        }
+
+        case "DECREMENT_QUANTITY_FOOD": {
+          const item = state.foodItems.find((item) => item._id === data._id);
+          if (item && item.quantity > 1) {
+            item.quantity -= 1;
+          } else {
+            state.foodItems = state.foodItems.filter(
+              (item) => item._id !== data._id
+            );
+          }
           break;
         }
 
@@ -135,35 +161,10 @@ const cartReducer = createSlice({
           break;
         }
 
-        case "REMOVE_ITEM": {
-          state.cartItems = state.cartItems.filter(
-            (item) => item._id !== data._id
-          );
-          break;
-        }
-
-        case "INCREMENT_QUANTITY": {
-          const item = state.cartItems.find((item) => item._id === data._id);
-          if (item) item.quantity += 1;
-          break;
-        }
-
-        case "DECREMENT_QUANTITY": {
-          const item = state.cartItems.find((item) => item._id === data._id);
-          if (item && item.quantity > 1) {
-            item.quantity -= 1;
-          } else {
-            state.cartItems = state.cartItems.filter(
-              (item) => item._id !== data._id
-            );
-          }
-          break;
-        }
-
-        case "PLACE_ORDER": {
+        case "CLEAR_CART_FOOD": {
           state.foodCartStartAt = 0;
-          state.cartItems = [];
-          state.totalPrice = 0;
+          state.foodItems = [];
+          state.totalAmountFood = 0;
           break;
         }
 
@@ -185,7 +186,7 @@ const cartReducer = createSlice({
           return state;
       }
 
-      state.totalPrice = state.cartItems.reduce(
+      state.totalAmountFood = state.foodItems.reduce(
         (total, item) => total + item.sale_price * item.quantity,
         0
       );

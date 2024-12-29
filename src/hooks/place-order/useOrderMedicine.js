@@ -7,7 +7,7 @@ import {
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { MEDICINE_URL } from "@/api-endpoints/secret";
 
@@ -26,15 +26,15 @@ export const useOrderMedicine = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const params = useParams();
+
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const placeOrder = (itemOrderObj) => {
     setProgressing(true);
 
-    // console.log("Click", itemOrderObj);
     Axios.post(MEDICINE_PLACE_ORDER, itemOrderObj)
       .then((res) => {
-        // console.log(res);
         if (res.data.success) {
           toast.success("Order has been placed!");
           dispatch(
@@ -43,7 +43,7 @@ export const useOrderMedicine = () => {
             })
           );
 
-          router.push("/");
+          router.push(`/medicine/${params?.store}`);
         } else {
           toast.error("Failed to place order.");
         }
@@ -70,8 +70,6 @@ export const useOrderMedicine = () => {
       },
     })
       .then((response) => {
-        // console.log(response);
-
         // console.log("response?.data?.result", response?.data?.result);
         setProgressing(false);
         ///saveOrderInfoToReducer(response?.data?.result);

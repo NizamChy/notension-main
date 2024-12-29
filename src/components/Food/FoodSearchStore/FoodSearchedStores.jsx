@@ -1,5 +1,5 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
@@ -15,21 +15,24 @@ const FoodSearchedStores = () => {
 
   const searchParams = useSearchParams();
 
+  const router = useRouter();
+
   const searchText = searchParams.get("query");
 
-  const { exploreFoodModule, progressing, handleSearchStore } = useFood();
+  const { exploreStore, progressing, handleSearchStore } = useFood();
 
-  // useEffect(() => {
-  //   const currentUrl = window.location.href;
-  //   const pathSegments = currentUrl.split("/");
-  //   const categoryId = pathSegments[pathSegments.length - 2];
+  const handleStoreClick = (shop) => {
+    if (!shop || !shop.shop_name) return;
 
-  //   console.log(currentUrl);
+    const formattedShopName = shop.shop_name
+      .toLowerCase()
+      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
+      .replace(/\s+/g, "-"); // Replace spaces with hyphens
 
-  //   console.log("categoryId:", categoryId);
+    exploreStore(shop);
 
-  //   setCatId(categoryId);
-  // }, []);
+    router.push(`/food/store/${formattedShopName}`);
+  };
 
   useEffect(() => {
     const currentUrl = new URL(window.location.href);
@@ -38,15 +41,8 @@ const FoodSearchedStores = () => {
       /^[a-f0-9]{24}$/.test(segment)
     );
 
-    // console.log("currentUrl:", currentUrl.href);
-    // console.log("categoryId:", categoryId);
-
     setCatId(categoryId);
   }, []);
-
-  // useEffect(() => {
-  //   exploreFoodModule();
-  // }, []);
 
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
 
@@ -82,7 +78,14 @@ const FoodSearchedStores = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {nearestInfo.map((shop) => (
-          <ShopInfoCard key={shop._id} shop={shop} type="food" />
+          <ShopInfoCard
+            onClick={() => {
+              handleStoreClick(shop);
+            }}
+            key={shop._id}
+            shop={shop}
+            type="food"
+          />
         ))}
       </div>
     </div>

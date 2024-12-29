@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import EmptyCart from "./EmptyCart";
 import GroceryCartItems from "./GroceryCartItems";
 import MedicineCartItems from "./MedicineCartItems";
+import FoodCartItems from "./FoodCartItems";
 
 const CartContent = ({
   handleCheckout,
@@ -12,8 +13,10 @@ const CartContent = ({
   getSecondaryClass,
 }) => {
   const {
+    foodItems,
     groceryItems,
     medicineItems,
+    totalAmountFood,
     totalAmountGrocery,
     totalAmountMedicine,
   } = useSelector((state) => state.cart);
@@ -27,6 +30,7 @@ const CartContent = ({
       <div className="p-4 flex-grow overflow-y-scroll no-scrollbar">
         <EmptyCart />
 
+        {module === "food" && <FoodCartItems />}
         {module === "grocery" && <GroceryCartItems />}
         {module === "medicine" && <MedicineCartItems />}
       </div>
@@ -36,6 +40,9 @@ const CartContent = ({
           <span className="font-semibold">Total:</span>
           <span className="font-semibold flex items-center">
             <TbCurrencyTaka />{" "}
+            {module === "food" && (
+              <span>{totalAmountFood?.toFixed(2) || 0}</span>
+            )}
             {module === "grocery" && (
               <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
             )}
@@ -48,6 +55,7 @@ const CartContent = ({
         <button
           onClick={handleCheckout}
           disabled={
+            (module === "food" && foodItems?.length == 0) ||
             (module === "grocery" && groceryItems?.length == 0) ||
             (module === "medicine" && medicineItems?.length == 0)
           }

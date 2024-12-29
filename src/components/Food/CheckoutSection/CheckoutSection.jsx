@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import FloatingInput from "../LoginSection/FloatingInput";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MdContactPhone } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useOrder } from "@/hooks/place-order/useOrder";
 import { toast } from "react-toastify";
+import FloatingInput from "@/components/LoginSection/FloatingInput";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -22,34 +22,36 @@ const CheckoutSection = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
 
-  const [images, setImages] = useState([]);
+  // const cartItems = useSelector((state) => state.cart.cartItems);
+
+  const { foodStoreInfo, foodItems, totalAmountFood } = useSelector(
+    (state) => state.cart
+  );
+
+  // const { foodStoreInfo } = useSelector((state) => state.cart.cartItems);
+  // const { foodStoreInfo } = useSelector((state) => state.foodStoreInfo);
+  // console.log("foodStoreInfo", foodStoreInfo);
+
+  const totalPrice = totalAmountFood;
+
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  const minOrderAmount = foodStoreInfo?.min_purchage_amount || 0;
+  const deliveryCharge = foodStoreInfo?.max_delivery_charge || 0;
+  const minDeliveryCharge = foodStoreInfo?.min_delivery_charge || 0;
+  const less = foodStoreInfo?.less || 0;
+  const less_type = foodStoreInfo?.less_type || "Percent";
+  const maximum_less = foodStoreInfo?.maximum_less || 0;
+  const minimum_order_for_less = foodStoreInfo?.minimum_order_for_less || 0;
 
   const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
   const [remarks, setRemarks] = useState("");
 
   const { progressing, placeOrder, getOrderInfo } = useOrder();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
-
-  const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
-    (state) => state.cart
-  );
-
-  console.log("groceryStoreInfo", groceryStoreInfo);
-
-  const { merchantId, customstore_id } = useSelector(
-    (state) => state.itemsByStore
-  );
-
-  const totalPrice = totalAmountGrocery;
-
-  const minOrderAmount = groceryStoreInfo?.min_purchage_amount || 0;
-  const deliveryCharge = groceryStoreInfo?.max_delivery_charge || 0;
-  const minDeliveryCharge = groceryStoreInfo?.min_delivery_charge || 0;
-  const less = groceryStoreInfo?.less || 0;
-  const less_type = groceryStoreInfo?.less_type || "Percent";
-  const maximum_less = groceryStoreInfo?.maximum_less || 0;
-  const minimum_order_for_less = groceryStoreInfo?.minimum_order_for_less || 0;
+  useEffect(() => {
+    getGrandTotal();
+  }, []);
 
   const getGrandTotal = () => {
     let shippingCost = deliveryCharge;
@@ -85,7 +87,10 @@ const CheckoutSection = () => {
   };
 
   const handleCustomerOrder = () => {
-    if (groceryItems.length > 0 || images?.length > 0) {
+    console.log(foodItems);
+    console.log("foodStoreInfo", foodStoreInfo);
+
+    if (foodItems.length > 0) {
       const itemOrderObj = {
         customer_id: userInfo?._id,
         custom_customer_id: userInfo?.custom_id,
@@ -94,51 +99,46 @@ const CheckoutSection = () => {
           customer_address: userInfo?.customer_address,
           contact_no: userInfo?.contact_no,
           alternative_contact_no: userInfo?.alternative_contact_no,
-          latitude: 1232323,
-          longitude: 2432343,
+          // latitude: userLatitude,
+          // longitude: userLongitude,
+          latitude: 21332243,
+          longitude: 21332243,
         },
-        merchant_id: merchantId,
-        custom_merchant_id: customstore_id,
-        // merchant_id: groceryStoreInfo?._id,
-        // custom_merchant_id: groceryStoreInfo?.custom_store_id,
+        merchant_id: foodStoreInfo?._id,
+        custom_merchant_id: foodStoreInfo?.custom_store_id,
         merchantInfo: {
-          shop_name: groceryStoreInfo?.shop_name,
-          shop_address: groceryStoreInfo?.shop_address,
-          contact_no: groceryStoreInfo?.contact_no,
-          alternative_contact_no: groceryStoreInfo?.alternative_contact_no,
+          shop_name: foodStoreInfo?.shop_name,
+          shop_address: foodStoreInfo?.shop_address,
+          contact_no: foodStoreInfo?.contact_no,
+          alternative_contact_no: foodStoreInfo?.alternative_contact_no,
         },
-        order_list_image: [],
-        orderItems: groceryItems,
+        orderItems: foodItems,
         subTotal: totalPrice,
         less_amount: discount,
         vatAmount: 0,
         deliveryCharge: shippingCharge,
         totalAmount: grandTotal,
+        // paymet_method: paymentOption?.detail,
         paymet_method: paymentOption,
         shortNote: remarks,
         customer_rating: 0,
         customer_review: "",
       };
 
-      const formData = new FormData();
+      console.log(itemOrderObj);
 
-      formData.append("orderObj", JSON.stringify(itemOrderObj));
-
-      placeOrder(formData);
+      // placeOrder(itemOrderObj);
+      // getOrderInfo();
     } else {
       toast.error("Cart is empty.");
     }
   };
 
-  useEffect(() => {
-    getGrandTotal();
-  }, [totalPrice]);
-
   return (
-    <div className="flex justify-center py-20 mt-10">
+    <div className="flex justify-center py-20">
       <div className="bg-white p-4 w-full md:w-96">
         <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
-          <p className="text-primaryGrocery text-xl font-medium underline flex items-center gap-2">
+          <p className="text-primary text-xl font-medium underline flex items-center gap-2">
             <span className="mt-1">
               <MdContactPhone />
             </span>
@@ -159,12 +159,12 @@ const CheckoutSection = () => {
 
             <div className="flex justify-between">
               <p>Delivery Charge</p>
-              <span>{shippingCharge}</span>
+              <span>00.00</span>
             </div>
 
             <div className="flex justify-between">
               <p>Less</p>
-              <span>{discount}</span>
+              <span>0.00</span>
             </div>
           </div>
 
@@ -172,7 +172,7 @@ const CheckoutSection = () => {
             <p className="flex items-center justify-between w-full">
               <span>Total Amount</span>
               <span className="flex items-center">
-                <TbCurrencyTaka className="text-xl mt-0.5" /> {grandTotal}
+                <TbCurrencyTaka className="text-xl mt-0.5" /> {totalPrice}
               </span>
             </p>
           </div>
@@ -212,7 +212,7 @@ const CheckoutSection = () => {
           <div className="flex justify-center">
             <button
               onClick={handleCustomerOrder}
-              className="mt-4 px-4 py-1 bg-primaryGrocery hover:bg-secondaryGrocery text-white rounded-md w-full"
+              className="mt-4 px-4 py-1 bg-primary text-white rounded-md w-full"
             >
               PLACE ORDER
             </button>

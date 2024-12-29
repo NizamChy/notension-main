@@ -10,12 +10,18 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+
         primary: "#2196F3",
         primaryBg: "#FEECF1",
         secondary: "#00215E",
+
         deepGray: "#3B3B3B",
         mediumGray: "#6C6C6C",
         lightGray: "#959595",
+
+        primaryFood: "#F40035",
+        primaryBgFood: "#FEECF1",
+        secondaryFood: "#00215E",
 
         primaryGrocery: "#2196F3",
         primaryBgGrocery: "#FEECF1",

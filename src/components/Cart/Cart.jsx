@@ -19,8 +19,10 @@ const Cart = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const {
+    foodItems,
     groceryItems,
     medicineItems,
+    totalAmountFood,
     totalAmountGrocery,
     totalAmountMedicine,
   } = useSelector((state) => state.cart);
@@ -28,6 +30,8 @@ const Cart = () => {
   const currentModule = useSelector((state) => state.dashboard.currentModule);
 
   const module = currentModule.toLowerCase();
+
+  console.log("currentModule : ", currentModule);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -37,7 +41,12 @@ const Cart = () => {
   const handleCheckout = () => {
     if (userInfo._id) {
       toggleDrawer();
-      router.push(`/${module}/${params?.store}/checkout`);
+
+      if (module == "food") {
+        router.push(`/${module}/store/checkout`);
+      } else {
+        router.push(`/${module}/${params?.store}/checkout`);
+      }
     } else {
       toggleDrawer();
       openModal();
@@ -57,6 +66,15 @@ const Cart = () => {
     if (module === "food") return "bg-secondaryFood";
     return "bg-secondary";
   };
+
+  const foodStoreInfo = useSelector((state) => state.cart.foodStoreInfo);
+
+  const { visitedFoodStore, visitedGroceryStore, visitedMedicineStore } =
+    useSelector((state) => state.dashboard);
+
+  console.log("visitedFoodStore", visitedFoodStore);
+  console.log("foodStoreInfo", foodStoreInfo);
+  console.log("foodItems", foodItems);
 
   useEffect(() => {
     if (isOpen) {
@@ -86,11 +104,12 @@ const Cart = () => {
             />
           </span>
           <p className="flex items-center gap-1 pb-0.5">
+            {module === "food" && <span> {foodItems?.length || 0} items </span>}
             {module === "grocery" && (
-              <span> {groceryItems?.length} items </span>
+              <span> {groceryItems?.length || 0} items </span>
             )}
             {module === "medicine" && (
-              <span> {medicineItems?.length} items </span>
+              <span> {medicineItems?.length || 0} items </span>
             )}
           </p>
         </div>
@@ -100,6 +119,7 @@ const Cart = () => {
         >
           <TbCurrencyTaka />
 
+          {module === "food" && <span>{totalAmountFood?.toFixed(2) || 0}</span>}
           {module === "grocery" && (
             <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
           )}
@@ -117,6 +137,7 @@ const Cart = () => {
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-xl font-bold">
             Cart
+            {module === "food" && <span> ({foodItems?.length}) </span>}
             {module === "grocery" && <span> ({groceryItems?.length}) </span>}
             {module === "medicine" && <span> ({medicineItems?.length}) </span>}
           </h2>

@@ -32,8 +32,24 @@ export const useFood = () => {
     },
   });
 
+  const resetReducer = () => {
+    dispatch(
+      handleItemsByStoreReducer({
+        type: "CLEAR_ALL",
+        data: true,
+      })
+    );
+
+    dispatch(
+      handleDashboardReducer({
+        type: "SET_CURRENT_MODULE",
+        data: "Food",
+      })
+    );
+  };
+
   const exploreFoodModule = () => {
-    // resetReducer();
+    resetReducer();
     setProgressing(true);
 
     Axios.get(EXPLORE_FOOD_MODULE, {
@@ -141,12 +157,12 @@ export const useFood = () => {
         ) {
           alert("Sorry we're closed !!", "See you tomorrow !!");
         } else {
-          dispatch(
-            handleDashboardReducer({
-              type: "EXPLORE_STORE",
-              data: res?.data?.result[0],
-            })
-          );
+          // dispatch(
+          //   handleDashboardReducer({
+          //     type: "EXPLORE_STORE",
+          //     data: res?.data?.result[0],
+          //   })
+          // );
 
           dispatch(
             handleItemsByStoreReducer({
@@ -155,12 +171,12 @@ export const useFood = () => {
             })
           );
 
-          // dispatch(
-          //   handleDashboardReducer({
-          //     type: "VISITED_FOOD_STORE",
-          //     data: res?.data?.result?.shopDetails[0] || {},
-          //   })
-          // );
+          dispatch(
+            handleDashboardReducer({
+              type: "VISITED_FOOD_STORE",
+              data: res?.data?.result?.shopDetails[0] || {},
+            })
+          );
         }
 
         console.log(

@@ -54,7 +54,7 @@ const MobileCategoryDrawer = () => {
                 onClick={toggleDrawer}
                 width={500}
                 height={500}
-                src="/png/notension.png"
+                src="/png/notension-logo.png"
                 alt="notension"
                 className="object-cover w-32 lg:w-56 lg:h-10"
               />

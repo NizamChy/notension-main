@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import {
@@ -16,6 +16,7 @@ const CategorySlider = () => {
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
 
   const { productCategory } = useSelector((state) => state.itemsByStore);
 
@@ -23,7 +24,8 @@ const CategorySlider = () => {
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
-    router.push(`/food-category/${categoryId}`);
+
+    router.push(`/food/store/${params?.store}/${categoryId}`);
   };
 
   const handleNext = () => {

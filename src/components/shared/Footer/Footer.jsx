@@ -25,7 +25,8 @@ const Footer = () => {
         {/* Section 1 */}
         <div className="space-y-6">
           <Image
-            src="/png/notension.png"
+            // src="/png/notension-logo.png"
+            src="/png/no_tension_bar.png"
             alt="notension"
             width={180}
             height={100}
@@ -132,7 +133,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
               >
                 <Image
-                  src="/png/google-w.png"
+                  src="/png/playstore.png"
                   width={120}
                   height={40}
                   alt="google-play"
@@ -140,7 +141,7 @@ const Footer = () => {
               </a>
               <Link href="#">
                 <Image
-                  src="/png/apple-w.png"
+                  src="/png/applestore.png"
                   alt="app-store"
                   width={120}
                   height={40}

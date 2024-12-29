@@ -1,11 +1,9 @@
 "use client";
-// import { categories } from "@/utils/constants";
+
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
-// import CategoryCardSkeleton from "./CategoryCardSkeleton";
 import { useSelector } from "react-redux";
-// import { useShop } from "@/hooks/fetch-data/useShop";
 import {
   FOOD_ITEMS_IMAGES,
   FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,
@@ -16,19 +14,21 @@ import CategoryCardSkeleton from "./CategoryCardSkeleton";
 const MobileCategory = ({ gridClass, toggleDrawer }) => {
   const router = useRouter();
 
+  const params = useParams();
+
   const { productCategory } = useSelector((state) => state.itemsByStore);
 
   const { progressing } = useFood();
 
   const handleCategoryClick = (categoryId) => {
-    router.push(`/food-category/${categoryId}`);
+    router.push(`/food/store/${params?.store}/${categoryId}`);
     if (gridClass === "grid-cols-2") {
       toggleDrawer();
     }
   };
 
   return (
-    <div className="block md:hidden">
+    <div className="block lg:hidden">
       <div className={`grid ${gridClass} gap-5 justify-items-center my-5 mx-5`}>
         {progressing
           ? Array.from({ length: 6 }).map((_, index) => (
@@ -48,9 +48,6 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
                     height={200}
                     className="rounded object-contain"
                   />
-                  {/* <span className="text-sm text-gray-800 mt-1">
-                    {category.categoryName}
-                  </span> */}
                 </div>
               </div>
             ))}

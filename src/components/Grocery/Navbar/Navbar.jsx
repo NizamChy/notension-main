@@ -19,6 +19,10 @@ const Navbar = () => {
 
   const params = useParams();
 
+  const currentModule = useSelector((state) => state.dashboard.currentModule);
+
+  const module = currentModule.toLowerCase();
+
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleLogout = () => {
@@ -45,11 +49,11 @@ const Navbar = () => {
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
       <MobileCategoryDrawer />
 
-      <Link href="/" className="hidden lg:block">
+      <Link href={`/${module}/${params?.store}`} className="hidden lg:block">
         <Image
           width={500}
           height={500}
-          src="/png/notension.png"
+          src="/png/notension-logo.png"
           alt="notension"
           className="object-cover w-32 lg:w-56 lg:h-10"
         />

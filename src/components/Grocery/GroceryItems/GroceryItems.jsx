@@ -22,10 +22,6 @@ const GroceryItems = ({ item }) => {
 
   const currentQuantity = cartItem ? cartItem.quantity : 0;
 
-  // const cartItems = useSelector((state) => state.cart.cartItems);
-  // const cartItem = cartItems?.find((cartItem) => cartItem._id === item._id);
-  // const currentQuantity = cartItem ? cartItem.quantity : 0;
-
   const addProduct = (product) => {
     dispatch(
       handleCartAction({

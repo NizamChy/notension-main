@@ -3,7 +3,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { IoIosArrowDown } from "react-icons/io";
 
-const LocationButton = ({ onOpenModal, navLocation }) => {
+const LocationButton = ({ onOpenModal }) => {
   const currentUserLocation = useSelector(
     (state) => state.user.currentUserLocation.districtName
   );
