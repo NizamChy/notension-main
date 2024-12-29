@@ -43,10 +43,6 @@ const CheckoutSection = () => {
 
   const { progressing, placeOrder, getOrderInfo } = useOrderFood();
 
-  useEffect(() => {
-    getGrandTotal();
-  }, []);
-
   const getGrandTotal = () => {
     let shippingCost = deliveryCharge;
     if (parseFloat(totalPrice) >= parseFloat(minOrderAmount)) {
@@ -81,9 +77,6 @@ const CheckoutSection = () => {
   };
 
   const handleCustomerOrder = () => {
-    console.log(foodItems);
-    console.log("foodStoreInfo", foodStoreInfo);
-
     if (foodItems.length > 0) {
       const itemOrderObj = {
         customer_id: userInfo?._id,
@@ -112,21 +105,22 @@ const CheckoutSection = () => {
         vatAmount: 0,
         deliveryCharge: shippingCharge,
         totalAmount: grandTotal,
-        // paymet_method: paymentOption?.detail,
+
         paymet_method: paymentOption,
         shortNote: remarks,
         customer_rating: 0,
         customer_review: "",
       };
 
-      console.log(itemOrderObj);
-
       placeOrder(itemOrderObj);
-      // getOrderInfo();
     } else {
       toast.error("Cart is empty.");
     }
   };
+
+  useEffect(() => {
+    getGrandTotal();
+  }, []);
 
   return (
     <div className="flex justify-center py-20">
