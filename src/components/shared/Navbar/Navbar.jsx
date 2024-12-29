@@ -8,6 +8,7 @@ import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
 import { handleUserReducer } from "@/redux/userReducer";
 import { useParams } from "next/navigation";
+import { BiLogOut } from "react-icons/bi";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -93,11 +94,24 @@ const Navbar = () => {
                   </Link>
                 </li> */}
                 <li className="px-3 hover:underline">
-                  <Link href="#">Profile</Link>
+                  <Link href="#" className="flex items-center gap-1">
+                    <span>
+                      <CgProfile />
+                    </span>
+                    Profile
+                  </Link>
                 </li>
 
                 <li className="px-3 hover:underline">
-                  <button onClick={handleLogout}>Logout</button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-1"
+                  >
+                    <span>
+                      <BiLogOut />
+                    </span>
+                    Logout
+                  </button>
                 </li>
               </ul>
             )}

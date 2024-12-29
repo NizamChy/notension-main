@@ -1,4 +1,4 @@
-import CheckoutSection from "@/components/CheckoutSection/CheckoutSection";
+import CheckoutSection from "@/components/Grocery/CheckoutSection/CheckoutSection";
 import React from "react";
 
 const page = () => {

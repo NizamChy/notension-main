@@ -37,12 +37,12 @@ const GroceryCartItems = () => {
                   {item?.product_title_eng}
                 </p>
                 <div className="flex gap-10">
-                  <p className="flex items-center text-primary text-sm font-medium mt-1">
+                  <p className="flex items-center text-primaryGrocery text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
                     {item?.sale_price} x {item.quantity}
                   </p>
 
-                  <p className="flex items-center text-primary text-sm font-medium mt-1">
+                  <p className="flex items-center text-primaryGrocery text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
                     {item?.sale_price * item.quantity}
                   </p>
@@ -50,6 +50,7 @@ const GroceryCartItems = () => {
 
                 <div className="flex items-center gap-2 mt-2">
                   <button
+                    disabled={item.quantity === 1}
                     onClick={() =>
                       dispatch(
                         handleCartAction({

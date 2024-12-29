@@ -22,19 +22,21 @@ const cartReducer = createSlice({
   reducers: {
     handleCartAction: (state, { payload }) => {
       const { type, data } = payload;
-      console.log("type   111", type);
 
       switch (type) {
         case "SAVE_FOOD_STORE_INFO": {
           state.foodStoreInfo = data;
+          break;
         }
 
         case "SAVE_GROCERY_STORE_INFO": {
           state.groceryStoreInfo = data;
+          break;
         }
 
         case "SAVE_MEDICINE_STORE_INFO": {
           state.medicineStoreInfo = data;
+          break;
         }
 
         case "ADD_TO_CART_FOOD": {

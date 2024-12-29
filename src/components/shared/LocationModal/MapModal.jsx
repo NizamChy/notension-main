@@ -11,13 +11,13 @@ const MapModal = ({ isOpen, onCloseModal }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`relative w-full md:w-11/12 lg:w-1/2 bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 ${
+        className={`relative w-[90%] md:w-11/12 lg:w-1/2 bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 ${
           isOpen ? "scale-100 opacity-100" : "scale-110 opacity-0"
         }`}
       >
         <button
           onClick={onCloseModal}
-          className="absolute -top-4 -right-4 p-2 rounded-full bg-white text-gray-500 hover:text-primary"
+          className="absolute -top-4 -right-4 p-2 rounded-full bg-white text-gray-500 hover:text-primaryFood"
         >
           <svg
             className="w-6 h-6"

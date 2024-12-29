@@ -44,13 +44,14 @@ const MedicineCartItems = () => {
 
                   <p className="flex items-center text-primaryMedicine text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
-                    {/* {item?.sale_price * item.quantity} */}
+
                     {(item?.sale_price * item.quantity).toFixed(2)}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-2 mt-2">
                   <button
+                    disabled={item.quantity === 1}
                     onClick={() =>
                       dispatch(
                         handleCartAction({

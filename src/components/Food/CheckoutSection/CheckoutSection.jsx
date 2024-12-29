@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MdContactPhone } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { useOrder } from "@/hooks/place-order/useOrder";
 import { toast } from "react-toastify";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
+import { useOrderFood } from "@/hooks/place-order/useOrderFood";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -22,15 +22,9 @@ const CheckoutSection = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
 
-  // const cartItems = useSelector((state) => state.cart.cartItems);
-
   const { foodStoreInfo, foodItems, totalAmountFood } = useSelector(
     (state) => state.cart
   );
-
-  // const { foodStoreInfo } = useSelector((state) => state.cart.cartItems);
-  // const { foodStoreInfo } = useSelector((state) => state.foodStoreInfo);
-  // console.log("foodStoreInfo", foodStoreInfo);
 
   const totalPrice = totalAmountFood;
 
@@ -47,7 +41,7 @@ const CheckoutSection = () => {
   const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
   const [remarks, setRemarks] = useState("");
 
-  const { progressing, placeOrder, getOrderInfo } = useOrder();
+  const { progressing, placeOrder, getOrderInfo } = useOrderFood();
 
   useEffect(() => {
     getGrandTotal();
@@ -127,7 +121,7 @@ const CheckoutSection = () => {
 
       console.log(itemOrderObj);
 
-      // placeOrder(itemOrderObj);
+      placeOrder(itemOrderObj);
       // getOrderInfo();
     } else {
       toast.error("Cart is empty.");
@@ -138,7 +132,7 @@ const CheckoutSection = () => {
     <div className="flex justify-center py-20">
       <div className="bg-white p-4 w-full md:w-96">
         <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
-          <p className="text-primary text-xl font-medium underline flex items-center gap-2">
+          <p className="text-primaryFood text-xl font-medium underline flex items-center gap-2">
             <span className="mt-1">
               <MdContactPhone />
             </span>
@@ -212,7 +206,7 @@ const CheckoutSection = () => {
           <div className="flex justify-center">
             <button
               onClick={handleCustomerOrder}
-              className="mt-4 px-4 py-1 bg-primary text-white rounded-md w-full"
+              className="mt-4 px-4 py-1 bg-primaryFood text-white rounded-md w-full"
             >
               PLACE ORDER
             </button>

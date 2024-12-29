@@ -67,15 +67,6 @@ const Cart = () => {
     return "bg-secondary";
   };
 
-  const foodStoreInfo = useSelector((state) => state.cart.foodStoreInfo);
-
-  const { visitedFoodStore, visitedGroceryStore, visitedMedicineStore } =
-    useSelector((state) => state.dashboard);
-
-  console.log("visitedFoodStore", visitedFoodStore);
-  console.log("foodStoreInfo", foodStoreInfo);
-  console.log("foodItems", foodItems);
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";

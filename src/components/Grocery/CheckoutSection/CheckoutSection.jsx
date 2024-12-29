@@ -31,23 +31,25 @@ const CheckoutSection = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
+  const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
+    (state) => state.cart
+  );
+
+  console.log("groceryStoreInfo", groceryStoreInfo);
+
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );
 
-  const { medicineStoreInfo, medicineItems, totalAmountMedicine } = useSelector(
-    (state) => state.cart
-  );
+  const totalPrice = totalAmountGrocery;
 
-  const totalPrice = totalAmountMedicine;
-
-  const minOrderAmount = medicineStoreInfo?.min_purchage_amount || 0;
-  const deliveryCharge = medicineStoreInfo?.max_delivery_charge || 0;
-  const minDeliveryCharge = medicineStoreInfo?.min_delivery_charge || 0;
-  const less = medicineStoreInfo?.less || 0;
-  const less_type = medicineStoreInfo?.less_type || "Percent";
-  const maximum_less = medicineStoreInfo?.maximum_less || 0;
-  const minimum_order_for_less = medicineStoreInfo?.minimum_order_for_less || 0;
+  const minOrderAmount = groceryStoreInfo?.min_purchage_amount || 0;
+  const deliveryCharge = groceryStoreInfo?.max_delivery_charge || 0;
+  const minDeliveryCharge = groceryStoreInfo?.min_delivery_charge || 0;
+  const less = groceryStoreInfo?.less || 0;
+  const less_type = groceryStoreInfo?.less_type || "Percent";
+  const maximum_less = groceryStoreInfo?.maximum_less || 0;
+  const minimum_order_for_less = groceryStoreInfo?.minimum_order_for_less || 0;
 
   const getGrandTotal = () => {
     let shippingCost = deliveryCharge;
@@ -83,7 +85,7 @@ const CheckoutSection = () => {
   };
 
   const handleCustomerOrder = () => {
-    if (medicineItems?.length > 0 || images?.length > 0) {
+    if (groceryItems.length > 0 || images?.length > 0) {
       const itemOrderObj = {
         customer_id: userInfo?._id,
         custom_customer_id: userInfo?.custom_id,
@@ -97,16 +99,16 @@ const CheckoutSection = () => {
         },
         merchant_id: merchantId,
         custom_merchant_id: customstore_id,
-        // merchant_id: medicineStoreInfo?._id,
-        // custom_merchant_id: medicineStoreInfo?.custom_store_id,
+        // merchant_id: groceryStoreInfo?._id,
+        // custom_merchant_id: groceryStoreInfo?.custom_store_id,
         merchantInfo: {
-          shop_name: medicineStoreInfo?.shop_name,
-          shop_address: medicineStoreInfo?.shop_address,
-          contact_no: medicineStoreInfo?.contact_no,
-          alternative_contact_no: medicineStoreInfo?.alternative_contact_no,
+          shop_name: groceryStoreInfo?.shop_name,
+          shop_address: groceryStoreInfo?.shop_address,
+          contact_no: groceryStoreInfo?.contact_no,
+          alternative_contact_no: groceryStoreInfo?.alternative_contact_no,
         },
         order_list_image: [],
-        orderItems: medicineItems,
+        orderItems: groceryItems,
         subTotal: totalPrice,
         less_amount: discount,
         vatAmount: 0,

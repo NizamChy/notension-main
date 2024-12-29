@@ -9,24 +9,38 @@ import Image from "next/image";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
-import { useParams } from "next/navigation";
+import { BiLogOut } from "react-icons/bi";
+import { BsCartCheck } from "react-icons/bs";
+import { useParams, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
   const dropDownMenuRef = useRef();
   const dispatch = useDispatch();
 
+  const router = useRouter();
+
   const params = useParams();
+
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
 
   const module = currentModule.toLowerCase();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
-
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
     toast.success("User logged out successfully");
+  };
+
+  const handleLogoClick = () => {
+    const basePath = `/${module}/store/${params?.store}`;
+    const currentPath = window.location.pathname;
+    if (currentPath.startsWith(basePath) && currentPath !== basePath) {
+      router.push(basePath);
+    } else {
+      router.push("/");
+    }
   };
 
   useEffect(() => {
@@ -48,7 +62,10 @@ const Navbar = () => {
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
       <MobileCategoryDrawer />
 
-      <Link href="/" className="hidden lg:block">
+      <button
+        onClick={handleLogoClick}
+        className="hidden lg:block focus:outline-none"
+      >
         <Image
           width={500}
           height={500}
@@ -56,7 +73,7 @@ const Navbar = () => {
           alt="notension"
           className="object-cover w-32 lg:w-56 lg:h-10"
         />
-      </Link>
+      </button>
 
       {userInfo._id && (
         <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
@@ -91,14 +108,35 @@ const Navbar = () => {
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
                 <li className="px-3 hover:underline">
-                  <Link href="/food/store/orders">My Orders</Link>
+                  <Link
+                    href="/food/store/orders"
+                    className="flex items-center gap-1"
+                  >
+                    <span>
+                      <BsCartCheck />
+                    </span>
+                    My Orders
+                  </Link>
                 </li>
                 <li className="px-3 hover:underline">
-                  <Link href="#">Profile</Link>
+                  <Link href="#" className="flex items-center gap-1">
+                    <span>
+                      <CgProfile />
+                    </span>
+                    <span>Profile</span>
+                  </Link>
                 </li>
 
                 <li className="px-3 hover:underline">
-                  <button onClick={handleLogout}>Logout</button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-1"
+                  >
+                    <span>
+                      <BiLogOut />
+                    </span>
+                    Logout
+                  </button>
                 </li>
               </ul>
             )}

@@ -72,17 +72,17 @@ const FoodItems = ({ item }) => {
       app_image: item?.app_image,
     };
 
-    addProduct(product);
+    // addProduct(product);
 
-    // if (foodItems.length > 0) {
-    //   if (foodStoreInfo?._id && foodStoreInfo?._id !== visitedFoodStore?._id) {
-    //     emptyCartItems(product);
-    //   } else {
-    //     addProduct(product);
-    //   }
-    // } else {
-    //   saveStoreAndProductInfo(product);
-    // }
+    if (foodItems.length > 0) {
+      if (foodStoreInfo?._id && foodStoreInfo?._id !== visitedFoodStore?._id) {
+        emptyCartItems(product);
+      } else {
+        addProduct(product);
+      }
+    } else {
+      saveStoreAndProductInfo(product);
+    }
   };
   // const handleAddToCart = () => {
   //   let product = {

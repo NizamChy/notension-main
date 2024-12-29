@@ -59,7 +59,7 @@ const CartContent = ({
             (module === "grocery" && groceryItems?.length == 0) ||
             (module === "medicine" && medicineItems?.length == 0)
           }
-          className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-200 text-white py-2 rounded-lg ${getPrimaryClass()}`}
+          className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none transition-colors duration-200 text-white py-2 rounded-lg ${getPrimaryClass()}`}
         >
           Checkout
         </button>

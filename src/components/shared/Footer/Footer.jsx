@@ -25,7 +25,6 @@ const Footer = () => {
         {/* Section 1 */}
         <div className="space-y-6">
           <Image
-            // src="/png/notension-logo.png"
             src="/png/no_tension_bar.png"
             alt="notension"
             width={180}
@@ -68,6 +67,15 @@ const Footer = () => {
             Quick Links
           </p>
           <ul className="space-y-4">
+            <li>
+              <Link
+                href="/"
+                className="flex items-center text-gray-700 hover:text-yellow-500"
+              >
+                <FiChevronRight className="mr-2" />
+                Home
+              </Link>
+            </li>
             <li>
               <Link
                 href="#"
