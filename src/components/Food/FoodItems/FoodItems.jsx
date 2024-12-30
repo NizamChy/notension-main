@@ -16,8 +16,6 @@ const FoodItems = ({ item }) => {
     (state) => state.dashboard.visitedFoodStore
   );
 
-  console.log("Hello from", visitedFoodStore);
-
   const foodStoreInfo = useSelector((state) => state.cart.foodStoreInfo);
 
   const cartItem = foodItems?.find((cartItem) => cartItem?._id === item?._id);
@@ -25,8 +23,6 @@ const FoodItems = ({ item }) => {
   const currentQuantity = cartItem ? cartItem.quantity : 0;
 
   const addProduct = (product) => {
-    console.log("dsfhjfhjdhf", product);
-
     dispatch(
       handleCartAction({
         type: "ADD_TO_CART_FOOD",

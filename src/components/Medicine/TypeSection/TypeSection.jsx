@@ -1,5 +1,5 @@
 "use client";
-// import { MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
+
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
@@ -20,8 +20,6 @@ const TypeSection = ({ typeId }) => {
   );
 
   const subtypes = selectedType?.subtype || [];
-
-  console.log(subtypes);
 
   return (
     <>

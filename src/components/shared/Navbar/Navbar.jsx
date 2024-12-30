@@ -7,23 +7,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
 import { handleUserReducer } from "@/redux/userReducer";
-import { useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
+import { BsCartCheck } from "react-icons/bs";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
   const dropDownMenuRef = useRef();
   const dispatch = useDispatch();
 
-  const params = useParams();
-
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  // const currentModule = useSelector((state) => state.dashboard.currentModule);
+  const pathname = usePathname();
 
-  // const module = currentModule.toLowerCase();
+  let category = "";
 
-  // console.log("module from navbar : ", module);
+  if (pathname.includes("/grocery")) {
+    category = "grocery";
+  } else if (pathname.includes("/medicine")) {
+    category = "medicine";
+  } else if (pathname.includes("/food")) {
+    category = "food";
+  }
 
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
@@ -88,11 +93,20 @@ const Navbar = () => {
             </button>
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
-                {/* <li className="px-3 hover:underline">
-                  <Link href={`/grocery/${params?.store}/orders`}>
-                    My Orders
-                  </Link>
-                </li> */}
+                {category && (
+                  <li className="px-3 hover:underline">
+                    <Link
+                      href={`/${category}/store/orders`}
+                      className="flex items-center gap-1"
+                    >
+                      <span>
+                        <BsCartCheck />
+                      </span>
+                      My Orders
+                    </Link>
+                  </li>
+                )}
+
                 <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
                     <span>

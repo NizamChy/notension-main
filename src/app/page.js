@@ -4,6 +4,7 @@ import Image from "next/image";
 import LocationModal from "@/components/shared/LocationModal/LocationModal";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
+import LandingPage from "@/components/LandingPage/LandingPage";
 
 const page = () => {
   return (
@@ -14,7 +15,11 @@ const page = () => {
         </div>
         <LocationModal />
 
-        <div className="flex justify-center gap-5 mt-16 px-3">
+        {/* Landing Page Content */}
+        <LandingPage />
+        {/* Landing Page Content end */}
+
+        {/* <div className="flex justify-center gap-5 mt-16 px-3">
           <div className="w-full max-w-xs space-y-3 rounded-xl bg-white p-4 shadow-lg">
             <Link href="/grocery/all">
               <div className="group flex w-full justify-center overflow-hidden">
@@ -55,7 +60,7 @@ const page = () => {
               </div>
             </Link>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <Footer />

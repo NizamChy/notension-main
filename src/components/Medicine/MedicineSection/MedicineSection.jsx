@@ -28,8 +28,6 @@ const MedicineSection = () => {
 
     exploreStore(shop);
 
-    console.log(shop);
-
     router.push(`/medicine/${formattedShopName}`);
   };
 

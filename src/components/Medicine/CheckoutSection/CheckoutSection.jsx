@@ -118,8 +118,6 @@ const CheckoutSection = () => {
         customer_review: "",
       };
 
-      console.log(itemOrderObj);
-
       const formData = new FormData();
 
       formData.append("orderObj", JSON.stringify(itemOrderObj));
@@ -201,7 +199,13 @@ const CheckoutSection = () => {
                   onChange={() => setPaymentOption(option.label)}
                   className="form-radio h-5 w-5 text-blue-600"
                 />
-                <img src={option.icon} alt={option.label} className="h-6 w-6" />
+                <Image
+                  src={option.icon}
+                  alt={option.label}
+                  width={6}
+                  height={6}
+                  className="h-6 w-6"
+                />
                 <span className="text-gray-800 font-medium">
                   {option.label}
                 </span>

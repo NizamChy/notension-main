@@ -6,6 +6,7 @@ import { MdContactPhone } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useOrder } from "@/hooks/place-order/useOrder";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -201,7 +202,13 @@ const CheckoutSection = () => {
                   onChange={() => setPaymentOption(option.label)}
                   className="form-radio h-5 w-5 text-blue-600"
                 />
-                <img src={option.icon} alt={option.label} className="h-6 w-6" />
+                <Image
+                  src={option.icon}
+                  alt={option.label}
+                  width={6}
+                  height={6}
+                  className="h-6 w-6"
+                />
                 <span className="text-gray-800 font-medium">
                   {option.label}
                 </span>

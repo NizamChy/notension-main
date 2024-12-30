@@ -31,16 +31,13 @@ export const useOrderFood = () => {
   const placeOrder = (itemOrderObj) => {
     setProgressing(true);
 
-    //console.log("Click", itemOrderObj);
-
     Axios.post(FOOD_PLACE_ORDER, itemOrderObj)
       .then((res) => {
-        // console.log(res);
         if (res.data.success) {
           toast.success("Order has been placed!");
           dispatch(
             handleCartAction({
-              type: "PLACE_ORDER",
+              type: "CLEAR_CART_FOOD",
             })
           );
 

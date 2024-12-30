@@ -53,8 +53,6 @@ export default EmptyCart;
 
 //   const module = currentModule.toLowerCase();
 
-//   console.log("Hellllllllloooo", foodItems);
-
 //   return (
 //     <>
 //       {(module == "food" && foodItems?.length == 0) ||

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 import {
   BsFacebook,
   BsInstagram,
@@ -67,7 +66,7 @@ const Footer = () => {
             Quick Links
           </p>
           <ul className="space-y-4">
-            <li>
+            {/* <li>
               <Link
                 href="/"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
@@ -75,7 +74,7 @@ const Footer = () => {
                 <FiChevronRight className="mr-2" />
                 Home
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="#"

@@ -1,11 +1,9 @@
 "use client";
 
-// import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 import React, { useEffect, useState } from "react";
 import GroceryItems from "../GroceryItems/GroceryItems";
 import { useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-// import Loader from "../Loader/Loader";
 import Link from "next/link";
 import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
 import NoItemFound from "../NoItemSection/NoItemFound";
@@ -29,8 +27,6 @@ const SubTypeSection = () => {
   // const { merchantId, customstore_id } = useSelector(
   //   (state) => state.itemsByStore
   // );
-
-  // console.log("merchantId", merchantId);
 
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 

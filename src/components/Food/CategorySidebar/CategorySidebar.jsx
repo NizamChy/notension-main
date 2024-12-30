@@ -57,7 +57,7 @@ const CategorySidebar = ({ scrollToFoodItems }) => {
                       key={category._id}
                       className={`max-w-32 px-2 pt-2 flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer bg-white shadow-sm ${
                         activeCategory === category.categoryInfo._id
-                          ? "border-primary"
+                          ? "border-primaryFood"
                           : "border-white"
                       }`}
                       onClick={() =>

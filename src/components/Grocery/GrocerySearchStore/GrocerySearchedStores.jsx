@@ -33,8 +33,6 @@ const GrocerySearchedStores = () => {
     handleSearchStore(searchText, setNearestInfo);
   }, [searchText]);
 
-  console.log(nearestInfo);
-
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
       <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">

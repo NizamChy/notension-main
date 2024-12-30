@@ -23,8 +23,6 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  console.log(userInfo);
-
   const router = useRouter();
 
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);

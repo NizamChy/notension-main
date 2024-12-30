@@ -6,14 +6,8 @@ import FoodItems from "@/components/Food/FoodItems/FoodItems";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import React from "react";
 import { useSelector } from "react-redux";
-// import MobileCategory from "@/components/FoodCategorySection/CategorySidebar/MobileCategory";
-// import FoodItems from "@/components/FoodCategorySection/FoodItems/FoodItems";
-// import FoodItemCardSkeleton from "@/components/FoodCategorySection/FoodItems/FoodItemCardSkeleton";
-// import { useSelector } from "react-redux";
-// import { useShop } from "@/hooks/fetch-data/useShop";
 
 const page = () => {
-  // const { progressing } = useShop();
   const { progressing } = useFood();
   const { popularItem } = useSelector((state) => state.itemsByStore);
 
@@ -37,9 +31,7 @@ const page = () => {
             </div>
           </>
         ) : (
-          <p className="text-center mt-20">
-            No food items available for this category.
-          </p>
+          <p className="text-center mt-20">No popular Items found.</p>
         )}
       </div>
     </>
