@@ -31,8 +31,6 @@ const Cart = () => {
 
   const module = currentModule.toLowerCase();
 
-  console.log("currentModule : ", currentModule);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 

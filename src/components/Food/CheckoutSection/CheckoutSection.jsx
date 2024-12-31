@@ -22,14 +22,20 @@ const CheckoutSection = () => {
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
+  const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
+  const [remarks, setRemarks] = useState("");
+
+  const { progressing, placeOrder } = useOrderFood();
+
+  const { userLatitude, userLongitude, userInfo } = useSelector(
+    (state) => state.user
+  );
 
   const { foodStoreInfo, foodItems, totalAmountFood } = useSelector(
     (state) => state.cart
   );
 
   const totalPrice = totalAmountFood;
-
-  const userInfo = useSelector((state) => state.user.userInfo);
 
   const minOrderAmount = foodStoreInfo?.min_purchage_amount || 0;
   const deliveryCharge = foodStoreInfo?.max_delivery_charge || 0;
@@ -38,11 +44,6 @@ const CheckoutSection = () => {
   const less_type = foodStoreInfo?.less_type || "Percent";
   const maximum_less = foodStoreInfo?.maximum_less || 0;
   const minimum_order_for_less = foodStoreInfo?.minimum_order_for_less || 0;
-
-  const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
-  const [remarks, setRemarks] = useState("");
-
-  const { progressing, placeOrder } = useOrderFood();
 
   const getGrandTotal = () => {
     let shippingCost = deliveryCharge;
@@ -87,10 +88,8 @@ const CheckoutSection = () => {
           customer_address: userInfo?.customer_address,
           contact_no: userInfo?.contact_no,
           alternative_contact_no: userInfo?.alternative_contact_no,
-          // latitude: userLatitude,
-          // longitude: userLongitude,
-          latitude: 21332243,
-          longitude: 21332243,
+          latitude: userLatitude,
+          longitude: userLongitude,
         },
         merchant_id: foodStoreInfo?._id,
         custom_merchant_id: foodStoreInfo?.custom_store_id,
@@ -121,7 +120,7 @@ const CheckoutSection = () => {
 
   useEffect(() => {
     getGrandTotal();
-  }, []);
+  }, [totalPrice]);
 
   return (
     <div className="flex justify-center py-20">
@@ -172,6 +171,8 @@ const CheckoutSection = () => {
               id="remark"
               size="text-base"
               multiline={true}
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
             />
           </div>
 

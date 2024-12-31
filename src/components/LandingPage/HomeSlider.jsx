@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,16 +7,16 @@ import "swiper/css/navigation";
 import { Keyboard, Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 
-const CategoryBannerCarousel = () => {
-  const images = [
-    "/png/food-banner-1.png",
-    "/png/food-banner-2.png",
-    "/png/food-banner-3.png",
-    "/png/food-banner-4.png",
+const HomeSlider = () => {
+  const slides = [
+    "bg-banner-new-07-1.webp",
+    "bg-banner-new-07-2.webp",
+    "bg-banner-new-07-3.webp",
+    "bg-banner-new-07-4.webp",
   ];
 
   return (
-    <div className="pt-7 md:pt-0 px-4 md:px-2">
+    <>
       <Swiper
         style={{
           "--swiper-pagination-color": "#EB5C2F",
@@ -33,22 +32,22 @@ const CategoryBannerCarousel = () => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper z-50 relative w-full max-h-[240px] md:max-h-[400px] rounded-lg"
+        className="mySwiper z-50 relative max-w-[632px]"
       >
-        {images.map((slide, index) => (
-          <SwiperSlide key={index} className="rounded-lg">
+        {slides?.map((slide, index) => (
+          <SwiperSlide key={index} className="">
             <Image
-              className="w-full max-w-full h-auto object-cover rounded-lg"
-              src={slide}
-              alt={`Slide ${index + 1}`}
-              width={1388}
-              height={400}
+              className="object-cover transition-transform duration-300 hover:scale-105"
+              src={`/images/home/bg-banner-new-07-${index + 1}.webp`}
+              alt="bg-banner"
+              width={632}
+              height={300}
             />
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </>
   );
 };
 
-export default CategoryBannerCarousel;
+export default HomeSlider;

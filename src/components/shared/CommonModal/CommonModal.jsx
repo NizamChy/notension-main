@@ -43,7 +43,7 @@ const CommonModal = ({ isOpen, onClose, children, className = "" }) => {
         >
           <button
             onClick={onClose}
-            className="absolute -top-4 -right-4 p-2 rounded-full bg-white text-gray-500 hover:text-primary"
+            className="absolute -top-4 -right-4 p-2 rounded-full bg-white text-gray-500 hover:text-primaryFood"
           >
             <svg
               className="w-6 h-6"

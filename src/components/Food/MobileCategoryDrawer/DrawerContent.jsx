@@ -46,7 +46,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
               <Link
                 onClick={toggleDrawer}
-                href="/orders"
+                href="/food/store/orders"
                 className="mt-2 flex gap-2"
               >
                 <TiShoppingCart className="text-2xl text-secondary" />
@@ -80,7 +80,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
         )}
 
         <div className="h-full border-e px-1 max-w-screen-md pb-5 bg-white">
-          <div className="overflow-y-auto h-full no-scrollbar">
+          <div className="overflow-y-auto overflow-x-hidden h-full no-scrollbar">
             <MobileCategory
               gridClass="grid-cols-2"
               toggleDrawer={toggleDrawer}

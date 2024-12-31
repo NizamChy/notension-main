@@ -5,7 +5,7 @@ import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
-const UserInfoInputs = ({ phone, onClose, type }) => {
+const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
   const { progressing, userInfo, handleDataChange, getOtp, registerUser } =
     useUser();
 
@@ -109,7 +109,7 @@ const UserInfoInputs = ({ phone, onClose, type }) => {
       <div className="flex justify-center">
         <button
           onClick={handleLogin}
-          className="mt-4 px-4 py-2 bg-primary text-white rounded-md w-full"
+          className={`mt-4 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
         >
           LOGIN
         </button>

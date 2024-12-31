@@ -41,7 +41,7 @@ export const useOrderFood = () => {
             })
           );
 
-          router.push("/");
+          router.push("/food");
         } else {
           toast.error("Failed to place order.");
         }

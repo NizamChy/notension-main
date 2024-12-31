@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   FOOD_ITEMS_IMAGES,
@@ -12,7 +12,11 @@ import { useFood } from "@/hooks/fetch-data/useFood";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
 
 const MobileCategory = ({ gridClass, toggleDrawer }) => {
+  const [activeCategory, setActiveCategory] = useState(null);
+
   const router = useRouter();
+
+  const pathname = usePathname();
 
   const params = useParams();
 
@@ -27,6 +31,13 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
     }
   };
 
+  useEffect(() => {
+    const categoryIdFromUrl = pathname.split("/").pop();
+    if (categoryIdFromUrl) {
+      setActiveCategory(categoryIdFromUrl);
+    }
+  }, [pathname]);
+
   return (
     <div className="block lg:hidden">
       <div className={`grid ${gridClass} gap-5 justify-items-center my-5 mx-5`}>
@@ -37,13 +48,19 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
           : productCategory.map((category) => (
               <div
                 key={category._id}
-                className="px-2 pt-2 flex flex-col justify-center items-center border rounded-lg cursor-pointer bg-white shadow-sm"
+                className={`px-2 pt-2 flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer bg-white shadow-sm  
+                  ${
+                    activeCategory === category.categoryInfo._id
+                      ? "border-primaryFood"
+                      : "border-white"
+                  }
+                  `}
                 onClick={() => handleCategoryClick(category.categoryInfo._id)}
               >
                 <div className="flex flex-col justify-center items-center text-center">
                   <Image
                     src={`${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`}
-                    alt="category image"
+                    alt="category"
                     width={200}
                     height={200}
                     className="rounded object-contain"

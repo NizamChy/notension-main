@@ -21,15 +21,15 @@ const CheckoutSection = () => {
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
-
   const [images, setImages] = useState([]);
-
   const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
   const [remarks, setRemarks] = useState("");
 
   const { progressing, placeOrder, getOrderInfo } = useOrder();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const { userLatitude, userLongitude, userInfo } = useSelector(
+    (state) => state.user
+  );
 
   const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
     (state) => state.cart
@@ -92,13 +92,11 @@ const CheckoutSection = () => {
           customer_address: userInfo?.customer_address,
           contact_no: userInfo?.contact_no,
           alternative_contact_no: userInfo?.alternative_contact_no,
-          latitude: 1232323,
-          longitude: 2432343,
+          latitude: userLatitude,
+          longitude: userLongitude,
         },
         merchant_id: merchantId,
         custom_merchant_id: customstore_id,
-        // merchant_id: groceryStoreInfo?._id,
-        // custom_merchant_id: groceryStoreInfo?.custom_store_id,
         merchantInfo: {
           shop_name: groceryStoreInfo?.shop_name,
           shop_address: groceryStoreInfo?.shop_address,
@@ -181,6 +179,8 @@ const CheckoutSection = () => {
               id="remark"
               size="text-base"
               multiline={true}
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
             />
           </div>
 

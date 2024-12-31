@@ -68,8 +68,6 @@ const FoodItems = ({ item }) => {
       app_image: item?.app_image,
     };
 
-    // addProduct(product);
-
     if (foodItems.length > 0) {
       if (foodStoreInfo?._id && foodStoreInfo?._id !== visitedFoodStore?._id) {
         emptyCartItems(product);
@@ -80,33 +78,6 @@ const FoodItems = ({ item }) => {
       saveStoreAndProductInfo(product);
     }
   };
-  // const handleAddToCart = () => {
-  //   let product = {
-  //     _id: item?._id,
-  //     productCategory: item?.productCategory,
-  //     product_title_eng: item?.product_title_eng || "",
-  //     product_title_beng: item?.product_title_beng || "",
-  //     pack_size: item?.pack_size || "",
-  //     max_retail_price: item?.max_retail_price || 0,
-  //     sale_price: item?.sale_price || 0,
-  //     unit_symbol: item?.unit_symbol || "",
-  //     max_allowed: item?.max_allowed || 0,
-  //     quantity: 1,
-  //     delivered_qty: 0,
-  //     inc_qty: 1,
-  //     app_image: item?.app_image,
-  //   };
-
-  //   if (foodItems.length > 0) {
-  //     if (foodStoreInfo?._id && foodStoreInfo?._id !== visitedFoodStore?._id) {
-  //       emptyCartItems(product);
-  //     } else {
-  //       addProduct(product);
-  //     }
-  //   } else {
-  //     saveStoreAndProductInfo(product);
-  //   }
-  // };
 
   return (
     <>
@@ -127,7 +98,7 @@ const FoodItems = ({ item }) => {
               height={400}
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
-            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-blue-500 top-4 right-3 md:right-4 rounded-full" />
+            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primaryFood top-4 right-3 md:right-4 rounded-full" />
           </div>
 
           <div className="px-3 pb-3 pt-1">

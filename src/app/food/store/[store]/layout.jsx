@@ -4,13 +4,14 @@ import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/Cat
 import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
 import CategorySlider from "@/components/Food/CategorySidebar/CategorySlider";
 import Footer from "@/components/shared/Footer/Footer";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useRef } from "react";
 
 export default function RootLayout({ children }) {
   const foodItemsRef = useRef(null);
 
   const pathname = usePathname();
+  const params = useParams();
 
   const scrollToFoodItems = () => {
     if (foodItemsRef.current) {
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
 
         <div className="w-full lg:w-[80%] ml-auto md:p-16">
           <CategoryBannerCarousel />
-          {pathname !== "/food-category" && <CategorySlider />}
+          {pathname !== `/food/store/${params?.store}` && <CategorySlider />}
 
           <div ref={foodItemsRef} className="min-h-content mt-5">
             {children}

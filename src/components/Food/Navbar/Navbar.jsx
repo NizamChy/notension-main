@@ -59,7 +59,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
+    <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-20 border">
       <MobileCategoryDrawer />
 
       <button
