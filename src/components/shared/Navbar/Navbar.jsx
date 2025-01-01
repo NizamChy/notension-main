@@ -51,7 +51,7 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
-      <Link href="/" className="hidden lg:block">
+      <Link href="/" className="">
         <Image
           width={500}
           height={500}
@@ -62,7 +62,7 @@ const Navbar = () => {
       </Link>
 
       {userInfo._id && (
-        <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
+        <ul className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
           <li className="relative" ref={dropDownMenuRef}>
             <button
               onClick={() => setDropDownState(!dropDownState)}
@@ -70,9 +70,7 @@ const Navbar = () => {
             >
               <p className="font-semibold flex items-center gap-2">
                 <CgProfile className="text-2xl" />
-                <span className="hidden md:block">
-                  {userInfo.customer_name}
-                </span>
+                <span className="">{userInfo.customer_name}</span>
               </p>
               <svg
                 className={`${

@@ -8,7 +8,7 @@ import { Keyboard, Pagination, Autoplay } from "swiper/modules";
 import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 import Image from "next/image";
 
-const Slider = ({ slides }) => {
+const Slider = ({ slides, classNames }) => {
   return (
     <>
       {slides?.length > 0 && (
@@ -27,7 +27,8 @@ const Slider = ({ slides }) => {
           keyboard={{ enabled: true }}
           pagination={{ clickable: true }}
           modules={[Keyboard, Pagination, Autoplay]}
-          className="mySwiper z-50 relative"
+          // className="mySwiper z-50 relative"
+          className={`mySwiper z-50 relative ${classNames}`}
         >
           {slides?.map((slide) => (
             <SwiperSlide key={slide._id} className="rounded-lg">

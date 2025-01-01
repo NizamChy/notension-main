@@ -6,8 +6,8 @@ import BottomSection from "./BottomSection";
 
 const LandingPage = () => {
   return (
-    <>
-      <div className="flex justify-center gap-4 mt-4">
+    <div className="flex flex-col justify-center items-center">
+      <div className="lg:flex justify-center gap-4 mt-4">
         <TopLeftSection />
         <TopRightSection />
       </div>
@@ -17,7 +17,7 @@ const LandingPage = () => {
       <div className="flex justify-center gap-4 mt-4">
         <BottomSection />
       </div>
-    </>
+    </div>
   );
 };
 

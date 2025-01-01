@@ -34,7 +34,7 @@ const CategoryBannerCarousel = () => {
             keyboard={{ enabled: true }}
             pagination={{ clickable: true }}
             modules={[Keyboard, Pagination, Autoplay]}
-            className="mySwiper z-50 relative max-h-[240px] md:max-h-[400px] rounded-lg"
+            className="mySwiper z-50 relative max-h-[240px] md:max-h-[400px] rounded-lg w-full"
           >
             {DashboardSlider[0]?.first_slider?.map((slide) => (
               <SwiperSlide key={slide._id} className="rounded-lg">

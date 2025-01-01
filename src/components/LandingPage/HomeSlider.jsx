@@ -16,7 +16,7 @@ const HomeSlider = () => {
   ];
 
   return (
-    <>
+    <div>
       <Swiper
         style={{
           "--swiper-pagination-color": "#EB5C2F",
@@ -32,12 +32,12 @@ const HomeSlider = () => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper z-50 relative max-w-[632px]"
+        className="mySwiper z-50 relative max-w-[632px] md:w-full w-[450px]"
       >
         {slides?.map((slide, index) => (
           <SwiperSlide key={index} className="">
             <Image
-              className="object-cover transition-transform duration-300 hover:scale-105"
+              className="object-cover transition-transform duration-300 hover:scale-105 w-full"
               src={`/images/home/bg-banner-new-07-${index + 1}.webp`}
               alt="bg-banner"
               width={632}
@@ -46,7 +46,7 @@ const HomeSlider = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </div>
   );
 };
 

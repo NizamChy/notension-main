@@ -30,19 +30,28 @@ const ProductsByCategory = () => {
         <div className="lg:flex gap-10 space-y-4 lg:space-y-0 py-10">
           <div className="lg:w-1/2">
             {DashboardSlider[0]?.second_slider?.length && (
-              <GroceryCommonSlider slides={DashboardSlider[0]?.second_slider} />
+              <GroceryCommonSlider
+                classNames="max-h-[351px]"
+                slides={DashboardSlider[0]?.second_slider}
+              />
             )}
           </div>
           <div className="lg:w-1/2">
             {DashboardSlider[0]?.third_slider?.length && (
-              <GroceryCommonSlider slides={DashboardSlider[0]?.third_slider} />
+              <GroceryCommonSlider
+                classNames="max-h-[351px]"
+                slides={DashboardSlider[0]?.third_slider}
+              />
             )}
           </div>
         </div>
         <DealOfTheDay />
         <div className="py-10 lg:w-2/3">
           {DashboardSlider[0]?.fourth_slider?.length && (
-            <GroceryCommonSlider slides={DashboardSlider[0]?.fourth_slider} />
+            <GroceryCommonSlider
+              classNames="max-h-[468px]"
+              slides={DashboardSlider[0]?.fourth_slider}
+            />
           )}
         </div>
         <PopularItem />

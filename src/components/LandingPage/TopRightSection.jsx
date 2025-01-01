@@ -6,7 +6,7 @@ const TopRightSection = () => {
   return (
     <div className="space-y-4">
       <Link href="/medicine/all">
-        <div className="group overflow-hidden relative">
+        <div className="group overflow-hidden relative mt-4 lg:mt-0">
           <Image
             width={632}
             height={300}
@@ -29,7 +29,7 @@ const TopRightSection = () => {
         </div>
       </Link>
 
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center lg:gap-4">
         <Link href="/food">
           <div className="group overflow-hidden relative">
             <Image

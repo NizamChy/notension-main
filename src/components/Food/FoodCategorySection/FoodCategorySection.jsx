@@ -28,7 +28,7 @@ const FoodCategorySection = () => {
       ) : (
         <div className="p-5 lg:p-20 min-h-content">
           {/* Section 1 */}
-          <div className="flex flex-col lg:flex-row gap-5 lg:gap-10">
+          <div className="flex flex-col-reverse lg:flex-row gap-5 lg:gap-10">
             <div className="flex flex-col w-full lg:w-1/2 p-5 lg:p-10">
               <Link href={`/food/${shopCategory[2]?._id}`}>
                 <Image
@@ -52,7 +52,10 @@ const FoodCategorySection = () => {
             </div>
             <div className="w-full lg:w-1/2 p-5 lg:p-10">
               {DashboardSlider[0]?.second_slider?.length && (
-                <Slider slides={DashboardSlider[0]?.second_slider} />
+                <Slider
+                  classNames="max-h-[532px]"
+                  slides={DashboardSlider[0]?.second_slider}
+                />
               )}
             </div>
           </div>
@@ -61,11 +64,14 @@ const FoodCategorySection = () => {
           <div className="flex flex-col lg:flex-row gap-5 py-5 lg:py-10 justify-center items-center">
             <div className="w-full lg:w-1/2 flex items-center justify-center p-5 lg:p-20">
               {DashboardSlider[0]?.first_slider?.length && (
-                <Slider slides={DashboardSlider[0]?.first_slider} />
+                <Slider
+                  classNames="max-h-[359px]"
+                  slides={DashboardSlider[0]?.first_slider}
+                />
               )}
             </div>
             <div className="w-full lg:w-1/2 p-5 md:p-0 lg:p-10 flex justify-center">
-              <div className="flex flex-col md:flex-row gap-5 lg:gap-20">
+              <div className="flex flex-row gap-5 lg:gap-20">
                 <Link href={`/food/${shopCategory[1]?._id}`}>
                   <Image
                     src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[1]?.banner}`}
@@ -89,7 +95,7 @@ const FoodCategorySection = () => {
           </div>
 
           {/* Section 3 */}
-          <div className="flex flex-col lg:flex-row gap-5 py-5 lg:py-10 justify-center items-center">
+          <div className="flex flex-col-reverse lg:flex-row gap-5 py-5 lg:py-10 justify-center items-center">
             <div className="flex flex-col w-full lg:w-1/2 p-5 md:p-3 lg:p-10">
               <Link href={`/food/${shopCategory[4]?._id}`}>
                 <Image
@@ -100,7 +106,7 @@ const FoodCategorySection = () => {
                   className="w-full max-w-full h-auto rounded-lg object-contain"
                 />
               </Link>
-              <div className="flex flex-col md:flex-row gap-5 justify-evenly mt-5 lg:my-10">
+              <div className="flex flex-row gap-5 justify-evenly mt-5 lg:my-10">
                 <Link href={`/food/${shopCategory[5]?._id}`}>
                   <Image
                     src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[5]?.banner}`}
@@ -123,7 +129,10 @@ const FoodCategorySection = () => {
             </div>
             <div className="w-full lg:w-1/2 flex items-center p-5 lg:p-10">
               {DashboardSlider[0]?.third_slider?.length && (
-                <Slider slides={DashboardSlider[0]?.third_slider} />
+                <Slider
+                  classNames="max-h-[532px]"
+                  slides={DashboardSlider[0]?.third_slider}
+                />
               )}
             </div>
           </div>
@@ -132,7 +141,10 @@ const FoodCategorySection = () => {
           <div className="flex flex-col lg:flex-row gap-5 py-5 lg:py-10 justify-center items-center">
             <div className="w-full lg:w-1/2 flex items-center p-5 lg:p-10">
               {DashboardSlider[0]?.fourth_slider?.length && (
-                <Slider slides={DashboardSlider[0]?.fourth_slider} />
+                <Slider
+                  classNames="max-h-[399px]"
+                  slides={DashboardSlider[0]?.fourth_slider}
+                />
               )}
             </div>
             <div className="w-full lg:w-1/2 flex items-center p-5 lg:p-10">

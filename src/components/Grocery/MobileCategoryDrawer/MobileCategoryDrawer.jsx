@@ -4,21 +4,34 @@ import React, { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import DrawerContent from "./DrawerContent";
 import Image from "next/image";
-import Link from "next/link";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
-// import CommonModal from "../CommonModal/CommonModal";
-// import LoginModalDetails from "../Cart/LoginModalDetails";
+import { useParams, useRouter } from "next/navigation";
 
 const MobileCategoryDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const params = useParams();
+  const router = useRouter();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
+
+  const handleLogoClick = () => {
+    const basePath = `/grocery/${params?.store}`;
+    const currentPath = window.location.pathname;
+
+    toggleDrawer();
+
+    if (currentPath.startsWith(basePath) && currentPath !== basePath) {
+      router.push(basePath);
+    } else {
+      router.push("/");
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -49,16 +62,15 @@ const MobileCategoryDrawer = () => {
           }`}
         >
           <div className="flex justify-between items-center p-4 border-b">
-            <Link href="/">
+            <button onClick={handleLogoClick}>
               <Image
-                onClick={toggleDrawer}
                 width={500}
                 height={500}
                 src="/png/notension-logo.png"
                 alt="notension"
                 className="object-cover w-32 lg:w-56 lg:h-10"
               />
-            </Link>
+            </button>
             <button
               onClick={toggleDrawer}
               className="text-2xl text-gray-600 hover:text-gray-800"

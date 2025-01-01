@@ -20,11 +20,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const params = useParams();
-
   const router = useRouter();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
   const module = currentModule.toLowerCase();
 
   const userInfo = useSelector((state) => state.user.userInfo);

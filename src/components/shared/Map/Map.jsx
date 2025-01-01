@@ -73,6 +73,19 @@ const Map = ({ onCloseModal }) => {
     router.push("/");
   };
 
+  const handleConfirmMobileLocation = () => {
+    if (searchInfo && curLoc) {
+      dispatch(
+        handleUserReducer({
+          type: "SAVE_USER_CURRENT_LOCATION",
+          data: userLocation,
+        })
+      );
+    }
+
+    router.push("/");
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -308,7 +321,7 @@ const Map = ({ onCloseModal }) => {
         />
       </div>
 
-      <div className="h-[55vh] relative">
+      <div className="h-[80vh] md:h-[55vh] relative">
         {/* Google Map */}
         <div ref={mapRef} id="map" className="h-full w-full" />
 
@@ -322,9 +335,18 @@ const Map = ({ onCloseModal }) => {
         />
       </div>
 
-      <div className="flex justify-center gap-2">
+      <div className="hidden md:flex justify-center gap-2">
         <button
           onClick={handleConfirmLocation}
+          className="rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
+        >
+          Confirm Location
+        </button>
+      </div>
+
+      <div className="flex md:hidden justify-center gap-2">
+        <button
+          onClick={handleConfirmMobileLocation}
           className="rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
         >
           Confirm Location

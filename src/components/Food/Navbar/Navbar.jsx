@@ -62,10 +62,7 @@ const Navbar = () => {
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-20 border">
       <MobileCategoryDrawer />
 
-      <button
-        onClick={handleLogoClick}
-        className="hidden lg:block focus:outline-none"
-      >
+      <button onClick={handleLogoClick} className="focus:outline-none">
         <Image
           width={500}
           height={500}
