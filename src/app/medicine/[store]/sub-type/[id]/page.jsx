@@ -1,5 +1,3 @@
-// import SubTypeSection from "@/components/SubTypeSection/SubTypeSection";
-// import SubTypeSection from "@/components/Grocery/SubTypeSection/SubTypeSection";
 import SubTypeSection from "@/components/Medicine/SubTypeSection/SubTypeSection";
 import React from "react";
 

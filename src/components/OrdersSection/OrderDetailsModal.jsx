@@ -1,6 +1,5 @@
 import React from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
-// import CommonModal from "../CommonModal/CommonModal";
 import Image from "next/image";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "../shared/CommonModal/CommonModal";
@@ -14,9 +13,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
     >
       <div className="space-y-3">
         <h2 className="text-xl font-bold mb-4 text-secondary">Order Details</h2>
-        {/* <p>
-          <span className="font-medium">Order ID:</span> {order.order_id}
-        </p> */}
 
         <p>
           <span className="font-medium">Order ID:</span>{" "}

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useOrder } from "@/hooks/place-order/useOrder";
 import { toast } from "react-toastify";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
+import Image from "next/image";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -131,7 +132,7 @@ const CheckoutSection = () => {
   }, [totalPrice]);
 
   return (
-    <div className="flex justify-center py-20 mt-10">
+    <div className="flex justify-center py-16 lg:py-20 mt-10">
       <div className="bg-white p-4 w-full md:w-96">
         <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
           <p className="text-primaryGrocery text-xl font-medium underline flex items-center gap-2">

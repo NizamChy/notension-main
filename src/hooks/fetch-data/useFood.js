@@ -10,8 +10,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
-// import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
-// import { handleDashboardReducer } from "@/redux/dashboardReducer";
+
 axios.defaults.withCredentials = true;
 
 export const useFood = () => {

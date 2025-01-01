@@ -5,8 +5,6 @@ import GroceryItems from "../GroceryItems/GroceryItems";
 import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
 
 const DealOfTheDay = () => {
-  // const dealOfTheDay = useSelector((state) => state.itemsByStore.dealOfTheDay);
-
   const { dealOfTheDay, isLoading } = useSelector(
     (state) => state.itemsByStore
   );

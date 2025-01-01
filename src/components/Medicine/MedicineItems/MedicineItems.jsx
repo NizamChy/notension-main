@@ -105,7 +105,7 @@ const MedicineItems = ({ item }) => {
               height={400}
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
-            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-blue-500 top-4 right-3 md:right-4 rounded-full" />
+            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primaryMedicine top-4 right-3 md:right-4 rounded-full" />
           </div>
 
           <div className="px-3 pb-3 pt-1">

@@ -6,21 +6,21 @@ import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/common/Loader";
 
 const MedicineSection = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
-  const { exploreStore, getNearestMedicineStoreInfo, progressing } =
-    useMedicine();
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  useEffect(() => {
-    getNearestMedicineStoreInfo(setNearestInfo, 1000);
-  }, []);
+  const { exploreStore, getNearestMedicineStoreInfo, progressing } =
+    useMedicine();
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
 
+    setLoading(true);
     const formattedShopName = shop.shop_name
       .toLowerCase()
       .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
@@ -30,6 +30,12 @@ const MedicineSection = () => {
 
     router.push(`/medicine/${formattedShopName}`);
   };
+
+  useEffect(() => {
+    getNearestMedicineStoreInfo(setNearestInfo, 1000);
+  }, []);
+
+  if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">

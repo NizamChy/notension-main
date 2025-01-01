@@ -1,4 +1,3 @@
-// import TypeSection from "@/components/TypeSection/TypeSection";
 import TypeSection from "@/components/Grocery/TypeSection/TypeSection";
 import React from "react";
 

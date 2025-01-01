@@ -5,7 +5,6 @@ import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 import { useSearchParams } from "next/navigation";
 import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
 import InfiniteScroll from "react-infinite-scroll-component";
-// import Loader from "../Loader/Loader";
 import NoItemFound from "../NoItemSection/NoItemFound";
 import Loader from "@/components/common/Loader";
 
