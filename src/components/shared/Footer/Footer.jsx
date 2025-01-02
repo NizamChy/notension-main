@@ -1,6 +1,6 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import {
   BsFacebook,
   BsInstagram,
@@ -77,7 +77,7 @@ const Footer = () => {
             </li> */}
             <li>
               <Link
-                href="#"
+                href="/grocery/all"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
               >
                 <FiChevronRight className="mr-2" />
@@ -122,7 +122,7 @@ const Footer = () => {
             </h2>
             <div className="relative">
               <input
-                className="w-full border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring focus:ring-yellow-300"
+                className="w-full border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-1 focus:ring-yellow-300"
                 type="email"
                 placeholder="Email"
               />

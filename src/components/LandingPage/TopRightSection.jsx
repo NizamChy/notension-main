@@ -5,13 +5,14 @@ import Link from "next/link";
 const TopRightSection = () => {
   return (
     <div className="space-y-4">
-      <Link href="/medicine/all">
+      <Link href="#">
         <div className="group overflow-hidden relative mt-4 lg:mt-0">
           <Image
             width={632}
             height={300}
             className="transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/home-banner-2.webp"
+            // src="/images/home/home-banner-2.webp"
+            src="/images/home/all-care-services.jpg"
             alt="home-banner-2"
           />
 
@@ -20,23 +21,25 @@ const TopRightSection = () => {
               className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
             "
             >
-              Medicine Store
+              {/* Medicine Store */}
+              All Care Services
             </h3>
             <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              + Order Now
+              {/* + Order Now */}+ Contact Now
             </p>
           </div>
         </div>
       </Link>
 
       <div className="flex justify-center lg:gap-4">
-        <Link href="/food">
+        <Link href="/medicine/all">
           <div className="group overflow-hidden relative">
             <Image
               width={308}
               height={470}
               className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/home-banner-4.webp"
+              // src="/images/home/home-banner-4.webp"
+              src="/images/home/medicine-shop.jpg"
               alt="home-banner-4"
             />
 
@@ -45,10 +48,11 @@ const TopRightSection = () => {
                 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
             "
               >
-                Biryani House
+                {/* Biryani House */}
+                Medicine Store
               </h3>
               <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                + Order Now
+                {/* + Order Now */}+ Shop Now
               </p>
             </div>
           </div>

@@ -8,14 +8,13 @@ import { useParams, useRouter } from "next/navigation";
 import Loader from "../common/Loader";
 
 const OrdersSection = () => {
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const params = useParams();
+  const router = useRouter();
 
-  const groceryOrderInfo = useSelector((state) => state.user.groceryOrderInfo);
   const { progressing, getOrderInfo } = useOrder();
 
-  const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const router = useRouter();
+  const groceryOrderInfo = useSelector((state) => state.user.groceryOrderInfo);
 
   useEffect(() => {
     getOrderInfo();

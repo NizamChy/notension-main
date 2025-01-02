@@ -6,15 +6,15 @@ import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import { useSelector } from "react-redux";
+import Loader from "@/components/common/Loader";
 
 const FoodSearchedStores = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
   const [catId, setCatId] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
-
   const router = useRouter();
 
   const searchText = searchParams.get("query");
@@ -24,6 +24,7 @@ const FoodSearchedStores = () => {
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
 
+    setLoading(true);
     const formattedShopName = shop.shop_name
       .toLowerCase()
       .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
@@ -57,8 +58,9 @@ const FoodSearchedStores = () => {
     if (selectedCategory && searchText) {
       handleSearchStore(searchText, setNearestInfo, selectedCategory);
     }
-    setLoading(false);
   }, [searchText, selectedCategory]);
+
+  if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">

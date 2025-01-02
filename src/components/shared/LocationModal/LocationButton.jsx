@@ -19,7 +19,7 @@ const LocationButton = ({ onOpenModal }) => {
     <>
       <button
         onClick={onOpenModal}
-        className="px-5 py-3 text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 hidden md:flex"
+        className="px-5 py-3 md:text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 hidden md:flex"
       >
         <span>
           <FaLocationDot />
@@ -34,7 +34,7 @@ const LocationButton = ({ onOpenModal }) => {
 
       <button
         onClick={handleMobileLocation}
-        className="px-5 py-3 text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 md:hidden flex"
+        className="px-5 py-3 md:text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 md:hidden flex"
       >
         <span>
           <FaLocationDot />

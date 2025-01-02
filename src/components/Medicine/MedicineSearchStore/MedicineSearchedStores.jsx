@@ -5,9 +5,12 @@ import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
+import Loader from "@/components/common/Loader";
 
 const MedicineSearchedStores = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const { handleSearchStore, progressing, exploreStore } = useMedicine();
 
   const router = useRouter();
@@ -16,22 +19,25 @@ const MedicineSearchedStores = () => {
 
   const searchText = searchParams.get("query");
 
-  useEffect(() => {
-    handleSearchStore(searchText, setNearestInfo);
-  }, [searchText]);
-
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
 
+    setLoading(true);
     const formattedShopName = shop.shop_name
       .toLowerCase()
-      // .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
+      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
       .replace(/\s+/g, "-"); // Replace spaces with hyphens
 
     exploreStore(shop);
 
     router.push(`/medicine/${formattedShopName}`);
   };
+
+  useEffect(() => {
+    handleSearchStore(searchText, setNearestInfo);
+  }, [searchText]);
+
+  if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">

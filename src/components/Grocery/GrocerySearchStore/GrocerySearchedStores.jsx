@@ -5,13 +5,15 @@ import React, { useEffect, useState } from "react";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
+import Loader from "@/components/common/Loader";
 
 const GrocerySearchedStores = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const { exploreStore, handleSearchStore, progressing } = useGroceryShop();
 
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
   const searchText = searchParams.get("query");
@@ -19,6 +21,7 @@ const GrocerySearchedStores = () => {
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
 
+    setLoading(true);
     const formattedShopName = shop.shop_name
       .toLowerCase()
       .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
@@ -32,6 +35,8 @@ const GrocerySearchedStores = () => {
   useEffect(() => {
     handleSearchStore(searchText, setNearestInfo);
   }, [searchText]);
+
+  if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">

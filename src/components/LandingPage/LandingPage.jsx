@@ -3,14 +3,18 @@ import TopLeftSection from "./TopLeftSection";
 import TopRightSection from "./TopRightSection";
 import MiddleSection from "./MiddleSection";
 import BottomSection from "./BottomSection";
+import SecondSection from "./SecondSection";
 
 const LandingPage = () => {
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center overflow-hidden">
       <div className="lg:flex justify-center gap-4 mt-4">
         <TopLeftSection />
         <TopRightSection />
       </div>
+
+      <SecondSection />
+
       <div className="flex justify-center gap-4 mt-4">
         <MiddleSection />
       </div>

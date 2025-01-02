@@ -8,11 +8,27 @@ import { Keyboard, Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 
 const HomeSlider = () => {
-  const slides = [
-    "bg-banner-new-07-1.webp",
-    "bg-banner-new-07-2.webp",
-    "bg-banner-new-07-3.webp",
-    "bg-banner-new-07-4.webp",
+  // const slides = [
+  //   "home-slider1-img1.jpg",
+  //   "home-slider1-img2.jpg",
+  //   "home-slider1-img3.jpg",
+  //   "home-slider1-img4.jpg",
+  // ];
+
+  // const slides = [
+  //   "bg-banner-new-07-1.webp",
+  //   "bg-banner-new-07-2.webp",
+  //   "bg-banner-new-07-3.webp",
+  //   "bg-banner-new-07-4.webp",
+  // ];
+
+  // home-slider1-img1.jpg
+
+  const images = [
+    "/images/home/home-slider1-img1.jpg",
+    "/images/home/home-slider1-img2.jpg",
+    "/images/home/home-slider1-img3.jpg",
+    "/images/home/home-slider1-img4.jpg",
   ];
 
   return (
@@ -34,17 +50,30 @@ const HomeSlider = () => {
         modules={[Keyboard, Pagination, Autoplay]}
         className="mySwiper z-50 relative max-w-[632px] md:w-full w-[450px]"
       >
-        {slides?.map((slide, index) => (
-          <SwiperSlide key={index} className="">
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
             <Image
               className="object-cover transition-transform duration-300 hover:scale-105 w-full"
-              src={`/images/home/bg-banner-new-07-${index + 1}.webp`}
-              alt="bg-banner"
+              src={image}
+              alt={`Slide ${index + 1}`}
               width={632}
               height={300}
             />
           </SwiperSlide>
         ))}
+
+        {/* {slides?.map((slide, index) => (
+          <SwiperSlide key={index} className="">
+            <Image
+              className="object-cover transition-transform duration-300 hover:scale-105 w-full"
+              // src={`/images/home/bg-banner-new-07-${index + 1}.webp`}
+              src={`/images/home/home-slider1-img${index + 1}.jpg`}
+              alt="bg-banner"
+              width={632}
+              height={300}
+            />
+          </SwiperSlide>
+        ))} */}
       </Swiper>
     </div>
   );
