@@ -44,7 +44,7 @@ const TopLeftSection = () => {
               className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
             "
             >
-              Doctor&apos;s Appointment
+              Find Doctors
             </h3>
             <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
               + Book Appointment

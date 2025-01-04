@@ -3,6 +3,7 @@ import LocationModal from "@/components/shared/LocationModal/LocationModal";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import LandingPage from "@/components/LandingPage/LandingPage";
+import FavoriteSection from "@/components/FavoriteSection/FavoriteSection";
 
 const page = () => {
   return (
@@ -12,6 +13,7 @@ const page = () => {
           <Navbar />
         </div>
         <LocationModal />
+        {/* <FavoriteSection /> */}
         <LandingPage />
       </div>
 

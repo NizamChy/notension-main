@@ -4,10 +4,12 @@ import TopRightSection from "./TopRightSection";
 import MiddleSection from "./MiddleSection";
 import BottomSection from "./BottomSection";
 import SecondSection from "./SecondSection";
+import FavoriteSection from "../FavoriteSection/FavoriteSection";
 
 const LandingPage = () => {
   return (
     <div className="flex flex-col justify-center items-center overflow-hidden">
+      <FavoriteSection />
       <div className="lg:flex justify-center gap-4 mt-4">
         <TopLeftSection />
         <TopRightSection />

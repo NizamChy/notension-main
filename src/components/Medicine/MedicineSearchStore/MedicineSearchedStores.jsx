@@ -14,7 +14,6 @@ const MedicineSearchedStores = () => {
   const { handleSearchStore, progressing, exploreStore } = useMedicine();
 
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
   const searchText = searchParams.get("query");
