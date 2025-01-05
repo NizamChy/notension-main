@@ -12,24 +12,24 @@ import Link from "next/link";
 const FavoriteSection = () => {
   const items = [
     {
+      src: "/images/favorite/130X64-03.png",
+      name: "Favorite Doctors",
+      link: "#",
+    },
+    {
       src: "/images/favorite/130X64-01.png",
       name: "Favorite Grocery Shop",
       link: "/grocery/all",
     },
     {
       src: "/images/favorite/130X64-02.png",
-      name: "Medicine Shop",
+      name: "Favorite Medicine Shop",
       link: "/medicine/all",
     },
     {
       src: "/images/favorite/130X64-04.png",
       name: "Favorite Food & Restaurant",
       link: "/food",
-    },
-    {
-      src: "/images/favorite/130X64-03.png",
-      name: "Favorite Doctors",
-      link: "#",
     },
     {
       src: "/images/favorite/130X64-05.png",

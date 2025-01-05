@@ -11,6 +11,22 @@ export const GET_BANKING_OUTLET = "/public-api/v1/admin/nearest-banking-outlet";
 export const OTP_FOR_REGISTARTION = "/api/v1/customer/send-otp";
 export const USER_REGISTARTION = "/api/v1/customer/register";
 
+// FAVORITE
+export const FAVORITE_STORE_ADD = "/api/v1/customer/add-favourite-store";
+export const FAVORITE_STORE_PUSH = "/api/v1/customer/push-store";
+export const FAVORITE_STORE_REMOVE = "/api/v1/customer/remove-store";
+export const FAVORITE_STORE_INFO = "/api/v1/customer/get-favourite-store-info";
+export const FAVORITE_PRODUCT_ADD = "/api/v1/customer/add-favourite-item";
+export const FAVORITE_PRODUCT_PUSH = "/api/v1/customer/push-item";
+export const FAVORITE_PRODUCT_REMOVE = "/api/v1/customer/remove-item";
+export const FAVORITE_PRODUCT_INFO = "/api/v1/customer/get-favourite-item-info";
+
+export const ADD_TO_FAVOURITE = "/api/v1/customer/add-to-favourite-list";
+export const PUSH_TO_FAVOURITE = "/api/v1/customer/push-to-favourite-list";
+export const REMOVE_FROM_FAVOURITE =
+  "/api/v1/customer/remove-from-favourite-list";
+export const FAVORITE_INFO = "/api/v1/customer/get-favourite-list";
+
 // FOOD
 export const EXPLORE_FOOD_MODULE = "/client-app-api/v1/food/explore-module";
 export const EXPLORE_FOOD_STORE = "/client-app-api/v1/food/explore-store";

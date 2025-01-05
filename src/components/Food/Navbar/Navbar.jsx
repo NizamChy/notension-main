@@ -12,6 +12,8 @@ import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 import { BiLogOut } from "react-icons/bi";
 import { BsCartCheck } from "react-icons/bs";
 import { useParams, useRouter } from "next/navigation";
+import LocationModal from "@/components/shared/LocationModal/LocationModal";
+import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -19,13 +21,10 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const router = useRouter();
-
   const params = useParams();
 
   const userInfo = useSelector((state) => state.user.userInfo);
-
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
   const module = currentModule.toLowerCase();
 
   const handleLogout = () => {
@@ -72,8 +71,16 @@ const Navbar = () => {
         />
       </button>
 
+      <LocationModal />
+
+      {!userInfo?._id && (
+        <>
+          <LoginButton />
+        </>
+      )}
+
       {userInfo._id && (
-        <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
+        <ul className="hidden md:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
           <li className="relative" ref={dropDownMenuRef}>
             <button
               onClick={() => setDropDownState(!dropDownState)}

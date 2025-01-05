@@ -30,9 +30,11 @@ const page = () => {
               ))}
             </div>
           </>
-        ) : (
-          <p className="text-center mt-20">No popular Items found.</p>
-        )}
+        ) : null
+        // <p className="text-center mt-20 font-medium text-xl">
+        //   No popular Items found.
+        // </p>
+        }
       </div>
     </>
   );

@@ -1,13 +1,12 @@
+import React from "react";
 import FoodCategorySection from "@/components/Food/FoodCategorySection/FoodCategorySection";
 import Footer from "@/components/shared/Footer/Footer";
-import LocationModal from "@/components/shared/LocationModal/LocationModal";
-
-import React from "react";
+import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 
 const page = () => {
   return (
     <>
-      <LocationModal />
+      <LocationMobile />
       <FoodCategorySection />
       <Footer />
     </>

@@ -10,6 +10,8 @@ import { handleUserReducer } from "@/redux/userReducer";
 import { usePathname } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
 import { BsCartCheck } from "react-icons/bs";
+import LocationModal from "../LocationModal/LocationModal";
+import LoginButton from "../NavbarLogin/LoginButton";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -61,7 +63,15 @@ const Navbar = () => {
         />
       </Link>
 
-      {userInfo._id && (
+      <LocationModal />
+
+      {!userInfo?._id && (
+        <>
+          <LoginButton />
+        </>
+      )}
+
+      {userInfo?._id && (
         <ul className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
           <li className="relative" ref={dropDownMenuRef}>
             <button

@@ -34,7 +34,7 @@ const SelectedCategory = () => {
   return (
     <>
       {selectedCategory?.store_category_name && (
-        <p className="text-center py-3 text-xl text-primaryFood bg-[#FFF1EA]">
+        <p className="text-center py-3 text-xl text-primaryFood bg-[#FFF1EA] my-2">
           {selectedCategory?.store_category_name}
         </p>
       )}

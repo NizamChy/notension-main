@@ -5,7 +5,11 @@ import Link from "next/link";
 const TopRightSection = () => {
   return (
     <div className="space-y-4">
-      <Link href="#">
+      <Link
+        href="https://play.google.com/store/apps/details?id=com.bitsnotension"
+        prefetch={false}
+        target="_blank"
+      >
         <div className="group overflow-hidden relative mt-4 lg:mt-0">
           <Image
             width={632}

@@ -10,12 +10,10 @@ import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 
 const MobileCategoryDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   useEffect(() => {

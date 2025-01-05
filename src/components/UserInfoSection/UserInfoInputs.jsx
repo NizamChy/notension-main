@@ -63,7 +63,7 @@ const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
 
   return (
     <>
-      <p className="text-center font-medium text-primary text-2xl mb-3">
+      <p className="text-center font-medium text-secondary text-2xl mb-3">
         Your Information
       </p>
 
@@ -117,7 +117,7 @@ const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
       <div className="flex justify-center mt-4">
         <button
           onClick={resendOTP}
-          className="text-primary underline"
+          className="text-secondary underline"
           disabled={progressing}
         >
           Resend OTP

@@ -51,10 +51,11 @@ const MobileCategoryDrawer = () => {
   return (
     <>
       <div className="lg:hidden">
-        <button onClick={toggleDrawer}>
-          <div className="text-2xl text-secondary">
-            <RxHamburgerMenu />
-          </div>
+        <button
+          onClick={toggleDrawer}
+          className="flex items-center justify-center pe-1"
+        >
+          <RxHamburgerMenu className="text-2xl text-secondary" />
         </button>
 
         <div

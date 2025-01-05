@@ -39,7 +39,7 @@ export const useOrder = () => {
           toast.success("Order has been placed!");
           dispatch(
             handleCartAction({
-              type: "PLACE_ORDER",
+              type: "CLEAR_CART_GROCERY",
             })
           );
 

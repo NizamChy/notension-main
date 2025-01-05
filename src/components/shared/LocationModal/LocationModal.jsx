@@ -10,7 +10,7 @@ const LocationModal = () => {
   const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <div className="mx-auto pt-2">
+    <div className="mx-auto hidden md:block">
       <LocationButton onOpenModal={handleOpenModal} />
       <MapModal isOpen={openModal} onCloseModal={handleCloseModal} />
     </div>

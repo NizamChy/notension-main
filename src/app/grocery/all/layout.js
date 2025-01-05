@@ -1,6 +1,6 @@
 import GroceryStoreSearchBar from "@/components/Grocery/GrocerySearchStore/GroceryStoreSearchBar";
 import Footer from "@/components/shared/Footer/Footer";
-import LocationModal from "@/components/shared/LocationModal/LocationModal";
+import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 import Navbar from "@/components/shared/Navbar/Navbar";
 
 export default function GroceryStoreLayout({ children }) {
@@ -10,8 +10,8 @@ export default function GroceryStoreLayout({ children }) {
         <div className="pb-20">
           <Navbar />
         </div>
-        <LocationModal />
-        <div className="w-1/2 mx-auto my-5">
+        <LocationMobile />
+        <div className="w-2/3 md:w-1/2 lg:w-1/3 mx-auto my-5">
           <GroceryStoreSearchBar />
         </div>
         {children}

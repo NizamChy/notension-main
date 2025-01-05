@@ -18,13 +18,10 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
   const [activeSubtype, setActiveSubtype] = useState("");
 
   const params = useParams();
-
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
-
-  const router = useRouter();
-
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {

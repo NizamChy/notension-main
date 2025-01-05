@@ -17,6 +17,7 @@ import userReducer from "./userReducer";
 import cartReducer from "./cartReducer";
 import itemsByStoreReducer from "./items-by-shop";
 import dashboardReducer from "./dashboardReducer";
+import userChoiceReducer from "./userChoiceReducer";
 
 const createNoopStorage = () => {
   return {
@@ -42,12 +43,13 @@ const rootReducer = combineReducers({
   dashboard: dashboardReducer,
   cart: cartReducer,
   itemsByStore: itemsByStoreReducer,
+  userChoice: userChoiceReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "cart", "itemsByStore", "dashboard"],
+  whitelist: ["user", "cart", "itemsByStore", "dashboard", "userChoice"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
