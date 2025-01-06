@@ -1,8 +1,72 @@
+"use client";
 import { FaLocationDot } from "react-icons/fa6";
 import Image from "next/image";
 import { IMAGE_URL } from "@/api-endpoints/secret";
+import { FaHeart } from "react-icons/fa";
+import { useFavouriteStore } from "@/hooks/fetch-data/favorite-shop";
+import { useEffect, useState } from "react";
+import { IoTrashOutline } from "react-icons/io5";
 
-const ShopInfoCard = ({ shop, onClick, type }) => {
+const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
+  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+  const { addToFavouriteList, isAddedToFavouriteList, removeFromfavoriteList } =
+    useFavouriteStore();
+
+  let merchantType = 0;
+  let isExists = null;
+
+  const handleAddToFavorite = (event) => {
+    // Prevent default behavior and stop event propagation
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (type === "grocery") {
+      merchantType = 0;
+    } else if (type === "medicine") {
+      merchantType = 1;
+    } else {
+      merchantType = 2;
+    }
+
+    addToFavouriteList(shop, merchantType);
+
+    console.log("Add to Favorite button clicked!");
+    console.log("shop", shop);
+    console.log("type", type);
+  };
+
+  const handleRemoveFromFavorite = (event) => {
+    // Prevent default behavior and stop event propagation
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (type === "grocery") {
+      merchantType = 0;
+    } else if (type === "medicine") {
+      merchantType = 1;
+    } else {
+      merchantType = 2;
+    }
+
+    removeFromfavoriteList(shop, merchantType);
+  };
+
+  useEffect(() => {
+    if (type === "grocery") {
+      merchantType = 0;
+    } else if (type === "medicine") {
+      merchantType = 1;
+    } else {
+      merchantType = 2;
+    }
+
+    isExists = isAddedToFavouriteList(shop._id, merchantType);
+
+    console.log(isExists);
+
+    setIsFavoriteAdded(isExists);
+  }, [shop, handleAddToFavorite, handleRemoveFromFavorite]);
+
   return (
     <div
       onClick={onClick}
@@ -16,6 +80,44 @@ const ShopInfoCard = ({ shop, onClick, type }) => {
           height={300}
           className="w-full h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
         />
+
+        {/* {isFavoriteAdded === false ? (
+          <button
+            onClick={handleAddToFavorite}
+            className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
+          >
+            <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+            <span className="text-xs font-medium">Add to Favorite</span>
+          </button>
+        ) : (
+          <button
+            onClick={handleRemoveFromFavorite}
+            className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
+          >
+            <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+            <span className="text-xs font-medium">Remove</span>
+          </button>
+        )} */}
+
+        {!isFavoriteAdded && !isFavorite && (
+          <button
+            onClick={handleAddToFavorite}
+            className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
+          >
+            <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+            <span className="text-xs font-medium">Add to Favorite</span>
+          </button>
+        )}
+
+        {isFavorite && (
+          <button
+            onClick={handleRemoveFromFavorite}
+            className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
+          >
+            <IoTrashOutline className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+            <span className="text-xs font-medium">Remove</span>
+          </button>
+        )}
 
         {shop?.delivery_notice && (
           <p className="bg-yellow-300 absolute bottom-3 left-3 rounded-lg px-2 py-0.5 text-sm font-semibold opacity-75">

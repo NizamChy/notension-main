@@ -1,17 +1,16 @@
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleUserChoiceReducer } from "../../store/reducers/userChoiceReducer";
-import { Alert } from "react-native";
-import { handleItemsByStoreReducer } from "../../store/reducers/items-by-shop";
-import { handleDashboardReducer } from "../../store/reducers/dashboardReducer";
 import { USER_URL } from "@/api-endpoints/secret";
 import {
   FAVORITE_STORE_ADD,
   FAVORITE_STORE_PUSH,
   FAVORITE_STORE_REMOVE,
 } from "@/api-endpoints/api-endpoint";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+import { handleDashboardReducer } from "@/redux/dashboardReducer";
+import { toast } from "react-toastify";
 axios.defaults.withCredentials = true;
 
 const Axios = axios.create({
@@ -23,7 +22,6 @@ const Axios = axios.create({
 });
 
 export const useFavouriteStore = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -89,49 +87,58 @@ export const useFavouriteStore = () => {
         favouriteList = favouriteGroceryStore.length;
         if (favouriteList > 9) {
           isAllowed = false;
-          Alert.alert(
-            "Hold on!",
-            "You can add up to ten (10) Store to your Favorites list !!",
-            [
-              {
-                text: "OK",
-                onPress: () => null,
-                style: "default",
-              },
-            ]
+          // Alert.alert(
+          //   "Hold on!",
+          //   "You can add up to ten (10) Store to your Favorites list !!",
+          //   [
+          //     {
+          //       text: "OK",
+          //       onPress: () => null,
+          //       style: "default",
+          //     },
+          //   ]
+          // );
+          alert(
+            "Hold on! You can add up to ten (10) Store to your Favorites list!"
           );
         }
       } else if (merchantType === 1) {
         favouriteList = favouriteMedicineStore.length;
         if (favouriteList > 9) {
           isAllowed = false;
-          Alert.alert(
-            "Hold on!",
-            "You can add up to ten (10) Store to your Favorites list !!",
-            [
-              {
-                text: "OK",
-                onPress: () => null,
-                style: "default",
-              },
-            ]
+          alert(
+            "Hold on! You can add up to ten (10) Store to your Favorites list!"
           );
+          // Alert.alert(
+          //   "Hold on!",
+          //   "You can add up to ten (10) Store to your Favorites list !!",
+          //   [
+          //     {
+          //       text: "OK",
+          //       onPress: () => null,
+          //       style: "default",
+          //     },
+          //   ]
+          // );
         }
       } else {
         favouriteList = favouriteFoodShop.length;
         if (favouriteList > 29) {
           isAllowed = false;
-          Alert.alert(
-            "Hold on!",
-            "You can add up to thirty (30) Store to your Favorites list !!",
-            [
-              {
-                text: "OK",
-                onPress: () => null,
-                style: "default",
-              },
-            ]
+          alert(
+            "Hold on! You can add up to thirty (30) Store to your Favorites list!"
           );
+          // Alert.alert(
+          //   "Hold on!",
+          //   "You can add up to thirty (30) Store to your Favorites list !!",
+          //   [
+          //     {
+          //       text: "OK",
+          //       onPress: () => null,
+          //       style: "default",
+          //     },
+          //   ]
+          // );
         }
       }
 
@@ -149,11 +156,13 @@ export const useFavouriteStore = () => {
 
   const removeFromfavoriteList = (data, merchantType) => {
     setVisible(true);
+
     const favouriteInfo = {
       merchantType: merchantType,
       customerInfo: loggedinUserInfo?._id,
       custom_customer_id: loggedinUserInfo?.custom_id,
       storeId: data?.storeId,
+      // storeId: data?._id,
       custom_store_id: data?.custom_store_id,
       shop_name: data?.shop_name,
       shop_address: data?.shop_address,
@@ -161,6 +170,7 @@ export const useFavouriteStore = () => {
       contact_no: data?.contact_no,
       alternative_contact_no: data?.alternative_contact_no,
     };
+
     manageFavouriteStoreList(FAVORITE_STORE_REMOVE, favouriteInfo, "remove");
   };
 
@@ -197,13 +207,14 @@ export const useFavouriteStore = () => {
         data: Info,
       })
     );
-    Alert.alert("Success !", "Added to your Favorites list !!", [
-      {
-        text: "OK",
-        onPress: () => null,
-        style: "default",
-      },
-    ]);
+    toast.success("Added to your Favorites list!");
+    // Alert.alert("Success !", "Added to your Favorites list !!", [
+    //   {
+    //     text: "OK",
+    //     onPress: () => null,
+    //     style: "default",
+    //   },
+    // ]);
   };
 
   const removeFromReducer = (Info) => {
@@ -213,13 +224,14 @@ export const useFavouriteStore = () => {
         data: Info,
       })
     );
-    Alert.alert("Success !", "Removed from your Favorites list !!", [
-      {
-        text: "OK",
-        onPress: () => null,
-        style: "default",
-      },
-    ]);
+    toast.success("Removed from your Favorites list!");
+    // Alert.alert("Success !", "Removed from your Favorites list !!", [
+    //   {
+    //     text: "OK",
+    //     onPress: () => null,
+    //     style: "default",
+    //   },
+    // ]);
   };
 
   const resetReducer = (module) => {

@@ -1,3 +1,4 @@
+import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
 import Link from "next/link";
 import React from "react";
 import { CiShop } from "react-icons/ci";
@@ -5,17 +6,6 @@ import { CiShop } from "react-icons/ci";
 const page = () => {
   return (
     <>
-      {/* <div className="flex justify-center">
-        <Link href="/grocery/find-store">
-          <button
-            type="button"
-            className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-semibold rounded-lg text-2xl p-10 text-center me-2 mb-2"
-          >
-            Find Nearby Stores
-          </button>
-        </Link>
-      </div> */}
-
       <div className="relative flex flex-col justify-center overflow-hidden py-6 sm:py-12">
         <Link href="/grocery/all/find-store">
           <div className="group relative cursor-pointer overflow-hidden bg-white md:px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl mx-auto max-w-sm rounded-lg px-10">
@@ -39,6 +29,8 @@ const page = () => {
           </div>
         </Link>
       </div>
+
+      <FavoriteShop />
     </>
   );
 };

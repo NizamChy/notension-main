@@ -49,7 +49,7 @@ const Page = ({ params }) => {
             ))}
           </div>
         ) : (
-          <p className="text-center mt-20">
+          <p className="text-center mt-20 lg:text-xl font-medium">
             No food items available for this category.
           </p>
         )}

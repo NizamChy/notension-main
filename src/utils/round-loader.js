@@ -9,7 +9,7 @@ const RoundLoader = () => {
         <div className="ring"></div>
         <div className="ring"></div>
         <div className="ring"></div>
-        {/* <div className="loading">Loading...</div> */}
+        <img src="/images/logo/no-tension-logo.jpg" alt="Loader Logo" />
       </div>
     </div>
   );
