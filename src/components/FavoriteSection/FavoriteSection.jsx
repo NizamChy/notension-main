@@ -12,58 +12,31 @@ import Link from "next/link";
 const FavoriteSection = () => {
   const items = [
     {
-      src: "/images/favorite/130X64-03.png",
+      src: "/images/favorite/favorite-doctors.png",
       name: "Favorite Doctors",
       link: "#",
     },
     {
-      src: "/images/favorite/130X64-01.png",
-      name: "Favorite Grocery Shop",
-      link: "/grocery/all",
+      src: "/images/favorite/favorite-grocery.png",
+      name: "Favorite Grocery Store",
+      link: "/grocery/favorite-stores",
     },
     {
-      src: "/images/favorite/130X64-02.png",
+      src: "/images/favorite/favorite-medicine.png",
       name: "Favorite Medicine Shop",
-      link: "/medicine/all",
+      link: "/medicine/favorite-stores",
     },
     {
-      src: "/images/favorite/130X64-04.png",
+      src: "/images/favorite/favorite-food.png",
       name: "Favorite Food & Restaurant",
-      link: "/food",
+      link: "/food/store/favorite-stores",
     },
     {
-      src: "/images/favorite/130X64-05.png",
+      src: "/images/favorite/favorite-consultation.png",
       name: "Favorite Consultation Center",
       link: "#",
     },
   ];
-  // const items = [
-  //   {
-  //     src: "/images/favorite/doctors.png",
-  //     name: "Favorite Doctors",
-  //     link: "#",
-  //   },
-  //   {
-  //     src: "/images/favorite/grocery-shop.png",
-  //     name: "Favorite Grocery Shop",
-  //     link: "/grocery/all",
-  //   },
-  //   {
-  //     src: "/images/favorite/medicine-shop.png",
-  //     name: "Medicine Shop",
-  //     link: "/medicine/all",
-  //   },
-  //   {
-  //     src: "/images/favorite/food-restaurant.png",
-  //     name: "Favorite Food & Restaurant",
-  //     link: "/food",
-  //   },
-  //   {
-  //     src: "/images/favorite/consultation-center.png",
-  //     name: "Favorite Consultation Center",
-  //     link: "#",
-  //   },
-  // ];
 
   return (
     <div className="container bg-white max-w-screen-xl mx-auto mt-5 mb-1 relative flex justify-center items-center">

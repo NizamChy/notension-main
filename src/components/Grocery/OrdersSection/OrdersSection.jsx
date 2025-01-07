@@ -5,7 +5,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams, useRouter } from "next/navigation";
-import Loader from "../common/Loader";
+import Loader from "@/components/common/Loader";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);

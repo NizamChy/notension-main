@@ -2,7 +2,7 @@ import React from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import Image from "next/image";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import CommonModal from "../shared/CommonModal/CommonModal";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   return (

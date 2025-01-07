@@ -77,7 +77,7 @@ const OrderDetailsMobile = ({ orderId }) => {
                     />
                     <div>
                       <p className="line-clamp-2">{item.product_title_eng}</p>
-                      <p className="flex items-center text-primary">
+                      <p className="flex items-center text-primaryMedicine">
                         <TbCurrencyTaka />
                         {item.sale_price}
                       </p>

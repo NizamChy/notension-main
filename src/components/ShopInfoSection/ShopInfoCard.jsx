@@ -16,7 +16,6 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
   let isExists = null;
 
   const handleAddToFavorite = (event) => {
-    // Prevent default behavior and stop event propagation
     event.preventDefault();
     event.stopPropagation();
 
@@ -29,14 +28,9 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
     }
 
     addToFavouriteList(shop, merchantType);
-
-    console.log("Add to Favorite button clicked!");
-    console.log("shop", shop);
-    console.log("type", type);
   };
 
   const handleRemoveFromFavorite = (event) => {
-    // Prevent default behavior and stop event propagation
     event.preventDefault();
     event.stopPropagation();
 
@@ -80,24 +74,6 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           height={300}
           className="w-full h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
         />
-
-        {/* {isFavoriteAdded === false ? (
-          <button
-            onClick={handleAddToFavorite}
-            className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
-          >
-            <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-            <span className="text-xs font-medium">Add to Favorite</span>
-          </button>
-        ) : (
-          <button
-            onClick={handleRemoveFromFavorite}
-            className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
-          >
-            <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-            <span className="text-xs font-medium">Remove</span>
-          </button>
-        )} */}
 
         {!isFavoriteAdded && !isFavorite && (
           <button

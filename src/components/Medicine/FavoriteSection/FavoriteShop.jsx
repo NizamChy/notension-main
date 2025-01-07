@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "@/components/common/Loader";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { useRouter } from "next/navigation";
+import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 
 const FavoriteShop = () => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const { exploreStore } = useGroceryShop();
+  const { exploreStore } = useMedicine();
 
   const favouriteMedicineStore = useSelector(
     (state) => state.userChoice.favouriteMedicineStore

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "@/components/common/Loader";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { useRouter } from "next/navigation";
 import { useFood } from "@/hooks/fetch-data/useFood";
 
@@ -31,9 +30,6 @@ const FavoriteShop = () => {
       _id: shop?.storeId,
       custom_store_id: shop?.custom_store_id,
     };
-
-    console.log("shop", shop);
-    console.log("storeData", storeData);
 
     exploreStore(storeData);
     router.push(`/food/store/${formattedShopName}`);
