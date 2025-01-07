@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "we-care-base.sgp1.cdn.digitaloceanspaces.com",
       },
+      {
+        protocol: "https",
+        hostname: "freefrontend.com",
+      },
     ],
   },
 };

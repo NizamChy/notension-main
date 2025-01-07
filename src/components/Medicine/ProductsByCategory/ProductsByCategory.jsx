@@ -46,14 +46,6 @@ const ProductsByCategory = () => {
           </div>
         </div>
         <DealOfTheDay />
-        <div className="py-10 lg:w-2/3">
-          {DashboardSlider[0]?.fourth_slider?.length && (
-            <MedicineCommonSlider
-              classNames="max-h-[468px]"
-              slides={DashboardSlider[0]?.fourth_slider}
-            />
-          )}
-        </div>
         <PopularItem />
       </div>
     </div>

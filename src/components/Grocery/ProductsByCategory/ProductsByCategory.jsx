@@ -27,6 +27,8 @@ const ProductsByCategory = () => {
 
       <div className="mt-5 space-y-5 md:space-y-0">
         <SpecialOffer />
+        <DealOfTheDay />
+
         <div className="lg:flex gap-10 space-y-4 lg:space-y-0 py-10">
           <div className="lg:w-1/2">
             {DashboardSlider[0]?.second_slider?.length && (
@@ -45,15 +47,7 @@ const ProductsByCategory = () => {
             )}
           </div>
         </div>
-        <DealOfTheDay />
-        <div className="py-10 lg:w-2/3">
-          {DashboardSlider[0]?.fourth_slider?.length && (
-            <GroceryCommonSlider
-              classNames="max-h-[468px]"
-              slides={DashboardSlider[0]?.fourth_slider}
-            />
-          )}
-        </div>
+
         <PopularItem />
       </div>
     </div>

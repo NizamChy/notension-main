@@ -19,28 +19,12 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (type === "grocery") {
-      merchantType = 0;
-    } else if (type === "medicine") {
-      merchantType = 1;
-    } else {
-      merchantType = 2;
-    }
-
     addToFavouriteList(shop, merchantType);
   };
 
   const handleRemoveFromFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    if (type === "grocery") {
-      merchantType = 0;
-    } else if (type === "medicine") {
-      merchantType = 1;
-    } else {
-      merchantType = 2;
-    }
 
     removeFromfavoriteList(shop, merchantType);
   };
@@ -55,9 +39,6 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
     }
 
     isExists = isAddedToFavouriteList(shop._id, merchantType);
-
-    console.log(isExists);
-
     setIsFavoriteAdded(isExists);
   }, [shop, handleAddToFavorite, handleRemoveFromFavorite]);
 

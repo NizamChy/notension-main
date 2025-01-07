@@ -10,6 +10,7 @@ import NoItemFound from "../NoItemSection/NoItemFound";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 import Loader from "@/components/common/Loader";
 import { useParams } from "next/navigation";
+import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
 
 const SubTypeSection = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -23,6 +24,8 @@ const SubTypeSection = () => {
 
   const { getItemsOnPress, productInfo, loadingMore, allLoaded } =
     useGroceryProduct();
+
+  const { isOnline } = useNetworkStatus();
 
   // const { merchantId, customstore_id } = useSelector(
   //   (state) => state.itemsByStore
@@ -62,6 +65,14 @@ const SubTypeSection = () => {
       }
     }
   }, [option, id, typeInfo]);
+
+  if (!isOnline) {
+    return (
+      <div className="min-h-content font-semibold text-xl flex justify-center items-center text-deepGray">
+        No Internet
+      </div>
+    );
+  }
 
   return (
     // <div className="m-4 lg:mx-20 lg:my-5">

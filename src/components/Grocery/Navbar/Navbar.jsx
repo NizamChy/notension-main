@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useParams, useRouter } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
 import { BsCartCheck } from "react-icons/bs";
+import { MdFavoriteBorder } from "react-icons/md";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -121,6 +122,19 @@ const Navbar = () => {
                     My Orders
                   </Link>
                 </li>
+
+                <li className="px-3 hover:underline">
+                  <Link
+                    className="flex items-center gap-1"
+                    href={`/grocery/${params?.store}/favorite-items`}
+                  >
+                    <span>
+                      <MdFavoriteBorder />
+                    </span>
+                    Wishlists
+                  </Link>
+                </li>
+
                 <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
                     <span>
