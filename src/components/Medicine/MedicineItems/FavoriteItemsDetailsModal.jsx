@@ -6,11 +6,13 @@ import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import { TbCurrencyTaka } from "react-icons/tb";
 
 const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
-  const { getMedicineProductDetails } = useFavouriteItem();
+  const { getMedicineProductDetails, itemDetails } = useFavouriteItem();
 
   useEffect(() => {
     getMedicineProductDetails(item?.medStoreProductInfo);
   }, [item]);
+
+  console.log("itemDetails", itemDetails);
 
   return (
     <CommonModal

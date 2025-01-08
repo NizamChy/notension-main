@@ -33,9 +33,12 @@ export const useFavouriteItem = () => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const [itemDetails, setItemDetails] = useState(null);
+
   //   const { merchantId, customstore_id } = useSelector(
   //     (state) => state.itemsByStoreReducer
   //   );
+
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );
@@ -263,6 +266,7 @@ export const useFavouriteItem = () => {
         console.log("kkkkkk", res?.data?.result);
         setVisible(false);
         if (res?.data?.success) {
+          setItemDetails(res?.data?.result);
           //   navigation.navigate("MedicineProductDetails", {
           //     data: res?.data?.result,
           //   });
@@ -293,5 +297,6 @@ export const useFavouriteItem = () => {
     removeFromfavoriteItems,
     getGroceryProductDetails,
     getMedicineProductDetails,
+    itemDetails,
   };
 };
