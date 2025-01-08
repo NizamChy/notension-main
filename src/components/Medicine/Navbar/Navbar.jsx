@@ -6,13 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
-
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
 import SearchBar from "../SearchBarSection/SerchBar";
 import { useParams, useRouter } from "next/navigation";
 import { BsCartCheck } from "react-icons/bs";
+import { BiLogOut } from "react-icons/bi";
+import { MdFavoriteBorder } from "react-icons/md";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -124,6 +125,19 @@ const Navbar = () => {
                     My Orders
                   </Link>
                 </li>
+
+                <li className="px-3 hover:underline">
+                  <Link
+                    className="flex items-center gap-1"
+                    href={`/medicine/${params?.store}/favorite-items`}
+                  >
+                    <span>
+                      <MdFavoriteBorder />
+                    </span>
+                    Wishlists
+                  </Link>
+                </li>
+
                 <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
                     <span>

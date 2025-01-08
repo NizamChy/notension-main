@@ -1,10 +1,10 @@
-import OrdersSection from "@/components/Grocery/OrdersSection/OrdersSection";
+import FavoriteItem from "@/components/Medicine/FavoriteSection/FavoriteItem";
 import React from "react";
 
 const page = () => {
   return (
     <>
-      <OrdersSection />
+      <FavoriteItem />
     </>
   );
 };

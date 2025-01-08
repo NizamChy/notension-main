@@ -247,6 +247,8 @@ export const useFavouriteItem = () => {
   });
 
   const getMedicineProductDetails = (medStoreProductInfo) => {
+    console.log(medStoreProductInfo);
+
     setShowErrorMessage(false);
     setVisible(true);
     AxiosMedicine.get(MEDICINE_ITEM_DETAILS, {
@@ -257,12 +259,14 @@ export const useFavouriteItem = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result);
+        // console.log(res?.data?.result);
+        console.log("kkkkkk", res?.data?.result);
         setVisible(false);
         if (res?.data?.success) {
           //   navigation.navigate("MedicineProductDetails", {
           //     data: res?.data?.result,
           //   });
+          console.log("jjjjj", res?.data?.result);
         } else {
           setMessage("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
           setShowErrorMessage(true);
