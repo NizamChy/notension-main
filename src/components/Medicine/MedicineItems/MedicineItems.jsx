@@ -10,14 +10,13 @@ import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { useEffect, useState } from "react";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
+import ItemDetailsModal from "./ItemDetailsModal";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
-
   const [selectedItem, setSelectedItem] = useState(null);
 
   const dispatch = useDispatch();
-
   const {
     addToFavouriteItems,
     isAddedToFavouriteItems,
@@ -28,19 +27,15 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   let isExists = null;
 
   const medicineItems = useSelector((state) => state.cart.medicineItems);
-
   const visitedMedicineStore = useSelector(
     (state) => state.dashboard.visitedMedicineStore
   );
-
   const medicineStoreInfo = useSelector(
     (state) => state.cart.medicineStoreInfo
   );
-
   const cartItem = medicineItems?.find(
     (cartItem) => cartItem?._id === item?._id
   );
-
   const currentQuantity = cartItem ? cartItem.quantity : 0;
 
   const addProduct = (product) => {
@@ -136,9 +131,29 @@ const MedicineItems = ({ item, isFavorite = false }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log("click");
-
     setSelectedItem(item);
+  };
+
+  const handleIncrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      handleCartAction({
+        type: "INCREMENT_QUANTITY_MEDICINE",
+        data: { _id: itemId },
+      })
+    );
+  };
+
+  const handleDecrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      handleCartAction({
+        type: "DECREMENT_QUANTITY_MEDICINE",
+        data: { _id: itemId },
+      })
+    );
   };
 
   useEffect(() => {
@@ -167,10 +182,6 @@ const MedicineItems = ({ item, isFavorite = false }) => {
               height={400}
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
-            {/* <FaHeart
-              onClick={handleAddToFavorite}
-              className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primaryMedicine top-4 right-3 md:right-4 rounded-full"
-            /> */}
 
             {!isFavoriteAdded && !isFavorite && (
               <button
@@ -201,10 +212,14 @@ const MedicineItems = ({ item, isFavorite = false }) => {
           </div>
 
           <div className="px-3 pb-3 pt-1">
-            <div className="h-12 lg:h-14">
-              <h5 className="text-sm md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
-                {item?.item_title_eng}
-              </h5>
+            <div className="flex justify-between">
+              <div className="h-12 lg:h-14">
+                <h5 className="text-sm md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
+                  {item?.item_title_eng}
+                </h5>
+              </div>
+
+              <p className="text-sm text-mediumGray">{item?.strength}</p>
             </div>
 
             {item?.sale_price && (
@@ -232,16 +247,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                     className="w-full bg-primaryMedicine rounded-lg flex items-center justify-between"
                   >
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dispatch(
-                          handleCartAction({
-                            type: "DECREMENT_QUANTITY_MEDICINE",
-                            data: { _id: item._id },
-                          })
-                        );
-                      }}
+                      onClick={(e) => handleDecrement(e, item._id)}
                       className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                     >
                       -
@@ -250,16 +256,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                       {currentQuantity}
                     </span>
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dispatch(
-                          handleCartAction({
-                            type: "INCREMENT_QUANTITY_MEDICINE",
-                            data: { _id: item._id },
-                          })
-                        );
-                      }}
+                      onClick={(e) => handleIncrement(e, item._id)}
                       className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                     >
                       +
@@ -272,8 +269,16 @@ const MedicineItems = ({ item, isFavorite = false }) => {
         </div>
       </div>
 
-      {selectedItem && (
+      {selectedItem && isFavorite && (
         <FavoriteItemsDetailsModal
+          isOpen={!!selectedItem}
+          onClose={() => setSelectedItem(null)}
+          item={selectedItem}
+        />
+      )}
+
+      {selectedItem && !isFavorite && (
+        <ItemDetailsModal
           isOpen={!!selectedItem}
           onClose={() => setSelectedItem(null)}
           item={selectedItem}

@@ -11,6 +11,39 @@ const MedicineCartItems = () => {
   const dispatch = useDispatch();
   const medicineItems = useSelector((state) => state.cart.medicineItems);
 
+  const handleDecrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      handleCartAction({
+        type: "DECREMENT_QUANTITY_MEDICINE",
+        data: { _id: itemId },
+      })
+    );
+  };
+
+  const handleIncrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      handleCartAction({
+        type: "INCREMENT_QUANTITY_MEDICINE",
+        data: { _id: itemId },
+      })
+    );
+  };
+
+  const handleRemove = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      handleCartAction({
+        type: "REMOVE_ITEM_MEDICINE",
+        data: { _id: itemId },
+      })
+    );
+  };
+
   return (
     <>
       <ul className="space-y-4">
@@ -52,28 +85,14 @@ const MedicineCartItems = () => {
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     disabled={item.quantity === 1}
-                    onClick={() =>
-                      dispatch(
-                        handleCartAction({
-                          type: "DECREMENT_QUANTITY_MEDICINE",
-                          data: { _id: item._id },
-                        })
-                      )
-                    }
+                    onClick={(e) => handleDecrement(e, item._id)}
                     className="px-2 py-1 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300"
                   >
                     -
                   </button>
                   <span className="text-sm font-medium">{item.quantity}</span>
                   <button
-                    onClick={() =>
-                      dispatch(
-                        handleCartAction({
-                          type: "INCREMENT_QUANTITY_MEDICINE",
-                          data: { _id: item._id },
-                        })
-                      )
-                    }
+                    onClick={(e) => handleIncrement(e, item._id)}
                     className="px-2 py-1 bg-gray-200 text-gray-700 rounded font-semibold hover:bg-gray-300"
                   >
                     +
@@ -83,14 +102,7 @@ const MedicineCartItems = () => {
             </div>
 
             <button
-              onClick={() =>
-                dispatch(
-                  handleCartAction({
-                    type: "REMOVE_ITEM_MEDICINE",
-                    data: { _id: item._id },
-                  })
-                )
-              }
+              onClick={(e) => handleRemove(e, item._id)}
               className="text-xl text-gray-600 hover:text-red-600"
             >
               <MdDeleteForever />

@@ -273,6 +273,8 @@ export const useFavouriteItem = () => {
           console.log("jjjjj", res?.data?.result);
         } else {
           setMessage("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
+          console.log("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
+
           setShowErrorMessage(true);
         }
       })
