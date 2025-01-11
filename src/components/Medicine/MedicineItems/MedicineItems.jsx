@@ -3,20 +3,22 @@
 import Image from "next/image";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { useEffect, useState } from "react";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import ItemDetailsModal from "./ItemDetailsModal";
+import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
+  const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const dispatch = useDispatch();
+  const { addToCart, getCurrentQty, incrementQty, decrementQty } =
+    useMedicineItems();
+
   const {
     addToFavouriteItems,
     isAddedToFavouriteItems,
@@ -26,79 +28,11 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   let merchantType = 1;
   let isExists = null;
 
-  const medicineItems = useSelector((state) => state.cart.medicineItems);
-  const visitedMedicineStore = useSelector(
-    (state) => state.dashboard.visitedMedicineStore
-  );
-  const medicineStoreInfo = useSelector(
-    (state) => state.cart.medicineStoreInfo
-  );
-  const cartItem = medicineItems?.find(
-    (cartItem) => cartItem?._id === item?._id
-  );
-  const currentQuantity = cartItem ? cartItem.quantity : 0;
-
-  const addProduct = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART_MEDICINE",
-        data: product,
-      })
-    );
-  };
-
-  const saveStoreAndProductInfo = (product) => {
-    addProduct(product);
-    dispatch(
-      handleCartAction({
-        type: "SAVE_MEDICINE_STORE_INFO",
-        data: visitedMedicineStore,
-      })
-    );
-  };
-
-  const emptyCartItems = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "CLEAR_CART_MEDICINE",
-      })
-    );
-    saveStoreAndProductInfo(product);
-  };
-
   const handleAddToCart = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    let product = {
-      _id: item?._id,
-      medStoreProductInfo: item?.medStoreProductInfo,
-      item_title_eng: item?.item_title_eng || "",
-      item_title_beng: item?.item_title_beng || "",
-      pack_size: item?.pack_size || "",
-      purchase_price: item?.purchase_price || 0,
-      max_retail_price: item?.max_retail_price || 0,
-      sale_price: item?.sale_price || 0,
-      unit_symbol: item?.unit_symbol || "",
-      max_allowed: item?.max_allowed || 0,
-      quantity: 1,
-      delivered_qty: 0,
-      inc_qty: 1,
-      app_image: item?.app_image,
-    };
-
-    if (medicineItems.length > 0) {
-      if (
-        medicineStoreInfo?._id &&
-        medicineStoreInfo?._id !== visitedMedicineStore?._id
-      ) {
-        emptyCartItems(product);
-      } else {
-        addProduct(product);
-      }
-    } else {
-      saveStoreAndProductInfo(product);
-    }
+    addToCart(item);
   };
 
   const handleAddToFavorite = (event) => {
@@ -137,24 +71,21 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   const handleIncrement = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(
-      handleCartAction({
-        type: "INCREMENT_QUANTITY_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+
+    incrementQty(itemId);
   };
 
   const handleDecrement = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(
-      handleCartAction({
-        type: "DECREMENT_QUANTITY_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+
+    decrementQty(itemId);
   };
+
+  useEffect(() => {
+    const itemQty = getCurrentQty(item);
+    setCurrentQuantity(itemQty);
+  }, [item, incrementQty, decrementQty]);
 
   useEffect(() => {
     isExists = isAddedToFavouriteItems(item?.medStoreProductInfo, merchantType);
@@ -167,8 +98,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
       <div className="flex justify-center lg:mb-8">
         <div
           onClick={handleProductClick}
-          className="group w-60 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-          style={{ maxWidth: "240px" }}
+          className="group max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
         >
           <div className="relative overflow-hidden rounded-t-lg">
             <Image
@@ -182,6 +112,12 @@ const MedicineItems = ({ item, isFavorite = false }) => {
               height={400}
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
+
+            {item?.less > 0 && (
+              <p className="absolute top-0 left-0 text-white text-sm bg-primaryMedicine px-3 rounded-tl-lg rounded-br-lg">
+                {item?.less}% off
+              </p>
+            )}
 
             {!isFavoriteAdded && !isFavorite && (
               <button
@@ -219,15 +155,28 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                 </h5>
               </div>
 
-              <p className="text-sm text-mediumGray">{item?.strength}</p>
+              <p className="text-sm text-mediumGray truncate">
+                {item?.strength}
+              </p>
             </div>
 
-            {item?.sale_price && (
-              <p className="text-sm md:text-lg font-medium pb-3 flex items-center text-primaryMedicine">
-                <TbCurrencyTaka className="md:text-2xl" />
-                {item?.sale_price}
-              </p>
-            )}
+            <div className="flex gap-3 items-center pb-3">
+              {item?.sale_price && (
+                <p className="text-sm md:text-lg font-medium flex items-center text-primaryMedicine">
+                  <TbCurrencyTaka className="md:text-2xl" />
+                  {item?.sale_price}
+                </p>
+              )}
+
+              {item?.sale_price < item?.max_retail_price ? (
+                <>
+                  <p className="text-sm md:text-base flex items-center text-lightGray line-through">
+                    <TbCurrencyTaka className="md:text-lg" />
+                    {item?.max_retail_price}
+                  </p>
+                </>
+              ) : null}
+            </div>
 
             {!isFavorite && (
               <div>

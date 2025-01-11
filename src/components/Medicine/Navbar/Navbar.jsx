@@ -113,14 +113,14 @@ const Navbar = () => {
               </svg>
             </button>
             {dropDownState && (
-              <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
+              <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48 text-deepGray">
                 <li className="px-3 hover:underline">
                   <Link
                     href={`/medicine/${params?.store}/orders`}
                     className="flex items-center gap-1"
                   >
                     <span>
-                      <BsCartCheck />
+                      <BsCartCheck className="text-primaryMedicine" />
                     </span>
                     My Orders
                   </Link>
@@ -132,7 +132,7 @@ const Navbar = () => {
                     href={`/medicine/${params?.store}/favorite-items`}
                   >
                     <span>
-                      <MdFavoriteBorder />
+                      <MdFavoriteBorder className="text-primaryMedicine" />
                     </span>
                     Wishlists
                   </Link>
@@ -141,7 +141,7 @@ const Navbar = () => {
                 <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
                     <span>
-                      <CgProfile />
+                      <CgProfile className="text-primaryMedicine" />
                     </span>
                     Profile
                   </Link>
@@ -153,7 +153,7 @@ const Navbar = () => {
                     className="flex items-center gap-1"
                   >
                     <span>
-                      <BiLogOut />
+                      <BiLogOut className="text-primaryMedicine" />
                     </span>
                     Logout
                   </button>

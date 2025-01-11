@@ -105,11 +105,17 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
             />
           </div>
 
-          <div className="space-y-1 md:w-2/3 p-4">
+          <div className="space-y-1 md:w-2/3 p-4 relative">
             <div className="flex justify-between">
               <h5 className="text-sm md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.item_title_eng}
               </h5>
+
+              {item?.less > 0 && (
+                <p className="absolute -top-4 right-0 text-sm text-white bg-primaryMedicine px-4 py-0.5 rounded-tl-lg rounded-br-lg">
+                  {item?.less}% off
+                </p>
+              )}
 
               <p className="text-sm text-mediumGray">{item?.strength}</p>
             </div>
@@ -121,10 +127,21 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
               {item?.pack_size}
             </p>
 
-            <p className="text-sm md:text-lg font-medium flex items-center text-primaryMedicine">
-              <TbCurrencyTaka className="md:text-2xl" />
-              {item?.sale_price}
-            </p>
+            <div className="flex gap-5">
+              <p className="text-sm md:text-lg font-medium flex items-center text-primaryMedicine">
+                <TbCurrencyTaka className="md:text-2xl" />
+                {item?.sale_price}
+              </p>
+
+              {item?.sale_price < item?.max_retail_price ? (
+                <>
+                  <p className="text-sm md:text-base flex items-center text-lightGray line-through">
+                    <TbCurrencyTaka className="md:text-lg" />
+                    {item?.max_retail_price}
+                  </p>
+                </>
+              ) : null}
+            </div>
 
             <div className="flex w-full justify-center gap-5 items-center pt-2">
               <div className="w-1/2">
