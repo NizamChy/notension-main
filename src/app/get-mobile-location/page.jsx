@@ -1,5 +1,5 @@
-import Map from "@/components/shared/Map/Map";
 import React from "react";
+import Map from "@/components/shared/Map/Map";
 
 const page = () => {
   return (

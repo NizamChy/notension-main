@@ -1,88 +1,59 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
 import Image from "next/image";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { FaHeart } from "react-icons/fa";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import useFoodItems from "@/hooks/fetch-data/useFoodItems";
+import { useEffect, useState } from "react";
+import FoodItemDetailsModal from "./FoodItemDetailsModal";
 
 const FoodItems = ({ item }) => {
-  const dispatch = useDispatch();
+  const [currentQuantity, setCurrentQuantity] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const foodItems = useSelector((state) => state.cart.foodItems);
+  const { addToCart, getCurrentQty, incrementQty, decrementQty } =
+    useFoodItems();
 
-  const visitedFoodStore = useSelector(
-    (state) => state.dashboard.visitedFoodStore
-  );
+  const handleAddToCart = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-  const foodStoreInfo = useSelector((state) => state.cart.foodStoreInfo);
-
-  const cartItem = foodItems?.find((cartItem) => cartItem?._id === item?._id);
-
-  const currentQuantity = cartItem ? cartItem.quantity : 0;
-
-  const addProduct = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART_FOOD",
-        data: product,
-      })
-    );
+    addToCart(item);
   };
 
-  const saveStoreAndProductInfo = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "SAVE_FOOD_STORE_INFO",
-        data: visitedFoodStore,
-      })
-    );
+  const handleIncrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    addProduct(product);
+    incrementQty(itemId);
   };
 
-  const emptyCartItems = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "CLEAR_CART_FOOD",
-      })
-    );
-    saveStoreAndProductInfo(product);
+  const handleDecrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    decrementQty(itemId);
   };
 
-  const handleAddToCart = () => {
-    let product = {
-      _id: item?._id,
-      productCategory: item?.productCategory,
-      product_title_eng: item?.product_title_eng || "",
-      product_title_beng: item?.product_title_beng || "",
-      pack_size: item?.pack_size || "",
-      max_retail_price: item?.max_retail_price || 0,
-      sale_price: item?.sale_price || 0,
-      unit_symbol: item?.unit_symbol || "",
-      max_allowed: item?.max_allowed || 0,
-      quantity: 1,
-      delivered_qty: 0,
-      inc_qty: 1,
-      app_image: item?.app_image,
-    };
+  const handleProductClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-    if (foodItems.length > 0) {
-      if (foodStoreInfo?._id && foodStoreInfo?._id !== visitedFoodStore?._id) {
-        emptyCartItems(product);
-      } else {
-        addProduct(product);
-      }
-    } else {
-      saveStoreAndProductInfo(product);
-    }
+    setSelectedItem(item);
   };
+
+  useEffect(() => {
+    const itemQty = getCurrentQty(item);
+    setCurrentQuantity(itemQty);
+  }, [item, incrementQty, decrementQty]);
 
   return (
     <>
       <div className="flex justify-center lg:mb-8">
-        <div className="group w-full max-w-56 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div
+          onClick={handleProductClick}
+          className="group w-full max-w-56 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
+        >
           <div className="relative overflow-hidden rounded-t-lg">
             <Image
               src={
@@ -95,7 +66,12 @@ const FoodItems = ({ item }) => {
               height={400}
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
-            {/* <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primaryFood top-4 right-3 md:right-4 rounded-full" /> */}
+
+            {item?.less > 0 && (
+              <p className="absolute top-0 left-0 text-white text-sm bg-primaryMedicine px-3 rounded-tl-lg rounded-br-lg">
+                {item?.less}% off
+              </p>
+            )}
           </div>
 
           <div className="px-3 pb-3 pt-1">
@@ -134,16 +110,15 @@ const FoodItems = ({ item }) => {
                   Add to cart
                 </button>
               ) : (
-                <div className="w-full bg-primaryFood rounded-lg flex items-center justify-between">
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                  className="w-full bg-primaryFood rounded-lg flex items-center justify-between"
+                >
                   <button
-                    onClick={() =>
-                      dispatch(
-                        handleCartAction({
-                          type: "DECREMENT_QUANTITY_FOOD",
-                          data: { _id: item._id },
-                        })
-                      )
-                    }
+                    onClick={(e) => handleDecrement(e, item._id)}
                     className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
                   >
                     -
@@ -152,14 +127,7 @@ const FoodItems = ({ item }) => {
                     {currentQuantity}
                   </span>
                   <button
-                    onClick={() =>
-                      dispatch(
-                        handleCartAction({
-                          type: "INCREMENT_QUANTITY_FOOD",
-                          data: { _id: item._id },
-                        })
-                      )
-                    }
+                    onClick={(e) => handleIncrement(e, item._id)}
                     className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
                   >
                     +
@@ -170,6 +138,14 @@ const FoodItems = ({ item }) => {
           </div>
         </div>
       </div>
+
+      {selectedItem && (
+        <FoodItemDetailsModal
+          isOpen={!!selectedItem}
+          onClose={() => setSelectedItem(null)}
+          item={selectedItem}
+        />
+      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
-import TypeSection from "@/components/Grocery/TypeSection/TypeSection";
 import React from "react";
+import TypeSection from "@/components/Grocery/TypeSection/TypeSection";
 
 const page = async ({ params }) => {
   const { id } = await params;

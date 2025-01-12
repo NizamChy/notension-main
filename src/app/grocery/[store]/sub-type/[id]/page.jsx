@@ -1,5 +1,5 @@
-import SubTypeSection from "@/components/Grocery/SubTypeSection/SubTypeSection";
 import React from "react";
+import SubTypeSection from "@/components/Grocery/SubTypeSection/SubTypeSection";
 
 const page = async ({ params }) => {
   const { id } = await params;

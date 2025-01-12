@@ -110,14 +110,14 @@ const Navbar = () => {
               </svg>
             </button>
             {dropDownState && (
-              <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
+              <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48 text-deepGray">
                 <li className="px-3 hover:underline">
                   <Link
                     href="/food/store/orders"
                     className="flex items-center gap-1"
                   >
                     <span>
-                      <BsCartCheck />
+                      <BsCartCheck className="text-primaryFood" />
                     </span>
                     My Orders
                   </Link>
@@ -125,7 +125,7 @@ const Navbar = () => {
                 <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
                     <span>
-                      <CgProfile />
+                      <CgProfile className="text-primaryFood" />
                     </span>
                     <span>Profile</span>
                   </Link>
@@ -137,7 +137,7 @@ const Navbar = () => {
                     className="flex items-center gap-1"
                   >
                     <span>
-                      <BiLogOut />
+                      <BiLogOut className="text-primaryFood" />
                     </span>
                     Logout
                   </button>

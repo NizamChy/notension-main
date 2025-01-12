@@ -1,8 +1,7 @@
-import FavoriteShop from "@/components/Food/FavoriteSection/FavoriteShop";
-import FoodSection from "@/components/Food/FoodSection/FoodSection";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
 import { CiShop } from "react-icons/ci";
+import FavoriteShop from "@/components/Food/FavoriteSection/FavoriteShop";
 
 const page = async ({ params }) => {
   const { id } = await params;

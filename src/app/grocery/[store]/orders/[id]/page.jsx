@@ -1,5 +1,5 @@
-import OrderDetailsMobile from "@/components/Grocery/OrdersSection/OrderDetailsMobile";
 import React from "react";
+import OrderDetailsMobile from "@/components/Grocery/OrdersSection/OrderDetailsMobile";
 
 const page = async ({ params }) => {
   const { id } = await params;

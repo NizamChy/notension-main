@@ -1,5 +1,5 @@
-import OrdersSection from "@/components/Grocery/OrdersSection/OrdersSection";
 import React from "react";
+import OrdersSection from "@/components/Grocery/OrdersSection/OrdersSection";
 
 const page = () => {
   return (

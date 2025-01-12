@@ -1,8 +1,7 @@
 import Cart from "@/components/Cart/Cart";
-
-import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
-import Navbar from "@/components/Grocery/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
+import Navbar from "@/components/Grocery/Navbar/Navbar";
+import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
 
 export default function GroceryStoreLayout({ children }) {
   return (

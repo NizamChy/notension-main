@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState("");
@@ -17,6 +18,10 @@ const SearchBar = () => {
     }
   };
 
+  const clearSearchText = () => {
+    setSearchText("");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <form onSubmit={handleSearchSubmit} className="relative w-full">
@@ -29,6 +34,17 @@ const SearchBar = () => {
             setSearchText(e.target.value);
           }}
         />
+
+        {searchText.trim().length > 0 && (
+          <button
+            type="button"
+            onClick={clearSearchText}
+            className="absolute top-1/2 transform -translate-y-1/2 right-14 bg-gray-100 text-gray-500 p-1.5 rounded-xl hover:bg-gray-200 focus:outline-none"
+          >
+            <RxCross2 className="w-5 h-5" />
+          </button>
+        )}
+
         <button
           type="submit"
           className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-500"

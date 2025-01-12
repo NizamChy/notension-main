@@ -1,5 +1,5 @@
-import CustomTypeSection from "@/components/Grocery/CustomTypeSection/CustomTypeSection";
 import React from "react";
+import CustomTypeSection from "@/components/Grocery/CustomTypeSection/CustomTypeSection";
 
 const page = async ({ params }) => {
   const { id } = await params;

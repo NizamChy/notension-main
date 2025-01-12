@@ -1,5 +1,5 @@
-import SearchedProducts from "@/components/Grocery/SearchBarSection/SearchedProducts";
 import React from "react";
+import SearchedProducts from "@/components/Grocery/SearchBarSection/SearchedProducts";
 
 const page = () => {
   return (

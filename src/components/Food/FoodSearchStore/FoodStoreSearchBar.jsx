@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { RxCross2 } from "react-icons/rx";
 
 const FoodStoreSearchBar = () => {
   const [searchText, setSearchText] = useState("");
@@ -9,12 +10,16 @@ const FoodStoreSearchBar = () => {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const currentUrl = window.location.href;
-  //   const pathSegments = currentUrl.split("/");
-  //   const categoryId = pathSegments[pathSegments.length - 1];
-  //   setCatId(categoryId);
-  // }, []);
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchText.trim().length > 1 && catId) {
+      router.push(`/food/${catId}/search-store?query=${searchText}`);
+    }
+  };
+
+  const clearSearchText = () => {
+    setSearchText("");
+  };
 
   useEffect(() => {
     const currentUrl = new URL(window.location.href);
@@ -25,14 +30,6 @@ const FoodStoreSearchBar = () => {
 
     setCatId(categoryId);
   }, []);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchText.trim().length > 1 && catId) {
-      router.push(`/food/${catId}/search-store?query=${searchText}`);
-      // window.location.href = `/food/${catId}/search-store?query=${searchText}`;
-    }
-  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -46,6 +43,17 @@ const FoodStoreSearchBar = () => {
             setSearchText(e.target.value);
           }}
         />
+
+        {searchText.trim().length > 0 && (
+          <button
+            type="button"
+            onClick={clearSearchText}
+            className="absolute top-1/2 transform -translate-y-1/2 right-14 bg-gray-100 text-gray-500 p-1.5 rounded-xl hover:bg-gray-200 focus:outline-none"
+          >
+            <RxCross2 className="w-5 h-5" />
+          </button>
+        )}
+
         <button
           type="submit"
           className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
