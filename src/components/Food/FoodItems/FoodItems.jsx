@@ -82,10 +82,7 @@ const FoodItems = ({ item }) => {
   return (
     <>
       <div className="flex justify-center lg:mb-8">
-        <div
-          className="group w-60 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-          style={{ maxWidth: "240px" }}
-        >
+        <div className="group w-full max-w-56 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
           <div className="relative overflow-hidden rounded-t-lg">
             <Image
               src={
@@ -98,20 +95,35 @@ const FoodItems = ({ item }) => {
               height={400}
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
-            <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primaryFood top-4 right-3 md:right-4 rounded-full" />
+            {/* <FaHeart className="absolute size-7 p-1 text-xl text-gray-200 hover:text-primaryFood top-4 right-3 md:right-4 rounded-full" /> */}
           </div>
 
           <div className="px-3 pb-3 pt-1">
-            <div className="h-12 lg:h-14">
+            <div className="h-12">
               <h5 className="text-sm md:text-base font-semibold text-gray-900 line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}
               </h5>
             </div>
 
-            <p className="text-sm md:text-lg font-medium pb-3 flex items-center text-primaryFood">
-              <TbCurrencyTaka className="md:text-2xl" />
-              {item?.sale_price}
-            </p>
+            <p className="text-sm text-mediumGray">{item?.pack_size}</p>
+
+            <div className="flex gap-3 items-center pb-3">
+              {item?.sale_price && (
+                <p className="text-sm md:text-lg font-medium flex items-center text-primaryFood">
+                  <TbCurrencyTaka className="md:text-2xl" />
+                  {item?.sale_price}
+                </p>
+              )}
+
+              {item?.sale_price < item?.max_retail_price ? (
+                <>
+                  <p className="text-sm md:text-base flex items-center text-lightGray line-through">
+                    <TbCurrencyTaka className="md:text-lg" />
+                    {item?.max_retail_price}
+                  </p>
+                </>
+              ) : null}
+            </div>
 
             <div>
               {currentQuantity === 0 ? (

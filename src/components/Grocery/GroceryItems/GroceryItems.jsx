@@ -3,18 +3,21 @@
 import Image from "next/image";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { useEffect, useState } from "react";
-import { IoTrashOutline } from "react-icons/io5";
-import { MdFavoriteBorder, MdOutlineFavoriteBorder } from "react-icons/md";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
+import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
+import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
+  const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const dispatch = useDispatch();
+  const { addToCart, getCurrentQty, incrementQty, decrementQty } =
+    useGroceryItems();
 
   const {
     addToFavouriteItems,
@@ -25,73 +28,11 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   let merchantType = 0;
   let isExists = null;
 
-  const groceryItems = useSelector((state) => state.cart.groceryItems);
-  const visitedGroceryStore = useSelector(
-    (state) => state.dashboard.visitedGroceryStore
-  );
-  const groceryStoreInfo = useSelector((state) => state.cart.groceryStoreInfo);
+  const handleAddToCart = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-  const cartItem = groceryItems?.find((cartItem) => cartItem._id === item._id);
-  const currentQuantity = cartItem ? cartItem.quantity : 0;
-
-  const addProduct = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART_GROCERY",
-        data: product,
-      })
-    );
-  };
-
-  const saveStoreAndProductInfo = (product) => {
-    addProduct(product);
-    dispatch(
-      handleCartAction({
-        type: "SAVE_GROCERY_STORE_INFO",
-        data: visitedGroceryStore,
-      })
-    );
-  };
-
-  const emptyCartItems = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "CLEAR_CART_GROCERY",
-      })
-    );
-    saveStoreAndProductInfo(product);
-  };
-
-  const handleAddToCart = () => {
-    let product = {
-      _id: item?._id,
-      productInfoTable: item?.productInfoTable,
-      product_title_eng: item?.product_title_eng || "",
-      product_title_beng: item?.product_title_beng || "",
-      pack_size: item?.pack_size || "",
-      purchase_price: item?.purchase_price || 0,
-      max_retail_price: item?.max_retail_price || 0,
-      sale_price: item?.sale_price || 0,
-      unit_symbol: item?.unit_symbol || "",
-      max_allowed: item?.max_allowed || 0,
-      quantity: 1,
-      delivered_qty: 0,
-      inc_qty: 1,
-      app_image: item?.app_image,
-    };
-
-    if (groceryItems.length > 0) {
-      if (
-        groceryStoreInfo?._id &&
-        groceryStoreInfo?._id !== visitedGroceryStore?._id
-      ) {
-        emptyCartItems(product);
-      } else {
-        addProduct(product);
-      }
-    } else {
-      saveStoreAndProductInfo(product);
-    }
+    addToCart(item);
   };
 
   const handleAddToFavorite = (event) => {
@@ -120,6 +61,32 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     }
   };
 
+  const handleProductClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setSelectedItem(item);
+  };
+
+  const handleIncrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    incrementQty(itemId);
+  };
+
+  const handleDecrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    decrementQty(itemId);
+  };
+
+  useEffect(() => {
+    const itemQty = getCurrentQty(item);
+    setCurrentQuantity(itemQty);
+  }, [item, incrementQty, decrementQty]);
+
   useEffect(() => {
     isExists = isAddedToFavouriteItems(item?.productInfoTable, merchantType);
 
@@ -130,8 +97,8 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     <>
       <div className="flex justify-center lg:mb-8">
         <div
-          className="group w-60 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-          style={{ maxWidth: "240px" }}
+          onClick={handleProductClick}
+          className="group w-full max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
         >
           <div className="relative overflow-hidden rounded-t-lg">
             <Image
@@ -146,12 +113,17 @@ const GroceryItems = ({ item, isFavorite = false }) => {
               className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
 
+            {item?.less > 0 && (
+              <p className="absolute top-0 left-0 text-white text-sm bg-primaryGrocery px-3 rounded-tl-lg rounded-br-lg">
+                {item?.less}% off
+              </p>
+            )}
+
             {!isFavoriteAdded && !isFavorite && (
               <button
                 onClick={handleAddToFavorite}
                 className="absolute top-4 right-3 md:right-4"
               >
-                {/* <FaHeart className="size-7 p-1 text-xl text-gray-200 hover:text-primaryGrocery rounded-full" /> */}
                 <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
               </button>
             )}
@@ -173,24 +145,18 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                 <FaHeart className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
               </button>
             )}
-
-            {/* {isFavorite && (
-              <button
-                onClick={handleRemoveFromFavorite}
-                className="absolute bottom-4 right-2 md:right-2 text-deepGray bg-primaryBg opacity-65 hover:text-primaryGrocery border hover:border-primaryGrocery rounded-full hover:bg-white px-1 flex justify-center items-center "
-              >
-                <IoTrashOutline className="size-7 p-1 text-xl rounded-full text-primaryGrocery" />
-                <span className="text-xs font-medium">Remove</span>
-              </button>
-            )} */}
           </div>
 
-          <div className="px-3 pb-3">
-            <div className="h-12 lg:h-14">
-              <h5 className="text-sm md:text-base font-semibold text-gray-900 line-clamp-2 overflow-hidden">
+          <div className="px-3 pb-3 pt-2">
+            <div className="h-10 md:h-12">
+              <h5 className="text-sm md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}
               </h5>
             </div>
+
+            <p className="text-sm text-mediumGray truncate">
+              {item?.pack_size}
+            </p>
 
             {item?.sale_price && (
               <p className="text-sm md:text-lg font-medium pb-3 flex items-center text-blue-500">
@@ -209,16 +175,15 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                     Add to cart
                   </button>
                 ) : (
-                  <div className="w-full bg-primary rounded-lg flex items-center justify-between">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                    }}
+                    className="w-full bg-primary rounded-lg flex items-center justify-between"
+                  >
                     <button
-                      onClick={() =>
-                        dispatch(
-                          handleCartAction({
-                            type: "DECREMENT_QUANTITY_GROCERY",
-                            data: { _id: item._id },
-                          })
-                        )
-                      }
+                      onClick={(e) => handleDecrement(e, item._id)}
                       className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                     >
                       -
@@ -227,14 +192,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                       {currentQuantity}
                     </span>
                     <button
-                      onClick={() =>
-                        dispatch(
-                          handleCartAction({
-                            type: "INCREMENT_QUANTITY_GROCERY",
-                            data: { _id: item._id },
-                          })
-                        )
-                      }
+                      onClick={(e) => handleIncrement(e, item._id)}
                       className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                     >
                       +
@@ -246,6 +204,22 @@ const GroceryItems = ({ item, isFavorite = false }) => {
           </div>
         </div>
       </div>
+
+      {selectedItem && !isFavorite && (
+        <GroceryItemDetailsModal
+          isOpen={!!selectedItem}
+          onClose={() => setSelectedItem(null)}
+          item={selectedItem}
+        />
+      )}
+
+      {selectedItem && isFavorite && (
+        <GroceryFavoriteItemsDetailsModal
+          isOpen={!!selectedItem}
+          onClose={() => setSelectedItem(null)}
+          item={selectedItem}
+        />
+      )}
     </>
   );
 };

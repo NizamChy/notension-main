@@ -228,6 +228,7 @@ export const useFavouriteItem = () => {
         //console.log(res?.data?.result);
         setVisible(false);
         if (res?.data?.success) {
+          setItemDetails(res?.data?.result);
           //   navigation.navigate("GroceryProductDetails", {
           //     data: res?.data?.result,
           //   });

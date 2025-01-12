@@ -53,7 +53,7 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
-      <Link href="/" className="">
+      <Link href="/">
         <Image
           width={500}
           height={500}
@@ -80,7 +80,7 @@ const Navbar = () => {
             >
               <p className="font-semibold flex items-center gap-2">
                 <CgProfile className="text-2xl" />
-                <span className="">{userInfo.customer_name}</span>
+                <span>{userInfo.customer_name}</span>
               </p>
               <svg
                 className={`${

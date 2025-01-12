@@ -8,22 +8,6 @@ import { Keyboard, Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 
 const HomeSlider = () => {
-  // const slides = [
-  //   "home-slider1-img1.jpg",
-  //   "home-slider1-img2.jpg",
-  //   "home-slider1-img3.jpg",
-  //   "home-slider1-img4.jpg",
-  // ];
-
-  // const slides = [
-  //   "bg-banner-new-07-1.webp",
-  //   "bg-banner-new-07-2.webp",
-  //   "bg-banner-new-07-3.webp",
-  //   "bg-banner-new-07-4.webp",
-  // ];
-
-  // home-slider1-img1.jpg
-
   const images = [
     "/images/home/home-slider1-img1.jpg",
     "/images/home/home-slider1-img2.jpg",
@@ -61,19 +45,6 @@ const HomeSlider = () => {
             />
           </SwiperSlide>
         ))}
-
-        {/* {slides?.map((slide, index) => (
-          <SwiperSlide key={index} className="">
-            <Image
-              className="object-cover transition-transform duration-300 hover:scale-105 w-full"
-              // src={`/images/home/bg-banner-new-07-${index + 1}.webp`}
-              src={`/images/home/home-slider1-img${index + 1}.jpg`}
-              alt="bg-banner"
-              width={632}
-              height={300}
-            />
-          </SwiperSlide>
-        ))} */}
       </Swiper>
     </div>
   );

@@ -2,22 +2,23 @@ import React, { useEffect, useState } from "react";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import Image from "next/image";
-import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import { TbCurrencyTaka } from "react-icons/tb";
-import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
-import ItemDetailsSkeleton from "./ItemDetailsSkeleton";
+import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
+import ItemDetailsSkeleton from "@/components/Medicine/MedicineItems/ItemDetailsSkeleton";
+import GroceryItemDetailsSkeleton from "./GroceryItemDetailsSkeleton";
 
-const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
+const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useMedicineItems();
+    useGroceryItems();
 
   const {
-    getMedicineProductDetails,
+    getGroceryProductDetails,
     itemDetails,
     message,
     visible,
@@ -26,7 +27,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
     removeFromfavoriteItems,
   } = useFavouriteItem();
 
-  let merchantType = 1;
+  let merchantType = 0;
   let isExists = null;
 
   const handleAddToCart = (event) => {
@@ -47,15 +48,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    const favouriteInfo = {
-      productId: itemDetails?.medStoreProductInfo,
-      item_title_eng: itemDetails?.item_title_eng,
-      item_title_beng: itemDetails?.item_title_beng,
-      pack_size: itemDetails?.pack_size,
-      app_image: itemDetails?.app_image,
-    };
-
-    removeFromfavoriteItems(favouriteInfo, merchantType);
+    removeFromfavoriteItems(item, merchantType);
   };
 
   const handleIncrement = (e, itemId) => {
@@ -73,7 +66,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   };
 
   useEffect(() => {
-    getMedicineProductDetails(item?.productId);
+    getGroceryProductDetails(item?.productId);
   }, [item]);
 
   useEffect(() => {
@@ -83,7 +76,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
 
   useEffect(() => {
     isExists = isAddedToFavouriteItems(
-      itemDetails?.medStoreProductInfo,
+      itemDetails?.productInfoTable?._id,
       merchantType
     );
 
@@ -98,7 +91,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
     >
       {visible ? (
         <div className="min-h-[30vh] flex justify-center items-center">
-          <ItemDetailsSkeleton />
+          <GroceryItemDetailsSkeleton />
         </div>
       ) : (
         <>
@@ -113,10 +106,10 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                   <Image
                     src={
                       itemDetails?.app_image
-                        ? `${MEDICINE_ITEMS_IMAGES}/${itemDetails.app_image}`
+                        ? `${GROCERY_ITEMS_IMAGES}/${itemDetails?.app_image}`
                         : "/png/dummyImage.png"
                     }
-                    alt={itemDetails?.item_title_eng || "Product image"}
+                    alt={itemDetails?.product_title_eng || "Product image"}
                     width={500}
                     height={500}
                     className="w-full md:w-64"
@@ -126,11 +119,11 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                 <div className="space-y-1 md:w-2/3 p-4 relative">
                   <div className="flex justify-between">
                     <h5 className="text-sm md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
-                      {itemDetails?.item_title_eng}
+                      {itemDetails?.product_title_eng}
                     </h5>
 
                     {itemDetails?.less > 0 && (
-                      <p className="absolute -top-4 right-0 text-sm text-white bg-primaryMedicine px-4 py-0.5 rounded-tl-lg rounded-br-lg">
+                      <p className="absolute -top-4 right-0 text-sm text-white bg-primaryGrocery px-4 py-0.5 rounded-tl-lg rounded-br-lg">
                         {itemDetails?.less}% off
                       </p>
                     )}
@@ -139,7 +132,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                       {itemDetails?.strength}
                     </p>
                   </div>
-                  <p className="text-base text-secondaryMedicine">
+                  <p className="text-base text-blue-600">
                     {itemDetails?.generic_name}
                   </p>
                   <p className="text-base text-secondary">
@@ -150,7 +143,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                   </p>
 
                   <div className="flex gap-5">
-                    <p className="text-sm md:text-lg font-medium flex items-center text-primaryMedicine">
+                    <p className="text-sm md:text-lg font-medium flex items-center text-primaryGrocery">
                       <TbCurrencyTaka className="md:text-2xl" />
                       {itemDetails?.sale_price}
                     </p>
@@ -170,7 +163,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                       {currentQuantity === 0 ? (
                         <button
                           onClick={handleAddToCart}
-                          className="w-full py-2 px-4 bg-primaryMedicine text-white font-medium rounded-lg text-sm hover:bg-secondaryMedicine focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
+                          className="w-full py-2 px-4 bg-primaryGrocery text-white font-medium rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
                         >
                           Add to cart
                         </button>
@@ -180,11 +173,11 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                             e.stopPropagation();
                             e.preventDefault();
                           }}
-                          className="w-full bg-primaryMedicine rounded-lg flex items-center justify-between"
+                          className="w-full bg-primaryGrocery rounded-lg flex items-center justify-between"
                         >
                           <button
                             onClick={(e) => handleDecrement(e, itemDetails._id)}
-                            className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
+                            className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                           >
                             -
                           </button>
@@ -193,7 +186,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                           </span>
                           <button
                             onClick={(e) => handleIncrement(e, itemDetails._id)}
-                            className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
+                            className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                           >
                             +
                           </button>
@@ -204,13 +197,13 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                     <div className="w-1/2">
                       {!isFavoriteAdded && (
                         <button onClick={handleAddToFavorite}>
-                          <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryMedicine rounded-full" />
+                          <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
                         </button>
                       )}
 
                       {isFavoriteAdded && (
                         <button onClick={handleRemoveFromFavorite}>
-                          <FaHeart className="size-7 p-1 text-xl text-primaryMedicine rounded-full" />
+                          <FaHeart className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
                         </button>
                       )}
                     </div>
@@ -229,4 +222,4 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   );
 };
 
-export default FavoriteItemsDetailsModal;
+export default GroceryFavoriteItemsDetailsModal;

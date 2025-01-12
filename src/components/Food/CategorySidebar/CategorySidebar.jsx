@@ -65,7 +65,7 @@ const CategorySidebar = ({ scrollToFoodItems }) => {
                       }
                     >
                       <div className="flex flex-col justify-center items-center text-center">
-                        <Image
+                        <img
                           src={
                             category?.categoryInfo?.banner_type_1
                               ? `${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
