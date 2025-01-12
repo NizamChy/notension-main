@@ -1,47 +1,36 @@
 "use client";
-import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { handleCartAction } from "@/redux/cartReducer";
-import Image from "next/image";
 import React from "react";
-import { MdDeleteForever } from "react-icons/md";
+import Image from "next/image";
+import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useDispatch, useSelector } from "react-redux";
+import { MdDeleteForever } from "react-icons/md";
+import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
+import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const MedicineCartItems = () => {
-  const dispatch = useDispatch();
+  const { incrementQty, decrementQty, removeFromCart } = useMedicineItems();
+
   const medicineItems = useSelector((state) => state.cart.medicineItems);
 
   const handleDecrement = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(
-      handleCartAction({
-        type: "DECREMENT_QUANTITY_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+
+    decrementQty(itemId);
   };
 
   const handleIncrement = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(
-      handleCartAction({
-        type: "INCREMENT_QUANTITY_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+
+    incrementQty(itemId);
   };
 
-  const handleRemove = (e, itemId) => {
+  const handleRemoveFromCart = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(
-      handleCartAction({
-        type: "REMOVE_ITEM_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+
+    removeFromCart(itemId);
   };
 
   return (
@@ -102,7 +91,7 @@ const MedicineCartItems = () => {
             </div>
 
             <button
-              onClick={(e) => handleRemove(e, item._id)}
+              onClick={(e) => handleRemoveFromCart(e, item._id)}
               className="text-xl text-gray-600 hover:text-red-600"
             >
               <MdDeleteForever />

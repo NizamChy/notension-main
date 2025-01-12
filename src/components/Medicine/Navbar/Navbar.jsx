@@ -9,7 +9,7 @@ import Image from "next/image";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
-import SearchBar from "../SearchBarSection/SerchBar";
+import MedicineItemSearchBar from "../SearchBarSection/MedicineItemSearchBar";
 import { useParams, useRouter } from "next/navigation";
 import { BsCartCheck } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
@@ -19,11 +19,9 @@ const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
 
   const params = useParams();
-
   const router = useRouter();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
   const module = currentModule.toLowerCase();
 
   const dropDownMenuRef = useRef();
@@ -79,7 +77,7 @@ const Navbar = () => {
       </button>
 
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
-        <SearchBar />
+        <MedicineItemSearchBar />
       </div>
 
       {userInfo._id && (

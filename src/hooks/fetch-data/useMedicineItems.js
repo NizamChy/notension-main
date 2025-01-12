@@ -99,11 +99,21 @@ const useMedicineItems = () => {
     );
   };
 
+  const removeFromCart = (itemId) => {
+    dispatch(
+      handleCartAction({
+        type: "REMOVE_ITEM_MEDICINE",
+        data: { _id: itemId },
+      })
+    );
+  };
+
   return {
     addToCart,
     incrementQty,
     decrementQty,
     getCurrentQty,
+    removeFromCart,
   };
 };
 

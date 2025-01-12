@@ -97,11 +97,21 @@ const useGroceryItems = () => {
     );
   };
 
+  const removeFromCart = (itemId) => {
+    dispatch(
+      handleCartAction({
+        type: "REMOVE_ITEM_GROCERY",
+        data: { _id: itemId },
+      })
+    );
+  };
+
   return {
     addToCart,
     incrementQty,
     decrementQty,
     getCurrentQty,
+    removeFromCart,
   };
 };
 

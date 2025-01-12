@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 
-const SearchBar = () => {
+const GroceryItemSearchBar = () => {
   const [searchText, setSearchText] = useState("");
 
   const router = useRouter();
@@ -13,7 +13,7 @@ const SearchBar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchText.trim().length > 1) {
-      router.push(`/medicine/${params?.store}/search?query=${searchText}`);
+      router.push(`/grocery/${params?.store}/search?query=${searchText}`);
     }
   };
 
@@ -26,7 +26,7 @@ const SearchBar = () => {
       <form onSubmit={handleSearchSubmit} className="relative w-full">
         <input
           type="text"
-          className="w-full py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+          className="w-full py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Search item"
           value={searchText}
           onChange={(e) => {
@@ -46,7 +46,7 @@ const SearchBar = () => {
 
         <button
           type="submit"
-          className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-primary text-white p-2 rounded-xl hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,4 +68,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default GroceryItemSearchBar;

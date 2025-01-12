@@ -1,15 +1,37 @@
 "use client";
-import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { handleCartAction } from "@/redux/cartReducer";
-import Image from "next/image";
 import React from "react";
-import { MdDeleteForever } from "react-icons/md";
+import Image from "next/image";
+import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useDispatch, useSelector } from "react-redux";
+import { MdDeleteForever } from "react-icons/md";
+import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
+import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const GroceryCartItems = () => {
-  const dispatch = useDispatch();
+  const { incrementQty, decrementQty, removeFromCart } = useGroceryItems();
+
   const groceryItems = useSelector((state) => state.cart.groceryItems);
+
+  const handleIncrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    incrementQty(itemId);
+  };
+
+  const handleDecrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    decrementQty(itemId);
+  };
+
+  const handleRemoveFromCart = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    removeFromCart(itemId);
+  };
 
   return (
     <>
@@ -51,28 +73,14 @@ const GroceryCartItems = () => {
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     disabled={item.quantity === 1}
-                    onClick={() =>
-                      dispatch(
-                        handleCartAction({
-                          type: "DECREMENT_QUANTITY_GROCERY",
-                          data: { _id: item._id },
-                        })
-                      )
-                    }
+                    onClick={(e) => handleDecrement(e, item._id)}
                     className="px-2 py-1 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300"
                   >
                     -
                   </button>
                   <span className="text-sm font-medium">{item.quantity}</span>
                   <button
-                    onClick={() =>
-                      dispatch(
-                        handleCartAction({
-                          type: "INCREMENT_QUANTITY_GROCERY",
-                          data: { _id: item._id },
-                        })
-                      )
-                    }
+                    onClick={(e) => handleIncrement(e, item._id)}
                     className="px-2 py-1 bg-gray-200 text-gray-700 rounded font-semibold hover:bg-gray-300"
                   >
                     +
@@ -82,14 +90,7 @@ const GroceryCartItems = () => {
             </div>
 
             <button
-              onClick={() =>
-                dispatch(
-                  handleCartAction({
-                    type: "REMOVE_ITEM_GROCERY",
-                    data: { _id: item._id },
-                  })
-                )
-              }
+              onClick={(e) => handleRemoveFromCart(e, item._id)}
               className="text-xl text-gray-600 hover:text-red-600"
             >
               <MdDeleteForever />

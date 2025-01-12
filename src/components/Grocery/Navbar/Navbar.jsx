@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
-import SerchBar from "../SearchBarSection/SerchBar";
+import SerchBar from "../SearchBarSection/GroceryItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ import { useParams, useRouter } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
 import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
+import GroceryItemSearchBar from "../SearchBarSection/GroceryItemSearchBar";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -76,7 +77,7 @@ const Navbar = () => {
       </button>
 
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
-        <SerchBar />
+        <GroceryItemSearchBar />
       </div>
 
       {userInfo._id && (
