@@ -30,11 +30,7 @@ const TopLeftSection = () => {
       </Link>
 
       <div className="group overflow-hidden relative">
-        <Link
-          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-          prefetch={false}
-          target="_blank"
-        >
+        <Link href="/medical-services/doctor">
           <Image
             width={632}
             height={300}

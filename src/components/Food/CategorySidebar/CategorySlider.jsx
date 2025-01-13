@@ -1,14 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
 import { useSelector } from "react-redux";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   FOOD_ITEMS_IMAGES,
   FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,

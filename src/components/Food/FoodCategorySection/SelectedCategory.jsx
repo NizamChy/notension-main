@@ -15,9 +15,6 @@ const SelectedCategory = () => {
       /^[a-f0-9]{24}$/.test(segment)
     );
 
-    console.log("currentUrl:", currentUrl.href);
-    console.log("categoryId:", categoryId);
-
     setCatId(categoryId);
   }, []);
 
@@ -27,9 +24,6 @@ const SelectedCategory = () => {
       setSelectedCategory(category);
     }
   }, [catId, shopCategory]);
-
-  console.log(shopCategory);
-  console.log("selectedCategory:", selectedCategory);
 
   return (
     <>
