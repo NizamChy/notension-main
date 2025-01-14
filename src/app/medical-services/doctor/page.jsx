@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "@/components/shared/Navbar/Navbar";
+import Footer from "@/components/shared/Footer/Footer";
 import DoctorNav from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorNav";
 import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
 import FirstDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FirstDoctorCategory";
@@ -34,6 +35,8 @@ const page = () => {
         <PopularDoctorFirstSlider />
         <FifthDoctorCategory />
       </div>
+
+      <Footer />
     </>
   );
 };

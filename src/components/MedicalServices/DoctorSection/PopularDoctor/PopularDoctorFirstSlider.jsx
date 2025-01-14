@@ -16,7 +16,6 @@ const doctorData = [
     hospital: "Evercare Hospital Chittagong",
     image: "/images/medical-services/doctor-male.jpg",
   },
-
   {
     id: 2,
     name: "Dr. Example Name",
@@ -63,20 +62,20 @@ const PopularDoctorFirstSlider = () => {
   return (
     <div className="py-20 relative flex justify-center items-center">
       <button
-        className="absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
+        className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
         id="custom-prev"
       >
         <GrPrevious />
       </button>
 
       <button
-        className="absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
+        className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
         id="custom-next"
       >
         <GrNext />
       </button>
 
-      <div className="w-full flex justify-center mx-auto px-5 items-center">
+      <div className="w-full flex justify-center mx-auto ps-3 md:px-5 items-center">
         <Swiper
           slidesPerView={1.3}
           spaceBetween={20}
@@ -100,7 +99,7 @@ const PopularDoctorFirstSlider = () => {
         >
           {doctorData.map((doctor) => (
             <SwiperSlide key={doctor.id} className="flex justify-center">
-              <div className="bg-white w-full h-52 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer px-3 py-3 my-2">
+              <div className="bg-white w-full h-52 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
                 <div className="flex gap-2">
                   <div>
                     <Image
