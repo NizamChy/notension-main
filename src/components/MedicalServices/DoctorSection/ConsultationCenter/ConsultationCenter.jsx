@@ -7,25 +7,25 @@ const consultationData = [
     name: "Evercare Hospital Chittagong",
     address:
       "Plot No. H1, Anannya CDA Residential Area, Oxygen - Kuwaish Rd, Chattogram 4337",
-    image: "/images/medical-services/evercare-hospital.png",
+    image: "/images/medical-services/evercare-hospital.jpg",
   },
   {
     id: 2,
     name: "Medical Center Hospital",
     address: "123 CDA Avenue, Chattogram 4000",
-    image: "/images/medical-services/evercare-hospital.png",
+    image: "/images/medical-services/evercare-hospital.jpg",
   },
   {
     id: 3,
     name: "Chattogram General Hospital",
     address: "456 General Road, Chattogram 4100",
-    image: "/images/medical-services/evercare-hospital.png",
+    image: "/images/medical-services/evercare-hospital.jpg",
   },
   {
     id: 4,
     name: "Diabetes Center Chattogram",
     address: "789 Diabetes Lane, Chattogram 4200",
-    image: "/images/medical-services/evercare-hospital.png",
+    image: "/images/medical-services/evercare-hospital.jpg",
   },
 ];
 
@@ -38,7 +38,7 @@ const ConsultationCenter = () => {
             key={center.id}
             className="bg-white border rounded-lg shadow-md overflow-hidden"
           >
-            <div className="relative w-full h-40">
+            <div className="relative w-full h-48">
               <Image
                 src={center.image}
                 alt={center.name}

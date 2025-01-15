@@ -18,7 +18,7 @@ const page = () => {
         <div className="lg:flex justify-center items-center gap-20 my-10 px-4 lg:px-20 space-y-10 lg:space-y-0">
           <DoctorSlider />
 
-          <div className="w-full">
+          <div className="">
             <Image
               src="/images/medical-services/find-near-consultation.jpg"
               alt="find-near-consultation"
