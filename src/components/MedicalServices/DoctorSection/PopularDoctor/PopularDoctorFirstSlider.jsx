@@ -10,57 +10,69 @@ import Image from "next/image";
 const doctorData = [
   {
     id: 1,
-    name: "Dr. Manzurul Kader Chowdhury",
-    qualification: "MBBS, BCS (Health), MD (Neurology)",
-    position: "Asst. Professor, Neurology",
-    hospital: "Evercare Hospital Chittagong",
-    image: "/images/medical-services/doctor-male.jpg",
+    name: "ডাঃ সুলেখা ভট্টাচাৰ্য্য",
+    qualification:
+      "এমবিবিএস, বিসিএস (স্বাস্থ্য) এফসিপিএস (গাইনী এন্ড অবস্) প্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ চট্টগ্রাম মেডিকেল কলেজ হাসপাতাল।",
+    position: "সহকারী অধ্যাপক, গাইনী ও অবস্",
+    expertise: "প্রসূতি, স্ত্রীরোগ ও ইনফাটিলিটি বিশেষজ্ঞ ও সা...",
+    hospital: "মেডিকেল সেন্টার হাসপাতাল",
+    image: "/images/medical-services/doctor-female.png",
   },
   {
     id: 2,
-    name: "Dr. Example Name",
-    qualification: "MBBS, MD (Cardiology)",
-    position: "Professor, Cardiology",
-    hospital: "City Hospital Chittagong",
+    name: "ডাঃ শ্যামল কুমার দাস",
+    qualification:
+      "এমবিবিএস, বিসিএস (স্বাস্থ্য) এফসিপিএস (মেডিসিন) অভিজ্ঞ চিকিৎসক চট্টগ্রাম মেডিকেল কলেজ।",
+    position: "সহকারী অধ্যাপক, মেডিসিন",
+    expertise: "চিকিৎসা বিশেষজ্ঞ ও সা...",
+    hospital: "চট্টগ্রাম জেনারেল হাসপাতাল",
     image: "/images/medical-services/doctor-male.jpg",
   },
   {
     id: 3,
-    name: "Dr. Example Name",
-    qualification: "MBBS, MD (Cardiology)",
-    position: "Professor, Cardiology",
-    hospital: "City Hospital Chittagong",
-    image: "/images/medical-services/doctor-male.jpg",
+    name: "ডাঃ তানিয়া রহমান",
+    qualification:
+      "এমবিবিএস, বিসিএস (স্বাস্থ্য) ডিএমইউ (ডায়াবেটিস) অভিজ্ঞ ডায়াবেটোলজিস্ট।",
+    position: "সহকারী অধ্যাপক, ডায়াবেটোলজি",
+    expertise: "ডায়াবেটিস ও হরমোনজনিত রোগ বিশেষজ্ঞ ও সা...",
+    hospital: "ডায়াবেটিস সেন্টার চট্টগ্রাম",
+    image: "/images/medical-services/doctor-female.png",
   },
   {
     id: 4,
-    name: "Dr. Example Name",
-    qualification: "MBBS, MD (Cardiology)",
-    position: "Professor, Cardiology",
-    hospital: "City Hospital Chittagong",
+    name: "ডাঃ আরিফুল ইসলাম",
+    qualification:
+      "এমবিবিএস, বিসিএস (স্বাস্থ্য) এফসিপিএস (কার্ডিওলজি) অভিজ্ঞ হৃদরোগ বিশেষজ্ঞ।",
+    position: "সহকারী অধ্যাপক, কার্ডিওলজি",
+    expertise: "হৃদরোগ ও হাইপারটেনশন বিশেষজ্ঞ ও সা...",
+    hospital: "হৃদরোগ সেন্টার চট্টগ্রাম",
     image: "/images/medical-services/doctor-male.jpg",
   },
   {
     id: 5,
-    name: "Dr. Example Name",
-    qualification: "MBBS, MD (Cardiology)",
-    position: "Professor, Cardiology",
-    hospital: "City Hospital Chittagong",
-    image: "/images/medical-services/doctor-male.jpg",
+    name: "ডাঃ ফাহমিদা আক্তার",
+    qualification:
+      "এমবিবিএস, বিসিএস (স্বাস্থ্য) এমএস (অর্থোপেডিক্স) অভিজ্ঞ অর্থোপেডিক্স বিশেষজ্ঞ।",
+    position: "সহকারী অধ্যাপক, অর্থোপেডিক্স",
+    expertise: "অর্থোপেডিক্স ও ট্রমা বিশেষজ্ঞ ও সা...",
+    hospital: "অর্থোপেডিক্স ক্লিনিক চট্টগ্রাম",
+    image: "/images/medical-services/doctor-female.png",
   },
   {
     id: 6,
-    name: "Dr. Example Name",
-    qualification: "MBBS, MD (Cardiology)",
-    position: "Professor, Cardiology",
-    hospital: "City Hospital Chittagong",
+    name: "ডাঃ মুকুল চন্দ্র ধর",
+    qualification:
+      "এমবিবিএস, বিসিএস (স্বাস্থ্য) এমডি (পেডিয়াট্রিক্স) অভিজ্ঞ শিশুরোগ বিশেষজ্ঞ।",
+    position: "সহকারী অধ্যাপক, শিশুরোগ",
+    expertise: "শিশুস্বাস্থ্য ও নবজাতক বিশেষজ্ঞ ও সা...",
+    hospital: "শিশু হাসপাতাল চট্টগ্রাম",
     image: "/images/medical-services/doctor-male.jpg",
   },
 ];
 
 const PopularDoctorFirstSlider = () => {
   return (
-    <div className="py-20 relative flex justify-center items-center">
+    <div className="py-0 md:py-5 lg:py-20 relative flex justify-center items-center">
       <button
         className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
         id="custom-prev"
@@ -99,31 +111,35 @@ const PopularDoctorFirstSlider = () => {
         >
           {doctorData.map((doctor) => (
             <SwiperSlide key={doctor.id} className="flex justify-center">
-              <div className="bg-white w-full h-52 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
-                <div className="flex gap-2">
-                  <div>
+              <div className="bg-white w-full h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
+                <div className="flex gap-2 px-8 justify-center items-center">
+                  <div className="w-1/3">
                     <Image
                       src={doctor.image}
                       alt={doctor.name}
-                      width={100}
-                      height={100}
+                      width={86}
+                      height={86}
                       className="rounded-full object-contain"
                     />
                   </div>
-                  <div>
-                    <h3 className="mt-3 text-center font-semibold text-deepGray">
+                  <div className="w-2/3 flex flex-col justify-start items-start">
+                    <h3 className="mt-3 font-semibold text-[#A93356]">
                       {doctor.name}
                     </h3>
-                    <p className="text-center text-sm text-gray-600">
+                    <p className="text-sm text-mediumGray py-1">
                       {doctor.qualification}
-                    </p>
-                    <p className="text-center text-sm text-gray-600">
-                      {doctor.position}
                     </p>
                   </div>
                 </div>
-                <div className="my-2 text-center bg-orange-400 text-white py-1 px-3 rounded-full text-sm">
-                  {doctor.hospital}
+
+                <p className="bg-[#F78F1E] truncate w-full text-white font-semibold text-base px-3 py-1">
+                  {doctor.expertise}
+                </p>
+
+                <div className="w-full">
+                  <p className="my-2 text-[#0C3F8E] px-3 text-lg font-semibold">
+                    {doctor.hospital}
+                  </p>
                 </div>
               </div>
             </SwiperSlide>

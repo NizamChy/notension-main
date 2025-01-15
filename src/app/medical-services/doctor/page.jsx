@@ -4,10 +4,10 @@ import Footer from "@/components/shared/Footer/Footer";
 import DoctorNav from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorNav";
 import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
 import FirstDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FirstDoctorCategory";
-import SecondDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/SecondDoctorCategory";
 import ThirdDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/ThirdDoctorCategory";
-import FourthDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FourthDoctorCategory";
 import FifthDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FifthDoctorCategory";
+import SecondDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/SecondDoctorCategory";
+import FourthDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FourthDoctorCategory";
 import PopularDoctorFirstSlider from "@/components/MedicalServices/DoctorSection/PopularDoctor/PopularDoctorFirstSlider";
 
 const page = () => {

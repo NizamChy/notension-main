@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 const DoctorNav = () => {
   return (
@@ -18,13 +18,15 @@ const DoctorNav = () => {
           </Link>
         </div>
         <div>
-          <Image
-            src="/images/medical-services/find-nearest-doctor.png"
-            alt="Product image"
-            width={400}
-            height={400}
-            className="w-full lg:max-w-[400px] rounded-lg shadow-md hover:shadow-lg"
-          />
+          <Link href="/medical-services/doctor/consultation-center">
+            <Image
+              src="/images/medical-services/find-doctor-by-consult.png"
+              alt="Product image"
+              width={400}
+              height={400}
+              className="w-full lg:max-w-[400px] rounded-lg shadow-md hover:shadow-lg"
+            />
+          </Link>
         </div>
       </div>
     </div>
