@@ -55,8 +55,8 @@ const Navbar = () => {
     <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
       <Link href="/">
         <Image
-          width={500}
-          height={500}
+          width={224}
+          height={40}
           src="/png/notension-logo.png"
           alt="notension"
           className="object-cover w-32 lg:w-56 lg:h-10"
