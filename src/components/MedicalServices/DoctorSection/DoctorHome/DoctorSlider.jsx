@@ -33,7 +33,7 @@ const DoctorSlider = () => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper z-50 relative max-w-[800px] rounded-lg"
+        className="mySwiper z-50 relative w-full max-w-[800px] rounded-lg"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>

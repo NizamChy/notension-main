@@ -4,6 +4,7 @@ import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/
 import ConsultationCenter from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenter";
 import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
+import Image from "next/image";
 
 const page = () => {
   return (
@@ -14,8 +15,18 @@ const page = () => {
         <p className="text-center py-3 lg:text-xl text-primaryFood bg-[#FFF1EA]">
           Find Doctor By Consultation Center
         </p>
-        <div className="lg:flex justify-center my-10 gap-5 px-4 lg:px-0">
+        <div className="lg:flex justify-center items-center gap-20 my-10 px-4 lg:px-20 space-y-10 lg:space-y-0">
           <DoctorSlider />
+
+          <div className="w-full">
+            <Image
+              src="/images/medical-services/find-near-consultation.jpg"
+              alt="find-near-consultation"
+              width={800}
+              height={400}
+              className="rounded-lg w-full"
+            />
+          </div>
         </div>
         <ConsultationCenter />
       </div>
