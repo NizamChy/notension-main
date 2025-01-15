@@ -37,7 +37,7 @@ const CommonModal = ({ isOpen, onClose, children, className = "" }) => {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`relative w-11/12 md:w-full max-w-md bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 ${
+          className={`relative w-[87%] md:w-full max-w-md bg-white md:p-6 rounded-lg shadow-lg transition-transform duration-300 ${
             isOpen ? "scale-100 opacity-100" : "scale-110 opacity-0"
           } ${className}`}
         >

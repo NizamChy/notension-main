@@ -33,19 +33,19 @@ const LoginModalDetails = ({ onClose, type }) => {
   return (
     <>
       {tab ? (
-        <div className="border-2 rounded-md p-6">
+        <div className="md:border-2 rounded-md p-3 md:p-6">
           <OtpSection setPhone={setPhone} />
           <div className="flex justify-center">
             <button
               onClick={handleOtp}
-              className={`mt-4 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
+              className={`md:mt-4 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
             >
               LOGIN WITH OTP
             </button>
           </div>
         </div>
       ) : (
-        <div className="border-2 rounded-md p-6">
+        <div className="md:border-2 rounded-md p-3 md:p-6">
           <UserInfoInputs
             phone={phone}
             onClose={onClose}
