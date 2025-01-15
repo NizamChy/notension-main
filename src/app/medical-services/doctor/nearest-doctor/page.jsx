@@ -9,7 +9,6 @@ const page = () => {
   return (
     <>
       <Navbar />
-
       <div className="pt-20">
         <LocationMobile />
         <p className="text-center py-3 lg:text-xl text-primaryFood bg-[#FFF1EA]">

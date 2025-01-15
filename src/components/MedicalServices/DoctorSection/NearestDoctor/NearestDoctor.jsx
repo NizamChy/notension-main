@@ -71,7 +71,7 @@ const NearestDoctor = () => {
         {doctorData.map((doctor) => (
           <div key={doctor.id} className="flex justify-center">
             <div className="bg-white w-full h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
-              <div className="flex gap-2 px-8 justify-center items-center">
+              <div className="flex gap-2 px-3 lg:px-8 justify-center items-center">
                 <div className="w-1/3">
                   <Image
                     src={doctor.image}
