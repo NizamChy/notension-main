@@ -9,14 +9,19 @@ import FifthDoctorCategory from "@/components/MedicalServices/DoctorSection/Doct
 import SecondDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/SecondDoctorCategory";
 import FourthDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FourthDoctorCategory";
 import PopularDoctorFirstSlider from "@/components/MedicalServices/DoctorSection/PopularDoctor/PopularDoctorFirstSlider";
+import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 
 const page = () => {
   return (
     <>
       <Navbar />
-      <p className="text-center py-3 text-xl text-primaryFood bg-[#FFF1EA] pt-20">
-        Find Doctor
-      </p>
+
+      <div className="pt-20">
+        <LocationMobile />
+        <p className="text-center py-3 lg:text-xl text-primaryFood bg-[#FFF1EA]">
+          Find Doctor
+        </p>
+      </div>
 
       <div className="lg:flex justify-center my-10 gap-5 px-4 lg:px-0">
         <DoctorSlider />

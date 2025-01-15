@@ -89,7 +89,7 @@ const PopularDoctorFirstSlider = () => {
 
       <div className="w-full flex justify-center mx-auto ps-3 md:px-5 items-center">
         <Swiper
-          slidesPerView={1.3}
+          slidesPerView={1.2}
           spaceBetween={20}
           loop={true}
           navigation={{
@@ -102,6 +102,10 @@ const PopularDoctorFirstSlider = () => {
               spaceBetween: 20,
             },
             1024: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+            1280: {
               slidesPerView: 4,
               spaceBetween: 30,
             },
@@ -111,7 +115,7 @@ const PopularDoctorFirstSlider = () => {
         >
           {doctorData.map((doctor) => (
             <SwiperSlide key={doctor.id} className="flex justify-center">
-              <div className="bg-white w-full h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
+              <div className="bg-white w-full h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
                 <div className="flex gap-2 px-8 justify-center items-center">
                   <div className="w-1/3">
                     <Image
@@ -126,6 +130,7 @@ const PopularDoctorFirstSlider = () => {
                     <h3 className="mt-3 font-semibold text-[#A93356]">
                       {doctor.name}
                     </h3>
+
                     <p className="text-sm text-mediumGray py-1">
                       {doctor.qualification}
                     </p>
