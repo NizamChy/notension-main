@@ -32,7 +32,7 @@ const HomeSlider = () => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper z-50 relative max-w-[632px] md:w-full w-[300px]"
+        className="mySwiper z-50 relative max-w-[632px] md:w-full w-screen"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
