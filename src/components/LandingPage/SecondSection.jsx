@@ -24,7 +24,7 @@ const SecondSection = () => {
                 Find Eye Care Center
               </h3>
               <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                + Shop Now
+                + Contact Now
               </p>
             </div>
           </div>
@@ -48,7 +48,7 @@ const SecondSection = () => {
                 Find Dental Care Center
               </h3>
               <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                + Order Now
+                + Contact Now
               </p>
             </div>
           </div>

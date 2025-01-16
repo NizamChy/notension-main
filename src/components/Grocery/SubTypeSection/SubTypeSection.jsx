@@ -27,10 +27,6 @@ const SubTypeSection = () => {
 
   const { isOnline } = useNetworkStatus();
 
-  // const { merchantId, customstore_id } = useSelector(
-  //   (state) => state.itemsByStore
-  // );
-
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   useEffect(() => {
@@ -75,7 +71,6 @@ const SubTypeSection = () => {
   }
 
   return (
-    // <div className="m-4 lg:mx-20 lg:my-5">
     <div className="m-4 lg:m-20 pt-20 lg:pt-10">
       {selectedSubType && (
         <>
@@ -84,7 +79,6 @@ const SubTypeSection = () => {
               <li className="inline-flex items-center">
                 <Link
                   href={`/grocery/${params?.store}/type/${typeId}`}
-                  // router.push(`/grocery/${params?.store}/type/${data.id}`);
                   className="inline-flex items-center text-sm md:text-xl font-medium text-gray-700 hover:text-blue-600"
                 >
                   {typeName}

@@ -10,32 +10,29 @@ import { MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoin
 
 const TypeSection = ({ typeId }) => {
   const router = useRouter();
-
   const params = useParams();
 
   const { typeInfo, isLoading } = useSelector((state) => state.dashboard);
-
   const selectedType = typeInfo?.find(
     (type) => type.id === typeId || type.custom_type_id === typeId
   );
-
   const subtypes = selectedType?.subtype || [];
 
   return (
     <>
       <div className="mt-32 px-4 lg:mx-20 min-h-content">
-        <h2 className="text-2xl font-bold mb-6 text-deepGray">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
           {selectedType?.name || ""}
         </h2>
 
         {isLoading && (
-          <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
               <SubtypeSkeleton key={index} />
             ))}
           </div>
         )}
-        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
           {subtypes.length > 0 &&
             subtypes.map((subtype) => (
               <div

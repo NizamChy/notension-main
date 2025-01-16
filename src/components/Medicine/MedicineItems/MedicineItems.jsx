@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { TbCurrencyTaka } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
-import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { useEffect, useState } from "react";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
+import { TbCurrencyTaka } from "react-icons/tb";
 import ItemDetailsModal from "./ItemDetailsModal";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
 import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
+import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
+import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
+import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -110,7 +110,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
               alt={item?.item_title_eng || "Product image"}
               width={400}
               height={400}
-              className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+              className="w-full md:h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
 
             {item?.less > 0 && (
@@ -147,15 +147,15 @@ const MedicineItems = ({ item, isFavorite = false }) => {
             )}
           </div>
 
-          <div className="px-3 pb-3 pt-1">
-            <div className="flex justify-between">
-              <div className="h-12 lg:h-14">
-                <h5 className="text-sm md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
+          <div className="px-2 md:px-3 pb-3 pt-1">
+            <div className="md:flex justify-between">
+              <div className="h-8 lg:h-14">
+                <h5 className="text-xs md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
                   {item?.item_title_eng}
                 </h5>
               </div>
 
-              <p className="text-sm text-mediumGray truncate">
+              <p className="text-xs text-mediumGray truncate">
                 {item?.strength}
               </p>
             </div>
@@ -183,7 +183,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                 {currentQuantity === 0 ? (
                   <button
                     onClick={handleAddToCart}
-                    className="w-full py-2 px-4 bg-primaryMedicine text-white font-medium rounded-lg text-sm hover:bg-secondaryMedicine focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
+                    className="w-full py-1.5 md:py-2 md:px-4 bg-primaryMedicine text-white font-medium rounded-lg  text-xs md:text-sm hover:bg-secondaryMedicine focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
                   >
                     Add to cart
                   </button>
@@ -197,7 +197,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                   >
                     <button
                       onClick={(e) => handleDecrement(e, item._id)}
-                      className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
+                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                     >
                       -
                     </button>
@@ -206,7 +206,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                     </span>
                     <button
                       onClick={(e) => handleIncrement(e, item._id)}
-                      className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
+                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                     >
                       +
                     </button>

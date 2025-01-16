@@ -14,7 +14,7 @@ const ShopInfo = () => {
   return (
     <>
       {visitedMedicineStore?._id && (
-        <div className="p-4 w-full h-full border border-gray-200 rounded-2xl shadow-sm transition-shadow duration-300 flex flex-col items-center bg-white">
+        <div className="p-2 md:p-4 w-full h-full border border-gray-200 rounded-2xl shadow-sm transition-shadow duration-300 flex flex-col items-center bg-white">
           <Image
             width={500}
             height={300}
@@ -22,31 +22,27 @@ const ShopInfo = () => {
             src={`${IMAGE_URL}/medicine-store-docs/${visitedMedicineStore?.shop_banner_web}`}
             className="rounded-lg overflow-hidden border w-full h-full object-cover"
           />
-          <div className="mt-6 space-y-1 w-full text-gray-700">
-            <div className="flex items-center gap-2">
+          <div className="mt-1 md:mt-6 space-y-1 w-full text-gray-700">
+            <div className="flex items-center gap-2 text-sm md:text-base lg:text-lg">
               <BsShop className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900 text-nowrap">
+              <span className="font-semibold text-gray-900 text-nowrap">
                 Shop Name:
               </span>
               <span className="truncate font-medium">
                 {visitedMedicineStore?.shop_name}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-sm md:text-base lg:text-lg">
               <IoCallOutline className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900">
-                Contact:
-              </span>
+              <span className="font-semibold text-gray-900">Contact:</span>
               <span className="truncate font-medium">
                 {visitedMedicineStore?.contact_no},{" "}
                 {visitedMedicineStore?.alternative_contact_no}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-sm md:text-base lg:text-lg">
               <IoLocationOutline className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900">
-                Location:
-              </span>
+              <span className="font-semibold text-gray-900">Location:</span>
               <span className="truncate font-medium">
                 {visitedMedicineStore?.district_area_name},{" "}
                 {visitedMedicineStore?.district_name}

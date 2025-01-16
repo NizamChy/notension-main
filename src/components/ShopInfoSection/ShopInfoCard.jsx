@@ -84,8 +84,8 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
       </div>
 
       <div className="p-4">
-        <h2 className="text-xl font-semibold mb-2">{shop?.shop_name}</h2>
-        <p className="text-gray-700 mb-2 flex gap-1">
+        <h2 className="md:text-xl font-semibold mb-2">{shop?.shop_name}</h2>
+        <p className="text-sm md:text-base text-gray-700 mb-2 flex gap-1">
           <span className="text-blue-600 mt-1">
             <FaLocationDot />
           </span>
@@ -93,7 +93,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
         </p>
 
         {shop?.distance && (
-          <p className="text-gray-500 ps-4">
+          <p className="text-xs md:text-base text-gray-500 ps-4">
             Distance: {(shop?.distance / 1000).toFixed(2)} km
           </p>
         )}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { MdPlayArrow } from "react-icons/md";
+import { MdFavoriteBorder, MdPlayArrow } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
@@ -57,13 +57,13 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
           <>
             <div className="p-3 px-5">
               <div className="flex items-center gap-2">
-                <CgProfile className="text-2xl text-secondaryMedicine" />
+                <CgProfile className="text-lg text-secondaryMedicine" />
 
                 <div className="-space-y-0.5">
-                  <p className="font-medium text-secondaryMedicine">
+                  <p className="font-medium text-sm text-secondaryMedicine">
                     {userInfo?.customer_name}
                   </p>
-                  <p className="text-base text-deepGray">
+                  <p className="text-sm text-deepGray">
                     {userInfo?.contact_no}
                   </p>
                 </div>
@@ -74,16 +74,29 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                 href={`/medicine/${params?.store}/orders`}
                 className="mt-2 flex gap-2"
               >
-                <TiShoppingCart className="text-2xl text-secondaryMedicine" />
-                <p className="text-secondaryMedicine font-medium">My Orders</p>
+                <TiShoppingCart className="text-lg text-secondaryMedicine" />
+                <p className="text-secondaryMedicine text-sm font-medium">
+                  My Orders
+                </p>
+              </Link>
+
+              <Link
+                onClick={toggleDrawer}
+                href={`/medicine/${params?.store}/favorite-items`}
+                className="mt-2 flex gap-2"
+              >
+                <MdFavoriteBorder className="text-lg text-secondaryMedicine" />
+                <p className="text-secondaryMedicine text-sm font-medium">
+                  Wishlists
+                </p>
               </Link>
 
               <div className="flex items-center gap-2 mt-2 ps-1">
-                <TbLogout className="text-2xl text-secondaryMedicine" />
+                <TbLogout className="text-lg text-secondaryMedicine" />
 
                 <button
                   onClick={handleLogout}
-                  className="text-secondaryMedicine font-medium"
+                  className="text-secondaryMedicine text-sm font-medium"
                 >
                   Logout
                 </button>
@@ -96,7 +109,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
             <div className="flex justify-center">
               <button
                 onClick={handleLogin}
-                className="mt-4 mb-2 px-4 py-2 bg-secondaryMedicine text-white rounded-md"
+                className="mt-4 mb-2 px-4 py-2 text-sm bg-secondaryMedicine text-white rounded-md"
               >
                 LOGIN
               </button>
@@ -104,7 +117,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
           </>
         )}
 
-        <div className="h-full border-e px-4 max-w-screen-md pb-5 bg-white">
+        <div className="h-full border-e px-1 max-w-screen-md pb-5 bg-white">
           <div className="overflow-y-auto h-full no-scrollbar">
             {typeInfo?.map((data, idx) => (
               <div className="border-b border-gray-400/10" key={data.id}>
@@ -138,11 +151,11 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                             : "/png/dummyImage.png"
                         }
                         alt="medicine category"
-                        className="w-10 h-10"
+                        className="w-8 h-8"
                       />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm hover:text-primaryMedicine">
+                      <p className="text-xs font-medium hover:text-primaryMedicine">
                         {data.name}
                       </p>
                     </div>
@@ -164,7 +177,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                       : "grid-rows-[0fr] opacity-0"
                   }`}
                 >
-                  <div className="overflow-hidden ps-4">
+                  <div className="overflow-hidden ps-1">
                     {data?.subtype?.map((sub, idx) => (
                       <div
                         onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
@@ -179,7 +192,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                         >
                           <div>
                             <MdPlayArrow
-                              className={`text-sm ${
+                              className={`text-xs ${
                                 sub?.subtypeInfo?._id === activeSubtype
                                   ? "text-primaryMedicine"
                                   : "text-deepGray"
@@ -188,7 +201,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                           </div>
                           <div className="flex-1">
                             <p
-                              className={`text-sm ${
+                              className={`text-xs font-medium ${
                                 sub?.subtypeInfo?._id === activeSubtype
                                   ? "text-primaryMedicine"
                                   : "text-deepGray"

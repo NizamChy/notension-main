@@ -37,7 +37,7 @@ const GrocerySection = () => {
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
-      <h1 className="text-2xl font-bold mb-6 text-deepGray">
+      <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
         Nearest Grocery Stores
       </h1>
 

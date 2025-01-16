@@ -40,7 +40,7 @@ const FavoriteShop = () => {
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
       {favouriteGroceryStore.length > 0 && (
-        <h1 className="text-2xl font-bold mb-6 text-deepGray">
+        <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
           Favourite Grocery Stores
         </h1>
       )}

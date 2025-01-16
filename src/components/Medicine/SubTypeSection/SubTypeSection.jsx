@@ -68,7 +68,7 @@ const SubTypeSection = () => {
               <li className="inline-flex items-center">
                 <Link
                   href={`/medicine/${params?.store}/type/${typeId}`}
-                  className="inline-flex items-center text-sm md:text-xl font-medium text-gray-700 hover:text-secondaryMedicine"
+                  className="inline-flex items-center text-xs md:text-xl font-medium text-gray-700 hover:text-secondaryMedicine"
                 >
                   {typeName}
                 </Link>
@@ -90,7 +90,7 @@ const SubTypeSection = () => {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <p className="ms-1 text-sm md:text-xl font-medium text-gray-500 md:ms-2">
+                  <p className="ms-1 text-xs md:text-xl font-medium text-gray-500 md:ms-2">
                     {selectedSubType?.sub_type_name}
                   </p>
                 </div>

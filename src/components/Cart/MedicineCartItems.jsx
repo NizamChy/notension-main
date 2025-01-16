@@ -55,16 +55,16 @@ const MedicineCartItems = () => {
               />
 
               <div>
-                <p className="text-base font-semibold">
+                <p className="text-xs md:text-base font-semibold">
                   {item?.item_title_eng}
                 </p>
-                <div className="flex gap-10">
-                  <p className="flex items-center text-primaryMedicine text-sm font-medium mt-1">
+                <div className="flex gap-2 md:gap-10">
+                  <p className="flex items-center text-primaryMedicine text-xs text-nowrap md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
                     {item?.sale_price} x {item.quantity}
                   </p>
 
-                  <p className="flex items-center text-primaryMedicine text-sm font-medium mt-1">
+                  <p className="flex items-center text-primaryMedicine text-xs md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
 
                     {(item?.sale_price * item.quantity).toFixed(2)}

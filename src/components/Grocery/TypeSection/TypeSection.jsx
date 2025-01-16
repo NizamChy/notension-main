@@ -9,7 +9,6 @@ import SubtypeSkeleton from "./SubtypeSkeleton";
 
 const TypeSection = ({ typeId }) => {
   const router = useRouter();
-
   const params = useParams();
 
   const { typeInfo, isLoading } = useSelector((state) => state.dashboard);
@@ -17,14 +16,12 @@ const TypeSection = ({ typeId }) => {
   const selectedType = typeInfo?.find(
     (type) => type.id === typeId || type.custom_type_id === typeId
   );
-
   const subtypes = selectedType?.subtype || [];
 
   return (
     <>
-      {/* <div className="mt-10 px-4 lg:mx-20"> */}
       <div className="mt-32 px-4 lg:mx-20">
-        <h2 className="text-2xl font-bold mb-6 text-deepGray">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
           {selectedType?.name || ""}
         </h2>
 
@@ -39,7 +36,6 @@ const TypeSection = ({ typeId }) => {
           {subtypes.length > 0 &&
             subtypes.map((subtype) => (
               <div
-                // router.push(`/sub-type/${subtype?.subtypeInfo?._id}`)
                 onClick={() =>
                   router.push(
                     `/grocery/${params?.store}/sub-type/${subtype?.subtypeInfo?._id}`

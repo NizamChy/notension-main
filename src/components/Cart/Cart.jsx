@@ -83,7 +83,7 @@ const Cart = () => {
         onClick={toggleDrawer}
         className={`fixed z-10 lg:z-50 top-1/2 right-0 ${getPrimaryClass()} text-white rounded-s-xl shadow-lg`}
       >
-        <div className="px-3 pt-3 pb-0.5">
+        <div className="px-2 md:px-3 pt-1 md:pt-3 md:pb-0.5">
           <span className="flex justify-center">
             <Image
               src="/svg/minicart-icon.svg"
@@ -92,7 +92,7 @@ const Cart = () => {
               height={13}
             />
           </span>
-          <p className="flex items-center gap-1 pb-0.5">
+          <p className="flex items-center justify-center gap-1 pb-0.5 text-sm md:text-base">
             {module === "food" && <span> {foodItems?.length || 0} items </span>}
             {module === "grocery" && (
               <span> {groceryItems?.length || 0} items </span>
@@ -104,7 +104,7 @@ const Cart = () => {
         </div>
 
         <p
-          className={`font-medium flex items-center ${getSecondaryClass()} text-white rounded-bl-xl px-2 py-0.5`}
+          className={`font-medium text-sm md:text-base flex items-center ${getSecondaryClass()} text-white rounded-bl-xl px-2 py-0.5`}
         >
           <TbCurrencyTaka />
 
