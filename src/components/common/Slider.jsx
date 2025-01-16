@@ -1,12 +1,13 @@
 "use client";
+
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Pagination, Autoplay } from "swiper/modules";
 import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
-import Image from "next/image";
 
 const Slider = ({ slides, classNames }) => {
   return (

@@ -1,12 +1,13 @@
 "use client";
-import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
-import { useFood } from "@/hooks/fetch-data/useFood";
+
+import Link from "next/link";
 import Image from "next/image";
+import Slider from "../../common/Slider";
+import Loader from "../../common/Loader";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import Slider from "../../common/Slider";
-import Link from "next/link";
-import Loader from "../../common/Loader";
+import { useFood } from "@/hooks/fetch-data/useFood";
+import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const FoodCategorySection = () => {
   const { exploreFoodModule, progressing } = useFood();

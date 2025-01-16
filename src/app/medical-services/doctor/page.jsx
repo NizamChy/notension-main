@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
+import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 import DoctorNav from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorNav";
 import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
 import FirstDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FirstDoctorCategory";
@@ -9,7 +10,6 @@ import FifthDoctorCategory from "@/components/MedicalServices/DoctorSection/Doct
 import SecondDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/SecondDoctorCategory";
 import FourthDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FourthDoctorCategory";
 import PopularDoctorFirstSlider from "@/components/MedicalServices/DoctorSection/PopularDoctor/PopularDoctorFirstSlider";
-import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 
 const page = () => {
   return (
@@ -23,12 +23,12 @@ const page = () => {
         </p>
       </div>
 
-      <div className="lg:flex justify-center items-center my-10 gap-5 px-4 lg:px-20">
-        <div className="w-full lg:w-1/2 p-5 lg:p-10">
+      <div className="lg:flex justify-center items-center my-5 lg:my-10 gap-5 px-4 lg:px-20">
+        <div className="w-full lg:w-1/2 lg:p-10">
           <DoctorSlider />
         </div>
 
-        <div className="w-full lg:w-1/2 p-5 lg:p-10 flex justify-center items-center">
+        <div className="w-full lg:w-1/2 lg:p-10 flex justify-center items-center">
           <DoctorNav />
         </div>
       </div>
