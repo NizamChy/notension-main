@@ -16,11 +16,11 @@ const page = () => {
           Find Doctor By Consultation Center
         </p>
         <div className="lg:flex justify-center items-center gap-5 my-10 px-4 lg:px-20 space-y-5 lg:space-y-0">
-          <div className="w-full lg:w-1/2 p-5 lg:p-10">
+          <div className="w-full lg:w-1/2 lg:p-10">
             <DoctorSlider />
           </div>
 
-          <div className="w-full lg:w-1/2 p-5 flex justify-center items-center">
+          <div className="w-full lg:w-1/2 flex justify-center items-center">
             <Image
               src="/images/medical-services/find-near-consultation.jpg"
               alt="find-near-consultation"
