@@ -17,14 +17,14 @@ const MiddleSection = () => {
           <Image
             width={632}
             height={300}
-            className="transition-transform duration-300 group-hover:scale-105"
+            className="w-full transition-transform duration-300 group-hover:scale-105"
             src="/images/home/find-medical-services.jpg"
             alt="find-medical-services.jpg"
           />
 
-          <div className="absolute bottom-10 left-8">
+          <div className="absolute bottom-3 left-4 md:bottom-10 md:left-8">
             <h3
-              className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
             >
               Find Medical Services
@@ -62,7 +62,7 @@ export default MiddleSection;
 //         />
 
 //         <div className="absolute bottom-10 left-8">
-//           <h3 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500">
+//           <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
 //             Find Hospital
 //           </h3>
 //           <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
@@ -83,7 +83,7 @@ export default MiddleSection;
 //           />
 
 //           <div className="absolute bottom-10 left-8">
-//             <h3 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500">
+//             <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
 //               Find Hospital
 //             </h3>
 //             <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
@@ -102,7 +102,7 @@ export default MiddleSection;
 //           />
 
 //           <div className="absolute bottom-10 left-8">
-//             <h3 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500">
+//             <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
 //               Find Diagnostic
 //             </h3>
 //             <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
@@ -125,7 +125,7 @@ export default MiddleSection;
 //         />
 
 //         <div className="absolute bottom-10 left-8">
-//           <h3 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500">
+//           <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
 //             Find Diagnostic
 //           </h3>
 //           <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">

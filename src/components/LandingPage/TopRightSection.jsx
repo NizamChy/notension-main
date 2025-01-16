@@ -15,21 +15,19 @@ const TopRightSection = () => {
             width={632}
             height={300}
             className="transition-transform duration-300 group-hover:scale-105"
-            // src="/images/home/home-banner-2.webp"
             src="/images/home/all-care-services.jpg"
             alt="home-banner-2"
           />
 
-          <div className="absolute bottom-10 left-8">
+          <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
             <h3
-              className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
             >
-              {/* Medicine Store */}
               All Care Services
             </h3>
             <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              {/* + Order Now */}+ Contact Now
+              + Contact Now
             </p>
           </div>
         </div>
@@ -42,21 +40,19 @@ const TopRightSection = () => {
               width={308}
               height={470}
               className="transition-transform duration-300 group-hover:scale-105"
-              // src="/images/home/home-banner-4.webp"
               src="/images/home/medicine-shop.jpg"
               alt="home-banner-4"
             />
 
-            <div className="absolute bottom-10 left-8">
+            <div className="absolute bottom-4 left-4 md:bottom-10 md:left-8">
               <h3
-                className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
               >
-                {/* Biryani House */}
                 Medicine Store
               </h3>
               <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                {/* + Order Now */}+ Shop Now
+                + Shop Now
               </p>
             </div>
           </div>
@@ -72,9 +68,9 @@ const TopRightSection = () => {
               alt="home-banner-5"
             />
 
-            <div className="absolute bottom-10 left-8">
+            <div className="absolute bottom-4 left-4 md:bottom-10 md:left-8">
               <h3
-                className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
               >
                 Find Restaurant

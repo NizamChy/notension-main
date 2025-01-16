@@ -158,12 +158,23 @@ const GroceryItems = ({ item, isFavorite = false }) => {
               {item?.pack_size}
             </p>
 
-            {item?.sale_price && (
-              <p className="text-sm md:text-lg font-medium pb-3 flex items-center text-blue-500">
-                <TbCurrencyTaka className="md:text-2xl" />
-                {item?.sale_price}
-              </p>
-            )}
+            <div className="flex gap-3 items-center pb-3">
+              {item?.sale_price && (
+                <p className="text-sm md:text-lg font-medium flex items-center text-primaryGrocery">
+                  <TbCurrencyTaka className="md:text-2xl" />
+                  {item?.sale_price}
+                </p>
+              )}
+
+              {item?.sale_price < item?.max_retail_price ? (
+                <>
+                  <p className="text-sm md:text-base flex items-center text-lightGray line-through">
+                    <TbCurrencyTaka className="md:text-lg" />
+                    {item?.max_retail_price}
+                  </p>
+                </>
+              ) : null}
+            </div>
 
             {!isFavorite && (
               <div>

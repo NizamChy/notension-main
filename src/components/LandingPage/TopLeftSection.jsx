@@ -15,9 +15,9 @@ const TopLeftSection = () => {
             alt="home-banner-1"
           />
 
-          <div className="absolute bottom-10 left-8">
+          <div className="absolute bottom-10 left-4 md:bottom-10 md:left-8">
             <h3
-              className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
             >
               Grocery Store
@@ -39,9 +39,9 @@ const TopLeftSection = () => {
             alt="home-banner-3"
           />
 
-          <div className="absolute bottom-10 left-8">
+          <div className="absolute bottom-5 left-3 md:bottom-10 md:left-8">
             <h3
-              className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
             >
               Find Doctors

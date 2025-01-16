@@ -6,11 +6,7 @@ const SecondSection = () => {
   return (
     <div className="lg:flex gap-4 space-y-4">
       <div className="flex justify-center lg:gap-4 mt-4">
-        <Link
-          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-          prefetch={false}
-          target="_blank"
-        >
+        <Link href="/medical-services/eye-care-center">
           <div className="group overflow-hidden relative">
             <Image
               width={308}
@@ -20,9 +16,9 @@ const SecondSection = () => {
               alt="find-eye-care.jpg"
             />
 
-            <div className="absolute bottom-10 left-8">
+            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
               <h3
-                className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
               >
                 Find Eye Care Center
@@ -34,11 +30,7 @@ const SecondSection = () => {
           </div>
         </Link>
 
-        <Link
-          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-          prefetch={false}
-          target="_blank"
-        >
+        <Link href="/medical-services/dental-care-center">
           <div className="group overflow-hidden relative">
             <Image
               width={308}
@@ -48,9 +40,9 @@ const SecondSection = () => {
               alt="find-dental-care.jpg"
             />
 
-            <div className="absolute bottom-10 left-8">
+            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
               <h3
-                className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
               >
                 Find Dental Care Center
@@ -63,11 +55,7 @@ const SecondSection = () => {
         </Link>
       </div>
       <div className="flex justify-center lg:gap-4 mt-4">
-        <Link
-          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-          prefetch={false}
-          target="_blank"
-        >
+        <Link href="/medical-services/hospital">
           <div className="group overflow-hidden relative">
             <Image
               width={308}
@@ -77,8 +65,8 @@ const SecondSection = () => {
               alt="home-banner-6"
             />
 
-            <div className="absolute bottom-10 left-8">
-              <h3 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500">
+            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
+              <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
                 Find Hospital
               </h3>
               <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
@@ -88,11 +76,7 @@ const SecondSection = () => {
           </div>
         </Link>
 
-        <Link
-          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-          prefetch={false}
-          target="_blank"
-        >
+        <Link href="/medical-services/diagnostic">
           <div className="group overflow-hidden relative">
             <Image
               width={308}
@@ -102,8 +86,8 @@ const SecondSection = () => {
               alt="home-banner-8"
             />
 
-            <div className="absolute bottom-10 left-8">
-              <h3 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500">
+            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
+              <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
                 Find Diagnostic
               </h3>
               <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
@@ -139,7 +123,7 @@ export default SecondSection;
 
 //             <div className="absolute bottom-10 left-8">
 //               <h3
-//                 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+//                 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
 //             "
 //               >
 //                 Find Eye Care Center
@@ -163,7 +147,7 @@ export default SecondSection;
 
 //             <div className="absolute bottom-10 left-8">
 //               <h3
-//                 className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+//                 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
 //             "
 //               >
 //                 Find Dental Care Center
@@ -188,7 +172,7 @@ export default SecondSection;
 
 //           <div className="absolute bottom-10 left-8">
 //             <h3
-//               className="text-xl md:text-2xl font-semibold tracking-widest text-gray-500
+//               className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
 //             "
 //             >
 //               Find Medical Services

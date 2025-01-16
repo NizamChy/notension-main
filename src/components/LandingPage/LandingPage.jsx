@@ -1,9 +1,9 @@
 import React from "react";
-import TopLeftSection from "./TopLeftSection";
-import TopRightSection from "./TopRightSection";
-import MiddleSection from "./MiddleSection";
 import BottomSection from "./BottomSection";
 import SecondSection from "./SecondSection";
+import MiddleSection from "./MiddleSection";
+import TopLeftSection from "./TopLeftSection";
+import TopRightSection from "./TopRightSection";
 import FavoriteSection from "../FavoriteSection/FavoriteSection";
 
 const LandingPage = () => {

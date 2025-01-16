@@ -80,7 +80,9 @@ const Navbar = () => {
             >
               <p className="font-semibold flex items-center gap-2">
                 <CgProfile className="text-2xl" />
-                <span>{userInfo.customer_name}</span>
+                <span className="hidden md:block">
+                  {userInfo.customer_name}
+                </span>
               </p>
               <svg
                 className={`${
@@ -101,6 +103,12 @@ const Navbar = () => {
             </button>
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
+                <li className="md:hidden block px-3 hover:underline">
+                  <p className="flex items-center text-sm text-secondary ps-1">
+                    {userInfo.customer_name}
+                  </p>
+                </li>
+
                 {category && (
                   <li className="px-3 hover:underline">
                     <Link

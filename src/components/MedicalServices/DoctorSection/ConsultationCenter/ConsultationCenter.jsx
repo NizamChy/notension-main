@@ -31,8 +31,8 @@ const consultationData = [
 
 const ConsultationCenter = () => {
   return (
-    <div className="flex justify-center px-4 lg:px-20 py-5 lg:py-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="flex justify-center px-4 lg:px-28 py-5 lg:py-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {consultationData.map((center) => (
           <div
             key={center.id}

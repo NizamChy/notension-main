@@ -1,13 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Link from "next/link";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
-import Link from "next/link";
 
 const FavoriteSection = () => {
   const items = [
@@ -41,21 +41,21 @@ const FavoriteSection = () => {
   return (
     <div className="container bg-white max-w-screen-xl mx-auto mt-5 mb-1 relative flex justify-center items-center">
       <button
-        className="absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
+        className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
         id="custom-prev"
       >
         <GrPrevious />
       </button>
       <button
-        className="absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
+        className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
         id="custom-next"
       >
         <GrNext />
       </button>
 
-      <div className="w-full flex justify-center mx-auto px-5 items-center">
+      <div className="w-full flex justify-center mx-auto md:px-5 items-center">
         <Swiper
-          slidesPerView={3}
+          slidesPerView={3.6}
           spaceBetween={20}
           loop={true}
           navigation={{

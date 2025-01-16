@@ -19,11 +19,11 @@ const BottomSection = () => {
             alt="home-banner-9"
           />
 
-          <div className="absolute bottom-2 left-2 md:bottom-10 md:left-8">
-            <h3 className="text-base md:text-2xl font-semibold tracking-widest text-gray-500">
+          <div className="absolute bottom-0 left-0.5 md:bottom-10 md:left-8">
+            <h3 className="text-xs md:text-2xl font-semibold tracking-widest text-gray-500">
               Find <br className="md:hidden" /> Nurse
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
+            <p className="text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
               + Contact <br className="md:hidden" />{" "}
               <span className="ps-3 md:ps-0">Now</span>
             </p>
@@ -45,11 +45,11 @@ const BottomSection = () => {
             alt="home-banner-10"
           />
 
-          <div className="absolute bottom-2 left-2 md:bottom-10 md:left-8">
-            <h3 className="text-base md:text-2xl font-semibold tracking-widest text-gray-500">
+          <div className="absolute bottom-0 left-1 md:bottom-10 md:left-8">
+            <h3 className="text-xs md:text-2xl font-semibold tracking-widest text-gray-500">
               Find Ambulance
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
+            <p className="text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
               + Contact Now
             </p>
           </div>
@@ -70,11 +70,11 @@ const BottomSection = () => {
             alt="home-banner-11"
           />
 
-          <div className="absolute bottom-2 left-2 md:bottom-10 md:left-8">
-            <h3 className="text-base md:text-2xl font-semibold tracking-widest text-gray-500">
+          <div className="absolute bottom-0 left-1 md:bottom-10 md:left-8">
+            <h3 className="text-xs md:text-2xl font-semibold tracking-widest text-gray-500">
               Find Blood Donar
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
+            <p className="text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
               + Contact Now
             </p>
           </div>
