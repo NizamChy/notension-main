@@ -23,9 +23,14 @@ const page = () => {
         </p>
       </div>
 
-      <div className="lg:flex justify-center my-10 gap-5 px-4 lg:px-0">
-        <DoctorSlider />
-        <DoctorNav />
+      <div className="lg:flex justify-center items-center my-10 gap-5 px-4 lg:px-20">
+        <div className="w-full lg:w-1/2 p-5 lg:p-10">
+          <DoctorSlider />
+        </div>
+
+        <div className="w-full lg:w-1/2 p-5 lg:p-10 flex justify-center items-center">
+          <DoctorNav />
+        </div>
       </div>
 
       <div className="lg:px-28 space-y-10">
