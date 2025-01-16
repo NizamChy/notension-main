@@ -15,7 +15,7 @@ const page = () => {
         <p className="text-center py-3 lg:text-xl text-primaryFood bg-[#FFF1EA]">
           Find Doctor By Consultation Center
         </p>
-        <div className="lg:flex justify-center items-center gap-5 my-10 px-4 lg:px-20 space-y-5 lg:space-y-0">
+        <div className="lg:flex justify-center items-center gap-5 my-10 lg:px-20 space-y-5 lg:space-y-0">
           <div className="w-full lg:w-1/2 lg:p-10">
             <DoctorSlider />
           </div>
