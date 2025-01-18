@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
 import React from "react";
+import Image from "next/image";
 import { useSelector } from "react-redux";
-import NoItemFound from "../NoItemSection/NoItemFound";
 import SubtypeSkeleton from "./SubtypeSkeleton";
+import NoItemFound from "../NoItemSection/NoItemFound";
+import { useParams, useRouter } from "next/navigation";
 import { MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const TypeSection = ({ typeId }) => {

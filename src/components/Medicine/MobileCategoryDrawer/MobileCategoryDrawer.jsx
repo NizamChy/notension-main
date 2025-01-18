@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
-import DrawerContent from "./DrawerContent";
-import Image from "next/image";
 import Link from "next/link";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import Image from "next/image";
+import DrawerContent from "./DrawerContent";
+import { RxHamburgerMenu } from "react-icons/rx";
+import React, { useEffect, useState } from "react";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const MobileCategoryDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,8 +48,8 @@ const MobileCategoryDrawer = () => {
             <Link href="/">
               <Image
                 onClick={toggleDrawer}
-                width={500}
-                height={500}
+                width={128}
+                height={23}
                 src="/png/notension-logo.png"
                 alt="notension"
                 className="object-cover w-32 lg:w-56 lg:h-10"

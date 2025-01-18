@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
-import DrawerContent from "./DrawerContent";
 import Image from "next/image";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import DrawerContent from "./DrawerContent";
+import { RxHamburgerMenu } from "react-icons/rx";
+import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const MobileCategoryDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +55,7 @@ const MobileCategoryDrawer = () => {
         </button>
 
         <div
-          className={`fixed z-50 top-0 left-0 w-[60%] md:w-96 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${
+          className={`fixed z-50 top-0 left-0 w-[80%] md:w-96 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${
             isOpen
               ? "translate-x-0 no-scrollbar overflow-y-auto"
               : "-translate-x-full"
@@ -64,8 +64,8 @@ const MobileCategoryDrawer = () => {
           <div className="flex justify-between items-center p-4 border-b">
             <button onClick={handleLogoClick}>
               <Image
-                width={500}
-                height={500}
+                width={128}
+                height={23}
                 src="/png/notension-logo.png"
                 alt="notension"
                 className="object-cover w-32 lg:w-56 lg:h-10"

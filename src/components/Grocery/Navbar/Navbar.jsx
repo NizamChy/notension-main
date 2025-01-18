@@ -2,19 +2,19 @@
 
 import React from "react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
-import SerchBar from "../SearchBarSection/GroceryItemSearchBar";
-import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
-import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
-import { useParams, useRouter } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { handleUserReducer } from "@/redux/userReducer";
+import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import GroceryItemSearchBar from "../SearchBarSection/GroceryItemSearchBar";
+import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -60,7 +60,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
+    <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-10 border">
       <MobileCategoryDrawer />
 
       <button
@@ -79,6 +79,12 @@ const Navbar = () => {
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
         <GroceryItemSearchBar />
       </div>
+
+      {!userInfo?._id && (
+        <>
+          <LoginButton />
+        </>
+      )}
 
       {userInfo._id && (
         <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">

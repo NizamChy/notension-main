@@ -82,21 +82,21 @@ const NearestDoctor = () => {
                   />
                 </div>
                 <div className="w-2/3 flex flex-col justify-start items-start">
-                  <h3 className="mt-3 font-semibold text-[#A93356]">
+                  <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
                     {doctor.name}
                   </h3>
-                  <p className="text-sm text-mediumGray py-1">
+                  <p className="text-xs md:text-sm text-mediumGray py-1">
                     {doctor.qualification}
                   </p>
                 </div>
               </div>
 
-              <p className="bg-[#CCB8F7] w-full text-white font-semibold text-base px-3 py-1">
+              <p className="bg-[#CCB8F7] w-full text-white font-semibold text-sm md:text-base px-3 py-1">
                 {doctor.expertise}
               </p>
 
               <div className="w-full">
-                <p className="my-2 text-[#599E66] px-3 text-lg font-semibold">
+                <p className="my-2 text-[#599E66] px-3 text-xm md:text-lg font-semibold">
                   {doctor.hospital}
                 </p>
               </div>

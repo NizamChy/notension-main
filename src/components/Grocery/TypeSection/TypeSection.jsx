@@ -1,11 +1,12 @@
 "use client";
-import { GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+
 import React from "react";
+import Image from "next/image";
 import { useSelector } from "react-redux";
-import NoItemFound from "../NoItemSection/NoItemFound";
 import SubtypeSkeleton from "./SubtypeSkeleton";
+import NoItemFound from "../NoItemSection/NoItemFound";
+import { useParams, useRouter } from "next/navigation";
+import { GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const TypeSection = ({ typeId }) => {
   const router = useRouter();
@@ -20,19 +21,19 @@ const TypeSection = ({ typeId }) => {
 
   return (
     <>
-      <div className="mt-32 px-4 lg:mx-20">
+      <div className="mt-20 md:mt-32 px-4 lg:mx-20">
         <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
           {selectedType?.name || ""}
         </h2>
 
         {isLoading && (
-          <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
               <SubtypeSkeleton key={index} />
             ))}
           </div>
         )}
-        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
           {subtypes.length > 0 &&
             subtypes.map((subtype) => (
               <div

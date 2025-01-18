@@ -124,7 +124,7 @@ const Cart = () => {
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-bold">
+          <h2 className="text-base md:text-xl font-bold">
             Cart
             {module === "food" && <span> ({foodItems?.length}) </span>}
             {module === "grocery" && <span> ({groceryItems?.length}) </span>}

@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import PopularItem from "./PopularItem";
 import SpecialOffer from "./SpecialOffer";
@@ -12,11 +13,11 @@ const CustomTypeSection = ({ customTypeId }) => {
   );
 
   return (
-    <div className="m-4 lg:m-20 pt-20 lg:pt-10">
-      <div className="py-10 lg:w-2/3">
+    <div className="m-4 lg:m-20 pt-12 md:pt-20 lg:pt-10">
+      <div className="py-5 md:py-10 lg:w-2/3">
         {DashboardSlider[0]?.fourth_slider?.length && (
           <GroceryCommonSlider
-            classNames="max-h-[468px]"
+            classNames="max-h-[144px] md:max-h-[468px]"
             slides={DashboardSlider[0]?.fourth_slider}
           />
         )}

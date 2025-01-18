@@ -47,11 +47,11 @@ const FloatingInput = ({
       )}
       <label
         htmlFor={id}
-        className={`absolute left-4 transition-all pointer-events-none bg-white px-1 
+        className={`absolute left-4 transition-all pointer-events-none text-sm bg-white px-1 
                     ${
                       isFocused || value
                         ? "-top-2 text-xs text-gray-400"
-                        : `top-2 ${size} text-gray-400`
+                        : `top-3 ${size} text-gray-400`
                     }
                   `}
       >

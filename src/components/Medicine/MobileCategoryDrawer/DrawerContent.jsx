@@ -1,17 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
+import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { TbLogout } from "react-icons/tb";
+import { CgProfile } from "react-icons/cg";
+import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { MdFavoriteBorder, MdPlayArrow } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
-import { toast } from "react-toastify";
-import { CgProfile } from "react-icons/cg";
-import { TbLogout } from "react-icons/tb";
-import Link from "next/link";
-import { TiShoppingCart } from "react-icons/ti";
+import { MdFavoriteBorder, MdPlayArrow } from "react-icons/md";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
   const [isOpen, setIsOpen] = useState(null);

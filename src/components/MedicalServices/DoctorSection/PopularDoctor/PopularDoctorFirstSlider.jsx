@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
-import Image from "next/image";
 
 const doctorData = [
   {
@@ -115,7 +115,7 @@ const PopularDoctorFirstSlider = () => {
         >
           {doctorData.map((doctor) => (
             <SwiperSlide key={doctor.id} className="flex justify-center">
-              <div className="bg-white w-full h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
+              <div className="bg-white w-full h-60 md:h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
                 <div className="flex gap-2 px-2 lg:px-8 justify-center items-center">
                   <div className="w-1/3">
                     <Image
@@ -127,22 +127,22 @@ const PopularDoctorFirstSlider = () => {
                     />
                   </div>
                   <div className="w-2/3 flex flex-col justify-start items-start">
-                    <h3 className="mt-3 font-semibold text-[#A93356]">
+                    <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
                       {doctor.name}
                     </h3>
 
-                    <p className="text-sm text-mediumGray py-1">
+                    <p className="text-xs md:text-sm text-mediumGray py-1">
                       {doctor.qualification}
                     </p>
                   </div>
                 </div>
 
-                <p className="bg-[#F78F1E] truncate w-full text-white font-semibold text-base px-3 py-1">
+                <p className="bg-[#F78F1E] truncate w-full text-white font-semibold text-sm md:text-base px-3 py-1">
                   {doctor.expertise}
                 </p>
 
                 <div className="w-full">
-                  <p className="my-2 text-[#0C3F8E] px-3 text-lg font-semibold">
+                  <p className="my-2 text-[#0C3F8E] px-3 text-sm md:text-lg font-semibold">
                     {doctor.hospital}
                   </p>
                 </div>

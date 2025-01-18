@@ -1,8 +1,8 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { useParams, useRouter } from "next/navigation";
 
 const GroceryItemSearchBar = () => {
   const [searchText, setSearchText] = useState("");
@@ -26,7 +26,7 @@ const GroceryItemSearchBar = () => {
       <form onSubmit={handleSearchSubmit} className="relative w-full">
         <input
           type="text"
-          className="w-full py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full py-2 md:py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Search item"
           value={searchText}
           onChange={(e) => {
@@ -40,7 +40,7 @@ const GroceryItemSearchBar = () => {
             onClick={clearSearchText}
             className="absolute top-1/2 transform -translate-y-1/2 right-14 bg-gray-100 text-gray-500 p-1.5 rounded-xl hover:bg-gray-200 focus:outline-none"
           >
-            <RxCross2 className="w-5 h-5" />
+            <RxCross2 className="md:w-5 md:h-5" />
           </button>
         )}
 
@@ -54,7 +54,7 @@ const GroceryItemSearchBar = () => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-5 h-5"
+            className="w-4 h-4 md:w-5 md:h-5"
           >
             <path
               strokeLinecap="round"

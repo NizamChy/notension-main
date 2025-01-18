@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { TbCurrencyTaka } from "react-icons/tb";
+import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
-import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { TbCurrencyTaka } from "react-icons/tb";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
-import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
+import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
+import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -18,6 +20,8 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
+
+  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
   const {
     addToFavouriteItems,
@@ -38,6 +42,10 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!loggedinUserInfo?._id) {
+      return toast.info("Please Login first!");
+    }
 
     addToFavouriteItems(item, merchantType);
   };
@@ -110,7 +118,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
               alt={item?.product_title_eng || "Product image"}
               width={400}
               height={400}
-              className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+              className="w-full md:h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
 
             {item?.less > 0 && (
@@ -147,14 +155,14 @@ const GroceryItems = ({ item, isFavorite = false }) => {
             )}
           </div>
 
-          <div className="px-3 pb-3 pt-2">
-            <div className="h-10 md:h-12">
-              <h5 className="text-sm md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
+          <div className="px-2 md:px-3 pb-3 pt-2">
+            <div className="h-8 lg:h-12">
+              <h5 className="text-xs md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}
               </h5>
             </div>
 
-            <p className="text-sm text-mediumGray truncate">
+            <p className="text-xs py-0.5 md:py-0 md:text-sm text-mediumGray truncate">
               {item?.pack_size}
             </p>
 
@@ -181,7 +189,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                 {currentQuantity === 0 ? (
                   <button
                     onClick={handleAddToCart}
-                    className="w-full py-2 px-4 bg-primary text-white font-medium rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
+                    className="w-full py-1.5 md:py-2 md:px-4 bg-primaryGrocery text-white font-medium rounded-lg  text-xs md:text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
                   >
                     Add to cart
                   </button>
@@ -191,11 +199,11 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                       e.stopPropagation();
                       e.preventDefault();
                     }}
-                    className="w-full bg-primary rounded-lg flex items-center justify-between"
+                    className="w-full bg-primaryGrocery rounded-lg flex items-center justify-between"
                   >
                     <button
                       onClick={(e) => handleDecrement(e, item._id)}
-                      className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
+                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                     >
                       -
                     </button>
@@ -204,7 +212,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                     </span>
                     <button
                       onClick={(e) => handleIncrement(e, item._id)}
-                      className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
+                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                     >
                       +
                     </button>

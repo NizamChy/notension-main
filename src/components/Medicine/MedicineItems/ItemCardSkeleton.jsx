@@ -2,7 +2,7 @@ import React from "react";
 
 const ItemCardSkeleton = () => {
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg animate-pulse p-4">
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg animate-pulse p-2 md:p-4">
       <div className="relative h-32 md:h-52 w-full bg-gray-300 rounded-lg"></div>
 
       <div className="pt-4">

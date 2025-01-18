@@ -1,30 +1,27 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import React, { useState } from "react";
+import { TbLogout } from "react-icons/tb";
+import { CgProfile } from "react-icons/cg";
+import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { MdPlayArrow } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
-import { toast } from "react-toastify";
-import { CgProfile } from "react-icons/cg";
-import { TbLogout } from "react-icons/tb";
-import Link from "next/link";
-import { TiShoppingCart } from "react-icons/ti";
+import { MdFavoriteBorder, MdPlayArrow } from "react-icons/md";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
   const [isOpen, setIsOpen] = useState(null);
   const [activeSubtype, setActiveSubtype] = useState("");
 
-  const dispatch = useDispatch();
-
   const params = useParams();
-
-  const userInfo = useSelector((state) => state.user.userInfo);
-
   const router = useRouter();
 
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user.userInfo);
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {
@@ -43,14 +40,14 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
     router.push(`/grocery/${params?.store}/custom-type/${customTypeId}`);
   };
 
-  const handleLogout = () => {
-    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
-    toast.success("User logged out successfully");
-  };
-
   const handleLogin = () => {
     toggleDrawer();
     openModal();
+  };
+
+  const handleLogout = () => {
+    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
+    toast.success("User logged out successfully");
   };
 
   return (
@@ -60,13 +57,13 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
           <>
             <div className="p-3 px-5">
               <div className="flex items-center gap-2">
-                <CgProfile className="text-2xl text-secondary" />
+                <CgProfile className="text-lg text-secondary" />
 
                 <div className="-space-y-0.5">
-                  <p className="font-medium text-secondary">
+                  <p className="font-medium text-sm text-secondary">
                     {userInfo?.customer_name}
                   </p>
-                  <p className="text-base text-deepGray">
+                  <p className="text-sm text-deepGray">
                     {userInfo?.contact_no}
                   </p>
                 </div>
@@ -74,19 +71,28 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
               <Link
                 onClick={toggleDrawer}
-                href="/orders"
+                href={`/grocery/${params?.store}/orders`}
                 className="mt-2 flex gap-2"
               >
-                <TiShoppingCart className="text-2xl text-secondary" />
-                <p className="text-secondary font-medium">My Orders</p>
+                <TiShoppingCart className="text-lg text-secondary" />
+                <p className="text-secondary text-sm font-medium">My Orders</p>
+              </Link>
+
+              <Link
+                onClick={toggleDrawer}
+                href={`/grocery/${params?.store}/favorite-items`}
+                className="mt-2 flex gap-2"
+              >
+                <MdFavoriteBorder className="text-lg text-secondary" />
+                <p className="text-secondary text-sm font-medium">Wishlists</p>
               </Link>
 
               <div className="flex items-center gap-2 mt-2 ps-1">
-                <TbLogout className="text-2xl text-secondary" />
+                <TbLogout className="text-lg text-secondary" />
 
                 <button
                   onClick={handleLogout}
-                  className="text-secondary font-medium"
+                  className="text-secondary text-sm font-medium"
                 >
                   Logout
                 </button>
@@ -99,7 +105,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
             <div className="flex justify-center">
               <button
                 onClick={handleLogin}
-                className="mt-4 mb-2 px-4 py-2 bg-secondary text-white rounded-md"
+                className="mt-4 mb-2 px-4 py-2 text-sm bg-secondary text-white rounded-md"
               >
                 LOGIN
               </button>
@@ -107,7 +113,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
           </>
         )}
 
-        <div className="h-full border-e px-4 max-w-screen-md pb-5 bg-white">
+        <div className="h-full border-e px-1 max-w-screen-md pb-5 bg-white">
           <div className="overflow-y-auto h-full no-scrollbar">
             {typeInfo?.map((data, idx) => (
               <div className="border-b border-gray-400/10" key={data.id}>
@@ -126,7 +132,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                         ? "bg-blue-300 text-blue-700"
                         : "text-deepGray"
                     } ${
-                      idx === typeInfo.length - 1
+                      idx === typeInfo?.length - 1
                         ? "border-none"
                         : "border-b border-gray-100/10"
                     } py-2 flex items-center gap-4`}
@@ -141,7 +147,9 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                       />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm hover:text-blue-500">{data.name}</p>
+                      <p className="text-xs font-medium hover:text-blue-500">
+                        {data?.name}
+                      </p>
                     </div>
                     {data?.subtype?.length > 0 && (
                       <div
@@ -161,7 +169,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                       : "grid-rows-[0fr] opacity-0"
                   }`}
                 >
-                  <div className="overflow-hidden ps-4">
+                  <div className="overflow-hidden ps-2">
                     {data?.subtype?.map((sub, idx) => (
                       <div
                         onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
@@ -169,37 +177,29 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                       >
                         <div
                           className={`cursor-pointer ${
-                            idx === data.subtype.length - 1
+                            idx === data?.subtype?.length - 1
                               ? "border-none"
                               : "border-b border-gray-400/10"
                           } py-4 flex items-center justify-between gap-4 ml-6`}
                         >
                           <div>
                             <MdPlayArrow
-                              className={`text-sm ${
+                              className={`text-xs ${
                                 sub?.subtypeInfo?._id === activeSubtype
                                   ? "text-blue-500"
                                   : "text-deepGray"
                               } hover:text-blue-500`}
                             />
-
-                            {/* <Image
-                          width={500}
-                          height={500}
-                          src="/png/medicine.png"
-                          alt="medicine"
-                          className="w-8 h-8 object-contain"
-                        /> */}
                           </div>
                           <div className="flex-1">
                             <p
-                              className={`text-sm ${
+                              className={`text-xs font-medium ${
                                 sub?.subtypeInfo?._id === activeSubtype
                                   ? "text-blue-500"
                                   : "text-deepGray"
                               } hover:text-blue-500`}
                             >
-                              {sub.sub_type_name}
+                              {sub?.sub_type_name}
                             </p>
                           </div>
                           {sub?.subtype?.length > 0 && (

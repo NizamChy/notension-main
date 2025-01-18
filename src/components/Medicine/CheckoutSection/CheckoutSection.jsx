@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { MdContactPhone } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
-import { toast } from "react-toastify";
-import FloatingInput from "@/components/LoginSection/FloatingInput";
+
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { MdContactPhone } from "react-icons/md";
+import { TbCurrencyTaka } from "react-icons/tb";
+import React, { useEffect, useState } from "react";
+import FloatingInput from "@/components/LoginSection/FloatingInput";
+import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -19,23 +20,20 @@ const CheckoutSection = () => {
     { id: "mobile_banking", label: "Mobile Banking", icon: "/png/bkash.png" },
   ];
 
+  const [images, setImages] = useState([]);
+  const [remarks, setRemarks] = useState("");
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
-  const [images, setImages] = useState([]);
   const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
-  const [remarks, setRemarks] = useState("");
 
   const { progressing, placeOrder } = useOrderMedicine();
-
   const { userLatitude, userLongitude, userInfo } = useSelector(
     (state) => state.user
   );
-
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );
-
   const { medicineStoreInfo, medicineItems, totalAmountMedicine } = useSelector(
     (state) => state.cart
   );
@@ -143,9 +141,7 @@ const CheckoutSection = () => {
           </p>
 
           <p className="font-medium text-base">{userInfo.customer_name}</p>
-
           <p className="text-sm md:text-base">{userInfo.customer_address}</p>
-
           <p className="text-sm md:text-base">{userInfo.contact_no}</p>
 
           <div className="flex flex-col py-4 font-bold text-sm md:text-lg border-b">
@@ -217,9 +213,14 @@ const CheckoutSection = () => {
           <div className="flex justify-center">
             <button
               onClick={handleCustomerOrder}
-              className="mt-4 px-4 py-1 text-sm md:text-base font-medium bg-primaryMedicine hover:bg-secondaryMedicine text-white rounded-md w-full"
+              disabled={progressing}
+              className={`mt-4 px-4 py-1 text-sm md:text-base font-medium rounded-md w-full ${
+                progressing
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-primaryGrocery hover:bg-blue-600 text-white"
+              }`}
             >
-              PLACE ORDER
+              {progressing ? "PLACING ORDER..." : "PLACE ORDER"}
             </button>
           </div>
         </div>

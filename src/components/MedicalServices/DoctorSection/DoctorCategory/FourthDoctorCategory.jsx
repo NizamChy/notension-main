@@ -17,7 +17,7 @@ const FourthDoctorCategory = () => {
   return (
     <div className="flex justify-center p-4 lg:p-20 bg-[#F2FCE4]">
       <div>
-        <p className="text-2xl font-semibold pb-5 text-deepGray">
+        <p className="md:text-2xl font-semibold pb-5 text-deepGray">
           বিভাগ অনুযায়ী ডাক্তার খুঁজুন
         </p>
 

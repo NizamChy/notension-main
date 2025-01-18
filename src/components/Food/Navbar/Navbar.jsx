@@ -2,18 +2,18 @@
 
 import React from "react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
-import { handleUserReducer } from "@/redux/userReducer";
 import { toast } from "react-toastify";
-import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 import { BiLogOut } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import LocationModal from "@/components/shared/LocationModal/LocationModal";
+import { useDispatch, useSelector } from "react-redux";
+import { handleUserReducer } from "@/redux/userReducer";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
+import LocationModal from "@/components/shared/LocationModal/LocationModal";
+import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-20 border">
+    <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-20 border">
       <MobileCategoryDrawer />
 
       <button onClick={handleLogoClick} className="focus:outline-none">

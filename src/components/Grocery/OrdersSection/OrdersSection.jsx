@@ -13,7 +13,6 @@ const OrdersSection = () => {
   const router = useRouter();
 
   const { progressing, getOrderInfo } = useOrder();
-
   const groceryOrderInfo = useSelector((state) => state.user.groceryOrderInfo);
 
   useEffect(() => {
@@ -21,15 +20,15 @@ const OrdersSection = () => {
   }, []);
 
   return (
-    <div className="px-3 lg:px-36 py-16 lg:py-20 mt-10 bg-[#F3F4F6]">
-      <p className="text-[22px] text-textDeep font-bold text-secondary">
+    <div className="px-3 lg:px-36 py-10 md:py-16 lg:py-20 mt-10 bg-[#F3F4F6]">
+      <p className="text-base md:text-2xl text-textDeep font-bold text-secondary">
         Order History
       </p>
 
       {progressing ? (
         <Loader />
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3 md:mt-6">
           {groceryOrderInfo && groceryOrderInfo.length > 0 ? (
             groceryOrderInfo.map((order) => (
               <div
@@ -37,7 +36,7 @@ const OrdersSection = () => {
                 className="border rounded-lg p-4 bg-white shadow-md"
               >
                 <div className="flex justify-between items-center">
-                  <p className="text-lg font-bold text-secondary">
+                  <p className="text-sm font-medium md:text-lg md:font-bold text-secondary">
                     Order# {order.order_id.split("-").pop()}
                   </p>
 
@@ -53,7 +52,7 @@ const OrdersSection = () => {
                 </div>
 
                 <div className="mt-2">
-                  <p>
+                  <p className="text-sm md:text-base">
                     <span className="font-medium">Order Date:</span>{" "}
                     {new Date(order.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
@@ -62,14 +61,14 @@ const OrdersSection = () => {
                     })}
                   </p>
 
-                  <p className="flex items-center gap-1">
+                  <p className="flex items-center gap-1 text-sm md:text-base">
                     <span className="font-medium">Subtotal:</span>{" "}
                     <span className="flex items-center">
                       <TbCurrencyTaka />
                       {order.subTotal}
                     </span>
                   </p>
-                  <p className="flex items-center gap-1">
+                  <p className="flex items-center gap-1 text-sm md:text-base">
                     <span className="font-medium">Total Amount:</span>{" "}
                     <span className="flex items-center">
                       <TbCurrencyTaka />
@@ -87,7 +86,7 @@ const OrdersSection = () => {
                   </button>
                 </div>
 
-                <div className="flex justify-end md:hidden">
+                <div className="flex justify-end md:hidden text-sm">
                   <button
                     onClick={() =>
                       router.push(

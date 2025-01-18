@@ -2,25 +2,25 @@
 
 import React from "react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
-import { handleUserReducer } from "@/redux/userReducer";
-import { usePathname } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
-import LocationModal from "../LocationModal/LocationModal";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
+import { useDispatch, useSelector } from "react-redux";
+import { handleUserReducer } from "@/redux/userReducer";
+import LocationModal from "../LocationModal/LocationModal";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
+
+  const pathname = usePathname();
   const dropDownMenuRef = useRef();
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
-
-  const pathname = usePathname();
 
   let category = "";
 
@@ -52,7 +52,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between px-2 lg:px-10 py-4 fixed w-full bg-white z-10 border">
+    <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-10 border">
       <Link href="/">
         <Image
           width={224}

@@ -1,6 +1,3 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import {
   BsFacebook,
   BsInstagram,
@@ -8,11 +5,14 @@ import {
   BsTwitter,
   BsTelephonePlusFill,
 } from "react-icons/bs";
-import { IoLocation } from "react-icons/io5";
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { GrMail } from "react-icons/gr";
+import { IoLocation } from "react-icons/io5";
 import { FiChevronRight } from "react-icons/fi";
-import { FaCcVisa, FaCcMastercard, FaCcDiscover } from "react-icons/fa";
 import { SiAmericanexpress } from "react-icons/si";
+import { FaCcVisa, FaCcMastercard, FaCcDiscover } from "react-icons/fa";
 
 const Footer = () => {
   const date = new Date();
@@ -27,26 +27,28 @@ const Footer = () => {
             src="/png/no_tension_bar.png"
             alt="notension"
             width={180}
-            height={100}
+            height={32}
           />
-          <p className="text-sm leading-6 text-gray-700">
+          <p className="text-xs md:text-sm leading-6 text-gray-700">
             NoTension is an ECommerce Online Service Provider. You can get all
             kinds of services like Grocery Stores, Medicine, Food, and more.
             Doctor's appointments, nurses, ambulances, & blood donors are also
             available.
           </p>
-          <div className="flex space-x-4">
-            <BsFacebook className="text-2xl text-gray-700 hover:text-blue-600" />
-            <BsInstagram className="text-2xl text-gray-700 hover:text-pink-500" />
-            <BsLinkedin className="text-2xl text-gray-700 hover:text-blue-700" />
-            <BsTwitter className="text-2xl text-gray-700 hover:text-blue-400" />
+          <div className="flex space-x-4 text-2xl text-gray-700">
+            <BsFacebook className="hover:text-blue-600" />
+            <BsInstagram className="hover:text-pink-500" />
+            <BsLinkedin className="hover:text-blue-700" />
+            <BsTwitter className="hover:text-blue-400" />
           </div>
         </div>
 
         {/* Section 2 */}
-        <div>
-          <p className="text-xl font-semibold mb-4 text-slate-700">Contact</p>
-          <ul className="space-y-4 text-gray-700">
+        <div className="text-xs md:text-base">
+          <p className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-slate-700">
+            Contact
+          </p>
+          <ul className="space-y-2 md:space-y-4 text-gray-700">
             <li className="flex items-center">
               <IoLocation className="text-xl mr-2" />
               Chattogram, Bangladesh
@@ -61,20 +63,11 @@ const Footer = () => {
         </div>
 
         {/* Section 3 */}
-        <div>
-          <p className="text-xl font-semibold mb-4 text-slate-700">
+        <div className="text-xs md:text-base">
+          <p className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-slate-700">
             Quick Links
           </p>
-          <ul className="space-y-4">
-            {/* <li>
-              <Link
-                href="/"
-                className="flex items-center text-gray-700 hover:text-yellow-500"
-              >
-                <FiChevronRight className="mr-2" />
-                Home
-              </Link>
-            </li> */}
+          <ul className="space-y-2 md:space-y-4">
             <li>
               <Link
                 href="/grocery/all"
@@ -116,8 +109,8 @@ const Footer = () => {
 
         {/* Section 4 */}
         <div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">
+          <div className="bg-white p-3 lg:p-6 rounded-lg shadow-md">
+            <h2 className="text-base lg:text-xl font-medium mb-4">
               Subscribe to our newsletter
             </h2>
             <div className="relative">
@@ -127,7 +120,7 @@ const Footer = () => {
                 placeholder="Email"
               />
               <button
-                className="bg-yellow-500 text-white font-bold py-2 px-4 absolute right-0 top-0 rounded-r hover:bg-yellow-600"
+                className="bg-yellow-500 text-white font-semibold py-2 px-2 md:px-4 absolute right-0 top-0 rounded-r hover:bg-yellow-600"
                 type="submit"
               >
                 Subscribe
@@ -142,16 +135,16 @@ const Footer = () => {
                 <Image
                   src="/png/playstore.png"
                   width={120}
-                  height={40}
+                  height={30}
                   alt="google-play"
                 />
               </a>
-              <Link href="#">
+              <Link href="https://play.google.com/store/apps/details?id=com.bitsnotension&hl=en&gl=US">
                 <Image
                   src="/png/applestore.png"
                   alt="app-store"
                   width={120}
-                  height={40}
+                  height={30}
                 />
               </Link>
             </div>
@@ -160,14 +153,16 @@ const Footer = () => {
       </div>
 
       <hr />
-      <div className="flex flex-col md:flex-row justify-between items-center py-6 space-y-4 md:space-y-0 text-gray-700">
-        <p>© NoTension All rights reserved {fullYear}</p>
-        <div className="flex items-center space-x-4">
-          <p>Accept:</p>
-          <FaCcVisa className="text-2xl" />
-          <FaCcMastercard className="text-2xl" />
-          <FaCcDiscover className="text-2xl" />
-          <SiAmericanexpress className="text-2xl" />
+      <div className="flex flex-col md:flex-row justify-between items-center py-6 space-y-2 md:space-y-0 text-gray-700">
+        <p className="text-center md:text-start text-xs md:text-base">
+          © NoTension All rights reserved {fullYear}
+        </p>
+        <div className="flex items-center space-x-4 text-2xl">
+          <p className="text-xs md:text-base">Accept:</p>
+          <FaCcVisa />
+          <FaCcMastercard />
+          <FaCcDiscover />
+          <SiAmericanexpress />
         </div>
       </div>
     </div>

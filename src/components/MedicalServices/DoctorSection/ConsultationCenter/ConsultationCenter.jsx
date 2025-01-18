@@ -48,10 +48,12 @@ const ConsultationCenter = () => {
               />
             </div>
             <div className="p-4">
-              <h3 className="text-xl font-semibold text-[#A93356] mb-2">
+              <h3 className="text-sm md:text-xl font-semibold text-[#A93356] mb-2">
                 {center.name}
               </h3>
-              <p className="text-sm text-gray-600">{center.address}</p>
+              <p className="text-xs md:text-sm text-gray-600">
+                {center.address}
+              </p>
             </div>
           </div>
         ))}

@@ -14,7 +14,7 @@ const ShopInfo = () => {
   return (
     <>
       {visitedGroceryStore?._id && (
-        <div className="p-4 w-full h-full border border-gray-200 rounded-2xl shadow-sm transition-shadow duration-300 flex flex-col items-center bg-white">
+        <div className="p-2 md:p-4 w-full h-full border border-gray-200 rounded-2xl shadow-sm transition-shadow duration-300 flex flex-col items-center bg-white">
           <Image
             width={500}
             height={300}
@@ -22,19 +22,19 @@ const ShopInfo = () => {
             src={`${IMAGE_URL}/grocery-store-docs/${visitedGroceryStore?.shop_banner_web}`}
             className="rounded-lg overflow-hidden border w-full h-full object-cover"
           />
-          <div className="mt-6 space-y-1 w-full text-gray-700">
-            <div className="flex items-center gap-2">
-              <BsShop className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900 text-nowrap">
+          <div className="mt-1 md:mt-6 space-y-1 w-full text-gray-700">
+            <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
+              <BsShop className="text-indigo-600 text-base md:text-xl" />
+              <span className="font-medium md:font-semibold text-gray-900 text-nowrap">
                 Shop Name:
               </span>
               <span className="truncate font-medium">
                 {visitedGroceryStore?.shop_name}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <IoCallOutline className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900">
+            <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
+              <IoCallOutline className="text-indigo-600 text-base md:text-xl" />
+              <span className="font-medium md:font-semibold text-gray-900">
                 Contact:
               </span>
               <span className="truncate font-medium">
@@ -42,9 +42,9 @@ const ShopInfo = () => {
                 {visitedGroceryStore?.alternative_contact_no}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <IoLocationOutline className="text-indigo-600 text-xl" />
-              <span className="font-semibold text-lg text-gray-900">
+            <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
+              <IoLocationOutline className="text-indigo-600 text-base md:text-xl" />
+              <span className="font-medium md:font-semibold text-gray-900">
                 Location:
               </span>
               <span className="truncate font-medium">

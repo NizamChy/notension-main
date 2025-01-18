@@ -1,30 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import MedicineItems from "../MedicineItems/MedicineItems";
-import { useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
-import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
-import NoItemFound from "../NoItemSection/NoItemFound";
-import { useMedicine } from "@/hooks/fetch-data/useMedicine";
-import Loader from "@/components/common/Loader";
+import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
+import Loader from "@/components/common/Loader";
+import React, { useEffect, useState } from "react";
+import NoItemFound from "../NoItemSection/NoItemFound";
+import MedicineItems from "../MedicineItems/MedicineItems";
+import { useMedicine } from "@/hooks/fetch-data/useMedicine";
+import InfiniteScroll from "react-infinite-scroll-component";
+import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
 
 const SubTypeSection = () => {
+  const [id, setId] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [option, setOption] = useState("");
-  const [id, setId] = useState("");
-  const [selectedSubType, setSelectedSubType] = useState(null);
-  const [typeName, setTypeName] = useState("");
   const [typeId, setTypeId] = useState("");
+  const [typeName, setTypeName] = useState("");
+  const [selectedSubType, setSelectedSubType] = useState(null);
+
+  const params = useParams();
 
   const { getItemsOnPress, productInfo, loadingMore, allLoaded } =
     useMedicine();
 
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
-
-  const params = useParams();
 
   useEffect(() => {
     const currentUrl = window.location.href;

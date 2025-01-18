@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MdContactPhone } from "react-icons/md";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useOrder } from "@/hooks/place-order/useOrder";
-import { toast } from "react-toastify";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
-import Image from "next/image";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -19,23 +20,20 @@ const CheckoutSection = () => {
     { id: "mobile_banking", label: "Mobile Banking", icon: "/png/bkash.png" },
   ];
 
+  const [images, setImages] = useState([]);
+  const [remarks, setRemarks] = useState("");
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
-  const [images, setImages] = useState([]);
   const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
-  const [remarks, setRemarks] = useState("");
 
   const { progressing, placeOrder, getOrderInfo } = useOrder();
-
   const { userLatitude, userLongitude, userInfo } = useSelector(
     (state) => state.user
   );
-
   const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
     (state) => state.cart
   );
-
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );
@@ -132,26 +130,24 @@ const CheckoutSection = () => {
   }, [totalPrice]);
 
   return (
-    <div className="flex justify-center py-16 lg:py-20 mt-10">
+    <div className="flex justify-center py-8 md:py-16 lg:py-20 mt-10">
       <div className="bg-white p-4 w-full md:w-96">
         <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
-          <p className="text-primaryGrocery text-xl font-medium underline flex items-center gap-2">
+          <p className="text-primaryGrocery text-base md:text-xl font-medium underline flex items-center gap-2">
             <span className="mt-1">
               <MdContactPhone />
             </span>
             <span> Cotnact details</span>
           </p>
 
-          <p className="font-medium">{userInfo.customer_name}</p>
+          <p className="font-medium text-base">{userInfo.customer_name}</p>
+          <p className="text-sm md:text-base">{userInfo.customer_address}</p>
+          <p className="text-sm md:text-base">{userInfo.contact_no}</p>
 
-          <p className="text-base">{userInfo.customer_address}</p>
-
-          <p className="text-base">{userInfo.contact_no}</p>
-
-          <div className="flex flex-col py-4 font-bold text-lg border-b">
+          <div className="flex flex-col py-4 font-bold text-sm md:text-lg border-b">
             <div className="flex justify-between">
               <p>Subtotal Amount</p>
-              <span>{totalPrice}</span>
+              <span>{totalPrice.toFixed(2)}</span>
             </div>
 
             <div className="flex justify-between">
@@ -165,7 +161,7 @@ const CheckoutSection = () => {
             </div>
           </div>
 
-          <div className="text-center font-bold text-xl text-green-600 flex justify-center">
+          <div className="text-center font-bold text-sm md:text-xl text-green-600 flex justify-center">
             <p className="flex items-center justify-between w-full">
               <span>Total Amount</span>
               <span className="flex items-center">
@@ -186,7 +182,7 @@ const CheckoutSection = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-xl font-semibold">Payment Option</h2>
+            <h2 className="text-sm md:text-xl font-semibold">Payment Option</h2>
             {paymentData.map((option) => (
               <label
                 key={option.id}
@@ -207,7 +203,7 @@ const CheckoutSection = () => {
                   height={6}
                   className="h-6 w-6"
                 />
-                <span className="text-gray-800 font-medium">
+                <span className="text-gray-800 font-medium text-xs md:text-base">
                   {option.label}
                 </span>
               </label>
@@ -217,9 +213,14 @@ const CheckoutSection = () => {
           <div className="flex justify-center">
             <button
               onClick={handleCustomerOrder}
-              className="mt-4 px-4 py-1 bg-primaryGrocery hover:bg-secondaryGrocery text-white rounded-md w-full"
+              disabled={progressing}
+              className={`mt-4 px-4 py-1 text-sm md:text-base font-medium rounded-md w-full ${
+                progressing
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-primaryGrocery hover:bg-blue-600 text-white"
+              }`}
             >
-              PLACE ORDER
+              {progressing ? "PLACING ORDER..." : "PLACE ORDER"}
             </button>
           </div>
         </div>

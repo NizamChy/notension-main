@@ -21,7 +21,9 @@ const DealOfTheDay = () => {
 
       {dealOfTheDay.length > 0 && (
         <>
-          <p className="text-3xl font-medium pb-5">Deal of The Day</p>
+          <p className="text-lg md:text-2xl lg:text-3xl font-medium pb-2 md:pb-4">
+            Deal of The Day
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
             {dealOfTheDay.map((item) => (
               <GroceryItems key={item._id} item={item} />

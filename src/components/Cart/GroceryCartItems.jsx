@@ -55,18 +55,19 @@ const GroceryCartItems = () => {
               />
 
               <div>
-                <p className="text-base font-semibold">
+                <p className="text-xs md:text-base font-semibold">
                   {item?.product_title_eng}
                 </p>
-                <div className="flex gap-10">
-                  <p className="flex items-center text-primaryGrocery text-sm font-medium mt-1">
+                <div className="flex gap-2 md:gap-10">
+                  <p className="flex items-center text-primaryGrocery text-xs text-nowrap md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
                     {item?.sale_price} x {item.quantity}
                   </p>
 
-                  <p className="flex items-center text-primaryGrocery text-sm font-medium mt-1">
+                  <p className="flex items-center text-primaryGrocery text-xs md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
-                    {item?.sale_price * item.quantity}
+
+                    {(item?.sale_price * item.quantity).toFixed(2)}
                   </p>
                 </div>
 

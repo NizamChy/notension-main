@@ -1,31 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import GroceryItems from "../GroceryItems/GroceryItems";
-import { useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
-import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
-import NoItemFound from "../NoItemSection/NoItemFound";
-import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
-import Loader from "@/components/common/Loader";
+import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
+import Loader from "@/components/common/Loader";
+import React, { useEffect, useState } from "react";
+import NoItemFound from "../NoItemSection/NoItemFound";
+import GroceryItems from "../GroceryItems/GroceryItems";
+import InfiniteScroll from "react-infinite-scroll-component";
+import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
 import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
+import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 
 const SubTypeSection = () => {
+  const [id, setId] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [option, setOption] = useState("");
-  const [id, setId] = useState("");
-  const [selectedSubType, setSelectedSubType] = useState(null);
-  const [typeName, setTypeName] = useState("");
   const [typeId, setTypeId] = useState("");
+  const [typeName, setTypeName] = useState("");
+  const [selectedSubType, setSelectedSubType] = useState(null);
 
   const params = useParams();
 
+  const { isOnline } = useNetworkStatus();
   const { getItemsOnPress, productInfo, loadingMore, allLoaded } =
     useGroceryProduct();
-
-  const { isOnline } = useNetworkStatus();
 
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
@@ -71,10 +70,10 @@ const SubTypeSection = () => {
   }
 
   return (
-    <div className="m-4 lg:m-20 pt-20 lg:pt-10">
+    <div className="m-4 lg:m-20 pt-14 lg:pt-10">
       {selectedSubType && (
         <>
-          <nav className="flex mb-5" aria-label="Breadcrumb">
+          <nav className="flex mb-2 md:mb-5" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
               <li className="inline-flex items-center">
                 <Link

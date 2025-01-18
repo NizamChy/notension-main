@@ -97,7 +97,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
         <>
           {!message ? (
             <div className="space-y-3">
-              <h2 className="text-xl font-bold mb-4 text-secondary">
+              <h2 className="text-lg md:text-xl font-bold mb-4 text-secondary">
                 Product Details
               </h2>
 
@@ -110,8 +110,8 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                         : "/png/dummyImage.png"
                     }
                     alt={itemDetails?.product_title_eng || "Product image"}
-                    width={500}
-                    height={500}
+                    width={240}
+                    height={240}
                     className="w-full md:w-64"
                   />
                 </div>
@@ -138,7 +138,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                   <p className="text-base text-secondary">
                     {itemDetails?.company_name}
                   </p>
-                  <p className="text-base text-deepGray font-medium">
+                  <p className="text-sm text-mediumGray font-medium">
                     {itemDetails?.pack_size}
                   </p>
 
@@ -159,7 +159,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                   </div>
 
                   <div className="flex w-full justify-center gap-5 items-center pt-2">
-                    <div className="w-1/2">
+                    <div className="w-2/3 md:w-1/2">
                       {currentQuantity === 0 ? (
                         <button
                           onClick={handleAddToCart}
@@ -194,7 +194,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                       )}
                     </div>
 
-                    <div className="w-1/2">
+                    <div className="w-1/3 md:w-1/2">
                       {!isFavoriteAdded && (
                         <button onClick={handleAddToFavorite}>
                           <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />

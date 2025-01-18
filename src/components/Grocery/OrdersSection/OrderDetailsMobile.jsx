@@ -1,7 +1,8 @@
 "use client";
+
 import React from "react";
-import { useSelector } from "react-redux";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
@@ -15,9 +16,11 @@ const OrderDetailsMobile = ({ orderId }) => {
   }
 
   return (
-    <div className="p-2 mt-24">
-      <div className="space-y-3">
-        <h2 className="text-xl font-bold mb-4 text-secondary">Order Details</h2>
+    <div className="p-2 mt-16">
+      <div className="space-y-1.5 text-sm">
+        <h2 className="text-lg md:text-xl font-bold mb-1 text-secondary">
+          Order Details
+        </h2>
 
         <p>
           <span className="font-medium">Order ID:</span>{" "}
@@ -50,8 +53,8 @@ const OrderDetailsMobile = ({ orderId }) => {
           <span className="text-secondary">{order.paymet_method}</span>
         </p>
 
-        <div className="mt-4 max-h-[40vh] overflow-y-auto pe-2">
-          <h3 className="font-bold text-secondary mb-4">Order Items</h3>
+        <div className="mt-4 max-h-[40vh] overflow-y-auto">
+          <h3 className="font-bold text-secondary mb-4">Ordered Items</h3>
           <table className="table-auto w-full border-collapse border border-gray-100">
             <thead>
               <tr className="bg-gray-100">
@@ -62,8 +65,8 @@ const OrderDetailsMobile = ({ orderId }) => {
             </thead>
             <tbody>
               {order.orderItems.map((item) => (
-                <tr key={item._id} className="hover:bg-[#F9FAFB]">
-                  <td className="px-4 py-2 flex items-center gap-3">
+                <tr key={item._id} className="hover:bg-[#F9FAFB] text-xs">
+                  <td className="px-1 py-2 flex items-center gap-3">
                     <Image
                       src={
                         item.app_image
