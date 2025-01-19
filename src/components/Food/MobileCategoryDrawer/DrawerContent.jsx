@@ -12,7 +12,6 @@ import MobileCategory from "../CategorySidebar/MobileCategory";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
   const dispatch = useDispatch();
-
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleLogout = () => {

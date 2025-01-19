@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MdContactPhone } from "react-icons/md";
 import React, { useEffect, useState } from "react";
-import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
+import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 
 const CheckoutSection = () => {
   const paymentData = [

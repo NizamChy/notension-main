@@ -1,8 +1,10 @@
 "use client";
+
 import React from "react";
-import { useSelector } from "react-redux";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const foodOrderInfo = useSelector((state) => state.user.foodOrderInfo);
@@ -13,10 +15,14 @@ const OrderDetailsMobile = ({ orderId }) => {
     return <p className="text-red-500">Order not found!</p>;
   }
 
+  console.log(order);
+
   return (
-    <div className="p-4">
-      <div className="space-y-3">
-        <h2 className="text-xl font-bold mb-4 text-secondary">Order Details</h2>
+    <div className="p-2">
+      <div className="space-y-1.5 text-sm">
+        <h2 className="text-lg md:text-xl font-bold mb-1 text-secondary">
+          Order Details
+        </h2>
 
         <p>
           <span className="font-medium">Order ID:</span>{" "}
@@ -49,8 +55,8 @@ const OrderDetailsMobile = ({ orderId }) => {
           <span className="text-secondary">{order.paymet_method}</span>
         </p>
 
-        <div className="mt-4 max-h-[40vh] overflow-y-auto pe-2">
-          <h3 className="font-bold text-secondary mb-4">Order Items</h3>
+        <div className="mt-4 max-h-[40vh] overflow-y-auto">
+          <h3 className="font-bold text-secondary mb-4">Ordered Items</h3>
           <table className="table-auto w-full border-collapse border border-gray-100">
             <thead>
               <tr className="bg-gray-100">
@@ -61,10 +67,14 @@ const OrderDetailsMobile = ({ orderId }) => {
             </thead>
             <tbody>
               {order.orderItems.map((item) => (
-                <tr key={item._id} className="hover:bg-[#F9FAFB]">
-                  <td className="px-4 py-2 flex items-center gap-3">
+                <tr key={item._id} className="hover:bg-[#F9FAFB] text-xs">
+                  <td className="px-1 py-2 flex items-center gap-3">
                     <Image
-                      src={`https://we-care-base.sgp1.cdn.digitaloceanspaces.com/food-items-images/${item?.app_image}`}
+                      src={
+                        item.app_image
+                          ? `${FOOD_ITEMS_IMAGES}/${item.app_image}`
+                          : "/png/dummyImage.png"
+                      }
                       alt="food image"
                       width={40}
                       height={40}
@@ -72,7 +82,7 @@ const OrderDetailsMobile = ({ orderId }) => {
                     />
                     <div>
                       <p className="line-clamp-2">{item.product_title_eng}</p>
-                      <p className="flex items-center text-primaryFood">
+                      <p className="flex items-center text-primary">
                         <TbCurrencyTaka />
                         {item.sale_price}
                       </p>

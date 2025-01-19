@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
+import useFoodItems from "@/hooks/fetch-data/useFoodItems";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import useFoodItems from "@/hooks/fetch-data/useFoodItems";
 
 const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -39,8 +39,6 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
     setCurrentQuantity(itemQty);
   }, [item, incrementQty, decrementQty]);
 
-  console.log(item);
-
   return (
     <CommonModal
       isOpen={isOpen}
@@ -48,7 +46,9 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
       className="max-w-screen-md m-4"
     >
       <div className="space-y-3">
-        <h2 className="text-xl font-bold mb-4 text-secondary">Details</h2>
+        <h2 className="text-lg md:text-xl font-bold mb-4 text-secondary">
+          Details
+        </h2>
 
         <div className="md:flex gap-5">
           <div className="md:w-1/3">
@@ -67,7 +67,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
 
           <div className="space-y-1 md:w-2/3 p-4 relative">
             <div className="flex justify-between">
-              <h5 className="text-sm md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
+              <h5 className="text-base md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}
               </h5>
 
@@ -78,7 +78,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
               )}
             </div>
 
-            <p className="text-base text-deepGray font-medium">
+            <p className="text-sm md:text-base text-lightGray font-medium">
               {item?.pack_size}
             </p>
 

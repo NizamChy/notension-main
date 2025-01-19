@@ -115,7 +115,7 @@ const PopularDoctorFirstSlider = () => {
         >
           {doctorData.map((doctor) => (
             <SwiperSlide key={doctor.id} className="flex justify-center">
-              <div className="bg-white w-full h-60 md:h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
+              <div className="bg-white w-full min-h-60 md:min-h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
                 <div className="flex gap-2 px-2 lg:px-8 justify-center items-center">
                   <div className="w-1/3">
                     <Image
@@ -123,7 +123,7 @@ const PopularDoctorFirstSlider = () => {
                       alt={doctor.name}
                       width={86}
                       height={86}
-                      className="object-contain w-[86px] min-h-[86px] py-2"
+                      className="object-contain w-[86px] h-[86px] py-2"
                     />
                   </div>
                   <div className="w-2/3 flex flex-col justify-start items-start">

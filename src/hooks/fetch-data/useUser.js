@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { USER_URL } from "@/api-endpoints/secret";
 import {
   OTP_FOR_REGISTARTION,
   USER_REGISTARTION,
 } from "@/api-endpoints/api-endpoint";
+import { USER_URL } from "@/api-endpoints/secret";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+
 axios.defaults.withCredentials = true;
 
 const Axios = axios.create({
@@ -18,11 +19,17 @@ const Axios = axios.create({
 });
 
 export const useUser = () => {
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
-  const dispatch = useDispatch();
   const [error, setError] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
   const [progressing, setProgressing] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const { userLatitude, userLongitude, districtId } = useSelector(
+    (state) => state.user
+  );
+
+  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
   const [userInfo, setUserInfo] = useState({
     _id: loggedinUserInfo?._id || "",
@@ -32,16 +39,16 @@ export const useUser = () => {
     email: loggedinUserInfo?.email || "",
     contact_no: loggedinUserInfo?.contact_no || "",
     alternative_contact_no: loggedinUserInfo?.alternative_contact_no || "",
-    longitude: 32324324,
-    latitude: 234342,
-    // longitude: userLatitude,
-    // latitude: userLongitude,
+    longitude: userLatitude,
+    latitude: userLongitude,
     district_name_by_location: "",
-    // district_id: districtId,
-    // district_id: 10,
     district_area_id: "303030303030303030303030",
     district_subarea_id: "303030303030303030303030",
     ref_contact: "",
+    // longitude: 32324324,
+    // latitude: 234342,
+    // district_id: districtId,
+    // district_id: 10,
   });
 
   const getOtp = (props) => {
