@@ -12,7 +12,9 @@ const SpecialOffer = () => {
   return (
     <div>
       {specialOfferItem?.length > 0 && (
-        <p className="text-3xl font-medium pb-5">Special Offer</p>
+        <p className="text-lg md:text-2xl lg:text-3xl font-medium pb-2 md:pb-4">
+          Special Offer
+        </p>
       )}
 
       {isLoading && (

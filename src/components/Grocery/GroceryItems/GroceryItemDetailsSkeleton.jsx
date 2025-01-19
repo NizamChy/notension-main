@@ -11,7 +11,7 @@ const GroceryItemDetailsSkeleton = () => {
         <div className="md:w-1/3 h-52 bg-gray-300 rounded-lg"></div>
 
         {/* Details */}
-        <div className="flex-1 pl-6 space-y-3 mt-4 md:mt-0">
+        <div className="flex-1 pl-0 md:pl-6 space-y-3 mt-4 md:mt-0">
           {/* Product Name */}
           <div className="h-6 w-3/4 bg-gray-300 rounded"></div>
 

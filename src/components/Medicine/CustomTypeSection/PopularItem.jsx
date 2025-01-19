@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useSelector } from "react-redux";
 import MedicineItems from "../MedicineItems/MedicineItems";
@@ -10,7 +11,9 @@ const PopularItem = () => {
   return (
     <div>
       {popularItem?.length > 0 && (
-        <p className="text-3xl font-medium pb-5">Popular Items</p>
+        <p className="text-lg md:text-2xl lg:text-3xl font-medium pb-2 md:pb-4">
+          Popular Items
+        </p>
       )}
 
       {isLoading && (

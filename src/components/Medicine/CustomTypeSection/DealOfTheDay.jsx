@@ -5,8 +5,6 @@ import MedicineItems from "../MedicineItems/MedicineItems";
 import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
 
 const DealOfTheDay = () => {
-  // const dealOfTheDay = useSelector((state) => state.itemsByStore.dealOfTheDay);
-
   const { dealOfTheDay, isLoading } = useSelector(
     (state) => state.itemsByStore
   );
@@ -14,7 +12,9 @@ const DealOfTheDay = () => {
   return (
     <div>
       {dealOfTheDay.length > 0 && (
-        <p className="text-3xl font-medium pb-5">Deal of The Day</p>
+        <p className="text-lg md:text-2xl lg:text-3xl font-medium pb-2 md:pb-4">
+          Deal of The Day
+        </p>
       )}
 
       {isLoading && (

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import Image from "next/image";
-import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { TbCurrencyTaka } from "react-icons/tb";
-import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
+import { TbCurrencyTaka } from "react-icons/tb";
+import React, { useEffect, useState } from "react";
 import ItemDetailsSkeleton from "./ItemDetailsSkeleton";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
+import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
+import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -104,12 +104,12 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
         <>
           {!message ? (
             <div className="space-y-3">
-              <h2 className="text-xl font-bold mb-4 text-secondary">
+              <h2 className="text-lg md:text-xl font-bold mb-4 text-secondary">
                 Product Details
               </h2>
 
               <div className="md:flex">
-                <div className=" md:w-1/3">
+                <div className="w-full md:w-1/3">
                   <Image
                     src={
                       itemDetails?.app_image
@@ -119,13 +119,13 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                     alt={itemDetails?.item_title_eng || "Product image"}
                     width={500}
                     height={500}
-                    className="w-full md:w-64"
+                    className="w-full md:w-64 rounded-lg"
                   />
                 </div>
 
                 <div className="space-y-1 md:w-2/3 p-4 relative">
                   <div className="flex justify-between">
-                    <h5 className="text-sm md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
+                    <h5 className="text-base md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
                       {itemDetails?.item_title_eng}
                     </h5>
 
@@ -139,13 +139,13 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                       {itemDetails?.strength}
                     </p>
                   </div>
-                  <p className="text-base text-secondaryMedicine">
+                  <p className="text-xs md:text-base text-secondaryMedicine">
                     {itemDetails?.generic_name}
                   </p>
-                  <p className="text-base text-secondary">
+                  <p className="text-xs md:text-base text-secondary">
                     {itemDetails?.company_name}
                   </p>
-                  <p className="text-base text-deepGray font-medium">
+                  <p className="text-xs md:text-base text-deepGray font-medium">
                     {itemDetails?.pack_size}
                   </p>
 
@@ -166,7 +166,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                   </div>
 
                   <div className="flex w-full justify-center gap-5 items-center pt-2">
-                    <div className="w-1/2">
+                    <div className="w-2/3 md:w-1/2">
                       {currentQuantity === 0 ? (
                         <button
                           onClick={handleAddToCart}
@@ -201,7 +201,7 @@ const FavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                       )}
                     </div>
 
-                    <div className="w-1/2">
+                    <div className="w-1/3 md:w-1/2">
                       {!isFavoriteAdded && (
                         <button onClick={handleAddToFavorite}>
                           <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryMedicine rounded-full" />

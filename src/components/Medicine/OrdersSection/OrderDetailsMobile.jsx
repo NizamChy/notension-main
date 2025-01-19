@@ -1,14 +1,16 @@
 "use client";
+
 import React from "react";
-import { useSelector } from "react-redux";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const OrderDetailsMobile = ({ orderId }) => {
-  const groceryOrderInfo = useSelector((state) => state.user.groceryOrderInfo);
-
-  const order = groceryOrderInfo.find((order) => order._id === orderId);
+  const medicineOrderInfo = useSelector(
+    (state) => state.user.medicineOrderInfo
+  );
+  const order = medicineOrderInfo.find((order) => order._id === orderId);
 
   if (!order) {
     return <p className="text-red-500">Order not found!</p>;

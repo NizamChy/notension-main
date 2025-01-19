@@ -5,11 +5,11 @@ import {
   GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import { toast } from "react-toastify";
+import { GROCERY_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
-import { GROCERY_URL } from "@/api-endpoints/secret";
 
 axios.defaults.withCredentials = true;
 
@@ -21,7 +21,7 @@ const Axios = axios.create({
   },
 });
 
-export const useOrder = () => {
+export const useOrderGrocery = () => {
   const [progressing, setProgressing] = React.useState(false);
   const dispatch = useDispatch();
   const router = useRouter();

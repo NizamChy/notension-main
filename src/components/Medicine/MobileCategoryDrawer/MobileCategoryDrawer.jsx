@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import DrawerContent from "./DrawerContent";
 import { RxHamburgerMenu } from "react-icons/rx";
 import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
@@ -12,9 +12,25 @@ const MobileCategoryDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const params = useParams();
+  const router = useRouter();
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const toggleDrawer = () => setIsOpen(!isOpen);
+
+  const handleLogoClick = () => {
+    const basePath = `/medicine/${params?.store}`;
+    const currentPath = window.location.pathname;
+
+    toggleDrawer();
+
+    if (currentPath.startsWith(basePath) && currentPath !== basePath) {
+      router.push(basePath);
+    } else {
+      router.push("/");
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -45,16 +61,15 @@ const MobileCategoryDrawer = () => {
           }`}
         >
           <div className="flex justify-between items-center p-4 border-b">
-            <Link href="/">
-              <Image
-                onClick={toggleDrawer}
-                width={128}
-                height={23}
-                src="/png/notension-logo.png"
-                alt="notension"
-                className="object-cover w-32 lg:w-56 lg:h-10"
-              />
-            </Link>
+            <Image
+              onClick={handleLogoClick}
+              width={128}
+              height={23}
+              src="/png/notension-logo.png"
+              alt="notension"
+              className="object-cover w-32 lg:w-56 lg:h-10"
+            />
+
             <button
               onClick={toggleDrawer}
               className="text-2xl text-gray-600 hover:text-gray-800"

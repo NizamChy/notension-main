@@ -70,7 +70,7 @@ const SubTypeSection = () => {
   }
 
   return (
-    <div className="m-4 lg:m-20 pt-14 lg:pt-10">
+    <div className="m-4 lg:m-20 pt-14 md:pt-20 lg:pt-10 min-h-content">
       {selectedSubType && (
         <>
           <nav className="flex mb-2 md:mb-5" aria-label="Breadcrumb">

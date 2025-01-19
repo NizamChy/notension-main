@@ -13,7 +13,7 @@ const CustomTypeSection = ({ customTypeId }) => {
   );
 
   return (
-    <div className="m-4 lg:m-20 pt-12 md:pt-20 lg:pt-10">
+    <div className="m-4 lg:mx-20 pt-12 md:pt-16 min-h-content">
       <div className="py-5 md:py-10 lg:w-2/3">
         {DashboardSlider[0]?.fourth_slider?.length && (
           <GroceryCommonSlider

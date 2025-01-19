@@ -1,5 +1,5 @@
 "use client";
-import { useOrder } from "@/hooks/place-order/useOrder";
+import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import React, { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ const OrdersSection = () => {
   const params = useParams();
   const router = useRouter();
 
-  const { progressing, getOrderInfo } = useOrder();
+  const { progressing, getOrderInfo } = useOrderGrocery();
   const groceryOrderInfo = useSelector((state) => state.user.groceryOrderInfo);
 
   useEffect(() => {

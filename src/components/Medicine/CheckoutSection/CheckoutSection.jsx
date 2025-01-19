@@ -217,7 +217,7 @@ const CheckoutSection = () => {
               className={`mt-4 px-4 py-1 text-sm md:text-base font-medium rounded-md w-full ${
                 progressing
                   ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-primaryGrocery hover:bg-blue-600 text-white"
+                  : "bg-primaryMedicine hover:bg-secondaryMedicine text-white"
               }`}
             >
               {progressing ? "PLACING ORDER..." : "PLACE ORDER"}

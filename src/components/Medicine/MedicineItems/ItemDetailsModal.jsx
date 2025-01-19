@@ -86,12 +86,12 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
       className="max-w-screen-md m-4"
     >
       <div className="space-y-3">
-        <h2 className="text-xl font-bold mb-4 text-secondary">
+        <h2 className="text-lg md:text-xl font-bold mb-4 text-secondary">
           Product Details
         </h2>
 
         <div className="md:flex">
-          <div className="md:w-1/3">
+          <div className="w-full md:w-1/3">
             <Image
               src={
                 item?.app_image
@@ -99,15 +99,15 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
                   : "/png/dummyImage.png"
               }
               alt={item?.item_title_eng || "Product image"}
-              width={500}
-              height={500}
-              className="w-full md:w-64"
+              width={240}
+              height={240}
+              className="w-full md:w-64 rounded-lg"
             />
           </div>
 
           <div className="space-y-1 md:w-2/3 p-4 relative">
             <div className="flex justify-between">
-              <h5 className="text-sm md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
+              <h5 className="text-base md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.item_title_eng}
               </h5>
 
@@ -119,11 +119,13 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
 
               <p className="text-sm text-mediumGray">{item?.strength}</p>
             </div>
-            <p className="text-base text-secondaryMedicine">
+            <p className="text-xs md:text-base text-secondaryMedicine">
               {item?.generic_name}
             </p>
-            <p className="text-base text-secondary">{item?.company_name}</p>
-            <p className="text-base text-deepGray font-medium">
+            <p className="text-xs md:text-base text-secondary">
+              {item?.company_name}
+            </p>
+            <p className="text-xs md:text-base text-deepGray font-medium">
               {item?.pack_size}
             </p>
 
@@ -144,7 +146,7 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
             </div>
 
             <div className="flex w-full justify-center gap-5 items-center pt-2">
-              <div className="w-1/2">
+              <div className="w-2/3 md:w-1/2">
                 {currentQuantity === 0 ? (
                   <button
                     onClick={handleAddToCart}
@@ -179,7 +181,7 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
                 )}
               </div>
 
-              <div className="w-1/2">
+              <div className="w-1/3 md:w-1/2">
                 {!isFavoriteAdded && (
                   <button onClick={handleAddToFavorite}>
                     <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryMedicine rounded-full" />

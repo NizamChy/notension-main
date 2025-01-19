@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-
-import { MEDICINE_URL } from "@/api-endpoints/secret";
 import {
-  EXPLORE_MEDICINE_STORE,
-  MEDICINE_ITEMS_BY_CUSTOMTYPE,
-  MEDICINE_ITEMS_BY_SUBTYPE,
-  NEAREST_MEDICINE_STORE,
   SEARCH_MEDICINE_ITEMS,
   SEARCH_MEDICINE_STORE,
+  EXPLORE_MEDICINE_STORE,
+  NEAREST_MEDICINE_STORE,
+  MEDICINE_ITEMS_BY_SUBTYPE,
+  MEDICINE_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+import { useEffect, useState } from "react";
+import { MEDICINE_URL } from "@/api-endpoints/secret";
+import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
+import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 
 axios.defaults.withCredentials = true;
 
@@ -294,7 +293,7 @@ export const useMedicine = () => {
           setProgressing(false);
           setPageNo(pageNo + 1);
           saveItemsToReducer(res?.data?.result);
-          console.log(res?.data?.result);
+          // console.log(res?.data?.result);
         }
 
         if (pageNo === 1 && res?.data?.result?.length < 1) {

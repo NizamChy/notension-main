@@ -2,7 +2,7 @@ import React from "react";
 
 const ItemDetailsSkeleton = () => {
   return (
-    <div className="bg-white rounded-lg p-6 w-full max-w-screen-md animate-pulse">
+    <div className="bg-white rounded-lg p-3 md:p-6 w-full max-w-screen-md animate-pulse">
       {/* Title */}
       <div className="h-6 w-1/3 bg-gray-300 rounded mb-4"></div>
 
@@ -11,7 +11,7 @@ const ItemDetailsSkeleton = () => {
         <div className="md:w-1/3 h-52 bg-gray-300 rounded-lg"></div>
 
         {/* Details */}
-        <div className="flex-1 pl-6 space-y-3 mt-4 md:mt-0">
+        <div className="flex-1 pl-0 md:pl-6 space-y-3 mt-4 md:mt-0">
           {/* Product Name */}
           <div className="h-6 w-3/4 bg-gray-300 rounded"></div>
 

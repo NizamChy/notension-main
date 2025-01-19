@@ -20,7 +20,7 @@ const TypeSection = ({ typeId }) => {
 
   return (
     <>
-      <div className="mt-32 px-4 lg:mx-20 min-h-content">
+      <div className="mt-20 md:mt-32 px-4 lg:mx-20 min-h-content">
         <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
           {selectedType?.name || ""}
         </h2>
