@@ -1,18 +1,17 @@
 "use client";
 
-import "swiper/css";
-import "swiper/css/navigation";
-import { useSelector } from "react-redux";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { GrPrevious, GrNext } from "react-icons/gr";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   FOOD_ITEMS_IMAGES,
   FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { GrPrevious, GrNext } from "react-icons/gr";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const CategorySlider = () => {
   const [activeCategory, setActiveCategory] = useState(null);
@@ -75,7 +74,7 @@ const CategorySlider = () => {
           {productCategory.map((category) => (
             <SwiperSlide key={category._id} className="flex justify-center">
               <div
-                className={`bg-white w-full flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer px-2 pt-2 ${
+                className={`bg-white w-full flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer ${
                   activeCategory === category.categoryInfo._id
                     ? "border-primaryFood"
                     : "border-gray-100"
@@ -83,7 +82,7 @@ const CategorySlider = () => {
                 onClick={() => handleCategoryClick(category.categoryInfo._id)}
               >
                 <div className="flex flex-col justify-center items-center text-center">
-                  <Image
+                  <img
                     src={
                       category?.categoryInfo?.banner_type_1
                         ? `${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`

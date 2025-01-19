@@ -1,28 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import {
   FOOD_ITEMS_IMAGES,
   FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 const MobileCategory = ({ gridClass, toggleDrawer }) => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const router = useRouter();
-
   const pathname = usePathname();
-
   const params = useParams();
 
-  const { productCategory } = useSelector((state) => state.itemsByStore);
-
   const { progressing } = useFood();
+  const { productCategory } = useSelector((state) => state.itemsByStore);
 
   const handleCategoryClick = (categoryId) => {
     router.push(`/food/store/${params?.store}/${categoryId}`);
@@ -48,7 +44,7 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
           : productCategory.map((category) => (
               <div
                 key={category._id}
-                className={`px-2 pt-2 flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer bg-white shadow-sm  
+                className={`flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer bg-white shadow-sm  
                   ${
                     activeCategory === category.categoryInfo._id
                       ? "border-primaryFood"
@@ -61,8 +57,8 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
                   <img
                     src={`${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`}
                     alt="category"
-                    width={200}
-                    height={200}
+                    width={76}
+                    height={91}
                     className="rounded object-contain"
                   />
                 </div>

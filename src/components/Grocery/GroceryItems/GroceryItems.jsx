@@ -21,13 +21,13 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
 
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
-
   const {
     addToFavouriteItems,
     isAddedToFavouriteItems,
     removeFromfavoriteItems,
   } = useFavouriteItem();
+
+  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
   let merchantType = 0;
   let isExists = null;
@@ -203,7 +203,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                   >
                     <button
                       onClick={(e) => handleDecrement(e, item._id)}
-                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
+                      className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                     >
                       -
                     </button>
@@ -212,7 +212,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
                     </span>
                     <button
                       onClick={(e) => handleIncrement(e, item._id)}
-                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
+                      className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                     >
                       +
                     </button>

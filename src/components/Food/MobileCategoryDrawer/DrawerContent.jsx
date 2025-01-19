@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { toast } from "react-toastify";
+import { TbLogout } from "react-icons/tb";
+import { CgProfile } from "react-icons/cg";
+import { TiShoppingCart } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
-import { toast } from "react-toastify";
-import { CgProfile } from "react-icons/cg";
-import { TbLogout } from "react-icons/tb";
-import Link from "next/link";
-import { TiShoppingCart } from "react-icons/ti";
 import MobileCategory from "../CategorySidebar/MobileCategory";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
@@ -32,13 +32,13 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
           <>
             <div className="p-3 px-5">
               <div className="flex items-center gap-2">
-                <CgProfile className="text-2xl text-secondary" />
+                <CgProfile className="text-lg text-secondary" />
 
                 <div className="-space-y-0.5">
-                  <p className="font-medium text-secondary">
+                  <p className="font-medium text-sm text-secondary">
                     {userInfo?.customer_name}
                   </p>
-                  <p className="text-base text-deepGray">
+                  <p className="text-sm text-deepGray">
                     {userInfo?.contact_no}
                   </p>
                 </div>
@@ -49,16 +49,16 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                 href="/food/store/orders"
                 className="mt-2 flex gap-2"
               >
-                <TiShoppingCart className="text-2xl text-secondary" />
-                <p className="text-secondary font-medium">My Orders</p>
+                <TiShoppingCart className="text-lg text-secondary" />
+                <p className="text-secondary text-sm font-medium">My Orders</p>
               </Link>
 
               <div className="flex items-center gap-2 mt-2 ps-1">
-                <TbLogout className="text-2xl text-secondary" />
+                <TbLogout className="text-lg text-secondary" />
 
                 <button
                   onClick={handleLogout}
-                  className="text-secondary font-medium"
+                  className="text-secondary text-sm font-medium"
                 >
                   Logout
                 </button>
@@ -71,7 +71,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
             <div className="flex justify-center">
               <button
                 onClick={handleLogin}
-                className="mt-4 mb-2 px-4 py-2 bg-secondary text-white rounded-md"
+                className="mt-4 mb-2 px-4 py-2 text-sm bg-secondary text-white rounded-md"
               >
                 LOGIN
               </button>

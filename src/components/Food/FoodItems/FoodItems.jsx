@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import useFoodItems from "@/hooks/fetch-data/useFoodItems";
 import { useEffect, useState } from "react";
+import { TbCurrencyTaka } from "react-icons/tb";
 import FoodItemDetailsModal from "./FoodItemDetailsModal";
+import useFoodItems from "@/hooks/fetch-data/useFoodItems";
+import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const FoodItems = ({ item }) => {
-  const [currentQuantity, setCurrentQuantity] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [currentQuantity, setCurrentQuantity] = useState(0);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useFoodItems();
@@ -64,7 +64,7 @@ const FoodItems = ({ item }) => {
               alt={item?.product_title_eng || "Product image"}
               width={400}
               height={400}
-              className="w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+              className="w-full md:h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
             />
 
             {item?.less > 0 && (
@@ -75,13 +75,15 @@ const FoodItems = ({ item }) => {
           </div>
 
           <div className="px-3 pb-3 pt-1">
-            <div className="h-12">
-              <h5 className="text-sm md:text-base font-semibold text-gray-900 line-clamp-2 overflow-hidden">
+            <div className="h-8 md:h-12">
+              <h5 className="text-xs md:text-base font-semibold text-gray-900 line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}
               </h5>
             </div>
 
-            <p className="text-sm text-mediumGray">{item?.pack_size}</p>
+            <p className="text-xs md:text-sm text-mediumGray">
+              {item?.pack_size}
+            </p>
 
             <div className="flex gap-3 items-center pb-3">
               {item?.sale_price && (
@@ -105,7 +107,7 @@ const FoodItems = ({ item }) => {
               {currentQuantity === 0 ? (
                 <button
                   onClick={handleAddToCart}
-                  className="w-full py-2 px-4 bg-primaryFood text-white font-medium rounded-lg text-sm hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 transition-colors duration-200"
+                  className="w-full py-1.5 md:py-2 md:px-4 bg-primaryFood text-white font-medium rounded-lg text-xs md:text-sm hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 transition-colors duration-200"
                 >
                   Add to cart
                 </button>
@@ -119,7 +121,7 @@ const FoodItems = ({ item }) => {
                 >
                   <button
                     onClick={(e) => handleDecrement(e, item._id)}
-                    className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
+                    className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
                   >
                     -
                   </button>
@@ -128,7 +130,7 @@ const FoodItems = ({ item }) => {
                   </span>
                   <button
                     onClick={(e) => handleIncrement(e, item._id)}
-                    className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
+                    className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
                   >
                     +
                   </button>

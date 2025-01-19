@@ -59,7 +59,7 @@ const MobileCategoryDrawer = () => {
         </button>
 
         <div
-          className={`fixed z-50 top-0 left-0 w-[60%] md:w-96 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${
+          className={`fixed z-50 top-0 left-0 w-[72%] md:w-96 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${
             isOpen
               ? "translate-x-0 no-scrollbar overflow-y-auto"
               : "-translate-x-full"

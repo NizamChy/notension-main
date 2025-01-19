@@ -183,7 +183,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                 {currentQuantity === 0 ? (
                   <button
                     onClick={handleAddToCart}
-                    className="w-full py-1.5 md:py-2 md:px-4 bg-primaryMedicine text-white font-medium rounded-lg  text-xs md:text-sm hover:bg-secondaryMedicine focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
+                    className="w-full py-1.5 md:py-2 md:px-4 bg-primaryMedicine text-white font-medium rounded-lg text-xs md:text-sm hover:bg-secondaryMedicine focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
                   >
                     Add to cart
                   </button>
@@ -197,7 +197,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                   >
                     <button
                       onClick={(e) => handleDecrement(e, item._id)}
-                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
+                      className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                     >
                       -
                     </button>
@@ -206,7 +206,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
                     </span>
                     <button
                       onClick={(e) => handleIncrement(e, item._id)}
-                      className="px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
+                      className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-secondaryMedicine focus:outline-none transition-colors duration-200"
                     >
                       +
                     </button>

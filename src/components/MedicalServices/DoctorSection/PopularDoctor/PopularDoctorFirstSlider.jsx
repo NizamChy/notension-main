@@ -123,7 +123,7 @@ const PopularDoctorFirstSlider = () => {
                       alt={doctor.name}
                       width={86}
                       height={86}
-                      className="object-contain w-[86px] h-[86px] py-2"
+                      className="object-contain w-[86px] min-h-[86px] py-2"
                     />
                   </div>
                   <div className="w-2/3 flex flex-col justify-start items-start">

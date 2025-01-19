@@ -1,13 +1,10 @@
 import React from "react";
 import SubTypeSection from "@/components/Grocery/SubTypeSection/SubTypeSection";
 
-const page = async ({ params }) => {
-  const { id } = await params;
-  const subTypeId = id || null;
-
+const page = () => {
   return (
     <>
-      <SubTypeSection subTypeId={subTypeId} />
+      <SubTypeSection />
     </>
   );
 };
