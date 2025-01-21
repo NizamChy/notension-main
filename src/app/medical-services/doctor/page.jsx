@@ -4,6 +4,7 @@ import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 import DoctorNav from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorNav";
 import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
+import PopularDoctorSlider from "@/components/MedicalServices/DoctorSection/PopularDoctor/PopularDoctorSlider";
 import FirstDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FirstDoctorCategory";
 import ThirdDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/ThirdDoctorCategory";
 import FifthDoctorCategory from "@/components/MedicalServices/DoctorSection/DoctorCategory/FifthDoctorCategory";
@@ -34,15 +35,20 @@ const page = () => {
       </div>
 
       <div className="lg:px-28 space-y-10">
-        <PopularDoctorFirstSlider />
+        <PopularDoctorSlider startValue={0} endValue={5} />
+
         <FirstDoctorCategory />
-        <PopularDoctorFirstSlider />
+        <PopularDoctorSlider startValue={5} endValue={10} />
+
         <SecondDoctorCategory />
-        <PopularDoctorFirstSlider />
+
+        <PopularDoctorSlider startValue={10} endValue={15} />
         <ThirdDoctorCategory />
-        <PopularDoctorFirstSlider />
+
+        <PopularDoctorSlider startValue={15} endValue={20} />
         <FourthDoctorCategory />
-        <PopularDoctorFirstSlider />
+
+        <PopularDoctorSlider startValue={20} endValue={25} />
         <FifthDoctorCategory />
       </div>
 

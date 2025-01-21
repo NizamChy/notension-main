@@ -78,3 +78,32 @@ export const NEAREST_GROCERY_STORE =
   "/client-app-api/v1/grocery/get-nearest-store";
 
 export const SEARCH_GROCERY_STORE = "/client-app-api/v1/grocery/find-store";
+
+// DOCTOR
+export const EXPLORE_FIND_DOCTOR =
+  "/client-app-api/v1/health-care/explore-find-doctors";
+export const FIND_NEAREST_DOCTOR =
+  "/client-app-api/v1/health-care/get-nearest-doctors";
+export const FIND_DOCTOR_BY_DEPT =
+  "/client-app-api/v1/health-care/get-doctors-by-dept";
+export const NEAREST_CONSULTATION_CENTER =
+  "/client-app-api/v1/health-care/get-nearest-consultation-certer";
+export const SEARCH_CONSULTATION_CENTER =
+  "/client-app-api/v1/health-care/search-consultation-certer";
+export const CONSULTATION_CENTER_BY_DISTRICT =
+  "/client-app-api/v1/health-care/get-consultation-certer";
+export const EXPLORE_CONSULTATION_CENTER =
+  "/client-app-api/v1/health-care/explore-consultation-certer";
+export const FIND_DOCTOR_BY_CONSULTATION_CENTER =
+  "/client-app-api/v1/health-care/get-doctors-by-center";
+export const GET_DOCTOR_PROFILE =
+  "/client-app-api/v1/health-care/get-doctor-profile";
+
+export const HEALTH_CARE_IMAGES = `${IMAGE_URL}/medical-service-provider-images`;
+
+export const EXPLORE_MEDICAL_SERVICE_PROVIDER =
+  "/client-app-api/v1/health-care/explore-medical-service-provider";
+export const FIND_MEDICAL_SERVICE_PROVIDER =
+  "/client-app-api/v1/health-care/get-medical-service-provider";
+export const FIND_AMBULANCE_SERVICE_PROVIDER =
+  "/client-app-api/v1/health-care/get-ambulance-service-provider";

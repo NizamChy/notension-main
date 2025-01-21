@@ -5,6 +5,7 @@ import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
 import ConsultationCenter from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenter";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -21,13 +22,15 @@ const page = () => {
           </div>
 
           <div className="w-full lg:w-1/2 flex justify-center items-center lg:p-10">
-            <Image
-              src="/images/medical-services/find-near-hospital.jpg"
-              alt="find-near-consultation"
-              width={800}
-              height={400}
-              className="rounded-lg w-full"
-            />
+            <Link href="/medical-services/hospital/nearest-hospital">
+              <Image
+                src="/images/medical-services/find-near-hospital.jpg"
+                alt="find-near-consultation"
+                width={800}
+                height={400}
+                className="rounded-lg w-full"
+              />
+            </Link>
           </div>
         </div>
         <ConsultationCenter />

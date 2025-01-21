@@ -1,5 +1,9 @@
-import React from "react";
+"use client";
+
 import Image from "next/image";
+import Loader from "@/components/common/Loader";
+import React, { useEffect, useState } from "react";
+import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 
 const doctorData = [
   {
@@ -65,46 +69,120 @@ const doctorData = [
 ];
 
 const NearestDoctor = () => {
+  const [doctorsInfo, setDoctorsInfo] = useState(null);
+
+  const { getNearestDoctorsInfo, progressing } = useDoctor();
+
+  useEffect(() => {
+    getNearestDoctorsInfo(setDoctorsInfo);
+  }, []);
+
+  console.log("getNearestDoctorsInfo", doctorsInfo);
+
+  //   {
+  //     "_id": "6693a0b5edfa879d823ef26d",
+  //     "doctor_name": "ডাঃ সুলেখা ভট্টাচার্য্য",
+  //     "gender": "Female",
+  //     "speciality": "প্রসূতি, স্ত্রীরোগ ও ইনফাটিলিটি বিশেষজ্ঞ ও সার্জন",
+  //     "qualifications": "এমবিবিএস, বিসিএস (স্বাস্থ্য)\r\nএফসিপিএস (গাইনী এন্ড অবস্)\r\nপ্রসূতি ও স্ত্রীরোগ বিশেষজ্ঞ\r\nচট্টগ্রাম মেডিকেল কলেজ হাসপাতাল।",
+  //     "profile_pic": null
+  // }
+
   return (
-    <div className="flex justify-center px-4 lg:px-20 py-5 lg:py-20">
-      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5 justify-center items-center">
-        {doctorData.map((doctor) => (
-          <div key={doctor.id} className="flex justify-center">
-            <div className="bg-white w-full min-h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
-              <div className="flex gap-2 px-3 lg:px-8 justify-center items-center">
-                <div className="w-1/3">
-                  <Image
-                    src={doctor.image}
-                    alt={doctor.name}
-                    width={86}
-                    height={86}
-                    className="object-contain w-[86px] h-[86px] py-2"
-                  />
+    <>
+      {progressing ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="flex justify-center px-4 lg:px-20 py-5 lg:py-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5 justify-center items-center">
+              {doctorsInfo?.map((doctor) => (
+                <div key={doctor._id} className="flex justify-center">
+                  <div className="bg-white w-full min-h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
+                    <div className="flex gap-2 px-3 lg:px-8 justify-center items-center">
+                      <div className="w-1/3">
+                        <Image
+                          src={
+                            doctor?.doctorInfo?.gender === "Female"
+                              ? "/images/medical-services/doctor-female.png"
+                              : "/images/medical-services/doctor-male.jpg"
+                          }
+                          alt={doctor?.doctorInfo?.doctor_name || "Doctor"}
+                          width={86}
+                          height={86}
+                          className="object-contain w-[86px] h-[86px] py-2"
+                        />
+                      </div>
+                      <div className="w-2/3 flex flex-col justify-start items-start">
+                        <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
+                          {doctor?.doctorInfo?.doctor_name}
+                        </h3>
+                        <p className="text-xs md:text-sm line-clamp-4 text-mediumGray mt-1 mb-2">
+                          {doctor?.doctorInfo?.qualifications}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-[#CCB8F7] py-1 w-full">
+                      <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base px-3">
+                        {doctor?.doctorInfo?.speciality}
+                      </p>
+                    </div>
+
+                    <div className="w-full">
+                      <p className="my-2 text-[#599E66] px-3 text-xm md:text-lg font-semibold">
+                        {doctor?.consultationCenterInfo?.center_name}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-2/3 flex flex-col justify-start items-start">
-                  <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
-                    {doctor.name}
-                  </h3>
-                  <p className="text-xs md:text-sm text-mediumGray py-1">
-                    {doctor.qualification}
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/*  */}
+      {/* <div className="flex justify-center px-4 lg:px-20 py-5 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5 justify-center items-center">
+          {doctorData.map((doctor) => (
+            <div key={doctor.id} className="flex justify-center">
+              <div className="bg-white w-full min-h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
+                <div className="flex gap-2 px-3 lg:px-8 justify-center items-center">
+                  <div className="w-1/3">
+                    <Image
+                      src={doctor.image}
+                      alt={doctor.name}
+                      width={86}
+                      height={86}
+                      className="object-contain w-[86px] h-[86px] py-2"
+                    />
+                  </div>
+                  <div className="w-2/3 flex flex-col justify-start items-start">
+                    <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
+                      {doctor.name}
+                    </h3>
+                    <p className="text-xs md:text-sm text-mediumGray py-1">
+                      {doctor.qualification}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="bg-[#CCB8F7] w-full text-white font-semibold text-sm md:text-base px-3 py-1">
+                  {doctor.expertise}
+                </p>
+
+                <div className="w-full">
+                  <p className="my-2 text-[#599E66] px-3 text-xm md:text-lg font-semibold">
+                    {doctor.hospital}
                   </p>
                 </div>
               </div>
-
-              <p className="bg-[#CCB8F7] w-full text-white font-semibold text-sm md:text-base px-3 py-1">
-                {doctor.expertise}
-              </p>
-
-              <div className="w-full">
-                <p className="my-2 text-[#599E66] px-3 text-xm md:text-lg font-semibold">
-                  {doctor.hospital}
-                </p>
-              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
+          ))}
+        </div>
+      </div> */}
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
@@ -21,13 +22,15 @@ const page = () => {
           </div>
 
           <div className="w-full lg:w-1/2 flex justify-center items-center lg:p-10">
-            <Image
-              src="/images/medical-services/find-near-consultation.jpg"
-              alt="find-near-consultation"
-              width={800}
-              height={400}
-              className="rounded-lg w-full"
-            />
+            <Link href="/medical-services/doctor/consultation-center/nearest-center">
+              <Image
+                src="/images/medical-services/find-near-consultation.jpg"
+                alt="find-near-consultation"
+                width={800}
+                height={400}
+                className="rounded-lg w-full"
+              />
+            </Link>
           </div>
         </div>
         <ConsultationCenter />

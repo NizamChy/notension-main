@@ -1,23 +1,24 @@
 "use client";
 
 import {
-  persistReducer,
-  persistStore,
   FLUSH,
-  REHYDRATE,
   PAUSE,
-  PERSIST,
   PURGE,
+  PERSIST,
   REGISTER,
+  REHYDRATE,
+  persistStore,
+  persistReducer,
 } from "redux-persist";
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
-import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import userReducer from "./userReducer";
 import cartReducer from "./cartReducer";
+import { combineReducers } from "redux";
+import doctorReducer from "./doctorReducer";
 import itemsByStoreReducer from "./items-by-shop";
+import { configureStore } from "@reduxjs/toolkit";
 import dashboardReducer from "./dashboardReducer";
 import userChoiceReducer from "./userChoiceReducer";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 const createNoopStorage = () => {
   return {
@@ -40,10 +41,11 @@ const storage =
 
 const rootReducer = combineReducers({
   user: userReducer,
-  dashboard: dashboardReducer,
   cart: cartReducer,
   itemsByStore: itemsByStoreReducer,
+  dashboard: dashboardReducer,
   userChoice: userChoiceReducer,
+  doctorInfo: doctorReducer,
 });
 
 const persistConfig = {
