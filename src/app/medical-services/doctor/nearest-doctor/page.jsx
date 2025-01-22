@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "@/components/shared/Navbar/Navbar";
-import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
-import NearestDoctor from "@/components/MedicalServices/DoctorSection/NearestDoctor/NearestDoctor";
 import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
+import NearestDoctor from "@/components/MedicalServices/DoctorSection/NearestDoctor/NearestDoctor";
+import NearestDoctorSlider from "@/components/MedicalServices/DoctorSection/NearestDoctor/NearestDoctorSlider";
 
 const page = () => {
   return (
@@ -15,7 +15,7 @@ const page = () => {
           Nearest Doctor Info
         </p>
         <div className="lg:flex justify-center my-10 gap-5 px-4 lg:px-0">
-          <DoctorSlider />
+          <NearestDoctorSlider />
         </div>
         <NearestDoctor />
       </div>

@@ -13,13 +13,11 @@ const NearestConsultationCenter = () => {
 
   const { getNearestCenterInfo, progressing } = useCenter();
 
-  const centerType = "All";
+  const centerType = "Consultation Center";
 
   useEffect(() => {
     getNearestCenterInfo(centerType, setCenterInfo);
   }, []);
-
-  console.log("centerInfo", centerInfo);
 
   return (
     <>

@@ -12,13 +12,11 @@ const ConsultationCenter = () => {
 
   const { getCenterInfoByDistrict, progressing } = useCenter();
 
-  const centerType = "Hospital";
+  const centerType = "Consultation Center";
 
   useEffect(() => {
     getCenterInfoByDistrict(centerType, setCenterInfo, pageNo, setPageNo);
   }, []);
-
-  console.log("centerInfo", centerInfo);
 
   return (
     <>
