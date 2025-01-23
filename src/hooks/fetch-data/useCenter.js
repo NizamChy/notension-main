@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
-// import { handleDoctorReducer } from "../../../store/reducers/health-care/doctorReducer";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 axios.defaults.withCredentials = true;
 
@@ -24,8 +24,9 @@ export const useCenter = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
-  //   const dispatch = useDispatch();
-  //   const { consultationCenterBanner } = useSelector((state) => state.doctorInfo);
+  const dispatch = useDispatch();
+  const { consultationCenterBanner } = useSelector((state) => state.doctorInfo);
+
   const { userLatitude, userLongitude, districtId } = useSelector(
     (state) => state.user
   );
@@ -52,7 +53,7 @@ export const useCenter = () => {
       longitude: userLongitude,
       latitude: userLatitude,
       districtId: districtId,
-      centerType: centerType, ////'Hospital' 'Diagnostic Centre'
+      centerType: centerType, ////'Hospital' 'Diagnostic Centre' "Eye Care Centre" "Deltal Care Centre"
     };
 
     Axios.post(NEAREST_CONSULTATION_CENTER, props)
@@ -78,10 +79,13 @@ export const useCenter = () => {
     pageNo,
     setPageNo
   ) => {
-    if (pageNo === 1) {
-      setProgressing(true);
-    }
-    //setProgressing(true);
+    // if (pageNo === 1) {
+    //   setProgressing(true);
+    // }
+    setProgressing(true);
+
+    setLoadingMore(true);
+
     const props = {
       page: pageNo,
       centerType: centerType,
@@ -92,17 +96,14 @@ export const useCenter = () => {
 
     Axios.post(CONSULTATION_CENTER_BY_DISTRICT, props)
       .then((response) => {
-        //console.log(response?.data?.result?.consultationCenterInfo);
+        console.log(response?.data?.result?.consultationCenterInfo);
         if (response?.data?.result?.consultationCenterInfo.length > 0) {
+          setProgressing(false);
           setPageNo(pageNo + 1);
           setCenterInfo((prevInfo) => [
             ...prevInfo,
             ...response?.data?.result?.consultationCenterInfo,
           ]);
-        }
-
-        if (response?.data?.result?.consultationCenterInfo.length < 20) {
-          setAllLoaded(true);
         }
 
         if (
@@ -131,23 +132,30 @@ export const useCenter = () => {
               );
             }
           } else {
-            // setBanner(consultationCenterBanner);
+            setBanner(consultationCenterBanner);
           }
         }
-        setProgressing(false);
-        setLoadingMore(false);
+
+        if (response?.data?.result?.consultationCenterInfo.length < 20) {
+          setAllLoaded(true);
+          setLoadingMore(false);
+        }
+
+        // setProgressing(false);
+        // setLoadingMore(false);
       })
       .catch((error) => {
         console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-        setAllLoaded(true);
-      }
-    }, 10000);
+
+    // setTimeout(() => {
+    //   if (progressing) {
+    //     setProgressing(false);
+    //     setAllLoaded(true);
+    //   }
+    // }, 10000);
   };
 
   const searchConsultationCenter = (centerType, searchText, setCenterInfo) => {
@@ -175,12 +183,12 @@ export const useCenter = () => {
   };
 
   const exploreConsultationCenter = (centerInfo, setExploreInfo) => {
-    // dispatch(
-    //   handleDoctorReducer({
-    //     type: "SAVE_CENTER_INFO",
-    //     data: centerInfo,
-    //   })
-    // );
+    dispatch(
+      handleDoctorReducer({
+        type: "SAVE_CENTER_INFO",
+        data: centerInfo,
+      })
+    );
 
     setProgressing(true);
     Axios.get(EXPLORE_CONSULTATION_CENTER, {

@@ -6,11 +6,10 @@ import {
   FIND_DOCTOR_BY_DEPT,
   FIND_DOCTOR_BY_CONSULTATION_CENTER,
 } from "@/api-endpoints/api-endpoint";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
-// import { handleDoctorReducer } from "../../../store/reducers/health-care/doctorReducer";
 
 axios.defaults.withCredentials = true;
 
