@@ -25,8 +25,8 @@ export const useCenter = () => {
   const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
   const dispatch = useDispatch();
-  const { consultationCenterBanner } = useSelector((state) => state.doctorInfo);
 
+  const { consultationCenterBanner } = useSelector((state) => state.doctorInfo);
   const { userLatitude, userLongitude, districtId } = useSelector(
     (state) => state.user
   );
@@ -49,6 +49,7 @@ export const useCenter = () => {
 
   const getNearestCenterInfo = (centerType, setCenterInfo) => {
     setProgressing(true);
+
     const props = {
       longitude: userLongitude,
       latitude: userLatitude,
@@ -66,6 +67,7 @@ export const useCenter = () => {
         console.log("Error : ", error.response.data);
         setProgressing(false);
       });
+
     setTimeout(() => {
       if (progressing) {
         setProgressing(false);
@@ -83,7 +85,6 @@ export const useCenter = () => {
     //   setProgressing(true);
     // }
     setProgressing(true);
-
     setLoadingMore(true);
 
     const props = {

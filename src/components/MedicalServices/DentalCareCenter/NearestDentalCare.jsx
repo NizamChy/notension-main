@@ -19,8 +19,6 @@ const NearestDentalCare = () => {
     getNearestCenterInfo(centerType, setCenterInfo);
   }, []);
 
-  console.log("centerInfo", centerInfo);
-
   return (
     <>
       <Navbar />

@@ -19,8 +19,6 @@ const NearestHospital = () => {
     getNearestCenterInfo(centerType, setCenterInfo);
   }, []);
 
-  console.log("centerInfo", centerInfo);
-
   return (
     <>
       <Navbar />
@@ -37,7 +35,7 @@ const NearestHospital = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                 {centerInfo?.map((center) => (
                   <div
-                    key={center._id}
+                    key={center?._id}
                     className="bg-white border rounded-lg shadow-md overflow-hidden"
                   >
                     <div className="relative w-full h-48">

@@ -1,11 +1,8 @@
 import React from "react";
-import Image from "next/image";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
-import DoctorSlider from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorSlider";
-import ConsultationCenter from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenter";
-import Link from "next/link";
+import HospitalSection from "@/components/MedicalServices/HospitalSection/HospitalSection";
 
 const page = () => {
   return (
@@ -16,24 +13,8 @@ const page = () => {
         <p className="text-center py-3 lg:text-xl text-primaryFood bg-[#FFF1EA]">
           Find Hospital
         </p>
-        <div className="lg:flex justify-center items-center gap-5 my-10 px-4 lg:px-20 space-y-5 lg:space-y-0">
-          <div className="w-full lg:w-1/2 lg:p-10">
-            <DoctorSlider />
-          </div>
 
-          <div className="w-full lg:w-1/2 flex justify-center items-center lg:p-10">
-            <Link href="/medical-services/hospital/nearest-hospital">
-              <Image
-                src="/images/medical-services/find-near-hospital.jpg"
-                alt="find-near-consultation"
-                width={800}
-                height={400}
-                className="rounded-lg w-full"
-              />
-            </Link>
-          </div>
-        </div>
-        <ConsultationCenter />
+        <HospitalSection />
       </div>
 
       <Footer />

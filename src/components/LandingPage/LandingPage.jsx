@@ -8,7 +8,7 @@ import FavoriteSection from "../FavoriteSection/FavoriteSection";
 
 const LandingPage = () => {
   return (
-    <div className="flex flex-col justify-center items-center overflow-hidden">
+    <div className="flex flex-col justify-center items-center overflow-hidden lg:px-4">
       <FavoriteSection />
       <div className="lg:flex justify-center gap-4 mt-2">
         <TopLeftSection />
