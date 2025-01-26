@@ -24,7 +24,7 @@ const DoctorDepartment = ({
       ) : (
         <div className={`flex justify-center p-4 lg:p-20 ${bgClassName}`}>
           <div>
-            <p className="md:text-2xl font-semibold pb-5 text-deepGray">
+            <p className="md:text-2xl font-semibold pb-5 text-[#0C3F8E]">
               বিভাগ অনুযায়ী ডাক্তার খুঁজুন
             </p>
 

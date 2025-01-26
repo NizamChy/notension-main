@@ -11,7 +11,8 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
 
-        primary: "#2196F3",
+        // primary: "#2196F3",
+        primary: "#0C3F8E",
         primaryBg: "#FEECF1",
         secondary: "#00215E",
 
@@ -30,6 +31,9 @@ export default {
         primaryMedicine: "#41B3A2",
         primaryBgMedicine: "#FEECF1",
         secondaryMedicine: "#0D7C66",
+      },
+      container: {
+        center: true,
       },
       height: {
         footer: "355px",

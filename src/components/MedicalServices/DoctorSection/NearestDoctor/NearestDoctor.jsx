@@ -34,9 +34,9 @@ const NearestDoctor = () => {
                               : "/images/medical-services/doctor-male.jpg"
                           }
                           alt={doctor?.doctorInfo?.doctor_name || "Doctor"}
-                          width={86}
-                          height={86}
-                          className="object-contain w-[86px] h-[86px] py-2"
+                          width={120}
+                          height={120}
+                          className="object-contain w-[86px] h-[86px] md:w-[120px] md:h-[120px] py-2"
                         />
                       </div>
                       <div className="w-2/3 flex flex-col justify-start items-start">

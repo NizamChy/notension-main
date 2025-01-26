@@ -6,14 +6,24 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
+import { useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
 const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
+  const router = useRouter();
+
   const { popularDoctors, isLoading } = useSelector(
     (state) => state.doctorInfo
   );
+
+  const handleDoctorClick = (e, doctor) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
+  };
 
   return (
     <>
@@ -22,20 +32,20 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
       ) : (
         <>
           <div className="py-0 md:py-5 lg:py-20">
-            <p className="md:text-2xl ps-5 font-semibold pb-1 md:pb-5 text-deepGray">
+            <p className="md:text-2xl ps-5 font-semibold pb-1 md:pb-5 text-[#0C3F8E]">
               জনপ্রিয় বিশেষজ্ঞ
             </p>
 
             <div className="relative flex justify-center items-center">
               <button
-                className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
+                className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
                 id="custom-prev-doc"
               >
                 <GrPrevious />
               </button>
 
               <button
-                className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
+                className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
                 id="custom-next-doc"
               >
                 <GrNext />
@@ -73,8 +83,9 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
                 >
                   {popularDoctors.slice(startValue, endValue).map((doctor) => (
                     <SwiperSlide
-                      key={doctor._id}
+                      key={doctor?._id}
                       className="flex justify-center"
+                      onClick={(e) => handleDoctorClick(e, doctor)}
                     >
                       <div className="bg-white w-full min-h-60 md:min-h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2">
                         <div className="flex gap-2 px-2 lg:px-8 justify-center items-center">
@@ -86,9 +97,9 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
                                   : "/images/medical-services/doctor-male.jpg"
                               }
                               alt="Popular doctor"
-                              width={86}
-                              height={86}
-                              className="object-contain w-[86px] h-[86px] py-2"
+                              width={160}
+                              height={160}
+                              className="object-contain w-[86px] h-[86px] md:w-[160px] md:h-[160px]"
                             />
                           </div>
                           <div className="w-2/3 flex flex-col justify-start items-start">
