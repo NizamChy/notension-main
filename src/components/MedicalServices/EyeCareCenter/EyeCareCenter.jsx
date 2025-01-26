@@ -10,8 +10,8 @@ import MedicalCenterCard from "../MedicalCenterCard/MedicalCenterCard";
 import DoctorCommonSlider from "../DoctorSection/DoctorCommonSlider/DoctorCommonSlider";
 
 const EyeCareCenter = () => {
-  const [slider, setSlider] = useState([]);
   const [pageNo, setPageNo] = useState(1);
+  const [slider, setSlider] = useState([]);
   const [centerInfo, setCenterInfo] = useState([]);
 
   const { getCenterInfoByDistrict, loadingMore, allLoaded, banner } =
@@ -37,10 +37,10 @@ const EyeCareCenter = () => {
         </div>
 
         <div className="w-full lg:w-1/2 flex justify-center items-center lg:p-10">
-          <Link href="/medical-services/dental-care-center/nearest-dental-care-center">
+          <Link href="/medical-services/eye-care-center/nearest-eye-care-center">
             <Image
               src="/images/medical-services/find-near-eye-care-center.jpg"
-              alt="find-near-consultation"
+              alt="eye-care-center"
               width={800}
               height={400}
               className="rounded-lg w-full"

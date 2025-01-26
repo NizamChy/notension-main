@@ -25,6 +25,12 @@ const MedicalCenterCard = ({ center }) => {
         <p className="text-xs md:text-sm text-mediumGray line-clamp-4">
           {center?.address}
         </p>
+
+        {center?.distance && (
+          <p className="text-xs pt-1 font-medium md:text-sm text-secondary">
+            Distance: {(center?.distance / 1000).toFixed(2)} km
+          </p>
+        )}
       </div>
     </div>
   );
