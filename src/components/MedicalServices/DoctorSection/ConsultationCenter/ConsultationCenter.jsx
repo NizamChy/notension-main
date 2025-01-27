@@ -9,10 +9,9 @@ import MedicalCenterCard from "../../MedicalCenterCard/MedicalCenterCard";
 const ConsultationCenter = () => {
   const [pageNo, setPageNo] = useState(1);
   const [centerInfo, setCenterInfo] = useState([]);
+  const centerType = "Consultation Center";
 
   const { getCenterInfoByDistrict, loadingMore, allLoaded } = useCenter();
-
-  const centerType = "Consultation Center";
 
   useEffect(() => {
     getCenterInfoByDistrict(centerType, setCenterInfo, pageNo, setPageNo);

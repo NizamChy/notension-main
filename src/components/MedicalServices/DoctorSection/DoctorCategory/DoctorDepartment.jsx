@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
@@ -15,7 +16,16 @@ const DoctorDepartment = ({
   imageKey = "banner_1",
   bgClassName = "bg-[#F3F7FB]",
 }) => {
+  const router = useRouter();
+
   const { allDeptInfo, isLoading } = useSelector((state) => state.doctorInfo);
+
+  const handleDeptClick = (e, dept) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    router.push(`/medical-services/doctor/dept/${dept?._id}`);
+  };
 
   return (
     <>
@@ -29,11 +39,15 @@ const DoctorDepartment = ({
             </p>
 
             <div className={gridClassName}>
-              {allDeptInfo?.slice(sliceStart, sliceEnd).map((image) => (
-                <div key={image?._id} className="lg:m-3">
+              {allDeptInfo?.slice(sliceStart, sliceEnd).map((dept) => (
+                <div
+                  key={dept?._id}
+                  onClick={(e) => handleDeptClick(e, dept)}
+                  className="lg:m-3 cursor-pointer"
+                >
                   <Image
-                    src={`${HEALTH_CARE_IMAGES}/${image?.[imageKey]}`}
-                    alt={`${image?.dept_name}`}
+                    src={`${HEALTH_CARE_IMAGES}/${dept?.[imageKey]}`}
+                    alt={`${dept?.dept_name}`}
                     width={imageWidth}
                     height={imageHeight}
                     className="rounded-md shadow-lg"

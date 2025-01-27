@@ -121,9 +121,7 @@ const SubTypeSection = () => {
           >
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
               {productInfo?.map((item) => (
-                <div key={item?._id}>
-                  <MedicineItems item={item} />
-                </div>
+                <MedicineItems key={item?._id} item={item} />
               ))}
             </div>
           </InfiniteScroll>

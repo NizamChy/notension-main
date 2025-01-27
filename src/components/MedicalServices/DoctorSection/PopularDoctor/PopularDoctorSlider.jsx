@@ -94,12 +94,12 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
                               src={
                                 doctor?.doctorInfo?.gender === "Female"
                                   ? "/images/medical-services/doctor-female.png"
-                                  : "/images/medical-services/doctor-male.jpg"
+                                  : "/images/medical-services/doctor-male.png"
                               }
                               alt="Popular doctor"
-                              width={160}
-                              height={160}
-                              className="object-contain w-[86px] h-[86px] md:w-[160px] md:h-[160px]"
+                              width={110}
+                              height={140}
+                              className="object-cover w-full md:w-[110px] md:h-[140px]"
                             />
                           </div>
                           <div className="w-2/3 flex flex-col justify-start items-start">
