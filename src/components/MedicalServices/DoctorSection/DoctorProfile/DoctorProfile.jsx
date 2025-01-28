@@ -29,7 +29,7 @@ const DoctorProfile = () => {
       ) : (
         <div className="container min-h-content">
           <div>
-            <div className="md:flex items-center lg:gap-20 text-deepGray">
+            <div className="md:flex items-center lg:gap-20 text-deepGray border border-slate-200 py-20 rounded-lg">
               <div className="lg:flex items-center md:w-1/2">
                 <div className="md:w-1/3">
                   <Image

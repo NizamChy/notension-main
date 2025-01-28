@@ -1,19 +1,16 @@
 import axios from "axios";
-// import { Alert } from "react-native";
-// import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/secret";
+import { useState } from "react";
 import {
+  GROCERY_ITEM_DETAILS,
   FAVORITE_PRODUCT_ADD,
+  MEDICINE_ITEM_DETAILS,
   FAVORITE_PRODUCT_PUSH,
   FAVORITE_PRODUCT_REMOVE,
-  GROCERY_ITEM_DETAILS,
-  MEDICINE_ITEM_DETAILS,
 } from "@/api-endpoints/api-endpoint";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/secret";
 
 axios.defaults.withCredentials = true;
 
@@ -26,18 +23,13 @@ const Axios = axios.create({
 });
 
 export const useFavouriteItem = () => {
-  //   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
   const [visible, setVisible] = useState(false);
+  const [itemDetails, setItemDetails] = useState(null);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [message, setMessage] = useState("");
-  const [itemDetails, setItemDetails] = useState(null);
-
-  //   const { merchantId, customstore_id } = useSelector(
-  //     (state) => state.itemsByStoreReducer
-  //   );
 
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
@@ -105,17 +97,6 @@ export const useFavouriteItem = () => {
           alert(
             "Hold on! You can add up to hundred (100) Items to your Favorites list!"
           );
-          //   Alert.alert(
-          //     "Hold on!",
-          //     "You can add up to hundred (100) Items to your Favorites list !!",
-          //     [
-          //       {
-          //         text: "OK",
-          //         onPress: () => null,
-          //         style: "default",
-          //       },
-          //     ]
-          //   );
         } else {
           manageFavouriteStoreItems(
             FAVORITE_PRODUCT_PUSH,
@@ -180,13 +161,6 @@ export const useFavouriteItem = () => {
       })
     );
     toast.success("পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!");
-    // Alert.alert("Done!!", "পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল", [
-    //   {
-    //     text: "OK",
-    //     onPress: () => null,
-    //     style: "OK",
-    //   },
-    // ]);
   };
 
   const removeFromReducer = (Info) => {
@@ -197,13 +171,6 @@ export const useFavouriteItem = () => {
       })
     );
     toast.success("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!");
-    // Alert.alert("Done!!", "পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল", [
-    //   {
-    //     text: "OK",
-    //     onPress: () => null,
-    //     style: "OK",
-    //   },
-    // ]);
   };
 
   const AxiosGrocery = axios.create({
@@ -229,9 +196,6 @@ export const useFavouriteItem = () => {
         setVisible(false);
         if (res?.data?.success) {
           setItemDetails(res?.data?.result);
-          //   navigation.navigate("GroceryProductDetails", {
-          //     data: res?.data?.result,
-          //   });
         } else {
           setMessage("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
           setShowErrorMessage(true);
@@ -264,14 +228,10 @@ export const useFavouriteItem = () => {
     })
       .then((res) => {
         // console.log(res?.data?.result);
-        console.log("kkkkkk", res?.data?.result);
+
         setVisible(false);
         if (res?.data?.success) {
           setItemDetails(res?.data?.result);
-          //   navigation.navigate("MedicineProductDetails", {
-          //     data: res?.data?.result,
-          //   });
-          console.log("jjjjj", res?.data?.result);
         } else {
           setMessage("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
           console.log("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
@@ -284,22 +244,22 @@ export const useFavouriteItem = () => {
       });
   };
 
-  useEffect(() => {
-    if (error) {
-      //userLogOut();
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     //userLogOut();
+  //   }
+  // }, [error]);
 
   return {
-    visible,
-    showErrorMessage,
-    message,
-    setShowErrorMessage,
+    getMedicineProductDetails,
+    getGroceryProductDetails,
+    removeFromfavoriteItems,
     isAddedToFavouriteItems,
     addToFavouriteItems,
-    removeFromfavoriteItems,
-    getGroceryProductDetails,
-    getMedicineProductDetails,
+    setShowErrorMessage,
+    showErrorMessage,
     itemDetails,
+    message,
+    visible,
   };
 };

@@ -1,10 +1,40 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const MedicalCenterCard = ({ center }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { currentCenter } = useSelector((state) => state.doctorInfo);
+
+  const handleMedicalCenterClick = () => {
+    dispatch(
+      handleDoctorReducer({
+        type: "SAVE_CENTER_INFO",
+        data: center,
+      })
+    );
+
+    console.log("center", center);
+
+    console.log("currentCenter", currentCenter);
+
+    router.push(
+      `/medical-services/doctor/consultation-center/visit/${center?._id}`
+    );
+  };
+
   return (
-    <div className="bg-white border rounded-lg shadow-md overflow-hidden">
+    <div
+      onClick={handleMedicalCenterClick}
+      className="bg-white border rounded-lg shadow-md overflow-hidden cursor-pointer"
+    >
       <div className="relative w-full">
         <Image
           src={

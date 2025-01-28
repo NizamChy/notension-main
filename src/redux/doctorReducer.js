@@ -24,6 +24,7 @@ const doctorReducer = createSlice({
     nearestHospitalInfo: [],
     topHospitalInCountry: [],
     hospitalInfoByDistrict: [],
+    currentCenter: {},
     pageNoForPopular: 2,
   },
   reducers: {

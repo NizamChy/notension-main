@@ -54,7 +54,7 @@ export const useCenter = () => {
       longitude: userLongitude,
       latitude: userLatitude,
       districtId: districtId,
-      centerType: centerType, ////'Hospital' 'Diagnostic Centre' "Eye Care Centre" "Deltal Care Centre"
+      centerType: centerType, // 'Hospital' 'Diagnostic Centre' "Eye Care Centre" "Deltal Care Centre"
     };
 
     Axios.post(NEAREST_CONSULTATION_CENTER, props)
@@ -97,7 +97,8 @@ export const useCenter = () => {
 
     Axios.post(CONSULTATION_CENTER_BY_DISTRICT, props)
       .then((response) => {
-        console.log(response?.data?.result?.consultationCenterInfo);
+        // console.log(response?.data?.result?.consultationCenterInfo);
+
         if (response?.data?.result?.consultationCenterInfo.length > 0) {
           setProgressing(false);
           setPageNo(pageNo + 1);
@@ -184,12 +185,12 @@ export const useCenter = () => {
   };
 
   const exploreConsultationCenter = (centerInfo, setExploreInfo) => {
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CENTER_INFO",
-        data: centerInfo,
-      })
-    );
+    // dispatch(
+    //   handleDoctorReducer({
+    //     type: "SAVE_CENTER_INFO",
+    //     data: centerInfo,
+    //   })
+    // );
 
     setProgressing(true);
     Axios.get(EXPLORE_CONSULTATION_CENTER, {

@@ -1,10 +1,11 @@
 "use client";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+
 import React from "react";
-import { useSelector } from "react-redux";
-import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
-import { BsShop } from "react-icons/bs";
 import Image from "next/image";
+import { BsShop } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { IMAGE_URL } from "@/api-endpoints/secret";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 
 const ShopInfo = () => {
   const visitedGroceryStore = useSelector(
@@ -24,7 +25,10 @@ const ShopInfo = () => {
           />
           <div className="mt-1 md:mt-6 space-y-1 w-full text-gray-700">
             <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
-              <BsShop className="text-indigo-600 text-base md:text-xl" />
+              <span>
+                <BsShop className="text-indigo-600 text-base md:text-xl" />
+              </span>
+
               <span className="font-medium md:font-semibold text-gray-900 text-nowrap">
                 Shop Name:
               </span>
@@ -33,7 +37,10 @@ const ShopInfo = () => {
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
-              <IoCallOutline className="text-indigo-600 text-base md:text-xl" />
+              <span>
+                <IoCallOutline className="text-indigo-600 text-base md:text-xl" />
+              </span>
+
               <span className="font-medium md:font-semibold text-gray-900">
                 Contact:
               </span>
@@ -43,7 +50,9 @@ const ShopInfo = () => {
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
-              <IoLocationOutline className="text-indigo-600 text-base md:text-xl" />
+              <span>
+                <IoLocationOutline className="text-indigo-600 text-base md:text-xl" />
+              </span>
               <span className="font-medium md:font-semibold text-gray-900">
                 Location:
               </span>

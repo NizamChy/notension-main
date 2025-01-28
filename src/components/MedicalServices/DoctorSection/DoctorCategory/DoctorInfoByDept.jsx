@@ -22,7 +22,7 @@ const DoctorInfoByDept = () => {
   }, []);
 
   return (
-    <div className="container min-h-content px-2 md:px-4">
+    <div className="px-2 md:px-4 lg:px-10 xl:px-20 2xl:px-28">
       <div>
         <div className="lg:flex justify-center my-10 gap-5 px-4 lg:px-0">
           <NearestDoctorSlider />
