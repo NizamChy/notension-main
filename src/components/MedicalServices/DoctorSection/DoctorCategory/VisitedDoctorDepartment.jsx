@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
@@ -16,12 +17,15 @@ const VisitedDoctorDepartment = ({
   allDeptInfo,
 }) => {
   const router = useRouter();
+  const { currentCenter } = useSelector((state) => state.doctorInfo);
 
   const handleDeptClick = (e, dept) => {
     e.preventDefault();
     e.stopPropagation();
 
-    router.push(`/medical-services/doctor/dept/${dept?._id}`);
+    router.push(
+      `/medical-services/doctor/dept/${dept?.deptInfo?._id}/center/${currentCenter?._id}`
+    );
   };
 
   return (
@@ -42,7 +46,6 @@ const VisitedDoctorDepartment = ({
                   onClick={(e) => handleDeptClick(e, dept)}
                   className="lg:m-3 cursor-pointer"
                 >
-                  {console.log("dept", dept)}
                   <Image
                     src={`${HEALTH_CARE_IMAGES}/${dept?.deptInfo?.[imageKey]}`}
                     alt={`${dept?.dept_name}`}

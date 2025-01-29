@@ -41,7 +41,7 @@ const DoctorDepartment = ({
             </p>
 
             <div className={gridClassName}>
-              {allDeptInfo?.slice(sliceStart, sliceEnd).map((dept) => (
+              {allDeptInfo?.slice(sliceStart, sliceEnd)?.map((dept) => (
                 <div
                   key={dept?._id}
                   onClick={(e) => handleDeptClick(e, dept)}

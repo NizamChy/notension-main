@@ -207,7 +207,9 @@ export const useDoctor = () => {
     pageNo,
     setPageNo
   ) => {
-    //setProgressing(true);
+    setProgressing(true);
+    setLoadingMore(true);
+
     const props = {
       page: pageNo,
       deptId: deptId,
@@ -217,6 +219,7 @@ export const useDoctor = () => {
     Axios.post(FIND_DOCTOR_BY_CONSULTATION_CENTER, props)
       .then((response) => {
         if (response?.data?.result.length > 0) {
+          setProgressing(false);
           setPageNo(pageNo + 1);
           setDoctorsInfo((prevInfo) => [
             ...prevInfo,
@@ -224,29 +227,75 @@ export const useDoctor = () => {
           ]);
         }
 
-        if (response?.data?.result.length < 20) {
-          setAllLoaded(true);
-        }
+        console.log("response?.data?.result: ", response?.data?.result);
 
-        //console.log('response?.data?.result.length : ', response?.data?.result.length);
         if (pageNo === 1 && response?.data?.result.length < 1) {
           setItemNotfound(true);
         }
 
-        setLoadingMore(false);
+        if (response?.data?.result.length < 20) {
+          setAllLoaded(true);
+          setLoadingMore(false);
+        }
       })
       .catch((error) => {
         console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-        setAllLoaded(true);
-      }
-    }, 10000);
   };
+
+  // const getDoctorsInfoByCenter = (
+  //   centerId,
+  //   deptId,
+  //   setDoctorsInfo,
+  //   pageNo,
+  //   setPageNo
+  // ) => {
+  //   //setProgressing(true);
+  //   const props = {
+  //     page: pageNo,
+  //     deptId: deptId,
+  //     centerId: centerId,
+  //   };
+
+  //   Axios.post(FIND_DOCTOR_BY_CONSULTATION_CENTER, props)
+  //     .then((response) => {
+  //       console.log("response", response);
+
+  //       if (response?.data?.result.length > 0) {
+  //         setPageNo(pageNo + 1);
+  //         setDoctorsInfo((prevInfo) => [
+  //           ...prevInfo,
+  //           ...response?.data?.result,
+  //         ]);
+  //       }
+
+  //       console.log("response?.data?.result: ", response?.data?.result);
+
+  //       if (response?.data?.result.length < 20) {
+  //         setAllLoaded(true);
+  //       }
+
+  //       //console.log('response?.data?.result.length : ', response?.data?.result.length);
+  //       if (pageNo === 1 && response?.data?.result.length < 1) {
+  //         setItemNotfound(true);
+  //       }
+
+  //       setLoadingMore(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error : ", error.response.data);
+  //       setProgressing(false);
+  //       setAllLoaded(true);
+  //     });
+  //   setTimeout(() => {
+  //     if (progressing) {
+  //       setProgressing(false);
+  //       setAllLoaded(true);
+  //     }
+  //   }, 10000);
+  // };
 
   const getProfileOfDoctor = (doctorId, setProfileInfo) => {
     setProgressing(true);

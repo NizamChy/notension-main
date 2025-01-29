@@ -15,7 +15,7 @@ const DoctorInfoByDept = () => {
   const params = useParams();
   const { getDoctorsInfoByDistrict, loadingMore, allLoaded } = useDoctor();
 
-  const deptId = params?.id || null;
+  const deptId = params?.deptId || null;
 
   useEffect(() => {
     getDoctorsInfoByDistrict(deptId, setDoctorsInfo, pageNo, setPageNo);

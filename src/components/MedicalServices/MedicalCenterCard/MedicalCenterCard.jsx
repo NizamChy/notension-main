@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { FaLocationDot } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
@@ -52,8 +53,11 @@ const MedicalCenterCard = ({ center }) => {
         <h3 className="text-sm md:text-base lg:text-lg font-semibold text-[#A93356] mb-2">
           {center?.center_name}
         </h3>
-        <p className="text-xs md:text-sm text-mediumGray line-clamp-4">
-          {center?.address}
+        <p className="flex gap-1 items-start text-xs md:text-sm text-mediumGray">
+          <span>
+            <FaLocationDot className="text-primary mt-1" />
+          </span>
+          <span className="line-clamp-4">{center?.address}</span>
         </p>
 
         {center?.distance && (

@@ -4,8 +4,9 @@ import { useSelector } from "react-redux";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
-import VisitedPopularDoctorSlider from "../PopularDoctor/VisitedPopularDoctorSlider";
+import ExploreConsultationCenterInfo from "./ExploreConsultationCenterInfo";
 import VisitedDoctorDepartment from "../DoctorCategory/VisitedDoctorDepartment";
+import VisitedPopularDoctorSlider from "../PopularDoctor/VisitedPopularDoctorSlider";
 
 const ExploreConsultationCenter = () => {
   const [slider, setSlider] = useState([]);
@@ -17,8 +18,6 @@ const ExploreConsultationCenter = () => {
 
   useEffect(() => {
     exploreConsultationCenter(currentCenter, setExploreInfo);
-
-    console.log("currentCenter", currentCenter);
   }, [currentCenter]);
 
   useEffect(() => {
@@ -29,16 +28,16 @@ const ExploreConsultationCenter = () => {
     if (!progressing && exploreInfo?.departmentsInfoByCenter?.length > 0) {
       setAllDeptInfo(exploreInfo?.departmentsInfoByCenter);
     }
-
-    console.log("exploreInfo", exploreInfo);
   }, [exploreInfo]);
 
   return (
-    <>
+    <div className="min-h-content">
       {progressing ? (
         <Loader />
       ) : (
         <div className="lg:px-28 space-y-10">
+          <ExploreConsultationCenterInfo />
+
           <VisitedPopularDoctorSlider
             popularDoctors={slider}
             startValue={0}
@@ -114,7 +113,7 @@ const ExploreConsultationCenter = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
