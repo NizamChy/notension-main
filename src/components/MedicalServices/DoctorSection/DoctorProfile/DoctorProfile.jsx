@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { IoCall } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import { FaLocationDot } from "react-icons/fa6";
@@ -28,7 +29,7 @@ const DoctorProfile = () => {
       ) : (
         <div className="container min-h-content">
           <div>
-            <div className="md:flex items-center lg:gap-20 text-deepGray lg:border border-slate-200 py-20 rounded-lg">
+            <div className="relative md:flex items-center lg:gap-20 text-deepGray lg:border border-slate-200 py-20 rounded-lg">
               <div className="lg:flex items-center md:w-1/2">
                 <div className="md:w-1/3">
                   <Image
@@ -69,7 +70,7 @@ const DoctorProfile = () => {
                     <span>
                       <FaLocationDot className="mt-1 text-primary" />
                     </span>
-                    <span className="text-sm md:text-base font-medium">
+                    <span className="text-sm md:text-base font-medium pe-5">
                       {profileInfo[0]?.consultationCenterInfo?.address}
                     </span>
                   </p>
@@ -128,6 +129,11 @@ const DoctorProfile = () => {
                   })}
                 </div>
               </div>
+
+              <button className="absolute top-8 right-3 md:right-6 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 pe-2 flex justify-center items-center">
+                <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+                <span className="text-xs font-medium">Add to Favorite</span>
+              </button>
             </div>
           </div>
         </div>

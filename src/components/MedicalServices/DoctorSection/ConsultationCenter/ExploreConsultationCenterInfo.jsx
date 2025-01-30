@@ -10,8 +10,6 @@ import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 const ExploreConsultationCenterInfo = () => {
   const { currentCenter } = useSelector((state) => state.doctorInfo);
 
-  console.log("currentCenter Hello:", currentCenter);
-
   return (
     <div className="m-4 bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 md:p-6">

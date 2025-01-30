@@ -1,14 +1,16 @@
 "use client";
-import { FaLocationDot } from "react-icons/fa6";
+
 import Image from "next/image";
-import { IMAGE_URL } from "@/api-endpoints/secret";
 import { FaHeart } from "react-icons/fa";
-import { useFavouriteStore } from "@/hooks/fetch-data/favorite-shop";
 import { useEffect, useState } from "react";
+import { FaLocationDot } from "react-icons/fa6";
 import { IoTrashOutline } from "react-icons/io5";
+import { IMAGE_URL } from "@/api-endpoints/secret";
+import { useFavouriteStore } from "@/hooks/fetch-data/favorite-shop";
 
 const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+
   const { addToFavouriteList, isAddedToFavouriteList, removeFromfavoriteList } =
     useFavouriteStore();
 

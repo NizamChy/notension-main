@@ -46,73 +46,102 @@ const ExploreConsultationCenter = () => {
             />
           )}
 
-          <VisitedDoctorDepartment
-            gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
-            sliceStart={0}
-            sliceEnd={12}
-            imageWidth={300}
-            imageHeight={300}
-            imageKey="banner_1"
-            bgClassName="bg-[#F3F7FB]"
-            allDeptInfo={allDeptInfo}
-          />
+          {allDeptInfo?.length > 0 && (
+            <VisitedDoctorDepartment
+              gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
+              sliceStart={0}
+              sliceEnd={12}
+              imageWidth={300}
+              imageHeight={300}
+              imageKey="banner_1"
+              bgClassName="bg-[#F3F7FB]"
+              allDeptInfo={allDeptInfo}
+            />
+          )}
 
-          <VisitedPopularDoctorSlider
-            popularDoctors={slider}
-            startValue={5}
-            endValue={10}
-          />
+          {slider?.length > 5 && (
+            <VisitedPopularDoctorSlider
+              popularDoctors={slider}
+              startValue={5}
+              endValue={10}
+            />
+          )}
 
-          <VisitedDoctorDepartment
-            gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
-            sliceStart={12}
-            sliceEnd={16}
-            imageWidth={600}
-            imageHeight={300}
-            imageKey="banner_2"
-            bgClassName="bg-[#DEF9EC]"
-            allDeptInfo={allDeptInfo}
-          />
+          {allDeptInfo?.length > 12 && (
+            <VisitedDoctorDepartment
+              gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+              sliceStart={12}
+              sliceEnd={16}
+              imageWidth={600}
+              imageHeight={300}
+              imageKey="banner_2"
+              bgClassName="bg-[#DEF9EC]"
+              allDeptInfo={allDeptInfo}
+            />
+          )}
 
-          <VisitedPopularDoctorSlider
-            popularDoctors={slider}
-            startValue={15}
-            endValue={20}
-          />
+          {slider?.length > 10 && (
+            <VisitedPopularDoctorSlider
+              popularDoctors={slider}
+              startValue={10}
+              endValue={15}
+            />
+          )}
 
-          <VisitedDoctorDepartment
-            gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
-            sliceStart={20}
-            sliceEnd={29}
-            imageWidth={300}
-            imageHeight={300}
-            imageKey="banner_1"
-            bgClassName="bg-[#F2FCE4]"
-            allDeptInfo={allDeptInfo}
-          />
+          {allDeptInfo?.length > 15 && (
+            <VisitedDoctorDepartment
+              gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
+              sliceStart={15}
+              sliceEnd={20}
+              imageWidth={300}
+              imageHeight={300}
+              imageKey="banner_1"
+              bgClassName="bg-[#F2FCE4]"
+              allDeptInfo={allDeptInfo}
+            />
+          )}
 
-          <VisitedPopularDoctorSlider
-            popularDoctors={slider}
-            startValue={20}
-            endValue={25}
-          />
+          {slider?.length > 15 && (
+            <VisitedPopularDoctorSlider
+              popularDoctors={slider}
+              startValue={15}
+              endValue={20}
+            />
+          )}
 
-          <VisitedDoctorDepartment
-            gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
-            sliceStart={29}
-            sliceEnd={33}
-            imageWidth={600}
-            imageHeight={300}
-            imageKey="banner_2"
-            bgClassName="bg-[#FFF3FF]"
-            allDeptInfo={allDeptInfo}
-          />
+          {allDeptInfo?.length > 20 && (
+            <VisitedDoctorDepartment
+              gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+              sliceStart={20}
+              sliceEnd={29}
+              imageWidth={600}
+              imageHeight={300}
+              imageKey="banner_2"
+              bgClassName="bg-[#FFF3FF]"
+              allDeptInfo={allDeptInfo}
+            />
+          )}
 
-          <VisitedPopularDoctorSlider
-            popularDoctors={slider}
-            startValue={25}
-            endValue={30}
-          />
+          {slider?.length > 20 && (
+            <VisitedPopularDoctorSlider
+              popularDoctors={slider}
+              startValue={20}
+              endValue={25}
+            />
+          )}
+
+          {allDeptInfo?.length > 29 && (
+            <VisitedDoctorDepartment
+              gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+              sliceStart={29}
+              sliceEnd={33}
+              imageWidth={600}
+              imageHeight={300}
+              imageKey="banner_2"
+              bgClassName="bg-[#FFF3FF]"
+              allDeptInfo={allDeptInfo}
+            />
+          )}
         </div>
       )}
     </div>
