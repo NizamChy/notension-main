@@ -48,7 +48,7 @@ const MobileCategoryDrawer = () => {
     <>
       <div className="lg:hidden">
         <button onClick={toggleDrawer}>
-          <div className="text-2xl text-secondary">
+          <div className="text-2xl text-secondaryMedicine">
             <RxHamburgerMenu />
           </div>
         </button>

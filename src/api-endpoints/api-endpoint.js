@@ -6,10 +6,9 @@ export const GET_DISTRICT_AREA_INFO =
   "/public-api/v1/admin/all-districtarea/:id";
 export const GET_DISTRICT_SUB_AREA_INFO =
   "/public-api/v1/admin/all-districtsubarea/:id";
-export const GET_BANKING_OUTLET = "/public-api/v1/admin/nearest-banking-outlet";
-
-export const OTP_FOR_REGISTARTION = "/api/v1/customer/send-otp";
 export const USER_REGISTARTION = "/api/v1/customer/register";
+export const OTP_FOR_REGISTARTION = "/api/v1/customer/send-otp";
+export const GET_BANKING_OUTLET = "/public-api/v1/admin/nearest-banking-outlet";
 
 // FAVORITE
 export const FAVORITE_STORE_ADD = "/api/v1/customer/add-favourite-store";

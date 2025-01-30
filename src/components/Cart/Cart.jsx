@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { TbCurrencyTaka } from "react-icons/tb";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import LoginModalDetails from "./LoginModalDetails";
 import CartContent from "./CartContent";
+import { useSelector } from "react-redux";
+import { TbCurrencyTaka } from "react-icons/tb";
+import React, { useEffect, useState } from "react";
+import LoginModalDetails from "./LoginModalDetails";
 import { useParams, useRouter } from "next/navigation";
 import CommonModal from "../shared/CommonModal/CommonModal";
 
@@ -29,7 +29,7 @@ const Cart = () => {
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
 
-  const module = currentModule.toLowerCase();
+  const module = currentModule?.toLowerCase();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -67,13 +67,13 @@ const Cart = () => {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("no-scroll");
     } else {
-      document.body.style.overflow = "";
+      document.body.classList.remove("no-scroll");
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("no-scroll");
     };
   }, [isOpen]);
 

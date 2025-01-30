@@ -38,11 +38,13 @@ const ExploreConsultationCenter = () => {
         <div className="lg:px-28 space-y-10">
           <ExploreConsultationCenterInfo />
 
-          <VisitedPopularDoctorSlider
-            popularDoctors={slider}
-            startValue={0}
-            endValue={5}
-          />
+          {slider?.length > 0 && (
+            <VisitedPopularDoctorSlider
+              popularDoctors={slider}
+              startValue={0}
+              endValue={5}
+            />
+          )}
 
           <VisitedDoctorDepartment
             gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"

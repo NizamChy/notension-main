@@ -45,3 +45,6 @@ body {
   @apply min-h-[calc(100vh-theme(height.footer))];
 }
 
+.no-scroll {
+  overflow: hidden;
+}

@@ -1,11 +1,12 @@
 "use client";
+
 import React from "react";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { useSelector } from "react-redux";
 import EmptyCart from "./EmptyCart";
+import { useSelector } from "react-redux";
+import FoodCartItems from "./FoodCartItems";
+import { TbCurrencyTaka } from "react-icons/tb";
 import GroceryCartItems from "./GroceryCartItems";
 import MedicineCartItems from "./MedicineCartItems";
-import FoodCartItems from "./FoodCartItems";
 
 const CartContent = ({
   handleCheckout,
@@ -22,8 +23,7 @@ const CartContent = ({
   } = useSelector((state) => state.cart);
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
-  const module = currentModule.toLowerCase();
+  const module = currentModule?.toLowerCase();
 
   return (
     <>
@@ -39,7 +39,7 @@ const CartContent = ({
         <div className="flex justify-between mb-4">
           <span className="font-semibold">Total:</span>
           <span className="font-semibold flex items-center">
-            <TbCurrencyTaka />{" "}
+            <TbCurrencyTaka />
             {module === "food" && (
               <span>{totalAmountFood?.toFixed(2) || 0}</span>
             )}

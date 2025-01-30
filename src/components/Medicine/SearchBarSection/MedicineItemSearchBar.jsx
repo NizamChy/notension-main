@@ -26,7 +26,7 @@ const MedicineItemSearchBar = () => {
       <form onSubmit={handleSearchSubmit} className="relative w-full">
         <input
           type="text"
-          className="w-full py-2 md:py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+          className="w-full py-2 md:py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-primaryMedicine focus:border-primaryMedicine"
           placeholder="Search item"
           value={searchText}
           onChange={(e) => {
@@ -46,7 +46,7 @@ const MedicineItemSearchBar = () => {
 
         <button
           type="submit"
-          className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-primary text-white p-2 rounded-xl hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-primaryMedicine text-white p-2 rounded-xl hover:bg-primaryMedicine focus:outline-none focus:ring-1 focus:ring-primaryMedicine"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

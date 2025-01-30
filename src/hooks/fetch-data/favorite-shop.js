@@ -1,16 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { USER_URL } from "@/api-endpoints/secret";
+import { useState } from "react";
 import {
   FAVORITE_STORE_ADD,
   FAVORITE_STORE_PUSH,
   FAVORITE_STORE_REMOVE,
 } from "@/api-endpoints/api-endpoint";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
-import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
-import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { toast } from "react-toastify";
+import { USER_URL } from "@/api-endpoints/secret";
+import { useDispatch, useSelector } from "react-redux";
+import { handleDashboardReducer } from "@/redux/dashboardReducer";
+import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+
 axios.defaults.withCredentials = true;
 
 const Axios = axios.create({
@@ -22,19 +23,22 @@ const Axios = axios.create({
 });
 
 export const useFavouriteStore = () => {
-  const dispatch = useDispatch();
   const [error, setError] = useState(false);
   const [visible, setVisible] = useState(false);
+
+  const dispatch = useDispatch();
+
   const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+
   const {
+    currentFoodShop,
     defaultGroceryStore,
     defaultMedicineStore,
     currentGroceryStore,
     currentMedicineStore,
-    currentFoodShop,
+    favouriteFoodShop,
     favouriteGroceryStore,
     favouriteMedicineStore,
-    favouriteFoodShop,
   } = useSelector((state) => state.userChoice);
 
   const isAddedToFavouriteList = (_id, merchantType) => {
@@ -87,17 +91,7 @@ export const useFavouriteStore = () => {
         favouriteList = favouriteGroceryStore.length;
         if (favouriteList > 9) {
           isAllowed = false;
-          // Alert.alert(
-          //   "Hold on!",
-          //   "You can add up to ten (10) Store to your Favorites list !!",
-          //   [
-          //     {
-          //       text: "OK",
-          //       onPress: () => null,
-          //       style: "default",
-          //     },
-          //   ]
-          // );
+
           alert(
             "Hold on! You can add up to ten (10) Store to your Favorites list!"
           );
@@ -109,17 +103,6 @@ export const useFavouriteStore = () => {
           alert(
             "Hold on! You can add up to ten (10) Store to your Favorites list!"
           );
-          // Alert.alert(
-          //   "Hold on!",
-          //   "You can add up to ten (10) Store to your Favorites list !!",
-          //   [
-          //     {
-          //       text: "OK",
-          //       onPress: () => null,
-          //       style: "default",
-          //     },
-          //   ]
-          // );
         }
       } else {
         favouriteList = favouriteFoodShop.length;
@@ -128,17 +111,6 @@ export const useFavouriteStore = () => {
           alert(
             "Hold on! You can add up to thirty (30) Store to your Favorites list!"
           );
-          // Alert.alert(
-          //   "Hold on!",
-          //   "You can add up to thirty (30) Store to your Favorites list !!",
-          //   [
-          //     {
-          //       text: "OK",
-          //       onPress: () => null,
-          //       style: "default",
-          //     },
-          //   ]
-          // );
         }
       }
 
@@ -162,7 +134,6 @@ export const useFavouriteStore = () => {
       customerInfo: loggedinUserInfo?._id,
       custom_customer_id: loggedinUserInfo?.custom_id,
       storeId: data?.storeId,
-      // storeId: data?._id,
       custom_store_id: data?.custom_store_id,
       shop_name: data?.shop_name,
       shop_address: data?.shop_address,
@@ -208,13 +179,6 @@ export const useFavouriteStore = () => {
       })
     );
     toast.success("Added to your Favorites list!");
-    // Alert.alert("Success !", "Added to your Favorites list !!", [
-    //   {
-    //     text: "OK",
-    //     onPress: () => null,
-    //     style: "default",
-    //   },
-    // ]);
   };
 
   const removeFromReducer = (Info) => {
@@ -225,13 +189,6 @@ export const useFavouriteStore = () => {
       })
     );
     toast.success("Removed from your Favorites list!");
-    // Alert.alert("Success !", "Removed from your Favorites list !!", [
-    //   {
-    //     text: "OK",
-    //     onPress: () => null,
-    //     style: "default",
-    //   },
-    // ]);
   };
 
   const resetReducer = (module) => {
@@ -259,18 +216,18 @@ export const useFavouriteStore = () => {
     );
   };
 
-  useEffect(() => {
-    if (error) {
-      //userLogOut();
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     //userLogOut();
+  //   }
+  // }, [error]);
 
   return {
     visible,
-    isAddedToFavouriteList,
-    addToFavouriteList,
-    removeFromfavoriteList,
     resetReducer,
     setCurrentModule,
+    addToFavouriteList,
+    isAddedToFavouriteList,
+    removeFromfavoriteList,
   };
 };
