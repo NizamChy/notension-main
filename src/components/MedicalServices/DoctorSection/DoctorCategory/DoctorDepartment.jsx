@@ -32,33 +32,37 @@ const DoctorDepartment = ({
       {isLoading ? (
         <Loader />
       ) : (
-        <div
-          className={`flex justify-center p-4 lg:p-20 ${bgClassName} rounded-md`}
-        >
-          <div>
-            <p className="md:text-2xl font-semibold pb-5 text-[#0C3F8E]">
-              বিভাগ অনুযায়ী ডাক্তার খুঁজুন
-            </p>
+        <>
+          {allDeptInfo.length > sliceStart ? (
+            <div
+              className={`flex justify-center p-4 lg:p-20 ${bgClassName} rounded-md`}
+            >
+              <div>
+                <p className="md:text-2xl font-semibold pb-5 text-[#0C3F8E]">
+                  বিভাগ অনুযায়ী ডাক্তার খুঁজুন
+                </p>
 
-            <div className={gridClassName}>
-              {allDeptInfo?.slice(sliceStart, sliceEnd)?.map((dept) => (
-                <div
-                  key={dept?._id}
-                  onClick={(e) => handleDeptClick(e, dept)}
-                  className="lg:m-3 cursor-pointer"
-                >
-                  <Image
-                    src={`${HEALTH_CARE_IMAGES}/${dept?.[imageKey]}`}
-                    alt={`${dept?.dept_name}`}
-                    width={imageWidth}
-                    height={imageHeight}
-                    className="rounded-md shadow-lg"
-                  />
+                <div className={gridClassName}>
+                  {allDeptInfo?.slice(sliceStart, sliceEnd)?.map((dept) => (
+                    <div
+                      key={dept?._id}
+                      onClick={(e) => handleDeptClick(e, dept)}
+                      className="lg:m-3 cursor-pointer"
+                    >
+                      <Image
+                        src={`${HEALTH_CARE_IMAGES}/${dept?.[imageKey]}`}
+                        alt={`${dept?.dept_name}`}
+                        width={imageWidth}
+                        height={imageHeight}
+                        className="rounded-md shadow-lg"
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        </div>
+          ) : null}
+        </>
       )}
     </>
   );
