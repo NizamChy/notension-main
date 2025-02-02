@@ -1,17 +1,46 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { IoCall } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
+import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 
 const ExploreConsultationCenterInfo = () => {
+  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+
   const { currentCenter } = useSelector((state) => state.doctorInfo);
+  const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
+
+  let merchantType = 3;
+  let isExists = null;
+
+  const favouriteConsultationCentre = useSelector(
+    (state) => state.userChoice.favouriteConsultationCentre
+  );
+
+  const handleAddToFavorite = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log("currentCenter : ", currentCenter);
+
+    addToFavouriteList(currentCenter, merchantType);
+  };
+
+  useEffect(() => {
+    isExists = isAddedToFavouriteList(currentCenter?._id, merchantType);
+    setIsFavoriteAdded(isExists);
+  }, [currentCenter, handleAddToFavorite]);
+
+  console.log("isFavoriteAdded : ", isFavoriteAdded);
+  console.log("favouriteConsultationCentre : ", favouriteConsultationCentre);
 
   return (
-    <div className="m-4 bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300">
+    <div className="relative m-4 bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 md:p-6">
         <div className="relative h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden">
           <Image
@@ -31,7 +60,9 @@ const ExploreConsultationCenterInfo = () => {
           </h3>
 
           <p className="flex items-start gap-2 text-sm md:text-base lg:text-lg text-gray-600">
-            <FaLocationDot className="text-primary mt-1" />
+            <span>
+              <FaLocationDot className="text-primary mt-1" />
+            </span>
             <span className="line-clamp-3">{currentCenter?.address}</span>
           </p>
 
@@ -43,7 +74,9 @@ const ExploreConsultationCenterInfo = () => {
                   key={index}
                   className="flex items-center gap-2 text-sm md:text-base lg:text-lg text-primary"
                 >
-                  <IoCall className="text-primary" />
+                  <span>
+                    <IoCall className="text-primary" />
+                  </span>
                   <span>{contact}</span>
                 </p>
               )
@@ -51,74 +84,24 @@ const ExploreConsultationCenterInfo = () => {
           })}
         </div>
       </div>
+
+      {!isFavoriteAdded && (
+        <button
+          onClick={handleAddToFavorite}
+          className="absolute top-5 right-5 md:top-8 md:right-6 text-deepGray bg-primaryBg opacity-80 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 pe-2 flex justify-center items-center"
+        >
+          <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+          <span className="text-xs font-medium">Add to Favorite</span>
+        </button>
+      )}
+
+      {isFavoriteAdded && (
+        <button className="absolute top-5 right-5 md:top-8 md:right-6 opacity-65 rounded-full flex justify-center items-center">
+          <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+        </button>
+      )}
     </div>
   );
 };
 
 export default ExploreConsultationCenterInfo;
-
-// "use client";
-
-// import React from "react";
-// import Image from "next/image";
-// import { IoCall } from "react-icons/io5";
-// import { useSelector } from "react-redux";
-// import { FaLocationDot } from "react-icons/fa6";
-// import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
-
-// const ExploreConsultationCenterInfo = () => {
-//   const { currentCenter } = useSelector((state) => state.doctorInfo);
-
-//   console.log("currentCenter Hello:", currentCenter);
-
-//   return (
-//     <>
-//       <div className="m-4 lg:flex gap-5 bg-white border rounded-lg shadow-md overflow-hidden cursor-pointer mt-5">
-//         <div className="p-2 md:p-4">
-//           <Image
-//             src={
-//               currentCenter?.medical_center_banner_app
-//                 ? `${HEALTH_CARE_IMAGES}/${currentCenter?.medical_center_banner_app}`
-//                 : "/png/dummyImage.png"
-//             }
-//             width={640}
-//             height={320}
-//             alt={currentCenter?.center_name}
-//             className="rounded-lg object-cover w-full"
-//           />
-//         </div>
-//         <div className="flex flex-col justify-center space-y-1 pt-0 lg:pt-4 p-2 md:p-4">
-//           <h3 className="text-lg md:text-base lg:text-2xl font-semibold text-[#A93356] lg:mb-2">
-//             {currentCenter?.center_name}
-//           </h3>
-
-//           <p className="flex gap-1 items-start text-sm md:text-lg lg:text-xl text-deepGray pb-1 lg:pb-4">
-//             <span>
-//               <FaLocationDot className="text-primary mt-1" />
-//             </span>
-//             <span className="line-clamp-4">{currentCenter?.address}</span>
-//           </p>
-
-//           {[1, 2, 3].map((index) => {
-//             const contact = currentCenter?.[`apointment_contact_${index}`];
-//             return (
-//               contact && (
-//                 <p
-//                   key={index}
-//                   className="flex items-center gap-2 font-medium text-base md:text-lg lg:text-xl text-primary"
-//                 >
-//                   <span>
-//                     <IoCall className="text-primary" />
-//                   </span>
-//                   <span>{contact}</span>
-//                 </p>
-//               )
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ExploreConsultationCenterInfo;

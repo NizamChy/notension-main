@@ -2,17 +2,15 @@
 
 import React from "react";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const MedicalCenterCard = ({ center }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const { currentCenter } = useSelector((state) => state.doctorInfo);
 
   const handleMedicalCenterClick = () => {
     dispatch(
@@ -21,10 +19,6 @@ const MedicalCenterCard = ({ center }) => {
         data: center,
       })
     );
-
-    console.log("center", center);
-
-    console.log("currentCenter", currentCenter);
 
     router.push(
       `/medical-services/doctor/consultation-center/visit/${center?._id}`

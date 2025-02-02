@@ -9,18 +9,41 @@ import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 
 const DoctorProfile = () => {
   const [profileInfo, setProfileInfo] = useState([]);
+  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const params = useParams();
   const { getProfileOfDoctor, progressing } = useDoctor();
+  const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
 
   const doctorId = params?.id || null;
+
+  let merchantType = 4;
+  let isExists = null;
+
+  const handleAddToFavorite = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    addToFavouriteList(profileInfo[0]?.doctorInfo, merchantType);
+  };
 
   useEffect(() => {
     getProfileOfDoctor(doctorId, setProfileInfo);
   }, []);
+
+  useEffect(() => {
+    isExists = isAddedToFavouriteList(
+      profileInfo[0]?.doctorInfo?._id,
+      merchantType
+    );
+    setIsFavoriteAdded(isExists);
+  }, [profileInfo, handleAddToFavorite]);
+
+  console.log("profileInfo : ", profileInfo);
 
   return (
     <>
@@ -130,10 +153,21 @@ const DoctorProfile = () => {
                 </div>
               </div>
 
-              <button className="absolute top-8 right-3 md:right-6 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 pe-2 flex justify-center items-center">
-                <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-                <span className="text-xs font-medium">Add to Favorite</span>
-              </button>
+              {!isFavoriteAdded && (
+                <button
+                  onClick={handleAddToFavorite}
+                  className="absolute top-8 right-3 md:right-6 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 pe-2 flex justify-center items-center"
+                >
+                  <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+                  <span className="text-xs font-medium">Add to Favorite</span>
+                </button>
+              )}
+
+              {isFavoriteAdded && (
+                <button className="absolute top-8 right-3 md:right-6 opacity-65 rounded-full flex justify-center items-center">
+                  <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+                </button>
+              )}
             </div>
           </div>
         </div>

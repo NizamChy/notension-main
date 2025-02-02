@@ -1,9 +1,9 @@
 "use client";
 
+import "swiper/css";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,7 +14,7 @@ const FavoriteSection = () => {
     {
       src: "/images/favorite/favorite-doctors.png",
       name: "Favorite Doctors",
-      link: "#",
+      link: "/medical-services/favorite-doctor",
     },
     {
       src: "/images/favorite/favorite-grocery.png",
@@ -34,7 +34,7 @@ const FavoriteSection = () => {
     {
       src: "/images/favorite/favorite-consultation.png",
       name: "Favorite Consultation Center",
-      link: "#",
+      link: "/medical-services/favorite-consultation",
     },
   ];
 

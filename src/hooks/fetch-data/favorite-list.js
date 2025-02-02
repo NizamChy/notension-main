@@ -5,6 +5,8 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { FaHeart, FaTimes } from "react-icons/fa";
 import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
@@ -157,7 +159,17 @@ export const useFavouriteList = () => {
       })
     );
 
-    alert("Success !, Added to your Favorites list !!");
+    toast(
+      <div className="flex items-center">
+        <span>
+          <FaHeart className="text-primaryFood mr-2" />
+        </span>
+        <span>Added to your Favorites list!</span>
+      </div>,
+      {
+        type: "success",
+      }
+    );
   };
 
   const removeFromReducer = (Info) => {
@@ -168,7 +180,15 @@ export const useFavouriteList = () => {
       })
     );
 
-    alert("Success !, Removed from your Favorites list !!");
+    toast(
+      <div className="flex items-center">
+        <FaTimes style={{ color: "gray", marginRight: "8px" }} />
+        <span>Removed from your Favorites!</span>
+      </div>,
+      {
+        type: "success",
+      }
+    );
   };
 
   const setCurrentModule = () => {

@@ -35,7 +35,7 @@ const ExploreConsultationCenter = () => {
       {progressing ? (
         <Loader />
       ) : (
-        <div className="lg:px-28 space-y-10">
+        <div className="lg:px-10 2xl:px-28 space-y-10">
           <ExploreConsultationCenterInfo />
 
           {slider?.length > 0 && (
@@ -92,7 +92,7 @@ const ExploreConsultationCenter = () => {
             <VisitedDoctorDepartment
               gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
               sliceStart={15}
-              sliceEnd={20}
+              sliceEnd={21}
               imageWidth={300}
               imageHeight={300}
               imageKey="banner_1"
@@ -109,11 +109,11 @@ const ExploreConsultationCenter = () => {
             />
           )}
 
-          {allDeptInfo?.length > 20 && (
+          {allDeptInfo?.length > 21 && (
             <VisitedDoctorDepartment
               gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
-              sliceStart={20}
-              sliceEnd={29}
+              sliceStart={21}
+              sliceEnd={30}
               imageWidth={600}
               imageHeight={300}
               imageKey="banner_2"
@@ -130,11 +130,11 @@ const ExploreConsultationCenter = () => {
             />
           )}
 
-          {allDeptInfo?.length > 29 && (
+          {allDeptInfo?.length > 30 && (
             <VisitedDoctorDepartment
               gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
-              sliceStart={29}
-              sliceEnd={33}
+              sliceStart={30}
+              sliceEnd={34}
               imageWidth={600}
               imageHeight={300}
               imageKey="banner_2"

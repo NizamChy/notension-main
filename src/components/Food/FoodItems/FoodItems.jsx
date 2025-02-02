@@ -52,7 +52,7 @@ const FoodItems = ({ item }) => {
       <div className="flex justify-center lg:mb-8">
         <div
           onClick={handleProductClick}
-          className="group w-full max-w-56 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
+          className="group cursor-pointer w-full max-w-56 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
         >
           <div className="relative overflow-hidden rounded-t-lg">
             <Image

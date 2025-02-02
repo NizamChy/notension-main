@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useSelector } from "react-redux";
 import MedicineItems from "../MedicineItems/MedicineItems";
@@ -7,8 +8,6 @@ const FavoriteItem = () => {
   const favouriteMedicineItems = useSelector(
     (state) => state.userChoice.favouriteMedicineItems
   );
-
-  console.log("favouriteMedicineItems", favouriteMedicineItems);
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6 mt-20">

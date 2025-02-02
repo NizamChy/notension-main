@@ -12,9 +12,9 @@ import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
+  const [selectedItem, setSelectedItem] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useMedicineItems();
@@ -98,7 +98,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
       <div className="flex justify-center lg:mb-8">
         <div
           onClick={handleProductClick}
-          className="group w-full max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
+          className="group cursor-pointer w-full max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
         >
           <div className="relative overflow-hidden rounded-t-lg">
             <Image
