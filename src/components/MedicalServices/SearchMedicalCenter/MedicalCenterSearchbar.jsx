@@ -4,15 +4,16 @@ import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 
-const GroceryStoreSearchBar = () => {
+const MedicalCenterSearchbar = () => {
   const [searchText, setSearchText] = useState("");
 
   const router = useRouter();
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+
     if (searchText.trim().length > 1) {
-      router.push(`/grocery/all/search-store?query=${searchText}`);
+      router.push(`/medical-services/search/search-center?query=${searchText}`);
     }
   };
 
@@ -26,7 +27,7 @@ const GroceryStoreSearchBar = () => {
         <input
           type="text"
           className="w-full py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Search store"
+          placeholder="Search here"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
@@ -65,4 +66,4 @@ const GroceryStoreSearchBar = () => {
   );
 };
 
-export default GroceryStoreSearchBar;
+export default MedicalCenterSearchbar;

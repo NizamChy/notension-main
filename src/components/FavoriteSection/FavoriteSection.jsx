@@ -17,6 +17,11 @@ const FavoriteSection = () => {
       link: "/medical-services/favorite-doctor",
     },
     {
+      src: "/images/favorite/favorite-consultation.png",
+      name: "Favorite Consultation Center",
+      link: "/medical-services/favorite-consultation",
+    },
+    {
       src: "/images/favorite/favorite-grocery.png",
       name: "Favorite Grocery Store",
       link: "/grocery/favorite-stores",
@@ -30,11 +35,6 @@ const FavoriteSection = () => {
       src: "/images/favorite/favorite-food.png",
       name: "Favorite Food & Restaurant",
       link: "/food/store/favorite-stores",
-    },
-    {
-      src: "/images/favorite/favorite-consultation.png",
-      name: "Favorite Consultation Center",
-      link: "/medical-services/favorite-consultation",
     },
   ];
 

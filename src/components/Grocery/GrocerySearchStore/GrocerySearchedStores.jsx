@@ -1,22 +1,22 @@
 "use client";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
-import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
-import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
+
 import Loader from "@/components/common/Loader";
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
+import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
+import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
+import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 
 const GrocerySearchedStores = () => {
-  const [nearestInfo, setNearestInfo] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const { exploreStore, handleSearchStore, progressing } = useGroceryShop();
+  const [nearestInfo, setNearestInfo] = useState([]);
 
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const searchText = searchParams.get("query");
+
+  const { exploreStore, handleSearchStore, progressing } = useGroceryShop();
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;

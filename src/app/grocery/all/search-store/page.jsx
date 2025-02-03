@@ -1,11 +1,11 @@
-import GrocerySearchedStores from "@/components/Grocery/GrocerySearchStore/GrocerySearchedStores";
 import React from "react";
+import GrocerySearchedStores from "@/components/Grocery/GrocerySearchStore/GrocerySearchedStores";
 
 const page = () => {
   return (
-    <div>
+    <>
       <GrocerySearchedStores />
-    </div>
+    </>
   );
 };
 

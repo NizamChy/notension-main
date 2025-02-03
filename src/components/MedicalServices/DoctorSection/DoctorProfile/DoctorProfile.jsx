@@ -1,13 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { IoCall } from "react-icons/io5";
-import { FaHeart } from "react-icons/fa";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
+import { FaCalendarAlt, FaHeart } from "react-icons/fa";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 
@@ -15,10 +16,10 @@ const DoctorProfile = () => {
   const [profileInfo, setProfileInfo] = useState([]);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
-  const params = useParams();
   const { getProfileOfDoctor, progressing } = useDoctor();
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
 
+  const params = useParams();
   const doctorId = params?.id || null;
 
   let merchantType = 4;
@@ -124,6 +125,19 @@ const DoctorProfile = () => {
                     );
                   })}
 
+                  {profileInfo[0]?.book_an_appointment && (
+                    <Link
+                      href={`/medical-services/doctor/profile/${doctorId}/book-appointment`}
+                    >
+                      <button className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2">
+                        <span>
+                          <FaCalendarAlt className="text-lg" />
+                        </span>
+                        <span>Book an appointment</span>
+                      </button>
+                    </Link>
+                  )}
+
                   {profileInfo[0]?.consultationCenterInfo
                     ?.apointment_contact_1 && (
                     <p className="text-primary font-bold text-lg md:text-xl mt-4 pb-1">
@@ -159,7 +173,7 @@ const DoctorProfile = () => {
                   className="absolute top-8 right-3 md:right-6 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 pe-2 flex justify-center items-center"
                 >
                   <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-                  <span className="text-xs font-medium">Add to Favorite</span>
+                  <span className="text-xs font-medium">Add to Favourite</span>
                 </button>
               )}
 
