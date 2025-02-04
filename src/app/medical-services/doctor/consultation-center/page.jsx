@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { IoSearch } from "react-icons/io5";
 import ConsultationCenter from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenter";
 import ConsultationCenterSlider from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenterSlider";
-import { IoSearch } from "react-icons/io5";
 
 const page = () => {
   return (

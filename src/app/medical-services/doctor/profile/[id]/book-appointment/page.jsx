@@ -1,10 +1,11 @@
 import React from "react";
-import BookAppointment from "@/components/MedicalServices/DoctorSection/BookAppointment/BookAppointment";
+import RegisterPatient from "@/components/MedicalServices/DoctorSection/BookAppointment/RegisterPatient";
+import AppointmentHome from "@/components/MedicalServices/DoctorSection/BookAppointment/AppointmentHome";
 
 const page = () => {
   return (
     <>
-      <BookAppointment />
+      <AppointmentHome />
     </>
   );
 };

@@ -106,3 +106,10 @@ export const FIND_MEDICAL_SERVICE_PROVIDER =
   "/client-app-api/v1/health-care/get-medical-service-provider";
 export const FIND_AMBULANCE_SERVICE_PROVIDER =
   "/client-app-api/v1/health-care/get-ambulance-service-provider";
+
+export const GET_PATIENTS = "/client-app-api/v1/health-care/get-patients-info";
+export const REGISTER_PATIENT =
+  "/client-app-api/v1/health-care/register-patient";
+export const MANAGE_PATIENT = "/client-app-api/v1/health-care/manage-patient";
+export const BOOK_APPOINTMENT =
+  "/client-app-api/v1/health-care/book-appointment";

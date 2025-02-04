@@ -1,17 +1,21 @@
 "use client";
 
+import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { usePatient } from "@/hooks/fetch-data/usePatient";
 
-const BookAppointment = () => {
+const RegisterPatient = () => {
   const [formData, setFormData] = useState({
-    patientName: "",
+    patient_name: "",
     contact: "",
-    alternativeContact: "",
-    dob: "",
+    alternative_contact: "",
+    date_of_birth: "",
     gender: "",
     email: "",
     address: "",
   });
+
+  const { registerPatient, progressing } = usePatient();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +27,30 @@ const BookAppointment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    console.log("address:", formData.address);
+
+    if (formData?.patient_name?.length < 3) {
+      return toast.error(
+        "নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!"
+      );
+    } else if (formData?.contact?.length < 11) {
+      return toast.error("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!");
+    }
+
+    registerPatient(formData);
+
+    setTimeout(() => {
+      if (!progressing) {
+        setFormData({
+          patient_name: "",
+          contact: "",
+          alternative_contact: "",
+          date_of_birth: "",
+          gender: "",
+          email: "",
+          address: "",
+        });
+      }
+    }, 300);
   };
 
   return (
@@ -39,10 +65,9 @@ const BookAppointment = () => {
         </p>
         <div className="mx-auto w-full max-w-[550px] bg-white p-6 rounded-lg shadow-lg">
           <form onSubmit={handleSubmit}>
-            {/* Patient Name */}
             <div className="mb-5">
               <label
-                htmlFor="patientName"
+                htmlFor="patient_name"
                 className="mb-3 block text-base font-medium text-[#07074D]"
               >
                 Patient Name (রোগীর নাম) <span className="text-red-600">*</span>
@@ -50,16 +75,15 @@ const BookAppointment = () => {
               <input
                 required
                 type="text"
-                name="patientName"
-                id="patientName"
+                name="patient_name"
+                id="patient_name"
                 placeholder="Patient Name"
-                value={formData.patientName}
+                value={formData.patient_name}
                 onChange={handleInputChange}
                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
 
-            {/* Contact & Alternative Contact */}
             <div className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
@@ -82,37 +106,36 @@ const BookAppointment = () => {
               </div>
               <div>
                 <label
-                  htmlFor="alternativeContact"
+                  htmlFor="alternative_contact"
                   className="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   Alt. Contact (বিকল্প নাম্বার)
                 </label>
                 <input
                   type="text"
-                  name="alternativeContact"
-                  id="alternativeContact"
+                  name="alternative_contact"
+                  id="alternative_contact"
                   placeholder="Alternative Contact"
-                  value={formData.alternativeContact}
+                  value={formData.alternative_contact}
                   onChange={handleInputChange}
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
               </div>
             </div>
 
-            {/* Date of Birth & Gender */}
             <div className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
-                  htmlFor="dob"
+                  htmlFor="date_of_birth"
                   className="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   Date of Birth (জন্ম তারিখ)
                 </label>
                 <input
                   type="date"
-                  name="dob"
-                  id="dob"
-                  value={formData.dob}
+                  name="date_of_birth"
+                  id="date_of_birth"
+                  value={formData.date_of_birth}
                   onChange={handleInputChange}
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
@@ -139,7 +162,6 @@ const BookAppointment = () => {
               </div>
             </div>
 
-            {/* Email */}
             <div className="mb-5">
               <label
                 htmlFor="email"
@@ -158,7 +180,6 @@ const BookAppointment = () => {
               />
             </div>
 
-            {/* Address */}
             <div className="mb-5">
               <label
                 htmlFor="address"
@@ -177,13 +198,13 @@ const BookAppointment = () => {
               ></textarea>
             </div>
 
-            {/* Submit Button */}
             <div>
               <button
                 type="submit"
                 className="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none transition-all hover:bg-[#5a54d1]"
+                disabled={progressing}
               >
-                Register Patient
+                {progressing ? "Registering..." : "Register Patient"}
               </button>
             </div>
           </form>
@@ -193,4 +214,4 @@ const BookAppointment = () => {
   );
 };
 
-export default BookAppointment;
+export default RegisterPatient;

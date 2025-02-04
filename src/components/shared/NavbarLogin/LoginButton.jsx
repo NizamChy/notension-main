@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import CommonModal from "../CommonModal/CommonModal";
@@ -24,9 +25,11 @@ const LoginButton = () => {
         Log in
       </button>
 
-      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-        <LoginModalDetails onClose={closeModal} type="login" />
-      </CommonModal>
+      {isModalOpen && (
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <LoginModalDetails onClose={closeModal} type="login" />
+        </CommonModal>
+      )}
     </>
   );
 };
