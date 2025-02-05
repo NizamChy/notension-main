@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { IoCall } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
+import { IoCall } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
@@ -12,21 +12,15 @@ import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 const ExploreConsultationCenterInfo = () => {
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
-  const { currentCenter } = useSelector((state) => state.doctorInfo);
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
+  const { currentCenter } = useSelector((state) => state.doctorInfo);
 
   let merchantType = 3;
   let isExists = null;
 
-  const favouriteConsultationCentre = useSelector(
-    (state) => state.userChoice.favouriteConsultationCentre
-  );
-
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    console.log("currentCenter : ", currentCenter);
 
     addToFavouriteList(currentCenter, merchantType);
   };
@@ -35,9 +29,6 @@ const ExploreConsultationCenterInfo = () => {
     isExists = isAddedToFavouriteList(currentCenter?._id, merchantType);
     setIsFavoriteAdded(isExists);
   }, [currentCenter, handleAddToFavorite]);
-
-  console.log("isFavoriteAdded : ", isFavoriteAdded);
-  console.log("favouriteConsultationCentre : ", favouriteConsultationCentre);
 
   return (
     <div className="relative m-4 bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300">

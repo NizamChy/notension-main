@@ -25,6 +25,7 @@ const doctorReducer = createSlice({
     topHospitalInCountry: [],
     hospitalInfoByDistrict: [],
     currentCenter: {},
+    currentDoctor: {},
     pageNoForPopular: 2,
   },
   reducers: {
@@ -53,6 +54,7 @@ const doctorReducer = createSlice({
           topHospitalInCountry: [],
           hospitalInfoByDistrict: [],
           currentCenter: {},
+          currentDoctor: {},
           pageNoForPopular: 2,
         };
       } else if (payload.type == "SAVE_DEPT_INFO") {
@@ -167,6 +169,8 @@ const doctorReducer = createSlice({
         state.pageNoForPopular = parseFloat(state.pageNoForPopular) + 1;
       } else if (payload.type == "SAVE_CENTER_INFO") {
         state.currentCenter = payload.data;
+      } else if (payload.type == "SAVE_CURRENT_DOCTOR_INFO") {
+        state.currentDoctor = payload.data;
       } else {
         return {
           ...state,

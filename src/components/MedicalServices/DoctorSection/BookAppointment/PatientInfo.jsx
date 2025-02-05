@@ -60,7 +60,6 @@ const PatientInfo = () => {
                 key={patient?._id}
                 className="border border-primary rounded-lg p-4 my-5 shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                {console.log("patient", patient)}
                 <p className="text-lg font-semibold text-primary">
                   Name: {patient?.patient_name}
                 </p>

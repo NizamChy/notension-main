@@ -3,13 +3,28 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const PopularDoctorSliderCard = ({ doctor }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { currentDoctor } = useSelector((state) => state.doctorInfo);
 
   const handleDoctorClick = (e, doctor) => {
     e.preventDefault();
     e.stopPropagation();
+
+    dispatch(
+      handleDoctorReducer({
+        type: "SAVE_CURRENT_DOCTOR_INFO",
+        data: doctor,
+      })
+    );
+
+    console.log("doctor : ", doctor);
+    console.log("currentDoctor : ", currentDoctor);
 
     router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
   };
