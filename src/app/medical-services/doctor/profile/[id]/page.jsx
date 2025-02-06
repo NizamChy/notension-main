@@ -1,10 +1,10 @@
 import React from "react";
-import DoctorProfile from "@/components/MedicalServices/DoctorSection/DoctorProfile/DoctorProfile";
+import FavouriteDoctorProfile from "@/components/MedicalServices/DoctorSection/DoctorProfile/FavouriteDoctorProfile";
 
 const page = () => {
   return (
     <>
-      <DoctorProfile />
+      <FavouriteDoctorProfile />
     </>
   );
 };

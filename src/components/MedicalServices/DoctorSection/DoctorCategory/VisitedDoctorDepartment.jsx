@@ -2,9 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const VisitedDoctorDepartment = ({
   gridClassName = "grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center",
@@ -17,16 +18,31 @@ const VisitedDoctorDepartment = ({
   allDeptInfo,
 }) => {
   const router = useRouter();
-  const { currentCenter } = useSelector((state) => state.doctorInfo);
+  const dispatch = useDispatch();
+
+  const { currentCenter, currentDept } = useSelector(
+    (state) => state.doctorInfo
+  );
 
   const handleDeptClick = (e, dept) => {
     e.preventDefault();
     e.stopPropagation();
 
+    dispatch(
+      handleDoctorReducer({
+        type: "SAVE_CURRENT_DEPT_INFO",
+        data: dept?.deptInfo,
+      })
+    );
+
+    console.log("dept : ", dept);
+
     router.push(
       `/medical-services/doctor/dept/${dept?.deptInfo?._id}/center/${currentCenter?._id}`
     );
   };
+
+  console.log("currentDept : ", currentDept);
 
   return (
     <>
@@ -40,7 +56,7 @@ const VisitedDoctorDepartment = ({
             </p>
 
             <div className={gridClassName}>
-              {allDeptInfo?.slice(sliceStart, sliceEnd).map((dept) => (
+              {allDeptInfo?.slice(sliceStart, sliceEnd)?.map((dept) => (
                 <div
                   key={dept?._id}
                   onClick={(e) => handleDeptClick(e, dept)}

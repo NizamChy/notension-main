@@ -21,6 +21,8 @@ const DoctorInfoByDept = () => {
     getDoctorsInfoByDistrict(deptId, setDoctorsInfo, pageNo, setPageNo);
   }, []);
 
+  console.log("doctorsInfo : ", doctorsInfo);
+
   return (
     <div className="px-2 md:px-4 lg:px-10 xl:px-20 2xl:px-28">
       <div>

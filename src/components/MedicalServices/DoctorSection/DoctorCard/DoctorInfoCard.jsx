@@ -11,7 +11,8 @@ const DoctorInfoCard = ({ doctor }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
+    // router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
+    router.push("/medical-services/doctor/profile");
   };
 
   return (

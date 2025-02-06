@@ -26,7 +26,8 @@ const PopularDoctorSliderCard = ({ doctor }) => {
     console.log("doctor : ", doctor);
     console.log("currentDoctor : ", currentDoctor);
 
-    router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
+    // router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
+    router.push("/medical-services/doctor/profile");
   };
 
   return (

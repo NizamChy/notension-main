@@ -114,18 +114,19 @@ const DoctorProfile = () => {
                   );
                 })}
 
-                {currentDoctor?.book_an_appointment && (
-                  <Link
-                    href={`/medical-services/doctor/profile/${doctorId}/book-appointment`}
-                  >
-                    <button className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2">
-                      <span>
-                        <FaCalendarAlt className="text-lg" />
-                      </span>
-                      <span>Book an appointment</span>
-                    </button>
-                  </Link>
-                )}
+                {currentDoctor?.book_an_appointment &&
+                  !currentDoctor?.is_chamber_off && (
+                    <Link
+                      href={`/medical-services/doctor/profile/${doctorId}/book-appointment`}
+                    >
+                      <button className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2">
+                        <span>
+                          <FaCalendarAlt className="text-lg" />
+                        </span>
+                        <span>Book an appointment</span>
+                      </button>
+                    </Link>
+                  )}
 
                 {currentDoctor?.consultationCenterInfo
                   ?.apointment_contact_1 && (

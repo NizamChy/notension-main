@@ -75,7 +75,10 @@ const PatientInfo = () => {
 
       {isModalOpen && selectedPatient && (
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-          <AppointmentModalDetails selectedPatient={selectedPatient} />
+          <AppointmentModalDetails
+            selectedPatient={selectedPatient}
+            onClose={closeModal}
+          />
         </CommonModal>
       )}
     </>

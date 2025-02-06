@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
+import { toast } from "react-toastify";
 
 axios.defaults.withCredentials = true;
 
@@ -50,8 +51,15 @@ export const useAppointment = () => {
 
     Axios.post(BOOK_APPOINTMENT, bookAppoinmentInfo)
       .then((response) => {
+        console.log("response : ", response);
+
         if (response?.data?.success) {
           setShowSuccessMessage(true);
+
+          toast.success(`${response?.data?.message}`, {
+            position: "top-center",
+          });
+
           saveAppoinmentInfo("add", {
             ...response?.data?.result,
             ...bookAppoinmentData,
@@ -59,6 +67,11 @@ export const useAppointment = () => {
           // navigation.navigate('BookedAppointmentInfo');
         } else {
           setShowErrorMessage(true);
+
+          toast.error(`${response?.data?.message}`, {
+            position: "top-center",
+          });
+
           //navigation.navigate('BookedAppointmentInfo');
         }
         setIsAppointmentBooked(response?.data?.isBooked);

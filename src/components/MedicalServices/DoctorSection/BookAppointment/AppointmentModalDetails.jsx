@@ -1,60 +1,34 @@
 "use client";
 
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 import { useAppointment } from "@/hooks/fetch-data/useAppointment";
 
-const AppointmentModalDetails = ({ selectedPatient }) => {
-  const [value, setValue] = useState("");
+const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
+  const [timeSlot, setTimeSlot] = useState("");
+  const [Available_Booking_Day, setAvailable_Booking_Day] = useState("");
+
+  const today = new Date();
+
+  const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+  const currentDate = today.toLocaleDateString("en-GB", options);
 
   const { getProfileOfDoctor } = useDoctor();
   const {
+    message,
     progressing,
     setProgressing,
-    message,
+    bookAppointment,
     showErrorMessage,
     showSuccessMessage,
+    isAppointmentBooked,
     setShowErrorMessage,
     setShowSuccessMessage,
-    isAppointmentBooked,
-    bookAppointment,
   } = useAppointment();
 
   const { currentDoctor } = useSelector((state) => state.doctorInfo);
-
-  const formatDateOfBirth = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
-
-  // console.log("params : ", params);
-  console.log("selected patient : ", selectedPatient);
-
-  let bookAppoinmentData = {
-    doctor_info: currentDoctor?.doctorInfo?._id,
-    doctor_name: currentDoctor?.doctorInfo?.doctor_name,
-    consultation_center_name:
-      currentDoctor?.consultationCenterInfo?.center_name,
-    doctor_speciality: currentDoctor?.doctorInfo?.speciality,
-    consultation_limit: currentDoctor?.consultation_limit_per_slot,
-    consultation_center_info: currentDoctor?.consultationCenterInfo?._id,
-
-    time_slot: "",
-    appointment_day: "",
-    appointment_date: "",
-
-    patient_info: {
-      id: selectedPatient?._id,
-      patient_name: selectedPatient?.patient_name,
-    },
-  };
-
-  console.log("bookAppoinmentData : ", bookAppoinmentData);
 
   const weekday = [
     "Saturday",
@@ -75,6 +49,25 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
     "বৃহস্পতিবার",
     "শুক্রবার",
   ];
+
+  // let bookAppoinmentData = {
+  //   doctor_info: currentDoctor?.doctorInfo?._id,
+  //   doctor_name: currentDoctor?.doctorInfo?.doctor_name,
+  //   consultation_center_name:
+  //     currentDoctor?.consultationCenterInfo?.center_name,
+  //   doctor_speciality: currentDoctor?.doctorInfo?.speciality,
+  //   consultation_limit: currentDoctor?.consultation_limit_per_slot,
+  //   consultation_center_info: currentDoctor?.consultationCenterInfo?._id,
+
+  //   time_slot: "",
+  //   appointment_day: "",
+  //   appointment_date: "",
+
+  //   patient_info: {
+  //     id: selectedPatient?._id,
+  //     patient_name: selectedPatient?.patient_name,
+  //   },
+  // };
 
   const formatAMPM = (date) => {
     let hours = date.getHours();
@@ -105,29 +98,18 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
     return time >= slotStart && time <= slotEnd;
   };
 
-  const today = new Date();
   let current_day_name = weekday[(today.getDay() + 1) % 7];
-
   const appointmentDays = [];
-  const [Available_Booking_Day, setAvailable_Booking_Day] = useState("");
-
   const CurrentDay = new Date(today.setDate(today.getDate()));
-
   const formattedDate = CurrentDay.toISOString().split("T")[0];
   const formattedTime = formatAMPM(CurrentDay);
-
   const [appointment_date, setAppointment] = useState(formattedDate);
-
-  console.log(
-    "..............................",
-    appointment_date,
-    Available_Booking_Day
-  );
 
   const formatDate = (date) => {
     const [year, month, day] = date.split("-");
     return `${day}/${month}/${year}`;
   };
+
   useEffect(() => {
     currentDoctor?.chamber_schedule?.map((day, i) => {
       if (
@@ -141,6 +123,7 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
   }, []);
 
   const getNextAppointmentDay = (currentDay) => {
+    const today = new Date();
     const currentIndex = weekday.indexOf(currentDay);
     for (let i = 0; i <= 6; i++) {
       const nextIndex = (currentIndex + i) % 7;
@@ -175,10 +158,72 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
     }, 1000);
   }, []);
 
+  console.log("timeSlot : ", timeSlot);
+  console.log("selected patient : ", selectedPatient);
+  console.log("appointment_date : ", appointment_date);
+  // console.log("bookAppoinmentData : ", bookAppoinmentData);
+  console.log("Available_Booking_Day : ", Available_Booking_Day);
+
+  const handleBookAppointment = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!timeSlot) {
+      toast.info("Please select a time slot!", {
+        position: "top-center",
+      });
+      return;
+    }
+
+    if (
+      !isTimeInSlot(
+        formattedTime,
+        currentDoctor?.appointment_scheduling?.start_time,
+        currentDoctor?.appointment_scheduling?.end_time
+      )
+    ) {
+      toast.info(
+        `Appointment time ${currentDoctor?.appointment_scheduling?.start_time} -${currentDoctor?.appointment_scheduling?.end_time} `,
+        {
+          position: "top-center",
+        }
+      );
+      return;
+    }
+
+    let bookAppoinmentData = {
+      doctor_info: currentDoctor?.doctorInfo?._id,
+      doctor_name: currentDoctor?.doctorInfo?.doctor_name,
+      consultation_center_name:
+        currentDoctor?.consultationCenterInfo?.center_name,
+      doctor_speciality: currentDoctor?.doctorInfo?.speciality,
+      consultation_limit: currentDoctor?.consultation_limit_per_slot,
+      consultation_center_info: currentDoctor?.consultationCenterInfo?._id,
+
+      time_slot: timeSlot,
+
+      appointment_day: Available_Booking_Day,
+      appointment_date: appointment_date,
+
+      patient_info: {
+        id: selectedPatient?._id,
+        patient_name: selectedPatient?.patient_name,
+      },
+    };
+
+    bookAppointment(bookAppoinmentData);
+
+    if (!progressing) {
+      onClose();
+    }
+
+    console.log("bookAppoinmentData : ", bookAppoinmentData);
+  };
+
   return (
     <>
       <div className="border border-primary rounded-lg p-4 my-5 shadow-md hover:shadow-lg transition-shadow duration-300">
-        <p className="mb-4">তারিখ: {formatDate(appointment_date)}</p>
+        <p className="mb-1">তারিখ: {currentDate}</p>
 
         <p className="mb-4">
           সিরিয়াল নেওয়ার সময়:{" "}
@@ -209,13 +254,15 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
           </p>
         </div>
 
-        <div className="w-full">
-          <p className="my-2 text-[#599E66] px-3 text-xm md:text-lg font-semibold">
+        <div className="w-full mt-2">
+          <p className="font-semibold text-primary">পরামর্শ কেন্দ্র:</p>
+
+          <p className="text-[#599E66] text-xm md:text-lg font-semibold">
             {currentDoctor?.consultationCenterInfo?.center_name}
           </p>
         </div>
 
-        <div className="p-4">
+        <div className="mt-2">
           {/* <p className="mb-4">
             Appointment Time:{" "}
             {currentDoctor?.appointment_scheduling?.start_time} -{" "}
@@ -224,14 +271,16 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
           <p className="mb-4">
             Appointment Date: {formatDate(appointment_date)}
           </p> */}
+          <p className="font-semibold text-primary">পরামর্শের সময়:</p>
+
           {currentDoctor?.chamber_schedule?.map((day, i) => (
-            <div className="mb-4" key={i}>
+            <div className="mt-1" key={i}>
               {Available_Booking_Day !== "" &&
                 day?.day_name === Available_Booking_Day && (
                   <div>
                     <label className="block text-[#A93356] font-semibold">
-                      {formatDate(appointment_date)} - {day?.day_name} - {""}
-                      {weekday_bangla[weekday.indexOf(day?.day_name)]}
+                      {formatDate(appointment_date)} - {day?.day_name} {""}(
+                      {weekday_bangla[weekday.indexOf(day?.day_name)]})
                     </label>
                     <div className="mt-2">
                       {day?.morning?.start?.slice(0, 5) !== "00:00" && (
@@ -240,7 +289,7 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
                             type="radio"
                             name="radio-buttons-group"
                             value={`${day?.morning?.start} - ${day?.morning?.end}`}
-                            onChange={(e) => setValue(e.target.value)}
+                            onChange={(e) => setTimeSlot(e.target.value)}
                             className="form-radio"
                           />
                           <span className="ml-2">{`${day?.morning?.start} - ${day?.morning?.end}`}</span>
@@ -252,7 +301,7 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
                             type="radio"
                             name="radio-buttons-group"
                             value={`${day?.afternoon?.start} - ${day?.afternoon?.end}`}
-                            onChange={(e) => setValue(e.target.value)}
+                            onChange={(e) => setTimeSlot(e.target.value)}
                             className="form-radio"
                           />
                           <span className="ml-2">{`${day?.afternoon?.start} - ${day?.afternoon?.end}`}</span>
@@ -264,7 +313,7 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
                             type="radio"
                             name="radio-buttons-group"
                             value={`${day?.evening?.start} - ${day?.evening?.end}`}
-                            onChange={(e) => setValue(e.target.value)}
+                            onChange={(e) => setTimeSlot(e.target.value)}
                             className="form-radio"
                           />
                           <span className="ml-2">{`${day?.evening?.start} - ${day?.evening?.end}`}</span>
@@ -277,10 +326,13 @@ const AppointmentModalDetails = ({ selectedPatient }) => {
           ))}
           <div className="mt-4">
             <button
+              onClick={(e) => handleBookAppointment(e)}
               type="button"
               className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
+              disabled={progressing}
             >
-              Book Appointment
+              {/* Book Appointment */}
+              {progressing ? "Booking..." : "Book Appointment"}
             </button>
           </div>
         </div>

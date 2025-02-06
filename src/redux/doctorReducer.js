@@ -26,6 +26,7 @@ const doctorReducer = createSlice({
     hospitalInfoByDistrict: [],
     currentCenter: {},
     currentDoctor: {},
+    currentDept: {},
     pageNoForPopular: 2,
   },
   reducers: {
@@ -55,6 +56,7 @@ const doctorReducer = createSlice({
           hospitalInfoByDistrict: [],
           currentCenter: {},
           currentDoctor: {},
+          currentDept: {},
           pageNoForPopular: 2,
         };
       } else if (payload.type == "SAVE_DEPT_INFO") {
@@ -171,6 +173,8 @@ const doctorReducer = createSlice({
         state.currentCenter = payload.data;
       } else if (payload.type == "SAVE_CURRENT_DOCTOR_INFO") {
         state.currentDoctor = payload.data;
+      } else if (payload.type == "SAVE_CURRENT_DEPT_INFO") {
+        state.currentDept = payload.data;
       } else {
         return {
           ...state,
