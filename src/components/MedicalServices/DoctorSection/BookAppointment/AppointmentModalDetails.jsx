@@ -3,7 +3,6 @@
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 import { useAppointment } from "@/hooks/fetch-data/useAppointment";
 
 const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
@@ -15,18 +14,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
   const options = { day: "2-digit", month: "2-digit", year: "numeric" };
   const currentDate = today.toLocaleDateString("en-GB", options);
 
-  const { getProfileOfDoctor } = useDoctor();
-  const {
-    message,
-    progressing,
-    setProgressing,
-    bookAppointment,
-    showErrorMessage,
-    showSuccessMessage,
-    isAppointmentBooked,
-    setShowErrorMessage,
-    setShowSuccessMessage,
-  } = useAppointment();
+  const { progressing, bookAppointment } = useAppointment();
 
   const { currentDoctor } = useSelector((state) => state.doctorInfo);
 
@@ -49,25 +37,6 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     "বৃহস্পতিবার",
     "শুক্রবার",
   ];
-
-  // let bookAppoinmentData = {
-  //   doctor_info: currentDoctor?.doctorInfo?._id,
-  //   doctor_name: currentDoctor?.doctorInfo?.doctor_name,
-  //   consultation_center_name:
-  //     currentDoctor?.consultationCenterInfo?.center_name,
-  //   doctor_speciality: currentDoctor?.doctorInfo?.speciality,
-  //   consultation_limit: currentDoctor?.consultation_limit_per_slot,
-  //   consultation_center_info: currentDoctor?.consultationCenterInfo?._id,
-
-  //   time_slot: "",
-  //   appointment_day: "",
-  //   appointment_date: "",
-
-  //   patient_info: {
-  //     id: selectedPatient?._id,
-  //     patient_name: selectedPatient?.patient_name,
-  //   },
-  // };
 
   const formatAMPM = (date) => {
     let hours = date.getHours();
@@ -158,12 +127,6 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     }, 1000);
   }, []);
 
-  console.log("timeSlot : ", timeSlot);
-  console.log("selected patient : ", selectedPatient);
-  console.log("appointment_date : ", appointment_date);
-  // console.log("bookAppoinmentData : ", bookAppoinmentData);
-  console.log("Available_Booking_Day : ", Available_Booking_Day);
-
   const handleBookAppointment = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -214,11 +177,18 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     bookAppointment(bookAppoinmentData);
 
     if (!progressing) {
-      onClose();
+      setTimeout(() => {
+        onClose();
+      }, 500);
     }
 
     console.log("bookAppoinmentData : ", bookAppoinmentData);
   };
+
+  console.log("timeSlot : ", timeSlot);
+  console.log("selected patient : ", selectedPatient);
+  console.log("appointment_date : ", appointment_date);
+  console.log("Available_Booking_Day : ", Available_Booking_Day);
 
   return (
     <>
@@ -263,14 +233,6 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
         </div>
 
         <div className="mt-2">
-          {/* <p className="mb-4">
-            Appointment Time:{" "}
-            {currentDoctor?.appointment_scheduling?.start_time} -{" "}
-            {currentDoctor?.appointment_scheduling?.end_time}
-          </p>
-          <p className="mb-4">
-            Appointment Date: {formatDate(appointment_date)}
-          </p> */}
           <p className="font-semibold text-primary">পরামর্শের সময়:</p>
 
           {currentDoctor?.chamber_schedule?.map((day, i) => (
@@ -331,7 +293,6 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
               className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
               disabled={progressing}
             >
-              {/* Book Appointment */}
               {progressing ? "Booking..." : "Book Appointment"}
             </button>
           </div>
