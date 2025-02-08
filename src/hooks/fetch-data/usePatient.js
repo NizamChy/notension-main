@@ -5,6 +5,7 @@ import {
   MANAGE_PATIENT,
   REGISTER_PATIENT,
 } from "@/api-endpoints/api-endpoint";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
@@ -48,6 +49,10 @@ export const usePatient = () => {
     Axios.post(REGISTER_PATIENT, patientData)
       .then((response) => {
         console.log("response : ", response);
+
+        if (response?.data?.success) {
+          toast.success(`${response?.data?.message}`);
+        }
 
         //console.log([...patientInfo, response?.data?.result]);
         savePatientInfo("add", response?.data?.result);

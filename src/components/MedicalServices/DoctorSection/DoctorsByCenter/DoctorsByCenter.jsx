@@ -15,9 +15,7 @@ const DoctorsByCenter = () => {
 
   const { getDoctorsInfoByCenter, loadingMore, allLoaded } = useDoctor();
 
-  const { currentCenter, currentDept } = useSelector(
-    (state) => state.doctorInfo
-  );
+  const { currentDept } = useSelector((state) => state.doctorInfo);
 
   const params = useParams();
 
@@ -28,46 +26,44 @@ const DoctorsByCenter = () => {
     getDoctorsInfoByCenter(centerId, deptId, setDoctorsInfo, pageNo, setPageNo);
   }, [centerId]);
 
-  console.log("params", params);
-  console.log("deptId", params?.deptId);
-  console.log("centerId", params?.centerId);
-  console.log("doctorsInfo: ", doctorsInfo);
-  console.log("currentDept: ", currentDept);
-
   return (
     <div className="container min-h-content">
       <div>
-        <ExploreConsultationCenterInfo />
+        <div>
+          <ExploreConsultationCenterInfo />
+        </div>
 
-        <p className="md:text-2xl ps-3 md:ps-5 font-semibold py-1 md:py-5 text-[#0C3F8E]">
-          Doctors Info ({currentDept?.dept_name})
-        </p>
+        <div>
+          <p className="md:text-2xl ps-3 md:ps-5 font-semibold py-1 md:py-5 text-[#0C3F8E]">
+            Doctors Info ({currentDept?.dept_name})
+          </p>
 
-        <div className="px-2 md:px-4">
-          {!allLoaded && doctorsInfo?.length < 1 && <Loader />}
+          <div className="px-2 md:px-4">
+            {!allLoaded && doctorsInfo?.length < 1 && <Loader />}
 
-          {doctorsInfo && doctorsInfo?.length > 0 ? (
-            <InfiniteScroll
-              dataLength={doctorsInfo?.length}
-              next={() => {
-                getDoctorsInfoByCenter(
-                  centerId,
-                  deptId,
-                  setDoctorsInfo,
-                  pageNo,
-                  setPageNo
-                );
-              }}
-              hasMore={loadingMore}
-              loader={<Loader />}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
-                {doctorsInfo?.map((doctor) => (
-                  <DoctorInfoCard key={doctor?._id} doctor={doctor} />
-                ))}
-              </div>
-            </InfiniteScroll>
-          ) : null}
+            {doctorsInfo && doctorsInfo?.length > 0 ? (
+              <InfiniteScroll
+                dataLength={doctorsInfo?.length}
+                next={() => {
+                  getDoctorsInfoByCenter(
+                    centerId,
+                    deptId,
+                    setDoctorsInfo,
+                    pageNo,
+                    setPageNo
+                  );
+                }}
+                hasMore={loadingMore}
+                loader={<Loader />}
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
+                  {doctorsInfo?.map((doctor) => (
+                    <DoctorInfoCard key={doctor?._id} doctor={doctor} />
+                  ))}
+                </div>
+              </InfiniteScroll>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

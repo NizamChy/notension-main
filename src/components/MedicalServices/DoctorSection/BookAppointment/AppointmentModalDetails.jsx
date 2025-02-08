@@ -15,7 +15,6 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
   const currentDate = today.toLocaleDateString("en-GB", options);
 
   const { progressing, bookAppointment } = useAppointment();
-
   const { currentDoctor } = useSelector((state) => state.doctorInfo);
 
   const weekday = [
@@ -48,6 +47,13 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     return `${strHours}:${strMinutes} ${ampm}`;
   };
 
+  let current_day_name = weekday[(today.getDay() + 1) % 7];
+  const appointmentDays = [];
+  const CurrentDay = new Date(today.setDate(today.getDate()));
+  const formattedDate = CurrentDay.toISOString().split("T")[0];
+  const formattedTime = formatAMPM(CurrentDay);
+  const [appointment_date, setAppointment] = useState(formattedDate);
+
   const isTimeInSlot = (current_time, slot_start, slot_end) => {
     const convertTo24Hour = (str) => {
       const [time, period] = str.split(" ");
@@ -66,13 +72,6 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     const slotEnd = convertTo24Hour(slot_end);
     return time >= slotStart && time <= slotEnd;
   };
-
-  let current_day_name = weekday[(today.getDay() + 1) % 7];
-  const appointmentDays = [];
-  const CurrentDay = new Date(today.setDate(today.getDate()));
-  const formattedDate = CurrentDay.toISOString().split("T")[0];
-  const formattedTime = formatAMPM(CurrentDay);
-  const [appointment_date, setAppointment] = useState(formattedDate);
 
   const formatDate = (date) => {
     const [year, month, day] = date.split("-");
@@ -181,121 +180,117 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
         onClose();
       }, 500);
     }
-
-    console.log("bookAppoinmentData : ", bookAppoinmentData);
   };
-
-  console.log("timeSlot : ", timeSlot);
-  console.log("selected patient : ", selectedPatient);
-  console.log("appointment_date : ", appointment_date);
-  console.log("Available_Booking_Day : ", Available_Booking_Day);
 
   return (
     <>
-      <div className="border border-primary rounded-lg p-4 my-5 shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="rounded-lg p-2 md:p-4 md:my-5 shadow-sm hover:shadow-md transition-shadow duration-300">
         <p className="mb-1">তারিখ: {currentDate}</p>
 
-        <p className="mb-4">
+        <p className="mb-2">
           সিরিয়াল নেওয়ার সময়:{" "}
           {currentDoctor?.appointment_scheduling?.start_time} -{" "}
           {currentDoctor?.appointment_scheduling?.end_time}
         </p>
 
-        <p className="text-lg font-semibold text-primary">
+        <p className="text-base font-semibold text-primary">
           রোগীর নাম: {selectedPatient?.patient_name}
         </p>
         <p className="text-deepGray">
           মোবাইল নাম্বার: {selectedPatient?.contact}
         </p>
 
-        <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
-          {currentDoctor?.doctorInfo?.doctor_name}
-        </h3>
+        <div className="border border-primary p-4 mt-3 rounded-lg">
+          <h3 className="text-sm md:text-base font-semibold text-[#A93356]">
+            {currentDoctor?.doctorInfo?.doctor_name}
+          </h3>
 
-        <div className="mt-1 mb-2">
-          <p className="text-xs md:text-sm line-clamp-4 text-mediumGray">
-            {currentDoctor?.doctorInfo?.qualifications}
-          </p>
-        </div>
-
-        <div className="bg-[#CCB8F7] mt-3 py-1 w-full">
-          <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base px-3">
-            {currentDoctor?.doctorInfo?.speciality}
-          </p>
-        </div>
-
-        <div className="w-full mt-2">
-          <p className="font-semibold text-primary">পরামর্শ কেন্দ্র:</p>
-
-          <p className="text-[#599E66] text-xm md:text-lg font-semibold">
-            {currentDoctor?.consultationCenterInfo?.center_name}
-          </p>
-        </div>
-
-        <div className="mt-2">
-          <p className="font-semibold text-primary">পরামর্শের সময়:</p>
-
-          {currentDoctor?.chamber_schedule?.map((day, i) => (
-            <div className="mt-1" key={i}>
-              {Available_Booking_Day !== "" &&
-                day?.day_name === Available_Booking_Day && (
-                  <div>
-                    <label className="block text-[#A93356] font-semibold">
-                      {formatDate(appointment_date)} - {day?.day_name} {""}(
-                      {weekday_bangla[weekday.indexOf(day?.day_name)]})
-                    </label>
-                    <div className="mt-2">
-                      {day?.morning?.start?.slice(0, 5) !== "00:00" && (
-                        <label className="flex items-center">
-                          <input
-                            type="radio"
-                            name="radio-buttons-group"
-                            value={`${day?.morning?.start} - ${day?.morning?.end}`}
-                            onChange={(e) => setTimeSlot(e.target.value)}
-                            className="form-radio"
-                          />
-                          <span className="ml-2">{`${day?.morning?.start} - ${day?.morning?.end}`}</span>
-                        </label>
-                      )}
-                      {day?.afternoon?.start?.slice(0, 5) !== "00:00" && (
-                        <label className="flex items-center">
-                          <input
-                            type="radio"
-                            name="radio-buttons-group"
-                            value={`${day?.afternoon?.start} - ${day?.afternoon?.end}`}
-                            onChange={(e) => setTimeSlot(e.target.value)}
-                            className="form-radio"
-                          />
-                          <span className="ml-2">{`${day?.afternoon?.start} - ${day?.afternoon?.end}`}</span>
-                        </label>
-                      )}
-                      {day?.evening?.start?.slice(0, 5) !== "00:00" && (
-                        <label className="flex items-center">
-                          <input
-                            type="radio"
-                            name="radio-buttons-group"
-                            value={`${day?.evening?.start} - ${day?.evening?.end}`}
-                            onChange={(e) => setTimeSlot(e.target.value)}
-                            className="form-radio"
-                          />
-                          <span className="ml-2">{`${day?.evening?.start} - ${day?.evening?.end}`}</span>
-                        </label>
-                      )}
-                    </div>
-                  </div>
-                )}
-            </div>
-          ))}
-          <div className="mt-4">
-            <button
-              onClick={(e) => handleBookAppointment(e)}
-              type="button"
-              className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
-              disabled={progressing}
-            >
-              {progressing ? "Booking..." : "Book Appointment"}
-            </button>
+          <div className="mt-1 mb-2">
+            <p className="text-xs md:text-sm line-clamp-4 text-mediumGray">
+              {currentDoctor?.doctorInfo?.qualifications}
+            </p>
           </div>
+
+          <div className="bg-[#F78F1E] mt-3 py-1 w-full">
+            <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base px-3">
+              {currentDoctor?.doctorInfo?.speciality}
+            </p>
+          </div>
+
+          <div className="w-full mt-2">
+            <p className="font-semibold text-primary">পরামর্শ কেন্দ্র:</p>
+
+            <p className="text-[#599E66] text-xm md:text-lg font-semibold">
+              {currentDoctor?.consultationCenterInfo?.center_name}
+            </p>
+          </div>
+
+          <div className="mt-2">
+            <p className="font-semibold text-primary">পরামর্শের সময়:</p>
+
+            {currentDoctor?.chamber_schedule?.map((day, i) => (
+              <div className="mt-1" key={i}>
+                {Available_Booking_Day !== "" &&
+                  day?.day_name === Available_Booking_Day && (
+                    <div>
+                      <label className="block text-[#A93356] font-semibold">
+                        {formatDate(appointment_date)} - {day?.day_name} {""}(
+                        {weekday_bangla[weekday.indexOf(day?.day_name)]})
+                      </label>
+                      <div className="mt-2">
+                        {day?.morning?.start?.slice(0, 5) !== "00:00" && (
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              name="radio-buttons-group"
+                              value={`${day?.morning?.start} - ${day?.morning?.end}`}
+                              onChange={(e) => setTimeSlot(e.target.value)}
+                              className="form-radio"
+                            />
+                            <span className="ml-2">{`${day?.morning?.start} - ${day?.morning?.end}`}</span>
+                          </label>
+                        )}
+                        {day?.afternoon?.start?.slice(0, 5) !== "00:00" && (
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="radio"
+                              name="radio-buttons-group"
+                              value={`${day?.afternoon?.start} - ${day?.afternoon?.end}`}
+                              onChange={(e) => setTimeSlot(e.target.value)}
+                              className="form-radio"
+                            />
+                            <span className="ml-2">{`${day?.afternoon?.start} - ${day?.afternoon?.end}`}</span>
+                          </label>
+                        )}
+                        {day?.evening?.start?.slice(0, 5) !== "00:00" && (
+                          <label className="flex items-center cursor-pointer">
+                            <input
+                              type="radio"
+                              name="radio-buttons-group"
+                              value={`${day?.evening?.start} - ${day?.evening?.end}`}
+                              onChange={(e) => setTimeSlot(e.target.value)}
+                              className="form-radio"
+                            />
+                            <span className="ml-2">{`${day?.evening?.start} - ${day?.evening?.end}`}</span>
+                          </label>
+                        )}
+                      </div>
+                    </div>
+                  )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <button
+            onClick={(e) => handleBookAppointment(e)}
+            type="button"
+            className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
+            disabled={progressing}
+          >
+            {progressing ? "Booking..." : "Book Appointment"}
+          </button>
         </div>
       </div>
     </>

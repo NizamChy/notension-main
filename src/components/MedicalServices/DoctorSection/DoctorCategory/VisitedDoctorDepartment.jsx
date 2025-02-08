@@ -2,10 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
+import { useDispatch, useSelector } from "react-redux";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
+import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const VisitedDoctorDepartment = ({
   gridClassName = "grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center",
@@ -35,14 +35,10 @@ const VisitedDoctorDepartment = ({
       })
     );
 
-    console.log("dept : ", dept);
-
     router.push(
       `/medical-services/doctor/dept/${dept?.deptInfo?._id}/center/${currentCenter?._id}`
     );
   };
-
-  console.log("currentDept : ", currentDept);
 
   return (
     <>

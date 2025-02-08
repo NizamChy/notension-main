@@ -2,16 +2,25 @@
 
 import React from "react";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const DoctorInfoCard = ({ doctor }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleDoctorClick = (e, doctor) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // router.push(`/medical-services/doctor/profile/${doctor?.doctorInfo?._id}`);
+    dispatch(
+      handleDoctorReducer({
+        type: "SAVE_CURRENT_DOCTOR_INFO",
+        data: doctor,
+      })
+    );
+
     router.push("/medical-services/doctor/profile");
   };
 

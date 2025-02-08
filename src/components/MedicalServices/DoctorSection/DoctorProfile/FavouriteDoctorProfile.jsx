@@ -1,52 +1,46 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { IoCall } from "react-icons/io5";
-import { useParams } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { FaCalendarAlt } from "react-icons/fa";
 import Loader from "@/components/common/Loader";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
-import { FaCalendarAlt, FaHeart } from "react-icons/fa";
+import { useParams, useRouter } from "next/navigation";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
-import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const FavouriteDoctorProfile = () => {
   const [profileInfo, setProfileInfo] = useState([]);
-  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { getProfileOfDoctor, progressing } = useDoctor();
-  const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
 
+  const router = useRouter();
   const params = useParams();
+
+  const dispatch = useDispatch();
+
   const doctorId = params?.id || null;
 
-  console.log("doctorId", doctorId);
+  const handleBookAppointment = (e, profile) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  let merchantType = 4;
-  let isExists = null;
+    dispatch(
+      handleDoctorReducer({
+        type: "SAVE_CURRENT_DOCTOR_INFO",
+        data: profile,
+      })
+    );
 
-  const handleAddToFavorite = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    addToFavouriteList(profileInfo[0]?.doctorInfo, merchantType);
+    router.push("/medical-services/doctor/book-appointment");
   };
 
   useEffect(() => {
     getProfileOfDoctor(doctorId, setProfileInfo);
   }, []);
-
-  useEffect(() => {
-    isExists = isAddedToFavouriteList(
-      profileInfo[0]?.doctorInfo?._id,
-      merchantType
-    );
-    setIsFavoriteAdded(isExists);
-  }, [profileInfo, handleAddToFavorite]);
-
-  console.log("profileInfo : ", profileInfo);
 
   return (
     <>
@@ -55,7 +49,7 @@ const FavouriteDoctorProfile = () => {
       ) : (
         <div className="container min-h-content">
           <div>
-            <div className="relative md:flex items-center lg:gap-20 text-deepGray lg:border border-slate-200 py-20 rounded-lg">
+            <div className="relative md:flex items-center lg:gap-20 text-deepGray lg:border border-slate-200 rounded-lg">
               <div className="lg:flex items-center md:w-1/2">
                 <div className="md:w-1/3">
                   <Image
@@ -84,106 +78,94 @@ const FavouriteDoctorProfile = () => {
                   </p>
                 </div>
               </div>
-              <div className="md:w-1/2 mt-3 md:mt-0 md:border-0 md:p-0 border border-primary rounded-lg p-3">
-                <div>
-                  <p className="text-primary font-bold text-lg md:text-xl">
-                    পরামর্শ কেন্দ্র:
-                  </p>
-                  <p className="py-1 md:text-lg font-semibold text-primary">
-                    {profileInfo[0]?.consultationCenterInfo?.center_name}
-                  </p>
-                  <p className="flex items-start gap-2 pt-1">
-                    <span>
-                      <FaLocationDot className="mt-1 text-primary" />
-                    </span>
-                    <span className="text-sm md:text-base font-medium pe-5">
-                      {profileInfo[0]?.consultationCenterInfo?.address}
-                    </span>
-                  </p>
 
-                  {profileInfo[0]?.chamber_onDay_time_slot_1 && (
-                    <p className="text-primary font-bold text-lg md:text-xl mt-4 pb-1">
-                      পরামর্শের সময়:
+              <div className="md:w-1/2 rounded-lg">
+                {profileInfo.map((profile) => (
+                  <div
+                    key={profile?._id}
+                    className="p-4 lg:m-4 mt-3 md:mt-0 border border-primary rounded-lg"
+                  >
+                    <p className="text-primary font-bold text-lg md:text-xl">
+                      পরামর্শ কেন্দ্র:
                     </p>
-                  )}
+                    <p className="py-1 md:text-lg font-semibold text-primary">
+                      {profile?.consultationCenterInfo?.center_name}
+                    </p>
+                    <p className="flex items-start gap-2 pt-1">
+                      <span>
+                        <FaLocationDot className="mt-1 text-primary" />
+                      </span>
+                      <span className="text-sm md:text-base font-medium pe-5">
+                        {profile?.consultationCenterInfo?.address}
+                      </span>
+                    </p>
 
-                  {[1, 2, 3].map((index) => {
-                    const timeSlot =
-                      profileInfo[0]?.[`chamber_onDay_time_slot_${index}`];
-                    return (
-                      timeSlot && (
-                        <p
-                          key={index}
-                          className="flex items-start font-medium gap-2 text-[#A93356]"
-                        >
-                          <span>
-                            <MdAccessTimeFilled className="mt-1 text-primary" />
-                          </span>
-                          <span className="text-sm md:text-base">
-                            {timeSlot}
-                          </span>
-                        </p>
-                      )
-                    );
-                  })}
+                    {profile?.chamber_onDay_time_slot_1 && (
+                      <p className="text-primary font-bold text-lg md:text-xl mt-4 pb-1">
+                        পরামর্শের সময়:
+                      </p>
+                    )}
 
-                  {profileInfo[0]?.book_an_appointment && (
-                    <Link
-                      href={`/medical-services/doctor/profile/${doctorId}/book-appointment`}
-                    >
-                      <button className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2">
+                    {[1, 2, 3].map((index) => {
+                      const timeSlot =
+                        profile?.[`chamber_onDay_time_slot_${index}`];
+                      return (
+                        timeSlot && (
+                          <p
+                            key={index}
+                            className="flex items-start font-medium gap-2 text-[#A93356]"
+                          >
+                            <span>
+                              <MdAccessTimeFilled className="mt-1 text-primary" />
+                            </span>
+                            <span className="text-sm md:text-base">
+                              {timeSlot}
+                            </span>
+                          </p>
+                        )
+                      );
+                    })}
+
+                    {profile?.book_an_appointment && (
+                      <button
+                        onClick={(e) => handleBookAppointment(e, profile)}
+                        className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2"
+                      >
                         <span>
                           <FaCalendarAlt className="text-lg" />
                         </span>
                         <span>Book an appointment</span>
                       </button>
-                    </Link>
-                  )}
+                    )}
 
-                  {profileInfo[0]?.consultationCenterInfo
-                    ?.apointment_contact_1 && (
-                    <p className="text-primary font-bold text-lg md:text-xl mt-4 pb-1">
-                      সিরিয়ালের জন্য:
-                    </p>
-                  )}
+                    {profile?.consultationCenterInfo?.apointment_contact_1 && (
+                      <p className="text-primary font-bold text-lg md:text-xl mt-4 pb-1">
+                        সিরিয়ালের জন্য:
+                      </p>
+                    )}
 
-                  {[1, 2, 3].map((index) => {
-                    const contact =
-                      profileInfo[0]?.consultationCenterInfo?.[
-                        `apointment_contact_${index}`
-                      ];
-                    return (
-                      contact && (
-                        <p
-                          key={index}
-                          className="flex items-center gap-2 font-medium"
-                        >
-                          <span>
-                            <IoCall className="text-primary" />
-                          </span>
-                          <span>{contact}</span>
-                        </p>
-                      )
-                    );
-                  })}
-                </div>
+                    {[1, 2, 3].map((index) => {
+                      const contact =
+                        profile?.consultationCenterInfo?.[
+                          `apointment_contact_${index}`
+                        ];
+                      return (
+                        contact && (
+                          <p
+                            key={index}
+                            className="flex items-center gap-2 font-medium"
+                          >
+                            <span>
+                              <IoCall className="text-primary" />
+                            </span>
+                            <span>{contact}</span>
+                          </p>
+                        )
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
-
-              {!isFavoriteAdded && (
-                <button
-                  onClick={handleAddToFavorite}
-                  className="absolute top-8 right-3 md:right-6 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 pe-2 flex justify-center items-center"
-                >
-                  <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-                  <span className="text-xs font-medium">Add to Favourite</span>
-                </button>
-              )}
-
-              {isFavoriteAdded && (
-                <button className="absolute top-8 right-3 md:right-6 opacity-65 rounded-full flex justify-center items-center">
-                  <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-                </button>
-              )}
             </div>
           </div>
         </div>
