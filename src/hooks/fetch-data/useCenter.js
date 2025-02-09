@@ -39,14 +39,6 @@ export const useCenter = () => {
     },
   });
 
-  // const AxiosTest = axios.create({
-  //     baseURL: HEALTH_CARE_URL_LOCAL,
-  //     headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //     },
-  // });
-
   const getNearestCenterInfo = (centerType, setCenterInfo) => {
     setProgressing(true);
 

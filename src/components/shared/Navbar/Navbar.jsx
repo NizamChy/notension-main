@@ -7,6 +7,7 @@ import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { usePathname } from "next/navigation";
+import { FaUserDoctor } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -102,10 +103,10 @@ const Navbar = () => {
               </svg>
             </button>
             {dropDownState && (
-              <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48">
+              <ul className="absolute text-deepGray right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 min-w-48">
                 <li className="md:hidden block px-3 hover:underline">
                   <p className="flex items-center text-sm text-secondary ps-1">
-                    {userInfo.customer_name}
+                    {userInfo?.customer_name}
                   </p>
                 </li>
 
@@ -124,9 +125,21 @@ const Navbar = () => {
                 )}
 
                 <li className="px-3 hover:underline">
+                  <Link
+                    href="/medical-services/doctor/booked-appointment"
+                    className="flex items-center gap-1 text-nowrap"
+                  >
+                    <span>
+                      <FaUserDoctor className="text-primaryMedicine" />
+                    </span>
+                    Booked Appointment
+                  </Link>
+                </li>
+
+                <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
                     <span>
-                      <CgProfile />
+                      <CgProfile className="text-primaryGrocery" />
                     </span>
                     Profile
                   </Link>
@@ -138,7 +151,7 @@ const Navbar = () => {
                     className="flex items-center gap-1"
                   >
                     <span>
-                      <BiLogOut />
+                      <BiLogOut className="text-primaryFood" />
                     </span>
                     Logout
                   </button>
