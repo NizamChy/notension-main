@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
+import { useRouter } from "next/navigation";
 
 axios.defaults.withCredentials = true;
 
@@ -19,6 +20,8 @@ export const useAppointment = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isAppointmentBooked, setIsAppointmentBooked] = useState(false);
   const [showActivityIndicator, setShowActivityIndicator] = useState(false);
+
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -63,6 +66,8 @@ export const useAppointment = () => {
             ...response?.data?.result,
             ...bookAppoinmentData,
           });
+
+          router.push("/medical-services/doctor/booked-appointment");
         } else {
           setShowErrorMessage(true);
 

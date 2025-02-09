@@ -44,9 +44,9 @@ const PatientInfo = () => {
   return (
     <>
       <div className="cursor-pointer mt-7 px-4">
-        <h1 className="text-2xl font-bold mb-5 text-primary">
+        <p className="text-2xl font-bold mb-3 text-primary">
           Patient Information
-        </h1>
+        </p>
 
         {progressing ? (
           <Loader />

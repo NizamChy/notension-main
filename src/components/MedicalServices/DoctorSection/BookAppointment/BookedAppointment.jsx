@@ -100,7 +100,7 @@ const BookedAppointment = () => {
                     </div>
                   </div>
 
-                  <p className="flex items-center gap-1 pt-2">
+                  <p className="flex items-start gap-1 pt-2">
                     <span>
                       <WiTime4 className="text-2xl text-secondaryMedicine" />
                     </span>

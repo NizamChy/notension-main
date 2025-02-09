@@ -54,8 +54,9 @@ const RegisterPatient = () => {
   };
 
   return (
-    <div className="flex items-center justify-center p-8 md:p-12">
+    <div className="flex items-center justify-center px-4 lg:p-12">
       <div>
+        <p className="text-2xl font-bold mb-3 text-primary">Register Patient</p>
         <p className="text-sm text-[#07074D] md:max-w-[550px] text-justify">
           ## রোগীর জন্ম তারিখ নিশ্চিত করা কেন গুরুত্বপূর্ণ? রোগীর যত্নের সাথে
           সঠিক চিকিৎসা, ওষুধ এবং সম্ভাব্য সমস্যা এড়াতে রোগীর বয়স গুরুত্বপূর্ণ।

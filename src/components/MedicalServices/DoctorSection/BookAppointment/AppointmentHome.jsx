@@ -5,7 +5,7 @@ import RegisterPatient from "./RegisterPatient";
 const AppointmentHome = () => {
   return (
     <>
-      <div className="lg:flex justify-center gap-20">
+      <div className="flex flex-col-reverse lg:flex-row justify-center gap-7 lg:gap-20">
         <div>
           <RegisterPatient />
         </div>
