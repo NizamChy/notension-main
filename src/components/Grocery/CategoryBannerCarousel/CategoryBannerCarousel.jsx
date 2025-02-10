@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import React from "react";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Keyboard, Pagination, Autoplay } from "swiper/modules";
-import { GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Keyboard, Pagination, Autoplay } from "swiper/modules";
+import { GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const CategoryBannerCarousel = () => {
   const DashboardSlider = useSelector(

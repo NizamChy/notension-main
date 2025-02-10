@@ -40,14 +40,6 @@ export const useServiceProvider = () => {
     },
   });
 
-  // const AxiosTest = axios.create({
-  //   baseURL: HEALTH_CARE_URL_LOCAL,
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-
   const exploreMedicalServiceProvider = (setProviderBanner) => {
     setProgressing(true);
     Axios.get(EXPLORE_MEDICAL_SERVICE_PROVIDER, {

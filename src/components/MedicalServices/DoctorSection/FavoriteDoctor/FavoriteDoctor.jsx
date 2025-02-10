@@ -40,6 +40,12 @@ const FavoriteDoctor = () => {
           </h1>
         )}
 
+        {favouriteDoctors?.length < 1 && (
+          <p className="text-center text-deepGray">
+            No Favourite Doctor added.
+          </p>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
           {favouriteDoctors?.map((doctor) => (
             <div

@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { use } from "react";
-import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
+import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import FoodItems from "@/components/Food/FoodItems/FoodItems";
+import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
 
 const Page = ({ params }) => {
+  const [loading, setLoading] = useState(true);
+  const [foodItems, setFoodItems] = useState([]);
+
   const category = use(params);
   const catId = category?.catId || null;
-
-  const [foodItems, setFoodItems] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const { productInfoByShop } = useSelector((state) => state.itemsByStore);
 

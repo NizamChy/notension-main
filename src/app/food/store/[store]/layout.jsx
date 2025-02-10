@@ -1,11 +1,12 @@
 "use client";
+
+import { useRef } from "react";
 import Cart from "@/components/Cart/Cart";
-import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/CategoryBannerCarousel";
-import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
-import CategorySlider from "@/components/Food/CategorySidebar/CategorySlider";
 import Footer from "@/components/shared/Footer/Footer";
 import { useParams, usePathname } from "next/navigation";
-import { useRef } from "react";
+import CategorySlider from "@/components/Food/CategorySidebar/CategorySlider";
+import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
+import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/CategoryBannerCarousel";
 
 export default function RootLayout({ children }) {
   const foodItemsRef = useRef(null);

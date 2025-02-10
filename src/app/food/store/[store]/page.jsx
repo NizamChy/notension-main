@@ -1,11 +1,11 @@
 "use client";
 
-import MobileCategory from "@/components/Food/CategorySidebar/MobileCategory";
-import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
-import FoodItems from "@/components/Food/FoodItems/FoodItems";
-import { useFood } from "@/hooks/fetch-data/useFood";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useFood } from "@/hooks/fetch-data/useFood";
+import FoodItems from "@/components/Food/FoodItems/FoodItems";
+import MobileCategory from "@/components/Food/CategorySidebar/MobileCategory";
+import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
 
 const page = () => {
   const { progressing } = useFood();
@@ -30,11 +30,7 @@ const page = () => {
               ))}
             </div>
           </>
-        ) : null
-        // <p className="text-center mt-20 font-medium text-xl">
-        //   No popular Items found.
-        // </p>
-        }
+        ) : null}
       </div>
     </>
   );

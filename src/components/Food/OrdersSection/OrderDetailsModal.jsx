@@ -1,6 +1,6 @@
 import React from "react";
-import { TbCurrencyTaka } from "react-icons/tb";
 import Image from "next/image";
+import { TbCurrencyTaka } from "react-icons/tb";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
@@ -12,9 +12,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
     >
       <div className="space-y-3">
         <h2 className="text-xl font-bold mb-4 text-secondary">Order Details</h2>
-        {/* <p>
-          <span className="font-medium">Order ID:</span> {order.order_id}
-        </p> */}
 
         <p>
           <span className="font-medium">Order ID:</span>{" "}
@@ -47,29 +44,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           <span className="text-secondary">{order.paymet_method}</span>
         </p>
 
-        {/* <div className="mt-4 max-h-[40vh] overflow-y-auto pe-10">
-          <h3 className="font-bold text-secondary">Order Items</h3>
-          {order.orderItems.map((item) => (
-            <div key={item._id} className="flex justify-between mt-2">
-              <div className="flex items-center gap-5">
-                <Image
-                  src={`https://we-care-base.sgp1.cdn.digitaloceanspaces.com/food-items-images/${item?.app_image}`}
-                  alt="food image"
-                  width={60}
-                  height={60}
-                  className="rounded-lg object-cover"
-                />
-                <p className="w-4/5 line-clamp-2">{item.product_title_eng}</p>
-              </div>
-              <p className="flex items-center gap-1 whitespace-nowrap">
-                <TbCurrencyTaka />
-                {item.sale_price} x {item.quantity}
-              </p>
-            </div>
-          ))}
-        </div> */}
-
-        {/*  */}
         <div className="mt-4 max-h-[40vh] overflow-y-auto pe-2">
           <h3 className="font-bold text-secondary mb-4">Order Items</h3>
           <table className="table-auto w-full border-collapse border border-gray-100">
@@ -111,8 +85,6 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             </tbody>
           </table>
         </div>
-
-        {/*  */}
 
         <div className="mt-4 space-y-1 pe-10">
           <h3 className="font-bold text-secondary">Price Details</h3>

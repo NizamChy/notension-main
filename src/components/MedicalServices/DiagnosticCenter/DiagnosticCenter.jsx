@@ -31,7 +31,7 @@ const DiagnosticCenter = () => {
 
   return (
     <>
-      <div className="lg:flex justify-center items-center gap-5 my-10 px-4 lg:px-20 space-y-5 lg:space-y-0">
+      <div className="lg:flex justify-center items-center gap-5 my-5 lg:my-0 px-4 lg:px-20 space-y-5 lg:space-y-0">
         <div className="w-full lg:w-1/2 lg:p-10">
           <DoctorCommonSlider slider={slider} />
         </div>

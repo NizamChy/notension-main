@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { IoSearch } from "react-icons/io5";
+import SearchCenter from "@/components/MedicalServices/SearchMedicalCenter/SearchCenter";
 import ConsultationCenter from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenter";
 import ConsultationCenterSlider from "@/components/MedicalServices/DoctorSection/ConsultationCenter/ConsultationCenterSlider";
 
@@ -12,18 +12,9 @@ const page = () => {
         Find Doctor By Consultation Center
       </p>
 
-      <div className="w-2/3 md:w-1/2 lg:w-1/3 mx-auto my-5 border text-mediumGray hover:border-primary hover:text-primary rounded-lg cursor-pointer">
-        <Link href="/medical-services/search">
-          <button className="h-10 ps-3 w-full flex justify-between items-center">
-            <span>Search here</span>
-            <span className="bg-primary h-full rounded-e-lg px-3 flex items-center justify-center">
-              <IoSearch className="text-2xl text-white" />
-            </span>
-          </button>
-        </Link>
-      </div>
+      <SearchCenter />
 
-      <div className="lg:flex justify-center items-center gap-5 my-10 px-4 lg:px-10 xl:px-20 space-y-5 lg:space-y-0">
+      <div className="lg:flex justify-center items-center gap-5 my-5 lg:my-0 px-4 lg:px-10 xl:px-20 space-y-5 lg:space-y-0">
         <div className="w-full lg:w-1/2 lg:p-10">
           <ConsultationCenterSlider />
         </div>

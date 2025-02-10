@@ -62,6 +62,12 @@ const FavoriteConsultationCenter = () => {
           </h1>
         )}
 
+        {favouriteConsultationCentre?.length < 1 && (
+          <p className="text-center text-deepGray">
+            No Favourite Consultation Center added.
+          </p>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           {favouriteConsultationCentre?.map((center) => (
             <div

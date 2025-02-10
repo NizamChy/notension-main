@@ -8,6 +8,7 @@ import { useCenter } from "@/hooks/fetch-data/useCenter";
 import InfiniteScroll from "react-infinite-scroll-component";
 import MedicalCenterCard from "../MedicalCenterCard/MedicalCenterCard";
 import DoctorCommonSlider from "../DoctorSection/DoctorCommonSlider/DoctorCommonSlider";
+import SearchCenter from "../SearchMedicalCenter/SearchCenter";
 
 const EyeCareCenter = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -31,7 +32,9 @@ const EyeCareCenter = () => {
 
   return (
     <>
-      <div className="lg:flex justify-center items-center gap-5 my-10 px-4 lg:px-20 space-y-5 lg:space-y-0">
+      <SearchCenter />
+
+      <div className="lg:flex justify-center items-center gap-5 my-5 lg:my-0 px-4 lg:px-20 space-y-5 lg:space-y-0">
         <div className="w-full lg:w-1/2 lg:p-10">
           <DoctorCommonSlider slider={slider} />
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
-import FavoriteShop from "@/components/Food/FavoriteSection/FavoriteShop";
 import Footer from "@/components/shared/Footer/Footer";
+import FavoriteShop from "@/components/Food/FavoriteSection/FavoriteShop";
 
 const page = () => {
   return (

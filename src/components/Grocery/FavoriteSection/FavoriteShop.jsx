@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Loader from "@/components/common/Loader";
-import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/common/Loader";
+import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
+import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
 
 const FavoriteShop = () => {
   const [loading, setLoading] = useState(false);
@@ -43,6 +43,12 @@ const FavoriteShop = () => {
         <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
           Favourite Grocery Stores
         </h1>
+      )}
+
+      {favouriteGroceryStore?.length < 1 && (
+        <p className="text-center text-deepGray mt-40">
+          Add Favourite Grocery Store to visit later.
+        </p>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

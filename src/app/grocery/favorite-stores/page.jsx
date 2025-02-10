@@ -1,7 +1,7 @@
-import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
-import Footer from "@/components/shared/Footer/Footer";
-import Navbar from "@/components/shared/Navbar/Navbar";
 import React from "react";
+import Navbar from "@/components/shared/Navbar/Navbar";
+import Footer from "@/components/shared/Footer/Footer";
+import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
 
 const page = () => {
   return (
