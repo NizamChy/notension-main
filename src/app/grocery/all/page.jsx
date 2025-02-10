@@ -1,7 +1,7 @@
-import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
 import { CiShop } from "react-icons/ci";
+import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
 
 const page = () => {
   return (
@@ -30,7 +30,7 @@ const page = () => {
         </Link>
       </div>
 
-      <FavoriteShop />
+      <FavoriteShop isFavoriteRoute={false} />
     </>
   );
 };

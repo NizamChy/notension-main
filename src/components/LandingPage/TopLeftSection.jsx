@@ -1,6 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { LuCalendarDays, LuShoppingCart } from "react-icons/lu";
 
 const TopLeftSection = () => {
   return (
@@ -22,8 +23,11 @@ const TopLeftSection = () => {
             >
               Grocery Store
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              + Shop Now
+            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <LuShoppingCart className="text-sm md:text-lg text-mediumGray" />
+              </span>
+              <span>Shop Now</span>
             </p>
           </div>
         </div>
@@ -46,8 +50,11 @@ const TopLeftSection = () => {
             >
               Find Doctors
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              + Book Appointment
+            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <LuCalendarDays className="text-sm md:text-lg text-mediumGray" />
+              </span>
+              <span>Book Appointment</span>
             </p>
           </div>
         </Link>

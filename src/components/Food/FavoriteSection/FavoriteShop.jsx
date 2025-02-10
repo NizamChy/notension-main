@@ -7,7 +7,7 @@ import Loader from "@/components/common/Loader";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
 
-const FavoriteShop = () => {
+const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -45,10 +45,14 @@ const FavoriteShop = () => {
         </h1>
       )}
 
-      {favouriteFoodShop?.length < 1 && (
-        <p className="text-center text-deepGray mt-40">
-          Add Favourite Food Shop to visit later.
-        </p>
+      {isFavoriteRoute && (
+        <>
+          {favouriteFoodShop?.length < 1 && (
+            <p className="text-center text-deepGray mt-40">
+              Add Favourite Food Shop to visit later.
+            </p>
+          )}
+        </>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

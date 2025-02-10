@@ -6,6 +6,7 @@ import FavoriteShop from "@/components/Food/FavoriteSection/FavoriteShop";
 const page = async ({ params }) => {
   const { id } = await params;
   const catId = id || null;
+
   return (
     <>
       <div className="relative flex flex-col justify-center overflow-hidden py-6 px-4">
@@ -32,7 +33,7 @@ const page = async ({ params }) => {
         </Link>
       </div>
 
-      <FavoriteShop />
+      <FavoriteShop isFavoriteRoute={false} />
     </>
   );
 };

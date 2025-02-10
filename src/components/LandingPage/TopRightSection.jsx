@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { IoCallOutline, IoFastFoodOutline } from "react-icons/io5";
+import { MdOutlineShoppingBag } from "react-icons/md";
 
 const TopRightSection = () => {
   return (
@@ -26,8 +28,11 @@ const TopRightSection = () => {
             >
               All Care Services
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              + Contact Now
+            <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <IoCallOutline className="text-sm md:text-lg text-mediumGray" />
+              </span>
+              <span> Contact Now</span>
             </p>
           </div>
         </div>
@@ -51,8 +56,11 @@ const TopRightSection = () => {
               >
                 Medicine Store
               </h3>
-              <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                + Shop Now
+              <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+                <span>
+                  <MdOutlineShoppingBag className="text-sm md:text-lg text-mediumGray" />
+                </span>
+                <span>Shop Now</span>
               </p>
             </div>
           </div>
@@ -75,8 +83,11 @@ const TopRightSection = () => {
               >
                 Find Restaurant
               </h3>
-              <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                + Order Now
+              <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+                <span>
+                  <IoFastFoodOutline className="text-sm md:text-lg text-mediumGray" />
+                </span>
+                <span>Order Now</span>
               </p>
             </div>
           </div>

@@ -6,7 +6,7 @@ const page = () => {
   return (
     <>
       <div className="min-h-content">
-        <FavoriteShop />
+        <FavoriteShop isFavoriteRoute={true} />
       </div>
       <Footer />
     </>

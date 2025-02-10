@@ -8,7 +8,7 @@ const page = () => {
     <>
       <Navbar />
       <div className="min-h-content pt-20">
-        <FavoriteShop />
+        <FavoriteShop isFavoriteRoute={true} />
       </div>
       <Footer />
     </>

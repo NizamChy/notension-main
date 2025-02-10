@@ -16,7 +16,7 @@ const SecondSection = () => {
               alt="find-eye-care.jpg"
             />
 
-            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
+            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
               <h3
                 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
@@ -40,7 +40,7 @@ const SecondSection = () => {
               alt="find-dental-care.jpg"
             />
 
-            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
+            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
               <h3
                 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
@@ -65,7 +65,7 @@ const SecondSection = () => {
               alt="home-banner-6"
             />
 
-            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
+            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
               <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
                 Find Hospital
               </h3>
@@ -86,7 +86,7 @@ const SecondSection = () => {
               alt="home-banner-8"
             />
 
-            <div className="absolute bottom-2 left-3 md:bottom-10 md:left-8">
+            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
               <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
                 Find Diagnostic
               </h3>
