@@ -1,19 +1,26 @@
 "use client";
+
+import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import OtpSection from "../LoginSection/OtpSection";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
-import { useSelector } from "react-redux";
 
-const LoginModalDetails = ({ onClose, type }) => {
-  const [tab, setTab] = useState(true);
+const LoginModalDetails = ({ onClose, type = "login" }) => {
   const [phone, setPhone] = useState("");
+  const [contentType, setContentType] = useState("otp");
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
   const module = currentModule.toLowerCase();
 
   const handleOtp = () => {
-    setTab(false);
+    if (phone?.length < 11) {
+      return toast.info("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
+        position: "top-center",
+      });
+    }
+
+    setContentType("userInfo");
   };
 
   const getPrimaryClass = () => {
@@ -23,16 +30,9 @@ const LoginModalDetails = ({ onClose, type }) => {
     return "bg-primary";
   };
 
-  const getSecondaryClass = () => {
-    if (module === "medicine") return "bg-secondaryMedicine";
-    if (module === "grocery") return "bg-secondaryGrocery";
-    if (module === "food") return "bg-secondaryFood";
-    return "bg-secondary";
-  };
-
   return (
     <>
-      {tab ? (
+      {contentType === "otp" ? (
         <div className="md:border-2 rounded-md p-3 md:p-6">
           <OtpSection setPhone={setPhone} />
           <div className="flex justify-center">

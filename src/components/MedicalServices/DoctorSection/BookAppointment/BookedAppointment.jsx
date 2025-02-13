@@ -65,11 +65,17 @@ const BookedAppointment = () => {
   };
 
   return (
-    <div className="min-h-content container">
+    <div className="container">
       <div>
-        <p className="md:text-2xl font-semibold py-5 text-[#0C3F8E] text-center">
-          অ্যাপয়েন্টমেন্টের তালিকা
-        </p>
+        {bookedAppoinmentInfo?.length > 0 && (
+          <p className="md:text-2xl font-semibold py-5 text-[#0C3F8E] text-center">
+            অ্যাপয়েন্টমেন্টের তালিকা
+          </p>
+        )}
+
+        {bookedAppoinmentInfo?.length < 1 && (
+          <p className="text-center text-deepGray">No Appointment found.</p>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {[...bookedAppoinmentInfo]

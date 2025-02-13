@@ -9,13 +9,11 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
-// import { useNavigation } from "@react-navigation/native";
 
 axios.defaults.withCredentials = true;
 
 export const usePatient = () => {
   const dispatch = useDispatch();
-  // const navigation = useNavigation();
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);

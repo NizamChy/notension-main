@@ -1,8 +1,9 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { IoCallOutline, IoFastFoodOutline } from "react-icons/io5";
+import Image from "next/image";
+import { BsTelephone } from "react-icons/bs";
 import { MdOutlineShoppingBag } from "react-icons/md";
+import { IoCallOutline, IoFastFoodOutline } from "react-icons/io5";
 
 const TopRightSection = () => {
   return (
@@ -30,9 +31,9 @@ const TopRightSection = () => {
             </h3>
             <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
               <span>
-                <IoCallOutline className="text-sm md:text-lg text-mediumGray" />
+                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
               </span>
-              <span> Contact Now</span>
+              <span>Contact Now</span>
             </p>
           </div>
         </div>

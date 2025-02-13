@@ -32,10 +32,10 @@ const FavoriteDoctor = () => {
   };
 
   return (
-    <div className="container min-h-content pt-20">
+    <div className="container pt-20">
       <div>
         {favouriteDoctors?.length > 0 && (
-          <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
+          <h1 className="text-lg md:text-xl lg:text-2xl font-bold md:mt-3 mb-3 text-deepGray">
             Favourite Doctor
           </h1>
         )}

@@ -1,29 +1,28 @@
 "use client";
-import { ALL_DISTRICTS_URL } from "@/api-endpoints/secret";
-import { handleUserReducer } from "@/redux/userReducer";
-import loader from "@/utils/googleMapsLoader";
+
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import loader from "@/utils/googleMapsLoader";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { handleUserReducer } from "@/redux/userReducer";
+import { ALL_DISTRICTS_URL } from "@/api-endpoints/secret";
 
 const Map = ({ onCloseModal }) => {
   const [map, setMap] = useState(null);
-  const [currentPosition, setCurrentPosition] = useState(null);
-  const [districts, setDistricts] = useState([]);
   const [error, setError] = useState(null);
+  const [districts, setDistricts] = useState([]);
   const [searchInfo, setSearchInfo] = useState([]);
-  const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
   const [isMapMoving, setIsMapMoving] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState(null);
+  const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
 
   const router = useRouter();
-
-  const dispatch = useDispatch();
-
   const inputRef = useRef();
   const mapRef = useRef();
   const markerRef = useRef();
+  const dispatch = useDispatch();
 
   const currentUserLocation = useSelector(
     (state) => state.user.currentUserLocation
@@ -99,12 +98,9 @@ const Map = ({ onCloseModal }) => {
     fetchData();
   }, []);
 
-  console.log("all districts:", districts);
-
-  console.log("userLocation:", userLocation);
-
   console.log("curLoc:", curLoc);
-
+  console.log("all districts:", districts);
+  console.log("userLocation:", userLocation);
   console.log("currentUserLocation from redux:", currentUserLocation);
 
   useEffect(() => {
@@ -198,30 +194,6 @@ const Map = ({ onCloseModal }) => {
         });
     }
   }, [districts]);
-
-  // useEffect(() => {
-  //   if (map && currentPosition) {
-  //     const customIcon = {
-  //       url: "/png/location-flag.png",
-  //       scaledSize: new window.google.maps.Size(40, 40),
-  //       origin: new window.google.maps.Point(0, 0),
-  //       anchor: new window.google.maps.Point(20, 40),
-  //     };
-
-  //     const centerMarker = new window.google.maps.Marker({
-  //       position: currentPosition,
-  //       map,
-  //       icon: customIcon,
-  //     });
-
-  //     markerRef.current = centerMarker;
-
-  //     map.addListener("center_changed", () => {
-  //       const center = map.getCenter();
-  //       markerRef.current.setPosition(center);
-  //     });
-  //   }
-  // }, [map, currentPosition]);
 
   useEffect(() => {
     if (map) {

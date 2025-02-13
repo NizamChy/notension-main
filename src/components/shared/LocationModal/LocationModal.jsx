@@ -1,7 +1,8 @@
 "use client";
+
 import { useState } from "react";
-import LocationButton from "./LocationButton";
 import MapModal from "./MapModal";
+import LocationButton from "./LocationButton";
 
 const LocationModal = () => {
   const [openModal, setOpenModal] = useState(false);

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
@@ -15,6 +16,8 @@ const DoctorInfoByDept = () => {
   const params = useParams();
   const { getDoctorsInfoByDistrict, loadingMore, allLoaded } = useDoctor();
 
+  const { currentDept } = useSelector((state) => state.doctorInfo);
+
   const deptId = params?.deptId || null;
 
   useEffect(() => {
@@ -27,6 +30,10 @@ const DoctorInfoByDept = () => {
         <div className="lg:flex justify-center my-10 gap-5 px-4 lg:px-0">
           <NearestDoctorSlider />
         </div>
+
+        <p className="md:text-2xl ps-3 md:ps-5 font-semibold py-1 md:py-5 text-[#0C3F8E]">
+          Doctors Info ({currentDept?.dept_name})
+        </p>
 
         {!allLoaded && doctorsInfo?.length < 1 && <Loader />}
 

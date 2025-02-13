@@ -1,4 +1,5 @@
 "use client";
+
 import Map from "../Map/Map";
 
 const MapModal = ({ isOpen, onCloseModal }) => {

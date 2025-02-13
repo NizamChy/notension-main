@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
@@ -44,8 +45,8 @@ const GroceryCartItems = () => {
             <div className="flex items-start gap-4">
               <Image
                 src={
-                  item.app_image
-                    ? `${GROCERY_ITEMS_IMAGES}/${item.app_image}`
+                  item?.app_image
+                    ? `${GROCERY_ITEMS_IMAGES}/${item?.app_image}`
                     : "/png/dummyImage.png"
                 }
                 alt="food image"

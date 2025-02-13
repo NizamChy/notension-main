@@ -29,11 +29,11 @@ const RegisterPatient = () => {
     e.preventDefault();
 
     if (formData?.patient_name?.length < 3) {
-      return toast.error(
+      return toast.info(
         "নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!"
       );
     } else if (formData?.contact?.length < 11) {
-      return toast.error("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!");
+      return toast.info("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!");
     }
 
     registerPatient(formData);

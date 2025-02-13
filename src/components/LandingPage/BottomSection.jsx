@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { BsTelephone } from "react-icons/bs";
 
 const BottomSection = () => {
   return (
@@ -23,9 +24,14 @@ const BottomSection = () => {
             <h3 className="text-xs md:text-2xl font-semibold tracking-widest text-gray-500">
               Find <br className="md:hidden" /> Nurse
             </h3>
-            <p className="text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
-              + Contact <br className="md:hidden" />{" "}
-              <span className="ps-3 md:ps-0">Now</span>
+            <p className="md:flex gap-1 text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
+              <span className="flex items-center gap-1">
+                <span>
+                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+                </span>
+                <span>Contact</span>
+              </span>
+              <span className="ps-4 md:ps-0">Now</span>
             </p>
           </div>
         </div>
@@ -49,8 +55,11 @@ const BottomSection = () => {
             <h3 className="text-xs md:text-2xl font-semibold tracking-widest text-gray-500">
               Find Ambulance
             </h3>
-            <p className="text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
-              + Contact Now
+            <p className="flex items-center gap-1 text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+              </span>
+              <span>Contact Now</span>
             </p>
           </div>
         </div>
@@ -74,8 +83,11 @@ const BottomSection = () => {
             <h3 className="text-xs md:text-2xl font-semibold tracking-widest text-gray-500">
               Find Blood Donar
             </h3>
-            <p className="text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
-              + Contact Now
+            <p className="flex items-center gap-1 text-[9px] md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+              </span>
+              <span>Contact Now</span>
             </p>
           </div>
         </div>

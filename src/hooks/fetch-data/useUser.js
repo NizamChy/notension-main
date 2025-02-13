@@ -1,10 +1,11 @@
 import axios from "axios";
+import { useState } from "react";
 import {
   OTP_FOR_REGISTARTION,
   USER_REGISTARTION,
 } from "@/api-endpoints/api-endpoint";
+import { toast } from "react-toastify";
 import { USER_URL } from "@/api-endpoints/secret";
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 
@@ -20,8 +21,8 @@ const Axios = axios.create({
 
 export const useUser = () => {
   const [error, setError] = useState(false);
+  const [progressing, setProgressing] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
-  const [progressing, setProgressing] = React.useState(false);
 
   const dispatch = useDispatch();
 
@@ -53,32 +54,29 @@ export const useUser = () => {
 
   const getOtp = (props) => {
     console.log("props : ", props);
+
     handleDataChange(props.contact_no, "contact_no");
     setProgressing(true);
     setIsUserRegistered(false);
+
     Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
         console.log("res?.result?.data", res?.data);
+
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
           setIsUserRegistered(true);
         }
         setProgressing(false);
       })
+
       .catch((error) => {
         setProgressing(false);
         console.log("error.errors", error);
+        console.log("result =", error?.response);
         console.log("result =", error?.response?.data?.errors);
 
-        console.log("result =", error?.response);
-        // alert("Hold on!", "Something went wrong. Please Try Again!", [
-        //   {
-        //     text: "OK",
-        //     onPress: () => null,
-        //     style: "OK",
-        //   },
-        // ]);
-        // navigation.navigate("Login");
+        toast.error("Something went wrong. Please Try Again!");
       });
   };
 
@@ -109,6 +107,8 @@ export const useUser = () => {
 
     Axios.post(USER_REGISTARTION, userInfo)
       .then((res) => {
+        console.log("response : ", res);
+
         saveLoggedInUserInfo(res?.data?.result);
 
         setProgressing(false);
@@ -130,18 +130,18 @@ export const useUser = () => {
     );
   };
 
-  useEffect(() => {
-    if (error) logout();
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) logout();
+  // }, [error]);
 
   return {
     isUserRegistered,
     progressing,
     userInfo,
+    getOtp,
     setUserInfo,
+    registerUser,
     setProgressing,
     handleDataChange,
-    getOtp,
-    registerUser,
   };
 };

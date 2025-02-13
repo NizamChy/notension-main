@@ -1,23 +1,29 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import FloatingInput from "../LoginSection/FloatingInput";
+
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import FloatingInput from "../LoginSection/FloatingInput";
+import React, { useEffect, useRef, useState } from "react";
 
-const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
+const UserInfoInputs = ({
+  phone,
+  onClose,
+  type = "login",
+  getPrimaryClass,
+}) => {
+  const [otp, setOtp] = useState("");
+  const [otpGenerated, setOtpGenerated] = useState("");
+
   const { progressing, userInfo, handleDataChange, getOtp, registerUser } =
     useUser();
 
   const router = useRouter();
-
   const params = useParams();
-
   const otpSentRef = useRef(false);
-  const [otp, setOtp] = useState("");
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
   const module = currentModule.toLowerCase();
 
   const sendSms = () => {
@@ -29,6 +35,8 @@ const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
       otp: generatedOtp,
       smsKey: "fZtUYT1",
     });
+
+    setOtpGenerated(generatedOtp.toString());
   };
 
   const resendOTP = () => {
@@ -36,13 +44,37 @@ const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
     sendSms();
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     // console.log("Handling login...");
+
+    if (userInfo?.customer_name < 3) {
+      return toast.info(
+        "নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!",
+        {
+          position: "top-center",
+        }
+      );
+    }
+
+    if (otp.length < 1) {
+      return toast.info("Please provide valid OTP!", {
+        position: "top-center",
+      });
+    }
+
+    if (otpGenerated !== otp) {
+      return toast.error("OTP does not mached!", {
+        position: "top-center",
+      });
+    }
+
     registerUser();
     onClose();
-    if (type === "cart") {
-      // router.push("/checkout");
 
+    if (type === "cart") {
       if (module === "food") {
         router.push(`/${module}/store/checkout`);
       } else {
@@ -50,6 +82,18 @@ const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
       }
     } else if (type === "login") {
       router.push("/");
+    } else if (type === "doctor") {
+      router.push("/medical-services/doctor");
+    } else if (type === "eyeCareCenter") {
+      router.push("/medical-services/eye-care-center");
+    } else if (type === "dentalCareCenter") {
+      router.push("/medical-services/dental-care-center");
+    } else if (type === "hospital") {
+      router.push("/medical-services/hospital");
+    } else if (type === "diagnostic") {
+      router.push("/medical-services/diagnostic");
+    } else if (type === "medicalService") {
+      router.push("/medical-services/medical-service");
     }
   };
 
@@ -108,16 +152,17 @@ const UserInfoInputs = ({ phone, onClose, type, getPrimaryClass }) => {
 
       <div className="flex justify-center">
         <button
-          onClick={handleLogin}
+          onClick={(e) => handleLogin(e)}
           className={`mt-4 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
+          disabled={progressing}
         >
-          LOGIN
+          {progressing ? "Please wait..." : "LOGIN"}
         </button>
       </div>
       <div className="flex justify-center mt-4">
         <button
           onClick={resendOTP}
-          className="text-secondary underline"
+          className="text-secondary underline font-medium"
           disabled={progressing}
         >
           Resend OTP

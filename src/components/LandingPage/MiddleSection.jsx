@@ -1,15 +1,48 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import HomeSlider from "./HomeSlider";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { BsTelephone } from "react-icons/bs";
+import LoginModalDetails from "../Cart/LoginModalDetails";
+import CommonModal from "../shared/CommonModal/CommonModal";
 
 const MiddleSection = () => {
+  const [routeType, setRouteType] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleSectionClick = (e, type) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setRouteType(type);
+
+    if (!userInfo?._id) {
+      openModal();
+
+      return;
+    }
+
+    if (type === "medicalService") {
+      router.push("/medical-services/medical-service");
+    }
+  };
+
   return (
-    <div className="lg:flex gap-4">
-      <Link href="/medical-services/medical-service">
-        <div className="group overflow-hidden relative mb-4 lg:mb-0">
+    <>
+      <div className="lg:flex gap-4">
+        <div
+          onClick={(e) => handleSectionClick(e, "medicalService")}
+          className="group overflow-hidden relative mb-4 lg:mb-0 cursor-pointer"
+        >
           <Image
             width={632}
             height={300}
@@ -25,15 +58,24 @@ const MiddleSection = () => {
             >
               Find Medical Services
             </h3>
-            <p className="text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              + Contact Now
+            <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+              </span>
+              <span>Contact Now</span>
             </p>
           </div>
         </div>
-      </Link>
 
-      <HomeSlider />
-    </div>
+        <HomeSlider />
+      </div>
+
+      {isModalOpen && routeType && (
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <LoginModalDetails onClose={closeModal} type={routeType} />
+        </CommonModal>
+      )}
+    </>
   );
 };
 

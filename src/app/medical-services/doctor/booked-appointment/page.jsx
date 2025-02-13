@@ -3,9 +3,9 @@ import BookedAppointment from "@/components/MedicalServices/DoctorSection/BookAp
 
 const page = () => {
   return (
-    <>
+    <div className="min-h-content">
       <BookedAppointment />
-    </>
+    </div>
   );
 };
 

@@ -112,7 +112,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
             <Image
               src={
                 item?.app_image
-                  ? `${GROCERY_ITEMS_IMAGES}/${item.app_image}`
+                  ? `${GROCERY_ITEMS_IMAGES}/${item?.app_image}`
                   : "/png/dummyImage.png"
               }
               alt={item?.product_title_eng || "Product image"}

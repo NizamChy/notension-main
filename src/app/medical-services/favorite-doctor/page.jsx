@@ -7,7 +7,9 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <FavoriteDoctor />
+      <div className="min-h-content">
+        <FavoriteDoctor />
+      </div>
       <Footer />
     </>
   );

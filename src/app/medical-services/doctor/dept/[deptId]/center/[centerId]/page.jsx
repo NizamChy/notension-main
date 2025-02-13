@@ -3,9 +3,9 @@ import DoctorsByCenter from "@/components/MedicalServices/DoctorSection/DoctorsB
 
 const page = () => {
   return (
-    <>
+    <div className="container">
       <DoctorsByCenter />
-    </>
+    </div>
   );
 };
 

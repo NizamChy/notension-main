@@ -6,17 +6,18 @@ import Image from "next/image";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
-import { usePathname } from "next/navigation";
 import { FaUserDoctor } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { usePathname, useRouter } from "next/navigation";
 import LocationModal from "../LocationModal/LocationModal";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
 
+  const router = useRouter();
   const pathname = usePathname();
   const dropDownMenuRef = useRef();
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
+    router.push("/");
   };
 
   useEffect(() => {
@@ -51,6 +53,12 @@ const Navbar = () => {
       document.removeEventListener("mousedown", closeDropDown);
     };
   }, []);
+
+  // const currentUserLocation = useSelector(
+  //   (state) => state.user.currentUserLocation
+  // );
+
+  // console.log("currentUserLocation from redux:", currentUserLocation);
 
   return (
     <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-20 border">
@@ -82,7 +90,7 @@ const Navbar = () => {
               <p className="font-semibold flex items-center gap-2">
                 <CgProfile className="text-2xl" />
                 <span className="hidden md:block">
-                  {userInfo.customer_name}
+                  {userInfo?.customer_name}
                 </span>
               </p>
               <svg
@@ -117,24 +125,26 @@ const Navbar = () => {
                       className="flex items-center gap-1"
                     >
                       <span>
-                        <BsCartCheck />
+                        <BsCartCheck className="text-primary" />
                       </span>
                       My Orders
                     </Link>
                   </li>
                 )}
 
-                <li className="px-3 hover:underline">
-                  <Link
-                    href="/medical-services/doctor/booked-appointment"
-                    className="flex items-center gap-1 text-nowrap"
-                  >
-                    <span>
-                      <FaUserDoctor className="text-primaryMedicine" />
-                    </span>
-                    Booked Appointment
-                  </Link>
-                </li>
+                {userInfo?._id && (
+                  <li className="px-3 hover:underline">
+                    <Link
+                      href="/medical-services/doctor/booked-appointment"
+                      className="flex items-center gap-1 text-nowrap"
+                    >
+                      <span>
+                        <FaUserDoctor className="text-primaryMedicine" />
+                      </span>
+                      Booked Appointment
+                    </Link>
+                  </li>
+                )}
 
                 <li className="px-3 hover:underline">
                   <Link href="#" className="flex items-center gap-1">
