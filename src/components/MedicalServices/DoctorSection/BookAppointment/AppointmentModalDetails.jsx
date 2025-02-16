@@ -1,7 +1,10 @@
 "use client";
 
 import { toast } from "react-toastify";
+import { WiTime4 } from "react-icons/wi";
 import { useSelector } from "react-redux";
+import { LuHospital } from "react-icons/lu";
+import { FaCalendarAlt } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { useAppointment } from "@/hooks/fetch-data/useAppointment";
 
@@ -218,15 +221,25 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
           </div>
 
           <div className="w-full mt-2">
-            <p className="font-semibold text-primary">পরামর্শ কেন্দ্র:</p>
+            <p className="font-semibold text-primary flex items-center gap-1">
+              <span>
+                <LuHospital className="text-secondaryMedicine" />
+              </span>
+              <span>পরামর্শ কেন্দ্র:</span>
+            </p>
 
-            <p className="text-[#599E66] text-xm md:text-lg font-semibold">
+            <p className="text-[#599E66] text-base md:text-lg font-semibold">
               {currentDoctor?.consultationCenterInfo?.center_name}
             </p>
           </div>
 
           <div className="mt-2">
-            <p className="font-semibold text-primary">পরামর্শের সময়:</p>
+            <p className="font-semibold text-primary flex gap-1 items-center">
+              <span>
+                <WiTime4 className="text-lg text-secondaryMedicine" />
+              </span>
+              <span>পরামর্শের সময়:</span>
+            </p>
 
             {currentDoctor?.chamber_schedule?.map((day, i) => (
               <div className="mt-1" key={i}>
@@ -286,10 +299,13 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
           <button
             onClick={(e) => handleBookAppointment(e)}
             type="button"
-            className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
+            className="w-full flex justify-center items-center gap-1.5 bg-primary hover:bg-[#264066] text-white py-2 rounded-md"
             disabled={progressing}
           >
-            {progressing ? "Booking..." : "Book Appointment"}
+            <span>
+              <FaCalendarAlt className="text-sm" />
+            </span>
+            <span>{progressing ? "Booking..." : "Book Appointment"}</span>
           </button>
         </div>
       </div>

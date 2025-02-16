@@ -2,9 +2,10 @@
 
 import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { FaRegAddressCard } from "react-icons/fa";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
 
-const RegisterPatient = () => {
+const RegisterPatient = ({ setShowForm = true }) => {
   const [formData, setFormData] = useState({
     patient_name: "",
     contact: "",
@@ -49,12 +50,14 @@ const RegisterPatient = () => {
           email: "",
           address: "",
         });
+
+        setShowForm(false);
       }
     }, 300);
   };
 
   return (
-    <div className="flex items-center justify-center px-4 lg:p-12">
+    <div className="flex items-center justify-center px-4 pt-5 lg:pt-0 lg:p-12">
       <div>
         <p className="text-2xl font-bold mb-3 text-primary">Register Patient</p>
         <p className="text-sm text-[#07074D] md:max-w-[550px] text-justify">
@@ -202,10 +205,15 @@ const RegisterPatient = () => {
             <div>
               <button
                 type="submit"
-                className="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none transition-all hover:bg-[#5a54d1]"
+                className="hover:shadow-form w-full rounded-md bg-primary hover:bg-[#264066] py-3 px-8 text-center text-base font-semibold text-white outline-none transition-all  flex justify-center items-center gap-2"
                 disabled={progressing}
               >
-                {progressing ? "Registering..." : "Register Patient"}
+                <span>
+                  <FaRegAddressCard className="text-xl" />
+                </span>
+                <span>
+                  {progressing ? "Registering..." : "Register Patient"}
+                </span>
               </button>
             </div>
           </form>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSelector } from "react-redux";
+import { FaCalendarAlt } from "react-icons/fa";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
@@ -70,8 +71,11 @@ const PatientInfo = () => {
                     Date of Birth: {formatDateOfBirth(patient?.date_of_birth)}
                   </p>
 
-                  <button className="mt-3 px-4 py-1 bg-primary text-white rounded-lg shadow-md hover:bg-[#264066] transition-colors duration-300">
-                    Book Appointment
+                  <button className="flex justify-center items-center gap-1.5 mt-3 px-4 py-1 bg-primary text-white rounded-lg shadow-md hover:bg-[#264066] transition-colors duration-300">
+                    <span>
+                      <FaCalendarAlt className="text-sm" />
+                    </span>
+                    <span>Book Appointment</span>
                   </button>
                 </div>
               ))}

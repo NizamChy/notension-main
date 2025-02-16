@@ -122,7 +122,7 @@ const BookedAppointment = () => {
                   <p className="text-sm text-primary">
                     {appointment?.doctor_speciality}
                   </p>
-                  <p className="text-sm text-secondaryMedicine">
+                  <p className="text-base text-secondaryMedicine">
                     {appointment?.consultation_center_name}
                   </p>
                 </div>
