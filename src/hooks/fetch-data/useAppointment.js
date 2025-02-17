@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
-import { useRouter } from "next/navigation";
 
 axios.defaults.withCredentials = true;
 

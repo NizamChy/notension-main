@@ -137,11 +137,11 @@ const userReducer = createSlice({
         } else if (action === "add") {
           newState = [...state.bookedAppoinmentInfo, appoinmentData];
         } else if (action === "update") {
-          const secondDate = new Date().toISOString().split("T")[0];
+          const currentDate = new Date().toISOString().split("T")[0];
           newState = state.bookedAppoinmentInfo.filter(
             (info) =>
               new Date(info?.appointment_date).getTime() >=
-              new Date(secondDate).getTime()
+              new Date(currentDate).getTime()
           );
         }
 
@@ -149,7 +149,34 @@ const userReducer = createSlice({
           ...state,
           bookedAppoinmentInfo: newState,
         };
-      } else if (payload.type == "RESET_USER_LOCATION") {
+      }
+
+      // else if (payload.type == "UPDATE_BOOKED_APPOINTMENT_INFO") {
+      //   const { action, appoinmentData } = payload.data;
+
+      //   let newState = [...state.bookedAppoinmentInfo];
+
+      //   if (action === "delete") {
+      //     newState = state.bookedAppoinmentInfo.filter(
+      //       (info) => info?._id !== appoinmentData?._id
+      //     );
+      //   } else if (action === "add") {
+      //     newState = [...state.bookedAppoinmentInfo, appoinmentData];
+      //   } else if (action === "update") {
+      //     const secondDate = new Date().toISOString().split("T")[0];
+      //     newState = state.bookedAppoinmentInfo.filter(
+      //       (info) =>
+      //         new Date(info?.appointment_date).getTime() >=
+      //         new Date(secondDate).getTime()
+      //     );
+      //   }
+
+      //   return {
+      //     ...state,
+      //     bookedAppoinmentInfo: newState,
+      //   };
+      // }
+      else if (payload.type == "RESET_USER_LOCATION") {
         state.setCurrentLocation = false;
         state.setDefaultLocation = true;
         state.defaultUserLocation = {};

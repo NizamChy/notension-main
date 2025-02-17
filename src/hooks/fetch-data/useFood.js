@@ -14,10 +14,10 @@ import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 axios.defaults.withCredentials = true;
 
 export const useFood = () => {
-  const dispatch = useDispatch();
   const [error, setError] = useState(false);
-
   const [progressing, setProgressing] = useState(false);
+
+  const dispatch = useDispatch();
 
   const { userLatitude, userLongitude, districtId } = useSelector(
     (state) => state.user
@@ -200,11 +200,11 @@ export const useFood = () => {
   //     );
   //   };
 
-  useEffect(() => {
-    if (error) {
-      //userLogOut();
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     //userLogOut();
+  //   }
+  // }, [error]);
 
   return {
     progressing,

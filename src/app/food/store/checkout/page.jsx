@@ -1,6 +1,6 @@
-import CheckoutSection from "@/components/Food/CheckoutSection/CheckoutSection";
-import Footer from "@/components/shared/Footer/Footer";
 import React from "react";
+import Footer from "@/components/shared/Footer/Footer";
+import CheckoutSection from "@/components/Food/CheckoutSection/CheckoutSection";
 
 const page = () => {
   return (

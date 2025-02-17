@@ -13,7 +13,6 @@ import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 axios.defaults.withCredentials = true;
 
 export const usePatient = () => {
-  const dispatch = useDispatch();
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);
@@ -24,6 +23,7 @@ export const usePatient = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
+  const dispatch = useDispatch();
   const { userInfo, patientInfo } = useSelector((state) => state.user);
 
   const Axios = axios.create({

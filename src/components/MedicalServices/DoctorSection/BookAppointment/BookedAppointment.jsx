@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { WiTime4 } from "react-icons/wi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handleUserReducer } from "@/redux/userReducer";
 
 const BookedAppointment = () => {
+  const dispatch = useDispatch();
   const { bookedAppoinmentInfo } = useSelector((state) => state.user);
 
   const banglaDays = [
@@ -53,6 +55,29 @@ const BookedAppointment = () => {
 
     return { day, month };
   };
+
+  useEffect(() => {
+    const currentDate = new Date().toISOString().split("T")[0];
+    const pastAppointments = bookedAppoinmentInfo.filter(
+      (appointment) =>
+        new Date(appointment?.appointment_date).getTime() <
+        new Date(currentDate).getTime()
+    );
+
+    if (pastAppointments.length > 0) {
+      pastAppointments.forEach((appointment) => {
+        dispatch(
+          handleUserReducer({
+            type: "UPDATE_BOOKED_APPOINTMENT_INFO",
+            data: {
+              action: "delete",
+              appoinmentData: appointment,
+            },
+          })
+        );
+      });
+    }
+  }, [bookedAppoinmentInfo, dispatch]);
 
   const DateCard = ({ date }) => {
     const { day, month } = formatDate(date);

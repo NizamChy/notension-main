@@ -1,33 +1,30 @@
 "use client";
 
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { useRouter, usePathname, useParams } from "next/navigation";
-import CategoryCardSkeleton from "./CategoryCardSkeleton";
-import { useSelector } from "react-redux";
 import {
   FOOD_ITEMS_IMAGES,
   FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
+import CategoryCardSkeleton from "./CategoryCardSkeleton";
+import { useRouter, usePathname, useParams } from "next/navigation";
 
 const CategorySidebar = ({ scrollToFoodItems }) => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const router = useRouter();
+  const params = useParams();
   const pathname = usePathname();
 
-  const params = useParams();
-
   const { progressing } = useFood();
+  const { productCategory } = useSelector((state) => state.itemsByStore);
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
 
     router.push(`/food/store/${params?.store}/${categoryId}`);
   };
-
-  const { productCategory } = useSelector((state) => state.itemsByStore);
 
   useEffect(() => {
     const categoryIdFromUrl = pathname.split("/").pop();
