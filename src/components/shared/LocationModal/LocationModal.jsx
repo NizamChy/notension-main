@@ -5,15 +5,18 @@ import MapModal from "./MapModal";
 import LocationButton from "./LocationButton";
 
 const LocationModal = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openMapModal, setOpenMapModal] = useState(false);
 
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleOpenMapModal = () => setOpenMapModal(true);
+  const handleCloseMapModal = () => setOpenMapModal(false);
 
   return (
     <div className="mx-auto hidden md:block">
-      <LocationButton onOpenModal={handleOpenModal} />
-      <MapModal isOpen={openModal} onCloseModal={handleCloseModal} />
+      <LocationButton onOpenModal={handleOpenMapModal} />
+
+      {openMapModal && (
+        <MapModal isOpen={openMapModal} onCloseModal={handleCloseMapModal} />
+      )}
     </div>
   );
 };

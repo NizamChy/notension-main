@@ -9,10 +9,10 @@ import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
 import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/CategoryBannerCarousel";
 
 export default function RootLayout({ children }) {
-  const foodItemsRef = useRef(null);
-
-  const pathname = usePathname();
   const params = useParams();
+  const pathname = usePathname();
+
+  const foodItemsRef = useRef(null);
 
   const scrollToFoodItems = () => {
     if (foodItemsRef.current) {

@@ -20,8 +20,8 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const dropDownMenuRef = useRef();
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   let category = "";
@@ -53,12 +53,6 @@ const Navbar = () => {
       document.removeEventListener("mousedown", closeDropDown);
     };
   }, []);
-
-  // const currentUserLocation = useSelector(
-  //   (state) => state.user.currentUserLocation
-  // );
-
-  // console.log("currentUserLocation from redux:", currentUserLocation);
 
   return (
     <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-20 border">

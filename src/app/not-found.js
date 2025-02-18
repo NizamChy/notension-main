@@ -10,17 +10,6 @@ const NotFoundPage = () => {
         alt="not found page"
         className="w-full max-w-[618px] rounded-lg"
       />
-
-      {/* <Image
-        src="https://freefrontend.com/assets/img/html-css-404-page-templates/Pure-CSS-404-Error-Page.gif"
-        width={1000}
-        height={500}
-        alt="not found page"
-        className="w-full"
-      /> */}
-
-      {/* <p>Oopps! Page not found!</p>
-      <p>Something went wrong!</p> */}
     </div>
   );
 };

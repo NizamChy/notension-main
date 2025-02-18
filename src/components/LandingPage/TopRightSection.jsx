@@ -1,47 +1,88 @@
-import React from "react";
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import { BsTelephone } from "react-icons/bs";
+import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { IoCallOutline, IoFastFoodOutline } from "react-icons/io5";
+import MapModal from "../shared/LocationModal/MapModal";
 
 const TopRightSection = () => {
+  const [openMapModal, setOpenMapModal] = useState(false);
+
+  const router = useRouter();
+
+  const currentUserLocation = useSelector(
+    (state) => state.user.currentUserLocation
+  );
+
+  const handleOpenMapModal = () => setOpenMapModal(true);
+  const handleCloseMapModal = () => setOpenMapModal(false);
+
+  const handleStoreClick = (e, type) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const isMobileDevice = window.innerWidth < 768;
+
+    if (!currentUserLocation?.districtId) {
+      if (isMobileDevice) {
+        router.push("/get-mobile-location");
+      } else {
+        handleOpenMapModal();
+      }
+      return;
+    }
+
+    if (type === "medicine") {
+      router.push("/medicine/all");
+    } else if (type === "food") {
+      router.push("/food");
+    }
+  };
+
   return (
-    <div className="space-y-4">
-      <Link
-        href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-        prefetch={false}
-        target="_blank"
-      >
-        <div className="group overflow-hidden relative mt-4 lg:mt-0">
-          <Image
-            width={632}
-            height={300}
-            className="transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/all-care-services.jpg"
-            alt="home-banner-2"
-          />
+    <>
+      <div className="space-y-4">
+        <Link
+          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
+          prefetch={false}
+          target="_blank"
+        >
+          <div className="group overflow-hidden relative mt-4 lg:mt-0">
+            <Image
+              width={632}
+              height={300}
+              className="transition-transform duration-300 group-hover:scale-105"
+              src="/images/home/all-care-services.jpg"
+              alt="home-banner-2"
+            />
 
-          <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
-            <h3
-              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+            <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
+              <h3
+                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
-            >
-              All Care Services
-            </h3>
-            <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              <span>
-                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-              </span>
-              <span>Contact Now</span>
-            </p>
+              >
+                All Care Services
+              </h3>
+              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+                <span>
+                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+                </span>
+                <span>Contact Now</span>
+              </p>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
 
-      <div className="flex justify-center lg:gap-4">
-        <Link href="/medicine/all">
-          <div className="group overflow-hidden relative">
+        <div className="flex justify-center lg:gap-4">
+          <div
+            onClick={(e) => handleStoreClick(e, "medicine")}
+            className="group overflow-hidden relative cursor-pointer"
+          >
             <Image
               width={308}
               height={470}
@@ -65,10 +106,11 @@ const TopRightSection = () => {
               </p>
             </div>
           </div>
-        </Link>
 
-        <Link href="/food">
-          <div className="group overflow-hidden relative">
+          <div
+            onClick={(e) => handleStoreClick(e, "food")}
+            className="group overflow-hidden relative cursor-pointer"
+          >
             <Image
               width={308}
               height={470}
@@ -92,9 +134,13 @@ const TopRightSection = () => {
               </p>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
-    </div>
+
+      {openMapModal && (
+        <MapModal isOpen={openMapModal} onCloseModal={handleCloseMapModal} />
+      )}
+    </>
   );
 };
 

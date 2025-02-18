@@ -1,7 +1,7 @@
-import GroceryStoreSearchBar from "@/components/Grocery/GrocerySearchStore/GroceryStoreSearchBar";
+import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
-import Navbar from "@/components/shared/Navbar/Navbar";
+import GroceryStoreSearchBar from "@/components/Grocery/GrocerySearchStore/GroceryStoreSearchBar";
 
 export default function GroceryStoreLayout({ children }) {
   return (

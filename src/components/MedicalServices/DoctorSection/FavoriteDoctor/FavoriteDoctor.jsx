@@ -41,7 +41,7 @@ const FavoriteDoctor = () => {
         )}
 
         {favouriteDoctors?.length < 1 && (
-          <p className="text-center text-deepGray">
+          <p className="text-center text-deepGray mt-40">
             No Favourite Doctor added.
           </p>
         )}

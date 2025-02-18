@@ -68,7 +68,7 @@ const FoodItems = ({ item }) => {
             />
 
             {item?.less > 0 && (
-              <p className="absolute flex items-center top-0 left-0 text-white text-sm bg-primaryMedicine px-3 rounded-tl-lg rounded-br-lg">
+              <p className="absolute flex items-center top-0 left-0 text-white text-sm bg-primaryFood px-3 rounded-tl-lg rounded-br-lg">
                 <span>
                   <TbCurrencyTaka className="md:text-lg" />
                 </span>

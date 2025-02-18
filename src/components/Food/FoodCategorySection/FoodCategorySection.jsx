@@ -11,6 +11,7 @@ import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const FoodCategorySection = () => {
   const { exploreFoodModule, progressing } = useFood();
+
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
   const DashboardSlider = useSelector(
     (state) => state.dashboard.DashboardSlider
