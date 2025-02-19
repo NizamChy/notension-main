@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { RiArrowRightSLine } from "react-icons/ri";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdPlayArrow } from "react-icons/md";
+import { RiArrowRightSLine } from "react-icons/ri";
 import { useParams, useRouter } from "next/navigation";
 
 const CategorySidebar = () => {
@@ -12,7 +12,6 @@ const CategorySidebar = () => {
   const [activeSubtype, setActiveSubtype] = useState("");
 
   const router = useRouter();
-
   const params = useParams();
 
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
@@ -20,12 +19,13 @@ const CategorySidebar = () => {
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
 
-    router.push(`/grocery/${params?.store}/type/${data.id}`);
+    router.push(`/grocery/${params?.store}/type/${data?.id}`);
   };
 
   const handleSubtype = (subTypeId) => {
-    router.push(`/grocery/${params?.store}/sub-type/${subTypeId}`);
     setActiveSubtype(subTypeId);
+
+    router.push(`/grocery/${params?.store}/sub-type/${subTypeId}`);
   };
 
   const handleCustomtype = (customTypeId) => {
@@ -37,15 +37,15 @@ const CategorySidebar = () => {
       <div className="h-full border-e ps-10 max-w-screen-md py-16 bg-white">
         <div className="overflow-y-auto h-[85vh] no-scrollbar mt-10">
           {typeInfo?.map((data, idx) => (
-            <div className="border-b border-gray-400/10" key={data.id}>
-              {data.parent === null && (
+            <div className="border-b border-gray-400/10" key={data?.id}>
+              {data?.parent === null && (
                 <div
                   onClick={() => {
                     if (data?.subtype?.length > 0) {
                       handleToggle(idx, data);
                     } else {
                       handleToggle(idx, data);
-                      handleCustomtype(data.id);
+                      handleCustomtype(data?.id);
                     }
                   }}
                   className={`transition-all duration-300 cursor-pointer px-2 ${
@@ -53,7 +53,7 @@ const CategorySidebar = () => {
                       ? "bg-blue-300 text-blue-700"
                       : "text-deepGray"
                   } ${
-                    idx === typeInfo.length - 1
+                    idx === typeInfo?.length - 1
                       ? "border-none"
                       : "border-b border-gray-100/10"
                   } py-2 flex items-center gap-4`}
@@ -69,7 +69,7 @@ const CategorySidebar = () => {
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-base hover:text-primaryGrocery">
-                      {data.name}
+                      {data?.name}
                     </p>
                   </div>
                   {data?.subtype?.length > 0 && (
@@ -94,11 +94,11 @@ const CategorySidebar = () => {
                   {data?.subtype?.map((sub, idx) => (
                     <div
                       onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
-                      key={sub._id}
+                      key={sub?._id}
                     >
                       <div
                         className={`cursor-pointer ${
-                          idx === data.subtype.length - 1
+                          idx === data?.subtype?.length - 1
                             ? "border-none"
                             : "border-b border-gray-400/10"
                         } py-4 flex items-center justify-between gap-4 ml-6`}
@@ -120,7 +120,7 @@ const CategorySidebar = () => {
                                 : "text-deepGray"
                             } hover:text-primaryGrocery`}
                           >
-                            {sub.sub_type_name}
+                            {sub?.sub_type_name}
                           </p>
                         </div>
                         {sub?.subtype?.length > 0 && (

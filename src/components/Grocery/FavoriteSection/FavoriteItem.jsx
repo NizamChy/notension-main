@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useSelector } from "react-redux";
 import GroceryItems from "../GroceryItems/GroceryItems";
@@ -10,7 +11,7 @@ const FavoriteItem = () => {
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6 mt-12 md:mt-20">
-      {favouriteGroceryItems.length > 0 && (
+      {favouriteGroceryItems?.length > 0 && (
         <h1 className="text-lg md:text-xl lg:text-2xl font-semibold lg:font-bold mb-2 md:mb-6 text-deepGray">
           Favourite Grocery Item
         </h1>

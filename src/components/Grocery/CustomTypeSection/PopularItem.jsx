@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useSelector } from "react-redux";
 import GroceryItems from "../GroceryItems/GroceryItems";
@@ -24,7 +25,7 @@ const PopularItem = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
             {popularItem.map((item) => (
-              <GroceryItems key={item._id} item={item} />
+              <GroceryItems key={item?._id} item={item} />
             ))}
           </div>
         </>

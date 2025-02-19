@@ -38,9 +38,9 @@ const PatientInfo = () => {
 
   const handleSeeMore = () => setVisibleCount(patientInfo.length);
 
-  useEffect(() => {
-    getPatientInfo();
-  }, []);
+  // useEffect(() => {
+  //   getPatientInfo();
+  // }, []);
 
   return (
     <>

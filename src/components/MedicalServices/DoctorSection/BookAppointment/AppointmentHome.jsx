@@ -10,7 +10,7 @@ const AppointmentHome = () => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row justify-center gap-7 lg:gap-20">
+      <div className="flex flex-col lg:flex-row justify-center gap-7 lg:gap-20 min-h-content">
         <div>
           {showForm ? (
             <RegisterPatient setShowForm={setShowForm} />

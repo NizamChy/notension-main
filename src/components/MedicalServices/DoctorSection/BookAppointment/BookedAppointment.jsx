@@ -99,7 +99,9 @@ const BookedAppointment = () => {
         )}
 
         {bookedAppoinmentInfo?.length < 1 && (
-          <p className="text-center text-deepGray">No Appointment found.</p>
+          <p className="text-center text-deepGray mt-40">
+            No Appointment found.
+          </p>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
