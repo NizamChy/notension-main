@@ -6,9 +6,9 @@ import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SearchCenter from "../SearchMedicalCenter/SearchCenter";
 import MedicalCenterCard from "../MedicalCenterCard/MedicalCenterCard";
 import DoctorCommonSlider from "../DoctorSection/DoctorCommonSlider/DoctorCommonSlider";
-import SearchCenter from "../SearchMedicalCenter/SearchCenter";
 
 const EyeCareCenter = () => {
   const [pageNo, setPageNo] = useState(1);
