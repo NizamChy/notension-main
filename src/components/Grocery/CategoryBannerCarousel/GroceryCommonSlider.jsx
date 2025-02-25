@@ -28,10 +28,10 @@ const GroceryCommonSlider = ({ slides, classNames }) => {
           keyboard={{ enabled: true }}
           pagination={{ clickable: true }}
           modules={[Keyboard, Pagination, Autoplay]}
-          className={`mySwiper z-50 relative ${classNames}`}
+          className={`mySwiper z-50 relative ${classNames} rounded-lg`}
         >
           {slides?.map((slide) => (
-            <SwiperSlide key={slide._id} className="rounded-lg">
+            <SwiperSlide key={slide?._id} className="rounded-lg">
               <Image
                 className="w-full max-w-full h-auto object-cover rounded-lg"
                 src={`${GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES}/${slide?.file_name}`}

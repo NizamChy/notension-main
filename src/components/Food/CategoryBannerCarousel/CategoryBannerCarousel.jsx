@@ -1,19 +1,19 @@
 "use client";
 
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import React from "react";
+import Image from "next/image";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Pagination, Autoplay } from "swiper/modules";
-import Image from "next/image";
 
 const CategoryBannerCarousel = () => {
   const images = [
-    "/png/food-banner-1.png",
-    "/png/food-banner-2.png",
-    "/png/food-banner-3.png",
-    "/png/food-banner-4.png",
+    "/images/food/food-banner-1.png",
+    "/images/food/food-banner-2.png",
+    "/images/food/food-banner-3.png",
+    "/images/food/food-banner-4.png",
   ];
 
   return (
@@ -35,7 +35,7 @@ const CategoryBannerCarousel = () => {
         modules={[Keyboard, Pagination, Autoplay]}
         className="mySwiper z-50 relative w-full max-h-[240px] md:max-h-[400px] rounded-lg"
       >
-        {images.map((slide, index) => (
+        {images?.map((slide, index) => (
           <SwiperSlide key={index} className="rounded-lg">
             <Image
               className="w-full max-w-full h-auto object-cover rounded-lg"

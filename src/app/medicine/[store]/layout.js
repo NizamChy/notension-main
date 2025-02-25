@@ -1,7 +1,7 @@
 import Cart from "@/components/Cart/Cart";
-import CategorySidebar from "@/components/Medicine/MedicineCategorySection/CategorySidebar";
-import Navbar from "@/components/Medicine/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
+import Navbar from "@/components/Medicine/Navbar/Navbar";
+import CategorySidebar from "@/components/Medicine/MedicineCategorySection/CategorySidebar";
 
 export default function MedicineStoreLayout({ children }) {
   return (

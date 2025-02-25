@@ -140,14 +140,19 @@ const Navbar = () => {
                   </li>
                 )}
 
-                <li className="px-3 hover:underline">
-                  <Link href="#" className="flex items-center gap-1">
-                    <span>
-                      <CgProfile className="text-primaryGrocery" />
-                    </span>
-                    Profile
-                  </Link>
-                </li>
+                {userInfo?._id && (
+                  <li className="px-3 hover:underline">
+                    <Link
+                      href="/user/profile"
+                      className="flex items-center gap-1"
+                    >
+                      <span>
+                        <CgProfile className="text-primaryGrocery" />
+                      </span>
+                      Profile
+                    </Link>
+                  </li>
+                )}
 
                 <li className="px-3 hover:underline">
                   <button

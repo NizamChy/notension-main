@@ -24,7 +24,7 @@ const Footer = () => {
         {/* Section 1 */}
         <div className="space-y-6">
           <Image
-            src="/png/no_tension_bar.png"
+            src="/png/notension-logo.png"
             alt="notension"
             width={180}
             height={32}

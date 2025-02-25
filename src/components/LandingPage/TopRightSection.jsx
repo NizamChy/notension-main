@@ -47,11 +47,7 @@ const TopRightSection = () => {
   return (
     <>
       <div className="space-y-4">
-        <Link
-          href="https://play.google.com/store/apps/details?id=com.bitsnotension"
-          prefetch={false}
-          target="_blank"
-        >
+        <Link href="/all-care-services">
           <div className="group overflow-hidden relative mt-4 lg:mt-0">
             <Image
               width={632}

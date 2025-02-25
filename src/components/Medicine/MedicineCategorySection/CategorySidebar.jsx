@@ -2,25 +2,24 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { RiArrowRightSLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { MdPlayArrow } from "react-icons/md";
+import { RiArrowRightSLine } from "react-icons/ri";
 import { useParams, useRouter } from "next/navigation";
 
 const CategorySidebar = () => {
   const [isOpen, setIsOpen] = useState(null);
   const [activeSubtype, setActiveSubtype] = useState("");
 
-  const router = useRouter();
-
   const params = useParams();
+  const router = useRouter();
 
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
 
-    router.push(`/medicine/${params?.store}/type/${data.id}`);
+    router.push(`/medicine/${params?.store}/type/${data?.id}`);
   };
 
   const handleSubtype = (subTypeId) => {
@@ -37,8 +36,8 @@ const CategorySidebar = () => {
       <div className="h-full border-e ps-7 max-w-screen-md py-16 bg-white">
         <div className="overflow-y-auto h-[85vh] no-scrollbar mt-10">
           {typeInfo?.map((data, idx) => (
-            <div className="border-b border-gray-400/10" key={data.id}>
-              {data.parent === null && (
+            <div className="border-b border-gray-400/10" key={data?.id}>
+              {data?.parent === null && (
                 <div
                   onClick={() => {
                     if (data?.subtype?.length > 0) {
@@ -53,7 +52,7 @@ const CategorySidebar = () => {
                       ? "bg-green-100 text-secondaryMedicine"
                       : "text-deepGray"
                   } ${
-                    idx === typeInfo.length - 1
+                    idx === typeInfo?.length - 1
                       ? "border-none"
                       : "border-b border-gray-100/10"
                   } py-2 flex items-center gap-4`}
@@ -64,7 +63,7 @@ const CategorySidebar = () => {
                       height={500}
                       src={
                         data?.image
-                          ? `/png/type/type${idx + 1}.webp`
+                          ? `/images/medicine/type/type${idx + 1}.webp`
                           : "/png/dummyImage.png"
                       }
                       alt="medicine category"
@@ -98,7 +97,7 @@ const CategorySidebar = () => {
                   {data?.subtype?.map((sub, idx) => (
                     <div
                       onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
-                      key={sub._id}
+                      key={sub?._id}
                     >
                       <div
                         className={`cursor-pointer ${

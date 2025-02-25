@@ -133,9 +133,9 @@ const CheckoutSection = () => {
             <span> Cotnact details</span>
           </p>
 
-          <p className="font-medium text-base">{userInfo.customer_name}</p>
-          <p className="text-sm md:text-base">{userInfo.customer_address}</p>
-          <p className="text-sm md:text-base">{userInfo.contact_no}</p>
+          <p className="font-medium text-base">{userInfo?.customer_name}</p>
+          <p className="text-sm md:text-base">{userInfo?.customer_address}</p>
+          <p className="text-sm md:text-base">{userInfo?.contact_no}</p>
 
           <div className="flex flex-col py-4 font-bold text-sm md:text-lg border-b">
             <div className="flex justify-between">

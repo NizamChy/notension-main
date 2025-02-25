@@ -1,24 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
-import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
-import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
-import { useFood } from "@/hooks/fetch-data/useFood";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
+import React, { useEffect, useState } from "react";
+import { useFood } from "@/hooks/fetch-data/useFood";
+import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
+import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
+import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 
 const FoodSection = () => {
   const [catId, setCatId] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [nearestInfo, setNearestInfo] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-
   const { exploreStore, getNearestFoodStoreInfo, progressing } = useFood();
-
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
 
   const handleStoreClick = (shop) => {
@@ -73,7 +71,7 @@ const FoodSection = () => {
               onClick={() => {
                 handleStoreClick(shop);
               }}
-              key={shop._id}
+              key={shop?._id}
               shop={shop}
               type="food"
             />

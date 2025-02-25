@@ -26,7 +26,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    router.push(`/medicine/${params?.store}/type/${data.id}`);
+    router.push(`/medicine/${params?.store}/type/${data?.id}`);
   };
 
   const handleSubtype = (subTypeId) => {
@@ -136,7 +136,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                         ? "bg-green-100 text-secondaryMedicine"
                         : "text-deepGray"
                     } ${
-                      idx === typeInfo.length - 1
+                      idx === typeInfo?.length - 1
                         ? "border-none"
                         : "border-b border-gray-100/10"
                     } py-2 flex items-center gap-4`}
@@ -147,7 +147,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                         height={500}
                         src={
                           data?.image
-                            ? `/png/type/type${idx + 1}.webp`
+                            ? `/images/medicine/type/type${idx + 1}.webp`
                             : "/png/dummyImage.png"
                         }
                         alt="medicine category"
@@ -156,7 +156,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium hover:text-primaryMedicine">
-                        {data.name}
+                        {data?.name}
                       </p>
                     </div>
                     {data?.subtype?.length > 0 && (
@@ -181,11 +181,11 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                     {data?.subtype?.map((sub, idx) => (
                       <div
                         onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
-                        key={sub._id}
+                        key={sub?._id}
                       >
                         <div
                           className={`cursor-pointer ${
-                            idx === data.subtype.length - 1
+                            idx === data?.subtype?.length - 1
                               ? "border-none"
                               : "border-b border-gray-400/10"
                           } py-4 flex items-center justify-between gap-4 ml-6`}
@@ -207,7 +207,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                                   : "text-deepGray"
                               } hover:text-primaryMedicine`}
                             >
-                              {sub.sub_type_name}
+                              {sub?.sub_type_name}
                             </p>
                           </div>
                           {sub?.subtype?.length > 0 && (

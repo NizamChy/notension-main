@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
+"use client";
+
 import Image from "next/image";
-import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
+import { TbCurrencyTaka } from "react-icons/tb";
+import React, { useEffect, useState } from "react";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
-import ItemDetailsSkeleton from "@/components/Medicine/MedicineItems/ItemDetailsSkeleton";
+import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
+import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import GroceryItemDetailsSkeleton from "./GroceryItemDetailsSkeleton";
 
 const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
@@ -18,13 +19,13 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
     useGroceryItems();
 
   const {
-    getGroceryProductDetails,
-    itemDetails,
     message,
     visible,
+    itemDetails,
     addToFavouriteItems,
     isAddedToFavouriteItems,
     removeFromfavoriteItems,
+    getGroceryProductDetails,
   } = useFavouriteItem();
 
   let merchantType = 0;
@@ -163,7 +164,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                       {currentQuantity === 0 ? (
                         <button
                           onClick={handleAddToCart}
-                          className="w-full py-2 px-4 bg-primaryGrocery text-white font-medium rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors duration-200"
+                          className="w-full py-2 px-4 bg-primaryGrocery text-white font-medium rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
                         >
                           Add to cart
                         </button>
@@ -176,7 +177,9 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                           className="w-full bg-primaryGrocery rounded-lg flex items-center justify-between"
                         >
                           <button
-                            onClick={(e) => handleDecrement(e, itemDetails._id)}
+                            onClick={(e) =>
+                              handleDecrement(e, itemDetails?._id)
+                            }
                             className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                           >
                             -
@@ -185,7 +188,9 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
                             {currentQuantity}
                           </span>
                           <button
-                            onClick={(e) => handleIncrement(e, itemDetails._id)}
+                            onClick={(e) =>
+                              handleIncrement(e, itemDetails?._id)
+                            }
                             className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
                           >
                             +

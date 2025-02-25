@@ -21,13 +21,13 @@ const FoodItemsHome = () => {
               <FoodItemCardSkeleton key={index} />
             ))}
           </div>
-        ) : popularItem.length ? (
+        ) : popularItem?.length ? (
           <>
             <p className="text-3xl font-medium pb-5 text-deepGray">
               Popular Items
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
-              {popularItem.map((item) => (
+              {popularItem?.map((item) => (
                 <FoodItems key={item?._id} item={item} />
               ))}
             </div>
