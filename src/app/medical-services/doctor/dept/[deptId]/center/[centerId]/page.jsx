@@ -3,7 +3,7 @@ import DoctorsByCenter from "@/components/MedicalServices/DoctorSection/DoctorsB
 
 const page = () => {
   return (
-    <div className="container">
+    <div className="max-w-screen-2xl mx-auto">
       <DoctorsByCenter />
     </div>
   );

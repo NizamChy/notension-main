@@ -9,6 +9,7 @@ const page = () => {
   return (
     <>
       <Navbar />
+
       <div className="max-w-screen-2xl mx-auto min-h-content pt-20">
         <AllCareServices />
         <ServicesArea />
