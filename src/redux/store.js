@@ -42,10 +42,10 @@ const storage =
 const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducer,
-  itemsByStore: itemsByStoreReducer,
+  doctorInfo: doctorReducer,
   dashboard: dashboardReducer,
   userChoice: userChoiceReducer,
-  doctorInfo: doctorReducer,
+  itemsByStore: itemsByStoreReducer,
 });
 
 const persistConfig = {
@@ -54,10 +54,10 @@ const persistConfig = {
   whitelist: [
     "user",
     "cart",
-    "itemsByStore",
     "dashboard",
     "userChoice",
     "doctorInfo",
+    "itemsByStore",
   ],
 };
 

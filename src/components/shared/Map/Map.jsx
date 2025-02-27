@@ -49,7 +49,7 @@ const Map = ({ onCloseModal }) => {
         },
       });
 
-      console.log("All Districts:", response.data);
+      // console.log("All Districts:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching districts:", error);
@@ -98,10 +98,10 @@ const Map = ({ onCloseModal }) => {
     fetchData();
   }, []);
 
-  console.log("curLoc:", curLoc);
-  console.log("all districts:", districts);
-  console.log("userLocation:", userLocation);
-  console.log("currentUserLocation from redux:", currentUserLocation);
+  // console.log("curLoc:", curLoc);
+  // console.log("all districts:", districts);
+  // console.log("userLocation:", userLocation);
+  // console.log("currentUserLocation from redux:", currentUserLocation);
 
   useEffect(() => {
     if (districts.length > 0) {
@@ -120,8 +120,8 @@ const Map = ({ onCloseModal }) => {
                   longitude
                 );
 
-                console.log("latitude", latitude);
-                console.log("longitude", longitude);
+                // console.log("latitude", latitude);
+                // console.log("longitude", longitude);
 
                 const mapOptions = {
                   center: currentLocation,
@@ -146,7 +146,7 @@ const Map = ({ onCloseModal }) => {
                   { location: currentLocation },
                   (results, status) => {
                     if (status === "OK" && results[0]) {
-                      console.log("Current Location Details:", results[0]);
+                      // console.log("Current Location Details:", results[0]);
 
                       const addressComponents = results[0].address_components;
                       const getAddressPart = (type) =>
@@ -174,9 +174,9 @@ const Map = ({ onCloseModal }) => {
 
                       setSearchInfo(searchInfo);
 
-                      console.log("Current Location District:", district);
-                      console.log("Current Location City:", city);
-                      console.log("Current Location Country:", country);
+                      // console.log("Current Location District:", district);
+                      // console.log("Current Location City:", city);
+                      // console.log("Current Location Country:", country);
                     } else {
                       // console.error("Geocoder failed:", status);
                     }
@@ -244,7 +244,7 @@ const Map = ({ onCloseModal }) => {
           map.setCenter(location);
           map.setZoom(18);
 
-          console.log("Searched Location Details:", place);
+          // console.log("Searched Location Details:", place);
 
           const addressComponents = place.address_components;
           const getAddressPart = (type) =>
@@ -257,9 +257,9 @@ const Map = ({ onCloseModal }) => {
             getAddressPart("locality") || getAddressPart("political");
           const country = getAddressPart("country");
 
-          console.log("Searched Location District:", district);
-          console.log("Searched Location City:", city);
-          console.log("Searched Location Country:", country);
+          // console.log("Searched Location District:", district);
+          // console.log("Searched Location City:", city);
+          // console.log("Searched Location Country:", country);
 
           setCurLoc({ latitude, longitude });
 

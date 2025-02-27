@@ -14,7 +14,7 @@ const TypeSection = ({ typeId }) => {
 
   const { typeInfo, isLoading } = useSelector((state) => state.dashboard);
   const selectedType = typeInfo?.find(
-    (type) => type.id === typeId || type.custom_type_id === typeId
+    (type) => type?.id === typeId || type?.custom_type_id === typeId
   );
   const subtypes = selectedType?.subtype || [];
 
@@ -33,15 +33,15 @@ const TypeSection = ({ typeId }) => {
           </div>
         )}
         <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
-          {subtypes.length > 0 &&
-            subtypes.map((subtype) => (
+          {subtypes?.length > 0 &&
+            subtypes?.map((subtype) => (
               <div
                 onClick={() =>
                   router.push(
                     `/medicine/${params?.store}/sub-type/${subtype?.subtypeInfo?._id}`
                   )
                 }
-                key={subtype._id}
+                key={subtype?._id}
                 className="cursor-pointer bg-white rounded-lg shadow-md p-2 md:p-4 hover:shadow-lg transition-shadow"
               >
                 <Image
@@ -59,7 +59,7 @@ const TypeSection = ({ typeId }) => {
             ))}
         </div>
 
-        {!isLoading && subtypes.length < 1 && <NoItemFound />}
+        {!isLoading && subtypes?.length < 1 && <NoItemFound />}
       </div>
     </>
   );

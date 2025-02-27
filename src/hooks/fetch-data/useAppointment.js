@@ -53,7 +53,7 @@ export const useAppointment = () => {
 
     Axios.post(BOOK_APPOINTMENT, bookAppoinmentInfo)
       .then((response) => {
-        console.log("response : ", response);
+        // console.log("response : ", response);
 
         if (response?.data?.success) {
           setShowSuccessMessage(true);
@@ -81,7 +81,7 @@ export const useAppointment = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error :: ", error?.response?.data);
+        // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
         toast.error("কিছু একটা ভুল হয়েছে! পরে আবার চেষ্টা করুন!");
       });

@@ -62,12 +62,12 @@ export const useGroceryShop = () => {
     //saveLoadingStatus(true);
     Axios.post(NEAREST_GROCERY_STORE, props)
       .then((response) => {
-        console.log(response?.data);
+        // console.log(response?.data);
         setNearestInfo(response?.data?.result);
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error : ", error?.response?.data);
+        // console.log("Error : ", error?.response?.data);
         setProgressing(false);
       });
     setTimeout(() => {

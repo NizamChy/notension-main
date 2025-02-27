@@ -53,7 +53,7 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
     setTimeout(() => {
       if (progressing) {
@@ -83,7 +83,7 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
     setTimeout(() => {
       if (progressing) {
@@ -108,7 +108,7 @@ export const useServiceProvider = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
     setTimeout(() => {
@@ -173,7 +173,7 @@ export const useServiceProvider = () => {
         setLoadingMore(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -204,7 +204,7 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
     setTimeout(() => {
       if (progressing) {

@@ -57,7 +57,8 @@ export const useFood = () => {
       },
     })
       .then((res) => {
-        console.log("res.data.result : ", res.data.result);
+        // console.log("res.data.result : ", res.data.result);
+
         dispatch(
           handleDashboardReducer({
             type: "EXPLORE_FOOD_MODULE",
@@ -79,7 +80,7 @@ export const useFood = () => {
 
   const getNearestFoodStoreInfo = (setNearestInfo, data) => {
     setProgressing(true);
-    console.log("data::", data);
+    // console.log("data::", data);
 
     const props = {
       shop_longitude: userLongitude,
@@ -147,7 +148,7 @@ export const useFood = () => {
       },
     })
       .then((res) => {
-        console.log("res?.data?.result", res?.data?.result);
+        // console.log("res?.data?.result", res?.data?.result);
 
         if (
           res?.data?.result?.shopDetails[0]?.is_closed ||
@@ -178,16 +179,16 @@ export const useFood = () => {
           );
         }
 
-        console.log(
-          "res?.data?.result?.shopDetails : ",
-          res?.data?.result?.shopDetails
-        );
+        // console.log(
+        //   "res?.data?.result?.shopDetails : ",
+        //   res?.data?.result?.shopDetails
+        // );
 
         setProgressing(false);
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
   };
 

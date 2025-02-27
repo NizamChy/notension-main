@@ -1,5 +1,5 @@
-import SubTypeSection from "@/components/Medicine/SubTypeSection/SubTypeSection";
 import React from "react";
+import SubTypeSection from "@/components/Medicine/SubTypeSection/SubTypeSection";
 
 const page = async () => {
   return (

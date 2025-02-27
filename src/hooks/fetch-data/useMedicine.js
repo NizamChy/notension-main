@@ -213,7 +213,7 @@ export const useMedicine = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
   };
 

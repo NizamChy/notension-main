@@ -1,7 +1,7 @@
 "use client";
 
-import ErrorPage from "@/components/common/ErrorPage";
 import React from "react";
+import ErrorPage from "@/components/common/ErrorPage";
 
 const error = () => {
   return (

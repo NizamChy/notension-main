@@ -53,7 +53,7 @@ export const useUser = () => {
   });
 
   const getOtp = (props) => {
-    console.log("props : ", props);
+    // console.log("props : ", props);
 
     handleDataChange(props.contact_no, "contact_no");
     setProgressing(true);
@@ -61,7 +61,7 @@ export const useUser = () => {
 
     Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
-        console.log("res?.result?.data", res?.data);
+        // console.log("res?.result?.data", res?.data);
 
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
@@ -72,9 +72,9 @@ export const useUser = () => {
 
       .catch((error) => {
         setProgressing(false);
-        console.log("error.errors", error);
-        console.log("result =", error?.response);
-        console.log("result =", error?.response?.data?.errors);
+        // console.log("error.errors", error);
+        // console.log("result =", error?.response);
+        // console.log("result =", error?.response?.data?.errors);
 
         toast.error("Something went wrong. Please Try Again!");
       });
@@ -103,11 +103,11 @@ export const useUser = () => {
   const registerUser = () => {
     setProgressing(true);
 
-    console.log("Click", userInfo);
+    // console.log("Click", userInfo);
 
     Axios.post(USER_REGISTARTION, userInfo)
       .then((res) => {
-        console.log("response : ", res);
+        // console.log("response : ", res);
 
         saveLoggedInUserInfo(res?.data?.result);
 
@@ -116,7 +116,7 @@ export const useUser = () => {
       .catch((error) => {
         setProgressing(false);
 
-        console.log("result =", error?.response?.data?.errors);
+        // console.log("result =", error?.response?.data?.errors);
         // const errorMsg = formatServerError(error?.response?.data?.errors);
       });
   };

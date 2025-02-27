@@ -133,7 +133,7 @@ export const useFavouriteItem = () => {
       })
       .catch((error) => {
         setVisible(false);
-        console.log("Error.........+", error);
+        // console.log("Error.........+", error);
       });
   };
 
@@ -215,7 +215,7 @@ export const useFavouriteItem = () => {
   });
 
   const getMedicineProductDetails = (medStoreProductInfo) => {
-    console.log(medStoreProductInfo);
+    // console.log(medStoreProductInfo);
 
     setShowErrorMessage(false);
     setVisible(true);
@@ -234,7 +234,6 @@ export const useFavouriteItem = () => {
           setItemDetails(res?.data?.result);
         } else {
           setMessage("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
-          console.log("এই মুহুর্তে পণ্যটি দোকানে নেই !!");
 
           setShowErrorMessage(true);
         }

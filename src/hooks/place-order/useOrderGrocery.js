@@ -1,5 +1,5 @@
-import React from "react";
 import axios from "axios";
+import { useState } from "react";
 import {
   GROCERY_ORDER_INFO,
   GROCERY_PLACE_ORDER,
@@ -22,11 +22,11 @@ const Axios = axios.create({
 });
 
 export const useOrderGrocery = () => {
-  const [progressing, setProgressing] = React.useState(false);
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const [progressing, setProgressing] = useState(false);
 
+  const router = useRouter();
   const params = useParams();
+  const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
 

@@ -132,7 +132,7 @@ export const useFavouriteList = () => {
       })
       .catch((error) => {
         setVisible(false);
-        console.log("Error.........+", error);
+        // console.log("Error.........+", error);
       });
   };
 

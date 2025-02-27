@@ -3,9 +3,9 @@ import MedicineSearchedStores from "@/components/Medicine/MedicineSearchStore/Me
 
 const page = () => {
   return (
-    <div>
+    <>
       <MedicineSearchedStores />
-    </div>
+    </>
   );
 };
 

@@ -66,9 +66,7 @@ export const useOrderFood = () => {
       },
     })
       .then((response) => {
-        console.log(response);
-
-        console.log("response?.data?.result", response?.data?.result);
+        // console.log("response?.data?.result", response?.data?.result);
         setProgressing(false);
         ///saveOrderInfoToReducer(response?.data?.result);
         dispatch(
@@ -79,7 +77,7 @@ export const useOrderFood = () => {
         );
       })
       .catch((error) => {
-        console.log("Error : ", error.response);
+        // console.log("Error : ", error.response);
         setProgressing(false);
       });
     setTimeout(() => {

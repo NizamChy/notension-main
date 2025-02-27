@@ -1,8 +1,9 @@
 "use client";
-import { FaLocationDot } from "react-icons/fa6";
+
 import { useSelector } from "react-redux";
-import { IoIosArrowDown } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
 
 const LocationMobile = () => {
   const router = useRouter();

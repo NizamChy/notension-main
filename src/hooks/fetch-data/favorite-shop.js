@@ -152,7 +152,7 @@ export const useFavouriteStore = () => {
       })
       .catch((error) => {
         setVisible(false);
-        console.log("Error.........+", error);
+        // console.log("Error.........+", error);
       });
   };
 

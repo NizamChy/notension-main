@@ -15,8 +15,6 @@ const OrderDetailsMobile = ({ orderId }) => {
     return <p className="text-red-500">Order not found!</p>;
   }
 
-  console.log(order);
-
   return (
     <div className="p-2">
       <div className="space-y-1.5 text-sm">

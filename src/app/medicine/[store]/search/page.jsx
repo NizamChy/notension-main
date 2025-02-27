@@ -1,5 +1,5 @@
-import SearchedProducts from "@/components/Medicine/SearchBarSection/SearchedProducts";
 import React from "react";
+import SearchedProducts from "@/components/Medicine/SearchBarSection/SearchedProducts";
 
 const page = () => {
   return (

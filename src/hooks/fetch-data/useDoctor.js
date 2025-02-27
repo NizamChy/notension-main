@@ -74,7 +74,7 @@ export const useDoctor = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -94,7 +94,7 @@ export const useDoctor = () => {
         setAllLoaded(true);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -142,7 +142,7 @@ export const useDoctor = () => {
         }
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -227,7 +227,7 @@ export const useDoctor = () => {
           ]);
         }
 
-        console.log("response?.data?.result: ", response?.data?.result);
+        // console.log("response?.data?.result: ", response?.data?.result);
 
         if (pageNo === 1 && response?.data?.result.length < 1) {
           setItemNotfound(true);
@@ -239,7 +239,7 @@ export const useDoctor = () => {
         }
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -311,7 +311,7 @@ export const useDoctor = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
   };
 

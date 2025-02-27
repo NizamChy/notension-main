@@ -46,7 +46,7 @@ export const usePatient = () => {
 
     Axios.post(REGISTER_PATIENT, patientData)
       .then((response) => {
-        console.log("response : ", response);
+        // console.log("response : ", response);
 
         if (response?.data?.success) {
           toast.success(`${response?.data?.message}`);
@@ -58,7 +58,7 @@ export const usePatient = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error :: ", error?.response?.data);
+        // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
       });
 
@@ -82,7 +82,7 @@ export const usePatient = () => {
 
     Axios.put(MANAGE_PATIENT, patientData)
       .then((response) => {
-        console.log(response?.data?.message);
+        // console.log(response?.data?.message);
 
         if (response?.data?.message === "delete") {
           //console.log('response?.data?.result', response?.data?.result);
@@ -97,7 +97,7 @@ export const usePatient = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error :: ", error?.response?.data);
+        // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
       });
 
@@ -126,7 +126,7 @@ export const usePatient = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
 
     setTimeout(() => {

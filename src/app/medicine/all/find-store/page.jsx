@@ -1,5 +1,5 @@
-import MedicineSection from "@/components/Medicine/MedicineSection/MedicineSection";
 import React from "react";
+import MedicineSection from "@/components/Medicine/MedicineSection/MedicineSection";
 
 const page = () => {
   return (

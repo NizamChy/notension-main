@@ -1,5 +1,5 @@
-import CheckoutSection from "@/components/Medicine/CheckoutSection/CheckoutSection";
 import React from "react";
+import CheckoutSection from "@/components/Medicine/CheckoutSection/CheckoutSection";
 
 const page = () => {
   return (

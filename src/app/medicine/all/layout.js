@@ -1,7 +1,7 @@
-import MedicineStoreSearchBar from "@/components/Medicine/MedicineSearchStore/MedicineStoreSearchBar";
+import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
-import Navbar from "@/components/shared/Navbar/Navbar";
+import MedicineStoreSearchBar from "@/components/Medicine/MedicineSearchStore/MedicineStoreSearchBar";
 
 export default function MedicineStoreLayout({ children }) {
   return (

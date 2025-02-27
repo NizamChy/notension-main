@@ -56,7 +56,7 @@ export const useCenter = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
 
@@ -139,7 +139,7 @@ export const useCenter = () => {
         // setLoadingMore(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -197,7 +197,7 @@ export const useCenter = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
+        // console.log(error);
       });
     setTimeout(() => {
       if (progressing) {

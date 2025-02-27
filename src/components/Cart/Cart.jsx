@@ -28,7 +28,6 @@ const Cart = () => {
   } = useSelector((state) => state.cart);
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-
   const module = currentModule?.toLowerCase();
 
   const openModal = () => setIsModalOpen(true);
@@ -37,7 +36,7 @@ const Cart = () => {
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   const handleCheckout = () => {
-    if (userInfo._id) {
+    if (userInfo?._id) {
       toggleDrawer();
 
       if (module == "food") {
