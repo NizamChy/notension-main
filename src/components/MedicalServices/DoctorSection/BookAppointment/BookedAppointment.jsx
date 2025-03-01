@@ -64,8 +64,8 @@ const BookedAppointment = () => {
         new Date(currentDate).getTime()
     );
 
-    if (pastAppointments.length > 0) {
-      pastAppointments.forEach((appointment) => {
+    if (pastAppointments?.length > 0) {
+      pastAppointments?.forEach((appointment) => {
         dispatch(
           handleUserReducer({
             type: "UPDATE_BOOKED_APPOINTMENT_INFO",

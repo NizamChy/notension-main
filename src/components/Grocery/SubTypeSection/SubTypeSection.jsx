@@ -9,6 +9,7 @@ import NoItemFound from "../NoItemSection/NoItemFound";
 import GroceryItems from "../GroceryItems/GroceryItems";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
+import NoConnection from "@/components/NoConnection/NoConnection";
 import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 
@@ -62,11 +63,7 @@ const SubTypeSection = () => {
   }, [option, id, typeInfo]);
 
   if (!isOnline) {
-    return (
-      <div className="min-h-content font-semibold text-xl flex justify-center items-center text-deepGray">
-        No Internet
-      </div>
-    );
+    return <NoConnection />;
   }
 
   return (

@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import axios from "axios";
-import { GROCERY_URL } from "@/api-endpoints/secret";
 import {
-  GROCERY_ITEMS_BY_CUSTOMTYPE,
-  GROCERY_ITEMS_BY_SUBTYPE,
   SEARCH_GROCERY_ITEMS,
+  GROCERY_ITEMS_BY_SUBTYPE,
+  GROCERY_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+import axios from "axios";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { GROCERY_URL } from "@/api-endpoints/secret";
 
 axios.defaults.withCredentials = true;
 
 export const useGroceryProduct = () => {
   const [error, setError] = useState(false);
-  const [productInfo, setProductInfo] = useState([]);
   const [allLoaded, setAllLoaded] = useState(false);
-  const [itemNotfound, setItemNotfound] = useState(false);
+  const [productInfo, setProductInfo] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
-  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
   const [progressing, setProgressing] = useState(false);
-
-  // const { merchantId, customstore_id } = useSelector(
-  //   (state) => state.itemsByStoreReducer
-  // );
+  const [itemNotfound, setItemNotfound] = useState(false);
+  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
@@ -37,14 +31,6 @@ export const useGroceryProduct = () => {
 
   const Axios = axios.create({
     baseURL: GROCERY_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
-
-  const AxiosTest = axios.create({
-    baseURL: "http://localhost:6012",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -136,15 +122,12 @@ export const useGroceryProduct = () => {
     }
 
     // console.log("option", option, "IDD ", id);
-
     // console.log("parameter", parameter);
 
     Axios.get(dataURL, {
       params: parameter,
     })
       .then((res) => {
-        // console.log("response", res);
-
         // console.log(res?.data?.result);
 
         if (res?.data?.result?.length > 0) {
@@ -205,15 +188,15 @@ export const useGroceryProduct = () => {
 
   return {
     showActivityIndicator,
+    itemNotfound,
+    productInfo,
+    progressing,
     loadingMore,
     allLoaded,
-    itemNotfound,
-    progressing,
-    setLoadingMore,
     handleSearch,
+    setLoadingMore,
     getItemsOnPress,
-    reloadCustomTypeData,
     resetLoadingStatus,
-    productInfo,
+    reloadCustomTypeData,
   };
 };

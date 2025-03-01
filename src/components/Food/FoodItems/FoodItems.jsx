@@ -123,7 +123,7 @@ const FoodItems = ({ item }) => {
                   className="w-full bg-primaryFood rounded-lg flex items-center justify-between"
                 >
                   <button
-                    onClick={(e) => handleDecrement(e, item._id)}
+                    onClick={(e) => handleDecrement(e, item?._id)}
                     className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
                   >
                     -
@@ -132,7 +132,7 @@ const FoodItems = ({ item }) => {
                     {currentQuantity}
                   </span>
                   <button
-                    onClick={(e) => handleIncrement(e, item._id)}
+                    onClick={(e) => handleIncrement(e, item?._id)}
                     className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-red-600 focus:outline-none transition-colors duration-200"
                   >
                     +

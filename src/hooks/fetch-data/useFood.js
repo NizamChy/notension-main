@@ -1,15 +1,15 @@
 import axios from "axios";
 import {
-  EXPLORE_FOOD_MODULE,
-  EXPLORE_FOOD_STORE,
-  NEAREST_FOOD_STORE,
   SEARCH_FOOD_STORE,
+  NEAREST_FOOD_STORE,
+  EXPLORE_FOOD_STORE,
+  EXPLORE_FOOD_MODULE,
 } from "@/api-endpoints/api-endpoint";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FOOD_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
-import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
+import { handleDashboardReducer } from "@/redux/dashboardReducer";
 
 axios.defaults.withCredentials = true;
 

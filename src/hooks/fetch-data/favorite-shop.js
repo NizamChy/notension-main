@@ -27,7 +27,6 @@ export const useFavouriteStore = () => {
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
-
   const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
   const {

@@ -33,7 +33,6 @@ export const FOOD_PLACE_ORDER = "/client-app-api/v1/food/order";
 export const FOOD_ORDER_INFO = "/client-app-api/v1/food/order-info";
 
 export const FOOD_ITEMS_IMAGES = `${IMAGE_URL}/food-items-images`;
-
 export const FOOD_SLIDER_TYPE_SUBTYPE_IMAGES = `${IMAGE_URL}/food-slider-type-subtype-images`;
 
 export const NEAREST_FOOD_STORE = "/client-app-api/v1/food/get-nearest-store";
@@ -75,7 +74,6 @@ export const GROCERY_ITEMS_IMAGES = `${IMAGE_URL}/grocery-items-images`;
 
 export const NEAREST_GROCERY_STORE =
   "/client-app-api/v1/grocery/get-nearest-store";
-
 export const SEARCH_GROCERY_STORE = "/client-app-api/v1/grocery/find-store";
 
 // DOCTOR

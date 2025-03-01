@@ -1,14 +1,14 @@
-import React from "react";
 import axios from "axios";
-import { FOOD_URL } from "@/api-endpoints/secret";
+import { useState } from "react";
 import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { FOOD_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
-import { useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 
 axios.defaults.withCredentials = true;
@@ -22,9 +22,10 @@ const Axios = axios.create({
 });
 
 export const useOrderFood = () => {
-  const [progressing, setProgressing] = React.useState(false);
-  const dispatch = useDispatch();
+  const [progressing, setProgressing] = useState(false);
+
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
 

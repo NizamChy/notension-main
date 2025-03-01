@@ -15,12 +15,12 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
 
         <p>
           <span className="font-medium">Order ID:</span>{" "}
-          {order.order_id.split("-").pop()}
+          {order?.order_id?.split("-").pop()}
         </p>
 
         <p>
           <span className="font-medium">Order Date:</span>{" "}
-          {new Date(order.createdAt).toLocaleDateString("en-US", {
+          {new Date(order?.createdAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
@@ -30,18 +30,18 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           <span className="font-medium">Order Status:</span>
           <span
             className={`px-3 mx-1 py-1 rounded-full ${
-              order.order_status === "Pending"
+              order?.order_status === "Pending"
                 ? "bg-yellow-100 text-yellow-600"
                 : "bg-green-100 text-green-600"
             }`}
           >
-            {order.order_status}
+            {order?.order_status}
           </span>
         </p>
 
         <p>
           <span className="font-medium">Paymet Method: </span>
-          <span className="text-secondary">{order.paymet_method}</span>
+          <span className="text-secondary">{order?.paymet_method}</span>
         </p>
 
         <div className="mt-4 max-h-[40vh] overflow-y-auto pe-2">
@@ -55,8 +55,8 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
               </tr>
             </thead>
             <tbody>
-              {order.orderItems.map((item) => (
-                <tr key={item._id} className="hover:bg-[#F9FAFB]">
+              {order?.orderItems?.map((item) => (
+                <tr key={item?._id} className="hover:bg-[#F9FAFB]">
                   <td className="px-4 py-2 flex items-center gap-3">
                     <Image
                       src={`https://we-care-base.sgp1.cdn.digitaloceanspaces.com/food-items-images/${item?.app_image}`}
@@ -66,18 +66,18 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                       className="rounded-lg object-cover"
                     />
                     <div>
-                      <p className="line-clamp-2">{item.product_title_eng}</p>
+                      <p className="line-clamp-2">{item?.product_title_eng}</p>
                       <p className="flex items-center text-primaryFood">
                         <TbCurrencyTaka />
-                        {item.sale_price}
+                        {item?.sale_price}
                       </p>
                     </div>
                   </td>
-                  <td className="px-4 py-2 text-center">{item.quantity}</td>
+                  <td className="px-4 py-2 text-center">{item?.quantity}</td>
                   <td className="px-4 py-2 text-right">
                     <span className="flex justify-end items-center gap-1">
                       <TbCurrencyTaka />
-                      {(item.sale_price * item.quantity).toFixed(2)}
+                      {(item?.sale_price * item?.quantity).toFixed(2)}
                     </span>
                   </td>
                 </tr>
@@ -93,7 +93,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             <span className="font-medium">Subtotal:</span>{" "}
             <span className="flex items-center">
               <TbCurrencyTaka />
-              {order.subTotal}
+              {order?.subTotal}
             </span>
           </p>
 
@@ -101,7 +101,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             <span className="font-medium">Delivery Charge:</span>{" "}
             <span className="flex items-center">
               <TbCurrencyTaka />
-              {order.deliveryCharge}
+              {order?.deliveryCharge}
             </span>
           </p>
 
@@ -109,7 +109,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             <span className="font-medium">Discount:</span>{" "}
             <span className="flex items-center">
               <TbCurrencyTaka />
-              {order.less_amount}
+              {order?.less_amount}
             </span>
           </p>
 
@@ -117,7 +117,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
             <span className="font-medium">Total Amount:</span>{" "}
             <span className="flex items-center font-bold">
               <TbCurrencyTaka />
-              {order.totalAmount}
+              {order?.totalAmount}
             </span>
           </p>
         </div>

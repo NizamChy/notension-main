@@ -21,7 +21,7 @@ const FoodItemsByCategory = () => {
 
     setLoading(true);
     const categoryData = productInfoByShop.find(
-      (category) => category._id === catId
+      (category) => category?._id === catId
     );
 
     if (categoryData && categoryData?.catagory) {

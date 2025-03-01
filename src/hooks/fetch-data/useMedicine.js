@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useState } from "react";
 import {
   SEARCH_MEDICINE_ITEMS,
   SEARCH_MEDICINE_STORE,
@@ -7,7 +8,6 @@ import {
   MEDICINE_ITEMS_BY_SUBTYPE,
   MEDICINE_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { useEffect, useState } from "react";
 import { MEDICINE_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
@@ -16,28 +16,22 @@ import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 axios.defaults.withCredentials = true;
 
 export const useMedicine = () => {
-  const dispatch = useDispatch();
   const [error, setError] = useState(false);
-  const [productInfo, setProductInfo] = useState([]);
+  const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);
-  const [itemNotfound, setItemNotfound] = useState(false);
+  const [productInfo, setProductInfo] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
-  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
   const [progressing, setProgressing] = useState(false);
+  const [itemNotfound, setItemNotfound] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [message, setMessage] = useState("");
+  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
+
+  const dispatch = useDispatch();
+
   const { userLatitude, userLongitude, districtId, userInfo } = useSelector(
     (state) => state.user
   );
-
-  // const { merchantId, customstore_id } = useSelector(
-  //   (state) => state.itemsByStoreReducer
-  // );
-
-  // const { specialOfferItem, dealOfTheDay } = useSelector(
-  //   (state) => state.itemsByStoreReducer
-  // );
 
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
@@ -51,22 +45,6 @@ export const useMedicine = () => {
     },
   });
 
-  const AxiosWithFormData = axios.create({
-    baseURL: MEDICINE_URL,
-    headers: {
-      Accept: "*/*",
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
-  // const AxiosTest = axios.create({
-  //   baseURL: MEDICINE_ADMIN_URL_LOCAL,
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-
   const setCurrentModule = () => {
     dispatch(
       handleDashboardReducer({
@@ -77,7 +55,7 @@ export const useMedicine = () => {
   };
 
   const saveItemsToReducer = (items) => {
-    if (items.length < 1) {
+    if (items?.length < 1) {
       setProductInfo([]);
     } else {
       //setProductInfo(items);
@@ -171,30 +149,14 @@ export const useMedicine = () => {
       },
     })
       .then((res) => {
-        // console.log(res);
-
         //console.log('res?.data?.result?.ShopDetails[0]?.is_closed', res?.data?.result?.ShopDetails[0]?.is_closed);
         if (
           res?.data?.result?.ShopDetails[0]?.is_closed ||
           !res?.data?.result?.ShopDetails[0]?.is_active ||
           res?.data?.result?.ShopDetails[0]?.is_banned
         ) {
-          //   navigation.goBack();
-          //   Alert.alert("Sorry we're closed !!", "See you tomorrow !!", [
-          //     {
-          //       text: "Ok",
-          //       onPress: () => null,
-          //       style: "default",
-          //     },
-          //   ]);
+          alert("Sorry we're closed! See you tomorrow!");
         } else {
-          // dispatch(
-          //   handleDashboardReducer({
-          //     type: "EXPLORE_STORE",
-          //     data: res?.data?.result,
-          //   })
-          // );
-
           dispatch(
             handleDashboardReducer({
               type: "EXPLORE_MED_STORE",
@@ -334,36 +296,36 @@ export const useMedicine = () => {
     setLoadingMore(true);
   };
 
-  useEffect(() => {
-    if (error) {
-      //userLogOut();
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     //userLogOut();
+  //   }
+  // }, [error]);
 
   return {
     showActivityIndicator,
-    loadingMore,
-    itemNotfound,
-    allLoaded,
-    progressing,
-    showErrorMessage,
     showSuccessMessage,
-    message,
+    showErrorMessage,
+    itemNotfound,
+    loadingMore,
     productInfo,
+    progressing,
+    allLoaded,
+    message,
     setMessage,
-    setProgressing,
-    setShowErrorMessage,
-    setShowSuccessMessage,
-    setLoadingMore,
-    saveItemsToReducer,
     handleSearch,
-    getItemsOnPress,
-    getNearestMedicineStoreInfo,
-    exploreStore,
-    reloadCustomTypeData,
-    resetLoadingStatus,
-    handleSearchStore,
     resetReducer,
+    exploreStore,
+    setLoadingMore,
+    setProgressing,
+    getItemsOnPress,
     setCurrentModule,
+    handleSearchStore,
+    saveItemsToReducer,
+    resetLoadingStatus,
+    setShowErrorMessage,
+    reloadCustomTypeData,
+    setShowSuccessMessage,
+    getNearestMedicineStoreInfo,
   };
 };

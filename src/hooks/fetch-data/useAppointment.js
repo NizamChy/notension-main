@@ -22,7 +22,6 @@ export const useAppointment = () => {
   const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
   const router = useRouter();
-
   const dispatch = useDispatch();
 
   const { userInfo, patientInfo } = useSelector((state) => state.user);

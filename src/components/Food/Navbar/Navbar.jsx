@@ -17,15 +17,15 @@ import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
-  const dropDownMenuRef = useRef();
-  const dispatch = useDispatch();
 
   const router = useRouter();
   const params = useParams();
+  const dropDownMenuRef = useRef();
+  const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const module = currentModule?.toLowerCase();
 
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
@@ -79,7 +79,7 @@ const Navbar = () => {
         </>
       )}
 
-      {userInfo._id && (
+      {userInfo?._id && (
         <ul className="hidden md:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
           <li className="relative" ref={dropDownMenuRef}>
             <button
@@ -89,7 +89,7 @@ const Navbar = () => {
               <p className="font-semibold flex items-center gap-2">
                 <CgProfile className="text-2xl" />
                 <span className="hidden md:block">
-                  {userInfo.customer_name}
+                  {userInfo?.customer_name}
                 </span>
               </p>
               <svg
@@ -123,7 +123,10 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="px-3 hover:underline">
-                  <Link href="#" className="flex items-center gap-1">
+                  <Link
+                    href="/user/profile"
+                    className="flex items-center gap-1"
+                  >
                     <span>
                       <CgProfile className="text-primaryFood" />
                     </span>

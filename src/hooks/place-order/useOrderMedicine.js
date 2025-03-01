@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import axios from "axios";
 import {
   MEDICINE_ORDER_INFO,
@@ -22,12 +22,12 @@ const Axios = axios.create({
 });
 
 export const useOrderMedicine = () => {
-  const [progressing, setProgressing] = React.useState(false);
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const [progressing, setProgressing] = useState(false);
 
+  const router = useRouter();
   const params = useParams();
 
+  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const placeOrder = (itemOrderObj) => {
