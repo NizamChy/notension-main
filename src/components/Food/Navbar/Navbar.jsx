@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
+import { IoLocationOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -131,6 +132,18 @@ const Navbar = () => {
                       <CgProfile className="text-primaryFood" />
                     </span>
                     <span>Profile</span>
+                  </Link>
+                </li>
+
+                <li className="px-3 hover:underline">
+                  <Link
+                    href="/user/update-address"
+                    className="flex items-center gap-1"
+                  >
+                    <span>
+                      <IoLocationOutline className="text-primaryFood" />
+                    </span>
+                    Update Address
                   </Link>
                 </li>
 

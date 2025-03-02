@@ -9,6 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
+import { IoLocationOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -145,6 +146,18 @@ const Navbar = () => {
                       <CgProfile className="text-primaryMedicine" />
                     </span>
                     Profile
+                  </Link>
+                </li>
+
+                <li className="px-3 hover:underline">
+                  <Link
+                    href="/user/update-address"
+                    className="flex items-center gap-1"
+                  >
+                    <span>
+                      <IoLocationOutline className="text-primaryMedicine" />
+                    </span>
+                    Update Address
                   </Link>
                 </li>
 

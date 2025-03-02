@@ -10,6 +10,7 @@ import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
+
   const params = useParams();
   const router = useRouter();
 
@@ -33,29 +34,29 @@ const OrdersSection = () => {
           {groceryOrderInfo && groceryOrderInfo.length > 0 ? (
             groceryOrderInfo.map((order) => (
               <div
-                key={order._id}
+                key={order?._id}
                 className="border rounded-lg p-4 bg-white shadow-md"
               >
                 <div className="flex justify-between items-center">
                   <p className="text-sm font-medium md:text-lg md:font-bold text-secondary">
-                    Order# {order.order_id.split("-").pop()}
+                    Order# {order?.order_id.split("-").pop()}
                   </p>
 
                   <p
                     className={`px-3 py-1 rounded-full ${
-                      order.order_status === "Pending"
+                      order?.order_status === "Pending"
                         ? "bg-yellow-100 text-yellow-600"
                         : "bg-green-100 text-green-600"
                     }`}
                   >
-                    {order.order_status}
+                    {order?.order_status}
                   </p>
                 </div>
 
                 <div className="mt-2">
                   <p className="text-sm md:text-base">
                     <span className="font-medium">Order Date:</span>{" "}
-                    {new Date(order.createdAt).toLocaleDateString("en-US", {
+                    {new Date(order?.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -66,14 +67,14 @@ const OrdersSection = () => {
                     <span className="font-medium">Subtotal:</span>{" "}
                     <span className="flex items-center">
                       <TbCurrencyTaka />
-                      {order.subTotal}
+                      {order?.subTotal}
                     </span>
                   </p>
                   <p className="flex items-center gap-1 text-sm md:text-base">
                     <span className="font-medium">Total Amount:</span>{" "}
                     <span className="flex items-center">
                       <TbCurrencyTaka />
-                      {order.totalAmount}
+                      {order?.totalAmount}
                     </span>
                   </p>
                 </div>
@@ -91,7 +92,7 @@ const OrdersSection = () => {
                   <button
                     onClick={() =>
                       router.push(
-                        `/grocery/${params?.store}/orders/${order._id}`
+                        `/grocery/${params?.store}/orders/${order?._id}`
                       )
                     }
                     className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"

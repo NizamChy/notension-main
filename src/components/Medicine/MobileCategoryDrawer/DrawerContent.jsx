@@ -8,6 +8,7 @@ import { TbLogout } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowRightSLine } from "react-icons/ri";
+import { IoLocationOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -82,6 +83,19 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
               <Link
                 onClick={toggleDrawer}
+                href="/user/update-address"
+                className="mt-2 flex gap-2"
+              >
+                <span>
+                  <IoLocationOutline className="text-lg text-secondaryMedicine" />
+                </span>
+                <p className="text-secondaryMedicine text-sm font-medium">
+                  Update Address
+                </p>
+              </Link>
+
+              <Link
+                onClick={toggleDrawer}
                 href={`/medicine/${params?.store}/favorite-items`}
                 className="mt-2 flex gap-2"
               >
@@ -120,15 +134,15 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
         <div className="h-full border-e px-1 max-w-screen-md pb-5 bg-white">
           <div className="overflow-y-auto h-full no-scrollbar">
             {typeInfo?.map((data, idx) => (
-              <div className="border-b border-gray-400/10" key={data.id}>
-                {data.parent === null && (
+              <div className="border-b border-gray-400/10" key={data?.id}>
+                {data?.parent === null && (
                   <div
                     onClick={() => {
                       if (data?.subtype?.length > 0) {
                         handleToggle(idx, data);
                       } else {
                         handleToggle(idx, data);
-                        handleCustomtype(data.id);
+                        handleCustomtype(data?.id);
                       }
                     }}
                     className={`transition-all duration-300 cursor-pointer px-2 ${

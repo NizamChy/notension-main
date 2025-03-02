@@ -7,6 +7,7 @@ import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { FaUserDoctor } from "react-icons/fa6";
+import { IoLocationOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -141,17 +142,31 @@ const Navbar = () => {
                 )}
 
                 {userInfo?._id && (
-                  <li className="px-3 hover:underline">
-                    <Link
-                      href="/user/profile"
-                      className="flex items-center gap-1"
-                    >
-                      <span>
-                        <CgProfile className="text-primaryGrocery" />
-                      </span>
-                      Profile
-                    </Link>
-                  </li>
+                  <>
+                    <li className="px-3 hover:underline">
+                      <Link
+                        href="/user/profile"
+                        className="flex items-center gap-1"
+                      >
+                        <span>
+                          <CgProfile className="text-primaryGrocery" />
+                        </span>
+                        Profile
+                      </Link>
+                    </li>
+
+                    <li className="px-3 hover:underline">
+                      <Link
+                        href="/user/update-address"
+                        className="flex items-center gap-1"
+                      >
+                        <span>
+                          <IoLocationOutline className="text-primary" />
+                        </span>
+                        Update Address
+                      </Link>
+                    </li>
+                  </>
                 )}
 
                 <li className="px-3 hover:underline">

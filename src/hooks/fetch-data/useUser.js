@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import {
-  OTP_FOR_REGISTARTION,
   USER_REGISTARTION,
+  OTP_FOR_REGISTARTION,
 } from "@/api-endpoints/api-endpoint";
 import { toast } from "react-toastify";
 import { USER_URL } from "@/api-endpoints/secret";

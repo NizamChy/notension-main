@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { TbLogout } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { TiShoppingCart } from "react-icons/ti";
+import { IoLocationOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import MobileCategory from "../CategorySidebar/MobileCategory";
@@ -50,6 +51,19 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
               >
                 <TiShoppingCart className="text-lg text-secondary" />
                 <p className="text-secondary text-sm font-medium">My Orders</p>
+              </Link>
+
+              <Link
+                onClick={toggleDrawer}
+                href="/user/update-address"
+                className="mt-2 flex gap-2"
+              >
+                <span>
+                  <IoLocationOutline className="text-lg text-secondary" />
+                </span>
+                <p className="text-secondary text-sm font-medium">
+                  Update Address
+                </p>
               </Link>
 
               <div className="flex items-center gap-2 mt-2 ps-1">
