@@ -27,7 +27,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    router.push(`/grocery/${params?.store}/type/${data.id}`);
+    router.push(`/grocery/${params?.store}/type/${data?.id}`);
   };
 
   const handleSubtype = (subTypeId) => {
