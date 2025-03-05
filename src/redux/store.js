@@ -14,6 +14,7 @@ import userReducer from "./userReducer";
 import cartReducer from "./cartReducer";
 import { combineReducers } from "redux";
 import doctorReducer from "./doctorReducer";
+import allCareReducer from "./allCareReducer";
 import itemsByStoreReducer from "./items-by-shop";
 import { configureStore } from "@reduxjs/toolkit";
 import dashboardReducer from "./dashboardReducer";
@@ -42,6 +43,7 @@ const storage =
 const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducer,
+  allCare: allCareReducer,
   doctorInfo: doctorReducer,
   dashboard: dashboardReducer,
   userChoice: userChoiceReducer,
@@ -54,6 +56,7 @@ const persistConfig = {
   whitelist: [
     "user",
     "cart",
+    "allCare",
     "dashboard",
     "userChoice",
     "doctorInfo",

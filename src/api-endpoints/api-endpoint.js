@@ -111,3 +111,16 @@ export const REGISTER_PATIENT =
 export const MANAGE_PATIENT = "/client-app-api/v1/health-care/manage-patient";
 export const BOOK_APPOINTMENT =
   "/client-app-api/v1/health-care/book-appointment";
+
+// ALL CARE SERVICE
+export const EXPLORE_ALL_CARE_SERVICE =
+  "/client-app-api/v1/all-care/explore-all-service";
+export const EXPLORE_CARE_PROVIDER =
+  "/client-app-api/v1/all-care/explore-care-provider";
+
+export const service_bannerImages = "service_banner";
+export const service_providerImages = "service_provider";
+export const service_profileImages = "service_profile";
+
+export const SERVICE_PROVIDER_IMAGES = `${IMAGE_URL}/service_provider`;
+export const SERVICE_BANNER_IMAGES = `${IMAGE_URL}/service_banner`;

@@ -1,3 +1,5 @@
+export const ALL_CARE_SERVICE_URL =
+  process.env.NEXT_PUBLIC_ALL_CARE_SERVICE_URL;
 export const FOOD_URL = process.env.NEXT_PUBLIC_FOOD_URL;
 export const USER_URL = process.env.NEXT_PUBLIC_USER_URL;
 export const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
