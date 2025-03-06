@@ -11,7 +11,7 @@ const AllCareServices = () => {
             <span className="text-[#F78F1E]">Work</span> Done
           </p>
 
-          <p className="text-center lg:text-start lg:text-xl text-mediumGray">
+          <p className="text-center lg:text-start lg:text-xl text-mediumGray px-5 lg:px-0">
             Explore{" "}
             <span className="text-primary font-medium">
               Notension All Care Service

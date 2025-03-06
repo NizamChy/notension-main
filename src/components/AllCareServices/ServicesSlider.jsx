@@ -7,29 +7,12 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
-import {
-  SERVICE_BANNER_IMAGES,
-  SERVICE_PROVIDER_IMAGES,
-} from "@/api-endpoints/api-endpoint";
+import { SERVICE_BANNER_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const ServicesSlider = ({ slider }) => {
-  console.log("Slider from ServicesSlider : ", slider);
-
-  const images = [
-    "/images/all-care-services/services-slider-1.jpg",
-    "/images/all-care-services/services-slider-2.jpg",
-    "/images/all-care-services/services-slider-3.webp",
-    "/images/all-care-services/services-slider-4.jpg",
-    "/images/all-care-services/services-slider-1.jpg",
-    "/images/all-care-services/services-slider-2.jpg",
-    "/images/all-care-services/services-slider-3.webp",
-    "/images/all-care-services/services-slider-4.jpg",
-  ];
-  console.log(slider.length);
-
   return (
     <>
-      {slider.length && (
+      {slider?.length > 0 && (
         <div className="py-0 md:py-5 lg:py-20">
           <div className="relative flex justify-center items-center">
             <button
@@ -76,14 +59,6 @@ const ServicesSlider = ({ slider }) => {
                 modules={[Navigation]}
                 className="mx-auto"
               >
-                {/* IMAGE_URL = https://we-care-base.sgp1.cdn.digitaloceanspaces.com  */}
-
-                {/* SERVICE_PROVIDER_IMAGES = `${IMAGE_URL}/service_provider` */}
-
-                {/* src={`${HEALTH_CARE_IMAGES}/${service?.file_name}`}  */}
-
-                {/* https://we-care-base.sgp1.cdn.digitaloceanspaces.com/service_provider/1733130022148-475675436.jpg */}
-
                 {slider?.map((slide) => (
                   <SwiperSlide key={slide?._id} className="flex justify-center">
                     <div className="lg:m-3 cursor-pointer">
@@ -97,20 +72,6 @@ const ServicesSlider = ({ slider }) => {
                     </div>
                   </SwiperSlide>
                 ))}
-
-                {/* {images.map((image, index) => (
-                  <SwiperSlide key={index} className="flex justify-center">
-                    <div className="lg:m-3 cursor-pointer">
-                      <Image
-                        className="rounded-md shadow-lg"
-                        src={image}
-                        alt="Services Area"
-                        width={420}
-                        height={280}
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))} */}
               </Swiper>
             </div>
           </div>

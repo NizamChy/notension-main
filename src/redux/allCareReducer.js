@@ -6,6 +6,7 @@ const allCareReducer = createSlice({
   initialState: {
     careSlider: [],
     allServicesInfo: [],
+    isLoading: true,
   },
 
   reducers: {
@@ -13,6 +14,7 @@ const allCareReducer = createSlice({
       if (payload.type == "SAVE_ALL_SERVICES_INFO") {
         state.careSlider = payload?.data?.sliderByDistrict || [];
         state.allServicesInfo = payload?.data?.servicesType || [];
+        state.isLoading = false;
       } else {
         return {
           ...state,

@@ -2,62 +2,56 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const doctorReducer = createSlice({
   name: "doctorInfo",
+
   initialState: {
-    isLoading: true,
-    merchantId: "",
-    customstore_id: "",
-    typeName: "",
-    findDoctorBanner: [],
-    consultationCenterBanner: [],
-    nearestDoctorsSlider: [],
     allDeptInfo: [],
+    currentDept: {},
+    isLoading: true,
+    currentCenter: {},
+    currentDoctor: {},
     doctorsByDept: [],
     nearestDoctors: [],
     popularDoctors: [],
-    nearestConsultationCenterInfo: [],
-    consultationCenterByDistrict: [],
-    deptInfoByConsultationCenter: [],
-    doctorsByConsultationCenterByDept: [],
-    nearestDiagnosticCenter: [],
-    diagnosticCenterInfoByDistrict: [],
-    popularHospitalByDistrict: [],
+    findDoctorBanner: [],
     nearestHospitalInfo: [],
     topHospitalInCountry: [],
+    nearestDoctorsSlider: [],
     hospitalInfoByDistrict: [],
-    currentCenter: {},
-    currentDoctor: {},
-    currentDept: {},
-    pageNoForPopular: 2,
+    nearestDiagnosticCenter: [],
+    consultationCenterBanner: [],
+    popularHospitalByDistrict: [],
+    deptInfoByConsultationCenter: [],
+    consultationCenterByDistrict: [],
+    nearestConsultationCenterInfo: [],
+    diagnosticCenterInfoByDistrict: [],
+    doctorsByConsultationCenterByDept: [],
   },
+
   reducers: {
     handleDoctorReducer: (state = initialState, { payload }) => {
       if (payload.type == "CLEAR_ALL") {
         return {
           ...state,
-          merchantId: "",
-          customstore_id: "",
-          typeName: "",
-          findDoctorBanner: [],
-          consultationCenterBanner: [],
-          nearestDoctorsSlider: [],
           allDeptInfo: [],
+          currentDept: {},
+          currentCenter: {},
+          currentDoctor: {},
           doctorsByDept: [],
           nearestDoctors: [],
           popularDoctors: [],
-          nearestConsultationCenterInfo: [],
-          consultationCenterByDistrict: [],
-          deptInfoByConsultationCenter: [],
-          doctorsByConsultationCenterByDept: [],
-          nearestDiagnosticCenter: [],
-          diagnosticCenterInfoByDistrict: [],
-          popularHospitalByDistrict: [],
+          findDoctorBanner: [],
           nearestHospitalInfo: [],
           topHospitalInCountry: [],
+          nearestDoctorsSlider: [],
           hospitalInfoByDistrict: [],
-          currentCenter: {},
-          currentDoctor: {},
-          currentDept: {},
-          pageNoForPopular: 2,
+          nearestDiagnosticCenter: [],
+          consultationCenterBanner: [],
+          popularHospitalByDistrict: [],
+          consultationCenterByDistrict: [],
+          deptInfoByConsultationCenter: [],
+          nearestConsultationCenterInfo: [],
+          diagnosticCenterInfoByDistrict: [],
+          doctorsByConsultationCenterByDept: [],
         };
       } else if (payload.type == "SAVE_DEPT_INFO") {
         state.findDoctorBanner =
@@ -131,44 +125,6 @@ const doctorReducer = createSlice({
           Info = [...state.hospitalInfoByDistrict, ...payload.data];
         }
         state.hospitalInfoByDistrict = Info;
-      } else if (payload.type == "EXPLORE_FOOD_STORE_ITEMS") {
-        let productByCategory = [];
-        payload?.data?.allProductCategory?.forEach((info, i) => {
-          productByCategory.push({
-            _id: info?.categoryInfo?._id,
-            catagory: info?.categoryName,
-            itemsInfo: payload?.data?.allProduct?.filter(
-              (item) => item?.productCategory === info?.categoryInfo?._id
-            ),
-          });
-        });
-        return {
-          ...state,
-          isLoading: false,
-          productCategory: payload?.data?.allProductCategory || [],
-          productInfoByShop: productByCategory || [],
-          popularItem:
-            payload?.data?.allProduct?.filter((p) => p.is_popular === true) ||
-            [],
-          merchantId: payload?.data?.storeId || "",
-          customstore_id: payload?.data?.customstoreId || "",
-        };
-      } else if (payload.type == "FOOD_STORE_RESET") {
-        return {
-          ...state,
-          productCategory: [],
-          productInfoByShop: [],
-          popularItem: [],
-        };
-      } else if (payload.type == "SAVE_SUBTYPE_INFO_BY_TYPE") {
-        return {
-          ...state,
-          typeName: payload?.data?.typeName,
-          subtypeByselectedType: payload?.data?.subtype || [],
-        };
-      } else if (payload.type == "SAVE_POPULAR_PRODUCT_INFO") {
-        state.popularItem = [...state.popularItem, ...payload.data];
-        state.pageNoForPopular = parseFloat(state.pageNoForPopular) + 1;
       } else if (payload.type == "SAVE_CENTER_INFO") {
         state.currentCenter = payload.data;
       } else if (payload.type == "SAVE_CURRENT_DOCTOR_INFO") {
