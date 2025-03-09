@@ -80,6 +80,7 @@ export const useAllCareService = () => {
     pageNo
   ) => {
     setProgressing(true);
+
     const props = {
       longitude: userLongitude,
       latitude: userLatitude,
@@ -90,7 +91,10 @@ export const useAllCareService = () => {
 
     Axios.post(EXPLORE_CARE_PROVIDER, props)
       .then((response) => {
-        //console.log(response.data);
+        // console.log(response.data);
+
+        console.log("EXPLORE_CARE_PROVIDER : ", response?.data?.result);
+
         if (response?.data?.result?.nearestCareProvider) {
           setPopularInfo(response?.data?.result?.careProviderByDistrict);
         }

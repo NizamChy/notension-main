@@ -28,6 +28,19 @@ const Map = ({ onCloseModal }) => {
     (state) => state.user.currentUserLocation
   );
 
+  // let userLocation = {
+  //   setCurrentLocation: false,
+  //   userLatitude: 22.3576064,
+  //   userLongitude: 91.8355968,
+  //   districtId: "64f03388fdd8ffc6aa95bdb9",
+  //   districtName: "Chittagong (চট্টগ্রাম)",
+  //   districtAreaId: "00",
+  //   districtAreaName: "",
+  //   districtSubAreaId: "00",
+  //   districtSubAreaName: "",
+  //   // formatted_address: formatted_address,
+  // };
+
   let userLocation = {
     setCurrentLocation: false,
     userLatitude: curLoc?.latitude,
@@ -49,7 +62,7 @@ const Map = ({ onCloseModal }) => {
         },
       });
 
-      // console.log("All Districts:", response.data);
+      console.log("All Districts:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching districts:", error);

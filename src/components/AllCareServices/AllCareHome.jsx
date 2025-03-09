@@ -1,15 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import ServicesArea from "@/components/AllCareServices/ServicesArea";
 import ServicesSlider from "@/components/AllCareServices/ServicesSlider";
 import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 import AllCareServices from "@/components/AllCareServices/AllCareServices";
 
 const AllCareHome = () => {
-  const { exploreAllCareService } = useAllCareService();
+  const [popularInfo, setPopularInfo] = useState([]);
+  const [nearestInfo, setNearestInfo] = useState([]);
+
+  const { exploreAllCareService, exploreCareProvider } = useAllCareService();
   const { careSlider, allServicesInfo } = useSelector((state) => state.allCare);
+
+  const { userLatitude, userLongitude, districtId } = useSelector(
+    (state) => state.user
+  );
 
   useEffect(() => {
     if (allServicesInfo?.length < 1) {
@@ -17,8 +24,27 @@ const AllCareHome = () => {
     }
   }, []);
 
+  // serviceId,
+  // setPopularInfo,
+  // setNearestInfo,
+  // pageNo
+
+  // useEffect(() => {
+  //   exploreCareProvider(
+  //     "673f16a13ba159242af8eb83",
+  //     setPopularInfo,
+  //     setNearestInfo,
+  //     1
+  //   );
+  // }, []);
+
   // console.log("careSlider : ", careSlider);
-  // console.log("allServicesInfo : ", allServicesInfo);
+  // console.log(userLatitude, userLongitude, districtId);
+
+  // console.log("popularInfo : ", popularInfo);
+  // console.log("nearestInfo : ", nearestInfo);
+
+  console.log("allServicesInfo : ", allServicesInfo);
 
   return (
     <>
