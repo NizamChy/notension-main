@@ -7,13 +7,17 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
-import { SERVICE_BANNER_IMAGES } from "@/api-endpoints/api-endpoint";
+import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
-const ServicesSlider = ({ slider }) => {
+const PopularInfoSlider = ({ slider }) => {
   return (
     <>
       {slider?.length > 0 && (
         <div className="py-0 md:py-5 lg:py-20">
+          <p className="md:text-2xl font-semibold pb-1 md:pb-5 text-[#0C3F8E]">
+            Popular Information
+          </p>
+
           <div className="relative flex justify-center items-center">
             <button
               className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
@@ -52,7 +56,7 @@ const ServicesSlider = ({ slider }) => {
                     spaceBetween: 30,
                   },
                   1536: {
-                    slidesPerView: 4,
+                    slidesPerView: 3,
                     spaceBetween: 30,
                   },
                 }}
@@ -60,14 +64,17 @@ const ServicesSlider = ({ slider }) => {
                 className="mx-auto w-full"
               >
                 {slider?.map((slide) => (
-                  <SwiperSlide key={slide?._id} className="flex justify-center">
+                  <SwiperSlide
+                    key={slide?._id}
+                    className="flex justify-center items-center"
+                  >
                     <div className="lg:m-3 cursor-pointer">
                       <Image
-                        className="rounded-md shadow-lg w-full"
-                        src={`${SERVICE_BANNER_IMAGES}/${slide?.file_name}`}
-                        alt={slide?.file_name}
-                        width={420}
-                        height={280}
+                        className="rounded-md w-full"
+                        src={`${SERVICE_PROVIDER_IMAGES}/${slide?.provider_banner_app}`}
+                        alt={slide?.provider_name}
+                        width={455}
+                        height={228}
                       />
                     </div>
                   </SwiperSlide>
@@ -81,4 +88,4 @@ const ServicesSlider = ({ slider }) => {
   );
 };
 
-export default ServicesSlider;
+export default PopularInfoSlider;

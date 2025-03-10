@@ -92,6 +92,7 @@ export const useAllCareService = () => {
     Axios.post(EXPLORE_CARE_PROVIDER, props)
       .then((response) => {
         // console.log(response.data);
+        console.log("response :", response);
 
         console.log("EXPLORE_CARE_PROVIDER : ", response?.data?.result);
 

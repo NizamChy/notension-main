@@ -1,11 +1,9 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Loader from "../common/Loader";
-import { useSelector } from "react-redux";
-import { SERVICE_BANNER_IMAGES } from "@/api-endpoints/api-endpoint";
 import ServiceCard from "./ServiceCard";
+import { useSelector } from "react-redux";
 
 const ServicesArea = ({
   sliceEnd = 4,
@@ -46,18 +44,6 @@ const ServicesArea = ({
                           imageWidth={imageWidth}
                           imageHeight={imageHeight}
                         />
-                        // <div
-                        //   key={service?._id}
-                        //   className="lg:m-3 cursor-pointer"
-                        // >
-                        //   <Image
-                        //     className="rounded-md shadow-lg"
-                        //     src={`${SERVICE_BANNER_IMAGES}/${service?.[imageKey]}`}
-                        //     alt={service?.service_name_eng}
-                        //     width={imageWidth}
-                        //     height={imageHeight}
-                        //   />
-                        // </div>
                       ))}
                   </div>
                 </div>

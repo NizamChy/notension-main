@@ -5,10 +5,9 @@ const allCareReducer = createSlice({
 
   initialState: {
     careSlider: [],
-    allServicesInfo: [],
-    popularInfo: [],
-    nearestInfo: [],
     isLoading: true,
+    currentService: {},
+    allServicesInfo: [],
   },
 
   reducers: {
@@ -18,8 +17,7 @@ const allCareReducer = createSlice({
         state.allServicesInfo = payload?.data?.servicesType || [];
         state.isLoading = false;
       } else if (payload.type == "SAVE_CURRENT_SERVICE_INFO") {
-        state.popularInfo = payload?.data?.careProviderByDistrict || [];
-        state.nearestInfo = payload?.data?.nearestCareProvider || [];
+        state.currentService = payload?.data || {};
       } else {
         return {
           ...state,

@@ -1,42 +1,38 @@
 "use client";
 
-import Link from "next/link";
+import React from "react";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { SERVICE_BANNER_IMAGES } from "@/api-endpoints/api-endpoint";
-import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 
 const ServiceCard = ({ service, imageKey, imageWidth, imageHeight }) => {
-  const [pageNo, setPageNo] = useState(1);
-  const [popularInfo, setPopularInfo] = useState([]);
-  const [nearestInfo, setNearestInfo] = useState([]);
-
-  const { exploreCareProvider } = useAllCareService();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleServiceClick = () => {
-    console.log("service : ", service);
+    dispatch(
+      handleAllCareReducer({
+        type: "SAVE_CURRENT_SERVICE_INFO",
+        data: service,
+      })
+    );
 
-    const serviceId = service?._id;
-
-    exploreCareProvider(serviceId, setPopularInfo, setNearestInfo, pageNo);
+    router.push(`/all-care-services/service/${service?._id}`);
   };
 
   return (
     <>
-      <Link href={`/all-care-services/service/${service?._id}`}>
-        <div
-          className="lg:m-3 cursor-pointer"
-          //   onClick={handleServiceClick}
-        >
-          <Image
-            className="rounded-md shadow-lg"
-            src={`${SERVICE_BANNER_IMAGES}/${service?.[imageKey]}`}
-            alt={service?.service_name_eng}
-            width={imageWidth}
-            height={imageHeight}
-          />
-        </div>
-      </Link>
+      <div onClick={handleServiceClick} className="lg:m-3 cursor-pointer">
+        <Image
+          className="rounded-md shadow-lg"
+          src={`${SERVICE_BANNER_IMAGES}/${service?.[imageKey]}`}
+          alt={service?.service_name_eng}
+          width={imageWidth}
+          height={imageHeight}
+        />
+      </div>
     </>
   );
 };

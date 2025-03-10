@@ -1,13 +1,17 @@
 "use client";
 
 import Loader from "../common/Loader";
+import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import NearestInfoCard from "./NearestInfoCard";
 import React, { useEffect, useState } from "react";
+import PopularInfoSlider from "./PopularInfoSlider";
+import ServiceBannerSlider from "./ServiceBannerSlider";
 import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 
 const ExploreService = () => {
   const [pageNo, setPageNo] = useState(1);
+  const [slider, setSlider] = useState([]);
   const [popularInfo, setPopularInfo] = useState([]);
   const [nearestInfo, setNearestInfo] = useState([]);
 
@@ -15,8 +19,10 @@ const ExploreService = () => {
   const serviceId = params?.serviceId || null;
 
   const { exploreCareProvider, progressing } = useAllCareService();
+  const { currentService } = useSelector((state) => state.allCare);
 
   useEffect(() => {
+    setSlider(currentService?.sliderInfo?.service_slider);
     exploreCareProvider(serviceId, setPopularInfo, setNearestInfo, pageNo);
   }, []);
 
@@ -24,16 +30,24 @@ const ExploreService = () => {
   console.log("serviceId :", serviceId);
   console.log("popularInfo :", popularInfo);
   console.log("nearestInfo :", nearestInfo);
+  console.log("currentService :", currentService);
 
   return (
-    <div>
+    <div className="py-0 md:py-5 lg:py-10">
+      {slider?.length > 0 && <ServiceBannerSlider slider={slider} />}
+
+      <PopularInfoSlider slider={popularInfo} />
+
       {progressing ? (
         <Loader />
       ) : (
-        <div className="py-0 md:py-5 lg:py-10">
-          <p className="md:text-2xl font-semibold pb-1 md:pb-5 text-[#0C3F8E]">
-            Nearest Information
-          </p>
+        <div>
+          {nearestInfo?.length > 0 && (
+            <p className="md:text-2xl font-semibold pb-1 md:pb-5 text-[#0C3F8E]">
+              Nearest Information
+            </p>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {nearestInfo?.map((provider) => (
               <NearestInfoCard key={provider?._id} provider={provider} />
