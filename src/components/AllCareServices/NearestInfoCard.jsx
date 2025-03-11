@@ -1,18 +1,44 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const NearestInfoCard = ({ provider }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const { currentProviderDetails } = useSelector((state) => state.allCare);
+
+  const handleProviderClick = () => {
+    console.log("provider click : ", provider);
+
+    dispatch(
+      handleAllCareReducer({
+        type: "SAVE_CURRENT_PROVIDER_DETAILS",
+        data: provider,
+      })
+    );
+
+    router.push("/all-care-services/provider-details");
+  };
+
+  console.log("currentProviderDetails : ", currentProviderDetails);
+
   return (
-    <div className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300">
+    <div
+      onClick={handleProviderClick}
+      className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300"
+    >
       <div className="relative overflow-hidden rounded-t-lg">
         <Image
           src={`${SERVICE_PROVIDER_IMAGES}/${provider?.provider_banner_app}`}
           alt={`${provider?.provider_name} banner`}
           width={500}
           height={300}
-          className="w-full h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+          className="w-full object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 

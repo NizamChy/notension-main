@@ -19,7 +19,7 @@ const AllCareHome = () => {
 
   return (
     <>
-      <div className="max-w-screen-2xl mx-auto min-h-content pt-20">
+      <div className="max-w-screen-2xl mx-auto min-h-content lg:pt-20">
         <AllCareServices />
 
         <ServicesSlider slider={careSlider[0]?.first_slider} />

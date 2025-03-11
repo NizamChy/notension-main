@@ -13,7 +13,7 @@ const PopularInfoSlider = ({ slider }) => {
   return (
     <>
       {slider?.length > 0 && (
-        <div className="py-0 md:py-5 lg:py-20">
+        <div className="py-5 lg:py-20">
           <p className="md:text-2xl font-semibold pb-1 md:pb-5 text-[#0C3F8E]">
             Popular Information
           </p>

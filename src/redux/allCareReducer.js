@@ -8,6 +8,7 @@ const allCareReducer = createSlice({
     isLoading: true,
     currentService: {},
     allServicesInfo: [],
+    currentProviderDetails: {},
   },
 
   reducers: {
@@ -18,6 +19,8 @@ const allCareReducer = createSlice({
         state.isLoading = false;
       } else if (payload.type == "SAVE_CURRENT_SERVICE_INFO") {
         state.currentService = payload?.data || {};
+      } else if (payload.type == "SAVE_CURRENT_PROVIDER_DETAILS") {
+        state.currentProviderDetails = payload?.data || {};
       } else {
         return {
           ...state,

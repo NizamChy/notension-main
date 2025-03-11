@@ -33,7 +33,7 @@ const ExploreService = () => {
   console.log("currentService :", currentService);
 
   return (
-    <div className="py-0 md:py-5 lg:py-10">
+    <div className="p-4 md:py-5 lg:py-10">
       {slider?.length > 0 && <ServiceBannerSlider slider={slider} />}
 
       <PopularInfoSlider slider={popularInfo} />
@@ -41,14 +41,14 @@ const ExploreService = () => {
       {progressing ? (
         <Loader />
       ) : (
-        <div>
+        <div className="py-4">
           {nearestInfo?.length > 0 && (
-            <p className="md:text-2xl font-semibold pb-1 md:pb-5 text-[#0C3F8E]">
+            <p className="md:text-2xl font-semibold pb-2 md:pb-5 text-[#0C3F8E]">
               Nearest Information
             </p>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-8">
             {nearestInfo?.map((provider) => (
               <NearestInfoCard key={provider?._id} provider={provider} />
             ))}
