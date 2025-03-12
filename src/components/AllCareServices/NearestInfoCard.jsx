@@ -1,8 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
 import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
@@ -10,11 +12,7 @@ const NearestInfoCard = ({ provider }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { currentProviderDetails } = useSelector((state) => state.allCare);
-
   const handleProviderClick = () => {
-    console.log("provider click : ", provider);
-
     dispatch(
       handleAllCareReducer({
         type: "SAVE_CURRENT_PROVIDER_DETAILS",
@@ -24,8 +22,6 @@ const NearestInfoCard = ({ provider }) => {
 
     router.push("/all-care-services/provider-details");
   };
-
-  console.log("currentProviderDetails : ", currentProviderDetails);
 
   return (
     <div

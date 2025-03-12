@@ -5,7 +5,7 @@ export default function AllCareLayout({ children }) {
   return (
     <>
       <Navbar />
-      <div className="pt-16">{children}</div>
+      <div className="pt-14 md:pt-16">{children}</div>
       <Footer />
     </>
   );

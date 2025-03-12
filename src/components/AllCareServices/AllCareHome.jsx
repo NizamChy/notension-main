@@ -46,6 +46,7 @@ const AllCareHome = () => {
           imageKey="service_banner_app"
           title="One Platform, Endless Solutions!"
           gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
+          // gridClassName="grid grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.third_slider} />

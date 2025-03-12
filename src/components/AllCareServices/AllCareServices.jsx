@@ -24,7 +24,6 @@ const AllCareServices = () => {
         <div className="lg:w-1/2 flex justify-center">
           <div>
             <Image
-              className=""
               src="/images/all-care-services/all-care-service-banner.jpg"
               alt="all-care-service-banner.jpg"
               width={600}

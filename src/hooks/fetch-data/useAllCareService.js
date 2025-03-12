@@ -12,16 +12,11 @@ import { handleDashboardReducer } from "@/redux/dashboardReducer";
 axios.defaults.withCredentials = true;
 
 export const useAllCareService = () => {
-  const [banner, setBanner] = useState([]);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);
   const [loadingMore, setLoadingMore] = useState(true);
   const [progressing, setProgressing] = useState(false);
   const [itemNotfound, setItemNotfound] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -56,8 +51,6 @@ export const useAllCareService = () => {
       },
     })
       .then((res) => {
-        console.log("exploreAllCareService response : ", res);
-
         dispatch(
           handleAllCareReducer({
             type: "SAVE_ALL_SERVICES_INFO",
@@ -91,10 +84,7 @@ export const useAllCareService = () => {
 
     Axios.post(EXPLORE_CARE_PROVIDER, props)
       .then((response) => {
-        // console.log(response.data);
-        console.log("response :", response);
-
-        console.log("EXPLORE_CARE_PROVIDER : ", response?.data?.result);
+        // console.log("EXPLORE_CARE_PROVIDER : ", response?.data?.result);
 
         if (response?.data?.result?.nearestCareProvider) {
           setPopularInfo(response?.data?.result?.careProviderByDistrict);
@@ -116,27 +106,16 @@ export const useAllCareService = () => {
     }, 10000);
   };
 
-  //   useEffect(() => {
-  //     if (error) {
-  //       //userLogOut();
-  //     }
-  //   }, [error]);
-
   return {
-    showActivityIndicator,
-    showSuccessMessage,
     showErrorMessage,
     itemNotfound,
     progressing,
     loadingMore,
     allLoaded,
-    message,
-    banner,
     setLoadingMore,
     setProgressing,
     setShowErrorMessage,
     exploreCareProvider,
-    setShowSuccessMessage,
     exploreAllCareService,
   };
 };

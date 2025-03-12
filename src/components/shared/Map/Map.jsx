@@ -2,10 +2,10 @@
 
 import axios from "axios";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import loader from "@/utils/googleMapsLoader";
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { ALL_DISTRICTS_URL } from "@/api-endpoints/secret";
 
@@ -23,23 +23,6 @@ const Map = ({ onCloseModal }) => {
   const mapRef = useRef();
   const markerRef = useRef();
   const dispatch = useDispatch();
-
-  const currentUserLocation = useSelector(
-    (state) => state.user.currentUserLocation
-  );
-
-  // let userLocation = {
-  //   setCurrentLocation: false,
-  //   userLatitude: 22.3576064,
-  //   userLongitude: 91.8355968,
-  //   districtId: "64f03388fdd8ffc6aa95bdb9",
-  //   districtName: "Chittagong (চট্টগ্রাম)",
-  //   districtAreaId: "00",
-  //   districtAreaName: "",
-  //   districtSubAreaId: "00",
-  //   districtSubAreaName: "",
-  //   // formatted_address: formatted_address,
-  // };
 
   let userLocation = {
     setCurrentLocation: false,
@@ -62,7 +45,6 @@ const Map = ({ onCloseModal }) => {
         },
       });
 
-      console.log("All Districts:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching districts:", error);
