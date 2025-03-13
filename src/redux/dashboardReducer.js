@@ -1,304 +1,206 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const dashboardReducer = createSlice({
+const initialState = {
+  callUs: "",
+  ditance: [],
+  typeInfo: [],
+  isLoading: true,
+  districtInfo: [],
+  shopCategory: [],
+  typeInfoByShop: [],
+  tutorial_banner: "",
+  DashboardSlider: [],
+  starting_slider: [],
+  visitedFoodStore: {},
+  favourite_banner: [],
+  districtAreaInfo: [],
+  subtypeInfoByShop: [],
+  isFoodCartCheck: false,
+  showProductPrice: true,
+  registration_banner: "",
+  visitedGroceryStore: {},
+  districtSubAreaInfo: [],
+  visitedMedicineStore: {},
+  free_services_slider: [],
+  free_services_banner: [],
+  advertisement_slider: [],
+  business_type_banner: [],
+  isGroceryCartCheck: false,
+  ad_slider_by_district: {},
+  isMedicineCartCheck: false,
+  currentModule: "dashboard",
+  medical_services_banner: [],
+  isFetchingFromStorage: true,
+  show_tutorial_banner: false,
+  visitedDineInRestaurent: {},
+  internetConnectionAvailable: true,
+};
+
+const dashboardSlice = createSlice({
   name: "dashboard",
-  initialState: {
-    currentModule: "dashboard",
-    callUs: "",
-    internetConnectionAvailable: true,
-    isLoading: true,
-    isFetchingFromStorage: true,
-    favourite_banner: [],
-    starting_slider: [],
-    business_type_banner: [],
-    advertisement_slider: [],
-    medical_services_banner: [],
-    free_services_slider: [],
-    free_services_banner: [],
-    tutorial_banner: "",
-    show_tutorial_banner: false,
-    registration_banner: "",
-    ad_slider_by_district: {},
-    districtInfo: [],
-    districtAreaInfo: [],
-    districtSubAreaInfo: [],
-    ditance: [],
-    typeInfoByShop: [],
-    subtypeInfoByShop: [],
-    typeInfo: [],
-    shopCategory: [],
-    DashboardSlider: [],
-    visitedGroceryStore: {},
-    visitedMedicineStore: {},
-    showProductPrice: true,
-    visitedFoodStore: {},
-    visitedDineInRestaurent: {},
-    isGroceryCartCheck: false,
-    isMedicineCartCheck: false,
-    isFoodCartCheck: false,
-  },
+  initialState,
   reducers: {
-    handleDashboardReducer: (state = initialState, { payload }) => {
-      if (payload.type == "SAVE_DASHBOARD_INFO") {
-        return {
-          ...state,
-          isLoading: false,
-          favourite_banner:
-            payload?.data?.allAppDashboard[0]?.favourite_banner || [],
-          starting_slider:
-            payload?.data?.allAppDashboard[0]?.starting_slider || [],
-          business_type_banner:
-            payload?.data?.allAppDashboard[0]?.business_type_banner || [],
-          advertisement_slider:
-            payload?.data?.allAppDashboard[0]?.advertisement_slider || [],
-          medical_services_banner:
-            payload?.data?.allAppDashboard[0]?.medical_services_banner || [],
-          free_services_slider:
-            payload?.data?.allAppDashboard[0]?.free_services_slider || [],
-          free_services_banner:
-            payload?.data?.allAppDashboard[0]?.free_services_banner || [],
-          tutorial_banner:
-            payload?.data?.allAppDashboard[0]?.tutorial_banner || "",
-          show_tutorial_banner:
-            payload?.data?.allAppDashboard[0]?.show_tutorial_banner || false,
-          registration_banner:
-            payload?.data?.allAppDashboard[0]?.registration_banner || "",
-          ad_slider_by_district: payload?.data?.DashboardSlider || {},
-        };
-      } else if (payload.type == "SAVE_LOADING_STATUS") {
-        return {
-          ...state,
-          isLoading: payload.data,
-        };
-      } else if (payload.type == "SAVE_GROCERY_CART_CHECK_STATUS") {
-        return {
-          ...state,
-          isGroceryCartCheck: payload.data,
-        };
-      } else if (payload.type == "SAVE_GROCERY_CART_CHECK_STATUS") {
-        return {
-          ...state,
-          isMedicineCartCheck: payload.data,
-        };
-      } else if (payload.type == "SAVE_GROCERY_CART_CHECK_STATUS") {
-        return {
-          ...state,
-          isFoodCartCheck: payload.data,
-        };
-      } else if (payload.type == "SAVE_CONNECTION_STATUS") {
-        return {
-          ...state,
-          internetConnectionAvailable: payload.data,
-        };
-      } else if (payload.type == "SAVE_AREA_INFO") {
-        return {
-          ...state,
-          districtInfo: payload.data.districtInfo,
-          districtAreaInfo: payload.data.districtInfo,
-          districtSubAreaInfo: payload.data.districtInfo,
-        };
-      } else if (payload.type == "EXPLORE_STORE") {
-        let status = true;
-        let typeInfoGeneral = [];
-        if (payload?.data?.ShopDetails[0]?.show_product_price !== undefined) {
-          status = payload?.data?.ShopDetails[0]?.show_product_price;
+    handleDashboardReducer: (state, { payload }) => {
+      const { type, data } = payload;
+
+      switch (type) {
+        case "SAVE_DASHBOARD_INFO":
+          state.isLoading = false;
+          state.favourite_banner =
+            data?.allAppDashboard[0]?.favourite_banner || [];
+          state.starting_slider =
+            data?.allAppDashboard[0]?.starting_slider || [];
+          state.business_type_banner =
+            data?.allAppDashboard[0]?.business_type_banner || [];
+          state.advertisement_slider =
+            data?.allAppDashboard[0]?.advertisement_slider || [];
+          state.medical_services_banner =
+            data?.allAppDashboard[0]?.medical_services_banner || [];
+          state.free_services_slider =
+            data?.allAppDashboard[0]?.free_services_slider || [];
+          state.free_services_banner =
+            data?.allAppDashboard[0]?.free_services_banner || [];
+          state.tutorial_banner =
+            data?.allAppDashboard[0]?.tutorial_banner || "";
+          state.show_tutorial_banner =
+            data?.allAppDashboard[0]?.show_tutorial_banner || false;
+          state.registration_banner =
+            data?.allAppDashboard[0]?.registration_banner || "";
+          state.ad_slider_by_district = data?.DashboardSlider || {};
+          break;
+
+        case "SAVE_LOADING_STATUS":
+          state.isLoading = data;
+          break;
+
+        case "SAVE_GROCERY_CART_CHECK_STATUS":
+          state.isGroceryCartCheck = data;
+          break;
+
+        case "SAVE_MEDICINE_CART_CHECK_STATUS":
+          state.isMedicineCartCheck = data;
+          break;
+
+        case "SAVE_FOOD_CART_CHECK_STATUS":
+          state.isFoodCartCheck = data;
+          break;
+
+        case "SAVE_CONNECTION_STATUS":
+          state.internetConnectionAvailable = data;
+          break;
+
+        case "SAVE_AREA_INFO":
+          state.districtInfo = data.districtInfo;
+          state.districtAreaInfo = data.districtInfo;
+          state.districtSubAreaInfo = data.districtInfo;
+          break;
+
+        case "EXPLORE_STORE": {
+          const showProductPrice =
+            data?.ShopDetails[0]?.show_product_price !== undefined
+              ? data?.ShopDetails[0]?.show_product_price
+              : true;
+
+          const typeInfoGeneral =
+            data?.ProductTypeByShop?.map((info) => ({
+              id: info?.typeInfo,
+              custom_type_id: info.custom_type_id,
+              name: info?.typeName,
+              image: "medical_equipment.png",
+              parent: null,
+              subtype:
+                info.statusType === "General"
+                  ? data?.ProductSubTypeByShop?.filter(
+                      (subtype) => subtype.typeInfo === info?.typeInfo
+                    )
+                  : [],
+            })) || [];
+
+          state.isLoading = false;
+          state.visitedGroceryStore = data?.ShopDetails[0] || {};
+          state.typeInfoByShop = data?.ProductTypeByShop || [];
+          state.subtypeInfoByShop = data?.ProductSubTypeByShop || [];
+          state.DashboardSlider = data?.DashboardSlider || [];
+          state.showProductPrice = showProductPrice;
+          state.typeInfo = typeInfoGeneral;
+          break;
         }
 
-        if (payload?.data?.ProductTypeByShop?.length > 0) {
-          // console.log(
-          //   "payload?.data?.ProductTypeByShop?.length : ",
-          //   payload?.data?.ProductTypeByShop?.length
-          // );
-          payload?.data?.ProductTypeByShop?.forEach((info, i) => {
-            if (info.statusType === "General") {
-              let eachTypeInfo = {
-                id: info?.typeInfo,
-                custom_type_id: info.custom_type_id,
-                name: info?.typeName,
-                image: "medical_equipment.png",
-                parent: null,
-                subtype: payload?.data?.ProductSubTypeByShop?.filter(
-                  (subtype) => subtype.typeInfo === info?.typeInfo
-                ),
-              };
-              //   typeInfoGeneral = {
-              //     ...typeInfoGeneral,
-              //     [info.custom_type_id]: eachTypeInfo,
-              //   };
-              typeInfoGeneral.push(eachTypeInfo);
-            } else {
-              let eachTypeInfo = {
-                id: info?.typeInfo,
-                custom_type_id: info.custom_type_id,
-                name: info?.typeName,
-                image: "medical_equipment.png",
-                parent: null,
-                subtype: [],
-              };
-              typeInfoGeneral.push(eachTypeInfo);
-            }
-          });
-        }
-        //console.log('typeInfoGeneral : ', typeInfoGeneral);
-        return {
-          ...state,
-          isLoading: false,
-          visitedGroceryStore: payload?.data?.ShopDetails[0] || {},
-          typeInfoByShop: payload?.data?.ProductTypeByShop || [],
-          subtypeInfoByShop: payload?.data?.ProductSubTypeByShop || [],
-          DashboardSlider: payload?.data?.DashboardSlider || [],
-          showProductPrice: status,
-          typeInfo: typeInfoGeneral,
-        };
-      } else if (payload.type == "VISITED_STORE") {
-        return {
-          ...state,
-          visitedGroceryStore: payload?.data,
-        };
-      } else if (payload.type == "EXPLORE_MED_STORE") {
-        // let status = true;
-        // if (payload?.data?.ShopDetails[0]?.show_product_price !== undefined) {
-        //   status = payload?.data?.ShopDetails[0]?.show_product_price;
-        // }
+        case "VISITED_STORE":
+          state.visitedGroceryStore = data;
+          break;
 
-        let status = true;
-        let typeInfoGeneral = [];
-        if (payload?.data?.ShopDetails[0]?.show_product_price !== undefined) {
-          status = payload?.data?.ShopDetails[0]?.show_product_price;
+        case "EXPLORE_MED_STORE": {
+          const showProductPrice =
+            data?.ShopDetails[0]?.show_product_price !== undefined
+              ? data?.ShopDetails[0]?.show_product_price
+              : true;
+
+          const typeInfoGeneral =
+            data?.ProductTypeByShop?.map((info) => ({
+              id: info?.typeInfo,
+              custom_type_id: info.custom_type_id,
+              name: info?.typeName,
+              image: "medical_equipment.png",
+              parent: null,
+              subtype:
+                info.statusType === "General"
+                  ? data?.ProductSubTypeByShop?.filter(
+                      (subtype) => subtype.typeInfo === info?.typeInfo
+                    )
+                  : [],
+            })) || [];
+
+          state.isLoading = false;
+          state.visitedMedicineStore = data?.ShopDetails[0] || {};
+          state.typeInfoByShop = data?.ProductTypeByShop || [];
+          state.subtypeInfoByShop = data?.ProductSubTypeByShop || [];
+          state.DashboardSlider = data?.DashboardSlider || [];
+          state.showProductPrice = showProductPrice;
+          state.typeInfo = typeInfoGeneral;
+          break;
         }
 
-        //
-        if (payload?.data?.ProductTypeByShop?.length > 0) {
-          // console.log(
-          //   "payload?.data?.ProductTypeByShop?.length : ",
-          //   payload?.data?.ProductTypeByShop?.length
-          // );
-          payload?.data?.ProductTypeByShop?.forEach((info, i) => {
-            if (info.statusType === "General") {
-              let eachTypeInfo = {
-                id: info?.typeInfo,
-                custom_type_id: info.custom_type_id,
-                name: info?.typeName,
-                image: "medical_equipment.png",
-                parent: null,
-                subtype: payload?.data?.ProductSubTypeByShop?.filter(
-                  (subtype) => subtype.typeInfo === info?.typeInfo
-                ),
-              };
-              //   typeInfoGeneral = {
-              //     ...typeInfoGeneral,
-              //     [info.custom_type_id]: eachTypeInfo,
-              //   };
-              typeInfoGeneral.push(eachTypeInfo);
-            } else {
-              let eachTypeInfo = {
-                id: info?.typeInfo,
-                custom_type_id: info.custom_type_id,
-                name: info?.typeName,
-                image: "medical_equipment.png",
-                parent: null,
-                subtype: [],
-              };
-              typeInfoGeneral.push(eachTypeInfo);
-            }
-          });
-        }
-        //
-        //console.log('payload?.data?.ShopDetails[0]?.show_product_price : ', payload?.data?.ShopDetails[0]?.show_product_price);
-        return {
-          ...state,
-          isLoading: false,
-          visitedMedicineStore: payload?.data?.ShopDetails[0] || {},
-          typeInfoByShop: payload?.data?.ProductTypeByShop || [],
-          subtypeInfoByShop: payload?.data?.ProductSubTypeByShop || [],
-          DashboardSlider: payload?.data?.DashboardSlider || [],
-          showProductPrice: status,
-          typeInfo: typeInfoGeneral,
+        case "VISITED_MED_STORE":
+          state.visitedMedicineStore = data;
+          break;
 
-          // ...state,
-          // isLoading: false,
-          // visitedMedicineStore: payload?.data?.ShopDetails[0] || {},
-          // typeInfoByShop: payload?.data?.ProductTypeByShop || [],
-          // subtypeInfoByShop: payload?.data?.ProductSubTypeByShop || [],
-          // DashboardSlider: payload?.data?.DashboardSlider || [],
-          // showProductPrice: status,
-        };
-      } else if (payload.type == "VISITED_MED_STORE") {
-        return {
-          ...state,
-          visitedMedicineStore: payload?.data,
-        };
-      } else if (payload.type == "EXPLORE_FOOD_MODULE") {
-        return {
-          ...state,
-          isLoading: false,
-          shopCategory: payload?.data?.shopCategory || [],
-          DashboardSlider: payload?.data?.DashboardSlider || [],
-        };
-      } else if (payload.type == "EXPLORE_FOOD_STORE") {
-        return {
-          ...state,
-          isLoading: false,
-          visitedMedicineStore: payload?.data?.ShopDetails[0] || {},
-          typeInfoByShop: payload?.data?.ProductTypeByShop || [],
-          subtypeInfoByShop: payload?.data?.ProductSubTypeByShop || [],
-          DashboardSlider: payload?.data?.DashboardSlider || [],
-        };
-      } else if (payload.type == "VISITED_FOOD_STORE") {
-        return {
-          ...state,
-          visitedFoodStore: payload?.data,
-          currentModule: "Food",
-        };
-      } else if (payload.type == "SET_CURRENT_MODULE") {
-        return {
-          ...state,
-          currentModule: payload?.data,
-          //typeInfoByShop: [],
-          //subtypeInfoByShop: [],
-          //shopCategory: [],
-          //DashboardSlider: [],
-        };
-      } else if (payload.type == "RESET_DASHBOARD_REDUCER") {
-        return {
-          ...state,
-          currentModule: "dashboard",
-          callUs: "",
-          internetConnectionAvailable: true,
-          isLoading: true,
-          isFetchingFromStorage: true,
-          favourite_banner: [],
-          starting_slider: [],
-          business_type_banner: [],
-          advertisement_slider: [],
-          medical_services_banner: [],
-          free_services_slider: [],
-          free_services_banner: [],
-          tutorial_banner: "",
-          show_tutorial_banner: false,
-          registration_banner: "",
-          districtInfo: [],
-          districtAreaInfo: [],
-          districtSubAreaInfo: [],
-          ditance: [],
-          typeInfoByShop: [],
-          subtypeInfoByShop: [],
-          shopCategory: [],
-          DashboardSlider: [],
-          visitedGroceryStore: {},
-          visitedMedicineStore: {},
-          visitedFoodStore: {},
-          visitedDineInRestaurent: {},
-        };
-      } else {
-        return {
-          ...state,
-        };
+        case "EXPLORE_FOOD_MODULE":
+          state.isLoading = false;
+          state.shopCategory = data?.shopCategory || [];
+          state.DashboardSlider = data?.DashboardSlider || [];
+          break;
+
+        case "EXPLORE_FOOD_STORE":
+          state.isLoading = false;
+          state.visitedMedicineStore = data?.ShopDetails[0] || {};
+          state.typeInfoByShop = data?.ProductTypeByShop || [];
+          state.subtypeInfoByShop = data?.ProductSubTypeByShop || [];
+          state.DashboardSlider = data?.DashboardSlider || [];
+          break;
+
+        case "VISITED_FOOD_STORE":
+          state.visitedFoodStore = data;
+          state.currentModule = "Food";
+          break;
+
+        case "SET_CURRENT_MODULE":
+          state.currentModule = data;
+          break;
+
+        case "RESET_DASHBOARD_REDUCER":
+          return {
+            ...initialState,
+          };
+
+        default:
+          // No need to return state, Immer handles it
+          break;
       }
     },
   },
 });
 
-export const { handleDashboardReducer } = dashboardReducer.actions;
+export const { handleDashboardReducer } = dashboardSlice.actions;
 
-export default dashboardReducer.reducer;
+export default dashboardSlice.reducer;

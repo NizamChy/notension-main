@@ -4,18 +4,18 @@ const cartReducer = createSlice({
   name: "cart",
 
   initialState: {
-    foodStoreInfo: {},
     foodItems: [],
+    foodStoreInfo: {},
     totalAmountFood: 0,
     foodCartStartAt: 0,
 
-    groceryStoreInfo: {},
     groceryItems: [],
+    groceryStoreInfo: {},
     totalAmountGrocery: 0,
     groceryCartStartAt: 0,
 
-    medicineStoreInfo: {},
     medicineItems: [],
+    medicineStoreInfo: {},
     totalAmountMedicine: 0,
     medicineCartStartAt: 0,
   },

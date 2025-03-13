@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const allCareReducer = createSlice({
+const allCareSlice = createSlice({
   name: "allCare",
 
   initialState: {
@@ -12,24 +12,32 @@ const allCareReducer = createSlice({
   },
 
   reducers: {
-    handleAllCareReducer: (state = initialState, { payload }) => {
-      if (payload.type == "SAVE_ALL_SERVICES_INFO") {
-        state.careSlider = payload?.data?.sliderByDistrict || [];
-        state.allServicesInfo = payload?.data?.servicesType || [];
-        state.isLoading = false;
-      } else if (payload.type == "SAVE_CURRENT_SERVICE_INFO") {
-        state.currentService = payload?.data || {};
-      } else if (payload.type == "SAVE_CURRENT_PROVIDER_DETAILS") {
-        state.currentProviderDetails = payload?.data || {};
-      } else {
-        return {
-          ...state,
-        };
+    handleAllCareReducer: (state, { payload }) => {
+      const { type, data } = payload;
+
+      switch (type) {
+        case "SAVE_ALL_SERVICES_INFO":
+          state.careSlider = data?.sliderByDistrict || [];
+          state.allServicesInfo = data?.servicesType || [];
+          state.isLoading = false;
+          break;
+
+        case "SAVE_CURRENT_SERVICE_INFO":
+          state.currentService = data || {};
+          break;
+
+        case "SAVE_CURRENT_PROVIDER_DETAILS":
+          state.currentProviderDetails = data || {};
+          break;
+
+        default:
+          // No need to return the state, as Immer handles it
+          break;
       }
     },
   },
 });
 
-export const { handleAllCareReducer } = allCareReducer.actions;
+export const { handleAllCareReducer } = allCareSlice.actions;
 
-export default allCareReducer.reducer;
+export default allCareSlice.reducer;

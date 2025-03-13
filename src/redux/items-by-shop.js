@@ -1,111 +1,101 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const itemsByStoreReducer = createSlice({
+const initialState = {
+  typeName: "",
+  merchantId: "",
+  popularItem: [],
+  dealOfTheDay: [],
+  customstore_id: "",
+  pageNoForPopular: 2,
+  productCategory: [],
+  specialOfferItem: [],
+  productInfoByShop: [],
+  subtypeByselectedType: [],
+};
+
+const itemsByStoreSlice = createSlice({
   name: "itemsByStore",
-  initialState: {
-    merchantId: "",
-    customstore_id: "",
-    typeName: "",
-    subtypeByselectedType: [],
-    productInfoByShop: [],
-    specialOfferItem: [],
-    dealOfTheDay: [],
-    popularItem: [],
-    productCategory: [],
-    pageNoForPopular: 2,
-  },
+  initialState,
   reducers: {
-    handleItemsByStoreReducer: (state = initialState, { payload }) => {
-      if (payload.type == "CLEAR_ALL") {
-        return {
-          ...state,
-          merchantId: "",
-          customstore_id: "",
-          typeName: "",
-          subtypeByselectedType: [],
-          productInfoByShop: [],
-          specialOfferItem: [],
-          dealOfTheDay: [],
-          popularItem: [],
-          productCategory: [],
-          pageNoForPopular: 2,
-        };
-      } else if (payload.type == "SAVE_PRODUCT_INFO") {
-        let itemsInfo = [];
-        if (payload?.data?.length > 0) {
-          itemsInfo = [...state.productInfoByShop, ...payload.data];
+    handleItemsByStoreReducer: (state, { payload }) => {
+      const { type, data } = payload;
+
+      switch (type) {
+        case "CLEAR_ALL":
+          return {
+            ...initialState,
+          };
+
+        case "SAVE_PRODUCT_INFO": {
+          const itemsInfo =
+            data?.length > 0
+              ? [...state.productInfoByShop, ...data]
+              : state.productInfoByShop;
+          state.productInfoByShop = itemsInfo;
+          state.isLoading = false;
+          break;
         }
-        return {
-          ...state,
-          productInfoByShop: itemsInfo,
-          isLoading: false,
-        };
-      } else if (payload.type == "SAVE_TYPE_SUBTYPE_INFO_BY_SHOP") {
-        return {
-          ...state,
-          isLoading: false,
-          typeInfoByShop: payload.data.typeInfoByShop,
-          subtypeInfoByShop: payload.data.subtypeInfoByShop,
-        };
-      } else if (payload.type == "EXPLORE_STORE_ITEMS") {
-        return {
-          ...state,
-          isLoading: false,
-          specialOfferItem: payload?.data?.specialOfferItem || [],
-          dealOfTheDay: payload?.data?.dealOfTheDay || [],
-          popularItem: payload?.data?.popularItem || [],
-          merchantId: payload?.data?.storeId || "",
-          customstore_id: payload?.data?.customstoreId || "",
-          pageNoForPopular: 2,
-        };
-      } else if (payload.type == "EXPLORE_FOOD_STORE_ITEMS") {
-        let productByCategory = [];
-        payload?.data?.allProductCategory?.forEach((info, i) => {
-          //console.log('info?.categoryInfo?._id : ',info?.categoryInfo?._id);
-          productByCategory.push({
-            _id: info?.categoryInfo?._id,
-            catagory: info?.categoryName,
-            itemsInfo: payload?.data?.allProduct?.filter(
-              (item) => item?.productCategory === info?.categoryInfo?._id
-            ),
-          });
-        });
-        return {
-          ...state,
-          isLoading: false,
-          productCategory: payload?.data?.allProductCategory || [],
-          productInfoByShop: productByCategory || [],
-          popularItem:
-            payload?.data?.allProduct?.filter((p) => p.is_popular === true) ||
-            [],
-          merchantId: payload?.data?.storeId || "",
-          customstore_id: payload?.data?.customstoreId || "",
-        };
-      } else if (payload.type == "FOOD_STORE_RESET") {
-        return {
-          ...state,
-          productCategory: [],
-          productInfoByShop: [],
-          popularItem: [],
-        };
-      } else if (payload.type == "SAVE_SUBTYPE_INFO_BY_TYPE") {
-        return {
-          ...state,
-          typeName: payload?.data?.typeName,
-          subtypeByselectedType: payload?.data?.subtype || [],
-        };
-      } else if (payload.type == "SAVE_POPULAR_PRODUCT_INFO") {
-        state.popularItem = [...state.popularItem, ...payload.data];
-        state.pageNoForPopular = parseFloat(state.pageNoForPopular) + 1;
-      } else {
-        return {
-          ...state,
-        };
+
+        case "SAVE_TYPE_SUBTYPE_INFO_BY_SHOP":
+          state.typeInfoByShop = data.typeInfoByShop;
+          state.subtypeInfoByShop = data.subtypeInfoByShop;
+          state.isLoading = false;
+          break;
+
+        case "EXPLORE_STORE_ITEMS":
+          state.specialOfferItem = data?.specialOfferItem || [];
+          state.dealOfTheDay = data?.dealOfTheDay || [];
+          state.popularItem = data?.popularItem || [];
+          state.merchantId = data?.storeId || "";
+          state.customstore_id = data?.customstoreId || "";
+          state.pageNoForPopular = 2;
+          state.isLoading = false;
+          break;
+
+        case "EXPLORE_FOOD_STORE_ITEMS": {
+          const productByCategory =
+            data?.allProductCategory?.map((info) => ({
+              _id: info?.categoryInfo?._id,
+              catagory: info?.categoryName,
+              itemsInfo: data?.allProduct?.filter(
+                (item) => item?.productCategory === info?.categoryInfo?._id
+              ),
+            })) || [];
+
+          state.productCategory = data?.allProductCategory || [];
+          state.productInfoByShop = productByCategory;
+          state.popularItem =
+            data?.allProduct?.filter((p) => p.is_popular === true) || [];
+          state.merchantId = data?.storeId || "";
+          state.customstore_id = data?.customstoreId || "";
+          state.isLoading = false;
+          break;
+        }
+
+        case "FOOD_STORE_RESET":
+          state.productCategory = [];
+          state.productInfoByShop = [];
+          state.popularItem = [];
+          break;
+
+        case "SAVE_SUBTYPE_INFO_BY_TYPE":
+          state.typeName = data?.typeName;
+          state.subtypeByselectedType = data?.subtype || [];
+          break;
+
+        case "SAVE_POPULAR_PRODUCT_INFO":
+          state.popularItem = [...state.popularItem, ...data];
+          state.pageNoForPopular += 1;
+          break;
+
+        default:
+          // No need to return state, Immer handles it
+          break;
       }
     },
   },
 });
 
-export const { handleItemsByStoreReducer } = itemsByStoreReducer.actions;
+export const { handleItemsByStoreReducer } = itemsByStoreSlice.actions;
 
-export default itemsByStoreReducer.reducer;
+export default itemsByStoreSlice.reducer;

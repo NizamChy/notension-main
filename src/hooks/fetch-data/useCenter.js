@@ -6,25 +6,17 @@ import {
   CONSULTATION_CENTER_BY_DISTRICT,
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 axios.defaults.withCredentials = true;
 
 export const useCenter = () => {
   const [banner, setBanner] = useState([]);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);
   const [loadingMore, setLoadingMore] = useState(true);
   const [progressing, setProgressing] = useState(false);
   const [itemNotfound, setItemNotfound] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
-
-  const dispatch = useDispatch();
 
   const { consultationCenterBanner } = useSelector((state) => state.doctorInfo);
   const { userLatitude, userLongitude, districtId } = useSelector(
@@ -206,35 +198,17 @@ export const useCenter = () => {
     }, 10000);
   };
 
-  //   useEffect(() => {
-  //     if (error) {
-  //       //userLogOut();
-  //     }
-  //   }, [error]);
-
   return {
-    showActivityIndicator,
-    showSuccessMessage,
-    showErrorMessage,
     itemNotfound,
     loadingMore,
     progressing,
     allLoaded,
-    message,
     banner,
     setLoadingMore,
     setProgressing,
-    setShowErrorMessage,
     getNearestCenterInfo,
-    setShowSuccessMessage,
     getCenterInfoByDistrict,
     searchConsultationCenter,
     exploreConsultationCenter,
-    // getNearestGroceryStoreInfo,
-    // resetLoadingStatus,
-    // saveItemsToReducer,
-    // handleSearchStore,
-    // setCurrentModule
-    // resetReducer,
   };
 };

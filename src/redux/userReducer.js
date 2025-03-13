@@ -1,228 +1,201 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userReducer = createSlice({
+const initialState = {
+  apiKey: "",
+  userPin: "",
+  userInfo: {},
+  allAddress: [],
+  patientInfo: [],
+  districtInfo: [],
+  districtId: "00",
+  foodOrderInfo: [],
+  isLoggedin: false,
+  fireBaseToken: "",
+  userLatitude: "00",
+  setManually: false,
+  userLongitude: "00",
+  deliveryAddress: "",
+  groceryOrderInfo: [],
+  medicineOrderInfo: [],
+  deliveryLocations: [],
+  defaultUserLocation: {},
+  currentUserLocation: {},
+  bookedAppoinmentInfo: [],
+  setCurrentLocation: false,
+  setDefaultLocation: false,
+};
+
+const userSlice = createSlice({
   name: "user",
-  initialState: {
-    setManually: false,
-    setCurrentLocation: false,
-    setDefaultLocation: false,
-    defaultUserLocation: {},
-    currentUserLocation: {},
-    userLatitude: "00",
-    userLongitude: "00",
-    districtId: "00",
-    isLoggedin: false,
-    userInfo: {},
-    deliveryAddress: "",
-    allAddress: [],
-    fireBaseToken: "",
-    apiKey: "",
-    userPin: "",
-    deliveryLocations: [],
-    districtInfo: [],
-    groceryOrderInfo: [],
-    medicineOrderInfo: [],
-    foodOrderInfo: [],
-    patientInfo: [],
-    bookedAppoinmentInfo: [],
-  },
+  initialState,
   reducers: {
-    handleUserReducer: (state = initialState, { payload }) => {
-      if (payload.type == "SAVE_USER_INFO") {
-        return {
-          ...state,
-          setManually: false,
-          userLatitude: payload.data.userLatitude,
-          userLongitude: payload.data.userLongitude,
-          isLoggedin: payload.data.isLoggedin,
-          deliveryAddress: payload.data.deliveryAddress,
-          allAddress: payload.data.allAddress,
-          fireBaseToken: payload.data.fireBaseToken,
-          apiKey: payload.data.apiKey,
-          userPin: payload.data.userPin,
-          default_outlet_id: payload.data.default_outlet_id,
-          default_outlet_name: payload.data.default_outlet_name,
-          default_outlet_address: payload.data.default_outlet_address,
-        };
-      } else if (payload.type == "SAVE_CURRENT_GEOLOCATION") {
-        return {
-          ...state,
-          isUserLocationAvailable: true,
-          userLatitude: payload.data.latitude,
-          userLongitude: payload.data.longitude,
-        };
-      } else if (payload.type == "SAVE_DISTRICT_INFO") {
-        return {
-          ...state,
-          districtInfo: payload?.data || [],
-        };
-      } else if (payload.type == "SAVE_DEFAULT_LOCATION") {
-        state.groceryOrderInfo = payload.data;
-      } else if (payload.type == "SAVE_CURRENT_LOCATION") {
-        state.currentUserLocation = payload.data;
-      } else if (payload.type == "SAVE_API_KEY") {
-        return {
-          ...state,
-          existing_outlet_id: payload.data.existing_outlet_id,
-          outlet_id: payload.data.outlet_id,
-          outlet_name: payload.data.outlet_name,
-          outlet_address: payload.data.outlet_address,
-        };
-      } else if (payload.type == "SAVE_LOGGEDIN_INFO") {
-        return {
-          ...state,
-          isLoggedin: true,
-          userInfo: payload.data,
-        };
-      } else if (payload.type == "LOGOUT_USER") {
-        return {
-          ...state,
-          isLoggedin: false,
-          userInfo: payload.data,
-        };
-      } else if (payload.type == "SAVE_USER_CURRENT_LOCATION") {
-        state.currentUserLocation = payload.data;
-        state.setCurrentLocation = payload?.data?.setCurrentLocation;
-        state.userLatitude = payload?.data?.userLatitude || "00";
-        state.userLongitude = payload?.data?.userLongitude || "00";
-        state.districtId = payload?.data?.districtId || "00";
-      } else if (payload.type == "SAVE_USER_DEFAULT_LOCATION") {
-        //console.log('payload?.data : ', payload?.data);
-        state.defaultUserLocation = payload?.data;
-        state.userLatitude = payload?.data?.userLatitude;
-        state.userLongitude = payload?.data?.userLongitude;
-        state.districtId = payload?.data?.districtId;
-      } else if (payload.type == "SAVE_GROCERY_ORDER_INFO") {
-        state.groceryOrderInfo = payload?.data;
-      } else if (payload.type == "SAVE_MEDICINE_ORDER_INFO") {
-        state.medicineOrderInfo = payload?.data;
-      } else if (payload.type == "SAVE_FOOD_ORDER_INFO") {
-        state.foodOrderInfo = payload.data;
-      } else if (payload.type == "SAVE_PATIENT_INFO") {
-        state.patientInfo = payload.data;
-      } else if (payload.type == "UPDATE_PATIENT_INFO") {
-        const { action, patientData } = payload.data;
+    handleUserReducer: (state, { payload }) => {
+      const { type, data } = payload;
 
-        let newState = [...state.patientInfo];
+      switch (type) {
+        case "SAVE_USER_INFO":
+          return {
+            ...state,
+            setManually: false,
+            userLatitude: data.userLatitude,
+            userLongitude: data.userLongitude,
+            isLoggedin: data.isLoggedin,
+            deliveryAddress: data.deliveryAddress,
+            allAddress: data.allAddress,
+            fireBaseToken: data.fireBaseToken,
+            apiKey: data.apiKey,
+            userPin: data.userPin,
+            default_outlet_id: data.default_outlet_id,
+            default_outlet_name: data.default_outlet_name,
+            default_outlet_address: data.default_outlet_address,
+          };
 
-        const existingIndex = state.patientInfo.findIndex(
-          (info) => info?._id === patientData?._id
-        );
+        case "SAVE_CURRENT_GEOLOCATION":
+          return {
+            ...state,
+            isUserLocationAvailable: true,
+            userLatitude: data.latitude,
+            userLongitude: data.longitude,
+          };
 
-        if (existingIndex > -1) {
-          if (action === "delete") {
-            newState = state.patientInfo.filter(
-              (info) => info?._id !== patientData?._id
-            );
-          } else if (action === "update") {
-            newState[existingIndex] = patientData;
+        case "SAVE_DISTRICT_INFO":
+          state.districtInfo = data || [];
+          break;
+
+        case "SAVE_DEFAULT_LOCATION":
+          state.groceryOrderInfo = data;
+          break;
+
+        case "SAVE_CURRENT_LOCATION":
+          state.currentUserLocation = data;
+          break;
+
+        case "SAVE_API_KEY":
+          return {
+            ...state,
+            existing_outlet_id: data.existing_outlet_id,
+            outlet_id: data.outlet_id,
+            outlet_name: data.outlet_name,
+            outlet_address: data.outlet_address,
+          };
+
+        case "SAVE_LOGGEDIN_INFO":
+          state.isLoggedin = true;
+          state.userInfo = data;
+          break;
+
+        case "LOGOUT_USER":
+          state.isLoggedin = false;
+          state.userInfo = data;
+          break;
+
+        case "SAVE_USER_CURRENT_LOCATION":
+          state.currentUserLocation = data;
+          state.setCurrentLocation = data?.setCurrentLocation;
+          state.userLatitude = data?.userLatitude || "00";
+          state.userLongitude = data?.userLongitude || "00";
+          state.districtId = data?.districtId || "00";
+          break;
+
+        case "SAVE_USER_DEFAULT_LOCATION":
+          state.defaultUserLocation = data;
+          state.userLatitude = data?.userLatitude;
+          state.userLongitude = data?.userLongitude;
+          state.districtId = data?.districtId;
+          break;
+
+        case "SAVE_GROCERY_ORDER_INFO":
+          state.groceryOrderInfo = data;
+          break;
+
+        case "SAVE_MEDICINE_ORDER_INFO":
+          state.medicineOrderInfo = data;
+          break;
+
+        case "SAVE_FOOD_ORDER_INFO":
+          state.foodOrderInfo = data;
+          break;
+
+        case "SAVE_PATIENT_INFO":
+          state.patientInfo = data;
+          break;
+
+        case "UPDATE_PATIENT_INFO": {
+          const { action, patientData } = data;
+          let updatedPatientInfo = [...state.patientInfo];
+
+          const existingIndex = updatedPatientInfo.findIndex(
+            (info) => info?._id === patientData?._id
+          );
+
+          if (existingIndex > -1) {
+            if (action === "delete") {
+              updatedPatientInfo = updatedPatientInfo.filter(
+                (info) => info?._id !== patientData?._id
+              );
+            } else if (action === "update") {
+              updatedPatientInfo[existingIndex] = patientData;
+            }
+          } else if (action === "add") {
+            updatedPatientInfo = [...updatedPatientInfo, patientData];
           }
-        } else if (action === "add") {
-          newState = [...state.patientInfo, patientData];
+
+          state.patientInfo = updatedPatientInfo;
+          break;
         }
 
-        return {
-          ...state,
-          patientInfo: newState,
-        };
-      } else if (payload.type == "UPDATE_BOOKED_APPOINTMENT_INFO") {
-        const { action, appoinmentData } = payload.data;
+        case "UPDATE_BOOKED_APPOINTMENT_INFO": {
+          const { action, appoinmentData } = data;
+          let updatedAppointments = [...state.bookedAppoinmentInfo];
 
-        let newState = [...state.bookedAppoinmentInfo];
+          if (action === "delete") {
+            updatedAppointments = updatedAppointments.filter(
+              (info) => info?._id !== appoinmentData?._id
+            );
+          } else if (action === "add") {
+            updatedAppointments = [...updatedAppointments, appoinmentData];
+          } else if (action === "update") {
+            const currentDate = new Date().toISOString().split("T")[0];
+            updatedAppointments = updatedAppointments.filter(
+              (info) =>
+                new Date(info?.appointment_date).getTime() >=
+                new Date(currentDate).getTime()
+            );
+          }
 
-        if (action === "delete") {
-          newState = state.bookedAppoinmentInfo.filter(
-            (info) => info?._id !== appoinmentData?._id
-          );
-        } else if (action === "add") {
-          newState = [...state.bookedAppoinmentInfo, appoinmentData];
-        } else if (action === "update") {
-          const currentDate = new Date().toISOString().split("T")[0];
-          newState = state.bookedAppoinmentInfo.filter(
-            (info) =>
-              new Date(info?.appointment_date).getTime() >=
-              new Date(currentDate).getTime()
-          );
+          state.bookedAppoinmentInfo = updatedAppointments;
+          break;
         }
 
-        return {
-          ...state,
-          bookedAppoinmentInfo: newState,
-        };
-      }
+        case "RESET_USER_LOCATION":
+          state.setCurrentLocation = false;
+          state.setDefaultLocation = true;
+          state.defaultUserLocation = {};
+          state.currentUserLocation = {};
+          state.userLatitude = "00";
+          state.userLongitude = "00";
+          state.districtId = "00";
+          break;
 
-      // else if (payload.type == "UPDATE_BOOKED_APPOINTMENT_INFO") {
-      //   const { action, appoinmentData } = payload.data;
+        case "RESET_USER_CURRENT_LOCATION":
+          state.setCurrentLocation = true;
+          state.setDefaultLocation = false;
+          state.currentUserLocation = {};
+          break;
 
-      //   let newState = [...state.bookedAppoinmentInfo];
+        case "RESET_USER":
+          return {
+            ...initialState,
+          };
 
-      //   if (action === "delete") {
-      //     newState = state.bookedAppoinmentInfo.filter(
-      //       (info) => info?._id !== appoinmentData?._id
-      //     );
-      //   } else if (action === "add") {
-      //     newState = [...state.bookedAppoinmentInfo, appoinmentData];
-      //   } else if (action === "update") {
-      //     const secondDate = new Date().toISOString().split("T")[0];
-      //     newState = state.bookedAppoinmentInfo.filter(
-      //       (info) =>
-      //         new Date(info?.appointment_date).getTime() >=
-      //         new Date(secondDate).getTime()
-      //     );
-      //   }
-
-      //   return {
-      //     ...state,
-      //     bookedAppoinmentInfo: newState,
-      //   };
-      // }
-      else if (payload.type == "RESET_USER_LOCATION") {
-        state.setCurrentLocation = false;
-        state.setDefaultLocation = true;
-        state.defaultUserLocation = {};
-        state.currentUserLocation = {};
-        state.userLatitude = "00";
-        state.userLongitude = "00";
-        state.districtId = "00";
-      } else if (payload.type == "RESET_USER_CURRENT_LOCATION") {
-        state.setCurrentLocation = true;
-        state.setDefaultLocation = false;
-        state.currentUserLocation = {};
-      } else if (payload.type == "RESET_USER") {
-        return {
-          ...state,
-          setManually: false,
-          setCurrentLocation: false,
-          setDefaultLocation: false,
-          defaultUserLocation: {},
-          currentUserLocation: {},
-          userLatitude: "00",
-          userLongitude: "00",
-          districtId: "00",
-          isLoggedin: false,
-          userInfo: {},
-          deliveryAddress: "",
-          allAddress: [],
-          fireBaseToken: "",
-          apiKey: "",
-          userPin: "",
-          deliveryLocations: [],
-          districtInfo: [],
-          groceryOrderInfo: [],
-          medicineOrderInfo: [],
-          foodOrderInfo: [],
-          patientInfo: [],
-          bookedAppoinmentInfo: [],
-        };
-      } else {
-        return {
-          ...state,
-        };
+        default:
+          // No need to return state, Immer handles it
+          break;
       }
     },
   },
 });
 
-export const { handleUserReducer } = userReducer.actions;
+export const { handleUserReducer } = userSlice.actions;
 
-export default userReducer.reducer;
+export default userSlice.reducer;
