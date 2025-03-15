@@ -27,7 +27,11 @@ const ExploreService = () => {
   }, []);
 
   return (
-    <div className="p-4 md:py-5 lg:py-10">
+    <div className="p-4 md:py-5">
+      <p className="md:text-2xl font-semibold text-[#0C3F8E] bg-gray-50 flex justify-center items-center py-2 mb-5 rounded-lg">
+        {currentService?.service_name_eng}
+      </p>
+
       {slider?.length > 0 && <ServiceBannerSlider slider={slider} />}
 
       <PopularInfoSlider slider={popularInfo} />

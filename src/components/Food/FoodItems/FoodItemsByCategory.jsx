@@ -39,10 +39,10 @@ const FoodItemsByCategory = () => {
 
   return (
     <div className="min-h-screen">
-      <p className="md:text-3xl font-medium ps-2 p-5 text-deepGray">
+      <p className="md:text-3xl font-medium ps-2 lg:pt-2 text-deepGray">
         {categoryName}
       </p>
-      <div className="flex-1 pt-5 p-2">
+      <div className="flex-1 lg:pt-5 p-2">
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
             {Array.from({ length: 6 }).map((_, index) => (
@@ -57,7 +57,7 @@ const FoodItemsByCategory = () => {
           </div>
         ) : (
           <p className="text-center mt-20 lg:text-xl font-medium">
-            No food items available for this category.
+            {categoryName} items not available right now!
           </p>
         )}
       </div>
