@@ -27,8 +27,8 @@ const ServiceProviderDetails = () => {
           <h2 className="text-lg font-semibold text-primary">
             {currentProviderDetails?.provider_name}
           </h2>
-          <p className="flex items-center gap-2 text-gray-700">
-            <FaMapMarkerAlt className="text-primary" />
+          <p className="flex items-start gap-2 text-gray-700 pt-2">
+            <FaMapMarkerAlt className="text-primary mt-1.5" />
             {currentProviderDetails?.address}
           </p>
         </div>
