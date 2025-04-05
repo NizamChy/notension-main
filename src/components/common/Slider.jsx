@@ -28,7 +28,7 @@ const Slider = ({ slides, classNames }) => {
           keyboard={{ enabled: true }}
           pagination={{ clickable: true }}
           modules={[Keyboard, Pagination, Autoplay]}
-          className={`mySwiper z-50 relative ${classNames}`}
+          className={`mySwiper z-50 relative ${classNames} rounded-lg`}
         >
           {slides?.map((slide) => (
             <SwiperSlide key={slide._id} className="rounded-lg">

@@ -10,16 +10,11 @@ import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
 axios.defaults.withCredentials = true;
 
 export const useAppointment = () => {
-  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
-  const [allLoaded, setAllLoaded] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(true);
   const [progressing, setProgressing] = useState(false);
-  const [itemNotfound, setItemNotfound] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isAppointmentBooked, setIsAppointmentBooked] = useState(false);
-  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -100,12 +95,6 @@ export const useAppointment = () => {
       })
     );
   };
-
-  //   useEffect(() => {
-  //     if (error) {
-  //       //userLogOut();
-  //     }
-  //   }, [error]);
 
   return {
     message,

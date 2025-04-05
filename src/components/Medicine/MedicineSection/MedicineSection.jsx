@@ -1,41 +1,35 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
+import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
-import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
-import { useRouter } from "next/navigation";
-import Loader from "@/components/common/Loader";
 
 const MedicineSection = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const { exploreStore, getNearestMedicineStoreInfo, progressing } =
-    useMedicine();
+  const { getNearestMedicineStoreInfo, progressing } = useMedicine();
 
   const handleStoreClick = (shop) => {
-    if (!shop || !shop.shop_name) return;
+    if (!shop || !shop?.shop_name) return;
 
-    setLoading(true);
     const formattedShopName = shop.shop_name
       .toLowerCase()
       .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
       .replace(/\s+/g, "-"); // Replace spaces with hyphens
 
-    exploreStore(shop);
-
-    router.push(`/medicine/${formattedShopName}`);
+    router.push(
+      `/medicine/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
+    );
   };
 
   useEffect(() => {
     getNearestMedicineStoreInfo(setNearestInfo, 1000);
   }, []);
-
-  if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
@@ -54,12 +48,12 @@ const MedicineSection = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {nearestInfo.map((shop) => (
+        {nearestInfo?.map((shop) => (
           <ShopInfoCard
             onClick={() => {
               handleStoreClick(shop);
             }}
-            key={shop._id}
+            key={shop?._id}
             shop={shop}
             type="medicine"
           />

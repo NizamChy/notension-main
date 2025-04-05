@@ -37,7 +37,7 @@ const ServiceCard = ({ service, imageKey, imageWidth, imageHeight, index }) => {
             height={200}
           />
 
-          <div className="pb-3 px-1 md:pb-7 md:px-2">
+          <div className="pb-3 px-1 md:pb-4 md:px-2">
             <h3 className="text-xs md:text-lg lg:text-xl font-medium mb-2 text-center">
               {service?.service_name_eng}
             </h3>

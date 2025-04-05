@@ -23,7 +23,6 @@ const Axios = axios.create({
 });
 
 export const useFavouriteList = () => {
-  const [error, setError] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -199,12 +198,6 @@ export const useFavouriteList = () => {
       })
     );
   };
-
-  // useEffect(() => {
-  //     if (error) {
-  //         //userLogOut();
-  //     }
-  // }, [error]);
 
   return {
     visible,

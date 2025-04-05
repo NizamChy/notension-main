@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoTrashOutline } from "react-icons/io5";
@@ -14,12 +16,18 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
   const { addToFavouriteList, isAddedToFavouriteList, removeFromfavoriteList } =
     useFavouriteStore();
 
+  const { userInfo } = useSelector((state) => state.user);
+
   let merchantType = 0;
   let isExists = null;
 
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!userInfo?._id) {
+      return toast.info("Login to add favourite!");
+    }
 
     addToFavouriteList(shop, merchantType);
   };
@@ -40,7 +48,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
       merchantType = 2;
     }
 
-    isExists = isAddedToFavouriteList(shop._id, merchantType);
+    isExists = isAddedToFavouriteList(shop?._id, merchantType);
     setIsFavoriteAdded(isExists);
   }, [shop, handleAddToFavorite, handleRemoveFromFavorite]);
 

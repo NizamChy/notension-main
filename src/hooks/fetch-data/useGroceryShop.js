@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { GROCERY_URL } from "@/api-endpoints/secret";
 import {
-  EXPLORE_FOOD_STORE,
+  SEARCH_GROCERY_STORE,
   EXPLORE_GROCERY_STORE,
   NEAREST_GROCERY_STORE,
-  SEARCH_GROCERY_STORE,
 } from "@/api-endpoints/api-endpoint";
+import { useState } from "react";
+import { GROCERY_URL } from "@/api-endpoints/secret";
+import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 
 axios.defaults.withCredentials = true;
 
 export const useGroceryShop = () => {
-  const dispatch = useDispatch();
-  const [error, setError] = useState(false);
-
   const [progressing, setProgressing] = useState(false);
+
+  const dispatch = useDispatch();
 
   const { userLatitude, userLongitude, districtId } = useSelector(
     (state) => state.user
@@ -58,7 +56,7 @@ export const useGroceryShop = () => {
       max_distance: 1000,
       districtId: districtId,
     };
-    //console.log(props);
+
     //saveLoadingStatus(true);
     Axios.post(NEAREST_GROCERY_STORE, props)
       .then((response) => {
@@ -116,10 +114,6 @@ export const useGroceryShop = () => {
       },
     })
       .then((res) => {
-        // console.log(res);
-
-        // console.log(res?.data?.result);
-
         if (
           res?.data?.result?.ShopDetails[0]?.is_closed ||
           !res?.data?.result?.ShopDetails[0]?.is_active ||
@@ -170,18 +164,12 @@ export const useGroceryShop = () => {
   //     );
   //   };
 
-  useEffect(() => {
-    if (error) {
-      //userLogOut();
-    }
-  }, [error]);
-
   return {
     progressing,
-    setProgressing,
-    exploreStore,
-    getNearestGroceryStoreInfo,
-    handleSearchStore,
     resetReducer,
+    exploreStore,
+    setProgressing,
+    handleSearchStore,
+    getNearestGroceryStoreInfo,
   };
 };

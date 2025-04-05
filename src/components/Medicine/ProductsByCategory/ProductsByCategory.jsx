@@ -1,18 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
+import Loader from "@/components/common/Loader";
 import ShopInfo from "../../ShopInfoSection/ShopInfo";
 import PopularItem from "../CustomTypeSection/PopularItem";
 import DealOfTheDay from "../CustomTypeSection/DealOfTheDay";
 import SpecialOffer from "../CustomTypeSection/SpecialOffer";
+import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import MedicineCommonSlider from "../CategoryBannerCarousel/MedicineCommonSlider";
 import CategoryBannerCarousel from "../CategoryBannerCarousel/CategoryBannerCarousel";
 
 const ProductsByCategory = () => {
-  const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider
+  const params = useParams();
+
+  const { exploreStore, progressing } = useMedicine();
+  const { DashboardSlider, isLoading } = useSelector(
+    (state) => state.dashboard
   );
+
+  useEffect(() => {
+    if (params?.storeId && params?.customStoreId) {
+      const shop = {
+        _id: params?.storeId,
+        custom_store_id: params?.customStoreId,
+      };
+
+      exploreStore(shop);
+    }
+  }, []);
+
+  if (progressing || isLoading) {
+    return (
+      <div className="min-h-content mx-auto flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="m-5 md:m-10 pt-14 md:pt-20 lg:pt-0 lg:my-28 lg:mx-16">

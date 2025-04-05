@@ -13,15 +13,7 @@ import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 axios.defaults.withCredentials = true;
 
 export const usePatient = () => {
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState("");
-  const [allLoaded, setAllLoaded] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(true);
   const [progressing, setProgressing] = useState(false);
-  const [itemNotfound, setItemNotfound] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
   const dispatch = useDispatch();
   const { userInfo, patientInfo } = useSelector((state) => state.user);
@@ -42,23 +34,17 @@ export const usePatient = () => {
       user_type: "Customer",
     };
 
-    //console.log(patientData);
-
     Axios.post(REGISTER_PATIENT, patientData)
       .then((response) => {
-        // console.log("response : ", response);
-
         if (response?.data?.success) {
           toast.success(`${response?.data?.message}`);
         }
 
-        //console.log([...patientInfo, response?.data?.result]);
         savePatientInfo("add", response?.data?.result);
-        // navigation.goBack();
+
         setProgressing(false);
       })
       .catch((error) => {
-        // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
       });
 
@@ -78,26 +64,21 @@ export const usePatient = () => {
       user_type: "Customer",
     };
 
-    //console.log(patientData);
-
     Axios.put(MANAGE_PATIENT, patientData)
       .then((response) => {
-        // console.log(response?.data?.message);
-
         if (response?.data?.message === "delete") {
-          //console.log('response?.data?.result', response?.data?.result);
           savePatientInfo("delete", updInfo); // First delete existing data
+
           setTimeout(() => {
             savePatientInfo("add", response?.data?.result); // Then Save New One
           }, 500);
         } else if (response?.data?.message === "update") {
           savePatientInfo("update", updInfo);
         }
-        // navigation.goBack();
+
         setProgressing(false);
       })
       .catch((error) => {
-        // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
       });
 
@@ -155,12 +136,6 @@ export const usePatient = () => {
       );
     }
   };
-
-  //   useEffect(() => {
-  //     if (error) {
-  //       //userLogOut();
-  //     }
-  //   }, [error]);
 
   return {
     progressing,

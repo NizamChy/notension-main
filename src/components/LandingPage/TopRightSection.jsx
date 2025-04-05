@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -41,38 +40,41 @@ const TopRightSection = () => {
       router.push("/medicine/all");
     } else if (type === "food") {
       router.push("/food");
+    } else if (type === "allCareServices") {
+      router.push("/all-care-services");
     }
   };
 
   return (
     <>
       <div className="space-y-4">
-        <Link href="/all-care-services">
-          <div className="group overflow-hidden relative mt-4 lg:mt-0">
-            <Image
-              width={632}
-              height={300}
-              className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/all-care-services.jpg"
-              alt="home-banner-2"
-            />
+        <div
+          onClick={(e) => handleStoreClick(e, "allCareServices")}
+          className="group overflow-hidden relative mt-4 lg:mt-0 cursor-pointer"
+        >
+          <Image
+            width={632}
+            height={300}
+            className="transition-transform duration-300 group-hover:scale-105"
+            src="/images/home/all-care-services.jpg"
+            alt="home-banner-2"
+          />
 
-            <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
-              <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+          <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
+            <h3
+              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
-              >
-                All Care Services
-              </h3>
-              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                </span>
-                <span>Contact Now</span>
-              </p>
-            </div>
+            >
+              All Care Services
+            </h3>
+            <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+              </span>
+              <span>Contact Now</span>
+            </p>
           </div>
-        </Link>
+        </div>
 
         <div className="flex justify-center lg:gap-4">
           <div

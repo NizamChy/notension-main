@@ -23,7 +23,6 @@ const Axios = axios.create({
 });
 
 export const useFavouriteStore = () => {
-  const [error, setError] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -214,12 +213,6 @@ export const useFavouriteStore = () => {
       })
     );
   };
-
-  // useEffect(() => {
-  //   if (error) {
-  //     //userLogOut();
-  //   }
-  // }, [error]);
 
   return {
     visible,

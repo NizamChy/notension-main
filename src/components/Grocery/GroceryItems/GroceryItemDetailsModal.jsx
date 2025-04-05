@@ -9,6 +9,8 @@ import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -21,6 +23,8 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
     isAddedToFavouriteItems,
     removeFromfavoriteItems,
   } = useFavouriteItem();
+
+  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
   let merchantType = 0;
   let isExists = null;
@@ -35,6 +39,10 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!loggedinUserInfo?._id) {
+      return toast.info("Please Login first!");
+    }
 
     addToFavouriteItems(item, merchantType);
   };

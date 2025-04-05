@@ -104,14 +104,14 @@ const dashboardSlice = createSlice({
           const typeInfoGeneral =
             data?.ProductTypeByShop?.map((info) => ({
               id: info?.typeInfo,
-              custom_type_id: info.custom_type_id,
+              custom_type_id: info?.custom_type_id,
               name: info?.typeName,
               image: "medical_equipment.png",
               parent: null,
               subtype:
                 info.statusType === "General"
                   ? data?.ProductSubTypeByShop?.filter(
-                      (subtype) => subtype.typeInfo === info?.typeInfo
+                      (subtype) => subtype?.typeInfo === info?.typeInfo
                     )
                   : [],
             })) || [];

@@ -15,7 +15,6 @@ axios.defaults.withCredentials = true;
 
 export const useServiceProvider = () => {
   const [banner, setBanner] = useState([]);
-  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);
   const [loadingMore, setLoadingMore] = useState(true);
@@ -148,7 +147,6 @@ export const useServiceProvider = () => {
           setAllLoaded(true);
         }
 
-        //console.log('response?.data?.result?.consultationCenterInfo.length : ', response?.data?.result?.consultationCenterInfo.length);
         if (
           pageNo === 1 &&
           response?.data?.result?.consultationCenterInfo.length < 1
@@ -206,18 +204,13 @@ export const useServiceProvider = () => {
         setProgressing(false);
         // console.log(error);
       });
+
     setTimeout(() => {
       if (progressing) {
         setProgressing(false);
       }
     }, 10000);
   };
-
-  // useEffect(() => {
-  //   if (error) {
-  //     //userLogOut();
-  //   }
-  // }, [error]);
 
   return {
     showActivityIndicator,
@@ -238,11 +231,5 @@ export const useServiceProvider = () => {
     exploreConsultationCenter,
     getMedicalServiceProvider,
     exploreMedicalServiceProvider,
-    // getNearestGroceryStoreInfo,
-    // resetLoadingStatus,
-    // saveItemsToReducer,
-    // handleSearchStore,
-    // setCurrentModule
-    // resetReducer,
   };
 };

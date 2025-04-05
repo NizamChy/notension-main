@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import ItemDetailsModal from "./ItemDetailsModal";
@@ -25,6 +27,8 @@ const MedicineItems = ({ item, isFavorite = false }) => {
     removeFromfavoriteItems,
   } = useFavouriteItem();
 
+  const { userInfo } = useSelector((state) => state.user);
+
   let merchantType = 1;
   let isExists = null;
 
@@ -38,6 +42,10 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!userInfo?._id) {
+      return toast.info("Login to add favourite!");
+    }
 
     addToFavouriteItems(item, merchantType);
   };

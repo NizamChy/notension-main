@@ -16,7 +16,6 @@ import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 axios.defaults.withCredentials = true;
 
 export const useMedicine = () => {
-  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [allLoaded, setAllLoaded] = useState(false);
   const [productInfo, setProductInfo] = useState([]);
@@ -295,12 +294,6 @@ export const useMedicine = () => {
     setAllLoaded(status);
     setLoadingMore(true);
   };
-
-  // useEffect(() => {
-  //   if (error) {
-  //     //userLogOut();
-  //   }
-  // }, [error]);
 
   return {
     showActivityIndicator,

@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import GroceryItems from "../GroceryItems/GroceryItems";
-import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
-import { useSearchParams } from "next/navigation";
-import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
-import InfiniteScroll from "react-infinite-scroll-component";
-import NoItemFound from "../NoItemSection/NoItemFound";
+
 import Loader from "@/components/common/Loader";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import NoItemFound from "../NoItemSection/NoItemFound";
+import GroceryItems from "../GroceryItems/GroceryItems";
+import InfiniteScroll from "react-infinite-scroll-component";
+import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
+import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 
 const SearchedProducts = () => {
   const [pageNo, setPageNo] = useState(1);

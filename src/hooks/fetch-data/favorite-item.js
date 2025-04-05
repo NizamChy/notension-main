@@ -23,18 +23,19 @@ const Axios = axios.create({
 });
 
 export const useFavouriteItem = () => {
-  const dispatch = useDispatch();
-  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [visible, setVisible] = useState(false);
   const [itemDetails, setItemDetails] = useState(null);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  const dispatch = useDispatch();
 
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );
+
   const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+
   const { favouriteGroceryItems, favouriteMedicineItems } = useSelector(
     (state) => state.userChoice
   );
@@ -242,12 +243,6 @@ export const useFavouriteItem = () => {
         setVisible(false);
       });
   };
-
-  // useEffect(() => {
-  //   if (error) {
-  //     //userLogOut();
-  //   }
-  // }, [error]);
 
   return {
     getMedicineProductDetails,

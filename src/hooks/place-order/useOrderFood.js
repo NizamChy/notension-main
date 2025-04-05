@@ -52,13 +52,10 @@ export const useOrderFood = () => {
       .catch((error) => {
         setProgressing(false);
         toast.error("Failed to place order.");
-        // console.log("result =", error?.response?.data?.errors);
-        // const errorMsg = formatServerError(error?.response?.data?.errors);
       });
   };
 
   const getOrderInfo = () => {
-    //console.log('URL', URL);
     setProgressing(true);
     Axios.get(FOOD_ORDER_INFO, {
       params: {
@@ -67,7 +64,6 @@ export const useOrderFood = () => {
       },
     })
       .then((response) => {
-        // console.log("response?.data?.result", response?.data?.result);
         setProgressing(false);
         ///saveOrderInfoToReducer(response?.data?.result);
         dispatch(
@@ -81,6 +77,7 @@ export const useOrderFood = () => {
         // console.log("Error : ", error.response);
         setProgressing(false);
       });
+
     setTimeout(() => {
       if (progressing) {
         setProgressing(false);
@@ -90,8 +87,8 @@ export const useOrderFood = () => {
 
   return {
     progressing,
-    setProgressing,
     placeOrder,
     getOrderInfo,
+    setProgressing,
   };
 };

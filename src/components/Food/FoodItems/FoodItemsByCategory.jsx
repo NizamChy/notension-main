@@ -16,6 +16,9 @@ const FoodItemsByCategory = () => {
 
   const { productInfoByShop } = useSelector((state) => state.itemsByStore);
 
+  // const { foodCartStartAt } = useSelector((state) => state.cart);
+  // console.log("foodCartStartAt : ", foodCartStartAt);
+
   useEffect(() => {
     if (!catId) return;
 
@@ -49,16 +52,20 @@ const FoodItemsByCategory = () => {
               <FoodItemCardSkeleton key={index} />
             ))}
           </div>
-        ) : foodItems?.length ? (
+        ) : foodItems?.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
             {foodItems?.map((item) => (
               <FoodItems key={item?._id} item={item} />
             ))}
           </div>
         ) : (
-          <p className="text-center mt-20 lg:text-xl font-medium">
-            {categoryName} items not available right now!
-          </p>
+          categoryName && (
+            <>
+              <p className="text-center mt-20 lg:text-xl font-medium">
+                {categoryName} items not available right now!
+              </p>
+            </>
+          )
         )}
       </div>
     </div>

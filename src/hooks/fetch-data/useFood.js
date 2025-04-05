@@ -14,7 +14,6 @@ import { handleDashboardReducer } from "@/redux/dashboardReducer";
 axios.defaults.withCredentials = true;
 
 export const useFood = () => {
-  const [error, setError] = useState(false);
   const [progressing, setProgressing] = useState(false);
 
   const dispatch = useDispatch();
@@ -57,8 +56,6 @@ export const useFood = () => {
       },
     })
       .then((res) => {
-        // console.log("res.data.result : ", res.data.result);
-
         dispatch(
           handleDashboardReducer({
             type: "EXPLORE_FOOD_MODULE",
@@ -80,7 +77,6 @@ export const useFood = () => {
 
   const getNearestFoodStoreInfo = (setNearestInfo, data) => {
     setProgressing(true);
-    // console.log("data::", data);
 
     const props = {
       shop_longitude: userLongitude,
@@ -89,11 +85,9 @@ export const useFood = () => {
       StoreCategory: data?._id,
       district_id: districtId,
     };
-    //console.log(props);
 
     Axios.post(NEAREST_FOOD_STORE, props)
       .then((response) => {
-        //console.log("Nearest : ",response.data.result);
         setNearestInfo(response?.data?.result);
         setProgressing(false);
       })
@@ -122,7 +116,6 @@ export const useFood = () => {
           setProgressing(false);
         })
         .catch((error) => {
-          //console.log()
           setProgressing(false);
         });
 
@@ -134,11 +127,8 @@ export const useFood = () => {
     }
   };
 
-  // storeId: "659be6cf89593390adb41141",
-  // custom_store_id: "FS111111",
-
   const exploreStore = (data) => {
-    // resetFoodStore();
+    resetFoodStore();
 
     setProgressing(true);
     Axios.get(EXPLORE_FOOD_STORE, {
@@ -192,27 +182,21 @@ export const useFood = () => {
       });
   };
 
-  //   const resetFoodStore = () => {
-  //     dispatch(
-  //       handleItemsByStoreReducer({
-  //         type: "FOOD_STORE_RESET",
-  //         data: [],
-  //       })
-  //     );
-  //   };
-
-  // useEffect(() => {
-  //   if (error) {
-  //     //userLogOut();
-  //   }
-  // }, [error]);
+  const resetFoodStore = () => {
+    dispatch(
+      handleItemsByStoreReducer({
+        type: "FOOD_STORE_RESET",
+        data: [],
+      })
+    );
+  };
 
   return {
     progressing,
-    setProgressing,
     exploreStore,
-    getNearestFoodStoreInfo,
+    setProgressing,
     exploreFoodModule,
     handleSearchStore,
+    getNearestFoodStoreInfo,
   };
 };

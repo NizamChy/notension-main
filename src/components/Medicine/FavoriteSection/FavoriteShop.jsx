@@ -3,39 +3,44 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import Loader from "@/components/common/Loader";
-import { useMedicine } from "@/hooks/fetch-data/useMedicine";
+// import Loader from "@/components/common/Loader";
+// import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
 
 const FavoriteShop = ({ isFavoriteRoute = false }) => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const { exploreStore } = useMedicine();
+  // const { exploreStore } = useMedicine();
 
   const favouriteMedicineStore = useSelector(
     (state) => state.userChoice.favouriteMedicineStore
   );
 
   const handleStoreClick = (shop) => {
-    if (!shop || !shop.shop_name) return;
+    if (!shop || !shop?.shop_name) return;
 
-    setLoading(true);
-    const formattedShopName = shop.shop_name
+    // setLoading(true);
+
+    const formattedShopName = shop?.shop_name
       .toLowerCase()
       .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
       .replace(/\s+/g, "-"); // Replace spaces with hyphens
 
-    const storeData = {
-      _id: shop?.storeId,
-      custom_store_id: shop?.custom_store_id,
-    };
+    // const storeData = {
+    //   _id: shop?.storeId,
+    //   custom_store_id: shop?.custom_store_id,
+    // };
 
-    exploreStore(storeData);
-    router.push(`/medicine/${formattedShopName}`);
+    // exploreStore(storeData);
+    // router.push(`/medicine/${formattedShopName}`);
+
+    router.push(
+      `/medicine/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`
+    );
   };
 
-  if (loading) return <Loader />;
+  // if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
@@ -56,7 +61,7 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {favouriteMedicineStore.map((shop) => (
+        {favouriteMedicineStore?.map((shop) => (
           <ShopInfoCard
             key={shop?.storeId}
             onClick={() => {

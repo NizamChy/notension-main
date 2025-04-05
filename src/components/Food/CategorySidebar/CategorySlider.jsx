@@ -25,7 +25,12 @@ const CategorySlider = () => {
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
-    router.push(`/food/store/${params?.store}/${categoryId}`);
+
+    // router.push(`/food/store/${params?.store}/${categoryId}`);
+
+    router.push(
+      `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${categoryId}`
+    );
   };
 
   useEffect(() => {

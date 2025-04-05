@@ -13,6 +13,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
+import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import MedicineItemSearchBar from "../SearchBarSection/MedicineItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
@@ -80,6 +81,12 @@ const Navbar = () => {
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
         <MedicineItemSearchBar />
       </div>
+
+      {!userInfo?._id && (
+        <div className="hidden md:block">
+          <LoginButton />
+        </div>
+      )}
 
       {userInfo?._id && (
         <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">

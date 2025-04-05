@@ -20,7 +20,6 @@ const Axios = axios.create({
 });
 
 export const useUser = () => {
-  const [error, setError] = useState(false);
   const [progressing, setProgressing] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
@@ -129,10 +128,6 @@ export const useUser = () => {
       })
     );
   };
-
-  // useEffect(() => {
-  //   if (error) logout();
-  // }, [error]);
 
   return {
     isUserRegistered,

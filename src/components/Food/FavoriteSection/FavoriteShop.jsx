@@ -20,7 +20,8 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
 
-    setLoading(true);
+    // setLoading(true);
+
     const formattedShopName = shop.shop_name
       .toLowerCase()
       .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
@@ -31,8 +32,13 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
       custom_store_id: shop?.custom_store_id,
     };
 
-    exploreStore(storeData);
-    router.push(`/food/store/${formattedShopName}`);
+    // exploreStore(storeData);
+
+    // router.push(`/food/store/${formattedShopName}`);
+
+    router.push(
+      `/food/store/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`
+    );
   };
 
   if (loading) return <Loader />;

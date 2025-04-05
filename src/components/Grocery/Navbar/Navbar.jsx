@@ -36,9 +36,14 @@ const Navbar = () => {
     toast.success("User logged out successfully");
   };
 
+  // `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
+  // http://localhost:3000/grocery/al-amin-departmental-store/664b51a83a578723e7439dc7/GS111128
+  // const basePath = `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+
   const handleLogoClick = () => {
     const basePath = `/${module}/${params?.store}`;
     const currentPath = window.location.pathname;
+
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
       router.push(basePath);
     } else {
@@ -83,9 +88,9 @@ const Navbar = () => {
       </div>
 
       {!userInfo?._id && (
-        <>
+        <div className="hidden md:block">
           <LoginButton />
-        </>
+        </div>
       )}
 
       {userInfo?._id && (

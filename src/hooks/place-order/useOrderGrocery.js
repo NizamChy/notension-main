@@ -24,11 +24,65 @@ const Axios = axios.create({
 export const useOrderGrocery = () => {
   const [progressing, setProgressing] = useState(false);
 
+  const [discount, setDiscount] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+  const [shippingCharge, setShippingCharge] = useState(0);
+
   const router = useRouter();
   const params = useParams();
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
+
+  //
+  const { groceryStoreInfo, totalAmountGrocery } = useSelector(
+    (state) => state.cart
+  );
+
+  const totalPrice = totalAmountGrocery;
+
+  const less = groceryStoreInfo?.less || 0;
+  const maximum_less = groceryStoreInfo?.maximum_less || 0;
+  const less_type = groceryStoreInfo?.less_type || "Percent";
+  const minOrderAmount = groceryStoreInfo?.min_purchage_amount || 0;
+  const deliveryCharge = groceryStoreInfo?.max_delivery_charge || 0;
+  const minDeliveryCharge = groceryStoreInfo?.min_delivery_charge || 0;
+  const minimum_order_for_less = groceryStoreInfo?.minimum_order_for_less || 0;
+
+  const getGrandTotalGrocery = () => {
+    let shippingCost = deliveryCharge;
+    if (parseFloat(totalPrice) >= parseFloat(minOrderAmount)) {
+      shippingCost = minDeliveryCharge;
+    }
+    let total = 0;
+    let Discount = 0;
+    if (
+      parseFloat(less) > 0 &&
+      parseFloat(maximum_less) > 0 &&
+      parseFloat(totalPrice) >= parseFloat(minimum_order_for_less)
+    ) {
+      if (less_type === "Percent") {
+        Discount = ((parseFloat(less) / 100) * parseFloat(totalPrice)).toFixed(
+          2
+        );
+        if (parseFloat(Discount) > parseFloat(maximum_less)) {
+          Discount = parseFloat(maximum_less).toFixed(2);
+        }
+      } else {
+        Discount = less;
+      }
+    }
+    setShippingCharge(shippingCost);
+    setDiscount(Discount);
+    total = (
+      parseFloat(totalPrice) +
+      parseFloat(shippingCost) -
+      parseFloat(Discount)
+    ).toFixed(2);
+    setGrandTotal(total);
+  };
+
+  //
 
   const placeOrder = (itemOrderObj) => {
     setProgressing(true);
@@ -52,17 +106,14 @@ export const useOrderGrocery = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log("error:", error);
 
         toast.error("Failed to place order.");
-        // console.log("result =", error?.response?.data?.errors);
-        // const errorMsg = formatServerError(error?.response?.data?.errors);
       });
   };
 
   const getOrderInfo = () => {
-    //console.log('URL', URL);
     setProgressing(true);
+
     Axios.get(GROCERY_ORDER_INFO, {
       params: {
         customerId: userInfo?._id,
@@ -70,7 +121,6 @@ export const useOrderGrocery = () => {
       },
     })
       .then((response) => {
-        // console.log("response?.data?.result", response?.data?.result);
         setProgressing(false);
         ///saveOrderInfoToReducer(response?.data?.result);
         dispatch(
@@ -92,9 +142,13 @@ export const useOrderGrocery = () => {
   };
 
   return {
+    discount,
+    grandTotal,
     progressing,
+    shippingCharge,
+    getGrandTotalGrocery,
     setProgressing,
-    placeOrder,
     getOrderInfo,
+    placeOrder,
   };
 };

@@ -6,7 +6,6 @@ import ServicesArea from "@/components/AllCareServices/ServicesArea";
 import ServicesSlider from "@/components/AllCareServices/ServicesSlider";
 import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 import AllCareServices from "@/components/AllCareServices/AllCareServices";
-// import ServicesAreaNew from "./ServicesAreaNew";
 
 const AllCareHome = () => {
   const { exploreAllCareService } = useAllCareService();
@@ -24,8 +23,6 @@ const AllCareHome = () => {
         <AllCareServices />
 
         <ServicesSlider slider={careSlider[0]?.first_slider} />
-
-        {/* <ServicesAreaNew />  */}
 
         <ServicesArea
           sliceEnd={4}
@@ -48,8 +45,8 @@ const AllCareHome = () => {
           bgClassName="bg-[#FFF3FF]"
           imageKey="service_banner_app"
           title="One Platform, Endless Solutions!"
-          // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
           gridClassName="grid grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5"
+          // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.third_slider} />
@@ -88,8 +85,8 @@ const AllCareHome = () => {
           bgClassName="bg-[#DEF9EC]"
           imageKey="service_banner_app"
           title="All-in-One Service at Your Fingertips!"
-          // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
           gridClassName="grid grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5"
+          // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.sixth_slider} />

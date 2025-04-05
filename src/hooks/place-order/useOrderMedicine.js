@@ -55,14 +55,12 @@ export const useOrderMedicine = () => {
         // console.log("error:", error);
 
         toast.error("Failed to place order.");
-        // console.log("result =", error?.response?.data?.errors);
-        // const errorMsg = formatServerError(error?.response?.data?.errors);
       });
   };
 
   const getOrderInfo = () => {
-    //console.log('URL', URL);
     setProgressing(true);
+
     Axios.get(MEDICINE_ORDER_INFO, {
       params: {
         customerId: userInfo?._id,
@@ -70,7 +68,6 @@ export const useOrderMedicine = () => {
       },
     })
       .then((response) => {
-        // console.log("response?.data?.result", response?.data?.result);
         setProgressing(false);
         ///saveOrderInfoToReducer(response?.data?.result);
         dispatch(
@@ -84,6 +81,7 @@ export const useOrderMedicine = () => {
         // console.log("Error : ", error.response);
         setProgressing(false);
       });
+
     setTimeout(() => {
       if (progressing) {
         setProgressing(false);
@@ -93,8 +91,8 @@ export const useOrderMedicine = () => {
 
   return {
     progressing,
-    setProgressing,
     placeOrder,
     getOrderInfo,
+    setProgressing,
   };
 };

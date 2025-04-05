@@ -11,7 +11,6 @@ import { GROCERY_URL } from "@/api-endpoints/secret";
 axios.defaults.withCredentials = true;
 
 export const useGroceryProduct = () => {
-  const [error, setError] = useState(false);
   const [allLoaded, setAllLoaded] = useState(false);
   const [productInfo, setProductInfo] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
@@ -26,8 +25,6 @@ export const useGroceryProduct = () => {
   // const { specialOfferItem, dealOfTheDay } = useSelector(
   //   (state) => state.itemsByStoreReducer
   // );
-
-  //console.log('GROCERY_ADMIN_URL', GROCERY_ADMIN_URL);
 
   const Axios = axios.create({
     baseURL: GROCERY_URL,
@@ -121,9 +118,6 @@ export const useGroceryProduct = () => {
       resetLoadingStatus();
     }
 
-    // console.log("option", option, "IDD ", id);
-    // console.log("parameter", parameter);
-
     Axios.get(dataURL, {
       params: parameter,
     })
@@ -179,12 +173,6 @@ export const useGroceryProduct = () => {
     setAllLoaded(status);
     setLoadingMore(true);
   };
-
-  // useEffect(() => {
-  //     if (error) {
-  //         //userLogOut();
-  //     }
-  // }, []);
 
   return {
     showActivityIndicator,

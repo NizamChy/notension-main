@@ -39,14 +39,14 @@ const FoodCartItems = () => {
       <ul className="space-y-4">
         {foodItems?.map((item) => (
           <li
-            key={item._id}
+            key={item?._id}
             className="flex items-center justify-between gap-4 border-b pb-4"
           >
             <div className="flex items-start gap-4">
               <Image
                 src={
-                  item.app_image
-                    ? `${FOOD_ITEMS_IMAGES}/${item.app_image}`
+                  item?.app_image
+                    ? `${FOOD_ITEMS_IMAGES}/${item?.app_image}`
                     : "/png/dummyImage.png"
                 }
                 alt="food image"
@@ -62,27 +62,27 @@ const FoodCartItems = () => {
                 <div className="flex gap-2 md:gap-10">
                   <p className="flex items-center text-primaryFood text-xs text-nowrap md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
-                    {item?.sale_price} x {item.quantity}
+                    {item?.sale_price} x {item?.quantity}
                   </p>
 
                   <p className="flex items-center text-primaryFood text-xs md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
 
-                    {(item?.sale_price * item.quantity).toFixed(2)}
+                    {(item?.sale_price * item?.quantity).toFixed(2)}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-2 mt-2">
                   <button
-                    disabled={item.quantity === 1}
-                    onClick={(e) => handleDecrement(e, item._id)}
+                    disabled={item?.quantity === 1}
+                    onClick={(e) => handleDecrement(e, item?._id)}
                     className="px-2 py-1 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300"
                   >
                     -
                   </button>
-                  <span className="text-sm font-medium">{item.quantity}</span>
+                  <span className="text-sm font-medium">{item?.quantity}</span>
                   <button
-                    onClick={(e) => handleIncrement(e, item._id)}
+                    onClick={(e) => handleIncrement(e, item?._id)}
                     className="px-2 py-1 bg-gray-200 text-gray-700 rounded font-semibold hover:bg-gray-300"
                   >
                     +
@@ -92,7 +92,7 @@ const FoodCartItems = () => {
             </div>
 
             <button
-              onClick={(e) => handleRemoveFromCart(e, item._id)}
+              onClick={(e) => handleRemoveFromCart(e, item?._id)}
               className="text-xl text-gray-600 hover:text-red-600"
             >
               <MdDeleteForever />
