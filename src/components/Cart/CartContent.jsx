@@ -1,13 +1,15 @@
 "use client";
 
+import React from "react";
 import EmptyCart from "./EmptyCart";
-import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import FoodCartItems from "./FoodCartItems";
+import FoodCartSummary from "./FoodCartSummary";
 import { TbCurrencyTaka } from "react-icons/tb";
 import GroceryCartItems from "./GroceryCartItems";
 import MedicineCartItems from "./MedicineCartItems";
-import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
+import GroceryCartSummary from "./GroceryCartSummary";
+import MedicineCartSummary from "./MedicineCartSummary";
 
 const CartContent = ({
   handleCheckout,
@@ -25,13 +27,6 @@ const CartContent = ({
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const module = currentModule?.toLowerCase();
-
-  const { shippingCharge, discount, grandTotal, getGrandTotalGrocery } =
-    useOrderGrocery();
-
-  useEffect(() => {
-    getGrandTotalGrocery();
-  }, [totalAmountGrocery]);
 
   return (
     <>
@@ -62,37 +57,14 @@ const CartContent = ({
 
         <div className="mb-4">
           {module === "grocery" && groceryItems?.length > 0 && (
-            <>
-              <p className="flex justify-between">
-                <span className="font-semibold">Delivery Charge</span>
-                <span className="font-semibold flex items-center">
-                  <span>
-                    <TbCurrencyTaka />
-                  </span>
-                  {shippingCharge?.toFixed(2) || 0}
-                </span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-semibold">Less</span>
-                <span className="font-semibold flex items-center">
-                  <span>
-                    <TbCurrencyTaka />
-                  </span>
-                  {discount?.toFixed(2) || 0}
-                </span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-semibold">Total Amount</span>
-                <span className="font-semibold flex items-center">
-                  <span>
-                    <TbCurrencyTaka />
-                  </span>
-
-                  {grandTotal || 0}
-                </span>
-              </p>
-            </>
+            <GroceryCartSummary />
           )}
+
+          {module === "medicine" && medicineItems?.length > 0 && (
+            <MedicineCartSummary />
+          )}
+
+          {module === "food" && foodItems?.length > 0 && <FoodCartSummary />}
         </div>
 
         <button

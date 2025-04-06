@@ -62,9 +62,13 @@ const CategorySidebar = () => {
                     <Image
                       width={500}
                       height={500}
-                      src="/png/dummyImage.png"
-                      alt="medicine"
-                      className="w-8 h-8 object-contain rounded"
+                      src={
+                        data?.image
+                          ? `/images/grocery/type/type${idx + 1}.jpg`
+                          : "/png/dummyImage.png"
+                      }
+                      alt="grocery category"
+                      className="w-11 h-11"
                     />
                   </div>
                   <div className="flex-1">

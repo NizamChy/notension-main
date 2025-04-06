@@ -9,9 +9,13 @@ import useFoodItems from "@/hooks/fetch-data/useFoodItems";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const FoodCartItems = () => {
+  const { incrementQty, decrementQty, removeFromCart } = useFoodItems();
+
   const foodItems = useSelector((state) => state.cart.foodItems);
 
-  const { incrementQty, decrementQty, removeFromCart } = useFoodItems();
+  const visitedFoodStore = useSelector(
+    (state) => state.dashboard.visitedFoodStore
+  );
 
   const handleIncrement = (e, itemId) => {
     e.preventDefault();
@@ -36,6 +40,12 @@ const FoodCartItems = () => {
 
   return (
     <>
+      {foodItems?.length > 0 && visitedFoodStore?.delivery_notice && (
+        <p className="text-deepGray font-semibold bg-yellow-400 text-center text-sm p-2 rounded-md mb-2">
+          {visitedFoodStore?.delivery_notice}
+        </p>
+      )}
+
       <ul className="space-y-4">
         {foodItems?.map((item) => (
           <li

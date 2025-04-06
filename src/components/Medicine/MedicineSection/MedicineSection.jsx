@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
@@ -16,6 +17,8 @@ const MedicineSection = () => {
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
+
+    if (shop?.is_closed) return toast.info("Sorry we're closed!");
 
     const formattedShopName = shop.shop_name
       .toLowerCase()

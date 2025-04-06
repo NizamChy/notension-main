@@ -13,6 +13,10 @@ const MedicineCartItems = () => {
 
   const medicineItems = useSelector((state) => state.cart.medicineItems);
 
+  const visitedMedicineStore = useSelector(
+    (state) => state.dashboard.visitedMedicineStore
+  );
+
   const handleDecrement = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
@@ -36,6 +40,12 @@ const MedicineCartItems = () => {
 
   return (
     <>
+      {medicineItems.length > 0 && visitedMedicineStore?.delivery_notice && (
+        <p className="text-deepGray font-semibold bg-yellow-400 text-center text-sm p-2 rounded-md mb-2">
+          {visitedMedicineStore?.delivery_notice}
+        </p>
+      )}
+
       <ul className="space-y-4">
         {medicineItems?.map((item) => (
           <li

@@ -1,17 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-// import Loader from "@/components/common/Loader";
-// import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
 
 const FavoriteShop = ({ isFavoriteRoute = false }) => {
-  // const [loading, setLoading] = useState(false);
-
   const router = useRouter();
-  // const { exploreStore } = useMedicine();
 
   const favouriteMedicineStore = useSelector(
     (state) => state.userChoice.favouriteMedicineStore
@@ -20,27 +15,15 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
 
-    // setLoading(true);
-
     const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
-      .replace(/\s+/g, "-"); // Replace spaces with hyphens
-
-    // const storeData = {
-    //   _id: shop?.storeId,
-    //   custom_store_id: shop?.custom_store_id,
-    // };
-
-    // exploreStore(storeData);
-    // router.push(`/medicine/${formattedShopName}`);
+      .replace(/[^a-z0-9 ]/g, "")
+      .replace(/\s+/g, "-");
 
     router.push(
       `/medicine/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`
     );
   };
-
-  // if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">

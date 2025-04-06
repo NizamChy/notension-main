@@ -40,12 +40,12 @@ const CheckoutSection = () => {
 
   const totalPrice = totalAmountMedicine;
 
+  const less = medicineStoreInfo?.less || 0;
+  const maximum_less = medicineStoreInfo?.maximum_less || 0;
+  const less_type = medicineStoreInfo?.less_type || "Percent";
   const minOrderAmount = medicineStoreInfo?.min_purchage_amount || 0;
   const deliveryCharge = medicineStoreInfo?.max_delivery_charge || 0;
   const minDeliveryCharge = medicineStoreInfo?.min_delivery_charge || 0;
-  const less = medicineStoreInfo?.less || 0;
-  const less_type = medicineStoreInfo?.less_type || "Percent";
-  const maximum_less = medicineStoreInfo?.maximum_less || 0;
   const minimum_order_for_less = medicineStoreInfo?.minimum_order_for_less || 0;
 
   const getGrandTotal = () => {

@@ -1,18 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
-// import Loader from "@/components/common/Loader";
-// import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 
 const FavoriteShop = ({ isFavoriteRoute = false }) => {
-  // const [loading, setLoading] = useState(false);
-
   const router = useRouter();
-
-  // const { exploreStore } = useGroceryShop();
 
   const favouriteGroceryStore = useSelector(
     (state) => state.userChoice.favouriteGroceryStore
@@ -21,27 +15,15 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
 
-    // setLoading(true);
-
     const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
-      .replace(/\s+/g, "-"); // Replace spaces with hyphens
-
-    // const storeData = {
-    //   _id: shop?.storeId,
-    //   custom_store_id: shop?.custom_store_id,
-    // };
-
-    // exploreStore(storeData);
-    // router.push(`/grocery/${formattedShopName}`);
+      .replace(/[^a-z0-9 ]/g, "")
+      .replace(/\s+/g, "-");
 
     router.push(
       `/grocery/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`
     );
   };
-
-  // if (loading) return <Loader />;
 
   return (
     <div className="max-w-screen-2xl mx-auto  px-4 py-6">

@@ -155,9 +155,13 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                       <Image
                         width={500}
                         height={500}
-                        src="/png/dummyImage.png"
-                        alt="medicine"
-                        className="w-8 h-8 object-contain rounded"
+                        src={
+                          data?.image
+                            ? `/images/grocery/type/type${idx + 1}.jpg`
+                            : "/png/dummyImage.png"
+                        }
+                        alt="grocery category"
+                        className="w-10 h-10"
                       />
                     </div>
                     <div className="flex-1">

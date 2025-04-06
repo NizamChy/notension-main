@@ -40,7 +40,7 @@ const GroceryCartItems = () => {
 
   return (
     <>
-      {groceryItems.length > 0 && (
+      {groceryItems.length > 0 && visitedGroceryStore?.delivery_notice && (
         <p className="text-deepGray font-semibold bg-yellow-400 text-center text-sm p-2 rounded-md mb-2">
           {visitedGroceryStore?.delivery_notice}
         </p>

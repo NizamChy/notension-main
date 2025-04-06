@@ -34,7 +34,6 @@ export const useOrderGrocery = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  //
   const { groceryStoreInfo, totalAmountGrocery } = useSelector(
     (state) => state.cart
   );

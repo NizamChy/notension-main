@@ -1,6 +1,6 @@
 "use client";
 
-// import Loader from "@/components/common/Loader";
+import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,30 +9,23 @@ import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 
 const MedicineSearchedStores = () => {
-  // const [loading, setLoading] = useState(false);
   const [nearestInfo, setNearestInfo] = useState([]);
 
-  const { handleSearchStore, progressing, exploreStore } = useMedicine();
+  const { handleSearchStore, progressing } = useMedicine();
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchText = searchParams.get("query");
 
   const handleStoreClick = (shop) => {
-    if (!shop || !shop.shop_name) return;
+    if (!shop || !shop?.shop_name) return;
 
-    // setLoading(true);
+    if (shop?.is_closed) return toast.info("Sorry we're closed!");
 
-    const formattedShopName = shop.shop_name
+    const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
-      .replace(/\s+/g, "-"); // Replace spaces with hyphens
-
-    // exploreStore(shop);
-
-    // console.log("shop", shop);
-
-    // router.push(`/medicine/${formattedShopName}`);
+      .replace(/[^a-z0-9 ]/g, "")
+      .replace(/\s+/g, "-");
 
     router.push(
       `/medicine/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
@@ -42,8 +35,6 @@ const MedicineSearchedStores = () => {
   useEffect(() => {
     handleSearchStore(searchText, setNearestInfo);
   }, [searchText]);
-
-  // if (loading) return <Loader />;
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">

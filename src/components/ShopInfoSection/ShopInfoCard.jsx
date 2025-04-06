@@ -66,7 +66,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           className="w-full h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
         />
 
-        {!isFavoriteAdded && !isFavorite && (
+        {!shop?.is_closed && !isFavoriteAdded && !isFavorite && (
           <button
             onClick={handleAddToFavorite}
             className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
@@ -87,8 +87,14 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
         )}
 
         {shop?.delivery_notice && (
-          <p className="bg-yellow-300 absolute bottom-3 left-3 rounded-lg px-2 py-0.5 text-sm font-semibold opacity-75">
+          <p className="bg-yellow-300 absolute top-3 right-3 rounded-lg px-2 py-0.5 text-sm font-semibold opacity-75">
             {shop?.delivery_notice}
+          </p>
+        )}
+
+        {shop?.is_closed && (
+          <p className="bg-red-400 absolute bottom-14 right-5 rounded-lg px-2 py-0.5 text-lg font-semibold">
+            Closed!
           </p>
         )}
       </div>

@@ -24,10 +24,59 @@ const Axios = axios.create({
 export const useOrderFood = () => {
   const [progressing, setProgressing] = useState(false);
 
+  const [discount, setDiscount] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+  const [shippingCharge, setShippingCharge] = useState(0);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.user.userInfo);
+
+  const { foodStoreInfo, totalAmountFood } = useSelector((state) => state.cart);
+
+  const totalPrice = totalAmountFood;
+
+  const minOrderAmount = foodStoreInfo?.min_purchage_amount || 0;
+  const deliveryCharge = foodStoreInfo?.max_delivery_charge || 0;
+  const minDeliveryCharge = foodStoreInfo?.min_delivery_charge || 0;
+  const less = foodStoreInfo?.less || 0;
+  const less_type = foodStoreInfo?.less_type || "Percent";
+  const maximum_less = foodStoreInfo?.maximum_less || 0;
+  const minimum_order_for_less = foodStoreInfo?.minimum_order_for_less || 0;
+
+  const getGrandTotalFood = () => {
+    let shippingCost = deliveryCharge;
+    if (parseFloat(totalPrice) >= parseFloat(minOrderAmount)) {
+      shippingCost = minDeliveryCharge;
+    }
+    let total = 0;
+    let Discount = 0;
+    if (
+      parseFloat(less) > 0 &&
+      parseFloat(maximum_less) > 0 &&
+      parseFloat(totalPrice) >= parseFloat(minimum_order_for_less)
+    ) {
+      if (less_type === "Percent") {
+        Discount = ((parseFloat(less) / 100) * parseFloat(totalPrice)).toFixed(
+          2
+        );
+        if (parseFloat(Discount) > parseFloat(maximum_less)) {
+          Discount = parseFloat(maximum_less).toFixed(2);
+        }
+      } else {
+        Discount = less;
+      }
+    }
+    setShippingCharge(shippingCost);
+    setDiscount(Discount);
+    total = (
+      parseFloat(totalPrice) +
+      parseFloat(shippingCost) -
+      parseFloat(Discount)
+    ).toFixed(2);
+    setGrandTotal(total);
+  };
 
   const placeOrder = (itemOrderObj) => {
     setProgressing(true);
@@ -86,9 +135,13 @@ export const useOrderFood = () => {
   };
 
   return {
+    discount,
+    grandTotal,
     progressing,
-    placeOrder,
-    getOrderInfo,
+    shippingCharge,
+    getGrandTotalFood,
     setProgressing,
+    getOrderInfo,
+    placeOrder,
   };
 };

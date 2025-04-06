@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
@@ -18,6 +19,8 @@ const GrocerySearchedStores = () => {
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
+
+    if (shop?.is_closed) return toast.info("Sorry we're closed!");
 
     const formattedShopName = shop.shop_name
       .toLowerCase()

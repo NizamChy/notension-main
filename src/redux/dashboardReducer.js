@@ -194,7 +194,6 @@ const dashboardSlice = createSlice({
           };
 
         default:
-          // No need to return state, Immer handles it
           break;
       }
     },

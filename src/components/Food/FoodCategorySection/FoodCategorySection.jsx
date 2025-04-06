@@ -23,8 +23,6 @@ const FoodCategorySection = () => {
     // }
   }, []);
 
-  console.log("shopCategory : ", shopCategory);
-
   return (
     <>
       {progressing ? (
@@ -59,7 +57,7 @@ const FoodCategorySection = () => {
             <div className="w-full lg:w-1/2 p-3 lg:p-5">
               {DashboardSlider[0]?.second_slider?.length && (
                 <Slider
-                  classNames="max-h-[532px]"
+                  classNames="max-h-[228px] md:max-h-[458px]"
                   slides={DashboardSlider[0]?.second_slider}
                 />
               )}
