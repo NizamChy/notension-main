@@ -23,18 +23,18 @@ const FoodCartSummary = () => {
           <span>
             <TbCurrencyTaka />
           </span>
-          {shippingCharge?.toFixed(2) || 0}
+          {shippingCharge || 0}
         </span>
       </p>
 
       {discount > 0 && (
         <p className="flex justify-between">
-          <span className="font-semibold">Less</span>
+          <span className="font-semibold">Discount</span>
           <span className="font-semibold flex items-center">
             <span>
               <TbCurrencyTaka />
             </span>
-            {discount?.toFixed(2) || 0}
+            {discount || 0}
           </span>
         </p>
       )}
