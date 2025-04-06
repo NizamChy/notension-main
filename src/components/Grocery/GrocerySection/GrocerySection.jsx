@@ -22,8 +22,8 @@ const GrocerySection = () => {
 
     const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
-      .replace(/\s+/g, "-"); // Replace spaces with hyphens
+      .replace(/[^a-z0-9 ]/g, "")
+      .replace(/\s+/g, "-");
 
     router.push(
       `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`

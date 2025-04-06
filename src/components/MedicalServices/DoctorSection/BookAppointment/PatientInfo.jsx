@@ -1,9 +1,9 @@
 "use client";
 
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { FaCalendarAlt } from "react-icons/fa";
 import Loader from "@/components/common/Loader";
-import React, { useEffect, useState } from "react";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
 import AppointmentModalDetails from "./AppointmentModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
@@ -13,7 +13,7 @@ const PatientInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const { getPatientInfo, progressing } = usePatient();
+  const { progressing } = usePatient();
   const { patientInfo } = useSelector((state) => state.user);
 
   const openModal = () => setIsModalOpen(true);
@@ -37,10 +37,6 @@ const PatientInfo = () => {
   };
 
   const handleSeeMore = () => setVisibleCount(patientInfo.length);
-
-  // useEffect(() => {
-  //   getPatientInfo();
-  // }, []);
 
   return (
     <>

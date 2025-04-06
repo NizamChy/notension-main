@@ -18,14 +18,14 @@ const GrocerySearchedStores = () => {
   const { handleSearchStore, progressing } = useGroceryShop();
 
   const handleStoreClick = (shop) => {
-    if (!shop || !shop.shop_name) return;
+    if (!shop || !shop?.shop_name) return;
 
     if (shop?.is_closed) return toast.info("Sorry we're closed!");
 
-    const formattedShopName = shop.shop_name
+    const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
-      .replace(/\s+/g, "-"); // Replace spaces with hyphens
+      .replace(/[^a-z0-9 ]/g, "")
+      .replace(/\s+/g, "-");
 
     router.push(
       `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`

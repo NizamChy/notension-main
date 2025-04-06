@@ -16,9 +16,6 @@ const FoodItemsByCategory = () => {
 
   const { productInfoByShop } = useSelector((state) => state.itemsByStore);
 
-  // const { foodCartStartAt } = useSelector((state) => state.cart);
-  // console.log("foodCartStartAt : ", foodCartStartAt);
-
   useEffect(() => {
     if (!catId) return;
 

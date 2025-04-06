@@ -16,10 +16,10 @@ const Slider = ({ slides, classNames }) => {
         <Swiper
           style={{
             "--swiper-pagination-color": "#EB5C2F",
-            "--swiper-pagination-bullet-inactive-color": "#FFF",
-            "--swiper-pagination-bullet-inactive-opacity": "1",
             "--swiper-pagination-bullet-size": "12px",
+            "--swiper-pagination-bullet-inactive-opacity": "1",
             "--swiper-pagination-bullet-horizontal-gap": "6px",
+            "--swiper-pagination-bullet-inactive-color": "#FFF",
           }}
           slidesPerView={1}
           loop={true}

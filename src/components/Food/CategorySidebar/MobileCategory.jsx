@@ -21,8 +21,6 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
   const { productCategory } = useSelector((state) => state.itemsByStore);
 
   const handleCategoryClick = (categoryId) => {
-    // router.push(`/food/store/${params?.store}/${categoryId}`);
-
     router.push(
       `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${categoryId}`
     );
