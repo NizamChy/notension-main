@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { TbLogout } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
+import { usePathname } from "next/navigation";
 import { TiShoppingCart } from "react-icons/ti";
 import { IoLocationOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { handleUserReducer } from "@/redux/userReducer";
 import MobileCategory from "../CategorySidebar/MobileCategory";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
+  const pathname = usePathname();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
 
@@ -92,14 +94,17 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
           </>
         )}
 
-        <div className="h-full border-e px-1 max-w-screen-md pb-5 bg-white">
-          <div className="overflow-y-auto overflow-x-hidden h-full no-scrollbar">
-            <MobileCategory
-              gridClass="grid-cols-2"
-              toggleDrawer={toggleDrawer}
-            />
-          </div>
-        </div>
+        {pathname !== "/food/store/checkout" &&
+          pathname !== "/food/store/orders" && (
+            <div className="h-full border-e px-1 max-w-screen-md pb-5 bg-white">
+              <div className="overflow-y-auto overflow-x-hidden h-full no-scrollbar">
+                <MobileCategory
+                  gridClass="grid-cols-2"
+                  toggleDrawer={toggleDrawer}
+                />
+              </div>
+            </div>
+          )}
       </div>
     </>
   );
