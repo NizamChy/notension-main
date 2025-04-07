@@ -134,7 +134,6 @@ const doctorSlice = createSlice({
           break;
 
         default:
-          // No need to return state, Immer handles it
           break;
       }
     },
