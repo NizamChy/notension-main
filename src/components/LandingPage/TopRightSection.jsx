@@ -113,7 +113,7 @@ const TopRightSection = () => {
               width={308}
               height={470}
               className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/home-banner-5-2.jpeg"
+              src="/images/home/home-banner-5-6.jpg"
               alt="home-banner-5"
             />
 
