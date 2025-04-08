@@ -47,7 +47,7 @@ const TopRightSection = () => {
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-4 flex flex-col-reverse lg:flex-col">
         <div
           onClick={(e) => handleStoreClick(e, "allCareServices")}
           className="group overflow-hidden relative mt-4 lg:mt-0 cursor-pointer"
