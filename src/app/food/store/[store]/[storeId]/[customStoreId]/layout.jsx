@@ -18,11 +18,13 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const foodItemsRef = useRef(null);
 
+  console.log(params?.catId);
+
   const { exploreStore, progressing } = useFood();
   const { visitedFoodStore } = useSelector((state) => state.dashboard);
 
   const scrollToFoodItems = () => {
-    if (foodItemsRef.current) {
+    if (params?.catId && foodItemsRef.current) {
       const elementPosition =
         foodItemsRef.current.getBoundingClientRect().top + window.scrollY;
       const offset = window.innerHeight * 0.16;
