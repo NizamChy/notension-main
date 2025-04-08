@@ -101,11 +101,13 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
 
       <div className="p-4">
         <h2 className="md:text-xl font-semibold mb-2">{shop?.shop_name}</h2>
-        <p className="text-sm md:text-base text-gray-700 mb-2 flex gap-1">
+        <p className="text-sm md:text-base text-gray-700 mb-2 flex gap-1 lg:min-h-12">
           <span className="text-blue-600 mt-1">
             <FaLocationDot />
           </span>
-          {shop?.shop_address}
+          <span title={shop?.shop_address} className="line-clamp-2">
+            {shop?.shop_address}
+          </span>
         </p>
 
         {shop?.distance && (
