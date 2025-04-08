@@ -18,6 +18,8 @@ const Map = ({ onCloseModal }) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
 
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   const router = useRouter();
   const inputRef = useRef();
   const mapRef = useRef();
@@ -100,6 +102,8 @@ const Map = ({ onCloseModal }) => {
 
   useEffect(() => {
     if (districts.length > 0) {
+      setIsLoading(true);
+
       loader
         .importLibrary("maps")
         .then(() => {
@@ -175,17 +179,20 @@ const Map = ({ onCloseModal }) => {
                     } else {
                       // console.error("Geocoder failed:", status);
                     }
+                    setIsLoading(false);
                   }
                 );
               },
               () => {
                 alert("Unable to fetch your location");
+                setIsLoading(false);
               }
             );
           }
         })
         .catch((error) => {
           console.error("Error loading Google Maps Library:", error);
+          setIsLoading(false);
         });
     }
   }, [districts]);
@@ -275,6 +282,27 @@ const Map = ({ onCloseModal }) => {
       });
     }
   }, [map]);
+
+  // if (!curLoc?.longitude) {
+  //   return (
+  //     <div className="relative animate-pulse">
+  //       {/* Search input skeleton */}
+  //       <div className="h-12 bg-gray-200 rounded mb-4"></div>
+
+  //       {/* Map container skeleton */}
+  //       <div className="h-[80vh] md:h-[55vh] bg-gray-200 rounded"></div>
+
+  //       {/* Button skeleton */}
+  //       <div className="hidden md:flex justify-center gap-2 mt-4">
+  //         <div className="h-12 bg-gray-200 rounded w-full"></div>
+  //       </div>
+
+  //       <div className="flex md:hidden justify-center gap-2 mt-4">
+  //         <div className="h-12 bg-gray-200 rounded w-full"></div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="relative">
