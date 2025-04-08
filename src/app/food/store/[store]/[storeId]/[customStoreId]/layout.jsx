@@ -18,8 +18,6 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const foodItemsRef = useRef(null);
 
-  console.log(params?.catId);
-
   const { exploreStore, progressing } = useFood();
   const { visitedFoodStore } = useSelector((state) => state.dashboard);
 

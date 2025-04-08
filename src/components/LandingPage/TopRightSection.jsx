@@ -113,7 +113,7 @@ const TopRightSection = () => {
               width={308}
               height={470}
               className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/home-banner-5.webp"
+              src="/images/home/home-banner-5-1.jpg"
               alt="home-banner-5"
             />
 
@@ -122,7 +122,7 @@ const TopRightSection = () => {
                 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
               >
-                Find Restaurant
+                Food Store
               </h3>
               <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
                 <span>
