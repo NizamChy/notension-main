@@ -18,8 +18,6 @@ const Map = ({ onCloseModal }) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
 
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
-
   const router = useRouter();
   const inputRef = useRef();
   const mapRef = useRef();
@@ -102,8 +100,6 @@ const Map = ({ onCloseModal }) => {
 
   useEffect(() => {
     if (districts.length > 0) {
-      setIsLoading(true);
-
       loader
         .importLibrary("maps")
         .then(() => {
@@ -179,20 +175,17 @@ const Map = ({ onCloseModal }) => {
                     } else {
                       // console.error("Geocoder failed:", status);
                     }
-                    setIsLoading(false);
                   }
                 );
               },
               () => {
                 alert("Unable to fetch your location");
-                setIsLoading(false);
               }
             );
           }
         })
         .catch((error) => {
           console.error("Error loading Google Maps Library:", error);
-          setIsLoading(false);
         });
     }
   }, [districts]);
