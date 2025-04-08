@@ -58,7 +58,7 @@ const FoodItemsByCategory = () => {
         ) : (
           categoryName && (
             <>
-              <p className="text-center mt-20 lg:text-xl font-medium">
+              <p className="text-center mt-20 lg:mt-44 lg:text-xl font-medium">
                 {categoryName} items not available right now!
               </p>
             </>

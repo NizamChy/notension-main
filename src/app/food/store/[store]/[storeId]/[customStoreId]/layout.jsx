@@ -25,8 +25,8 @@ export default function RootLayout({ children }) {
     if (params?.catId && foodItemsRef.current) {
       const elementPosition =
         foodItemsRef.current.getBoundingClientRect().top + window.scrollY;
-      const offset = window.innerHeight * 0.16;
-
+      const offset = window.innerHeight * 0.1;
+      // 0.16
       window.scrollTo({
         top: elementPosition - offset,
         behavior: "smooth",
