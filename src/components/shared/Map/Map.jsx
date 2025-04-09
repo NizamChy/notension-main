@@ -13,10 +13,9 @@ import { ALL_DISTRICTS } from "../../../../public/AllDistrictsData/AllDistricts"
 const Map = ({ onCloseModal }) => {
   const [map, setMap] = useState(null);
   const [error, setError] = useState(null);
-  // const [districts, setDistricts] = useState([]);
   const [searchInfo, setSearchInfo] = useState([]);
+  // const [districts, setDistricts] = useState([]);
   const [isMapMoving, setIsMapMoving] = useState(false);
-
   const [currentPosition, setCurrentPosition] = useState(null);
   const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
 
@@ -289,7 +288,7 @@ const Map = ({ onCloseModal }) => {
         <div className="h-12 bg-gray-200 rounded mb-4"></div>
 
         {/* Map container skeleton */}
-        <div className="h-[80vh] md:h-[55vh] bg-gray-200 rounded"></div>
+        <div className="h-[75vh] md:h-[55vh] bg-gray-200 rounded"></div>
 
         {/* Button skeleton */}
         <div className="hidden md:flex justify-center gap-2 mt-4">
