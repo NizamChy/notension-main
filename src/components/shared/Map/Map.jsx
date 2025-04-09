@@ -188,7 +188,7 @@ const Map = ({ onCloseModal }) => {
         console.error("Error loading Google Maps Library:", error);
       });
     // }
-  }, [ALL_DISTRICTS]);
+  }, []);
 
   useEffect(() => {
     if (map) {
@@ -299,12 +299,12 @@ const Map = ({ onCloseModal }) => {
 
   return (
     <div className="relative">
-      <div className="mb-2 px-4">
+      <div className="mb-2 px-4 md:px-0">
         <input
           ref={inputRef}
           type="text"
           placeholder="Search location"
-          className="w-full outline-none border p-2 mb-2"
+          className="w-full outline-none border p-2 lg:mb-2"
         />
       </div>
 
