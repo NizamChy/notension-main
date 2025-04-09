@@ -16,6 +16,7 @@ import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal
 const GroceryItems = ({ item, isFavorite = false }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
@@ -109,6 +110,19 @@ const GroceryItems = ({ item, isFavorite = false }) => {
           className="group cursor-pointer w-full max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
         >
           <div className="relative overflow-hidden rounded-t-lg">
+            {/* Skeleton loader that shows while image is loading */}
+            {isImageLoading && (
+              <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
+                <div className="h-full flex justify-center items-center">
+                  <Image
+                    src="/gif/loading.gif"
+                    alt="loading.gif"
+                    width={60}
+                    height={60}
+                  />
+                </div>
+              </div>
+            )}
             <Image
               src={
                 item?.app_image
@@ -118,7 +132,12 @@ const GroceryItems = ({ item, isFavorite = false }) => {
               alt={item?.product_title_eng || "Product image"}
               width={400}
               height={400}
-              className="w-full md:h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+              className={`w-full md:h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105 ${
+                isImageLoading ? "opacity-0" : "opacity-100"
+              }`}
+              onLoadingComplete={() => setIsImageLoading(false)}
+              onLoad={() => setIsImageLoading(false)}
+              onError={() => setIsImageLoading(false)}
             />
 
             {item?.less > 0 && (

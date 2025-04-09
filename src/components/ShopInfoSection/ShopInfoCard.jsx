@@ -11,6 +11,7 @@ import { IMAGE_URL } from "@/api-endpoints/secret";
 import { useFavouriteStore } from "@/hooks/fetch-data/favorite-shop";
 
 const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { addToFavouriteList, isAddedToFavouriteList, removeFromfavoriteList } =
@@ -58,12 +59,32 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
       className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300"
     >
       <div className="relative overflow-hidden rounded-t-lg">
+        {/* Skeleton loader that shows while image is loading */}
+        {isImageLoading && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
+            <div className="h-full flex justify-center items-center">
+              <Image
+                src="/gif/loading.gif"
+                alt="loading.gif"
+                width={60}
+                height={60}
+              />
+            </div>
+          </div>
+        )}
+
         <Image
           src={`${IMAGE_URL}/${type}-store-docs/${shop?.shop_banner_app}`}
           alt={`${shop?.shop_name} banner`}
           width={500}
           height={300}
-          className="w-full h-44 md:h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+          // className="w-full h-44 md:h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+          className={`w-full h-44 md:h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105 ${
+            isImageLoading ? "opacity-0" : "opacity-100"
+          }`}
+          onLoadingComplete={() => setIsImageLoading(false)}
+          onLoad={() => setIsImageLoading(false)}
+          onError={() => setIsImageLoading(false)}
         />
 
         {!shop?.is_closed && !isFavoriteAdded && !isFavorite && (
