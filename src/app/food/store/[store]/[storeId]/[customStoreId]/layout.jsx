@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
           </div>
 
           <div className="w-full lg:w-[80%] ml-auto md:p-16">
-            <div className="flex flex-col-reverse gap-3 lg:flex-row lg:gap-10">
+            <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-10">
               <div className="lg:w-1/2 xl:w-1/3 px-4 lg:px-0">
                 <ShopInfoCard
                   onClick={() =>

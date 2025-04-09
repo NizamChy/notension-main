@@ -58,7 +58,16 @@ const FoodItems = ({ item }) => {
           <div className="relative overflow-hidden rounded-t-lg">
             {/* Skeleton loader that shows while image is loading */}
             {isImageLoading && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full"></div>
+              <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
+                <div className="h-full flex justify-center items-center">
+                  <Image
+                    src="/gif/loading.gif"
+                    alt="loading.gif"
+                    width={60}
+                    height={60}
+                  />
+                </div>
+              </div>
             )}
 
             <Image
