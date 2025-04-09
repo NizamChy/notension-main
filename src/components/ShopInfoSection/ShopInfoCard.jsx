@@ -63,7 +63,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           alt={`${shop?.shop_name} banner`}
           width={500}
           height={300}
-          className="w-full h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-44 md:h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
         />
 
         {!shop?.is_closed && !isFavoriteAdded && !isFavorite && (
