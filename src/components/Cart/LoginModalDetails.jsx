@@ -14,7 +14,11 @@ const LoginModalDetails = ({ onClose, type = "login" }) => {
   const module = currentModule.toLowerCase();
 
   const handleOtp = () => {
-    if (phone?.length < 11) {
+    if (phone?.length < 1) {
+      return toast.info("মোবাইল নম্বর প্রদান করা আবশ্যক।", {
+        position: "top-center",
+      });
+    } else if (phone?.length < 11) {
       return toast.info("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
         position: "top-center",
       });
