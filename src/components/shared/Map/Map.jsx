@@ -299,17 +299,16 @@ const Map = ({ onCloseModal }) => {
 
   return (
     <div className="relative">
-      <div style={{ marginBottom: "10px" }}>
+      <div className="mb-2 px-4">
         <input
           ref={inputRef}
           type="text"
           placeholder="Search location"
-          style={{ padding: "8px", marginBottom: "10px" }}
-          className="w-full outline-none border"
+          className="w-full outline-none border p-2 mb-2"
         />
       </div>
 
-      <div className="h-[80vh] md:h-[55vh] relative">
+      <div className="h-[75vh] md:h-[55vh] relative">
         {/* Google Map */}
         <div ref={mapRef} id="map" className="h-full w-full" />
 
@@ -332,7 +331,7 @@ const Map = ({ onCloseModal }) => {
         </button>
       </div>
 
-      <div className="flex md:hidden justify-center gap-2">
+      <div className="flex md:hidden justify-center gap-2 mx-4">
         <button
           onClick={handleConfirmMobileLocation}
           className="rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
@@ -345,6 +344,7 @@ const Map = ({ onCloseModal }) => {
 };
 
 export default Map;
+
 // "use client";
 
 // import axios from "axios";
