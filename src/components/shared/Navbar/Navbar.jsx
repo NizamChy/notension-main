@@ -33,6 +33,8 @@ const Navbar = () => {
     category = "medicine";
   } else if (pathname.includes("/food")) {
     category = "food";
+  } else if (pathname.includes("/all-care-services")) {
+    category = "all-care-services";
   }
 
   const handleLogout = () => {
@@ -127,19 +129,23 @@ const Navbar = () => {
                   </li>
                 )}
 
-                {userInfo?._id && (
-                  <li className="px-3 hover:underline">
-                    <Link
-                      href="/medical-services/doctor/booked-appointment"
-                      className="flex items-center gap-1 text-nowrap"
-                    >
-                      <span>
-                        <FaUserDoctor className="text-primaryMedicine" />
-                      </span>
-                      Booked Appointment
-                    </Link>
-                  </li>
-                )}
+                {userInfo?._id &&
+                  category !== "food" &&
+                  category !== "grocery" &&
+                  category !== "medicine" &&
+                  category !== "all-care-services" && (
+                    <li className="px-3 hover:underline">
+                      <Link
+                        href="/medical-services/doctor/booked-appointment"
+                        className="flex items-center gap-1 text-nowrap"
+                      >
+                        <span>
+                          <FaUserDoctor className="text-primaryMedicine" />
+                        </span>
+                        Booked Appointment
+                      </Link>
+                    </li>
+                  )}
 
                 {userInfo?._id && (
                   <>
