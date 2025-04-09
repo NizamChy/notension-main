@@ -112,7 +112,7 @@ const UserInfoInputs = ({
         Your Information
       </p>
 
-      <div className="py-4">
+      <div className="py-2 md:py-4">
         <FloatingInput
           label="Name"
           id="customer_name"
@@ -121,7 +121,7 @@ const UserInfoInputs = ({
         />
       </div>
 
-      <div className="py-4">
+      <div className="py-2 md:py-4">
         <FloatingInput
           label="Address"
           id="customer_address"
@@ -131,7 +131,7 @@ const UserInfoInputs = ({
         />
       </div>
 
-      <div className="py-4">
+      <div className="py-2 md:py-4">
         <FloatingInput
           label="Alternative number"
           id="alternative_contact_no"
@@ -142,7 +142,7 @@ const UserInfoInputs = ({
         />
       </div>
 
-      <div className="py-4">
+      <div className="py-2 md:py-4">
         <FloatingInput
           label="Enter OTP"
           id="otp"
