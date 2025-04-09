@@ -16,8 +16,11 @@ const Map = ({ onCloseModal }) => {
   // const [districts, setDistricts] = useState([]);
   const [searchInfo, setSearchInfo] = useState([]);
   const [isMapMoving, setIsMapMoving] = useState(false);
+
   const [currentPosition, setCurrentPosition] = useState(null);
   const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
+
+  const [isMapLoading, setIsMapLoading] = useState(true);
 
   const router = useRouter();
   const inputRef = useRef();
@@ -100,6 +103,7 @@ const Map = ({ onCloseModal }) => {
   // console.log("currentUserLocation from redux:", currentUserLocation);
 
   useEffect(() => {
+    setIsMapLoading(true);
     // if (ALL_DISTRICTS.length > 0) {
     loader
       .importLibrary("maps")
@@ -183,8 +187,10 @@ const Map = ({ onCloseModal }) => {
             }
           );
         }
+        setIsMapLoading(false);
       })
       .catch((error) => {
+        setIsMapLoading(false);
         console.error("Error loading Google Maps Library:", error);
       });
     // }
@@ -276,26 +282,26 @@ const Map = ({ onCloseModal }) => {
     }
   }, [map]);
 
-  // if (!curLoc?.longitude) {
-  //   return (
-  //     <div className="relative animate-pulse">
-  //       {/* Search input skeleton */}
-  //       <div className="h-12 bg-gray-200 rounded mb-4"></div>
+  if (isMapLoading) {
+    return (
+      <div className="relative animate-pulse">
+        {/* Search input skeleton */}
+        <div className="h-12 bg-gray-200 rounded mb-4"></div>
 
-  //       {/* Map container skeleton */}
-  //       <div className="h-[80vh] md:h-[55vh] bg-gray-200 rounded"></div>
+        {/* Map container skeleton */}
+        <div className="h-[80vh] md:h-[55vh] bg-gray-200 rounded"></div>
 
-  //       {/* Button skeleton */}
-  //       <div className="hidden md:flex justify-center gap-2 mt-4">
-  //         <div className="h-12 bg-gray-200 rounded w-full"></div>
-  //       </div>
+        {/* Button skeleton */}
+        <div className="hidden md:flex justify-center gap-2 mt-4">
+          <div className="h-12 bg-gray-200 rounded w-full"></div>
+        </div>
 
-  //       <div className="flex md:hidden justify-center gap-2 mt-4">
-  //         <div className="h-12 bg-gray-200 rounded w-full"></div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+        <div className="flex md:hidden justify-center gap-2 mt-4">
+          <div className="h-12 bg-gray-200 rounded w-full"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative">
