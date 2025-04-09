@@ -10,7 +10,7 @@ import { handleUserReducer } from "@/redux/userReducer";
 // import { ALL_DISTRICTS_URL } from "@/api-endpoints/secret";
 import { ALL_DISTRICTS } from "../../../../public/AllDistrictsData/AllDistricts";
 
-const Map = ({ onCloseModal }) => {
+const Map = ({ onCloseModal = false }) => {
   const [map, setMap] = useState(null);
   const [error, setError] = useState(null);
   const [searchInfo, setSearchInfo] = useState([]);
