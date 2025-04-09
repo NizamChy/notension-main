@@ -169,7 +169,9 @@ const UserInfoInputs = ({
               />
             </div>
           ) : (
-            "LOGIN"
+            <>
+              <p className="py-2">LOGIN</p>
+            </>
           )}
         </button>
       </div>
