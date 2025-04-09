@@ -42,7 +42,7 @@ const LoginModalDetails = ({ onClose, type = "login" }) => {
           <div className="flex justify-center">
             <button
               onClick={handleOtp}
-              className={`md:mt-4 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
+              className={`md:mt-1 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
             >
               LOGIN WITH OTP
             </button>

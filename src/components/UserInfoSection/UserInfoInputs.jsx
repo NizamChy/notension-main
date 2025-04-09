@@ -6,6 +6,7 @@ import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import FloatingInput from "../LoginSection/FloatingInput";
 import React, { useEffect, useRef, useState } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const UserInfoInputs = ({
   phone,
@@ -153,10 +154,23 @@ const UserInfoInputs = ({
       <div className="flex justify-center">
         <button
           onClick={(e) => handleLogin(e)}
-          className={`mt-4 px-4 py-2 ${getPrimaryClass()} text-white rounded-md w-full`}
+          className={`mt-4 px-4 ${getPrimaryClass()} text-white rounded-md w-full`}
           disabled={progressing}
         >
-          {progressing ? "Please wait..." : "LOGIN"}
+          {/* {progressing ? "Please wait..." : "LOGIN"}  */}
+          {progressing ? (
+            <div className="flex justify-center items-center">
+              <p>Please wait</p>
+              <DotLottieReact
+                src="https://lottie.host/6958d316-ea05-4122-9dff-1d526f59b3ca/ZilAm5yZWu.lottie"
+                loop
+                autoplay
+                className="size-10"
+              />
+            </div>
+          ) : (
+            "LOGIN"
+          )}
         </button>
       </div>
       <div className="flex justify-center mt-4">
