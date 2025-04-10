@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import SubtypeSkeleton from "./SubtypeSkeleton";
 import NoItemFound from "../NoItemSection/NoItemFound";
@@ -9,6 +9,8 @@ import { useParams, useRouter } from "next/navigation";
 import { GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const TypeSection = ({ typeId }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   const router = useRouter();
   const params = useParams();
 
@@ -42,9 +44,23 @@ const TypeSection = ({ typeId }) => {
                     `/grocery/${params?.store}/sub-type/${subtype?.subtypeInfo?._id}`
                   )
                 }
-                key={subtype._id}
-                className="cursor-pointer bg-white rounded-lg shadow-md p-2 md:p-4 hover:shadow-lg transition-shadow"
+                key={subtype?._id}
+                className="relative cursor-pointer bg-white rounded-lg shadow-md p-2 md:p-4 hover:shadow-lg transition-shadow"
               >
+                {/* Skeleton loader that shows while image is loading */}
+                {isImageLoading && (
+                  <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
+                    <div className="h-full flex justify-center items-center">
+                      <Image
+                        src="/gif/loading.gif"
+                        alt="loading.gif"
+                        width={60}
+                        height={60}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <Image
                   height={200}
                   width={200}
@@ -53,8 +69,13 @@ const TypeSection = ({ typeId }) => {
                       ? `${GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES}/${subtype?.subtypeInfo?.banner_type_1}`
                       : "/png/dummyImage.png"
                   }
-                  alt={subtype.sub_type_name}
-                  className="w-full md:h-40 object-contain rounded-lg"
+                  alt={subtype?.sub_type_name}
+                  className={`w-full md:h-40 object-contain rounded-lg ${
+                    isImageLoading ? "opacity-0" : "opacity-100"
+                  }`}
+                  onLoadingComplete={() => setIsImageLoading(false)}
+                  onLoad={() => setIsImageLoading(false)}
+                  onError={() => setIsImageLoading(false)}
                 />
               </div>
             ))}
