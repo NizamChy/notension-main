@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -12,8 +11,11 @@ import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -33,6 +35,9 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   let merchantType = 1;
   let isExists = null;
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const handleAddToCart = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -45,7 +50,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
     event.stopPropagation();
 
     if (!userInfo?._id) {
-      return toast.info("Login to add favourite!");
+      return openModal();
     }
 
     addToFavouriteItems(item, merchantType);
@@ -262,6 +267,14 @@ const MedicineItems = ({ item, isFavorite = false }) => {
           item={selectedItem}
         />
       )}
+
+      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+        <LoginModalDetails
+          onClose={closeModal}
+          type="favourite"
+          handleAddToFavorite={handleAddToFavorite}
+        />
+      </CommonModal>
     </>
   );
 };

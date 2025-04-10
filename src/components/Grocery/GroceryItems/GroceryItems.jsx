@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -11,9 +10,12 @@ import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -30,8 +32,11 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
   const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
-  let merchantType = 0;
   let isExists = null;
+  let merchantType = 0;
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleAddToCart = (event) => {
     event.preventDefault();
@@ -45,7 +50,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     event.stopPropagation();
 
     if (!loggedinUserInfo?._id) {
-      return toast.info("Please Login first!");
+      return openModal();
     }
 
     addToFavouriteItems(item, merchantType);
@@ -262,6 +267,14 @@ const GroceryItems = ({ item, isFavorite = false }) => {
           item={selectedItem}
         />
       )}
+
+      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+        <LoginModalDetails
+          onClose={closeModal}
+          type="favourite"
+          handleAddToFavorite={handleAddToFavorite}
+        />
+      </CommonModal>
     </>
   );
 };
