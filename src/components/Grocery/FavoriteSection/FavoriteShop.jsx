@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
-import Image from "next/image";
 
 const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const router = useRouter();
@@ -18,7 +18,8 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
 
     const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "")
+      // .replace(/[^a-z0-9 ]/g, "")
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
       .replace(/\s+/g, "-");
 
     router.push(

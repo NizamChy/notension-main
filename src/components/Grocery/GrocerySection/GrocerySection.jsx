@@ -22,13 +22,27 @@ const GrocerySection = () => {
 
     const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "")
+      // .replace(/[^a-z0-9 ]/g, "")
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
       .replace(/\s+/g, "-");
 
     router.push(
       `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
     );
   };
+
+  // const handleStoreClick = (shop) => {
+  //   if (!shop || !shop?.shop_name) return;
+
+  //   const formattedShopName = shop?.shop_name
+  //     .toLowerCase()
+  //     .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "") // Allow Bengali script + a-z + 0-9 + space
+  //     .replace(/\s+/g, "-");
+
+  //   router.push(
+  //     `/medicine/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`
+  //   );
+  // };
 
   useEffect(() => {
     getNearestGroceryStoreInfo(setNearestInfo);

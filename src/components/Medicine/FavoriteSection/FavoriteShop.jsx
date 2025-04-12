@@ -17,7 +17,8 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
 
     const formattedShopName = shop?.shop_name
       .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "")
+      // .replace(/[^a-z0-9 ]/g, "")
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
       .replace(/\s+/g, "-");
 
     router.push(
