@@ -10,18 +10,20 @@ import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import GroceryItemSearchBar from "../SearchBarSection/GroceryItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
 
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname();
   const dropDownMenuRef = useRef();
 
   const dispatch = useDispatch();
@@ -34,6 +36,10 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
     toast.success("User logged out successfully");
+
+    Cookies.remove("user_info");
+
+    router.push("/");
   };
 
   // `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`

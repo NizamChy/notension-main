@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import OtpSection from "../LoginSection/OtpSection";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
-const LoginModalDetails = ({ onClose, type = "login" }) => {
+const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
   const [phone, setPhone] = useState("");
   const [contentType, setContentType] = useState("otp");
 

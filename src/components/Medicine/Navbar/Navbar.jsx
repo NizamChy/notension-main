@@ -16,6 +16,7 @@ import { handleUserReducer } from "@/redux/userReducer";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import MedicineItemSearchBar from "../SearchBarSection/MedicineItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -34,6 +35,10 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
     toast.success("User logged out successfully");
+
+    Cookies.remove("user_info");
+
+    router.push("/");
   };
 
   const handleLogoClick = () => {

@@ -23,8 +23,6 @@ const LocationAccess = () => {
           });
         }
       });
-
-      console.log("Hello");
     }
   }, []);
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import {
   USER_REGISTARTION,
@@ -60,7 +61,7 @@ export const useUser = () => {
 
     Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
-        // console.log("res?.result?.data", res?.data);
+        console.log("res?.result?.data", res?.data);
 
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
@@ -110,6 +111,8 @@ export const useUser = () => {
 
         saveLoggedInUserInfo(res?.data?.result);
 
+        console.log("222", res?.data?.result);
+
         setProgressing(false);
       })
       .catch((error) => {
@@ -120,11 +123,30 @@ export const useUser = () => {
       });
   };
 
+  // const saveLoggedInUserInfo = (user) => {
+  //   dispatch(
+  //     handleUserReducer({
+  //       type: "SAVE_LOGGEDIN_INFO",
+  //       data: user,
+  //     })
+  //   );
+  // };
+
   const saveLoggedInUserInfo = (user) => {
     dispatch(
       handleUserReducer({
         type: "SAVE_LOGGEDIN_INFO",
         data: user,
+      })
+    );
+
+    // Save only necessary user data to cookies (DO NOT store sensitive info)
+    Cookies.set(
+      "user_info",
+      JSON.stringify({
+        _id: user._id,
+        name: user.customer_name,
+        phone: user.contact_no,
       })
     );
   };

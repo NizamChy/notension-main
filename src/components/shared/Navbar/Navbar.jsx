@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { usePathname, useRouter } from "next/navigation";
 import LocationModal from "../LocationModal/LocationModal";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -38,6 +39,9 @@ const Navbar = () => {
   }
 
   const handleLogout = () => {
+    // Remove the user_info cookie
+    Cookies.remove("user_info");
+
     dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
     router.push("/");
   };
