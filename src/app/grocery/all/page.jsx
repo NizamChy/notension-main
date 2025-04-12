@@ -1,12 +1,27 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { CiShop } from "react-icons/ci";
 import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
 
 const page = () => {
   return (
     <>
-      <div className="relative flex flex-col justify-center overflow-hidden py-6 px-4">
+      <div className="group  flex justify-center items-center min-h-content p-4">
+        <Link href="/grocery/all/find-store">
+          <div className="overflow-hidden rounded-lg">
+            <Image
+              className="w-full max-w-md rounded-lg transition-transform duration-300 group-hover:scale-105"
+              src="/images/store/find-nearby-stores.jpeg"
+              alt="find-nearby-stores"
+              height={1536}
+              width={1024}
+            />
+          </div>
+        </Link>
+      </div>
+
+      {/* <div className="relative flex flex-col justify-center overflow-hidden py-6 px-4">
         <Link href="/grocery/all/find-store">
           <div className="group relative cursor-pointer overflow-hidden bg-white md:px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl mx-auto max-w-sm rounded-lg px-10">
             <span className="absolute top-10 z-0 h-20 w-20 rounded-full bg-sky-500 transition-all duration-300 group-hover:scale-[10]"></span>
@@ -28,7 +43,7 @@ const page = () => {
             </div>
           </div>
         </Link>
-      </div>
+      </div> */}
 
       <FavoriteShop isFavoriteRoute={false} />
     </>
