@@ -7,7 +7,7 @@ export default function GroceryStoreLayout({ children }) {
   return (
     <>
       <div className="min-h-content">
-        <div className="pb-20">
+        <div className="pb-16 lg:pb-20">
           <Navbar />
         </div>
         <LocationMobile />
