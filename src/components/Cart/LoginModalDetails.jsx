@@ -3,6 +3,7 @@
 import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
 import OtpSection from "../LoginSection/OtpSection";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
@@ -10,8 +11,22 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
   const [phone, setPhone] = useState("");
   const [contentType, setContentType] = useState("otp");
 
+  const pathname = usePathname();
+
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const module = currentModule.toLowerCase();
+
+  let category = "";
+
+  if (pathname.includes("/grocery")) {
+    category = "grocery";
+  } else if (pathname.includes("/medicine")) {
+    category = "medicine";
+  } else if (pathname.includes("/food")) {
+    category = "food";
+  } else if (pathname.includes("/all-care-services")) {
+    category = "all-care-services";
+  }
 
   const handleOtp = () => {
     if (phone?.length < 1) {
@@ -28,9 +43,11 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
   };
 
   const getPrimaryClass = () => {
-    if (module === "medicine") return "bg-primaryMedicine";
-    if (module === "grocery") return "bg-primaryGrocery";
-    if (module === "food") return "bg-primaryFood";
+    if (module === "medicine" && category === "medicine")
+      return "bg-primaryMedicine";
+    if (module === "grocery" && category === "grocery")
+      return "bg-primaryGrocery";
+    if (module === "food" && category === "food") return "bg-primaryFood";
     return "bg-primary";
   };
 
