@@ -14,6 +14,7 @@ const page = () => {
               className="w-full max-w-md rounded-lg transition-transform duration-300 group-hover:scale-105"
               src="/images/store/find-nearby-stores.jpeg"
               alt="find-nearby-stores"
+              priority
               height={1536}
               width={1024}
             />
