@@ -15,6 +15,8 @@ export function middleware(request) {
   const isDoctorPage = request.nextUrl.pathname.startsWith("/medical-services");
   const isLoginPage = request.nextUrl.pathname.startsWith("/login");
 
+  // console.log("hello from middleware");
+
   if (isLoginPage && user?._id) {
     return NextResponse.redirect(new URL("/", request.url));
   }
