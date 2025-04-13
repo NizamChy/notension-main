@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
@@ -37,9 +38,15 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
       {isFavoriteRoute && (
         <>
           {favouriteMedicineStore?.length < 1 && (
-            <p className="text-center text-deepGray mt-40">
-              Add Favourite Medicine Store to visit later.
-            </p>
+            <div className="flex flex-col justify-center items-center min-h-content">
+              <Image
+                className="max-w-4xl w-full"
+                src="/images/favorite/fav-shop-not-found.jpg"
+                alt="favourite-shop-not-found"
+                width={1867}
+                height={1179}
+              />
+            </div>
           )}
         </>
       )}

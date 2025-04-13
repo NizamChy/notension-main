@@ -40,11 +40,19 @@ const FavoriteDoctor = () => {
           </h1>
         )}
 
-        {favouriteDoctors?.length < 1 && (
-          <p className="text-center text-deepGray mt-40">
-            No Favourite Doctor added.
-          </p>
-        )}
+        <>
+          {favouriteDoctors?.length < 1 && (
+            <div className="flex flex-col justify-center items-center min-h-content">
+              <Image
+                className="max-w-4xl w-full"
+                src="/images/favorite/fav-doctor-not-found.jpg"
+                alt="favourite-doctor-not-found"
+                width={1867}
+                height={1179}
+              />
+            </div>
+          )}
+        </>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
           {favouriteDoctors?.map((doctor) => (
