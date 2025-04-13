@@ -61,13 +61,13 @@ const UserInfoInputs = ({
     }
 
     if (otp.length < 1) {
-      return toast.info("Please provide valid OTP!", {
+      return toast.info("অনুগ্রহ করে OTP প্রদান করুন!", {
         position: "top-center",
       });
     }
 
     if (otpGenerated !== otp) {
-      return toast.error("OTP does not mached!", {
+      return toast.error("OTP টি সঠিক হয়নি!", {
         position: "top-center",
       });
     }

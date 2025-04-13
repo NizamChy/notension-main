@@ -61,7 +61,7 @@ export const useUser = () => {
 
     Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
-        console.log("res?.result?.data", res?.data);
+        // console.log("res?.result?.data", res?.data);
 
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
