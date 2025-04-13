@@ -3,9 +3,9 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { CgProfile } from "react-icons/cg";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import FloatingInput from "../LoginSection/FloatingInput";
-import { CgProfile } from "react-icons/cg";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const UpdateAddress = () => {
