@@ -63,9 +63,15 @@ const FavoriteConsultationCenter = () => {
         )}
 
         {favouriteConsultationCentre?.length < 1 && (
-          <p className="text-center text-deepGray mt-40">
-            No Favourite Consultation Center added.
-          </p>
+          <div className="flex flex-col justify-center items-center min-h-content">
+            <Image
+              className="max-w-4xl w-full"
+              src="/images/favorite/fav-consultation-not-found.jpg"
+              alt="favourite-consultation-not-found"
+              width={1867}
+              height={1179}
+            />
+          </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
