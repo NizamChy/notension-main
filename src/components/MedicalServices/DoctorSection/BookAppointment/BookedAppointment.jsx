@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useEffect } from "react";
 import { WiTime4 } from "react-icons/wi";
 import { useDispatch, useSelector } from "react-redux";
@@ -99,9 +100,15 @@ const BookedAppointment = () => {
         )}
 
         {bookedAppoinmentInfo?.length < 1 && (
-          <p className="text-center text-deepGray mt-40">
-            No Appointment found.
-          </p>
+          <div className="flex flex-col justify-center items-center min-h-content">
+            <Image
+              className="max-w-md w-full"
+              src="/images/medical-services/no-appointment-found.png"
+              alt="no-appointment-found"
+              width={1024}
+              height={1024}
+            />
+          </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
