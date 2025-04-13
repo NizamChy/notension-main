@@ -10,20 +10,20 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
-import { useDispatch, useSelector } from "react-redux";
-import { handleUserReducer } from "@/redux/userReducer";
-import { usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
 import LocationModal from "../LocationModal/LocationModal";
-import Cookies from "js-cookie";
+
+import { useUser } from "@/hooks/fetch-data/useUser";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
 
-  const router = useRouter();
   const pathname = usePathname();
   const dropDownMenuRef = useRef();
 
-  const dispatch = useDispatch();
+  const { handleUserLogout } = useUser();
+
   const userInfo = useSelector((state) => state.user.userInfo);
 
   let category = "";
@@ -39,11 +39,7 @@ const Navbar = () => {
   }
 
   const handleLogout = () => {
-    // Remove the user_info cookie
-    Cookies.remove("user_info");
-
-    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
-    router.push("/");
+    handleUserLogout();
   };
 
   useEffect(() => {

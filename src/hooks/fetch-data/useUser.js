@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { persistor } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 axios.defaults.withCredentials = true;
 
@@ -25,6 +27,7 @@ export const useUser = () => {
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const { userLatitude, userLongitude, districtId } = useSelector(
     (state) => state.user
@@ -151,6 +154,16 @@ export const useUser = () => {
     );
   };
 
+  const handleUserLogout = () => {
+    Cookies.remove("user_info");
+
+    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
+
+    persistor.purge().then(() => {
+      router.push("/");
+    });
+  };
+
   return {
     isUserRegistered,
     progressing,
@@ -160,5 +173,6 @@ export const useUser = () => {
     registerUser,
     setProgressing,
     handleDataChange,
+    handleUserLogout,
   };
 };

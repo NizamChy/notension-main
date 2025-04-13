@@ -3,30 +3,27 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "react-toastify";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
-import { handleUserReducer } from "@/redux/userReducer";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { useParams, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import GroceryItemSearchBar from "../SearchBarSection/GroceryItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
-import Cookies from "js-cookie";
+import { useUser } from "@/hooks/fetch-data/useUser";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
 
   const params = useParams();
   const router = useRouter();
-  const pathname = usePathname();
   const dropDownMenuRef = useRef();
 
-  const dispatch = useDispatch();
+  const { handleUserLogout } = useUser();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const module = currentModule.toLowerCase();
@@ -34,12 +31,7 @@ const Navbar = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleLogout = () => {
-    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
-    toast.success("User logged out successfully");
-
-    Cookies.remove("user_info");
-
-    router.push("/");
+    handleUserLogout();
   };
 
   // `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
