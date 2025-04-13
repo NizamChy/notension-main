@@ -1,5 +1,5 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
 const NoItemFound = () => {
   return (
@@ -13,7 +13,9 @@ const NoItemFound = () => {
           className="object-cover w-80"
         />
 
-        <p className="text-center text-deepGray">No item found!</p>
+        <p className="text-center text-deepGray font-semibold text-xl">
+          No item found!
+        </p>
       </div>
     </div>
   );
