@@ -16,6 +16,8 @@ const initialState = {
   favouriteMedicineStore: [],
   favouriteMedicineItems: [],
   favouriteConsultationCentre: [],
+
+  currentItemDetails: {},
 };
 
 const userChoiceSlice = createSlice({
@@ -147,6 +149,10 @@ const userChoiceSlice = createSlice({
           return {
             ...initialState,
           };
+
+        case "SAVE_CURRENT_ITEM_DETAILS":
+          state.currentItemDetails = data;
+          break;
 
         default:
           break;

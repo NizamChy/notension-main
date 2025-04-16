@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useEffect, useRef, useState } from "react";
@@ -14,6 +14,7 @@ import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +25,12 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
   const params = useParams();
   const prevUrlRef = useRef(null);
+
+  const dispatch = useDispatch();
+
+  const { currentItemDetails } = useSelector((state) => state.userChoice);
+
+  console.log("currentItemDetails : ", currentItemDetails);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
@@ -84,6 +91,13 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     event.stopPropagation();
 
     setSelectedItem(item);
+
+    dispatch(
+      handleUserChoiceReducer({
+        type: "SAVE_CURRENT_ITEM_DETAILS",
+        data: item,
+      })
+    );
   };
 
   const handleIncrement = (e, itemId) => {
@@ -153,6 +167,13 @@ const GroceryItems = ({ item, isFavorite = false }) => {
       if (prevUrlRef.current) {
         window.history.pushState({}, "", prevUrlRef.current);
         prevUrlRef.current = null;
+
+        dispatch(
+          handleUserChoiceReducer({
+            type: "SAVE_CURRENT_ITEM_DETAILS",
+            data: {},
+          })
+        );
       }
     }
   }, [selectedItem, item?._id, params]);

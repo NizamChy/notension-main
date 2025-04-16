@@ -3,10 +3,8 @@ import GroceryItemDetails from "@/components/Grocery/GroceryItems/GroceryItemDet
 
 const page = () => {
   return (
-    <div className="min-h-content">
-      <div className="max-w-2xl m-40">
-        <GroceryItemDetails />
-      </div>
+    <div className="min-h-content mt-10 lg:mt-20">
+      <GroceryItemDetails />
     </div>
   );
 };
