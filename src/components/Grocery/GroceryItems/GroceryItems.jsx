@@ -111,25 +111,48 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
 
+  // useEffect(() => {
+  //   const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+
+  //   if (selectedItem && item?._id) {
+  //     // Store current URL before changing it
+  //     if (!prevUrlRef.current) {
+  //       prevUrlRef.current = window.location.pathname;
+  //     }
+
+  //     // Push clean product URL
+  //     const newUrl = `${basePath}/product/${item._id}`;
+  //     if (!window.location.pathname.endsWith(`/${item._id}`)) {
+  //       window.history.pushState({}, "", newUrl);
+  //     }
+  //   } else {
+  //     // Modal is closed - restore previous full URL
+  //     if (prevUrlRef.current) {
+  //       window.history.pushState({}, "", prevUrlRef.current);
+  //       prevUrlRef.current = null; // reset after restoring
+  //     }
+  //   }
+  // }, [selectedItem, item?._id, params]);
+
   useEffect(() => {
     const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
     if (selectedItem && item?._id) {
-      // Store current URL before changing it
+      // Store full URL including query params
       if (!prevUrlRef.current) {
-        prevUrlRef.current = window.location.pathname;
+        prevUrlRef.current = window.location.href;
       }
 
-      // Push clean product URL
+      // Push clean product URL (no query string)
       const newUrl = `${basePath}/product/${item._id}`;
       if (!window.location.pathname.endsWith(`/${item._id}`)) {
         window.history.pushState({}, "", newUrl);
       }
     } else {
-      // Modal is closed - restore previous full URL
+      // Modal closed - restore full previous URL (with query if any)
       if (prevUrlRef.current) {
         window.history.pushState({}, "", prevUrlRef.current);
-        prevUrlRef.current = null; // reset after restoring
+        prevUrlRef.current = null;
       }
     }
   }, [selectedItem, item?._id, params]);

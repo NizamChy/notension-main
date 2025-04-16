@@ -52,7 +52,7 @@ export const useGroceryProduct = () => {
 
   const handleSearch = (searchText, pageNo, setPageNo) => {
     setLoadingMore(true);
-    if (searchText.length > 1) {
+    if (searchText?.length > 1) {
       if (pageNo === 1) {
         resetLoadingStatus();
       }
