@@ -70,7 +70,7 @@ const Footer = () => {
           <ul className="space-y-2 md:space-y-4">
             <li>
               <Link
-                href="/grocery/all"
+                href="/grocery/home"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
               >
                 <FiChevronRight className="mr-2" />

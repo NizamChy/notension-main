@@ -27,13 +27,34 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    router.push(`/grocery/${params?.store}/type/${data?.id}`);
+
+    const formattedTypeName = data?.name
+      .toLowerCase()
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const typeSlugId = `${formattedTypeName}_${data.id}`;
+
+    router.push(
+      `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/type/${typeSlugId}`
+    );
   };
 
-  const handleSubtype = (subTypeId) => {
-    toggleDrawer();
-    router.push(`/grocery/${params?.store}/sub-type/${subTypeId}`);
+  const handleSubtype = (subTypeId, sub) => {
     setActiveSubtype(subTypeId);
+    toggleDrawer();
+
+    const formattedSubTypeName = sub?.sub_type_name
+      .toLowerCase()
+
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const subTypeSlugId = `${formattedSubTypeName}_${subTypeId}`;
+
+    router.push(
+      `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/sub-type/${subTypeSlugId}`
+    );
   };
 
   const handleCustomtype = (customTypeId) => {
@@ -190,7 +211,9 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                   <div className="overflow-hidden ps-2">
                     {data?.subtype?.map((sub, idx) => (
                       <div
-                        onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
+                        onClick={() =>
+                          handleSubtype(sub?.subtypeInfo?._id, sub)
+                        }
                         key={sub?._id}
                       >
                         <div

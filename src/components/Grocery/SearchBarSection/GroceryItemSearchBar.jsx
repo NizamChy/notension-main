@@ -13,7 +13,9 @@ const GroceryItemSearchBar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchText.trim().length > 1) {
-      router.push(`/grocery/${params?.store}/search?query=${searchText}`);
+      router.push(
+        `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/search?query=${searchText}`
+      );
     }
   };
 

@@ -12,7 +12,7 @@ const GroceryStoreSearchBar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchText.trim().length > 1) {
-      router.push(`/grocery/all/search-store?query=${searchText}`);
+      router.push(`/grocery/home/search-store?query=${searchText}`);
     }
   };
 

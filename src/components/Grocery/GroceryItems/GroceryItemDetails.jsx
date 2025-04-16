@@ -10,11 +10,27 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
-const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
+const GroceryItemDetails = () => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+
+  const item = {
+    _id: "664b53298f196aa86acc4165",
+    productInfoTable: "64f880a0a882f538834ee4ab",
+    pack_size: "5 Liter",
+    product_title_eng: "Rupchanda Soyabin Oil",
+    product_title_beng: "রূপচাঁদা সয়াবিন তেল",
+    unit_symbol: "Btl.",
+    app_image: "1704374685025-178684564.webp",
+    max_retail_price: 845,
+    less: 5,
+    less_type: "Fixed",
+    less_amount: 5,
+    sale_price: 840,
+    max_allowed: 0,
+    is_available: true,
+  };
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
@@ -87,14 +103,8 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
 
-  console.log(item);
-
   return (
-    <CommonModal
-      isOpen={isOpen}
-      onClose={onClose}
-      className="max-w-screen-md m-4"
-    >
+    <div>
       <div className="space-y-3">
         <h2 className="text-lg md:text-xl font-bold mb-4 text-secondary">
           Product Details
@@ -201,8 +211,8 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
           </div>
         </div>
       </div>
-    </CommonModal>
+    </div>
   );
 };
 
-export default GroceryItemDetailsModal;
+export default GroceryItemDetails;

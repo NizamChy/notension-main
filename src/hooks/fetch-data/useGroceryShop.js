@@ -76,7 +76,7 @@ export const useGroceryShop = () => {
   };
 
   const handleSearchStore = (searchText, setNearestInfo) => {
-    if (searchText.length > 1) {
+    if (searchText?.length > 1) {
       setProgressing(true);
       Axios.get(SEARCH_GROCERY_STORE, {
         params: {

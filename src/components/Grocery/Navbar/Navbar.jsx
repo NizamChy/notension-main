@@ -34,12 +34,8 @@ const Navbar = () => {
     handleUserLogout();
   };
 
-  // `/grocery/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
-  // http://localhost:3000/grocery/al-amin-departmental-store/664b51a83a578723e7439dc7/GS111128
-  // const basePath = `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
-
   const handleLogoClick = () => {
-    const basePath = `/${module}/${params?.store}`;
+    const basePath = `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
     const currentPath = window.location.pathname;
 
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
@@ -123,22 +119,27 @@ const Navbar = () => {
             </button>
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48 text-deepGray">
-                <li className="px-3 hover:underline">
-                  <Link
-                    className="flex items-center gap-1"
-                    href={`/grocery/${params?.store}/orders`}
-                  >
-                    <span>
-                      <BsCartCheck className="text-primaryGrocery" />
-                    </span>
-                    My Orders
-                  </Link>
-                </li>
+                {/* `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/type/${typeSlugId}` */}
+
+                {params?.storeId && params?.customStoreId && (
+                  <li className="px-3 hover:underline">
+                    <Link
+                      className="flex items-center gap-1"
+                      href={`/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
+                      // href={`/grocery/${params?.store}/orders`}
+                    >
+                      <span>
+                        <BsCartCheck className="text-primaryGrocery" />
+                      </span>
+                      My Orders
+                    </Link>
+                  </li>
+                )}
 
                 <li className="px-3 hover:underline">
                   <Link
                     className="flex items-center gap-1"
-                    href={`/grocery/${params?.store}/favorite-items`}
+                    href={`/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/favorite-items`}
                   >
                     <span>
                       <MdFavoriteBorder className="text-primaryGrocery" />

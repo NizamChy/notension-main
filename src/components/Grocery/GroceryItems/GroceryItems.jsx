@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { useParams, usePathname } from "next/navigation";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
@@ -20,6 +21,9 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+
+  const pathname = usePathname();
+  // const params = useParams();
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
@@ -107,6 +111,31 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
 
+  useEffect(() => {
+    if (selectedItem && item?._id) {
+      // Only update if the URL doesn't already match
+      if (!window.location.pathname.endsWith(`/${item._id}`)) {
+        const newUrl = `${pathname}/product/${item._id}`;
+
+        // const newUrl = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/product/${item._id}`;
+
+        window.history.pushState({}, "", newUrl);
+      }
+    } else {
+      // When modal is closed, remove the ID from URL if it exists
+      const pathParts = window.location.pathname.split("/");
+      if (
+        pathParts.length > 0 &&
+        pathParts[pathParts.length - 1] === item?._id
+      ) {
+        // Remove the last part (item ID)
+        // const newPath = pathParts.slice(0, -1).join("/");
+        const newPath = pathParts.slice(0, -2).join("/");
+        window.history.pushState({}, "", newPath);
+      }
+    }
+  }, [selectedItem, item?._id, pathname]);
+
   return (
     <>
       <div className="flex justify-center lg:mb-8">
@@ -137,7 +166,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
               alt={item?.product_title_eng || "Product image"}
               width={400}
               height={400}
-              className={`w-full md:h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105 ${
+              className={`w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105 ${
                 isImageLoading ? "opacity-0" : "opacity-100"
               }`}
               onLoadingComplete={() => setIsImageLoading(false)}
@@ -184,7 +213,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
           </div>
 
           <div className="px-2 md:px-3 pb-3 pt-2">
-            <div className="h-8 lg:h-12">
+            <div className="h-8 md:h-11 lg:h-12">
               <h5 className="text-xs md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
                 {item?.product_title_eng}
               </h5>

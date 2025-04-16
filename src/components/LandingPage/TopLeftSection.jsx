@@ -66,7 +66,7 @@ const TopLeftSection = () => {
     }
 
     if (type === "grocery") {
-      router.push("/grocery/all");
+      router.push("/grocery/home");
     }
   };
 

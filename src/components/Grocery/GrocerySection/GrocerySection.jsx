@@ -31,19 +31,6 @@ const GrocerySection = () => {
     );
   };
 
-  // const handleStoreClick = (shop) => {
-  //   if (!shop || !shop?.shop_name) return;
-
-  //   const formattedShopName = shop?.shop_name
-  //     .toLowerCase()
-  //     .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "") // Allow Bengali script + a-z + 0-9 + space
-  //     .replace(/\s+/g, "-");
-
-  //   router.push(
-  //     `/medicine/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`
-  //   );
-  // };
-
   useEffect(() => {
     getNearestGroceryStoreInfo(setNearestInfo);
   }, []);
