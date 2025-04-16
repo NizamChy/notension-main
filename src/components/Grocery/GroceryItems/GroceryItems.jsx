@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useParams, usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
@@ -22,8 +22,8 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
-  const pathname = usePathname();
-  // const params = useParams();
+  const params = useParams();
+  const prevUrlRef = useRef(null);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
@@ -112,29 +112,27 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
 
   useEffect(() => {
+    const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+
     if (selectedItem && item?._id) {
-      // Only update if the URL doesn't already match
+      // Store current URL before changing it
+      if (!prevUrlRef.current) {
+        prevUrlRef.current = window.location.pathname;
+      }
+
+      // Push clean product URL
+      const newUrl = `${basePath}/product/${item._id}`;
       if (!window.location.pathname.endsWith(`/${item._id}`)) {
-        const newUrl = `${pathname}/product/${item._id}`;
-
-        // const newUrl = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/product/${item._id}`;
-
         window.history.pushState({}, "", newUrl);
       }
     } else {
-      // When modal is closed, remove the ID from URL if it exists
-      const pathParts = window.location.pathname.split("/");
-      if (
-        pathParts.length > 0 &&
-        pathParts[pathParts.length - 1] === item?._id
-      ) {
-        // Remove the last part (item ID)
-        // const newPath = pathParts.slice(0, -1).join("/");
-        const newPath = pathParts.slice(0, -2).join("/");
-        window.history.pushState({}, "", newPath);
+      // Modal is closed - restore previous full URL
+      if (prevUrlRef.current) {
+        window.history.pushState({}, "", prevUrlRef.current);
+        prevUrlRef.current = null; // reset after restoring
       }
     }
-  }, [selectedItem, item?._id, pathname]);
+  }, [selectedItem, item?._id, params]);
 
   return (
     <>
