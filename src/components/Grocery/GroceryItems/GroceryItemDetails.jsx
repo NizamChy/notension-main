@@ -18,8 +18,6 @@ const GroceryItemDetails = () => {
 
   const { currentItemDetails: item } = useSelector((state) => state.userChoice);
 
-  console.log("item :", item);
-
   // const item = {
   //   _id: "664b53298f196aa86acc4165",
   //   productInfoTable: "64f880a0a882f538834ee4ab",
@@ -56,7 +54,7 @@ const GroceryItemDetails = () => {
     setIsLoading(true);
     try {
       await addToCart(item);
-      toast.success("Added to cart successfully!");
+      // toast.success("Added to cart successfully!");
     } catch (error) {
       toast.error("Failed to add to cart");
     } finally {

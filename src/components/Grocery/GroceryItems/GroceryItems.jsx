@@ -28,10 +28,6 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
   const dispatch = useDispatch();
 
-  const { currentItemDetails } = useSelector((state) => state.userChoice);
-
-  console.log("currentItemDetails : ", currentItemDetails);
-
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
 

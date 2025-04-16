@@ -75,6 +75,7 @@ const SubTypeSection = () => {
   const handleType = () => {
     if (typeName && typeId) {
       const formattedTypeName = typeName
+        ?.trim()
         .toLowerCase()
         .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
         .replace(/\s+/g, "-");

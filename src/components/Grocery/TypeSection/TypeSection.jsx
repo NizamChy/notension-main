@@ -26,8 +26,8 @@ const TypeSection = () => {
 
   const handleSubtype = (subTypeId, sub) => {
     const formattedSubTypeName = sub?.sub_type_name
+      ?.trim()
       .toLowerCase()
-
       .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
       .replace(/\s+/g, "-");
 

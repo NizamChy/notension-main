@@ -21,6 +21,7 @@ const GrocerySection = () => {
     if (shop?.is_closed) return toast.info("Sorry we're closed!");
 
     const formattedShopName = shop?.shop_name
+      ?.trim()
       .toLowerCase()
       // .replace(/[^a-z0-9 ]/g, "")
       .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
