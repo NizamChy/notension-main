@@ -2,6 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { TbCurrencyTaka } from "react-icons/tb";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import { IoStorefrontSharp } from "react-icons/io5";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoIosCall } from "react-icons/io";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   return (
@@ -16,6 +19,31 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
         <p>
           <span className="font-medium">Order ID:</span>{" "}
           {order?.order_id?.split("-").pop()}
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
+          <span>
+            <IoStorefrontSharp className="mt-1 text-primary" />
+          </span>
+          <span>{order?.merchantInfo?.shop_name}</span>
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base">
+          <span>
+            <FaLocationDot className="mt-1 text-primary" />
+          </span>
+          <span>{order?.merchantInfo?.shop_address}</span>
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base font-medium">
+          <span>
+            <IoIosCall className="mt-1 text-primary" />
+          </span>
+          <span>
+            {" "}
+            {order?.merchantInfo?.contact_no},{" "}
+            {order?.merchantInfo?.alternative_contact_no}
+          </span>
         </p>
 
         <p>

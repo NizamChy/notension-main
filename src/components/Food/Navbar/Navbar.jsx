@@ -3,17 +3,17 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
+import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import LocationModal from "@/components/shared/LocationModal/LocationModal";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
-import { useUser } from "@/hooks/fetch-data/useUser";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -112,17 +112,19 @@ const Navbar = () => {
             </button>
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48 text-deepGray">
-                <li className="px-3 hover:underline">
-                  <Link
-                    href="/food/store/orders"
-                    className="flex items-center gap-1"
-                  >
-                    <span>
-                      <BsCartCheck className="text-primaryFood" />
-                    </span>
-                    My Orders
-                  </Link>
-                </li>
+                {params?.storeId && params?.customStoreId && (
+                  <li className="px-3 hover:underline">
+                    <Link
+                      href={`/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
+                      className="flex items-center gap-1"
+                    >
+                      <span>
+                        <BsCartCheck className="text-primaryFood" />
+                      </span>
+                      My Orders
+                    </Link>
+                  </li>
+                )}
                 <li className="px-3 hover:underline">
                   <Link
                     href="/user/profile"

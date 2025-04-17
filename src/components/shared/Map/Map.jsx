@@ -296,8 +296,9 @@ const Map = ({ onCloseModal = false }) => {
 
       <div className="hidden md:flex justify-center gap-2">
         <button
+          disabled={isMapLoading}
           onClick={handleConfirmLocation}
-          className="rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
+          className="disabled:bg-gray-300 rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
         >
           Confirm Location
         </button>
@@ -305,8 +306,9 @@ const Map = ({ onCloseModal = false }) => {
 
       <div className="flex md:hidden justify-center gap-2 mx-4">
         <button
+          disabled={isMapLoading}
           onClick={handleConfirmMobileLocation}
-          className="rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
+          className="disabled:bg-gray-300 rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
         >
           Confirm Location
         </button>

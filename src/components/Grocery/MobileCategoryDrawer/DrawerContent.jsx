@@ -20,10 +20,9 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
   const params = useParams();
   const router = useRouter();
 
+  const { handleUserLogout } = useUser();
   const userInfo = useSelector((state) => state.user.userInfo);
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
-
-  const { handleUserLogout } = useUser();
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
@@ -80,27 +79,33 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
         {userInfo?._id ? (
           <>
             <div className="p-3 px-5">
-              <div className="flex items-center gap-2">
-                <CgProfile className="text-lg text-secondary" />
+              <Link onClick={toggleDrawer} href="/user/profile">
+                <div className="flex items-center gap-2">
+                  <CgProfile className="text-lg text-secondary" />
 
-                <div className="-space-y-0.5">
-                  <p className="font-medium text-sm text-secondary">
-                    {userInfo?.customer_name}
-                  </p>
-                  <p className="text-sm text-deepGray">
-                    {userInfo?.contact_no}
-                  </p>
+                  <div className="-space-y-0.5">
+                    <p className="font-medium text-sm text-secondary">
+                      {userInfo?.customer_name}
+                    </p>
+                    <p className="text-sm text-deepGray">
+                      {userInfo?.contact_no}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <Link
-                onClick={toggleDrawer}
-                href={`/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
-                className="mt-2 flex gap-2"
-              >
-                <TiShoppingCart className="text-lg text-secondary" />
-                <p className="text-secondary text-sm font-medium">My Orders</p>
               </Link>
+
+              {params?.storeId && params?.customStoreId && (
+                <Link
+                  onClick={toggleDrawer}
+                  href={`/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
+                  className="mt-2 flex gap-2"
+                >
+                  <TiShoppingCart className="text-lg text-secondary" />
+                  <p className="text-secondary text-sm font-medium">
+                    My Orders
+                  </p>
+                </Link>
+              )}
 
               <Link
                 onClick={toggleDrawer}

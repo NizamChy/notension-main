@@ -6,10 +6,10 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { IoStorefrontSharp } from "react-icons/io5";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams, useRouter } from "next/navigation";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
-import { IoStorefrontSharp } from "react-icons/io5";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);

@@ -91,7 +91,10 @@ export const useOrderFood = () => {
             })
           );
 
-          router.push("/food");
+          // router.push("/food");
+          router.push(
+            `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
+          );
         } else {
           toast.error("Failed to place order.");
         }

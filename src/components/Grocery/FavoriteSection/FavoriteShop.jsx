@@ -17,8 +17,8 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
     if (!shop || !shop?.shop_name) return;
 
     const formattedShopName = shop?.shop_name
+      ?.trim()
       .toLowerCase()
-      // .replace(/[^a-z0-9 ]/g, "")
       .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
       .replace(/\s+/g, "-");
 
@@ -55,7 +55,7 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
         </>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
         {favouriteGroceryStore?.map((shop) => (
           <ShopInfoCard
             key={shop?.storeId}

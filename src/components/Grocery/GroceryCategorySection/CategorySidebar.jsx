@@ -20,6 +20,7 @@ const CategorySidebar = () => {
     setIsOpen((prev) => (prev === index ? null : index));
 
     const formattedTypeName = data?.name
+      ?.trim()
       .toLowerCase()
       .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
       .replace(/\s+/g, "-");

@@ -36,7 +36,7 @@ const CategoryBannerCarousel = () => {
         className="mySwiper z-50 relative rounded-lg"
       >
         {images?.map((slide, index) => (
-          <SwiperSlide key={index} className="rounded-lg">
+          <SwiperSlide key={index} className="rounded-lg pt-4 md:pt-0">
             <Image
               // className="lg:h-[340px] object-cover rounded-lg"
               className="lg:h-[364px] object-cover rounded-lg"

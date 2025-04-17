@@ -3,7 +3,10 @@
 import React from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import { IoIosCall } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoStorefrontSharp } from "react-icons/io5";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const OrderDetailsMobile = ({ orderId }) => {
@@ -25,6 +28,31 @@ const OrderDetailsMobile = ({ orderId }) => {
         <p>
           <span className="font-medium">Order ID:</span>{" "}
           {order?.order_id?.split("-").pop()}
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
+          <span>
+            <IoStorefrontSharp className="mt-1 text-primary" />
+          </span>
+          <span>{order?.merchantInfo?.shop_name}</span>
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base">
+          <span>
+            <FaLocationDot className="mt-1 text-primary" />
+          </span>
+          <span>{order?.merchantInfo?.shop_address}</span>
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base font-medium">
+          <span>
+            <IoIosCall className="mt-1 text-primary" />
+          </span>
+          <span>
+            {" "}
+            {order?.merchantInfo?.contact_no},{" "}
+            {order?.merchantInfo?.alternative_contact_no}
+          </span>
         </p>
 
         <p>

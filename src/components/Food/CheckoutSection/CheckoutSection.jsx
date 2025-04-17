@@ -123,7 +123,7 @@ const CheckoutSection = () => {
   }, [totalPrice]);
 
   return (
-    <div className="flex justify-center md:py-10">
+    <div className="flex justify-center">
       <div className="bg-white p-4 w-full md:w-96">
         <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
           <p className="text-primaryFood text-base md:text-xl font-medium underline flex items-center gap-2">

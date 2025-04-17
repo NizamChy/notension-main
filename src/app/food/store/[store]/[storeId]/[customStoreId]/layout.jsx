@@ -62,25 +62,30 @@ export default function RootLayout({ children }) {
           </div>
 
           <div className="w-full lg:w-[80%] ml-auto md:p-16">
-            <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-10">
-              <div className="lg:w-1/2 xl:w-1/3 px-4 lg:px-0">
-                <ShopInfoCard
-                  onClick={() =>
-                    router.push(
-                      `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
-                    )
-                  }
-                  shop={visitedFoodStore}
-                  type="food"
-                />
+            {(pathname ===
+              `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}` ||
+              pathname ===
+                `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${params?.catId}`) && (
+              <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-10">
+                <div className="lg:w-1/2 xl:w-1/3 px-4 lg:px-0">
+                  <ShopInfoCard
+                    onClick={() =>
+                      router.push(
+                        `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
+                      )
+                    }
+                    shop={visitedFoodStore}
+                    type="food"
+                  />
+                </div>
+                <div className="lg:w-1/2 xl:w-2/3">
+                  <CategoryBannerCarousel />
+                </div>
               </div>
-              <div className="lg:w-1/2 xl:w-2/3">
-                <CategoryBannerCarousel />
-              </div>
-            </div>
+            )}
 
-            {pathname !==
-              `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}` && (
+            {pathname ===
+              `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${params?.catId}` && (
               <CategorySlider />
             )}
 

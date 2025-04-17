@@ -40,7 +40,9 @@ const Cart = () => {
       toggleDrawer();
 
       if (module === "food") {
-        router.push(`/${module}/store/checkout`);
+        router.push(
+          `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
       } else if (module === "grocery") {
         router.push(
           `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`

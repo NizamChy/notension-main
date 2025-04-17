@@ -24,7 +24,7 @@ const MobileCategoryDrawer = () => {
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   const handleLogoClick = () => {
-    const basePath = `/${module}/store/${params?.store}`;
+    const basePath = `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
     const currentPath = window.location.pathname;
 
     toggleDrawer();
