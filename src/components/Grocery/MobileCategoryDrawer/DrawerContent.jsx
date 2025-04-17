@@ -2,16 +2,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { TbLogout } from "react-icons/tb";
+import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { IoLocationOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
-import { handleUserReducer } from "@/redux/userReducer";
 import { MdFavoriteBorder, MdPlayArrow } from "react-icons/md";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
@@ -21,9 +20,10 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
   const params = useParams();
   const router = useRouter();
 
-  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
+
+  const { handleUserLogout } = useUser();
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
@@ -46,10 +46,10 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
     toggleDrawer();
 
     const formattedSubTypeName = sub?.sub_type_name
-      ?.trim() // Remove leading/trailing spaces
+      ?.trim()
       .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "") // Remove unwanted chars
-      .replace(/\s+/g, "-"); // Replace spaces with -
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
 
     const subTypeSlugId = `${formattedSubTypeName}_${subTypeId}`;
 
@@ -60,7 +60,9 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const handleCustomtype = (customTypeId) => {
     toggleDrawer();
-    router.push(`/grocery/${params?.store}/custom-type/${customTypeId}`);
+    router.push(
+      `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/custom-type/${customTypeId}`
+    );
   };
 
   const handleLogin = () => {
@@ -69,8 +71,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
   };
 
   const handleLogout = () => {
-    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
-    toast.success("User logged out successfully");
+    handleUserLogout();
   };
 
   return (
@@ -94,7 +95,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
               <Link
                 onClick={toggleDrawer}
-                href={`/grocery/${params?.store}/orders`}
+                href={`/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
                 className="mt-2 flex gap-2"
               >
                 <TiShoppingCart className="text-lg text-secondary" />
@@ -116,7 +117,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
               <Link
                 onClick={toggleDrawer}
-                href={`/grocery/${params?.store}/favorite-items`}
+                href={`/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/favorite-items`}
                 className="mt-2 flex gap-2"
               >
                 <MdFavoriteBorder className="text-lg text-secondary" />

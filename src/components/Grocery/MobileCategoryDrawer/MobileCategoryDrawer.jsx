@@ -21,16 +21,16 @@ const MobileCategoryDrawer = () => {
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   const handleLogoClick = () => {
-    const basePath = `/grocery/${params?.store}`;
+    const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
     const currentPath = window.location.pathname;
-
-    toggleDrawer();
 
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
       router.push(basePath);
     } else {
       router.push("/");
     }
+
+    toggleDrawer();
   };
 
   useEffect(() => {

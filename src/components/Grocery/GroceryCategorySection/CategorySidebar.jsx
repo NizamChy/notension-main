@@ -35,10 +35,10 @@ const CategorySidebar = () => {
     setActiveSubtype(subTypeId);
 
     const formattedSubTypeName = sub?.sub_type_name
-      ?.trim() // Remove leading/trailing spaces
+      ?.trim()
       .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "") // Remove unwanted chars
-      .replace(/\s+/g, "-"); // Replace spaces with -
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
 
     const subTypeSlugId = `${formattedSubTypeName}_${subTypeId}`;
 

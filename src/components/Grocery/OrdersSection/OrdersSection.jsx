@@ -1,12 +1,15 @@
 "use client";
 
 import { useSelector } from "react-redux";
+import { IoIosCall } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { FaLocationDot } from "react-icons/fa6";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams, useRouter } from "next/navigation";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
+import { IoStorefrontSharp } from "react-icons/io5";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -56,7 +59,32 @@ const OrdersSection = () => {
                       </p>
                     </div>
 
-                    <div className="mt-2">
+                    <div className="mt-2 space-y-1.5 px-2">
+                      <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
+                        <span>
+                          <IoStorefrontSharp className="mt-1 text-primary" />
+                        </span>
+                        <span>{order?.merchantInfo?.shop_name}</span>
+                      </p>
+
+                      <p className="flex items-start gap-1 text-sm md:text-base">
+                        <span>
+                          <FaLocationDot className="mt-1 text-primary" />
+                        </span>
+                        <span>{order?.merchantInfo?.shop_address}</span>
+                      </p>
+
+                      <p className="flex items-start gap-1 text-sm md:text-base font-medium">
+                        <span>
+                          <IoIosCall className="mt-1 text-primary" />
+                        </span>
+                        <span>
+                          {" "}
+                          {order?.merchantInfo?.contact_no},{" "}
+                          {order?.merchantInfo?.alternative_contact_no}
+                        </span>
+                      </p>
+
                       <p className="text-sm md:text-base">
                         <span className="font-medium">Order Date:</span>{" "}
                         {new Date(order?.createdAt).toLocaleDateString(
@@ -98,7 +126,7 @@ const OrdersSection = () => {
                       <button
                         onClick={() =>
                           router.push(
-                            `/grocery/${params?.store}/orders/${order?._id}`
+                            `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders/${order?._id}`
                           )
                         }
                         className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"
