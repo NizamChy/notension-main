@@ -2,19 +2,19 @@
 
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -121,45 +121,19 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
 
-  // useEffect(() => {
-  //   const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
-
-  //   if (selectedItem && item?._id) {
-  //     // Store current URL before changing it
-  //     if (!prevUrlRef.current) {
-  //       prevUrlRef.current = window.location.pathname;
-  //     }
-
-  //     // Push clean product URL
-  //     const newUrl = `${basePath}/product/${item._id}`;
-  //     if (!window.location.pathname.endsWith(`/${item._id}`)) {
-  //       window.history.pushState({}, "", newUrl);
-  //     }
-  //   } else {
-  //     // Modal is closed - restore previous full URL
-  //     if (prevUrlRef.current) {
-  //       window.history.pushState({}, "", prevUrlRef.current);
-  //       prevUrlRef.current = null; // reset after restoring
-  //     }
-  //   }
-  // }, [selectedItem, item?._id, params]);
-
   useEffect(() => {
     const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
     if (selectedItem && item?._id) {
-      // Store full URL including query params
       if (!prevUrlRef.current) {
         prevUrlRef.current = window.location.href;
       }
 
-      // Push clean product URL (no query string)
       const newUrl = `${basePath}/product/${item._id}`;
       if (!window.location.pathname.endsWith(`/${item._id}`)) {
         window.history.pushState({}, "", newUrl);
       }
     } else {
-      // Modal closed - restore full previous URL (with query if any)
       if (prevUrlRef.current) {
         window.history.pushState({}, "", prevUrlRef.current);
         prevUrlRef.current = null;

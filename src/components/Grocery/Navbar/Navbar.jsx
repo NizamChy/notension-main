@@ -3,18 +3,18 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import GroceryItemSearchBar from "../SearchBarSection/GroceryItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
-import { useUser } from "@/hooks/fetch-data/useUser";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
