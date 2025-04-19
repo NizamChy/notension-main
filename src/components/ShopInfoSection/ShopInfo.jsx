@@ -47,13 +47,13 @@ const ShopInfo = () => {
                 {visitedMedicineStore?.alternative_contact_no}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-xs md:text-base lg:text-lg">
+            <div className="flex items-start gap-2 text-xs md:text-base lg:text-lg">
               <span>
                 <IoLocationOutline className="text-indigo-600 md:text-xl" />
               </span>
 
               <span className="font-semibold text-gray-900">Location:</span>
-              <span className="truncate font-medium">
+              <span className="font-medium line-clamp-2 lg:line-clamp-1">
                 {visitedMedicineStore?.district_area_name},{" "}
                 {visitedMedicineStore?.district_name}
               </span>

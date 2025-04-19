@@ -1,16 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
 import Cart from "@/components/Cart/Cart";
+import { useParams } from "next/navigation";
+import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/Grocery/Navbar/Navbar";
-import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
-import { useParams } from "next/navigation";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
-import { useEffect } from "react";
+import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
 
 export default function GroceryStoreLayout({ children }) {
   const params = useParams();
-
   const { exploreStore, progressing } = useGroceryShop();
 
   useEffect(() => {
@@ -36,7 +36,14 @@ export default function GroceryStoreLayout({ children }) {
         </div>
 
         <div className="w-full lg:w-[80%] ml-auto">
-          <div className="min-h-content">{children}</div>
+          {progressing ? (
+            <div className="min-h-content mx-auto flex justify-center items-center">
+              <Loader />
+            </div>
+          ) : (
+            <div className="min-h-content"> {children}</div>
+          )}
+
           <Footer />
         </div>
       </div>

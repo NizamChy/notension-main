@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useSelector } from "react-redux";
-import { useParams } from "next/navigation";
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import NoItemFound from "../NoItemSection/NoItemFound";
+import { useParams, useRouter } from "next/navigation";
 import MedicineItems from "../MedicineItems/MedicineItems";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -20,27 +18,30 @@ const SubTypeSection = () => {
   const [selectedSubType, setSelectedSubType] = useState(null);
 
   const params = useParams();
+  const router = useRouter();
 
   const { getItemsOnPress, productInfo, loadingMore, allLoaded } =
     useMedicine();
 
+  const subTypeSlugId = params.subTypeSlugId;
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   useEffect(() => {
-    const currentUrl = window.location.href;
-    const pathSegments = currentUrl.split("/");
-    const subTypeId = pathSegments[pathSegments.length - 1];
-    const urlOption = pathSegments[pathSegments.length - 2];
+    const [slug, subTypeId] = subTypeSlugId.split("_");
 
-    setOption(urlOption);
-    setId(subTypeId);
+    if (subTypeId) {
+      const urlOption = "sub-type";
+
+      setOption(urlOption);
+      setId(subTypeId);
+    }
   }, []);
 
   useEffect(() => {
-    if (option && id) {
+    if (option && id && typeInfo) {
       getItemsOnPress(option, id, pageNo, setPageNo);
     }
-  }, [id]);
+  }, [id, typeInfo]);
 
   useEffect(() => {
     if (option && id) {
@@ -59,19 +60,35 @@ const SubTypeSection = () => {
     }
   }, [option, id, typeInfo]);
 
+  const handleType = () => {
+    if (typeName && typeId) {
+      const formattedTypeName = typeName
+        ?.trim()
+        .toLowerCase()
+        .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+        .replace(/\s+/g, "-");
+
+      const typeSlugId = `${formattedTypeName}_${typeId}`;
+
+      router.push(
+        `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/type/${typeSlugId}`
+      );
+    }
+  };
+
   return (
     <div className="m-4 lg:m-20 pt-14 md:pt-20 lg:pt-10 min-h-content">
       {selectedSubType && (
         <>
           <nav className="flex mb-5" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-              <li className="inline-flex items-center">
-                <Link
-                  href={`/medicine/${params?.store}/type/${typeId}`}
-                  className="inline-flex items-center text-xs md:text-xl font-medium text-gray-700 hover:text-secondaryMedicine"
-                >
+              <li
+                onClick={handleType}
+                className="inline-flex items-center cursor-pointer"
+              >
+                <p className="inline-flex items-center text-xs md:text-xl font-medium text-gray-700 hover:text-secondaryMedicine">
                   {typeName}
-                </Link>
+                </p>
               </li>
               <li>
                 <div className="flex items-center">
@@ -117,7 +134,13 @@ const SubTypeSection = () => {
               getItemsOnPress(option, id, pageNo, setPageNo);
             }}
             hasMore={loadingMore}
-            loader={<Loader />}
+            loader={
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <ItemCardSkeleton key={index} />
+                ))}
+              </div>
+            }
           >
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
               {productInfo?.map((item) => (

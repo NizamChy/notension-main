@@ -94,7 +94,9 @@ export const useOrderMedicine = () => {
             })
           );
 
-          router.push(`/medicine/${params?.store}`);
+          router.push(
+            `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`
+          );
         } else {
           toast.error("Failed to place order.");
         }

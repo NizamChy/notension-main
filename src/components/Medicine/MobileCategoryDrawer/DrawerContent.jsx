@@ -2,16 +2,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { TbLogout } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux";
 import { TiShoppingCart } from "react-icons/ti";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { IoLocationOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
-import { handleUserReducer } from "@/redux/userReducer";
 import { MdFavoriteBorder, MdPlayArrow } from "react-icons/md";
 
 const DrawerContent = ({ toggleDrawer, openModal }) => {
@@ -20,20 +19,42 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
   const params = useParams();
   const router = useRouter();
-  const dispatch = useDispatch();
 
+  const { handleUserLogout } = useUser();
   const userInfo = useSelector((state) => state.user.userInfo);
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
-    router.push(`/medicine/${params?.store}/type/${data?.id}`);
+
+    const formattedTypeName = data?.name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const typeSlugId = `${formattedTypeName}_${data.id}`;
+
+    router.push(
+      `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/type/${typeSlugId}`
+    );
   };
 
-  const handleSubtype = (subTypeId) => {
-    toggleDrawer();
-    router.push(`/medicine/${params?.store}/sub-type/${subTypeId}`);
+  const handleSubtype = (subTypeId, sub) => {
     setActiveSubtype(subTypeId);
+    toggleDrawer();
+
+    const formattedSubTypeName = sub?.sub_type_name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const subTypeSlugId = `${formattedSubTypeName}_${subTypeId}`;
+
+    router.push(
+      `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/sub-type/${subTypeSlugId}`
+    );
   };
 
   const handleCustomtype = (customTypeId) => {
@@ -41,14 +62,13 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
     router.push(`/medicine/${params?.store}/custom-type/${customTypeId}`);
   };
 
-  const handleLogout = () => {
-    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
-    toast.success("User logged out successfully");
-  };
-
   const handleLogin = () => {
     toggleDrawer();
     openModal();
+  };
+
+  const handleLogout = () => {
+    handleUserLogout();
   };
 
   return (
@@ -57,29 +77,33 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
         {userInfo?._id ? (
           <>
             <div className="p-3 px-5">
-              <div className="flex items-center gap-2">
-                <CgProfile className="text-lg text-secondaryMedicine" />
+              <Link onClick={toggleDrawer} href="/user/profile">
+                <div className="flex items-center gap-2">
+                  <CgProfile className="text-lg text-secondaryMedicine" />
 
-                <div className="-space-y-0.5">
-                  <p className="font-medium text-sm text-secondaryMedicine">
-                    {userInfo?.customer_name}
-                  </p>
-                  <p className="text-sm text-deepGray">
-                    {userInfo?.contact_no}
-                  </p>
+                  <div className="-space-y-0.5">
+                    <p className="font-medium text-sm text-secondaryMedicine">
+                      {userInfo?.customer_name}
+                    </p>
+                    <p className="text-sm text-deepGray">
+                      {userInfo?.contact_no}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <Link
-                onClick={toggleDrawer}
-                href={`/medicine/${params?.store}/orders`}
-                className="mt-2 flex gap-2"
-              >
-                <TiShoppingCart className="text-lg text-secondaryMedicine" />
-                <p className="text-secondaryMedicine text-sm font-medium">
-                  My Orders
-                </p>
               </Link>
+
+              {params?.storeId && params?.customStoreId && (
+                <Link
+                  onClick={toggleDrawer}
+                  href={`/medicine/${params?.store}/orders`}
+                  className="mt-2 flex gap-2"
+                >
+                  <TiShoppingCart className="text-lg text-secondaryMedicine" />
+                  <p className="text-secondaryMedicine text-sm font-medium">
+                    My Orders
+                  </p>
+                </Link>
+              )}
 
               <Link
                 onClick={toggleDrawer}
@@ -96,7 +120,7 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
 
               <Link
                 onClick={toggleDrawer}
-                href={`/medicine/${params?.store}/favorite-items`}
+                href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/favorite-items`}
                 className="mt-2 flex gap-2"
               >
                 <MdFavoriteBorder className="text-lg text-secondaryMedicine" />
@@ -194,7 +218,9 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                   <div className="overflow-hidden ps-1">
                     {data?.subtype?.map((sub, idx) => (
                       <div
-                        onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
+                        onClick={() =>
+                          handleSubtype(sub?.subtypeInfo?._id, sub)
+                        }
                         key={sub?._id}
                       >
                         <div

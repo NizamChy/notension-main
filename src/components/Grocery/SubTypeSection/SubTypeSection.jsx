@@ -29,9 +29,8 @@ const SubTypeSection = () => {
   const { getItemsOnPress, productInfo, loadingMore, allLoaded } =
     useGroceryProduct();
 
-  const typeInfo = useSelector((state) => state.dashboard.typeInfo);
-
   const subTypeSlugId = params.subTypeSlugId;
+  const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   useEffect(() => {
     // const currentUrl = window.location.href;

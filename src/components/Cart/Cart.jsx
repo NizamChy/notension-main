@@ -48,7 +48,9 @@ const Cart = () => {
           `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
         );
       } else {
-        router.push(`/${module}/${params?.store}/checkout`);
+        router.push(
+          `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
       }
     } else {
       toggleDrawer();

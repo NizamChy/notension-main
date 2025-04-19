@@ -19,12 +19,33 @@ const CategorySidebar = () => {
   const handleToggle = (index, data) => {
     setIsOpen((prev) => (prev === index ? null : index));
 
-    router.push(`/medicine/${params?.store}/type/${data?.id}`);
+    const formattedTypeName = data?.name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const typeSlugId = `${formattedTypeName}_${data.id}`;
+
+    router.push(
+      `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/type/${typeSlugId}`
+    );
   };
 
-  const handleSubtype = (subTypeId) => {
-    router.push(`/medicine/${params?.store}/sub-type/${subTypeId}`);
+  const handleSubtype = (subTypeId, sub) => {
     setActiveSubtype(subTypeId);
+
+    const formattedSubTypeName = sub?.sub_type_name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const subTypeSlugId = `${formattedSubTypeName}_${subTypeId}`;
+
+    router.push(
+      `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/sub-type/${subTypeSlugId}`
+    );
   };
 
   const handleCustomtype = (customTypeId) => {
@@ -96,7 +117,7 @@ const CategorySidebar = () => {
                 <div className="overflow-hidden ps-4">
                   {data?.subtype?.map((sub, idx) => (
                     <div
-                      onClick={() => handleSubtype(sub?.subtypeInfo?._id)}
+                      onClick={() => handleSubtype(sub?.subtypeInfo?._id, sub)}
                       key={sub?._id}
                     >
                       <div

@@ -37,7 +37,7 @@ const TopRightSection = () => {
     }
 
     if (type === "medicine") {
-      router.push("/medicine/all");
+      router.push("/medicine/home");
     } else if (type === "food") {
       router.push("/food");
     } else if (type === "allCareServices") {

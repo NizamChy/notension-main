@@ -4,31 +4,29 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BiLogOut } from "react-icons/bi";
+import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { MdFavoriteBorder } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import MedicineItemSearchBar from "../SearchBarSection/MedicineItemSearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
-import { useUser } from "@/hooks/fetch-data/useUser";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
 
   const params = useParams();
   const router = useRouter();
+  const dropDownMenuRef = useRef();
 
   const { handleUserLogout } = useUser();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const module = currentModule.toLowerCase();
-
-  const dropDownMenuRef = useRef();
-
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleLogout = () => {
@@ -36,7 +34,8 @@ const Navbar = () => {
   };
 
   const handleLogoClick = () => {
-    const basePath = `/${module}/${params?.store}`;
+    const basePath = `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+
     const currentPath = window.location.pathname;
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
       router.push(basePath);
@@ -121,7 +120,7 @@ const Navbar = () => {
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48 text-deepGray">
                 <li className="px-3 hover:underline">
                   <Link
-                    href={`/medicine/${params?.store}/orders`}
+                    href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
                     className="flex items-center gap-1"
                   >
                     <span>

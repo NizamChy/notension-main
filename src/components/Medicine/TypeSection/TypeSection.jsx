@@ -8,17 +8,35 @@ import NoItemFound from "../NoItemSection/NoItemFound";
 import { useParams, useRouter } from "next/navigation";
 import { MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
-const TypeSection = ({ typeId }) => {
+const TypeSection = () => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   const router = useRouter();
   const params = useParams();
 
+  const typeSlugId = params.typeSlugId;
+  const [slug, typeId] = typeSlugId.split("_");
+
   const { typeInfo, isLoading } = useSelector((state) => state.dashboard);
+
   const selectedType = typeInfo?.find(
     (type) => type?.id === typeId || type?.custom_type_id === typeId
   );
   const subtypes = selectedType?.subtype || [];
+
+  const handleSubtype = (subTypeId, sub) => {
+    const formattedSubTypeName = sub?.sub_type_name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
+      .replace(/\s+/g, "-");
+
+    const subTypeSlugId = `${formattedSubTypeName}_${subTypeId}`;
+
+    router.push(
+      `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/sub-type/${subTypeSlugId}`
+    );
+  };
 
   return (
     <>
@@ -39,9 +57,7 @@ const TypeSection = ({ typeId }) => {
             subtypes?.map((subtype) => (
               <div
                 onClick={() =>
-                  router.push(
-                    `/medicine/${params?.store}/sub-type/${subtype?.subtypeInfo?._id}`
-                  )
+                  handleSubtype(subtype?.subtypeInfo?._id, subtype)
                 }
                 key={subtype?._id}
                 className="relative cursor-pointer bg-white rounded-lg shadow-md p-2 md:p-4 hover:shadow-lg transition-shadow"

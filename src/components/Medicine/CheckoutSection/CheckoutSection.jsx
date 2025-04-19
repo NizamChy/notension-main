@@ -8,6 +8,8 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
 import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
+import { IoLocationOutline } from "react-icons/io5";
+import { AiOutlinePhone } from "react-icons/ai";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -140,9 +142,21 @@ const CheckoutSection = () => {
             <span> Cotnact details</span>
           </p>
 
-          <p className="font-medium text-base">{userInfo.customer_name}</p>
-          <p className="text-sm md:text-base">{userInfo.customer_address}</p>
-          <p className="text-sm md:text-base">{userInfo.contact_no}</p>
+          <p className="font-medium text-base ps-6 pt-1">
+            {userInfo.customer_name}
+          </p>
+          <p className="text-sm md:text-base flex gap-1 items-start">
+            <span className="mt-0.5 text-xl text-primaryMedicine">
+              <IoLocationOutline />
+            </span>
+            <span>{userInfo.customer_address}</span>
+          </p>
+          <p className="text-sm md:text-base flex gap-1 items-start">
+            <span className="mt-0.5 text-xl text-primaryMedicine">
+              <AiOutlinePhone />
+            </span>
+            <span>{userInfo.contact_no}</span>
+          </p>
 
           <div className="flex flex-col py-4 font-bold text-sm md:text-lg border-b">
             <div className="flex justify-between">

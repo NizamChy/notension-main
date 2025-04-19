@@ -20,9 +20,9 @@ const MobileCategoryDrawer = () => {
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   const handleLogoClick = () => {
-    const basePath = `/medicine/${params?.store}`;
-    const currentPath = window.location.pathname;
+    const basePath = `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
+    const currentPath = window.location.pathname;
     toggleDrawer();
 
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {

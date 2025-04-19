@@ -1,10 +1,10 @@
 import React from "react";
-import TypeSection from "@/components/Medicine/TypeSection/TypeSection";
+import OrdersSection from "@/components/Medicine/OrdersSection/OrdersSection";
 
 const page = () => {
   return (
     <>
-      <TypeSection />
+      <OrdersSection />
     </>
   );
 };

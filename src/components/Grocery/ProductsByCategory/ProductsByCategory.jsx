@@ -1,44 +1,18 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "next/navigation";
-import Loader from "@/components/common/Loader";
 import ShopInfo from "../ShopInfoSection/ShopInfo";
 import PopularItem from "../CustomTypeSection/PopularItem";
 import DealOfTheDay from "../CustomTypeSection/DealOfTheDay";
 import SpecialOffer from "../CustomTypeSection/SpecialOffer";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import GroceryCommonSlider from "../CategoryBannerCarousel/GroceryCommonSlider";
 import CategoryBannerCarousel from "../CategoryBannerCarousel/CategoryBannerCarousel";
 
 const ProductsByCategory = () => {
-  const params = useParams();
-
-  const { exploreStore, progressing } = useGroceryShop();
-
   const { DashboardSlider, isLoading } = useSelector(
     (state) => state.dashboard
   );
-
-  useEffect(() => {
-    if (params?.storeId && params?.customStoreId) {
-      const shop = {
-        _id: params?.storeId,
-        custom_store_id: params?.customStoreId,
-      };
-
-      exploreStore(shop);
-    }
-  }, []);
-
-  if (progressing || isLoading) {
-    return (
-      <div className="min-h-content mx-auto flex justify-center items-center">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <div className="m-5 md:m-10 pt-14 md:pt-20 lg:pt-0 lg:my-28 lg:mx-16">
@@ -59,7 +33,7 @@ const ProductsByCategory = () => {
           <div className="lg:w-1/2">
             {DashboardSlider[0]?.second_slider?.length && (
               <GroceryCommonSlider
-                classNames="max-h-[140px] md:max-h-[351px]"
+                classNames="max-h-[167px] md:max-h-[351px]"
                 slides={DashboardSlider[0]?.second_slider}
               />
             )}
@@ -67,7 +41,7 @@ const ProductsByCategory = () => {
           <div className="lg:w-1/2">
             {DashboardSlider[0]?.third_slider?.length && (
               <GroceryCommonSlider
-                classNames="max-h-[140px] md:max-h-[351px]"
+                classNames="max-h-[167px] md:max-h-[351px]"
                 slides={DashboardSlider[0]?.third_slider}
               />
             )}

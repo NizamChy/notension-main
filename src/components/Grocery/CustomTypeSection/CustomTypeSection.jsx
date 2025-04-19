@@ -17,7 +17,7 @@ const CustomTypeSection = ({ customTypeId }) => {
       <div className="py-5 md:py-10 lg:w-2/3">
         {DashboardSlider[0]?.fourth_slider?.length && (
           <GroceryCommonSlider
-            classNames="max-h-[144px] md:max-h-[468px]"
+            classNames="max-h-[167px] md:max-h-[468px]"
             slides={DashboardSlider[0]?.fourth_slider}
           />
         )}
