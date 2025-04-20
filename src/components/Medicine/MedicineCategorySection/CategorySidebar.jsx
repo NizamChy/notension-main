@@ -49,7 +49,9 @@ const CategorySidebar = () => {
   };
 
   const handleCustomtype = (customTypeId) => {
-    router.push(`/medicine/${params?.store}/custom-type/${customTypeId}`);
+    router.push(
+      `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/custom-type/${customTypeId}`
+    );
   };
 
   return (

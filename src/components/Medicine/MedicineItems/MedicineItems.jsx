@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import ItemDetailsModal from "./ItemDetailsModal";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
@@ -13,6 +13,8 @@ import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import { useParams } from "next/navigation";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +22,11 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+
+  const params = useParams();
+  const prevUrlRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useMedicineItems();
@@ -80,6 +87,13 @@ const MedicineItems = ({ item, isFavorite = false }) => {
     event.stopPropagation();
 
     setSelectedItem(item);
+
+    dispatch(
+      handleUserChoiceReducer({
+        type: "SAVE_CURRENT_ITEM_DETAILS",
+        data: item,
+      })
+    );
   };
 
   const handleIncrement = (e, itemId) => {
@@ -106,6 +120,33 @@ const MedicineItems = ({ item, isFavorite = false }) => {
 
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
+
+  useEffect(() => {
+    const basePath = `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+
+    if (selectedItem && item?._id) {
+      if (!prevUrlRef.current) {
+        prevUrlRef.current = window.location.href;
+      }
+
+      const newUrl = `${basePath}/product/${item._id}`;
+      if (!window.location.pathname.endsWith(`/${item._id}`)) {
+        window.history.pushState({}, "", newUrl);
+      }
+    } else {
+      if (prevUrlRef.current) {
+        window.history.pushState({}, "", prevUrlRef.current);
+        prevUrlRef.current = null;
+
+        dispatch(
+          handleUserChoiceReducer({
+            type: "SAVE_CURRENT_ITEM_DETAILS",
+            data: {},
+          })
+        );
+      }
+    }
+  }, [selectedItem, item?._id, params]);
 
   return (
     <>

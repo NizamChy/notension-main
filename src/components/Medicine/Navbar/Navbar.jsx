@@ -87,8 +87,8 @@ const Navbar = () => {
       )}
 
       {userInfo?._id && (
-        <ul className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
-          <li className="relative" ref={dropDownMenuRef}>
+        <div className="hidden lg:flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
+          <div className="relative" ref={dropDownMenuRef}>
             <button
               onClick={() => setDropDownState(!dropDownState)}
               className="relative flex items-center gap-1 py-2 hover:underline text-secondary"
@@ -133,7 +133,7 @@ const Navbar = () => {
                 <li className="px-3 hover:underline">
                   <Link
                     className="flex items-center gap-1"
-                    href={`/medicine/${params?.store}/favorite-items`}
+                    href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/favorite-items`}
                   >
                     <span>
                       <MdFavoriteBorder className="text-primaryMedicine" />
@@ -179,8 +179,8 @@ const Navbar = () => {
                 </li>
               </ul>
             )}
-          </li>
-        </ul>
+          </div>
+        </div>
       )}
     </nav>
   );

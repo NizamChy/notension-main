@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import { IoStorefrontSharp } from "react-icons/io5";
+import { FaLocationDot } from "react-icons/fa6";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const medicineOrderInfo = useSelector(
@@ -24,6 +26,20 @@ const OrderDetailsMobile = ({ orderId }) => {
         <p>
           <span className="font-medium">Order ID:</span>{" "}
           {order?.order_id?.split("-").pop()}
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
+          <span>
+            <IoStorefrontSharp className="mt-1 text-primary" />
+          </span>
+          <span>{order?.merchantInfo?.shop_name}</span>
+        </p>
+
+        <p className="flex items-start gap-1 text-sm md:text-base">
+          <span>
+            <FaLocationDot className="mt-1 text-primary" />
+          </span>
+          <span>{order?.merchantInfo?.shop_address}</span>
         </p>
 
         <p>

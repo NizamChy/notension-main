@@ -3,8 +3,10 @@
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import Loader from "@/components/common/Loader";
+import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
+import { IoStorefrontSharp } from "react-icons/io5";
 import { useParams, useRouter } from "next/navigation";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 
@@ -46,6 +48,20 @@ const OrdersSection = () => {
                     <div className="flex justify-between items-center">
                       <p className="text-lg font-bold text-secondary">
                         Order# {order.order_id.split("-").pop()}
+                      </p>
+
+                      <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
+                        <span>
+                          <IoStorefrontSharp className="mt-1 text-primary" />
+                        </span>
+                        <span>{order?.merchantInfo?.shop_name}</span>
+                      </p>
+
+                      <p className="flex items-start gap-1 text-sm md:text-base">
+                        <span>
+                          <FaLocationDot className="mt-1 text-primary" />
+                        </span>
+                        <span>{order?.merchantInfo?.shop_address}</span>
                       </p>
 
                       <p
@@ -98,7 +114,7 @@ const OrdersSection = () => {
                       <button
                         onClick={() =>
                           router.push(
-                            `/medicine/${params?.store}/orders/${order._id}`
+                            `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/${order._id}`
                           )
                         }
                         className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"

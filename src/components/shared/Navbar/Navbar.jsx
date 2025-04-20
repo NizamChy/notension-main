@@ -78,8 +78,8 @@ const Navbar = () => {
       )}
 
       {userInfo?._id && (
-        <ul className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
-          <li className="relative" ref={dropDownMenuRef}>
+        <div className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
+          <div className="relative" ref={dropDownMenuRef}>
             <button
               onClick={() => setDropDownState(!dropDownState)}
               className="relative flex items-center gap-1 py-2 hover:underline text-secondary"
@@ -188,8 +188,8 @@ const Navbar = () => {
                 </li>
               </ul>
             )}
-          </li>
-        </ul>
+          </div>
+        </div>
       )}
     </nav>
   );

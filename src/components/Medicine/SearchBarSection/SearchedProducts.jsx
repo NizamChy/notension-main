@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import MedicineItems from "../MedicineItems/MedicineItems";
+
+import Loader from "@/components/common/Loader";
 import { useSearchParams } from "next/navigation";
-import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
+import React, { useEffect, useState } from "react";
+import NoItemFound from "../NoItemSection/NoItemFound";
+import MedicineItems from "../MedicineItems/MedicineItems";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
-import Loader from "@/components/common/Loader";
-import NoItemFound from "../NoItemSection/NoItemFound";
+import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
 
 const SearchedProducts = () => {
   const [pageNo, setPageNo] = useState(1);
