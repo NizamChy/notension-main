@@ -10,9 +10,12 @@ import { IoStorefrontSharp } from "react-icons/io5";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams, useRouter } from "next/navigation";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = useParams();
   const router = useRouter();
@@ -21,9 +24,18 @@ const OrdersSection = () => {
   const { userInfo } = useSelector((state) => state.user);
   const groceryOrderInfo = useSelector((state) => state.user.groceryOrderInfo);
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    if (!userInfo?._id) {
+      openModal();
+    }
+  }, []);
+
   useEffect(() => {
     getOrderInfo();
-  }, []);
+  }, [userInfo?._id]);
 
   return (
     <>
@@ -150,6 +162,14 @@ const OrdersSection = () => {
             />
           )}
         </div>
+      )}
+
+      {isModalOpen && (
+        <>
+          <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+            <LoginModalDetails onClose={closeModal} type="private-route" />
+          </CommonModal>
+        </>
       )}
     </>
   );

@@ -7,7 +7,9 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <UpdateAddress />
+      <div className="min-h-content">
+        <UpdateAddress />
+      </div>
       <Footer />
     </>
   );
