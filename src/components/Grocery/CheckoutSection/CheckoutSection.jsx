@@ -261,7 +261,7 @@ const CheckoutSection = () => {
       )}
 
       {userInfo?._id && groceryItems.length < 1 && (
-        <div className="pt-40">
+        <div className="h-screen flex justify-center items-center">
           <EmptyCart />
         </div>
       )}
