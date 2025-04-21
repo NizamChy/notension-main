@@ -6,11 +6,11 @@ import {
   OTP_FOR_REGISTARTION,
 } from "@/api-endpoints/api-endpoint";
 import { toast } from "react-toastify";
+import { persistor } from "@/redux/store";
+import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
-import { persistor } from "@/redux/store";
-import { useRouter } from "next/navigation";
 
 axios.defaults.withCredentials = true;
 
@@ -113,8 +113,6 @@ export const useUser = () => {
         // console.log("response : ", res);
 
         saveLoggedInUserInfo(res?.data?.result);
-
-        console.log("222", res?.data?.result);
 
         setProgressing(false);
       })

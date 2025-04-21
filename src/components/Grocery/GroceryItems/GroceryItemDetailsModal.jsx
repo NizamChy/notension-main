@@ -87,8 +87,6 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
 
-  console.log(item);
-
   return (
     <CommonModal
       isOpen={isOpen}

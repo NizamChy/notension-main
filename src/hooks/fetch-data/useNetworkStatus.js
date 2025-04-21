@@ -8,7 +8,7 @@ const useNetworkStatus = () => {
   };
 
   useEffect(() => {
-    console.log("Calling Network");
+    // console.log("Calling Network");
     window.addEventListener("load", updateNetworkStatus);
     window.addEventListener("online", updateNetworkStatus);
     window.addEventListener("offline", updateNetworkStatus);
