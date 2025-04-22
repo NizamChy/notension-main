@@ -77,9 +77,13 @@ const UserInfoInputs = ({
 
     if (type === "cart") {
       if (module === "food") {
-        router.push(`/${module}/store/checkout`);
+        router.push(
+          `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
       } else {
-        router.push(`/${module}/${params?.store}/checkout`);
+        router.push(
+          `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
       }
     } else if (type === "login") {
       router.push("/");
