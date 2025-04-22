@@ -3,11 +3,11 @@
 import Loader from "@/components/common/Loader";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import NoItemFound from "../NoItemSection/NoItemFound";
 import MedicineItems from "../MedicineItems/MedicineItems";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
+import NoItemFound from "@/components/common/NoItemFound";
 
 const SearchedProducts = () => {
   const [pageNo, setPageNo] = useState(1);

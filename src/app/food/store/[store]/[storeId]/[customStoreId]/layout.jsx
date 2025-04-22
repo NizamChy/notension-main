@@ -55,13 +55,13 @@ export default function RootLayout({ children }) {
         </div>
       ) : (
         <div className="flex justify-center bg-[#F3F4F6]">
-          <div className="lg:w-[20%] hidden lg:block">
-            <div className="fixed top-0 left-0 w-[20%] h-full">
+          <div className="lg:w-[25%] xl:w-[20%] hidden lg:block">
+            <div className="fixed top-0 left-0 w-[25%] xl:w-[20%] h-full">
               <CategorySidebar scrollToFoodItems={scrollToFoodItems} />
             </div>
           </div>
 
-          <div className="w-full lg:w-[80%] ml-auto md:p-16">
+          <div className="w-full lg:w-[75%] xl:w-[80%] ml-auto md:p-16">
             {(pathname ===
               `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}` ||
               pathname ===

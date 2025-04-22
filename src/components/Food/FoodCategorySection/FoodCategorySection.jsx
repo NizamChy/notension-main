@@ -56,24 +56,34 @@ const FoodCategorySection = () => {
               {/* Section 1 */}
               <div className="flex flex-col-reverse lg:flex-row gap-3 lg:gap-5">
                 <div className="flex flex-col w-full lg:w-1/2 p-3 lg:p-5">
-                  <Link href={`/food/${shopCategory[2]?._id}`}>
-                    <Image
-                      src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[2]?.banner}`}
-                      alt={`${shopCategory[2]?.store_category_name} banner`}
-                      width={500}
-                      height={300}
-                      className="w-full max-w-full border h-auto rounded-lg object-contain hover:shadow-xl"
-                    />
+                  <Link
+                    href={`/food/${shopCategory[2]?._id}`}
+                    className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                  >
+                    <div className="relative overflow-hidden rounded-lg">
+                      <Image
+                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[2]?.banner}`}
+                        alt={`${shopCategory[2]?.store_category_name} banner`}
+                        width={500}
+                        height={300}
+                        className="w-full max-w-full border h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   </Link>
 
-                  <Link href={`/food/${shopCategory[3]?._id}`}>
-                    <Image
-                      src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[3]?.banner}`}
-                      alt={`${shopCategory[3]?.store_category_name} banner`}
-                      width={500}
-                      height={300}
-                      className="w-full max-w-full border h-auto rounded-lg mt-3 object-contain hover:shadow-xl"
-                    />
+                  <Link
+                    href={`/food/${shopCategory[3]?._id}`}
+                    className="mt-3 group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                  >
+                    <div className="relative overflow-hidden rounded-lg">
+                      <Image
+                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[3]?.banner}`}
+                        alt={`${shopCategory[3]?.store_category_name} banner`}
+                        width={500}
+                        height={300}
+                        className="w-full max-w-full border h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   </Link>
                 </div>
                 <div className="w-full lg:w-1/2 p-3 lg:p-5">
@@ -98,23 +108,33 @@ const FoodCategorySection = () => {
                 </div>
                 <div className="w-full lg:w-1/2 p-3 md:p-0 lg:p-5 flex justify-center">
                   <div className="flex flex-row gap-3 lg:gap-10">
-                    <Link href={`/food/${shopCategory[1]?._id}`}>
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[1]?.banner}`}
-                        alt={`${shopCategory[1]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="w-full max-w-full border lg:w-72 h-auto rounded-lg object-contain hover:shadow-xl"
-                      />
+                    <Link
+                      href={`/food/${shopCategory[1]?._id}`}
+                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                    >
+                      <div className="relative overflow-hidden rounded-lg">
+                        <Image
+                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[1]?.banner}`}
+                          alt={`${shopCategory[1]?.store_category_name} banner`}
+                          width={500}
+                          height={300}
+                          className="w-full max-w-full border lg:w-72 h-auto rounded-lg object-cover hover:shadow-xl transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
-                    <Link href={`/food/${shopCategory[0]?._id}`}>
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[0]?.banner}`}
-                        alt={`${shopCategory[0]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="w-full max-w-full border lg:w-72 h-auto rounded-lg object-contain hover:shadow-xl"
-                      />
+                    <Link
+                      href={`/food/${shopCategory[0]?._id}`}
+                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                    >
+                      <div className="relative overflow-hidden rounded-lg">
+                        <Image
+                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[0]?.banner}`}
+                          alt={`${shopCategory[0]?.store_category_name} banner`}
+                          width={500}
+                          height={300}
+                          className="w-full max-w-full border lg:w-72 h-auto rounded-lg object-cover hover:shadow-xl transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
                   </div>
                 </div>
@@ -123,33 +143,48 @@ const FoodCategorySection = () => {
               {/* Section 3 */}
               <div className="flex flex-col-reverse lg:flex-row gap-3 py-3 lg:py-5 justify-center items-center">
                 <div className="flex flex-col w-full lg:w-1/2 p-3 md:p-2 lg:p-5">
-                  <Link href={`/food/${shopCategory[4]?._id}`}>
-                    <Image
-                      src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[4]?.banner}`}
-                      alt={`${shopCategory[4]?.store_category_name} banner`}
-                      width={500}
-                      height={300}
-                      className="hover:shadow-xl w-full max-w-full border h-auto rounded-lg object-contain"
-                    />
+                  <Link
+                    href={`/food/${shopCategory[4]?._id}`}
+                    className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                  >
+                    <div className="relative overflow-hidden rounded-lg">
+                      <Image
+                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[4]?.banner}`}
+                        alt={`${shopCategory[4]?.store_category_name} banner`}
+                        width={500}
+                        height={300}
+                        className="w-full max-w-full border h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   </Link>
                   <div className="flex flex-row gap-3 justify-evenly mt-3 lg:my-5">
-                    <Link href={`/food/${shopCategory[5]?._id}`}>
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[5]?.banner}`}
-                        alt={`${shopCategory[5]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="hover:shadow-xl w-full border max-w-full lg:w-64 h-auto rounded-lg object-contain"
-                      />
+                    <Link
+                      href={`/food/${shopCategory[5]?._id}`}
+                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                    >
+                      <div className="relative overflow-hidden rounded-lg">
+                        <Image
+                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[5]?.banner}`}
+                          alt={`${shopCategory[5]?.store_category_name} banner`}
+                          width={500}
+                          height={300}
+                          className="w-full border max-w-full lg:w-64 h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
-                    <Link href={`/food/${shopCategory[6]?._id}`}>
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[6]?.banner}`}
-                        alt={`${shopCategory[6]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="hover:shadow-xl w-full border max-w-full lg:w-64 h-auto rounded-lg object-contain"
-                      />
+                    <Link
+                      href={`/food/${shopCategory[6]?._id}`}
+                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                    >
+                      <div className="relative overflow-hidden rounded-lg">
+                        <Image
+                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[6]?.banner}`}
+                          alt={`${shopCategory[6]?.store_category_name} banner`}
+                          width={500}
+                          height={300}
+                          className="w-full border max-w-full lg:w-64 h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
                   </div>
                 </div>
@@ -174,14 +209,19 @@ const FoodCategorySection = () => {
                   )}
                 </div>
                 <div className="w-full lg:w-1/2 flex items-center p-3 lg:p-5">
-                  <Link href={`/food/${shopCategory[7]?._id}`}>
-                    <Image
-                      src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[7]?.banner}`}
-                      alt={`${shopCategory[7]?.store_category_name} banner`}
-                      width={500}
-                      height={300}
-                      className="hover:shadow-xl w-full border max-w-full h-auto rounded-lg object-contain"
-                    />
+                  <Link
+                    href={`/food/${shopCategory[7]?._id}`}
+                    className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
+                  >
+                    <div className="relative overflow-hidden rounded-lg">
+                      <Image
+                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[7]?.banner}`}
+                        alt={`${shopCategory[7]?.store_category_name} banner`}
+                        width={500}
+                        height={300}
+                        className="w-full border max-w-full h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   </Link>
                 </div>
               </div>

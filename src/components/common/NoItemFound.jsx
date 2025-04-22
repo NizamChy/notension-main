@@ -10,10 +10,10 @@ const NoItemFound = () => {
           height={500}
           src="/png/no-item-found.png"
           alt="notension"
-          className="object-cover w-80"
+          className="object-cover w-80 rounded-lg rounded-b-none"
         />
 
-        <p className="text-center text-deepGray font-semibold text-xl">
+        <p className="text-center text-deepGray font-semibold text-xl bg-white pb-3 rounded-b-lg">
           No item found!
         </p>
       </div>

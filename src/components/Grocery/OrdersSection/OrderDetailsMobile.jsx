@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { IoStorefrontSharp } from "react-icons/io5";
-import { FaLocationDot } from "react-icons/fa6";
 import { IoIosCall } from "react-icons/io";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { FaLocationDot } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
+import { IoStorefrontSharp } from "react-icons/io5";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,10 +27,6 @@ const OrderDetailsMobile = ({ orderId }) => {
       openModal();
     }
   }, [orderId]);
-
-  if (!order) {
-    return <p className="text-red-500">Order not found!</p>;
-  }
 
   return (
     <>

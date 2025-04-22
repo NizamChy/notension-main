@@ -3,7 +3,6 @@
 import { useSelector } from "react-redux";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
-import NoItemFound from "../NoItemSection/NoItemFound";
 import { useParams, useRouter } from "next/navigation";
 import GroceryItems from "../GroceryItems/GroceryItems";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -12,6 +11,7 @@ import NoConnection from "@/components/NoConnection/NoConnection";
 import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
+import NoItemFound from "@/components/common/NoItemFound";
 
 const SubTypeSection = () => {
   const [id, setId] = useState("");

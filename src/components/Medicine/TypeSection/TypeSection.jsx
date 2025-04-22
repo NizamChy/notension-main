@@ -4,8 +4,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import SubtypeSkeleton from "./SubtypeSkeleton";
-import NoItemFound from "../NoItemSection/NoItemFound";
 import { useParams, useRouter } from "next/navigation";
+import NoItemFound from "@/components/common/NoItemFound";
 import { MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const TypeSection = () => {

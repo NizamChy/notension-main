@@ -2,12 +2,12 @@
 
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import NoItemFound from "../NoItemSection/NoItemFound";
 import { useParams, useRouter } from "next/navigation";
 import MedicineItems from "../MedicineItems/MedicineItems";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
+import NoItemFound from "@/components/common/NoItemFound";
 
 const SubTypeSection = () => {
   const [id, setId] = useState("");

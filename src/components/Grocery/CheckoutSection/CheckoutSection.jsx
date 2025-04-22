@@ -8,11 +8,11 @@ import { MdContactPhone } from "react-icons/md";
 import { AiOutlinePhone } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
+import EmptyCart from "@/components/Cart/EmptyCart";
+import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
-import EmptyCart from "@/components/Cart/EmptyCart";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -147,7 +147,7 @@ const CheckoutSection = () => {
 
   return (
     <>
-      {userInfo?._id && groceryItems.length > 0 && (
+      {userInfo?._id && groceryItems?.length > 0 && (
         <div className="flex justify-center py-8 md:py-16 lg:py-20 mt-10">
           <div className="bg-white p-4 w-full md:w-96">
             <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
@@ -159,19 +159,19 @@ const CheckoutSection = () => {
               </p>
 
               <p className="font-medium text-base ps-6 pt-1">
-                {userInfo.customer_name}
+                {userInfo?.customer_name}
               </p>
               <p className="text-sm md:text-base flex gap-1 items-start">
                 <span className="mt-0.5 text-xl text-primaryGrocery">
                   <IoLocationOutline />
                 </span>
-                <span>{userInfo.customer_address}</span>
+                <span>{userInfo?.customer_address}</span>
               </p>
               <p className="text-sm md:text-base flex gap-1 items-start">
                 <span className="mt-0.5 text-xl text-primaryGrocery">
                   <AiOutlinePhone />
                 </span>
-                <span>{userInfo.contact_no}</span>
+                <span>{userInfo?.contact_no}</span>
               </p>
 
               <div className="flex flex-col py-4 font-bold text-sm md:text-lg border-b">
@@ -245,7 +245,7 @@ const CheckoutSection = () => {
               <div className="flex justify-center">
                 <button
                   onClick={handleCustomerOrder}
-                  disabled={progressing || groceryItems.length < 1}
+                  disabled={progressing || groceryItems?.length < 1}
                   className={`disabled:bg-gray-300 mt-4 px-4 py-1 text-sm md:text-base font-medium rounded-md w-full ${
                     progressing
                       ? "bg-gray-300 cursor-not-allowed"
@@ -260,7 +260,7 @@ const CheckoutSection = () => {
         </div>
       )}
 
-      {userInfo?._id && groceryItems.length < 1 && (
+      {userInfo?._id && groceryItems?.length < 1 && (
         <div className="h-screen flex justify-center items-center">
           <EmptyCart />
         </div>

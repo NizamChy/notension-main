@@ -1,11 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import { IoIosCall } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoStorefrontSharp } from "react-icons/io5";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import { IoStorefrontSharp } from "react-icons/io5";
-import { FaLocationDot } from "react-icons/fa6";
-import { IoIosCall } from "react-icons/io";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   return (

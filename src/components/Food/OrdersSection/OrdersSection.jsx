@@ -12,6 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useOrderFood } from "@/hooks/place-order/useOrderFood";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import NoItemFound from "@/components/common/NoItemFound";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -48,110 +49,112 @@ const OrdersSection = () => {
           {progressing ? (
             <Loader />
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3 md:mt-6">
-              {foodOrderInfo && foodOrderInfo?.length > 0 ? (
-                foodOrderInfo?.map((order) => (
-                  <div
-                    key={order?._id}
-                    className="border rounded-lg p-4 bg-white shadow-md"
-                  >
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm font-medium md:text-lg md:font-bold text-secondary">
-                        Order# {order?.order_id?.split("-").pop()}
-                      </p>
+            <>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3 md:mt-6">
+                {foodOrderInfo && foodOrderInfo?.length > 0 ? (
+                  foodOrderInfo?.map((order) => (
+                    <div
+                      key={order?._id}
+                      className="border rounded-lg p-4 bg-white shadow-md"
+                    >
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm font-medium md:text-lg md:font-bold text-secondary">
+                          Order# {order?.order_id?.split("-").pop()}
+                        </p>
 
-                      <p
-                        className={`px-3 py-1 rounded-full ${
-                          order?.order_status === "Pending"
-                            ? "bg-yellow-100 text-yellow-600"
-                            : "bg-green-100 text-green-600"
-                        }`}
-                      >
-                        {order?.order_status}
-                      </p>
-                    </div>
+                        <p
+                          className={`px-3 py-1 rounded-full ${
+                            order?.order_status === "Pending"
+                              ? "bg-yellow-100 text-yellow-600"
+                              : "bg-green-100 text-green-600"
+                          }`}
+                        >
+                          {order?.order_status}
+                        </p>
+                      </div>
 
-                    <div className="mt-2 space-y-1">
-                      <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
-                        <span>
-                          <IoStorefrontSharp className="mt-1 text-primary" />
-                        </span>
-                        <span>{order?.merchantInfo?.shop_name}</span>
-                      </p>
+                      <div className="mt-2 space-y-1">
+                        <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
+                          <span>
+                            <IoStorefrontSharp className="mt-1 text-primary" />
+                          </span>
+                          <span>{order?.merchantInfo?.shop_name}</span>
+                        </p>
 
-                      <p className="flex items-start gap-1 text-sm md:text-base">
-                        <span>
-                          <FaLocationDot className="mt-1 text-primary" />
-                        </span>
-                        <span>{order?.merchantInfo?.shop_address}</span>
-                      </p>
+                        <p className="flex items-start gap-1 text-sm md:text-base">
+                          <span>
+                            <FaLocationDot className="mt-1 text-primary" />
+                          </span>
+                          <span>{order?.merchantInfo?.shop_address}</span>
+                        </p>
 
-                      <p className="flex items-start gap-1 text-sm md:text-base font-medium">
-                        <span>
-                          <IoIosCall className="mt-1 text-primary" />
-                        </span>
-                        <span>
-                          {" "}
-                          {order?.merchantInfo?.contact_no},{" "}
-                          {order?.merchantInfo?.alternative_contact_no}
-                        </span>
-                      </p>
+                        <p className="flex items-start gap-1 text-sm md:text-base font-medium">
+                          <span>
+                            <IoIosCall className="mt-1 text-primary" />
+                          </span>
+                          <span>
+                            {" "}
+                            {order?.merchantInfo?.contact_no},{" "}
+                            {order?.merchantInfo?.alternative_contact_no}
+                          </span>
+                        </p>
 
-                      <p className="text-sm md:text-base">
-                        <span className="font-medium">Order Date:</span>{" "}
-                        {new Date(order?.createdAt).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
+                        <p className="text-sm md:text-base">
+                          <span className="font-medium">Order Date:</span>{" "}
+                          {new Date(order?.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </p>
+
+                        <p className="flex items-center gap-1 text-sm md:text-base">
+                          <span className="font-medium">Subtotal:</span>{" "}
+                          <span className="flex items-center">
+                            <TbCurrencyTaka />
+                            {order?.subTotal}
+                          </span>
+                        </p>
+                        <p className="flex items-center gap-1 text-sm md:text-base">
+                          <span className="font-medium">Total Amount:</span>{" "}
+                          <span className="flex items-center">
+                            <TbCurrencyTaka />
+                            {order?.totalAmount}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="md:flex justify-end hidden">
+                        <button
+                          onClick={() => setSelectedOrder(order)}
+                          className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"
+                        >
+                          View Details
+                        </button>
+                      </div>
+
+                      <div className="flex justify-end md:hidden text-sm">
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders/${order?._id}`
+                            )
                           }
-                        )}
-                      </p>
-
-                      <p className="flex items-center gap-1 text-sm md:text-base">
-                        <span className="font-medium">Subtotal:</span>{" "}
-                        <span className="flex items-center">
-                          <TbCurrencyTaka />
-                          {order?.subTotal}
-                        </span>
-                      </p>
-                      <p className="flex items-center gap-1 text-sm md:text-base">
-                        <span className="font-medium">Total Amount:</span>{" "}
-                        <span className="flex items-center">
-                          <TbCurrencyTaka />
-                          {order?.totalAmount}
-                        </span>
-                      </p>
+                          className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"
+                        >
+                          View Details
+                        </button>
+                      </div>
                     </div>
-
-                    <div className="md:flex justify-end hidden">
-                      <button
-                        onClick={() => setSelectedOrder(order)}
-                        className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"
-                      >
-                        View Details
-                      </button>
-                    </div>
-
-                    <div className="flex justify-end md:hidden text-sm">
-                      <button
-                        onClick={() =>
-                          router.push(
-                            `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders/${order?._id}`
-                          )
-                        }
-                        className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No orders found.</p>
-              )}
-            </div>
+                  ))
+                ) : (
+                  <NoItemFound />
+                )}
+              </div>
+            </>
           )}
 
           {selectedOrder && (

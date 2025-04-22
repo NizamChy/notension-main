@@ -11,6 +11,9 @@ const FavoriteItem = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { userInfo } = useSelector((state) => state.user);
+  const favouriteGroceryItems = useSelector(
+    (state) => state.userChoice.favouriteGroceryItems
+  );
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -20,10 +23,6 @@ const FavoriteItem = () => {
       openModal();
     }
   }, []);
-
-  const favouriteGroceryItems = useSelector(
-    (state) => state.userChoice.favouriteGroceryItems
-  );
 
   return (
     <>

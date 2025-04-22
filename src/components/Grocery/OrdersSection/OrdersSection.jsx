@@ -12,6 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import NoItemFound from "@/components/common/NoItemFound";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -149,7 +150,7 @@ const OrdersSection = () => {
                   </div>
                 ))
               ) : (
-                <p>No orders found.</p>
+                <NoItemFound />
               )}
             </div>
           )}
