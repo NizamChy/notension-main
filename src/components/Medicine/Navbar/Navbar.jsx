@@ -118,29 +118,33 @@ const Navbar = () => {
             </button>
             {dropDownState && (
               <ul className="absolute right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 w-48 text-deepGray">
-                <li className="px-3 hover:underline">
-                  <Link
-                    href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
-                    className="flex items-center gap-1"
-                  >
-                    <span>
-                      <BsCartCheck className="text-primaryMedicine" />
-                    </span>
-                    My Orders
-                  </Link>
-                </li>
+                {params?.storeId && params?.customStoreId && (
+                  <>
+                    <li className="px-3 hover:underline">
+                      <Link
+                        href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`}
+                        className="flex items-center gap-1"
+                      >
+                        <span>
+                          <BsCartCheck className="text-primaryMedicine" />
+                        </span>
+                        My Orders
+                      </Link>
+                    </li>
 
-                <li className="px-3 hover:underline">
-                  <Link
-                    className="flex items-center gap-1"
-                    href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/favorite-items`}
-                  >
-                    <span>
-                      <MdFavoriteBorder className="text-primaryMedicine" />
-                    </span>
-                    Wishlists
-                  </Link>
-                </li>
+                    <li className="px-3 hover:underline">
+                      <Link
+                        className="flex items-center gap-1"
+                        href={`/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/favorite-items`}
+                      >
+                        <span>
+                          <MdFavoriteBorder className="text-primaryMedicine" />
+                        </span>
+                        Wishlists
+                      </Link>
+                    </li>
+                  </>
+                )}
 
                 <li className="px-3 hover:underline">
                   <Link
