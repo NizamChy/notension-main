@@ -7,10 +7,11 @@ import {
   FAVORITE_PRODUCT_PUSH,
   FAVORITE_PRODUCT_REMOVE,
 } from "@/api-endpoints/api-endpoint";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/secret";
+import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 
@@ -161,7 +162,15 @@ export const useFavouriteItem = () => {
         data: Info,
       })
     );
-    toast.success("পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!");
+    toast.success("💖 পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const removeFromReducer = (Info) => {
@@ -171,7 +180,16 @@ export const useFavouriteItem = () => {
         data: Info,
       })
     );
-    toast.success("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!");
+    toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      icon: "🗑️",
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const AxiosGrocery = axios.create({

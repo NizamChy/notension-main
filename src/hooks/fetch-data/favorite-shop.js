@@ -5,12 +5,13 @@ import {
   FAVORITE_STORE_PUSH,
   FAVORITE_STORE_REMOVE,
 } from "@/api-endpoints/api-endpoint";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 
@@ -176,7 +177,15 @@ export const useFavouriteStore = () => {
         data: Info,
       })
     );
-    toast.success("Added to your Favorites list!");
+    toast.success("💖 Added to your Favorites list!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const removeFromReducer = (Info) => {
@@ -186,7 +195,17 @@ export const useFavouriteStore = () => {
         data: Info,
       })
     );
-    toast.success("Removed from your Favorites list!");
+
+    toast("Removed from your Favorites list!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      icon: "🗑️",
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const resetReducer = (module) => {
