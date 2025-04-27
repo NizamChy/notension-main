@@ -49,6 +49,11 @@ const PatientInfo = () => {
           <Loader />
         ) : (
           <>
+            {patientInfo?.length < 1 && (
+              <p className="h-40 text-sm text-mediumGray flex justify-center items-center">
+                No patient registered.
+              </p>
+            )}
             {[...patientInfo]
               ?.slice()
               ?.reverse()
