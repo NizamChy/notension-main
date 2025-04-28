@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { WiTime4 } from "react-icons/wi";
 import { useSelector } from "react-redux";
 import { LuHospital } from "react-icons/lu";
@@ -134,8 +134,15 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     e.stopPropagation();
 
     if (!timeSlot) {
-      toast.info("Please select a time slot!", {
-        position: "top-center",
+      toast("Please select a time slot!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
       });
       return;
     }
@@ -147,10 +154,17 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
         currentDoctor?.appointment_scheduling?.end_time
       )
     ) {
-      toast.info(
+      toast(
         `Appointment time ${currentDoctor?.appointment_scheduling?.start_time} -${currentDoctor?.appointment_scheduling?.end_time} `,
         {
-          position: "top-center",
+          style: {
+            border: "1px solid #FC8F1E",
+          },
+          icon: "ℹ️",
+          iconTheme: {
+            primary: "#FC8F1E",
+            secondary: "#FFFAEE",
+          },
         }
       );
       return;

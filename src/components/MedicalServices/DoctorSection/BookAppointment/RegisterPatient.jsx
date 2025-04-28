@@ -1,9 +1,9 @@
 "use client";
 
-import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { FaRegAddressCard } from "react-icons/fa";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
+import toast from "react-hot-toast";
 
 const RegisterPatient = ({ setShowForm = true }) => {
   const [formData, setFormData] = useState({
@@ -30,11 +30,27 @@ const RegisterPatient = ({ setShowForm = true }) => {
     e.preventDefault();
 
     if (formData?.patient_name?.length < 3) {
-      return toast.info(
-        "নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!"
-      );
+      return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
+      });
     } else if (formData?.contact?.length < 11) {
-      return toast.info("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!");
+      return toast("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
+      });
     }
 
     registerPatient(formData);

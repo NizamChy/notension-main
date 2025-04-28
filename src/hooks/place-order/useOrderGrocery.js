@@ -4,12 +4,13 @@ import {
   GROCERY_ORDER_INFO,
   GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import { toast } from "react-toastify";
+
 import { GROCERY_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
+import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 
@@ -89,7 +90,16 @@ export const useOrderGrocery = () => {
     Axios.post(GROCERY_PLACE_ORDER, itemOrderObj)
       .then((res) => {
         if (res.data.success) {
-          toast.success("Order has been placed!");
+          toast.success("Order has been placed!", {
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
+          });
+
           dispatch(
             handleCartAction({
               type: "CLEAR_CART_GROCERY",

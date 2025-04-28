@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { FOOD_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,7 +84,16 @@ export const useOrderFood = () => {
     Axios.post(FOOD_PLACE_ORDER, itemOrderObj)
       .then((res) => {
         if (res.data.success) {
-          toast.success("Order has been placed!");
+          toast.success("Order has been placed!", {
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
+          });
+
           dispatch(
             handleCartAction({
               type: "CLEAR_CART_FOOD",

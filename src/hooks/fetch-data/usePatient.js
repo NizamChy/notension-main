@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import {
   GET_PATIENTS,
   MANAGE_PATIENT,
   REGISTER_PATIENT,
 } from "@/api-endpoints/api-endpoint";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
@@ -37,7 +37,15 @@ export const usePatient = () => {
     Axios.post(REGISTER_PATIENT, patientData)
       .then((response) => {
         if (response?.data?.success) {
-          toast.success(`${response?.data?.message}`);
+          toast.success(`${response?.data?.message}`, {
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
+          });
         }
 
         savePatientInfo("add", response?.data?.result);

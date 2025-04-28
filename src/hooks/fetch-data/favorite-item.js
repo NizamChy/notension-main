@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import {
   GROCERY_ITEM_DETAILS,
   FAVORITE_PRODUCT_ADD,
@@ -7,11 +8,9 @@ import {
   FAVORITE_PRODUCT_PUSH,
   FAVORITE_PRODUCT_REMOVE,
 } from "@/api-endpoints/api-endpoint";
-// import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/secret";
-import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 

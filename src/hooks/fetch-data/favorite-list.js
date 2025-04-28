@@ -5,8 +5,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { FaHeart, FaTimes } from "react-icons/fa";
+import toast from "react-hot-toast";
 import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
@@ -158,17 +157,15 @@ export const useFavouriteList = () => {
       })
     );
 
-    toast(
-      <div className="flex items-center">
-        <span>
-          <FaHeart className="text-primaryFood mr-2" />
-        </span>
-        <span>Added to your Favorites list!</span>
-      </div>,
-      {
-        type: "success",
-      }
-    );
+    toast.success("💖 Added to your Favorites list!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const removeFromReducer = (Info) => {
@@ -179,15 +176,16 @@ export const useFavouriteList = () => {
       })
     );
 
-    toast(
-      <div className="flex items-center">
-        <FaTimes style={{ color: "gray", marginRight: "8px" }} />
-        <span>Removed from your Favorites!</span>
-      </div>,
-      {
-        type: "success",
-      }
-    );
+    toast("Removed from your Favorites!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      icon: "🗑️",
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const setCurrentModule = () => {

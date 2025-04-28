@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -53,7 +53,15 @@ export const useAppointment = () => {
           setShowSuccessMessage(true);
 
           toast.success(`${response?.data?.message}`, {
-            position: "top-center",
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
+
+            duration: 4000,
           });
 
           saveAppoinmentInfo("add", {
@@ -65,8 +73,15 @@ export const useAppointment = () => {
         } else {
           setShowErrorMessage(true);
 
-          toast.info(`${response?.data?.message}`, {
-            position: "top-center",
+          toast(`${response?.data?.message}`, {
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            icon: "ℹ️",
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
           });
         }
         setIsAppointmentBooked(response?.data?.isBooked);
