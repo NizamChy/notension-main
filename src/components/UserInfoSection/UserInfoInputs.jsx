@@ -75,31 +75,35 @@ const UserInfoInputs = ({
     registerUser();
     onClose();
 
-    if (type === "cart") {
-      if (module === "food") {
-        router.push(
-          `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-        );
-      } else {
-        router.push(
-          `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-        );
+    setTimeout(() => {
+      if (!progressing) {
+        if (type === "cart") {
+          if (module === "food") {
+            router.push(
+              `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+            );
+          } else {
+            router.push(
+              `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+            );
+          }
+        } else if (type === "login") {
+          router.push("/");
+        } else if (type === "doctor") {
+          router.push("/medical-services/doctor");
+        } else if (type === "eyeCareCenter") {
+          router.push("/medical-services/eye-care-center");
+        } else if (type === "dentalCareCenter") {
+          router.push("/medical-services/dental-care-center");
+        } else if (type === "hospital") {
+          router.push("/medical-services/hospital");
+        } else if (type === "diagnostic") {
+          router.push("/medical-services/diagnostic");
+        } else if (type === "medicalService") {
+          router.push("/medical-services/medical-service");
+        }
       }
-    } else if (type === "login") {
-      router.push("/");
-    } else if (type === "doctor") {
-      router.push("/medical-services/doctor");
-    } else if (type === "eyeCareCenter") {
-      router.push("/medical-services/eye-care-center");
-    } else if (type === "dentalCareCenter") {
-      router.push("/medical-services/dental-care-center");
-    } else if (type === "hospital") {
-      router.push("/medical-services/hospital");
-    } else if (type === "diagnostic") {
-      router.push("/medical-services/diagnostic");
-    } else if (type === "medicalService") {
-      router.push("/medical-services/medical-service");
-    }
+    }, 1000);
   };
 
   useEffect(() => {
