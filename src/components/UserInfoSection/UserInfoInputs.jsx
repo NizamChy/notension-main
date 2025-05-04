@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ const UserInfoInputs = ({
 
   const { progressing, userInfo, handleDataChange, getOtp, registerUser } =
     useUser();
+  // const { currentUserLocation } = useSelector((state) => state.user);
 
   const router = useRouter();
   const params = useParams();
@@ -52,30 +53,64 @@ const UserInfoInputs = ({
     // console.log("Handling login...");
 
     if (userInfo?.customer_name < 3) {
-      return toast.info(
-        "নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!",
+      return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৫০ অক্ষরের হতে পারে!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
+      });
+    }
+
+    if (userInfo?.customer_address < 5) {
+      return toast(
+        "ঠিকানা কমপক্ষে ৫ অক্ষরের এবং সর্বোচ্চ ২০০ অক্ষরের মধ্যে হতে হবে!",
         {
-          position: "top-center",
+          style: {
+            border: "1px solid #FC8F1E",
+          },
+          icon: "ℹ️",
+          iconTheme: {
+            primary: "#FC8F1E",
+            secondary: "#FFFAEE",
+          },
         }
       );
     }
 
     if (otp.length < 1) {
-      return toast.info("অনুগ্রহ করে OTP প্রদান করুন!", {
-        position: "top-center",
+      return toast("অনুগ্রহ করে OTP প্রদান করুন!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
       });
     }
 
     if (otpGenerated !== otp) {
       return toast.error("OTP টি সঠিক হয়নি!", {
-        position: "top-center",
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
       });
     }
 
     registerUser();
-    onClose();
 
     setTimeout(() => {
+      onClose();
       if (!progressing) {
         if (type === "cart") {
           if (module === "food") {
@@ -113,6 +148,10 @@ const UserInfoInputs = ({
       otpSentRef.current = true;
     }
   }, []);
+
+  // console.log("otpGenerated", otpGenerated);
+  // console.log("userInfo from login", userInfo);
+  // console.log("currentUserLocation", currentUserLocation);
 
   return (
     <>
@@ -165,7 +204,6 @@ const UserInfoInputs = ({
           className={`mt-4 px-4 ${getPrimaryClass()} text-white rounded-md w-full`}
           disabled={progressing}
         >
-          {/* {progressing ? "Please wait..." : "LOGIN"}  */}
           {progressing ? (
             <div className="flex justify-center items-center">
               <p>Please wait</p>

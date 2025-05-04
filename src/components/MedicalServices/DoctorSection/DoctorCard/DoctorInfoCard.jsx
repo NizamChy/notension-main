@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 
-const DoctorInfoCard = ({ doctor }) => {
+const DoctorInfoCard = ({ doctor, isVisited = false }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const DoctorInfoCard = ({ doctor }) => {
   return (
     <div
       onClick={(e) => handleDoctorClick(e, doctor)}
-      className="bg-white w-full min-h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2"
+      className="bg-white w-full min-h-60 flex flex-col justify-center items-center rounded-xl border border-gray-200 shadow-md hover:shadow-lg hover:border-primary transition-all duration-300 cursor-pointer py-3 my-2"
     >
       <div className="flex gap-2 px-3 lg:px-8 justify-center items-center">
         <div className="w-1/3">
@@ -48,25 +48,31 @@ const DoctorInfoCard = ({ doctor }) => {
             {doctor?.doctorInfo?.doctor_name}
           </h3>
 
-          <div className="mt-1 mb-2">
-            <p className="text-xs md:text-sm line-clamp-4 text-mediumGray">
+          <span className="mt-2 inline-block bg-primary/10 text-primary text-xs font-medium px-3 py-1 rounded-full">
+            {doctor?.doctorInfo?.speciality}
+          </span>
+
+          <div className="my-2">
+            <p className="text-xs md:text-sm line-clamp-3 text-mediumGray">
               {doctor?.doctorInfo?.qualifications}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#CCB8F7] mt-3 py-1 w-full">
-        <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base px-3">
+      {/* <div className="bg-[#CCB8F7] mt-3 py-1 px-3 w-full">
+        <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base">
           {doctor?.doctorInfo?.speciality}
         </p>
-      </div>
+      </div> */}
 
-      <div className="w-full">
-        <p className="my-2 text-[#599E66] px-3 text-xm md:text-lg font-semibold">
-          {doctor?.consultationCenterInfo?.center_name}
-        </p>
-      </div>
+      {!isVisited && (
+        <div className="w-full px-3 my-2">
+          <p className="text-primary text-xm md:text-lg font-semibold line-clamp-1 text-center">
+            {doctor?.consultationCenterInfo?.center_name}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

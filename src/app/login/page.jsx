@@ -1,10 +1,10 @@
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 import React from "react";
+import LoginModalDetails from "@/components/Cart/LoginModalDetails";
 
 const page = () => {
   return (
-    <div className="min-h-[80vh] flex justify-center items-center">
-      <div className="lg:w-1/6">
+    <div className="min-h-content flex justify-center items-center mt-20">
+      <div className="w-5/6 lg:w-[420px]">
         <LoginModalDetails type="login" />
       </div>
     </div>

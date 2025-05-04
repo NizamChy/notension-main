@@ -27,14 +27,14 @@ const VisitedPopularDoctorSlider = ({
           <div className="relative w-full flex justify-center items-center">
             <button
               ref={prevRef}
-              className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
+              className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:text-white text-[#0C3F8E] hover:bg-primary transition-all duration-300"
             >
               <GrPrevious />
             </button>
 
             <button
               ref={nextRef}
-              className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
+              className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:text-white text-[#0C3F8E] hover:bg-primary transition-all duration-300"
             >
               <GrNext />
             </button>
@@ -68,7 +68,7 @@ const VisitedPopularDoctorSlider = ({
                     spaceBetween: 30,
                   },
                   1536: {
-                    slidesPerView: 4,
+                    slidesPerView: 3.4,
                     spaceBetween: 30,
                   },
                 }}
@@ -77,7 +77,7 @@ const VisitedPopularDoctorSlider = ({
               >
                 {popularDoctors?.slice(startValue, endValue)?.map((doctor) => (
                   <SwiperSlide key={doctor?._id}>
-                    <PopularDoctorSliderCard doctor={doctor} />
+                    <PopularDoctorSliderCard doctor={doctor} isVisited={true} />
                   </SwiperSlide>
                 ))}
               </Swiper>

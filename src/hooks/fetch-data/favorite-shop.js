@@ -1,17 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import {
   FAVORITE_STORE_ADD,
   FAVORITE_STORE_PUSH,
   FAVORITE_STORE_REMOVE,
 } from "@/api-endpoints/api-endpoint";
-// import { toast } from "react-toastify";
 import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
-import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 

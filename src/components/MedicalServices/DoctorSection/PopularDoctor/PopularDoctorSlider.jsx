@@ -29,14 +29,14 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
 
               <div className="relative flex justify-center items-center">
                 <button
-                  className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
+                  className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:text-white text-[#0C3F8E] hover:bg-primary transition-all duration-300"
                   id="custom-prev-doc"
                 >
                   <GrPrevious />
                 </button>
 
                 <button
-                  className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
+                  className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:text-white text-[#0C3F8E] hover:bg-primary transition-all duration-300"
                   id="custom-next-doc"
                 >
                   <GrNext />
@@ -65,7 +65,7 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
                         spaceBetween: 30,
                       },
                       1536: {
-                        slidesPerView: 4,
+                        slidesPerView: 3.4,
                         spaceBetween: 30,
                       },
                     }}

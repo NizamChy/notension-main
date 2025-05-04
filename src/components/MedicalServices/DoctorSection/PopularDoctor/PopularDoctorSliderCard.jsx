@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 
-const PopularDoctorSliderCard = ({ doctor }) => {
+const PopularDoctorSliderCard = ({ doctor, isVisited = false }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const PopularDoctorSliderCard = ({ doctor }) => {
   return (
     <div
       onClick={(e) => handleDoctorClick(e, doctor)}
-      className="bg-white w-full min-h-60 md:min-h-72 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2"
+      className="bg-white w-full min-h-60 flex flex-col justify-center items-center border rounded-2xl hover:border-primary shadow-sm cursor-pointer py-3 my-2 transition-all duration-300"
     >
       <div className="flex gap-2 px-2 lg:px-8 justify-center items-center">
         <div className="w-1/3">
@@ -43,28 +43,36 @@ const PopularDoctorSliderCard = ({ doctor }) => {
             className="object-cover w-full md:w-[110px] md:h-[140px]"
           />
         </div>
-        <div className="w-2/3 flex flex-col justify-start items-start">
-          <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
+        <div className="space-y-2 w-2/3 flex flex-col justify-start items-start">
+          <h3 className="mt-3 text-sm md:text-base font-semibold text-deepGray">
             {doctor?.doctorInfo?.doctor_name}
           </h3>
 
-          <p className="text-xs md:text-sm text-mediumGray my-1 line-clamp-4">
+          <p className="text-xs md:text-sm font-medium text-[#A93356] line-clamp-1">
+            {doctor?.doctorInfo?.speciality}
+          </p>
+
+          <p className="text-xs md:text-sm text-mediumGray my-1 line-clamp-3">
             {doctor?.doctorInfo?.qualifications}
           </p>
         </div>
       </div>
 
-      <div className="py-1 mt-4 px-3 bg-[#F78F1E] w-full">
-        <p className="truncate w-full text-white font-semibold text-sm md:text-base line-clamp-1">
-          {doctor?.doctorInfo?.speciality}
-        </p>
-      </div>
+      {!isVisited && (
+        <>
+          {/* <div className="py-1 mt-4 px-3 bg-[#F78F1E] w-full">
+            <p className="truncate w-full text-white font-semibold text-sm md:text-base line-clamp-1">
+              {doctor?.doctorInfo?.speciality}
+            </p>
+          </div> */}
 
-      <div className="w-full">
-        <p className="my-2 text-[#0C3F8E] px-3 text-sm md:text-lg font-semibold">
-          {doctor?.consultationCenterInfo?.center_name}
-        </p>
-      </div>
+          <div className="w-full px-3 my-2">
+            <p className="text-[#0C3F8E] text-sm md:text-lg font-semibold line-clamp-1 text-center">
+              {doctor?.consultationCenterInfo?.center_name}
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

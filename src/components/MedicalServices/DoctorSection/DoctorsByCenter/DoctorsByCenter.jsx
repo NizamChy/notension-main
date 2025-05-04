@@ -52,7 +52,11 @@ const DoctorsByCenter = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
               {doctorsInfo?.map((doctor) => (
-                <DoctorInfoCard key={doctor?._id} doctor={doctor} />
+                <DoctorInfoCard
+                  key={doctor?._id}
+                  doctor={doctor}
+                  isVisited={true}
+                />
               ))}
             </div>
           </InfiniteScroll>

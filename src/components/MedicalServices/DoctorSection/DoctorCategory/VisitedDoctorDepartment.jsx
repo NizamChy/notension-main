@@ -44,7 +44,7 @@ const VisitedDoctorDepartment = ({
     <>
       {allDeptInfo?.length > sliceStart ? (
         <div
-          className={`flex justify-center p-4 lg:p-20 ${bgClassName} rounded-md`}
+          className={`flex justify-center p-4 lg:p-20 ${bgClassName} rounded-2xl`}
         >
           <div>
             <p className="md:text-2xl font-semibold pb-5 text-[#0C3F8E]">
@@ -63,7 +63,7 @@ const VisitedDoctorDepartment = ({
                     alt={`${dept?.dept_name}`}
                     width={imageWidth}
                     height={imageHeight}
-                    className="rounded-md shadow-lg"
+                    className="rounded-2xl shadow-lg border border-white hover:border-primary"
                   />
                 </div>
               ))}

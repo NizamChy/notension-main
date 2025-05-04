@@ -1,11 +1,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import {
   USER_REGISTARTION,
   OTP_FOR_REGISTARTION,
 } from "@/api-endpoints/api-endpoint";
-import { toast } from "react-toastify";
 import { persistor } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/secret";
@@ -29,9 +29,8 @@ export const useUser = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { userLatitude, userLongitude, districtId } = useSelector(
-    (state) => state.user
-  );
+  const { userLatitude, userLongitude, districtId, currentUserLocation } =
+    useSelector((state) => state.user);
 
   const loggedinUserInfo = useSelector((state) => state.user.userInfo);
 
@@ -45,10 +44,12 @@ export const useUser = () => {
     alternative_contact_no: loggedinUserInfo?.alternative_contact_no || "",
     longitude: userLatitude,
     latitude: userLongitude,
-    district_name_by_location: "",
     district_area_id: "303030303030303030303030",
     district_subarea_id: "303030303030303030303030",
+    district_id: currentUserLocation?.districtId || "303030303030303030303030",
+    district_name_by_location: currentUserLocation?.districtName || "",
     ref_contact: "",
+
     // longitude: 32324324,
     // latitude: 234342,
     // district_id: districtId,
@@ -64,12 +65,38 @@ export const useUser = () => {
 
     Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
-        // console.log("res?.result?.data", res?.data);
+        // console.log("res?.result?.data otp data", res?.data);
 
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
           setIsUserRegistered(true);
+
+          if (
+            !currentUserLocation ||
+            Object.keys(currentUserLocation).length === 0
+          ) {
+            let userLocation = {
+              setCurrentLocation: false,
+              userLatitude: res?.data?.result?.location?.coordinates[0],
+              userLongitude: res?.data?.result?.location?.coordinates[1],
+              districtId: res?.data?.result?.district_id,
+              districtName: res?.data?.result?.district_name_by_location,
+              districtAreaId: "00",
+              districtAreaName: "",
+              districtSubAreaId: "00",
+              districtSubAreaName: "",
+              // formatted_address: formatted_address,
+            };
+
+            dispatch(
+              handleUserReducer({
+                type: "SAVE_USER_CURRENT_LOCATION",
+                data: userLocation,
+              })
+            );
+          }
         }
+
         setProgressing(false);
       })
 
@@ -108,20 +135,38 @@ export const useUser = () => {
 
     // console.log("Click", userInfo);
 
-    Axios.post(USER_REGISTARTION, userInfo)
-      .then((res) => {
-        // console.log("response : ", res);
+    if (currentUserLocation) {
+      Axios.post(USER_REGISTARTION, userInfo)
+        .then((res) => {
+          // console.log("response : ", res);
 
-        saveLoggedInUserInfo(res?.data?.result);
+          saveLoggedInUserInfo(res?.data?.result);
 
-        setProgressing(false);
-      })
-      .catch((error) => {
-        setProgressing(false);
+          if (res?.data?.success) {
+            // "আপনার তথ্য আপডেট করা হয়েছে"
+            // `${res?.data?.message}`
+            toast.success("Success", {
+              style: {
+                border: "1px solid #FC8F1E",
+              },
+              iconTheme: {
+                primary: "#FC8F1E",
+                secondary: "#FFFAEE",
+              },
+            });
+          }
 
-        // console.log("result =", error?.response?.data?.errors);
-        // const errorMsg = formatServerError(error?.response?.data?.errors);
-      });
+          setProgressing(false);
+        })
+        .catch((error) => {
+          setProgressing(false);
+
+          // console.log(error?.response?.data?.errors);
+
+          // console.log("result =", error?.response?.data?.errors);
+          // const errorMsg = formatServerError(error?.response?.data?.errors);
+        });
+    }
   };
 
   // const saveLoggedInUserInfo = (user) => {

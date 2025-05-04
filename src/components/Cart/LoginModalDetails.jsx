@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
@@ -30,12 +30,26 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
 
   const handleOtp = () => {
     if (phone?.length < 1) {
-      return toast.info("মোবাইল নম্বর প্রদান করা আবশ্যক।", {
-        position: "top-center",
+      return toast("মোবাইল নম্বর প্রদান করা আবশ্যক।", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
       });
     } else if (phone?.length < 11) {
-      return toast.info("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
-        position: "top-center",
+      return toast("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
       });
     }
 
