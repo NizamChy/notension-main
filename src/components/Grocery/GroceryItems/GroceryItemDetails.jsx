@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -17,23 +17,6 @@ const GroceryItemDetails = () => {
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { currentItemDetails: item } = useSelector((state) => state.userChoice);
-
-  // const item = {
-  //   _id: "664b53298f196aa86acc4165",
-  //   productInfoTable: "64f880a0a882f538834ee4ab",
-  //   pack_size: "5 Liter",
-  //   product_title_eng: "Rupchanda Soyabin Oil",
-  //   product_title_beng: "রূপচাঁদা সয়াবিন তেল",
-  //   unit_symbol: "Btl.",
-  //   app_image: "1704374685025-178684564.webp",
-  //   max_retail_price: 845,
-  //   less: 5,
-  //   less_type: "Fixed",
-  //   less_amount: 5,
-  //   sale_price: 840,
-  //   max_allowed: 0,
-  //   is_available: true,
-  // };
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
@@ -67,7 +50,16 @@ const GroceryItemDetails = () => {
     event.stopPropagation();
 
     if (!loggedinUserInfo?._id) {
-      return toast.info("Please Login first!");
+      return toast("Please Login first!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
+      });
     }
 
     setIsLoading(true);

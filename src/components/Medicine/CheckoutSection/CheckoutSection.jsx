@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { AiOutlinePhone } from "react-icons/ai";
 import { MdContactPhone } from "react-icons/md";
 import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
-import FloatingInput from "@/components/LoginSection/FloatingInput";
-import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 import { IoLocationOutline } from "react-icons/io5";
-import { AiOutlinePhone } from "react-icons/ai";
 import EmptyCart from "@/components/Cart/EmptyCart";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import FloatingInput from "@/components/LoginSection/FloatingInput";
 import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 
 const CheckoutSection = () => {
   const paymentData = [

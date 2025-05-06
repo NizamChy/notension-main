@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";

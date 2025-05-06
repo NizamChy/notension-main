@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Poppins } from "next/font/google";
-import { ToastContainer } from "react-toastify";
 import ReduxProvider from "@/redux/ReduxProvider";
 
 const poppins = Poppins({
@@ -21,7 +20,6 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <ReduxProvider>
           <Toaster />
-          <ToastContainer />
           {children}
         </ReduxProvider>
       </body>

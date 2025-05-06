@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -41,7 +41,16 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
     event.stopPropagation();
 
     if (!loggedinUserInfo?._id) {
-      return toast.info("Please Login first!");
+      return toast("Please Login first!", {
+        style: {
+          border: "1px solid #FC8F1E",
+        },
+        icon: "ℹ️",
+        iconTheme: {
+          primary: "#FC8F1E",
+          secondary: "#FFFAEE",
+        },
+      });
     }
 
     addToFavouriteItems(item, merchantType);
