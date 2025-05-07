@@ -2,7 +2,7 @@
 
 import Cart from "@/components/Cart/Cart";
 import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loader from "@/components/common/Loader";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import Footer from "@/components/shared/Footer/Footer";
@@ -12,7 +12,9 @@ import CategorySlider from "@/components/Food/CategorySidebar/CategorySlider";
 import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
 import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/CategoryBannerCarousel";
 
-export default function RootLayout({ children }) {
+export default function FoodLayout({ children }) {
+  const [isScroll, setIsScroll] = useState(false);
+
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
@@ -22,16 +24,20 @@ export default function RootLayout({ children }) {
   const { visitedFoodStore } = useSelector((state) => state.dashboard);
 
   const scrollToFoodItems = () => {
-    if (params?.catId && foodItemsRef.current) {
-      const elementPosition =
-        foodItemsRef.current.getBoundingClientRect().top + window.scrollY;
-      const offset = window.innerHeight * 0.1;
-      // 0.16
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: "smooth",
-      });
+    if (isScroll) {
+      if (params?.catId && foodItemsRef.current) {
+        const elementPosition =
+          foodItemsRef.current.getBoundingClientRect().top + window.scrollY;
+        const offset = window.innerHeight * 0.1;
+        // 0.16
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: "smooth",
+        });
+      }
     }
+
+    setIsScroll(false);
   };
 
   useEffect(() => {
@@ -57,7 +63,10 @@ export default function RootLayout({ children }) {
         <div className="flex justify-center bg-[#F3F4F6]">
           <div className="lg:w-[25%] xl:w-[20%] hidden lg:block">
             <div className="fixed top-0 left-0 w-[25%] xl:w-[20%] h-full">
-              <CategorySidebar scrollToFoodItems={scrollToFoodItems} />
+              <CategorySidebar
+                scrollToFoodItems={scrollToFoodItems}
+                setIsScroll={setIsScroll}
+              />
             </div>
           </div>
 

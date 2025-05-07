@@ -10,7 +10,7 @@ import { useFood } from "@/hooks/fetch-data/useFood";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
 import { useRouter, usePathname, useParams } from "next/navigation";
 
-const CategorySidebar = ({ scrollToFoodItems }) => {
+const CategorySidebar = ({ scrollToFoodItems, setIsScroll }) => {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const router = useRouter();
@@ -22,6 +22,7 @@ const CategorySidebar = ({ scrollToFoodItems }) => {
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
+    setIsScroll(true);
 
     router.push(
       `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${categoryId}`
