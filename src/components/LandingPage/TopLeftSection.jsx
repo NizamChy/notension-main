@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import MapModal from "../shared/LocationModal/MapModal";
-import LoginModalDetails from "../Cart/LoginModalDetails";
+import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import { LuCalendarDays, LuShoppingCart } from "react-icons/lu";
 

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/hooks/fetch-data/useUser";
-import LoginModalDetails from "../Cart/LoginModalDetails";
+import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import FloatingInput from "../LoginSection/FloatingInput";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";

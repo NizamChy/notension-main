@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import MedicineItems from "../MedicineItems/MedicineItems";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const FavoriteItem = () => {

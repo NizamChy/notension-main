@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

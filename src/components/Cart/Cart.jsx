@@ -5,9 +5,9 @@ import CartContent from "./CartContent";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
-import LoginModalDetails from "./LoginModalDetails";
 import { useParams, useRouter } from "next/navigation";
 import CommonModal from "../shared/CommonModal/CommonModal";
+import LoginModalDetails from "../LoginSection/LoginModalDetails";
 
 const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);

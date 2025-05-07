@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { BsTelephone } from "react-icons/bs";
 import MapModal from "../shared/LocationModal/MapModal";
-import LoginModalDetails from "../Cart/LoginModalDetails";
+import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
 
 const SecondSection = () => {

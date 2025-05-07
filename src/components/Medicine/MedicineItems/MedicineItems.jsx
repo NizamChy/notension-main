@@ -12,7 +12,7 @@ import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { useParams } from "next/navigation";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 

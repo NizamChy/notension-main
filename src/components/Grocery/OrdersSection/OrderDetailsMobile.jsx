@@ -7,7 +7,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { IoStorefrontSharp } from "react-icons/io5";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 

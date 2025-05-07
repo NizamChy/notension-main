@@ -1,5 +1,5 @@
 import React from "react";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const page = () => {
   return (

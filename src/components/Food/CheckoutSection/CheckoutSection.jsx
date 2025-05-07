@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import EmptyCart from "@/components/Cart/EmptyCart";
 import { useOrderFood } from "@/hooks/place-order/useOrderFood";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const CheckoutSection = () => {

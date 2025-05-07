@@ -11,7 +11,7 @@ import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams, useRouter } from "next/navigation";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import NoItemFound from "@/components/common/NoItemFound";
 
 const OrdersSection = () => {

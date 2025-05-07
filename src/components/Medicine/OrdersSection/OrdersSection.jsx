@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { useParams, useRouter } from "next/navigation";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 import NoItemFound from "@/components/common/NoItemFound";

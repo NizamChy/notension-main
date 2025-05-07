@@ -3,7 +3,7 @@
 import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import React, { useEffect, useState } from "react";
-import LoginModalDetails from "../Cart/LoginModalDetails";
+import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
 
 const UserProfile = () => {

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import CommonModal from "../CommonModal/CommonModal";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const LoginButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

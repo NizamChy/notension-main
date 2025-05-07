@@ -9,7 +9,7 @@ import { AiOutlinePhone } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import EmptyCart from "@/components/Cart/EmptyCart";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";

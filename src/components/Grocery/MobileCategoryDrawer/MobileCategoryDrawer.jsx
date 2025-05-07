@@ -5,7 +5,7 @@ import DrawerContent from "./DrawerContent";
 import { RxHamburgerMenu } from "react-icons/rx";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import LoginModalDetails from "@/components/Cart/LoginModalDetails";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const MobileCategoryDrawer = () => {

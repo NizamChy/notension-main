@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
-import OtpSection from "../LoginSection/OtpSection";
+import OtpSection from "./OtpSection";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
 const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
