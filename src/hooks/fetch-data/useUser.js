@@ -193,7 +193,10 @@ export const useUser = () => {
         _id: user._id,
         name: user.customer_name,
         phone: user.contact_no,
-      })
+      }),
+      {
+        expires: 7, // days
+      }
     );
   };
 
