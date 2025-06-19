@@ -84,7 +84,7 @@ const FoodItemDetails = () => {
 
                   {item?.less > 0 && (
                     <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-                      {item?.less} tk OFF
+                      {item?.less}% OFF
                     </div>
                   )}
                 </div>
@@ -119,8 +119,8 @@ const FoodItemDetails = () => {
                   {item?.less > 0 && (
                     <p className="text-green-600 text-sm">
                       You save <TbCurrencyTaka className="inline" />
-                      {item?.max_retail_price - item?.sale_price} ({item?.less}
-                      tk off)
+                      {item?.max_retail_price - item?.sale_price} ({item?.less}%
+                      OFF)
                     </p>
                   )}
                 </div>

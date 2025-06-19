@@ -73,7 +73,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
 
               {item?.less > 0 && (
                 <p className="flex items-center absolute -top-4 right-0 text-sm text-white bg-primaryFood px-4 py-0.5 rounded-tl-lg rounded-br-lg">
-                  <TbCurrencyTaka className="md:text-lg" /> {item?.less} off
+                  {item?.less}% OFF
                 </p>
               )}
             </div>
