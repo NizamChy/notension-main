@@ -125,7 +125,8 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
 
                     {itemDetails?.less > 0 && (
                       <p className="absolute -top-4 right-0 text-sm text-white bg-primaryGrocery px-4 py-0.5 rounded-tl-lg rounded-br-lg">
-                        {itemDetails?.less}% off
+                        {itemDetails?.less}
+                        {itemDetails?.less_type === "Percent" ? "%" : "৳"} OFF
                       </p>
                     )}
 

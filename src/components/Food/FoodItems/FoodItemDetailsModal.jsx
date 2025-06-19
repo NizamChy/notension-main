@@ -73,7 +73,8 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
 
               {item?.less > 0 && (
                 <p className="flex items-center absolute -top-4 right-0 text-sm text-white bg-primaryFood px-4 py-0.5 rounded-tl-lg rounded-br-lg">
-                  {item?.less}% OFF
+                  {item?.less}
+                  {item?.less_type === "Percent" ? "%" : "৳"} OFF
                 </p>
               )}
             </div>

@@ -154,7 +154,8 @@ const MedicineItemDetails = () => {
                   />
                   {item?.less > 0 && (
                     <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-                      {item?.less}% OFF
+                      {item?.less}
+                      {item?.less_type === "Percent" ? "%" : "৳"} OFF
                     </div>
                   )}
                 </div>
@@ -197,8 +198,7 @@ const MedicineItemDetails = () => {
                   {item?.less > 0 && (
                     <p className="text-green-600 text-sm">
                       You save <TbCurrencyTaka className="inline" />
-                      {(item?.max_retail_price - item?.sale_price).toFixed(2)} (
-                      {item?.less}% off)
+                      {(item?.max_retail_price - item?.sale_price).toFixed(2)}
                     </p>
                   )}
                 </div>

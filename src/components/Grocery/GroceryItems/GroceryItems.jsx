@@ -188,11 +188,8 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
             {item?.less > 0 && (
               <p className="flex items-center absolute top-0 left-0 text-white text-sm bg-primaryGrocery px-3 rounded-tl-lg rounded-br-lg">
-                <span>
-                  <TbCurrencyTaka className="md:text-lg" />
-                </span>
-
-                <span>{item?.less} off</span>
+                {item?.less}
+                {item?.less_type === "Percent" ? "%" : "৳"} OFF
               </p>
             )}
 

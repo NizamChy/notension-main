@@ -156,9 +156,10 @@ const GroceryItemDetails = () => {
                     priority
                   />
                   {item?.less > 0 && (
-                    <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-                      {item?.less}% OFF
-                    </div>
+                    <p className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+                      {item?.less}
+                      {item?.less_type === "Percent" ? "%" : "৳"} OFF
+                    </p>
                   )}
                 </div>
               </div>
@@ -192,8 +193,7 @@ const GroceryItemDetails = () => {
                   {item?.less > 0 && (
                     <p className="text-green-600 text-sm">
                       You save <TbCurrencyTaka className="inline" />
-                      {item?.max_retail_price - item?.sale_price} ({item?.less}%
-                      off)
+                      {item?.max_retail_price - item?.sale_price}
                     </p>
                   )}
                 </div>

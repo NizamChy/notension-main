@@ -190,7 +190,8 @@ const MedicineItems = ({ item, isFavorite = false }) => {
 
             {item?.less > 0 && (
               <p className="absolute top-0 left-0 text-white text-sm bg-primaryMedicine px-3 rounded-tl-lg rounded-br-lg">
-                {item?.less}% off
+                {item?.less}
+                {item?.less_type === "Percent" ? "%" : "৳"} OFF
               </p>
             )}
 

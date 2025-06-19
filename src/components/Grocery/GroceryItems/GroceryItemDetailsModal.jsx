@@ -130,7 +130,8 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
 
               {item?.less > 0 && (
                 <p className="absolute -top-4 right-0 text-sm text-white bg-primaryGrocery px-4 py-0.5 rounded-tl-lg rounded-br-lg">
-                  {item?.less}% off
+                  {item?.less}
+                  {item?.less_type === "Percent" ? "%" : "৳"} OFF
                 </p>
               )}
             </div>
