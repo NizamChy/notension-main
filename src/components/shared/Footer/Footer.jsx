@@ -104,6 +104,15 @@ const Footer = () => {
                 Special Discount
               </Link>
             </li>
+            <li>
+              <Link
+                href="/marketing-policy"
+                className="flex items-center text-gray-700 hover:text-yellow-500"
+              >
+                <FiChevronRight className="mr-2" />
+                Marketing Policy
+              </Link>
+            </li>
           </ul>
         </div>
 

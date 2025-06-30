@@ -2,8 +2,8 @@
 
 import Cart from "@/components/Cart/Cart";
 import { useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
 import Loader from "@/components/common/Loader";
+import { useEffect, useRef, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import Footer from "@/components/shared/Footer/Footer";
 import { useParams, usePathname, useRouter } from "next/navigation";
