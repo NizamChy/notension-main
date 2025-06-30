@@ -2,19 +2,19 @@
 
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 import { TbCurrencyTaka } from "react-icons/tb";
 import ItemDetailsModal from "./ItemDetailsModal";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
-import { useParams } from "next/navigation";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -156,7 +156,6 @@ const MedicineItems = ({ item, isFavorite = false }) => {
           className="group cursor-pointer w-full max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
         >
           <div className="relative overflow-hidden rounded-t-lg">
-            {/* Skeleton loader that shows while image is loading */}
             {isImageLoading && (
               <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
                 <div className="h-full flex justify-center items-center">

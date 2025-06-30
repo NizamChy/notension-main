@@ -65,7 +65,6 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
         className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300"
       >
         <div className="relative overflow-hidden rounded-t-lg">
-          {/* Skeleton loader that shows while image is loading */}
           {isImageLoading && (
             <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
               <div className="h-full flex justify-center items-center">

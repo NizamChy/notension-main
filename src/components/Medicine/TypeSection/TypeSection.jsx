@@ -62,7 +62,6 @@ const TypeSection = () => {
                 key={subtype?._id}
                 className="relative cursor-pointer bg-white rounded-lg shadow-md p-2 md:p-4 hover:shadow-lg transition-shadow"
               >
-                {/* Skeleton loader that shows while image is loading */}
                 {isImageLoading && (
                   <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
                     <div className="h-full flex justify-center items-center">

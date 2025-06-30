@@ -71,11 +71,6 @@ export default function FoodLayout({ children }) {
           </div>
 
           <div className="w-full lg:w-[75%] xl:w-[80%] ml-auto md:p-16">
-            {/* {(pathname ===
-              `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}` ||
-              pathname ===
-                `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${params?.catId}`) */}
-
             {!pathname.includes("/orders") &&
               !pathname.includes("/checkout") &&
               !pathname.includes("/user") && (

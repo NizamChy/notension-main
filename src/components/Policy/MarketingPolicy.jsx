@@ -6,7 +6,7 @@ const MarketingPolicy = () => {
       <div className="pt-20 px-4 min-h-[80vh] max-w-6xl mx-auto">
         <h3 className="text-xl font-medium text-deepGray">Marketing Policy</h3>
 
-        <p className="py-10 text-justify text-deepGray">
+        <p className="py-5 text-justify text-deepGray">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsum
           facere est unde doloribus? Perferendis voluptatem vero fugiat eius
           quod inventore, similique ex, labore porro expedita facere quas?

@@ -258,7 +258,6 @@ const MapMobile = () => {
         <button
           onClick={handleConfirmMobileLocation}
           className="rounded-md px-5 py-2 text-white text-xl font-medium bg-[#FC8F1E] hover:bg-[#fb9d3a] transition duration-300 w-full mt-3"
-          // className="rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 w-full mt-3"
         >
           Confirm Location
         </button>
