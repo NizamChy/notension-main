@@ -105,7 +105,7 @@ const MarketingPolicy = () => {
           <br />
           <br />
           <span className="font-semibold text-xl">
-            🛑Cash back ( 2999 টাকা ):
+            🛑Cash back ( 2999 টাকা ) :
           </span>
           <br />
           <br />
