@@ -1,10 +1,15 @@
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { Poppins } from "next/font/google";
 import ReduxProvider from "@/redux/ReduxProvider";
+import { Hind_Siliguri, Poppins } from "next/font/google";
 
-const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+// const poppins = Poppins({
+//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+//   subsets: ["latin"],
+// });
+
+const hindSiliguri = Hind_Siliguri({
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -17,7 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={hindSiliguri.className}>
         <ReduxProvider>
           <Toaster />
           {children}
