@@ -26,7 +26,7 @@ const ServiceCard = ({ service, imageKey, imageWidth, imageHeight, index }) => {
     <>
       <div
         onClick={handleServiceClick}
-        className="lg:m-3 rounded-lg shadow-md hover:shadow-lg cursor-pointer text-mediumGray hover:text-primary bg-white w-full flex justify-center"
+        className="lg:m-3 rounded-lg shadow-md hover:shadow-lg cursor-pointer text-mediumGray hover:bg-blue-500/10 hover:text-primary bg-white w-full flex justify-center"
       >
         <div>
           <Image
