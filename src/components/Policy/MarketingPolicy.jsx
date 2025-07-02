@@ -2,7 +2,7 @@ import React from "react";
 
 const MarketingPolicy = () => {
   return (
-    <div className="min-h-content bg-slate-50">
+    <div className="min-h-content bg-slate-50 font-semibold text-lg">
       <div className="pt-20 px-4 max-w-4xl mx-auto">
         <h3 className="text-2xl font-medium text-primary">Marketing Policy</h3>
 
