@@ -4,7 +4,7 @@ export default function FoodLayout({ children }) {
   return (
     <>
       <Navbar />
-      <div className="pt-10 md:pt-16">{children}</div>
+      <div className="pt-16">{children}</div>
     </>
   );
 }

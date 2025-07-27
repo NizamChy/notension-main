@@ -6,8 +6,8 @@ import DrawerContent from "./DrawerContent";
 import { RxHamburgerMenu } from "react-icons/rx";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const MobileCategoryDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +55,7 @@ const MobileCategoryDrawer = () => {
           onClick={toggleDrawer}
           className="flex items-center justify-center pe-1"
         >
-          <RxHamburgerMenu className="text-2xl text-secondary" />
+          <RxHamburgerMenu className="lg:text-2xl text-secondary" />
         </button>
 
         <div

@@ -19,9 +19,9 @@ const LoginButton = () => {
     <>
       <button
         onClick={handleLogin}
-        className="flex justify-center items-center gap-1 border rounded-full py-1 px-2.5 hover:bg-gray-50 text-secondary text-lg"
+        className="flex justify-center items-center gap-1 border rounded-3xl py-1 px-2 hover:bg-gray-50 text-secondary lg:text-lg text-sm"
       >
-        <CgProfile className="text-2xl" />
+        <CgProfile className="lg:text-2xl" />
         Log in
       </button>
 
