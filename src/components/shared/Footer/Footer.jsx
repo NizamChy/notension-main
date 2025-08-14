@@ -49,9 +49,12 @@ const Footer = () => {
             Contact
           </p>
           <ul className="space-y-2 md:space-y-4 text-gray-700">
-            <li className="flex items-center">
-              <IoLocation className="text-xl mr-2" />
-              Chattogram, Bangladesh
+            <li className="flex items-start">
+              <span>
+                <IoLocation className="text-xl mr-2 mt-2" />
+              </span>
+              Jobeda Villa (Behind Meghna Bank, 2nd Floor), Holding - 120,
+              Mirzarpool, Muradpur, Panchlaish, Chattogram, Bangladesh
             </li>
             <li className="flex items-center">
               <BsTelephonePlusFill className="mr-2" /> +88 01719662995
