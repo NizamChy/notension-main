@@ -100,11 +100,11 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="#"
+                href="https://notension-fashion-and-lifestyle.netlify.app"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
               >
                 <FiChevronRight className="mr-2" />
-                Special Discount
+                Clothing , Fashion and Lifestyle
               </Link>
             </li>
             <li>
