@@ -25,11 +25,9 @@ const LoginButton = () => {
         Log in
       </button>
 
-      {isModalOpen && (
-        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-          <LoginModalDetails onClose={closeModal} type="login" />
-        </CommonModal>
-      )}
+      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+        <LoginModalDetails onClose={closeModal} type="login" />
+      </CommonModal>
     </>
   );
 };

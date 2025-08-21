@@ -1,6 +1,15 @@
-import React, { useEffect } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 const CommonModal = ({ isOpen, onClose, children, className = "" }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") onClose();
@@ -26,6 +35,8 @@ const CommonModal = ({ isOpen, onClose, children, className = "" }) => {
       document.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen, onClose]);
+
+  if (!isOpen && !mounted) return null;
 
   return (
     <>
