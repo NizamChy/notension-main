@@ -4,13 +4,12 @@ import {
   GROCERY_ORDER_INFO,
   GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-
+import toast from "react-hot-toast";
 import { GROCERY_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
-import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
 
@@ -81,8 +80,6 @@ export const useOrderGrocery = () => {
     ).toFixed(2);
     setGrandTotal(total);
   };
-
-  //
 
   const placeOrder = (itemOrderObj) => {
     setProgressing(true);

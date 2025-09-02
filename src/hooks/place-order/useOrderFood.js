@@ -5,8 +5,8 @@ import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import { useRouter } from "next/navigation";
 import { FOOD_URL } from "@/api-endpoints/secret";
+import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -22,12 +22,12 @@ const Axios = axios.create({
 });
 
 export const useOrderFood = () => {
-  const [progressing, setProgressing] = useState(false);
-
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
+  const [progressing, setProgressing] = useState(false);
   const [shippingCharge, setShippingCharge] = useState(0);
 
+  const params = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -36,7 +36,6 @@ export const useOrderFood = () => {
   const { foodStoreInfo, totalAmountFood } = useSelector((state) => state.cart);
 
   const totalPrice = totalAmountFood;
-
   const minOrderAmount = foodStoreInfo?.min_purchage_amount || 0;
   const deliveryCharge = foodStoreInfo?.max_delivery_charge || 0;
   const minDeliveryCharge = foodStoreInfo?.min_delivery_charge || 0;
@@ -106,7 +105,6 @@ export const useOrderFood = () => {
         } else {
           toast.error("Failed to place order.");
         }
-
         setProgressing(false);
       })
       .catch((error) => {
