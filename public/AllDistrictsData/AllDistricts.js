@@ -36,9 +36,9 @@ export const ALL_DISTRICTS = [
   },
   {
     _id: "64f03b0fabffb425d1f1c656",
-    district_name: "Barishal (বরিশাল)",
+    district_name: "Barisal (বরিশাল)",
     description:
-      "Barisal officially known as Barishal, is a major city that lies on the banks of the Kirtankhola river in south-central Bangladesh.",
+      "Barisal officially known as Barisal, is a major city that lies on the banks of the Kirtankhola river in south-central Bangladesh.",
     districtImg: "1693465357972-89975729.jpg",
   },
   {
@@ -169,9 +169,9 @@ export const ALL_DISTRICTS = [
   },
   {
     _id: "64f0446bd2228c89691fc785",
-    district_name: "Joypurhat (জয়পুরহাট)",
+    district_name: "Jaipurhat (জয়পুরহাট)",
     description:
-      "Joypurhat is a small district in Rajshahi Division. It has 342.59 km cobbled road, 61.59 km semi-cobbled road and 1569 km raw road.",
+      "Jaipurhat is a small district in Rajshahi Division. It has 342.59 km cobbled road, 61.59 km semi-cobbled road and 1569 km raw road.",
     districtImg: "1693467754623-841894896.jpg",
   },
   {
@@ -190,9 +190,9 @@ export const ALL_DISTRICTS = [
   },
   {
     _id: "64f044eed2228c89691fc79a",
-    district_name: "Nawabganj  (নবাবগঞ্জ)",
+    district_name: "Chapainawabganj  (চাঁপাইনবাবগঞ্জ)",
     description:
-      "Nawabganj is located at 23°40′00″N 90°10′00″E﻿ / ﻿23.6667°N 90.1667°E﻿ / 23.6667; 90.1667. It has 47,411 households and a total area 244.81 km2.",
+      "Chapai Nawabganj or Chapainawabganj District is a district of Rajshahi Division. It is located in the north-western part of Bangladesh.",
     districtImg: "1693467885811-946144143.jpg",
   },
   {
@@ -204,7 +204,7 @@ export const ALL_DISTRICTS = [
   },
   {
     _id: "64f04571d2228c89691fc7a8",
-    district_name: "Sirajgonj (সিরাজগঞ্জ)",
+    district_name: "Sirajganj (সিরাজগঞ্জ)",
     description:
       "Sirajganj district is the 25th largest district by area and 9th largest district by population in Bangladesh. It is known as the gateway to North Bengal.",
     districtImg: "1693468016082-610536818.jpg",
@@ -267,7 +267,7 @@ export const ALL_DISTRICTS = [
   },
   {
     _id: "64f050168dc6cd2bba8c1e90",
-    district_name: "Jhalokati (ঝালকাঠি)",
+    district_name: "Jhalakathi (ঝালকাঠি)",
     description:
       "Bhola is a delta island. There are two rivers in this district which are Meghna and Tetulia. Meghna is in east and north side of the district and Tetulia is in ...",
     districtImg: "1693470741241-56014823.jpg",

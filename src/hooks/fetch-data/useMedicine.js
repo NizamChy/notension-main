@@ -182,7 +182,8 @@ export const useMedicine = () => {
   // custom_store_id: "MS111112",
 
   const handleSearch = (searchText, pageNo, setPageNo) => {
-    if (searchText.length > 1) {
+    if (searchText?.length === 0) return;
+    if (searchText?.length > 1) {
       if (pageNo === 1) {
         resetLoadingStatus();
       }

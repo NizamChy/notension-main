@@ -17,6 +17,8 @@ const Map = ({ onCloseModal = false }) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [curLoc, setCurLoc] = useState({ latitude: null, longitude: null });
 
+  console.log("current location======", curLoc, searchInfo);
+
   const router = useRouter();
   const inputRef = useRef();
   const mapRef = useRef();
@@ -35,6 +37,8 @@ const Map = ({ onCloseModal = false }) => {
     districtSubAreaName: "",
     // formatted_address: formatted_address,
   };
+
+  console.log("user location", userLocation);
 
   const handleConfirmLocation = () => {
     if (searchInfo && curLoc) {
@@ -137,6 +141,7 @@ const Map = ({ onCloseModal = false }) => {
                           new RegExp(district?.split(" ")[0], "ui")
                         ) // Case-insensitive, Unicode search
                     );
+                    console.log(searchInfo);
 
                     setSearchInfo(searchInfo);
 
@@ -220,6 +225,9 @@ const Map = ({ onCloseModal = false }) => {
             )?.long_name;
 
           const district = getAddressPart("administrative_area_level_2");
+
+          console.log("district   ======  ", district);
+
           const city =
             getAddressPart("locality") || getAddressPart("political");
           const country = getAddressPart("country");
@@ -239,6 +247,7 @@ const Map = ({ onCloseModal = false }) => {
                 new RegExp(district?.split(" ")[0], "ui")
               )
           );
+          console.log(searchInfo);
 
           setSearchInfo(searchInfo);
         } else {

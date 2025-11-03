@@ -51,6 +51,7 @@ export const useGroceryProduct = () => {
   };
 
   const handleSearch = (searchText, pageNo, setPageNo) => {
+    if (searchText?.length === 0) return;
     setLoadingMore(true);
     if (searchText?.length > 1) {
       if (pageNo === 1) {
