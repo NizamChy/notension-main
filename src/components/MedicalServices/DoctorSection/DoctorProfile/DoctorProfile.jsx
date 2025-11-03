@@ -9,8 +9,12 @@ import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { FaCalendarAlt, FaHeart } from "react-icons/fa";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
+import { useRouter } from "next/navigation";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const DoctorProfile = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
@@ -19,11 +23,26 @@ const DoctorProfile = () => {
   let merchantType = 4;
   let isExists = null;
 
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  const router = useRouter();
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     addToFavouriteList(currentDoctor?.doctorInfo, merchantType);
+  };
+
+  const handleBookAppointment = () => {
+    if (!userInfo?._id) {
+      return openModal();
+    } else {
+      router.push("/medical-services/doctor/book-appointment");
+    }
   };
 
   useEffect(() => {
@@ -110,14 +129,17 @@ const DoctorProfile = () => {
 
                 {currentDoctor?.book_an_appointment &&
                   !currentDoctor?.is_chamber_off && (
-                    <Link href="/medical-services/doctor/book-appointment">
-                      <button className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2">
-                        <span>
-                          <FaCalendarAlt className="text-lg" />
-                        </span>
-                        <span>Book an appointment</span>
-                      </button>
-                    </Link>
+                    // <Link href="/medical-services/doctor/book-appointment">
+                    <button
+                      onClick={handleBookAppointment}
+                      className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2"
+                    >
+                      <span>
+                        <FaCalendarAlt className="text-lg" />
+                      </span>
+                      <span>Book an appointment</span>
+                    </button>
+                    // </Link>
                   )}
 
                 {currentDoctor?.consultationCenterInfo
@@ -167,6 +189,12 @@ const DoctorProfile = () => {
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <LoginModalDetails onClose={closeModal} type="appointment" />
+        </CommonModal>
+      )}
     </>
   );
 };

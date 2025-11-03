@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { BsTelephone } from "react-icons/bs";
 import MapModal from "../shared/LocationModal/MapModal";
-import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
+import LoginModalDetails from "../LoginSection/LoginModalDetails";
 
 const SecondSection = () => {
   const [routeType, setRouteType] = useState("");
@@ -44,18 +44,20 @@ const SecondSection = () => {
       return;
     }
 
-    if (!userInfo?._id) {
-      return openModal();
-    }
+    // if (!userInfo?._id) {
+    //   return openModal();
+    // }
 
-    if (type === "eyeCareCenter") {
-      router.push("/medical-services/eye-care-center");
-    } else if (type === "dentalCareCenter") {
-      router.push("/medical-services/dental-care-center");
-    } else if (type === "hospital") {
-      router.push("/medical-services/hospital");
-    } else if (type === "diagnostic") {
-      router.push("/medical-services/diagnostic");
+    if (currentUserLocation?.districtId) {
+      if (type === "eyeCareCenter") {
+        router.push("/medical-services/eye-care-center");
+      } else if (type === "dentalCareCenter") {
+        router.push("/medical-services/dental-care-center");
+      } else if (type === "hospital") {
+        router.push("/medical-services/hospital");
+      } else if (type === "diagnostic") {
+        router.push("/medical-services/diagnostic");
+      }
     }
   };
 

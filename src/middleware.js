@@ -15,32 +15,18 @@ export function middleware(request) {
   const isDoctorPage = request.nextUrl.pathname.startsWith("/medical-services");
   const isLoginPage = request.nextUrl.pathname.startsWith("/login");
 
-  // const redirectResponse = NextResponse.redirect('URL_HERE');
-  // redirectResponse.headers.set('x-middleware-cache', 'no-cache'); // ! FIX: Disable caching
-  // return redirectResponse;
-
-  // console.log("hello from middleware");
-
-  if (isLoginPage && user?._id) {
-    const redirectResponse = NextResponse.redirect(new URL("/", request.url));
-    redirectResponse.headers.set("x-middleware-cache", "no-cache"); // ! FIX: Disable caching
-    return redirectResponse;
-  }
-
-  if (isDoctorPage && !user?._id) {
-    const redirectResponse = NextResponse.redirect(
-      new URL("/login", request.url)
-    );
-    redirectResponse.headers.set("x-middleware-cache", "no-cache"); // ! FIX: Disable caching
-    return redirectResponse;
-  }
-
   // if (isLoginPage && user?._id) {
-  //   return NextResponse.redirect(new URL("/", request.url));
+  //   const redirectResponse = NextResponse.redirect(new URL("/", request.url));
+  //   redirectResponse.headers.set("x-middleware-cache", "no-cache"); // ! FIX: Disable caching
+  //   return redirectResponse;
   // }
 
   // if (isDoctorPage && !user?._id) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
+  //   const redirectResponse = NextResponse.redirect(
+  //     new URL("/login", request.url)
+  //   );
+  //   redirectResponse.headers.set("x-middleware-cache", "no-cache"); // ! FIX: Disable caching
+  //   return redirectResponse;
   // }
 
   return NextResponse.next();

@@ -38,14 +38,14 @@ const TopLeftSection = () => {
       } else {
         handleOpenMapModal();
       }
-      return;
+      // return;
     }
 
-    if (!userInfo?._id) {
-      return openModal();
-    }
+    // if (!userInfo?._id) {
+    //   return openModal();
+    // }
 
-    if (type === "doctor") {
+    if (currentUserLocation?.districtId && type === "doctor") {
       router.push("/medical-services/doctor");
     }
   };

@@ -136,6 +136,8 @@ const UserInfoInputs = ({
           router.push("/medical-services/diagnostic");
         } else if (type === "medicalService") {
           router.push("/medical-services/medical-service");
+        } else if (type === "appointment") {
+          router.push("/medical-services/doctor/book-appointment");
         }
       }
     }, 1000);
