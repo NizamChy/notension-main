@@ -8,6 +8,7 @@ import { BsTelephone } from "react-icons/bs";
 import MapModal from "../shared/LocationModal/MapModal";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
+import Link from "next/link";
 
 const SecondSection = () => {
   const [routeType, setRouteType] = useState("");
@@ -63,6 +64,16 @@ const SecondSection = () => {
 
   return (
     <>
+      <Link href="https://notension-fashion-and-lifestyle.netlify.app">
+        <Image
+          width={1280}
+          height={300}
+          src="/images/home/fashion-lifestyle.jpeg"
+          className="pt-4"
+          alt="fashion and life style"
+        />
+      </Link>
+
       <div className="lg:flex gap-4 space-y-4">
         <div className="flex justify-center lg:gap-4 mt-4">
           <div
