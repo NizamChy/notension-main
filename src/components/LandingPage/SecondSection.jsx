@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -8,7 +9,6 @@ import { BsTelephone } from "react-icons/bs";
 import MapModal from "../shared/LocationModal/MapModal";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
-import Link from "next/link";
 
 const SecondSection = () => {
   const [routeType, setRouteType] = useState("");
@@ -64,7 +64,11 @@ const SecondSection = () => {
 
   return (
     <>
-      <Link href="https://notension-fashion-and-lifestyle.netlify.app">
+      <Link
+        href="https://notension-fashion-and-lifestyle.netlify.app"
+        prefetch={false}
+        target="_blank"
+      >
         <Image
           width={1280}
           height={300}
