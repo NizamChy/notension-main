@@ -43,11 +43,11 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
 
     setOtpGenerated(generatedOtp.toString());
 
-    setTimeout(() => {
-      if (!progressing) {
+    if (!progressing) {
+      setTimeout(() => {
         setContentType("userInfo");
-      }
-    }, 1000);
+      }, 1000);
+    }
   };
 
   const handleOtp = () => {
