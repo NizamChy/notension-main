@@ -127,81 +127,89 @@ const UserInfoInputs = ({
 
   return (
     <>
-      <p className="text-center font-medium text-secondary text-2xl mb-3">
-        Your Information
-      </p>
-
-      <div className="py-2 md:py-4">
-        <FloatingInput
-          label="Name"
-          id="customer_name"
-          value={userInfo?.customer_name || ""}
-          onChange={(e) => handleDataChange(e.target.value, "customer_name")}
-        />
-      </div>
-
-      <div className="py-2 md:py-4">
-        <FloatingInput
-          label="Address"
-          id="customer_address"
-          multiline={true}
-          value={userInfo?.customer_address || ""}
-          onChange={(e) => handleDataChange(e.target.value, "customer_address")}
-        />
-      </div>
-
-      <div className="py-2 md:py-4">
-        <FloatingInput
-          label="Alternative number"
-          id="alternative_contact_no"
-          value={userInfo?.alternative_contact_no || ""}
-          onChange={(e) =>
-            handleDataChange(e.target.value, "alternative_contact_no")
-          }
-        />
-      </div>
-
-      <div className="py-2 md:py-4">
-        <FloatingInput
-          label="Enter OTP"
-          id="otp"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-        />
-      </div>
-
-      <div className="flex justify-center">
-        <button
-          onClick={(e) => handleLogin(e)}
-          className={`mt-4 px-4 ${getPrimaryClass()} text-white rounded-md w-full`}
-          disabled={progressing}
-        >
-          {progressing ? (
-            <div className="flex justify-center items-center">
-              <p>Please wait</p>
-              <DotLottieReact
-                src="https://lottie.host/6958d316-ea05-4122-9dff-1d526f59b3ca/ZilAm5yZWu.lottie"
-                loop
-                autoplay
-                className="size-10"
-              />
-            </div>
-          ) : (
-            <>
-              <p className="py-2">LOGIN</p>
-            </>
-          )}
-        </button>
-      </div>
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={resendOTP}
-          className="text-secondary underline font-medium"
-          disabled={progressing}
-        >
-          Resend OTP
-        </button>
-      </div>
+      {progressing ? (
+        <div className="flex justify-center items-center min-h-80 text-mediumGray bg-gray-100 animate-pulse">
+          Loading...
+        </div>
+      ) : (
+        <>
+          {" "}
+          <p className="text-center font-medium text-secondary text-2xl mb-3">
+            Your Information
+          </p>
+          <div className="py-2 md:py-4">
+            <FloatingInput
+              label="Name"
+              id="customer_name"
+              value={userInfo?.customer_name || ""}
+              onChange={(e) =>
+                handleDataChange(e.target.value, "customer_name")
+              }
+            />
+          </div>
+          <div className="py-2 md:py-4">
+            <FloatingInput
+              label="Address"
+              id="customer_address"
+              multiline={true}
+              value={userInfo?.customer_address || ""}
+              onChange={(e) =>
+                handleDataChange(e.target.value, "customer_address")
+              }
+            />
+          </div>
+          <div className="py-2 md:py-4">
+            <FloatingInput
+              label="Alternative number"
+              id="alternative_contact_no"
+              value={userInfo?.alternative_contact_no || ""}
+              onChange={(e) =>
+                handleDataChange(e.target.value, "alternative_contact_no")
+              }
+            />
+          </div>
+          <div className="py-2 md:py-4">
+            <FloatingInput
+              label="Enter OTP"
+              id="otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={(e) => handleLogin(e)}
+              className={`mt-4 px-4 ${getPrimaryClass()} text-white rounded-md w-full`}
+              disabled={progressing}
+            >
+              {progressing ? (
+                <div className="flex justify-center items-center">
+                  <p>Please wait</p>
+                  <DotLottieReact
+                    src="https://lottie.host/6958d316-ea05-4122-9dff-1d526f59b3ca/ZilAm5yZWu.lottie"
+                    loop
+                    autoplay
+                    className="size-10"
+                  />
+                </div>
+              ) : (
+                <>
+                  <p className="py-2">LOGIN</p>
+                </>
+              )}
+            </button>
+          </div>
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={resendOTP}
+              className="text-secondary underline font-medium"
+              disabled={progressing}
+            >
+              Resend OTP
+            </button>
+          </div>{" "}
+        </>
+      )}
     </>
   );
 };

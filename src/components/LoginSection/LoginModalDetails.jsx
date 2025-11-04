@@ -35,8 +35,16 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
 
   const sendSms = () => {
     const generatedOtp = Math.floor(Math.random() * 8999 + 1000);
+
+    let cleanedPhone = phone
+      ?.toString()
+      .trim()
+      .replace(/\s+/g, "")
+      .replace(/[-]/g, "")
+      .replace(/^\+?88/, "");
+
     getOtp({
-      contact_no: phone,
+      contact_no: cleanedPhone,
       otp: generatedOtp,
       smsKey: "fZtUYT1",
     });
