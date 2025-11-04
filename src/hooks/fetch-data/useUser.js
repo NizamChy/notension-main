@@ -97,6 +97,7 @@ export const useUser = () => {
           }
         }
 
+        toast.success("OTP sent to your phone!");
         setProgressing(false);
       })
 
@@ -133,7 +134,7 @@ export const useUser = () => {
   const registerUser = () => {
     setProgressing(true);
 
-    // console.log("Click", userInfo);
+    console.log("Click", userInfo);
 
     if (currentUserLocation) {
       Axios.post(USER_REGISTARTION, userInfo)

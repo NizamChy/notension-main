@@ -9,8 +9,6 @@ const LocationButton = ({ onOpenModal }) => {
     (state) => state.user.currentUserLocation.districtName
   );
 
-  console.log("location", currentUserLocation);
-
   return (
     <>
       <button

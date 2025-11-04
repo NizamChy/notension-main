@@ -38,7 +38,7 @@ export const useBankingOutlet = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
+        // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
 
