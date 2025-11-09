@@ -26,8 +26,8 @@ export const useUser = () => {
   const [progressing, setProgressing] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const { userLatitude, userLongitude, districtId, currentUserLocation } =
     useSelector((state) => state.user);
@@ -134,7 +134,7 @@ export const useUser = () => {
   const registerUser = () => {
     setProgressing(true);
 
-    console.log("Click", userInfo);
+    // console.log("Click", userInfo);
 
     if (currentUserLocation) {
       Axios.post(USER_REGISTARTION, userInfo)
