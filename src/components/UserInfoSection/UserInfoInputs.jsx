@@ -3,6 +3,7 @@
 import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import RoundLoader from "../common/RoundLoader";
 import { useParams, useRouter } from "next/navigation";
 import FloatingInput from "../LoginSection/FloatingInput";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -128,12 +129,11 @@ const UserInfoInputs = ({
   return (
     <>
       {progressing ? (
-        <div className="flex justify-center items-center min-h-80 text-mediumGray bg-gray-100 animate-pulse">
-          Loading...
+        <div className="flex justify-center items-center min-h-80 text-mediumGray bg-gray-100 animate-pulse rounded-md">
+          <RoundLoader />
         </div>
       ) : (
         <>
-          {" "}
           <p className="text-center font-medium text-secondary text-2xl mb-3">
             Your Information
           </p>
