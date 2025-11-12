@@ -49,7 +49,7 @@ const ProductSlider = () => {
       </section>
     );
 
-  if (isError) return <div>Error loading products</div>;
+  if (isError) return <div className="text-center">Error loading products</div>;
   const productInfo = [...(popularProductInfo || [])]?.reverse();
   if (!productInfo || productInfo?.length < 1) return null;
 
