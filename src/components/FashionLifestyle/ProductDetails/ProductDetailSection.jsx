@@ -1,0 +1,278 @@
+"use client";
+
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import ProductInfo from "./ProductInfo";
+import ImageGallery from "./ImageGallery";
+import { useSelector } from "react-redux";
+import { slugify } from "@/utils/slugify";
+import ProductDetails from "./ProductDetails";
+import { usePathname } from "next/navigation";
+import { MdLocationOn } from "react-icons/md";
+import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "@/context/CartContext";
+import CartDrawer from "../shared/Cart/CartDrawer";
+import { IMAGE_URL } from "@/api-endpoints/secret";
+
+const ProductDetailSection = () => {
+  const [quantity, setQuantity] = useState(1);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  const pathname = usePathname();
+  const { addToCart } = useCart();
+
+  // const params = useParams();
+  // const { useProductById } = useCategoryItem();
+  // const productSlugId = params?.slugId;
+  // const [slug, productId] = productSlugId?.split("_");
+  // const { data: productInfo, isLoading } = useProductById(productId);
+  // const product = productInfo;
+
+  const { currentProductDetails } = useSelector((state) => state.product);
+  const product = currentProductDetails;
+  const colorsArray = product?.colors?.split(",");
+  const sizesArray = product?.sizes?.split(",");
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
+  const handleQuantityChange = (action) => {
+    if (action === "increase") {
+      setQuantity((prev) => prev + 1);
+    } else if (action === "decrease" && quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (
+      product?.colors !== "null" &&
+      product?.colors !== "undefined" &&
+      product?.colors?.length > 0 &&
+      !selectedColor
+    ) {
+      toast.dismiss();
+      toast("Please select color!", {
+        icon: "ℹ️",
+        style: {
+          border: "1px solid #2C3E50",
+          padding: "10px",
+          color: "#2C3E50",
+        },
+        iconTheme: {
+          primary: "#713200",
+          secondary: "#FFFAEE",
+        },
+      });
+      return;
+    }
+
+    if (
+      product?.sizes !== "null" &&
+      product?.sizes !== "undefined" &&
+      sizesArray?.length > 0 &&
+      !selectedSize
+    ) {
+      toast.dismiss();
+      toast("Please select a size!", {
+        icon: "ℹ️",
+        style: {
+          border: "1px solid #2C3E50",
+          padding: "10px",
+          color: "#2C3E50",
+        },
+        iconTheme: {
+          primary: "#713200",
+          secondary: "#FFFAEE",
+        },
+      });
+      return;
+    }
+
+    addToCart(product, quantity, selectedSize, selectedColor);
+
+    toast.dismiss();
+    toast.success(`${product?.product_title_eng} added to cart!`, {
+      style: {
+        border: "1px solid #2C3E50",
+        padding: "10px",
+        color: "#2C3E50",
+      },
+    });
+    toggleCart();
+  };
+
+  return (
+    <>
+      <Head>
+        <title>
+          {product?.name} | {product?.brand} - Fashion Store
+        </title>
+        <meta name="description" content={product?.description} />
+      </Head>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="md:w-[42%]">
+            <ImageGallery product={product} />
+          </div>
+
+          <div className="md:w-1/2">
+            <ProductInfo product={product} />
+
+            {product?.colors !== "null" &&
+              product?.colors !== "undefined" &&
+              product?.colors?.length > 0 && (
+                <div className="my-3">
+                  <h3 className="text-lg font-semibold mb-2">Color</h3>
+                  <div className="flex gap-2">
+                    {colorsArray?.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(color)}
+                        className={`w-10 h-10 rounded-full border-2 ${
+                          selectedColor === color
+                            ? "border-indigo-500"
+                            : "border-gray-200"
+                        }`}
+                        style={{ backgroundColor: color }}
+                        aria-label={`Select ${color} color`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            {product?.sizes !== "null" &&
+              product?.sizes !== "undefined" &&
+              sizesArray?.length > 0 && (
+                <div className="my-3">
+                  <h3 className="text-lg font-semibold mb-2">Size</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {sizesArray?.map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-4 py-1 border ${
+                          selectedSize === size
+                            ? "bg-black text-white border-black"
+                            : "border-gray-300 hover:border-gray-400"
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            <div className="my-3">
+              <h3 className="text-lg font-semibold mb-2">Quantity</h3>
+              <div className="flex items-center">
+                <button
+                  onClick={() => handleQuantityChange("decrease")}
+                  className="px-3 py-1 border border-gray-300 rounded-l-md hover:bg-gray-100"
+                >
+                  -
+                </button>
+                <span className="px-4 py-1 border-t border-b border-gray-300">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => handleQuantityChange("increase")}
+                  className="px-3 py-1 border border-gray-300 rounded-r-md hover:bg-gray-100"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row md:gap-4 mt-8">
+              <button
+                onClick={handleAddToCart}
+                className="flex items-center justify-center flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <FaShoppingCart /> Add to Cart
+              </button>
+
+              <Link
+                href="#"
+                className="mt-4 md:mt-0 flex-1 bg-primary hover:bg-primary/95
+                text-white py-3 px-6 rounded-md font-medium transition-colors text-center"
+              >
+                Buy Now
+              </Link>
+            </div>
+
+            <ProductDetails product={product} />
+          </div>
+        </div>
+      </div>
+
+      {!pathname?.includes("shop") && (
+        <div className="py-5">
+          <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
+            <Image
+              src={
+                product?.store_info?.shop_banner_app
+                  ? `${IMAGE_URL}/${product?.store_info?.shop_banner_app}`
+                  : "/images/dummyImage.png"
+              }
+              alt="Shopping store banner"
+              fill
+              className="object-cover"
+              priority
+            />
+
+            <div className="relative z-10 flex flex-col items-start justify-center h-full px-8 text-white max-w-7xl mx-auto">
+              <div className="bg-black bg-opacity-40 p-4">
+                <span className="text-sm md:text-xl font-medium mb-2">
+                  Products by
+                </span>
+                <h1 className="text-xl md:text-6xl font-bold mb-2 md:mb-4">
+                  {product?.store_info?.shop_name}
+                </h1>
+
+                <p className="text-xs md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex items-start">
+                  <span>
+                    <MdLocationOn className="md:text-xl mt-1" />
+                  </span>
+                  {product?.store_info?.shop_address}
+                </p>
+              </div>
+
+              <div className="flex gap-4 mt-2">
+                <Link
+                  href={`/shop/${slugify(product?.store_info?.shop_name)}_${
+                    product?.store_info?._id
+                  }`}
+                  className="px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition duration-300"
+                >
+                  Visit Store
+                </Link>
+                <Link
+                  href={`/shop/${slugify(product?.store_info?.shop_name)}_${
+                    product?.store_info?._id
+                  }`}
+                  className="px-6 py-2 md:px-8 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-gray-900 transition duration-300"
+                >
+                  Shop Now
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+    </>
+  );
+};
+
+export default ProductDetailSection;

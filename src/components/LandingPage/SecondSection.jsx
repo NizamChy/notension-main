@@ -64,11 +64,7 @@ const SecondSection = () => {
 
   return (
     <>
-      <Link
-        href="https://notension-fashion-and-lifestyle.netlify.app"
-        prefetch={false}
-        target="_blank"
-      >
+      <Link href="/fashion_lifestyle">
         <Image
           width={1280}
           height={300}
