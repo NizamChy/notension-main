@@ -49,8 +49,7 @@ const UpdateAddress = () => {
       );
     }
 
-    const success_message = "User info updated successfully.";
-
+    const success_message = "আপনার তথ্য আপডেট করা হয়েছে";
     registerUser(success_message);
   };
 

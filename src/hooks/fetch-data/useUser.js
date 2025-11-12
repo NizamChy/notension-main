@@ -134,18 +134,12 @@ export const useUser = () => {
   const registerUser = (success_message = "") => {
     setProgressing(true);
 
-    // console.log("Click", userInfo);
-
     if (currentUserLocation) {
       Axios.post(USER_REGISTARTION, userInfo)
         .then((res) => {
-          // console.log("response : ", res);
-
           saveLoggedInUserInfo(res?.data?.result);
 
           if (res?.data?.success) {
-            // "আপনার তথ্য আপডেট করা হয়েছে"
-            // `${res?.data?.message}`
             toast.success(`${success_message}`, {
               style: {
                 border: "1px solid #FC8F1E",
@@ -156,16 +150,10 @@ export const useUser = () => {
               },
             });
           }
-
           setProgressing(false);
         })
         .catch((error) => {
           setProgressing(false);
-
-          // console.log(error?.response?.data?.errors);
-
-          // console.log("result =", error?.response?.data?.errors);
-          // const errorMsg = formatServerError(error?.response?.data?.errors);
         });
     }
   };

@@ -90,8 +90,7 @@ const UserInfoInputs = ({
       });
     }
 
-    const success_message = "Login successful.";
-
+    const success_message = "Login successful";
     registerUser(success_message);
 
     setTimeout(() => {
