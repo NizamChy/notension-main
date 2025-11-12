@@ -49,7 +49,9 @@ const UpdateAddress = () => {
       );
     }
 
-    registerUser();
+    const success_message = "User info updated successfully.";
+
+    registerUser(success_message);
   };
 
   const openModal = () => setIsModalOpen(true);

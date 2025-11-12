@@ -131,7 +131,7 @@ export const useUser = () => {
     }));
   };
 
-  const registerUser = () => {
+  const registerUser = (success_message = "") => {
     setProgressing(true);
 
     // console.log("Click", userInfo);
@@ -146,7 +146,7 @@ export const useUser = () => {
           if (res?.data?.success) {
             // "আপনার তথ্য আপডেট করা হয়েছে"
             // `${res?.data?.message}`
-            toast.success("Success", {
+            toast.success(`${success_message}`, {
               style: {
                 border: "1px solid #FC8F1E",
               },
