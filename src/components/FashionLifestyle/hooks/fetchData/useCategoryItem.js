@@ -39,8 +39,6 @@ const fetchPopularProductsByType = async (typeId) => {
     }
   );
 
-  console.log(response);
-
   return response?.data?.data;
 };
 
