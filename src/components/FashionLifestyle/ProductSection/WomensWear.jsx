@@ -98,9 +98,9 @@ const WomensWear = () => {
           {displayedProducts?.map((product) => (
             <Link
               key={product?._id?.toString()}
-              href={`/view-product/${slugify(product?.product_title_eng)}_${
-                product?._id
-              }`}
+              href={`/fashion_lifestyle/view-product/${slugify(
+                product?.product_title_eng
+              )}_${product?._id}`}
               onClick={() => handleProductClick(product)}
             >
               <div className="group relative">
@@ -147,7 +147,7 @@ const WomensWear = () => {
                     src={
                       product?.web_image
                         ? `${FASHION_IMAGE_URL}/${product?.web_image}`
-                        : "/images/dummyImage.png"
+                        : "/images/png/dummyImage.png"
                     }
                     alt={product?.product_title_eng}
                     fill

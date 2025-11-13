@@ -3,9 +3,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { slugify } from "@/utils/slugify";
 import { useParams } from "next/navigation";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { slugify } from "../../utils/slugify";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 
 const SubCategoryCard = ({ subCategory, cat }) => {
   const params = useParams();
@@ -14,17 +14,19 @@ const SubCategoryCard = ({ subCategory, cat }) => {
   return (
     <div className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white">
       <Link
-        href={`/category/${typeSlugId}_${slugify(cat?.category_name)}_${
-          cat?._id
-        }_${slugify(subCategory?.sub_category_name)}_${subCategory?._id}`}
+        href={`/fashion_lifestyle/category/${typeSlugId}_${slugify(
+          cat?.category_name
+        )}_${cat?._id}_${slugify(subCategory?.sub_category_name)}_${
+          subCategory?._id
+        }`}
         className="block h-full"
       >
         <div className="aspect-square overflow-hidden">
           <Image
             src={
               subCategory?.banner_type_1
-                ? `${IMAGE_URL}/${subCategory?.banner_type_1}`
-                : "/images/dummyImage.png"
+                ? `${FASHION_IMAGE_URL}/${subCategory?.banner_type_1}`
+                : "/images/png/dummyImage.png"
             }
             alt={subCategory?.sub_category_name}
             width={300}

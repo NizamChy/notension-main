@@ -7,7 +7,7 @@ import {
 } from "@/api-endpoints/api-endpoints";
 import axios from "axios";
 import { useState } from "react";
-import { BASE_URL } from "@/api-endpoints/secret";
+import { FASHION_BASE_URL } from "@/api-endpoints/secret";
 import { generateNavItems } from "@/utils/generateNavItems";
 
 export const useCategoryItems = () => {
@@ -26,10 +26,10 @@ export const useCategoryItems = () => {
 
       const [typesRes, categoriesRes, subcategoriesRes, brandsRes] =
         await Promise.all([
-          axios.get(`${BASE_URL}${ALL_TYPE}`),
-          axios.get(`${BASE_URL}${ALL_CATEGORY}`),
-          axios.get(`${BASE_URL}${ALL_SUB_CATEGORY}`),
-          axios.get(`${BASE_URL}${ALL_BRAND}`),
+          axios.get(`${FASHION_BASE_URL}${ALL_TYPE}`),
+          axios.get(`${FASHION_BASE_URL}${ALL_CATEGORY}`),
+          axios.get(`${FASHION_BASE_URL}${ALL_SUB_CATEGORY}`),
+          axios.get(`${FASHION_BASE_URL}${ALL_BRAND}`),
         ]);
 
       const generatedNavItems = generateNavItems(
@@ -50,7 +50,7 @@ export const useCategoryItems = () => {
   const fetchAllType = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${ALL_TYPE}`);
+      const response = await axios.get(`${FASHION_BASE_URL}${ALL_TYPE}`);
       setAllType(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -62,7 +62,7 @@ export const useCategoryItems = () => {
   const fetchAllCategory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${ALL_CATEGORY}`);
+      const response = await axios.get(`${FASHION_BASE_URL}${ALL_CATEGORY}`);
       setAllCategory(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -74,7 +74,9 @@ export const useCategoryItems = () => {
   const fetchAllSubCategory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${ALL_SUB_CATEGORY}`);
+      const response = await axios.get(
+        `${FASHION_BASE_URL}${ALL_SUB_CATEGORY}`
+      );
       setAllSubCategory(response.data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -86,7 +88,7 @@ export const useCategoryItems = () => {
   const fetchCategoryById = async (typeId, setCategories) => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${ALL_CATEGORY}`);
+      const response = await axios.get(`${FASHION_BASE_URL}${ALL_CATEGORY}`);
 
       const filterCategory = response.data.data.filter(
         (cat) => cat.type_info === typeId
@@ -102,7 +104,9 @@ export const useCategoryItems = () => {
   const fetchSubCategoryById = async (catId, setSubCategories) => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${ALL_SUB_CATEGORY}`);
+      const response = await axios.get(
+        `${FASHION_BASE_URL}${ALL_SUB_CATEGORY}`
+      );
 
       const filterSubCategory = response.data.data.filter(
         (sub) => sub.category_info === catId
@@ -119,7 +123,7 @@ export const useCategoryItems = () => {
   const fetchKidsProducts = async (setProductInfo) => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${KIDS_PRODUCT}`);
+      const response = await axios.get(`${FASHION_BASE_URL}${KIDS_PRODUCT}`);
 
       setProductInfo(response.data.data);
     } catch (error) {
@@ -132,7 +136,7 @@ export const useCategoryItems = () => {
   const fetchKidsProductById = async (productId, setProductInfo) => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}${KIDS_PRODUCT}`);
+      const response = await axios.get(`${FASHION_BASE_URL}${KIDS_PRODUCT}`);
 
       const findProductInfo = response.data.data.find(
         (product) => product?._id === productId

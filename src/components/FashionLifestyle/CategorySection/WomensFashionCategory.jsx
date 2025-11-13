@@ -52,9 +52,9 @@ const WomensFashionCategory = () => {
               className="group p-2 bg-white relative rounded-xl overflow-hidden transition-all duration-300"
             >
               <Link
-                href={`/subcat/women_${category?.type_info}_${slugify(
-                  category?.category_name
-                )}_${category?._id}`}
+                href={`/fashion_lifestyle/subcat/women_${
+                  category?.type_info
+                }_${slugify(category?.category_name)}_${category?._id}`}
                 className="block h-full"
                 aria-label={`Browse ${category?.category_name} category`}
               >
@@ -63,7 +63,7 @@ const WomensFashionCategory = () => {
                     src={
                       category?.banner
                         ? `${FASHION_IMAGE_URL}/${category?.banner}`
-                        : "/images/dummyImage.png"
+                        : "/images/png/dummyImage.png"
                     }
                     alt={category?.category_name}
                     width={400}
@@ -83,7 +83,7 @@ const WomensFashionCategory = () => {
 
         <div className="mt-14 text-center">
           <Link
-            href={`/cat/women_${WOMEN_TYPE_ID}`}
+            href={`/fashion_lifestyle/cat/women_${WOMEN_TYPE_ID}`}
             className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
             aria-label="Explore all women's collections"
           >

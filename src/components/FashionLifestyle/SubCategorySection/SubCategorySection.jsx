@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { slugify } from "@/utils/slugify";
+import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
-import { IMAGE_URL } from "@/api-endpoints/secret";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { useCategoryItem } from "@/hooks/fetchData/useCategoryItem";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const SubCategorySection = ({
@@ -24,7 +24,12 @@ const SubCategorySection = ({
     return (
       <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6" />
     );
-  if (isError) return <div>Error loading sub categories</div>;
+  if (isError)
+    return (
+      <div className="text-center text-red-500">
+        Error loading sub categories
+      </div>
+    );
   if (!subCategories || subCategories?.length < 1) return null;
 
   return (
@@ -33,7 +38,7 @@ const SubCategorySection = ({
     >
       <div className="max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold py-4 text-gray-700 capitalize flex items-center">
-          <Link href={`/cat/${typeSlug}_${typeId}`}>
+          <Link href={`/fashion_lifestyle/cat/${typeSlug}_${typeId}`}>
             <span className="flex items-center hover:text-blue-500">
               {typeSlug?.replace(/-/g, " ")}{" "}
               <MdKeyboardArrowRight className="text-gray-500" />
@@ -51,7 +56,7 @@ const SubCategorySection = ({
               className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white"
             >
               <Link
-                href={`/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                   subCategory?.sub_category_name
                 )}_${subCategory?._id}`}
                 className="block h-full"
@@ -60,8 +65,8 @@ const SubCategorySection = ({
                   <Image
                     src={
                       subCategory?.banner_type_1
-                        ? `${IMAGE_URL}/${subCategory?.banner_type_1}`
-                        : "/images/dummyImage.png"
+                        ? `${FASHION_IMAGE_URL}/${subCategory?.banner_type_1}`
+                        : "/images/png/dummyImage.png"
                     }
                     alt={subCategory?.sub_category_name}
                     width={300}

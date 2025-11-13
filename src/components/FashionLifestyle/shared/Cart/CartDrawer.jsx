@@ -66,7 +66,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 Cart Total: ৳ {getCartTotal() || 0}
               </p>
               <div className="mt-4 text-center w-full">
-                <Link href="/checkout">
+                <Link href="/fashion_lifestyle/checkout">
                   <button
                     onClick={onClose}
                     disabled={cartItems?.length < 1}

@@ -47,7 +47,7 @@ const ImageGallery = ({ product }) => {
             src={
               product.detailImages
                 ? product.detailImages[currentImageIndex]
-                : "/images/dummyImage.png"
+                : "/images/png/dummyImage.png"
             }
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-700 touch-none hover:cursor-zoom-out"

@@ -20,6 +20,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import dashboardReducer from "./dashboardReducer";
 import userChoiceReducer from "./userChoiceReducer";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import productReducer from "./productReducer";
 
 const createNoopStorage = () => {
   return {
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
   dashboard: dashboardReducer,
   userChoice: userChoiceReducer,
   itemsByStore: itemsByStoreReducer,
+  product: productReducer,
 });
 
 const persistConfig = {
@@ -61,6 +63,7 @@ const persistConfig = {
     "userChoice",
     "doctorInfo",
     "itemsByStore",
+    "product",
   ],
 };
 

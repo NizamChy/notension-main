@@ -2,7 +2,7 @@
 
 import Title from "../CategorySection/Title";
 import SubCategoryCard from "../shared/Card/SubCategoryCard";
-import { useCategoryItem } from "@/hooks/fetchData/useCategoryItem";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const SubCategoryItems = ({

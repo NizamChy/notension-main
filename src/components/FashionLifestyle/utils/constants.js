@@ -799,16 +799,16 @@ export const PAYMENT_DATA = [
   {
     id: "cash_on_delivery",
     label: "Cash on Delivery",
-    icon: "/logo/cod-logo.png",
+    icon: "/images/logo/cod-logo.png",
   },
   {
     id: "credit-debit-card",
     label: "Credit/Debit Card",
-    icon: "/logo/credit-debit-logo.png",
+    icon: "/images/logo/credit-debit-logo.png",
   },
-  { id: "bkash", label: "bKash", icon: "/logo/bkash-logo.png" },
-  { id: "mcash", label: "mCash", icon: "/logo/mcash-logo.webp" },
-  { id: "nagad", label: "Nagad", icon: "/logo/nagad-logo.webp" },
+  { id: "bkash", label: "bKash", icon: "/images/logo/bkash-logo.png" },
+  { id: "mcash", label: "mCash", icon: "/images/logo/mcash-logo.webp" },
+  { id: "nagad", label: "Nagad", icon: "/images/logo/nagad-logo.webp" },
 ];
 
 export const ITEMS_ARRAY = [

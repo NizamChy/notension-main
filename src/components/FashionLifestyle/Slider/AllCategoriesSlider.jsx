@@ -78,9 +78,9 @@ const AllCategoriesSlider = () => {
               className="group relative rounded-lg transition-shadow duration-300"
             >
               <Link
-                href={`/subcat/all_${category?.type_info}_${slugify(
-                  category?.category_name
-                )}_${category?._id}`}
+                href={`/fashion_lifestyle/subcat/all_${
+                  category?.type_info
+                }_${slugify(category?.category_name)}_${category?._id}`}
                 className="flex flex-col items-center"
               >
                 <div className="aspect-square min-h-[111px] lg:min-h-[133px] xl:min-h-[183px] max-w-[111px] lg:max-w-[133px] xl:max-w-[183px] rounded-full border group-hover:border-blue-500">
@@ -88,7 +88,7 @@ const AllCategoriesSlider = () => {
                     src={
                       category?.banner
                         ? `${FASHION_IMAGE_URL}/${category?.banner}`
-                        : "/images/dummyImage.png"
+                        : "/images/png/dummyImage.png"
                     }
                     alt={category?.category_name}
                     width={183}

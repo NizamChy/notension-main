@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 
 const ImageGallery = ({ product }) => {
   const [zoomStyle, setZoomStyle] = useState({});
@@ -50,8 +50,8 @@ const ImageGallery = ({ product }) => {
             src={
               detailImages?.length > 0 &&
               detailImages[currentImageIndex] !== null
-                ? `${IMAGE_URL}/${detailImages[currentImageIndex]}`
-                : "/images/dummyImage.png"
+                ? `${FASHION_IMAGE_URL}/${detailImages[currentImageIndex]}`
+                : "/images/png/dummyImage.png"
             }
             alt={product?.product_title_eng}
             className="w-full h-full object-cover transition-transform duration-700 touch-none hover:cursor-zoom-out"
@@ -78,7 +78,7 @@ const ImageGallery = ({ product }) => {
             }`}
           >
             <img
-              src={`${IMAGE_URL}/${img}`}
+              src={`${FASHION_IMAGE_URL}/${img}`}
               alt={`${product?.product_title_eng} thumbnail ${index + 1}`}
               className="w-full h-full object-cover"
             />

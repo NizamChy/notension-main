@@ -10,18 +10,18 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { BASE_URL } from "@/api-endpoints/secret";
+import { FASHION_BASE_URL } from "@/api-endpoints/secret";
 import { generateNavItems } from "../../utils/generateNavItems";
 import { KIDS_TYPE_ID, MEN_TYPE_ID, WOMEN_TYPE_ID } from "../../utils/constant";
 
 const fetchData = async (endpoint) => {
-  const response = await axios.get(`${BASE_URL}${endpoint}`);
+  const response = await axios.get(`${FASHION_BASE_URL}${endpoint}`);
   return response?.data?.data;
 };
 
 const fetchKidsProductsByType = async (typeId, catId, subCatId) => {
   const response = await axios.put(
-    `${BASE_URL}${KIDS_PRODUCT_BY_TYPE}/${typeId}`,
+    `${FASHION_BASE_URL}${KIDS_PRODUCT_BY_TYPE}/${typeId}`,
     {
       category_info: catId,
       sub_category_info: subCatId,
@@ -33,7 +33,7 @@ const fetchKidsProductsByType = async (typeId, catId, subCatId) => {
 
 const fetchPopularProductsByType = async (typeId) => {
   const response = await axios.put(
-    `${BASE_URL}${KIDS_PRODUCT_BY_TYPE}/${typeId}`,
+    `${FASHION_BASE_URL}${KIDS_PRODUCT_BY_TYPE}/${typeId}`,
     {
       is_popular: true,
     }

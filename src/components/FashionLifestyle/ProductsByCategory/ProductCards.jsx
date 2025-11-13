@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { slugify } from "@/utils/slugify";
 import { useDispatch } from "react-redux";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { slugify } from "../utils/slugify";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 import { handleProductReducer } from "@/redux/productReducer";
 
 const ProductCards = ({ product }) => {
@@ -21,9 +21,9 @@ const ProductCards = ({ product }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <Link
-        href={`/view-product/${slugify(product?.product_title_eng)}_${
-          product?._id
-        }`}
+        href={`/fashion_lifestyle/view-product/${slugify(
+          product?.product_title_eng
+        )}_${product?._id}`}
         onClick={() => handleProductClick(product)}
       >
         <div className="block">
@@ -31,8 +31,8 @@ const ProductCards = ({ product }) => {
             <img
               src={
                 product?.web_image
-                  ? `${IMAGE_URL}/${product?.web_image}`
-                  : "/images/dummyImage.png"
+                  ? `${FASHION_IMAGE_URL}/${product?.web_image}`
+                  : "/images/png/dummyImage.png"
               }
               alt={product?.product_title_eng}
               className="w-full h-full object-cover"

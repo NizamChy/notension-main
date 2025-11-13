@@ -23,9 +23,9 @@ const PopularProductCard = ({ product }) => {
 
   return (
     <Link
-      href={`/view-product/${slugify(product?.product_title_eng)}_${
-        product?._id
-      }`}
+      href={`/fashion_lifestyle/view-product/${slugify(
+        product?.product_title_eng
+      )}_${product?._id}`}
       onClick={() => handleProductClick(product)}
     >
       <div className="group relative cursor-pointer">
@@ -52,7 +52,7 @@ const PopularProductCard = ({ product }) => {
             src={
               product?.web_image
                 ? `${FASHION_IMAGE_URL}/${product?.web_image}`
-                : "/images/dummyImage.png"
+                : "/images/png/dummyImage.png"
             }
             alt={product?.product_title_eng}
             fill

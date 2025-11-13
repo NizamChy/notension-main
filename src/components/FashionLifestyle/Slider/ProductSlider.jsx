@@ -95,9 +95,9 @@ const ProductSlider = () => {
           {productInfo?.map((product) => (
             <SwiperSlide key={product?._id?.toString()}>
               <Link
-                href={`/view-product/${slugify(product?.product_title_eng)}_${
-                  product?._id
-                }`}
+                href={`/fashion_lifestyle/view-product/${slugify(
+                  product?.product_title_eng
+                )}_${product?._id}`}
                 onClick={() => handleProductClick(product)}
               >
                 <div className="group relative bg-white rounded-lg overflow-hidden my-2 transition-all duration-300 h-full flex flex-col">
@@ -106,7 +106,7 @@ const ProductSlider = () => {
                       src={
                         product?.web_image
                           ? `${FASHION_IMAGE_URL}/${product?.web_image}`
-                          : "/images/dummyImage.png"
+                          : "/images/png/dummyImage.png"
                       }
                       alt={product?.product_title_eng}
                       className="w-full h-full object-cover object-center rounded-lg group-hover:scale-105 transition-transform duration-300"

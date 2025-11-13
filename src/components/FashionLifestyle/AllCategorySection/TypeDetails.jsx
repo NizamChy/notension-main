@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import SubCategoryItems from "./SubCategoryItems";
-import { useCategoryItem } from "@/hooks/fetchData/useCategoryItem";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const TypeDetails = () => {

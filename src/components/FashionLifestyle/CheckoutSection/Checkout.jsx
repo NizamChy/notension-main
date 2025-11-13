@@ -8,12 +8,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import OrderSummary from "./OrderSummary";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/context/CartContext";
 import { TiShoppingCart } from "react-icons/ti";
-import { PAYMENT_DATA } from "@/utils/constants";
-import { BASE_URL } from "@/api-endpoints/secret";
+import { useCart } from "../context/CartContext";
+import { PAYMENT_DATA } from "../utils/constants";
+import { FASHION_BASE_URL } from "@/api-endpoints/secret";
 import { useMutation } from "@tanstack/react-query";
-import { CREATE_ORDER } from "@/api-endpoints/api-endpoints";
+import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
 
 const Checkout = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -46,7 +46,7 @@ const Checkout = () => {
   const postOrderMutation = useMutation({
     mutationFn: async (orderData) => {
       const response = await axios.post(
-        `${BASE_URL}${CREATE_ORDER}`,
+        `${FASHION_BASE_URL}${CREATE_ORDER}`,
         orderData
       );
       return response.data;
@@ -139,7 +139,7 @@ const Checkout = () => {
     // toast.success("All store orders placed successfully!");
     clearCart();
 
-    router.push("/");
+    router.push("/fashion_lifestyle");
   };
 
   if (cartItems?.length < 1)

@@ -8,9 +8,9 @@ const CategoryCard = ({ category, typeName }) => {
   return (
     <div className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white">
       <Link
-        href={`/subcat/${slugify(typeName)}_${category?.type_info}_${slugify(
-          category?.category_name
-        )}_${category?._id}`}
+        href={`/fashion_lifestyle/subcat/${slugify(typeName)}_${
+          category?.type_info
+        }_${slugify(category?.category_name)}_${category?._id}`}
         className="block h-full"
       >
         <div className="aspect-square">
@@ -18,7 +18,7 @@ const CategoryCard = ({ category, typeName }) => {
             src={
               category?.banner
                 ? `${FASHION_IMAGE_URL}/${category?.banner}`
-                : "/images/dummyImage.png"
+                : "/images/png/dummyImage.png"
             }
             alt={category?.category_name}
             width={600}

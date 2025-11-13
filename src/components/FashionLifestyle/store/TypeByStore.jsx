@@ -90,7 +90,7 @@ const TypeByStoreSlider = () => {
               >
                 <Link
                   href="#"
-                  //   href={`/cat/${slugify(type?.type_info?.type_name)}_${
+                  //   href={`/fashion_lifestyle/cat/${slugify(type?.type_info?.type_name)}_${
                   //     type?.type_info?._id
                   //   }`}
                   className="block"
@@ -101,7 +101,7 @@ const TypeByStoreSlider = () => {
                       src={
                         type?.type_info?.type_img
                           ? `${IMAGE_URL}/${type?.type_info?.type_img}`
-                          : "/images/dummyImage.png"
+                          : "/images/png/dummyImage.png"
                       }
                       alt={type?.type_info?.type_name}
                       width={400}

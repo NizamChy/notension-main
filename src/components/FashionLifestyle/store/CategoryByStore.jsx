@@ -104,7 +104,7 @@ const CategoryByStoreSlider = () => {
                     src={
                       category?.sub_category_info?.banner_type_1
                         ? `${IMAGE_URL}/${category?.sub_category_info?.banner_type_1}`
-                        : "/images/dummyImage.png"
+                        : "/images/png/dummyImage.png"
                     }
                     alt={category?.sub_category_info?.sub_category_name}
                     width={183}
@@ -171,7 +171,7 @@ export default CategoryByStoreSlider;
 //           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
 //             {allSubCategoriesByStore?.map((category) => (
 //               <Link
-//                 href={`/category/${slugify(
+//                 href={`/fashion_lifestyle/category/${slugify(
 //                   category?.sub_category_info?.sub_category_name
 //                 )}`}
 //                 className="cursor-pointer group"

@@ -25,7 +25,7 @@ const StoreBanner = () => {
           src={
             storeInfo?.shop_banner_app
               ? `${IMAGE_URL}/${storeInfo?.shop_banner_web}`
-              : "/images/dummyImage.png"
+              : "/images/png/dummyImage.png"
           }
           alt="Shopping store banner"
           fill

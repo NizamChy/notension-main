@@ -46,14 +46,22 @@ const Navbar = () => {
   }
 
   const handleLogoClick = () => {
-    const basePath = `/shop/${params?.shopSlugId}`;
+    const basePath = `/fashion_lifestyle/shop/${params?.shopSlugId}`;
     const currentPath = window.location.pathname;
 
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
-      router.push(basePath);
-    } else {
-      router.push("/");
+      return router.push(basePath);
     }
+
+    if (currentPath === basePath) {
+      return router.push("/fashion_lifestyle");
+    }
+
+    if (currentPath === "/fashion_lifestyle") {
+      return router.push("/");
+    }
+
+    router.push("/fashion_lifestyle");
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -135,7 +143,7 @@ const Navbar = () => {
                 </p>
               </button>
             ) : (
-              <Link href="/">
+              <button onClick={handleLogoClick}>
                 <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
                   <Image
                     width={224}
@@ -145,7 +153,7 @@ const Navbar = () => {
                     className="object-contain w-full"
                   />
                 </div>
-              </Link>
+              </button>
             )}
 
             {/* Desktop Search */}

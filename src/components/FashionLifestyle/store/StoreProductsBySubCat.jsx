@@ -145,14 +145,16 @@ const StoreProductsBySubCat = () => {
 
       <main className="container mx-auto py-4 lg:py-8 px-4">
         <h1 className="md:text-2xl font-semibold text-gray-700 capitalize lg:mb-8 flex items-center">
-          <Link href={`/cat/${typeSlug}_${typeId}`}>
+          <Link href={`/fashion_lifestyle/cat/${typeSlug}_${typeId}`}>
             <span className="flex items-center text-gray-800 hover:text-blue-600">
               {typeSlug?.replace(/-/g, " ")}{" "}
               <MdKeyboardArrowRight className="text-gray-500" />
             </span>
           </Link>
 
-          <Link href={`/subcat/${typeSlug}_${typeId}_${catSlug}_${catId}`}>
+          <Link
+            href={`/fashion_lifestyle/subcat/${typeSlug}_${typeId}_${catSlug}_${catId}`}
+          >
             <span className="flex items-center text-gray-700 hover:text-blue-600">
               {catSlug?.replace(/-/g, " ")}{" "}
               <MdKeyboardArrowRight className="text-gray-500" />

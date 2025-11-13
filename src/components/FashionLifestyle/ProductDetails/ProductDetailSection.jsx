@@ -8,14 +8,14 @@ import toast from "react-hot-toast";
 import ProductInfo from "./ProductInfo";
 import ImageGallery from "./ImageGallery";
 import { useSelector } from "react-redux";
-import { slugify } from "@/utils/slugify";
+import { slugify } from "../utils/slugify";
 import ProductDetails from "./ProductDetails";
 import { usePathname } from "next/navigation";
 import { MdLocationOn } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "../context/CartContext";
 import CartDrawer from "../shared/Cart/CartDrawer";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 
 const ProductDetailSection = () => {
   const [quantity, setQuantity] = useState(1);
@@ -221,8 +221,8 @@ const ProductDetailSection = () => {
             <Image
               src={
                 product?.store_info?.shop_banner_app
-                  ? `${IMAGE_URL}/${product?.store_info?.shop_banner_app}`
-                  : "/images/dummyImage.png"
+                  ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_app}`
+                  : "/images/png/dummyImage.png"
               }
               alt="Shopping store banner"
               fill

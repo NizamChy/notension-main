@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import FilterSection from "./FilterSection";
 import FilterCheckbox from "./FilterCheckbox";
 import PriceRangeSlider from "./PriceRangeSlider";
-import { FILTER_OPTIONS } from "@/utils/constants";
+import { FILTER_OPTIONS } from "../utils/constants";
 import MobileFilterButton from "./MobileFilterButton";
 
 const FiltersSidebar = ({

@@ -33,7 +33,9 @@ const StoreNavRow = ({
           }}
         >
           <Link
-            href={`/cat/${slugify(navItem?.type_name)}_${navItem?.type_id}`}
+            href={`/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+              navItem?.type_id
+            }`}
             onClick={() => setActiveMenu(null)}
             className="flex items-center py-2 cursor-pointer text-primary hover:text-blue-700 px-2"
           >
@@ -55,9 +57,11 @@ const StoreNavRow = ({
                           onMouseLeave={() => setHoveredCategory(null)}
                         >
                           <Link
-                            href={`/subcat/${slugify(navItem?.type_name)}_${
-                              cat?.type_id
-                            }_${slugify(cat?.name)}_${cat?.category_id}`}
+                            href={`/fashion_lifestyle/subcat/${slugify(
+                              navItem?.type_name
+                            )}_${cat?.type_id}_${slugify(cat?.name)}_${
+                              cat?.category_id
+                            }`}
                             onClick={() => setActiveMenu(null)}
                           >
                             <h3 className="font-bold text-sm text-blue-800 capitalize">

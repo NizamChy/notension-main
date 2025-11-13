@@ -4,8 +4,8 @@ import React from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
-import { IMAGE_URL } from "@/api-endpoints/secret";
 import { useCart } from "../../context/CartContext";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 
 const CartItem = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
@@ -40,8 +40,8 @@ const CartItem = () => {
               className="aspect-square rounded object-cover"
               src={
                 item.web_image
-                  ? `${IMAGE_URL}/${item?.web_image}`
-                  : "/images/dummyImage.png"
+                  ? `${FASHION_IMAGE_URL}/${item?.web_image}`
+                  : "/images/png/dummyImage.png"
               }
               alt={item?.product_title_eng}
               width={100}

@@ -75,7 +75,9 @@ const AllTypesSlider = () => {
                 className="group relative rounded-lg transition-shadow duration-300"
               >
                 <Link
-                  href={`/cat/${slugify(type?.type_name)}_${type?._id}`}
+                  href={`/fashion_lifestyle/cat/${slugify(type?.type_name)}_${
+                    type?._id
+                  }`}
                   className="block"
                   aria-label={`Browse ${type?.type_name} category`}
                 >
@@ -84,7 +86,7 @@ const AllTypesSlider = () => {
                       src={
                         type?.type_img
                           ? `${FASHION_IMAGE_URL}/${type?.type_img}`
-                          : "/images/dummyImage.png"
+                          : "/images/png/dummyImage.png"
                       }
                       alt={type?.type_name}
                       width={400}

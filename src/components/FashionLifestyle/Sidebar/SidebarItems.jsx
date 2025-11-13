@@ -99,7 +99,7 @@ const SidebarItems = ({ onClose }) => {
                           {cat?.subcategories?.map((subcat) => (
                             <li key={subcat?.id}>
                               <Link
-                                href={`/category/${slugify(
+                                href={`/fashion_lifestyle/category/${slugify(
                                   navItem?.type_name
                                 )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                   cat?.category_id

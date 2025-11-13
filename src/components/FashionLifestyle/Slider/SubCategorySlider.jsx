@@ -84,7 +84,7 @@ const SubCategorySlider = () => {
             >
               <div className="group rounded-lg relative transition-all duration-300 pt-2">
                 <Link
-                  href={`/category/${category?.slug}`}
+                  href={`/fashion_lifestyle/category/${category?.slug}`}
                   className="block"
                   aria-label={`View ${category?.sub_category_name} subcategory`}
                 >
@@ -93,7 +93,7 @@ const SubCategorySlider = () => {
                       src={
                         category?.banner_type_1
                           ? `${IMAGE_URL}/${category?.banner_type_1}`
-                          : "/images/dummyImage.png"
+                          : "/images/png/dummyImage.png"
                       }
                       alt={category?.sub_category_name}
                       width={400}

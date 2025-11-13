@@ -21,14 +21,12 @@ export default function RootLayout({ children }) {
   return (
     <div className={HindSiliguri.className}>
       <ReduxProvider>
-        <QueryProvider>
-          <CartProvider>
-            <Toaster />
-            <Navbar />
-            {children}
-            <Footer />
-          </CartProvider>
-        </QueryProvider>
+        <CartProvider>
+          <Toaster />
+          <Navbar />
+          {children}
+          <Footer />
+        </CartProvider>
       </ReduxProvider>
     </div>
   );

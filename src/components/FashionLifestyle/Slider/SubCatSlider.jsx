@@ -5,13 +5,13 @@ import Link from "next/link";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
+import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { IMAGE_URL } from "@/api-endpoints/secret";
 import { GrNext, GrPrevious } from "react-icons/gr";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { useCategoryItem } from "@/hooks/fetchData/useCategoryItem";
-import { slugify } from "@/utils/slugify";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const SubCatSlider = () => {
   const params = useParams();
@@ -86,7 +86,7 @@ const SubCatSlider = () => {
             >
               <div className="group rounded-lg relative transition-all duration-300 pt-2">
                 <Link
-                  href={`/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                  href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                     category?.sub_category_name
                   )}_${category?._id}`}
                   className="block"
@@ -96,8 +96,8 @@ const SubCatSlider = () => {
                     <Image
                       src={
                         category?.banner_type_1
-                          ? `${IMAGE_URL}/${category?.banner_type_1}`
-                          : "/images/dummyImage.png"
+                          ? `${FASHION_IMAGE_URL}/${category?.banner_type_1}`
+                          : "/images/png/dummyImage.png"
                       }
                       alt={category?.sub_category_name}
                       width={400}

@@ -2,6 +2,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ReduxProvider from "@/redux/ReduxProvider";
 import { Hind_Siliguri, Poppins } from "next/font/google";
+import QueryProvider from "@/components/FashionLifestyle/Provider/QueryProvider";
 
 // const poppins = Poppins({
 //   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -24,8 +25,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={hindSiliguri.className}>
         <ReduxProvider>
-          <Toaster />
-          {children}
+          <QueryProvider>
+            <Toaster />
+            {children}
+          </QueryProvider>
         </ReduxProvider>
       </body>
     </html>
