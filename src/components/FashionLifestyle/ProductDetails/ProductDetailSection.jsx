@@ -249,17 +249,17 @@ const ProductDetailSection = () => {
 
               <div className="flex gap-4 mt-2">
                 <Link
-                  href={`/shop/${slugify(product?.store_info?.shop_name)}_${
-                    product?.store_info?._id
-                  }`}
+                  href={`/fashion_lifestyle/shop/${slugify(
+                    product?.store_info?.shop_name
+                  )}_${product?.store_info?._id}`}
                   className="px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition duration-300"
                 >
                   Visit Store
                 </Link>
                 <Link
-                  href={`/shop/${slugify(product?.store_info?.shop_name)}_${
-                    product?.store_info?._id
-                  }`}
+                  href={`/fashion_lifestyle/shop/${slugify(
+                    product?.store_info?.shop_name
+                  )}_${product?.store_info?._id}`}
                   className="px-6 py-2 md:px-8 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-gray-900 transition duration-300"
                 >
                   Shop Now

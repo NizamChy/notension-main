@@ -79,9 +79,11 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
           {displayedProducts?.map((product) => (
             <Link
               key={product?._id?.toString()}
-              href={`/shop/${params?.shopSlugId}/view-product/${slugify(
-                product?.product_title_eng
-              )}_${product?._id}`}
+              href={`/fashion_lifestyle/shop/${
+                params?.shopSlugId
+              }/view-product/${slugify(product?.product_title_eng)}_${
+                product?._id
+              }`}
               onClick={() => handleProductClick(product)}
             >
               <div className="group relative cursor-pointer">

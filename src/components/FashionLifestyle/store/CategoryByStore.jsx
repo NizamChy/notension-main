@@ -92,7 +92,7 @@ const CategoryByStoreSlider = () => {
               className="group relative rounded-lg transition-shadow duration-300"
             >
               <Link
-                href={`/shop/${shopSlugId}/category/type_${
+                href={`/fashion_lifestyle/shop/${shopSlugId}/category/type_${
                   category?.type_info
                 }_category_${category?.category_info}_${slugify(
                   category?.sub_category_info?.sub_category_name
