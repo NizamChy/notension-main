@@ -3,6 +3,7 @@ import ProductCards from "./ProductCards";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 
 const FilterProducts = ({
+  isError,
   loading,
   products,
   isLoading,
@@ -11,6 +12,11 @@ const FilterProducts = ({
   clearAllFilters,
   filteredProducts,
 }) => {
+  if (isError)
+    return (
+      <div className="text-red-500 text-center">Error loading products!</div>
+    );
+
   return (
     <div className="flex-1">
       <div className="flex justify-between items-center mb-6">

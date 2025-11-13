@@ -32,11 +32,11 @@ const ProductByCategory = () => {
 
   const { useKidsProductsByType } = useCategoryItem();
 
-  const { data: filteredKidsProducts, isLoading } = useKidsProductsByType(
-    typeId,
-    catId,
-    subCatId
-  );
+  const {
+    data: filteredKidsProducts,
+    isLoading,
+    isError,
+  } = useKidsProductsByType(typeId, catId, subCatId);
 
   let products = filteredKidsProducts || [];
 
@@ -182,6 +182,7 @@ const ProductByCategory = () => {
           />
 
           <FilterProducts
+            isError={isError}
             loading={loading}
             products={products}
             isLoading={isLoading}
