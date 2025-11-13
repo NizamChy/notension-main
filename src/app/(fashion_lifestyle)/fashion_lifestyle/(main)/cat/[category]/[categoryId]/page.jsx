@@ -1,6 +1,6 @@
 import React from "react";
-import SubCategorySlider from "@/components/Slider/SubCategorySlider";
-import ProductsByCategory from "@/components/ProductsByCategory/ProductsByCategory";
+import SubCategorySlider from "@/components/FashionLifestyle/Slider/SubCategorySlider";
+import ProductsByCategory from "@/components/FashionLifestyle/ProductsByCategory/ProductsByCategory";
 
 const page = () => {
   return (

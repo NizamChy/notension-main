@@ -1,18 +1,15 @@
 "use client";
 
+import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import React, { useState } from "react";
 import OrderSummary from "./OrderSummary";
-// import { useRouter } from "next/navigation";
-import { useCart } from "@/context/CartContext";
 import { TiShoppingCart } from "react-icons/ti";
-import PlaceOrderButton from "./PlaceOrderButton";
-import { DISTRICTS, PAYMENT_DATA } from "@/utils/constants";
-import toast from "react-hot-toast";
+import { useCart } from "../context/CartContext";
+import { PAYMENT_DATA } from "../utils/constants";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 
 const TestCheckout = () => {
   const [formData, setFormData] = useState({

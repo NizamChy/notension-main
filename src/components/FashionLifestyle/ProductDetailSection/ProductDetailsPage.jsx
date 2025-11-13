@@ -12,7 +12,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
 import StoreSection from "../store/StoreSection";
 import CartDrawer from "../shared/Cart/CartDrawer";
-import { PRODUCTS_BY_CATEGORY } from "@/utils/constants";
+import { PRODUCTS_BY_CATEGORY } from "../utils/constants";
 
 const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);

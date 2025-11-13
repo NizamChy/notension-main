@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import FiltersSidebar from "./FiltersSidebar";
 import FilteredProducts from "./FilteredProducts";
-import { PRODUCTS_BY_CATEGORY } from "@/utils/constants";
+import { PRODUCTS_BY_CATEGORY } from "../utils/constants";
 
 const ProductsByCategory = () => {
   const [loading, setLoading] = useState(false);

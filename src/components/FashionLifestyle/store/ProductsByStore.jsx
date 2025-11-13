@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { PRODUCTS_BY_CATEGORY } from "@/utils/constants";
+import { PRODUCTS_BY_CATEGORY } from "../utils/constants";
 
 const ProductsByStore = ({ storeInfo }) => {
   const productsByStore = PRODUCTS_BY_CATEGORY?.filter(

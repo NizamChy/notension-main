@@ -1,6 +1,6 @@
 import React from "react";
-import { STORES } from "@/utils/constants";
-import StoreSection from "@/components/store/StoreSection";
+import { STORES } from "@/components/FashionLifestyle/utils/constants";
+import StoreSection from "@/components/FashionLifestyle/store/StoreSection";
 
 const page = async ({ params }) => {
   const { storeId } = await params;

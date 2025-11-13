@@ -5,7 +5,7 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-import { FASHION_CAROUSEL_SLIDES } from "@/utils/constants";
+import { FASHION_CAROUSEL_SLIDES } from "../utils/constants";
 
 const StoreSlider = () => {
   return (

@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { NAV_ITEMS } from "@/utils/constants";
 import { BsChevronDown } from "react-icons/bs";
+import { NAV_ITEMS } from "../../utils/constants";
 
 const CategoryNavBar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
