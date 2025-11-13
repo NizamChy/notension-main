@@ -1,6 +1,5 @@
 import React from "react";
-// import SubCatSlider from "@/components/Slider/SubCatSlider";
-import StoreProductsBySubCat from "@/components/store/StoreProductsBySubCat";
+import StoreProductsBySubCat from "@/components/FashionLifestyle/store/StoreProductsBySubCat";
 
 const page = () => {
   return (

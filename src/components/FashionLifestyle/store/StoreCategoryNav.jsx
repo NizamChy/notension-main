@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import StoreNavRow from "../shared/Navbar/StoreNavRow";
-import { useStoreItems } from "@/hooks/fetchData/useStoreItems";
-import { generateStoreNavItems } from "@/utils/generateStoreNavItems";
+import { useStoreItems } from "../hooks/fetchData/useStoreItems";
+import { generateStoreNavItems } from "../utils/generateStoreNavItems";
 
 const StoreCategoryNav = () => {
   const [activeMenu, setActiveMenu] = useState(null);

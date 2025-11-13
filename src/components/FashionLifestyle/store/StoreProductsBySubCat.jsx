@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { useStoreItems } from "@/hooks/fetchData/useStoreItems";
+import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import FiltersSidebar from "../ProductsByCategory/FiltersSidebar";
 import FilterProducts from "../ProductsByCategory/FilterProducts";
 

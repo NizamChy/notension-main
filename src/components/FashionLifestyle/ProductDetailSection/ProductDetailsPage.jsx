@@ -9,7 +9,7 @@ import ImageGallery from "./ImageGallery";
 import { useParams } from "next/navigation";
 import ProductDetails from "./ProductDetails";
 import { FaShoppingCart } from "react-icons/fa";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "../context/CartContext";
 import StoreSection from "../store/StoreSection";
 import CartDrawer from "../shared/Cart/CartDrawer";
 import { PRODUCTS_BY_CATEGORY } from "../utils/constants";

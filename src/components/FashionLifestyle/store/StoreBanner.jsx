@@ -6,8 +6,8 @@ import { FaPhone } from "react-icons/fa6";
 import { useParams } from "next/navigation";
 import Loader from "../shared/Loader/Loader";
 import { MdLocationOn } from "react-icons/md";
-import { IMAGE_URL } from "@/api-endpoints/secret";
-import { useStoreItems } from "@/hooks/fetchData/useStoreItems";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 
 const StoreBanner = () => {
   const params = useParams();
@@ -24,7 +24,7 @@ const StoreBanner = () => {
         <Image
           src={
             storeInfo?.shop_banner_app
-              ? `${IMAGE_URL}/${storeInfo?.shop_banner_web}`
+              ? `${FASHION_IMAGE_URL}/${storeInfo?.shop_banner_web}`
               : "/images/png/dummyImage.png"
           }
           alt="Shopping store banner"

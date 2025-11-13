@@ -3,12 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
-import { slugify } from "@/utils/slugify";
 import { useDispatch } from "react-redux";
+import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import Title from "../CategorySection/Title";
 import { FiShoppingCart } from "react-icons/fi";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 import { handleProductReducer } from "@/redux/productReducer";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 
@@ -107,7 +107,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
                   <Image
                     src={
                       product?.web_image
-                        ? `${IMAGE_URL}/${product?.web_image}`
+                        ? `${FASHION_IMAGE_URL}/${product?.web_image}`
                         : "/images/png/dummyImage.png"
                     }
                     alt={product?.product_title_eng}

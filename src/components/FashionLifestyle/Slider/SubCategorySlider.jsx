@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { IMAGE_URL } from "@/api-endpoints/secret";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { useCategoryItem } from "@/hooks/fetchData/useCategoryItem";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const SubCategorySlider = () => {
   const params = useParams();

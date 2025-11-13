@@ -4,7 +4,7 @@ import {
   KIDS_PRODUCT_BY_TYPE,
   ALL_CATEGORY_BY_STORE,
   ALL_SUB_CATEGORY_BY_STORE,
-} from "@/api-endpoints/api-endpoints";
+} from "@/api-endpoints/api-endpoint";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FASHION_BASE_URL } from "@/api-endpoints/secret";

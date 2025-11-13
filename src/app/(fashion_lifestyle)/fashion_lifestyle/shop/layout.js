@@ -1,4 +1,4 @@
-import StoreCategoryNav from "@/components/store/StoreCategoryNav";
+import StoreCategoryNav from "@/components/FashionLifestyle/store/StoreCategoryNav";
 
 export default function ShopLayout({ children }) {
   return (

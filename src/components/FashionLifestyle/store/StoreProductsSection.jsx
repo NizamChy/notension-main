@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import StoreProducts from "./StoreProducts";
-import { useStoreItems } from "@/hooks/fetchData/useStoreItems";
+import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 
 const StoreProductsSection = ({ type }) => {
   const { useProductsByStoreTypeId } = useStoreItems();

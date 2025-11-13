@@ -5,13 +5,13 @@ import Link from "next/link";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
-import { slugify } from "@/utils/slugify";
+import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import Title from "../CategorySection/Title";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { IMAGE_URL } from "@/api-endpoints/secret";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { useStoreItems } from "@/hooks/fetchData/useStoreItems";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 const CategoryByStoreSlider = () => {
@@ -103,7 +103,7 @@ const CategoryByStoreSlider = () => {
                   <Image
                     src={
                       category?.sub_category_info?.banner_type_1
-                        ? `${IMAGE_URL}/${category?.sub_category_info?.banner_type_1}`
+                        ? `${FASHION_IMAGE_URL}/${category?.sub_category_info?.banner_type_1}`
                         : "/images/png/dummyImage.png"
                     }
                     alt={category?.sub_category_info?.sub_category_name}

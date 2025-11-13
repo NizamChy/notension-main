@@ -3,10 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { slugify } from "@/utils/slugify";
 import { useParams } from "next/navigation";
+import { slugify } from "../../utils/slugify";
 import { BsChevronDown } from "react-icons/bs";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 
 const StoreNavRow = ({
   navItems,
@@ -98,7 +98,7 @@ const StoreNavRow = ({
                           <div className="aspect-[3/4] relative overflow-hidden rounded-lg mb-2">
                             {hoveredCategory?.category_img && (
                               <Image
-                                src={`${IMAGE_URL}/${hoveredCategory?.category_img}`}
+                                src={`${FASHION_IMAGE_URL}/${hoveredCategory?.category_img}`}
                                 alt={hoveredCategory?.name}
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"

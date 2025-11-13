@@ -1,5 +1,5 @@
 import React from "react";
-import { MEN_TYPE_ID } from "@/utils/constant";
+import { MEN_TYPE_ID } from "../utils/constant";
 import CategoryItems from "../AllCategorySection/CategoryItems";
 
 const MenCategory = () => {
