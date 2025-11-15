@@ -22,6 +22,8 @@ const FiltersSidebar = ({
   setInStockOnly,
   handlePriceChange,
   clearAllFilters,
+  subCategories,
+  brands,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [openFilter, setOpenFilter] = useState("segment");
@@ -92,6 +94,8 @@ const FiltersSidebar = ({
             setInStockOnly={setInStockOnly}
             handlePriceChange={handlePriceChange}
             clearAllFilters={clearAllFilters}
+            subCategories={subCategories}
+            brands={brands}
           />
         </div>
       </div>
@@ -148,6 +152,8 @@ const FiltersSidebar = ({
               setInStockOnly={setInStockOnly}
               handlePriceChange={handlePriceChange}
               clearAllFilters={clearAllFilters}
+              subCategories={subCategories}
+              brands={brands}
             />
 
             <div className="mt-5 flex justify-center">
@@ -182,6 +188,8 @@ const FilterContent = ({
   setInStockOnly,
   handlePriceChange,
   clearAllFilters,
+  subCategories,
+  brands,
 }) => {
   return (
     <>
@@ -204,6 +212,29 @@ const FilterContent = ({
         }
       >
         <div className="space-y-2">
+          {subCategories?.map((subCategory) => (
+            <FilterCheckbox
+              key={subCategory?._id}
+              label={subCategory?.sub_category_name}
+              checked={selectedSegments.includes(
+                subCategory?.sub_category_name
+              )}
+              onChange={() =>
+                toggleFilter("segment", subCategory?.sub_category_name)
+              }
+            />
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* <FilterSection
+        title="Category"
+        isOpen={openFilter === "segment"}
+        onClick={() =>
+          setOpenFilter(openFilter === "segment" ? null : "segment")
+        }
+      >
+        <div className="space-y-2">
           {FILTER_OPTIONS.segments.map((segment) => (
             <FilterCheckbox
               key={segment}
@@ -213,7 +244,41 @@ const FilterContent = ({
             />
           ))}
         </div>
+      </FilterSection> */}
+
+      <FilterSection
+        title="Brand"
+        isOpen={openFilter === "brand"}
+        onClick={() => setOpenFilter(openFilter === "brand" ? null : "brand")}
+      >
+        <div className="space-y-2">
+          {brands?.map((brand) => (
+            <FilterCheckbox
+              key={brand?._id}
+              label={brand?.brand_name}
+              checked={selectedBrands.includes(brand?.brand_name)}
+              onChange={() => toggleFilter("brand", brand?.brand_name)}
+            />
+          ))}
+        </div>
       </FilterSection>
+
+      {/*   <FilterSection
+        title="Brand"
+        isOpen={openFilter === "brand"}
+        onClick={() => setOpenFilter(openFilter === "brand" ? null : "brand")}
+      >
+        <div className="space-y-2">
+          {FILTER_OPTIONS.brands.map((brand) => (
+            <FilterCheckbox
+              key={brand}
+              label={brand}
+              checked={selectedBrands.includes(brand)}
+              onChange={() => toggleFilter("brand", brand)}
+            />
+          ))}
+        </div>
+      </FilterSection> */}
 
       <FilterSection
         title="Size"
@@ -244,23 +309,6 @@ const FilterContent = ({
               label={color}
               checked={selectedColors.includes(color.toLowerCase())}
               onChange={() => toggleFilter("color", color.toLowerCase())}
-            />
-          ))}
-        </div>
-      </FilterSection>
-
-      <FilterSection
-        title="Brand"
-        isOpen={openFilter === "brand"}
-        onClick={() => setOpenFilter(openFilter === "brand" ? null : "brand")}
-      >
-        <div className="space-y-2">
-          {FILTER_OPTIONS.brands.map((brand) => (
-            <FilterCheckbox
-              key={brand}
-              label={brand}
-              checked={selectedBrands.includes(brand)}
-              onChange={() => toggleFilter("brand", brand)}
             />
           ))}
         </div>

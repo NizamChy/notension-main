@@ -30,13 +30,16 @@ const ProductByCategory = () => {
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
 
-  const { useKidsProductsByType } = useCategoryItem();
+  const { useKidsProductsByType, useSubCategoryById, brands } =
+    useCategoryItem();
 
   const {
     data: filteredKidsProducts,
     isLoading,
     isError,
   } = useKidsProductsByType(typeId, catId, subCatId);
+
+  const { data: subCategories } = useSubCategoryById(catId);
 
   let products = filteredKidsProducts || [];
 
@@ -179,6 +182,8 @@ const ProductByCategory = () => {
             handlePriceChange={handlePriceChange}
             selectedEmbelishments={selectedEmbelishments}
             selectedSleeveLengths={selectedSleeveLengths}
+            subCategories={subCategories}
+            brands={brands}
           />
 
           <FilterProducts
