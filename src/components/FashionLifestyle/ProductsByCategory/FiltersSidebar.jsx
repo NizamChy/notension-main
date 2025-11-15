@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { slugify } from "../utils/slugify";
 import { useState, useEffect } from "react";
 import FilterSection from "./FilterSection";
 import FilterCheckbox from "./FilterCheckbox";
@@ -24,6 +26,7 @@ const FiltersSidebar = ({
   clearAllFilters,
   subCategories,
   brands,
+  typeCatSubIdSlug,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [openFilter, setOpenFilter] = useState("segment");
@@ -96,6 +99,7 @@ const FiltersSidebar = ({
             clearAllFilters={clearAllFilters}
             subCategories={subCategories}
             brands={brands}
+            typeCatSubIdSlug={typeCatSubIdSlug}
           />
         </div>
       </div>
@@ -154,6 +158,7 @@ const FiltersSidebar = ({
               clearAllFilters={clearAllFilters}
               subCategories={subCategories}
               brands={brands}
+              typeCatSubIdSlug={typeCatSubIdSlug}
             />
 
             <div className="mt-5 flex justify-center">
@@ -190,7 +195,11 @@ const FilterContent = ({
   clearAllFilters,
   subCategories,
   brands,
+  typeCatSubIdSlug,
 }) => {
+  const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
+    typeCatSubIdSlug.split("_");
+
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -213,6 +222,43 @@ const FilterContent = ({
       >
         <div className="space-y-2">
           {subCategories?.map((subCategory) => (
+            <Link
+              key={subCategory?._id}
+              href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                subCategory?.sub_category_name
+              )}_${subCategory?._id}`}
+              className="flex items-center"
+            >
+              <label className="space-x-2 cursor-pointer flex items-center">
+                <input
+                  type="radio"
+                  checked={
+                    subCatId === subCategory?._id ||
+                    selectedSegments.includes(subCategory?.sub_category_name)
+                  }
+                  onChange={() =>
+                    toggleFilter("segment", subCategory?.sub_category_name)
+                  }
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm">
+                  {subCategory?.sub_category_name}
+                </span>
+              </label>
+            </Link>
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* <FilterSection
+        title="Category"
+        isOpen={openFilter === "segment"}
+        onClick={() =>
+          setOpenFilter(openFilter === "segment" ? null : "segment")
+        }
+      >
+        <div className="space-y-2">
+          {subCategories?.map((subCategory) => (
             <FilterCheckbox
               key={subCategory?._id}
               label={subCategory?.sub_category_name}
@@ -225,7 +271,7 @@ const FilterContent = ({
             />
           ))}
         </div>
-      </FilterSection>
+      </FilterSection> */}
 
       {/* <FilterSection
         title="Category"

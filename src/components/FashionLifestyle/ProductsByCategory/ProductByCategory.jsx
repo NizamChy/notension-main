@@ -184,6 +184,7 @@ const ProductByCategory = () => {
             selectedSleeveLengths={selectedSleeveLengths}
             subCategories={subCategories}
             brands={brands}
+            typeCatSubIdSlug={typeCatSubIdSlug}
           />
 
           <FilterProducts
