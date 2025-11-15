@@ -8,6 +8,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import FiltersSidebar from "../ProductsByCategory/FiltersSidebar";
 import FilterProducts from "../ProductsByCategory/FilterProducts";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const StoreProductsBySubCat = () => {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ const StoreProductsBySubCat = () => {
   const [selectedSleeveLengths, setSelectedSleeveLengths] = useState([]);
 
   const params = useParams();
+
   const typeCatSubIdSlug = params?.category;
   const shopId = params?.shopSlugId?.split("_")[1];
 
@@ -32,6 +34,7 @@ const StoreProductsBySubCat = () => {
     typeCatSubIdSlug.split("_");
 
   const { useProductsByStoreSubCatId } = useStoreItems();
+  const { useSubCategoryById, brands } = useCategoryItem();
 
   const { data: filteredKidsProducts, isLoading } = useProductsByStoreSubCatId(
     shopId,
@@ -39,6 +42,8 @@ const StoreProductsBySubCat = () => {
     catId,
     subCatId
   );
+
+  const { data: subCategories } = useSubCategoryById(catId);
 
   let products = filteredKidsProducts || [];
 
@@ -134,7 +139,7 @@ const StoreProductsBySubCat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 max-w-screen-2xl mx-auto">
       <Head>
         <title>{typeSlug} | Fashion Store</title>
         <meta
@@ -143,7 +148,7 @@ const StoreProductsBySubCat = () => {
         />
       </Head>
 
-      <main className="container mx-auto py-4 lg:py-8 px-4">
+      <main className="py-4 lg:py-8 px-4">
         <h1 className="md:text-2xl font-semibold text-gray-700 capitalize lg:mb-8 flex items-center">
           <Link href={`/fashion_lifestyle/cat/${typeSlug}_${typeId}`}>
             <span className="flex items-center text-gray-800 hover:text-blue-600">
@@ -181,6 +186,10 @@ const StoreProductsBySubCat = () => {
             handlePriceChange={handlePriceChange}
             selectedEmbelishments={selectedEmbelishments}
             selectedSleeveLengths={selectedSleeveLengths}
+            subCategories={subCategories}
+            brands={brands}
+            typeCatSubIdSlug={typeCatSubIdSlug}
+            shopSlugId={params?.shopSlugId}
           />
 
           <FilterProducts

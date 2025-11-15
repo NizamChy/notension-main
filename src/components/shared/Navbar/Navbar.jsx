@@ -60,13 +60,15 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-20 border">
       <Link href="/">
-        <Image
-          width={224}
-          height={40}
-          src="/png/notension-logo.png"
-          alt="notension"
-          className="object-cover w-32 lg:w-56 lg:h-10"
-        />
+        <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
+          <Image
+            width={224}
+            height={40}
+            src="/png/notension-logo.png"
+            alt="notension"
+            className="object-contain w-full"
+          />
+        </div>
       </Link>
 
       <LocationModal />

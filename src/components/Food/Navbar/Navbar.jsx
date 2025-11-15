@@ -63,13 +63,15 @@ const Navbar = () => {
       <MobileCategoryDrawer />
 
       <button onClick={handleLogoClick} className="focus:outline-none">
-        <Image
-          width={224}
-          height={40}
-          src="/png/notension-logo.png"
-          alt="notension"
-          className="object-cover w-32 lg:w-56 lg:h-10"
-        />
+        <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
+          <Image
+            width={224}
+            height={40}
+            src="/png/notension-logo.png"
+            alt="notension"
+            className="object-contain w-full"
+          />
+        </div>
       </button>
 
       <LocationModal />

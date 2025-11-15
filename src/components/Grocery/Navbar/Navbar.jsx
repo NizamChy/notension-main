@@ -68,13 +68,15 @@ const Navbar = () => {
         onClick={handleLogoClick}
         className="hidden lg:block focus:outline-none"
       >
-        <Image
-          width={500}
-          height={500}
-          src="/png/notension-logo.png"
-          alt="notension"
-          className="object-cover w-32 lg:w-56 lg:h-10"
-        />
+        <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
+          <Image
+            width={224}
+            height={40}
+            src="/png/notension-logo.png"
+            alt="notension"
+            className="object-contain w-full"
+          />
+        </div>
       </button>
 
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">

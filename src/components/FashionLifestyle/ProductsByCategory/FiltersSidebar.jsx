@@ -27,6 +27,7 @@ const FiltersSidebar = ({
   subCategories,
   brands,
   typeCatSubIdSlug,
+  shopSlugId = null,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [openFilter, setOpenFilter] = useState("segment");
@@ -100,6 +101,7 @@ const FiltersSidebar = ({
             subCategories={subCategories}
             brands={brands}
             typeCatSubIdSlug={typeCatSubIdSlug}
+            shopSlugId={shopSlugId}
           />
         </div>
       </div>
@@ -159,6 +161,7 @@ const FiltersSidebar = ({
               subCategories={subCategories}
               brands={brands}
               typeCatSubIdSlug={typeCatSubIdSlug}
+              shopSlugId={shopSlugId}
             />
 
             <div className="mt-5 flex justify-center">
@@ -196,9 +199,10 @@ const FilterContent = ({
   subCategories,
   brands,
   typeCatSubIdSlug,
+  shopSlugId,
 }) => {
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
-    typeCatSubIdSlug.split("_");
+    typeCatSubIdSlug?.split("_") || "";
 
   return (
     <>
@@ -224,9 +228,15 @@ const FilterContent = ({
           {subCategories?.map((subCategory) => (
             <Link
               key={subCategory?._id}
-              href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
-                subCategory?.sub_category_name
-              )}_${subCategory?._id}`}
+              href={
+                shopSlugId === null
+                  ? `/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                      subCategory?.sub_category_name
+                    )}_${subCategory?._id}`
+                  : `/fashion_lifestyle/shop/${shopSlugId}/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                      subCategory?.sub_category_name
+                    )}_${subCategory?._id}`
+              }
               className="flex items-center"
             >
               <label className="space-x-2 cursor-pointer flex items-center">
