@@ -4,17 +4,16 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BiLogOut } from "react-icons/bi";
+import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 import { FaUserDoctor } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
-import { useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
-import LocationModal from "../LocationModal/LocationModal";
-
 import { useUser } from "@/hooks/fetch-data/useUser";
+import LocationModal from "../LocationModal/LocationModal";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);

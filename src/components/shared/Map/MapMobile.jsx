@@ -7,6 +7,7 @@ import loader from "@/utils/googleMapsLoader";
 import { useState, useEffect, useRef } from "react";
 import { handleUserReducer } from "@/redux/userReducer";
 import { ALL_DISTRICTS } from "../../../../public/AllDistrictsData/AllDistricts";
+import { FaLocationDot } from "react-icons/fa6";
 
 const MapMobile = () => {
   const [map, setMap] = useState(null);
@@ -230,39 +231,77 @@ const MapMobile = () => {
   }
 
   return (
-    <div className="relative">
-      <div className="mb-2 px-4 md:px-0">
+    <div className="fixed inset-0 w-full h-full overflow-hidden">
+      {/* Search Bar Floating */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-20">
         <input
           ref={inputRef}
           type="text"
           placeholder="Search location"
-          className="w-full outline-none border p-2 lg:mb-2"
+          className="w-full outline-none border p-3 rounded-lg shadow-lg bg-white"
         />
       </div>
 
-      <div className="h-[75vh] md:h-[55vh] relative">
-        {/* Google Map */}
-        <div ref={mapRef} id="map" className="h-full w-full" />
+      {/* Map Full Screen */}
+      <div className="absolute inset-0">
+        <div ref={mapRef} id="map" className="w-full h-full" />
 
-        {/* Fixed Flag Image at the Center */}
         <Image
           src={isMapMoving ? "/png/moving-flag.png" : "/png/location-flag.png"}
           alt="Fixed Flag"
-          width={40}
-          height={40}
-          className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-full pointer-events-none"
+          width={45}
+          height={45}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full pointer-events-none z-10"
         />
       </div>
 
-      <div className="flex md:hidden justify-center gap-2 mx-4">
+      {/* Confirm Button Floating */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[60%] max-w-sm z-20">
         <button
           onClick={handleConfirmMobileLocation}
-          className="rounded-md px-5 py-2 text-white text-xl font-medium bg-[#FC8F1E] hover:bg-[#fb9d3a] transition duration-300 w-full mt-3"
+          className="w-full rounded-lg px-7 py-3 text-white text-lg font-semibold bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 transition duration-300 shadow-lg flex items-center justify-center gap-1"
         >
-          Confirm Location
+          <span>
+            <FaLocationDot className="text-base" />
+          </span>
+          <span>Confirm Location</span>
         </button>
       </div>
     </div>
+
+    // <div className="relative">
+    //   <div className="mb-2 px-4 md:px-0">
+    //     <input
+    //       ref={inputRef}
+    //       type="text"
+    //       placeholder="Search location"
+    //       className="w-full outline-none border p-2 lg:mb-2"
+    //     />
+    //   </div>
+
+    //   <div className="h-[75vh] md:h-[55vh] relative">
+    //     {/* Google Map */}
+    //     <div ref={mapRef} id="map" className="h-full w-full" />
+
+    //     {/* Fixed Flag Image at the Center */}
+    //     <Image
+    //       src={isMapMoving ? "/png/moving-flag.png" : "/png/location-flag.png"}
+    //       alt="Fixed Flag"
+    //       width={40}
+    //       height={40}
+    //       className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-full pointer-events-none"
+    //     />
+    //   </div>
+
+    //   <div className="flex md:hidden justify-center gap-2 mx-4">
+    //     <button
+    //       onClick={handleConfirmMobileLocation}
+    //       className="disabled:bg-gray-300 rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 transition duration-300 w-full mt-3"
+    //     >
+    //       Confirm Location
+    //     </button>
+    //   </div>
+    // </div>
   );
 };
 
