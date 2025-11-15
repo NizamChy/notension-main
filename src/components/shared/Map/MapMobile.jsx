@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import loader from "@/utils/googleMapsLoader";
+import { FaLocationDot } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
 import { handleUserReducer } from "@/redux/userReducer";
 import { ALL_DISTRICTS } from "../../../../public/AllDistrictsData/AllDistricts";
-import { FaLocationDot } from "react-icons/fa6";
 
 const MapMobile = () => {
   const [map, setMap] = useState(null);

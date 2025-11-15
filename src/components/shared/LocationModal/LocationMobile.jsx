@@ -20,9 +20,9 @@ const LocationMobile = () => {
     <>
       <button
         onClick={handleMobileLocation}
-        className="px-5 py-3 text-sm md:text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-[#FC8F1E] hover:bg-[#fb9d3a] transition duration-300 md:hidden flex outline-none"
-        // className="px-5 py-3 text-sm md:text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300 md:hidden flex outline-none"
+        className="px-5 py-3 text-sm md:text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 transition duration-300 md:hidden flex outline-none"
       >
+        {/* bg-[#FC8F1E] hover:bg-[#fb9d3a] transition duration-300 */}
         <span>
           <FaLocationDot />
         </span>
