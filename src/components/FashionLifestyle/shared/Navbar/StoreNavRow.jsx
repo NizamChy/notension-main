@@ -115,7 +115,7 @@ const StoreNavRow = ({
                           <div className="group">
                             <div className="aspect-[3/4] relative overflow-hidden rounded-lg mb-2">
                               <Image
-                                src={`${IMAGE_URL}/${navItem?.featured?.image}`}
+                                src={`${FASHION_IMAGE_URL}/${navItem?.featured?.image}`}
                                 alt={navItem?.featured?.title}
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"
