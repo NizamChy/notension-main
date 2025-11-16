@@ -184,7 +184,7 @@ const Navbar = () => {
                   </span>
                 </button>
 
-                <Link href="/wishlist">
+                <Link href="/fashion_lifestyle/wishlist">
                   <button className="hidden lg:flex flex-col items-center text-sm hover:text-primary">
                     <IoMdHeartEmpty className="text-xl mb-1" />
                     <span className="hidden lg:block text-xs">Wishlist</span>

@@ -4,7 +4,6 @@ import StoreProductsBySubCat from "@/components/FashionLifestyle/store/StoreProd
 const page = () => {
   return (
     <>
-      {/* <SubCatSlider /> */}
       <StoreProductsBySubCat />
     </>
   );

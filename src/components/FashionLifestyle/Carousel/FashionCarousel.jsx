@@ -1,7 +1,6 @@
 "use client";
 
 import "swiper/css";
-import Link from "next/link";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -44,10 +43,7 @@ const FashionCarousel = () => {
                     {slide?.subtitle}
                   </p>
 
-                  <Link
-                    href="/cat/category/all"
-                    className="inline-flex items-center px-3 sm:px-6 py-1.5 sm:py-2.5 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-100 hover:border-gray-400 transition-colors"
-                  >
+                  <button className="inline-flex items-center px-3 sm:px-6 py-1.5 sm:py-2.5 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-100 hover:border-gray-400 transition-colors">
                     {slide?.cta}
                     <svg
                       className="ml-2 w-4 h-4"
@@ -63,7 +59,7 @@ const FashionCarousel = () => {
                         d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

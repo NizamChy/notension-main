@@ -18,7 +18,12 @@ const TypeDetails = () => {
     return (
       <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6" />
     );
-  if (isError) return <div>Error loading categories</div>;
+
+  if (isError)
+    return (
+      <div className="text-center text-red-500">Error loading categories</div>
+    );
+
   if (!categories || categories.length < 1) return null;
 
   return (
