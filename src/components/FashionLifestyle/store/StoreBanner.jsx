@@ -14,7 +14,7 @@ const StoreBanner = () => {
   const storeId = params?.shopSlugId?.split("_")[1];
 
   const { useStoreInfo } = useStoreItems();
-  const { data: storeInfo, isLoading, isError } = useStoreInfo(storeId);
+  const { data: storeInfo, isLoading } = useStoreInfo(storeId);
 
   if (isLoading) return <Loader />;
 

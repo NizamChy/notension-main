@@ -4,7 +4,7 @@ import StoreSection from "@/components/FashionLifestyle/store/StoreSection";
 const page = () => {
   return (
     <>
-      <StoreSection isStatic={false} />
+      <StoreSection />
     </>
   );
 };
