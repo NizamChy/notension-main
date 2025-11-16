@@ -9,10 +9,11 @@ import { AiOutlinePhone } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import EmptyCart from "@/components/Cart/EmptyCart";
-import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import FloatingInput from "@/components/LoginSection/FloatingInput";
 import { useOrderGrocery } from "@/hooks/place-order/useOrderGrocery";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import { PAYMENT_DATA } from "@/components/FashionLifestyle/utils/constants";
 
 const CheckoutSection = () => {
   const paymentData = [
@@ -215,7 +216,7 @@ const CheckoutSection = () => {
                 <h2 className="text-sm md:text-xl font-semibold">
                   Payment Option
                 </h2>
-                {paymentData.map((option) => (
+                {PAYMENT_DATA?.map((option) => (
                   <label
                     key={option.id}
                     className="flex items-center gap-2 p-1 cursor-pointer transition-colors hover:bg-gray-100"
@@ -231,9 +232,9 @@ const CheckoutSection = () => {
                     <Image
                       src={option.icon}
                       alt={option.label}
-                      width={6}
-                      height={6}
-                      className="h-6 w-6"
+                      width={40}
+                      height={40}
+                      className="w-10"
                     />
                     <span className="text-gray-800 font-medium text-xs md:text-base">
                       {option.label}

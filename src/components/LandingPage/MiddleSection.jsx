@@ -45,9 +45,9 @@ const MiddleSection = () => {
       return;
     }
 
-    if (!userInfo?._id) {
-      return openModal();
-    }
+    // if (!userInfo?._id) {
+    //   return openModal();
+    // }
 
     if (type === "medicalService") {
       router.push("/medical-services/medical-service");
