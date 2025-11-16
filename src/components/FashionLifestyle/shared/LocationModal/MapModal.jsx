@@ -1,7 +1,7 @@
 "use client";
 
-import Map from "../Map/Map";
 import { useEffect, useRef } from "react";
+import Map from "@/components/shared/Map/Map";
 
 const MapModal = ({ isOpen, onCloseModal }) => {
   const modalRef = useRef(null);
