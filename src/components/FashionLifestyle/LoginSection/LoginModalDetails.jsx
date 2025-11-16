@@ -3,7 +3,7 @@
 import toast from "react-hot-toast";
 import OtpSection from "./OtpSection";
 import React, { useState } from "react";
-import { useUser } from "@/hooks/fetchData/useUser";
+import { useUser } from "@/hooks/fetch-data/useUser";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
