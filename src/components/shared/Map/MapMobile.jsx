@@ -211,18 +211,12 @@ const MapMobile = () => {
 
   if (isMapLoading) {
     return (
-      <div className="relative animate-pulse">
-        {/* Search input skeleton */}
+      <div className="relative animate-pulse w-[90%]">
         <div className="h-12 bg-gray-200 rounded mb-4"></div>
-
-        {/* Map container skeleton */}
         <div className="h-[75vh] md:h-[55vh] bg-gray-200 rounded"></div>
-
-        {/* Button skeleton */}
         <div className="hidden md:flex justify-center gap-2 mt-4">
           <div className="h-12 bg-gray-200 rounded w-full"></div>
         </div>
-
         <div className="flex md:hidden justify-center gap-2 mt-4">
           <div className="h-12 bg-gray-200 rounded w-full"></div>
         </div>
