@@ -146,9 +146,7 @@ const Checkout = () => {
 
     openModal();
     // clearCart();
-
     // router.push("/fashion_lifestyle");
-
     // toast.success("All store orders placed successfully!");
   };
 

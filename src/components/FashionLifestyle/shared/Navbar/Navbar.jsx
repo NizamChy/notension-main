@@ -9,13 +9,13 @@ import LoginDropdown from "./LoginDropdown";
 import CartDrawer from "../Cart/CartDrawer";
 import Sidebar from "../../Sidebar/Sidebar";
 import { useCart } from "../../context/CartContext";
-import CommonModal from "../CommonModal/CommonModal";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoMdClose, IoMdHeartEmpty } from "react-icons/io";
 import LocationModal from "../LocationModal/LocationModal";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const Navbar = () => {
