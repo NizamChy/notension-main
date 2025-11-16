@@ -11,11 +11,15 @@ import { useRouter } from "next/navigation";
 import { TiShoppingCart } from "react-icons/ti";
 import { useCart } from "../context/CartContext";
 import { PAYMENT_DATA } from "../utils/constants";
-import { FASHION_BASE_URL } from "@/api-endpoints/secret";
 import { useMutation } from "@tanstack/react-query";
+import { FASHION_BASE_URL } from "@/api-endpoints/secret";
 import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
+import ExploreButton from "../shared/ExploreButton/ExploreButton";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const Checkout = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { userInfo } = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({
@@ -28,6 +32,9 @@ const Checkout = () => {
   const { cartItems, removeFromCart, clearCart } = useCart();
 
   const router = useRouter();
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const groupedItems = cartItems.reduce((groups, item) => {
     const storeId = item?.store_info?._id;
@@ -135,11 +142,21 @@ const Checkout = () => {
       await postOrderMutation.mutateAsync(orderData);
     }
 
-    toast.success("Order placed successfully!");
-    // toast.success("All store orders placed successfully!");
-    clearCart();
+    // toast.success("Order placed successfully!");
 
+    openModal();
+    // clearCart();
+
+    // router.push("/fashion_lifestyle");
+
+    // toast.success("All store orders placed successfully!");
+  };
+
+  const handleGoHomeClick = () => {
     router.push("/fashion_lifestyle");
+
+    closeModal();
+    clearCart();
   };
 
   if (cartItems?.length < 1)
@@ -168,124 +185,145 @@ const Checkout = () => {
   const overallTotal = overallSubtotal + deliveryCharge;
 
   return (
-    <div className="bg-gray-50 min-h-screen py-5 md:py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-700">Checkout</h1>
-        </div>
-
-        <div className="lg:grid lg:grid-cols-2 lg:gap-x-12">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h2 className="text-lg font-medium text-gray-900 mb-6">
-              Shipping information
-            </h2>
-
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Name <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
-                    required
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Phone <span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
-                    required
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Address <span className="text-red-600">*</span>
-                  </label>
-                  <textarea
-                    rows={3}
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="bg-white p-6 mt-8 rounded-lg shadow-sm">
-                <h2 className="text-lg font-medium text-gray-900 mb-6">
-                  Payment method
-                </h2>
-
-                <div className="space-y-4">
-                  {PAYMENT_DATA.map((option) => (
-                    <label
-                      key={option.id}
-                      className="flex items-center gap-2 p-1 cursor-pointer hover:bg-gray-100"
-                    >
-                      <input
-                        type="radio"
-                        name="paymentOption"
-                        value={option.label}
-                        checked={formData.paymentOption === option.label}
-                        onChange={handleChange}
-                        className="h-5 w-5 text-blue-600"
-                      />
-                      <Image
-                        src={option.icon}
-                        alt={option.label}
-                        width={40}
-                        height={40}
-                        className="w-10"
-                      />
-                      <span className="text-gray-800 font-medium text-xs md:text-base">
-                        {option.label}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex justify-between">
-                  <button
-                    type="submit"
-                    disabled={postOrderMutation.isPending}
-                    className="ml-auto bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700"
-                  >
-                    {postOrderMutation.isPending
-                      ? "Placing Order..."
-                      : "Place Order"}
-                  </button>
-                </div>
-              </div>
-            </form>
+    <>
+      <div className="bg-gray-50 min-h-screen py-5 md:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-700">Checkout</h1>
           </div>
 
-          <div className="mt-10 lg:mt-0 lg:col-span-1">
-            <OrderSummary
-              items={cartItems}
-              subtotal={overallSubtotal}
-              deliveryCharge={deliveryCharge}
-              total={overallTotal}
-              removeFromCart={removeFromCart}
-            />
+          <div className="lg:grid lg:grid-cols-2 lg:gap-x-12">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-medium text-gray-900 mb-6">
+                Shipping information
+              </h2>
+
+              <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Phone <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Address <span className="text-red-600">*</span>
+                    </label>
+                    <textarea
+                      rows={3}
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 mt-8 rounded-lg shadow-sm">
+                  <h2 className="text-lg font-medium text-gray-900 mb-6">
+                    Payment method
+                  </h2>
+
+                  <div className="space-y-4">
+                    {PAYMENT_DATA.map((option) => (
+                      <label
+                        key={option.id}
+                        className="flex items-center gap-2 p-1 cursor-pointer hover:bg-gray-100"
+                      >
+                        <input
+                          type="radio"
+                          name="paymentOption"
+                          value={option.label}
+                          checked={formData.paymentOption === option.label}
+                          onChange={handleChange}
+                          className="h-5 w-5 text-blue-600"
+                        />
+                        <Image
+                          src={option.icon}
+                          alt={option.label}
+                          width={40}
+                          height={40}
+                          className="w-10"
+                        />
+                        <span className="text-gray-800 font-medium text-xs md:text-base">
+                          {option.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 flex justify-between">
+                    <button
+                      type="submit"
+                      disabled={postOrderMutation.isPending}
+                      className="ml-auto bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700"
+                    >
+                      {postOrderMutation.isPending
+                        ? "Placing Order..."
+                        : "Place Order"}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div className="mt-10 lg:mt-0 lg:col-span-1">
+              <OrderSummary
+                items={cartItems}
+                subtotal={overallSubtotal}
+                deliveryCharge={deliveryCharge}
+                total={overallTotal}
+                removeFromCart={removeFromCart}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="flex flex-col justify-center items-center min-h-80 text-gray bg-gray-50 rounded-md">
+          <div className="w-40">
+            <Image
+              className="w-full object-contain"
+              src="/images/fashion-lifestyle/success-icon.png"
+              alt="success-icon png"
+              height={160}
+              width={160}
+            />
+          </div>
+          <p className="py-3 font-semibold text-2xl text-primary">
+            Order placed successfully!
+          </p>
+
+          <ExploreButton title="Go Home" onClick={handleGoHomeClick} />
+        </div>
+      </CommonModal>
+    </>
   );
 };
 
