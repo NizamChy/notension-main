@@ -18,6 +18,7 @@ import ExploreButton from "../shared/ExploreButton/ExploreButton";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const Checkout = () => {
+  const [totalStores, setTotalStores] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { userInfo } = useSelector((state) => state.user);
@@ -61,6 +62,7 @@ const Checkout = () => {
     onSuccess: (data) => {
       // toast.dismiss();
       // toast.success(data?.message || "Order placed successfully!");
+      setTotalStores((prev) => prev + 1);
 
       console.log(data?.message || "Order placed successfully!");
     },
@@ -78,7 +80,7 @@ const Checkout = () => {
     }
 
     for (const [storeId, items] of Object.entries(groupedItems)) {
-      const merchantInfo = items[0].store_info;
+      const merchantInfo = items[0]?.store_info;
 
       const subtotal = items.reduce(
         (sum, item) => sum + item?.sale_price * item?.quantity,
@@ -152,6 +154,7 @@ const Checkout = () => {
 
   const handleGoHomeClick = () => {
     router.push("/fashion_lifestyle");
+    setTotalStores(0);
 
     closeModal();
   };
@@ -185,7 +188,8 @@ const Checkout = () => {
               />
             </div>
             <p className="py-3 font-semibold text-2xl text-primary">
-              Order placed successfully!
+              Order placed for {totalStores} stores!
+              {/* Order placed successfully! */}
             </p>
 
             <ExploreButton title="Go Home" onClick={handleGoHomeClick} />

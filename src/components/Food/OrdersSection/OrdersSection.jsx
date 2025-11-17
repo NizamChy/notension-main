@@ -9,10 +9,10 @@ import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { useParams, useRouter } from "next/navigation";
-import { useOrderFood } from "@/hooks/place-order/useOrderFood";
-import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import NoItemFound from "@/components/common/NoItemFound";
+import { useOrderFood } from "@/hooks/place-order/useOrderFood";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
