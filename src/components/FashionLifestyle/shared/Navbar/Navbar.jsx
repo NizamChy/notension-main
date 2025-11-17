@@ -8,6 +8,7 @@ import { IoSearch } from "react-icons/io5";
 import LoginDropdown from "./LoginDropdown";
 import CartDrawer from "../Cart/CartDrawer";
 import Sidebar from "../../Sidebar/Sidebar";
+import ProductSearchbar from "./ProductSearchbar";
 import { useCart } from "../../context/CartContext";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { LiaShoppingBagSolid } from "react-icons/lia";
@@ -157,7 +158,7 @@ const Navbar = () => {
             )}
 
             {/* Desktop Search */}
-            <div className="hidden lg:block w-96 xl:w-[500px] relative">
+            {/* <div className="hidden lg:block w-96 xl:w-[500px] relative">
               <input
                 type="text"
                 placeholder="Search..."
@@ -166,7 +167,9 @@ const Navbar = () => {
               <button className="absolute top-0 right-0 h-full px-3 flex items-center justify-center text-gray-500 hover:text-black">
                 <IoSearch className="text-lg" />
               </button>
-            </div>
+            </div> */}
+
+            <ProductSearchbar />
 
             {/* Right Side Icons */}
             <div className="flex items-center gap-4 lg:gap-5 relative">
