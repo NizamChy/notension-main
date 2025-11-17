@@ -145,7 +145,7 @@ const Checkout = () => {
     // toast.success("Order placed successfully!");
 
     openModal();
-    // clearCart();
+    clearCart();
     // router.push("/fashion_lifestyle");
     // toast.success("All store orders placed successfully!");
   };
@@ -154,25 +154,44 @@ const Checkout = () => {
     router.push("/fashion_lifestyle");
 
     closeModal();
-    clearCart();
   };
 
   if (cartItems?.length < 1)
     return (
-      <div className="min-h-[60vh] flex flex-col justify-center items-center">
-        <p className="text-2xl font-semibold text-primary flex flex-col gap-1 items-center justify-center">
-          <TiShoppingCart className="text-5xl text-primary" />
-          Your cart is empty!
-        </p>
-        <div className="mt-6">
-          <Link
-            href="/"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Continue Shopping
-          </Link>
+      <>
+        <div className="min-h-[60vh] flex flex-col justify-center items-center">
+          <p className="text-2xl font-semibold text-primary flex flex-col gap-1 items-center justify-center">
+            <TiShoppingCart className="text-5xl text-primary" />
+            Your cart is empty!
+          </p>
+          <div className="mt-6">
+            <Link
+              href="/"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </div>
-      </div>
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="flex flex-col justify-center items-center min-h-80 text-gray bg-gray-50 rounded-md">
+            <div className="w-40">
+              <Image
+                className="w-full object-contain"
+                src="/images/fashion-lifestyle/success-icon.png"
+                alt="success-icon png"
+                height={160}
+                width={160}
+              />
+            </div>
+            <p className="py-3 font-semibold text-2xl text-primary">
+              Order placed successfully!
+            </p>
+
+            <ExploreButton title="Go Home" onClick={handleGoHomeClick} />
+          </div>
+        </CommonModal>
+      </>
     );
 
   const overallSubtotal = cartItems.reduce(
@@ -302,25 +321,6 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-
-      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="flex flex-col justify-center items-center min-h-80 text-gray bg-gray-50 rounded-md">
-          <div className="w-40">
-            <Image
-              className="w-full object-contain"
-              src="/images/fashion-lifestyle/success-icon.png"
-              alt="success-icon png"
-              height={160}
-              width={160}
-            />
-          </div>
-          <p className="py-3 font-semibold text-2xl text-primary">
-            Order placed successfully!
-          </p>
-
-          <ExploreButton title="Go Home" onClick={handleGoHomeClick} />
-        </div>
-      </CommonModal>
     </>
   );
 };

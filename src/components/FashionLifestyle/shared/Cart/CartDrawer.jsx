@@ -1,15 +1,34 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
 import { useEffect } from "react";
 import CartItem from "./CartItem";
+import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import { TiShoppingCart } from "react-icons/ti";
 import { useCart } from "../../context/CartContext";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const CartDrawer = ({ isOpen, onClose }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
+
   const { cartItems, getCartCount, getCartTotal } = useCart();
+  const { userInfo } = useSelector((state) => state.user);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleCheckoutClick = () => {
+    onClose();
+
+    if (!userInfo?._id) return openModal();
+
+    router.push("/fashion_lifestyle/checkout");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -66,34 +85,40 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 Cart Total: ৳ {getCartTotal() || 0}
               </p>
               <div className="mt-4 text-center w-full">
-                <Link href="/fashion_lifestyle/checkout">
-                  <button
-                    onClick={onClose}
-                    disabled={cartItems?.length < 1}
-                    className="w-full inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-white bg-primary disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-primary/95 hover:border-gray-400 transition-colors"
+                <button
+                  onClick={handleCheckoutClick}
+                  disabled={cartItems?.length < 1}
+                  className="w-full inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-white bg-primary disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-primary/95 hover:border-gray-400 transition-colors"
+                >
+                  Proceed to Checkout
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Proceed to Checkout
-                    <svg
-                      className="ml-2 w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
-                </Link>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      {isModalOpen && (
+        <>
+          <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+            <LoginModalDetails onClose={closeModal} type="private-route" />
+          </CommonModal>
+        </>
+      )}
     </>
   );
 };
