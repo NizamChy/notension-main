@@ -39,7 +39,8 @@ const ProductByCategory = () => {
     isError,
   } = useKidsProductsByType(typeId, catId, subCatId);
 
-  const { data: subCategories } = useSubCategoryById(catId);
+  const { data: subCategories, isLoading: isSubCategoriesLoading } =
+    useSubCategoryById(catId);
 
   let products = filteredKidsProducts || [];
 
@@ -185,6 +186,7 @@ const ProductByCategory = () => {
             subCategories={subCategories}
             brands={brands}
             typeCatSubIdSlug={typeCatSubIdSlug}
+            isSubCategoriesLoading={isSubCategoriesLoading}
           />
 
           <FilterProducts

@@ -28,6 +28,7 @@ const FiltersSidebar = ({
   brands,
   typeCatSubIdSlug,
   shopSlugId = null,
+  isSubCategoriesLoading,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [openFilter, setOpenFilter] = useState("segment");
@@ -102,6 +103,7 @@ const FiltersSidebar = ({
             brands={brands}
             typeCatSubIdSlug={typeCatSubIdSlug}
             shopSlugId={shopSlugId}
+            isSubCategoriesLoading={isSubCategoriesLoading}
           />
         </div>
       </div>
@@ -162,6 +164,7 @@ const FiltersSidebar = ({
               brands={brands}
               typeCatSubIdSlug={typeCatSubIdSlug}
               shopSlugId={shopSlugId}
+              isSubCategoriesLoading={isSubCategoriesLoading}
             />
 
             <div className="mt-5 flex justify-center">
@@ -200,6 +203,7 @@ const FilterContent = ({
   brands,
   typeCatSubIdSlug,
   shopSlugId,
+  isSubCategoriesLoading,
 }) => {
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug?.split("_") || "";
@@ -224,40 +228,44 @@ const FilterContent = ({
           setOpenFilter(openFilter === "segment" ? null : "segment")
         }
       >
-        <div className="space-y-2">
-          {subCategories?.map((subCategory) => (
-            <Link
-              key={subCategory?._id}
-              href={
-                shopSlugId === null
-                  ? `/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
-                      subCategory?.sub_category_name
-                    )}_${subCategory?._id}`
-                  : `/fashion_lifestyle/shop/${shopSlugId}/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
-                      subCategory?.sub_category_name
-                    )}_${subCategory?._id}`
-              }
-              className="flex items-center"
-            >
-              <label className="space-x-2 cursor-pointer flex items-center">
-                <input
-                  type="radio"
-                  checked={
-                    subCatId === subCategory?._id ||
-                    selectedSegments.includes(subCategory?.sub_category_name)
-                  }
-                  onChange={() =>
-                    toggleFilter("segment", subCategory?.sub_category_name)
-                  }
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm">
-                  {subCategory?.sub_category_name}
-                </span>
-              </label>
-            </Link>
-          ))}
-        </div>
+        {isSubCategoriesLoading ? (
+          <div className="text-mediumGray">Loading..</div>
+        ) : (
+          <div className="space-y-2">
+            {subCategories?.map((subCategory) => (
+              <Link
+                key={subCategory?._id}
+                href={
+                  shopSlugId === null
+                    ? `/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                        subCategory?.sub_category_name
+                      )}_${subCategory?._id}`
+                    : `/fashion_lifestyle/shop/${shopSlugId}/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                        subCategory?.sub_category_name
+                      )}_${subCategory?._id}`
+                }
+                className="flex items-center"
+              >
+                <label className="space-x-2 cursor-pointer flex items-center">
+                  <input
+                    type="radio"
+                    checked={
+                      subCatId === subCategory?._id ||
+                      selectedSegments.includes(subCategory?.sub_category_name)
+                    }
+                    onChange={() =>
+                      toggleFilter("segment", subCategory?.sub_category_name)
+                    }
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="text-sm">
+                    {subCategory?.sub_category_name}
+                  </span>
+                </label>
+              </Link>
+            ))}
+          </div>
+        )}
       </FilterSection>
 
       {/* <FilterSection

@@ -29,6 +29,8 @@ const StoreCategoryNav = () => {
         )
       : null;
 
+  if (!storeNavItems || storeNavItems?.length === 0) return null;
+
   return (
     <div className="lg:min-h-10">
       <div className="fixed z-20 bg-white w-full pt-0.5">

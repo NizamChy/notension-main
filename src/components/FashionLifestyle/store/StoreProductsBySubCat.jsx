@@ -43,7 +43,8 @@ const StoreProductsBySubCat = () => {
     subCatId
   );
 
-  const { data: subCategories } = useSubCategoryById(catId);
+  const { data: subCategories, isLoading: isSubCategoriesLoading } =
+    useSubCategoryById(catId);
 
   let products = filteredKidsProducts || [];
 
@@ -190,6 +191,7 @@ const StoreProductsBySubCat = () => {
             brands={brands}
             typeCatSubIdSlug={typeCatSubIdSlug}
             shopSlugId={params?.shopSlugId}
+            isSubCategoriesLoading={isSubCategoriesLoading}
           />
 
           <FilterProducts
