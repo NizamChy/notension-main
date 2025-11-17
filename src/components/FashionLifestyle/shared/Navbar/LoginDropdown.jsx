@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { BiLogOut } from "react-icons/bi";
-import { BsPerson } from "react-icons/bs";
+import { BsCartCheck, BsPerson } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { IoLocationOutline } from "react-icons/io5";
 
@@ -74,6 +74,18 @@ const LoginDropdown = ({
                       <IoLocationOutline className="text-blue-800" />
                     </span>
                     Update Address
+                  </Link>
+                </li>
+
+                <li className="px-3 hover:underline hover:text-blue-600">
+                  <Link
+                    href="/fashion_lifestyle/orders"
+                    className="flex items-center gap-1"
+                  >
+                    <span>
+                      <BsCartCheck className="text-primary" />
+                    </span>
+                    My Orders
                   </Link>
                 </li>
 

@@ -142,3 +142,4 @@ export const ALL_SUB_CATEGORY_BY_STORE =
   "/api/v1/sub-category/all-subcat-by-store";
 
 export const CREATE_ORDER = "/api/v1/customer-order/create";
+export const ALL_ORDER_BY_CUSTOMER = "/api/v1/customer-order/order-by-customer";
