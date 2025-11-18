@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { BiLogOut } from "react-icons/bi";
-import { BsCartCheck, BsPerson } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { IoLocationOutline } from "react-icons/io5";
+import { BsCartCheck, BsPerson } from "react-icons/bs";
 
 const LoginDropdown = ({
   userInfo,
@@ -55,7 +55,7 @@ const LoginDropdown = ({
                 </li>
                 <li className="px-3 hover:underline hover:text-blue-600">
                   <Link
-                    href="/user/profile"
+                    href="/fashion_lifestyle/user/profile"
                     className="flex items-center gap-1"
                   >
                     <span>
@@ -67,7 +67,7 @@ const LoginDropdown = ({
 
                 <li className="px-3 hover:underline hover:text-blue-600">
                   <Link
-                    href="/user/update-address"
+                    href="/fashion_lifestyle/user/update-address"
                     className="flex items-center gap-1"
                   >
                     <span>
