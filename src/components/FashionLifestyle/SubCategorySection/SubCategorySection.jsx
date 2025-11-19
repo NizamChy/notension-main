@@ -75,7 +75,7 @@ const SubCategorySection = ({
                   />
                 </div>
                 <div className="p-1 sm:p-2">
-                  <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1 text-center">
+                  <h3 className="text-sm sm:text-base lg:text-xl font-semibold text-deepGray mb-1 text-center">
                     {subCategory?.sub_category_name}
                   </h3>
                 </div>
