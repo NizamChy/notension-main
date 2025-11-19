@@ -17,7 +17,7 @@ const SubCategoryItems = ({
 
   if (isLoading)
     return (
-      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6" />
+      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-6" />
     );
   if (isError) return <div>Error loading sub categories</div>;
   if (!subCategories || subCategories?.length < 1) return null;

@@ -16,7 +16,7 @@ const TypeDetails = () => {
 
   if (isLoading)
     return (
-      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6" />
+      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-6" />
     );
 
   if (isError)
@@ -35,7 +35,7 @@ const TypeDetails = () => {
             bgColor={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
             title={cat?.category_name}
             cat={cat}
-            gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6"
+            gridClass="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-6"
           />
         </div>
       ))}

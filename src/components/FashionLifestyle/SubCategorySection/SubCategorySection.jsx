@@ -11,7 +11,7 @@ import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const SubCategorySection = ({
   bgColor = "bg-white",
-  gridClass = "grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6",
+  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-6",
 }) => {
   const params = useParams();
   const catSlugId = params.catSlugId;
@@ -22,7 +22,7 @@ const SubCategorySection = ({
 
   if (isLoading)
     return (
-      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6" />
+      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-6" />
     );
   if (isError)
     return (
