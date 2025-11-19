@@ -10,11 +10,9 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const ProductByCategory = () => {
-  const [loading, setLoading] = useState(false);
   const [selectedFits, setSelectedFits] = useState([]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [sortOption, setSortOption] = useState("featured");
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 25000]);
@@ -57,7 +55,6 @@ const ProductByCategory = () => {
     inStockOnly,
     selectedSegments,
     priceRange,
-    sortOption,
   ]);
 
   const applyFilters = () => {
@@ -116,25 +113,6 @@ const ProductByCategory = () => {
     setPriceRange([0, 25000]);
   };
 
-  const handleSortChange = (e) => {
-    setSortOption(e.target.value);
-  };
-
-  const sortProducts = (products, sortBy) => {
-    const sorted = [...products];
-
-    switch (sortBy) {
-      case "price-low":
-        return sorted.sort((a, b) => a.price - b.price);
-      case "price-high":
-        return sorted.sort((a, b) => b.price - a.price);
-      case "rating":
-        return sorted.sort((a, b) => b.rating - a.rating);
-      default:
-        return sorted;
-    }
-  };
-
   return (
     <div className="bg-gray-50 max-w-screen-2xl mx-auto">
       <Head>
@@ -191,11 +169,8 @@ const ProductByCategory = () => {
 
           <FilterProducts
             isError={isError}
-            loading={loading}
             products={products}
             isLoading={isLoading}
-            sortOption={sortOption}
-            onSortChange={handleSortChange}
             clearAllFilters={clearAllFilters}
             filteredProducts={filteredProducts}
           />

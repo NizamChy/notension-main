@@ -1,17 +1,49 @@
-import React from "react";
+"use client";
+
 import ProductCards from "./ProductCards";
+import React, { useState, useMemo } from "react";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 
 const FilterProducts = ({
   isError,
-  loading,
-  products,
+  products = [],
   isLoading,
-  sortOption,
-  onSortChange,
   clearAllFilters,
-  filteredProducts,
 }) => {
+  const [sortOption, setSortOption] = useState("featured");
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const sortedProducts = useMemo(() => {
+    if (!products) return [];
+
+    const sorted = [...products];
+
+    switch (sortOption) {
+      case "price-low":
+        return sorted.sort(
+          (a, b) =>
+            (a.sale_price || a.max_retail_price) -
+            (b.sale_price || b.max_retail_price)
+        );
+
+      case "price-high":
+        return sorted.sort(
+          (a, b) =>
+            (b.sale_price || b.max_retail_price) -
+            (a.sale_price || a.max_retail_price)
+        );
+
+      case "rating":
+        return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+
+      default:
+        return sorted;
+    }
+  }, [products, sortOption]);
+
   if (isError)
     return (
       <div className="text-red-500 text-center">Error loading products!</div>
@@ -21,16 +53,17 @@ const FilterProducts = ({
     <div className="flex-1">
       <div className="flex justify-between items-center mb-6">
         <p className="text-gray-600">
-          Showing {products?.length} of {products?.length} products
+          Showing {sortedProducts?.length} of {products?.length} products
         </p>
+
         <div>
           <label htmlFor="sort" className="mr-2 text-sm">
             Sort by:
           </label>
           <select
-            value={sortOption}
-            onChange={onSortChange}
             id="sort"
+            value={sortOption}
+            onChange={handleSortChange}
             className="border rounded p-2 text-sm"
           >
             <option value="featured">Featured</option>
@@ -47,7 +80,7 @@ const FilterProducts = ({
             <ProductCardSkeleton key={i} />
           ))}
         </div>
-      ) : products.length === 0 ? (
+      ) : sortedProducts.length === 0 ? (
         <div className="text-center py-12">
           <h3 className="text-lg font-medium mb-2">No products found</h3>
           <p className="text-gray-600">
@@ -62,7 +95,7 @@ const FilterProducts = ({
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-          {products?.map((product) => (
+          {sortedProducts.map((product) => (
             <ProductCards key={product?._id?.toString()} product={product} />
           ))}
         </div>
