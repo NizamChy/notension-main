@@ -4,11 +4,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { BsTelephone } from "react-icons/bs";
+import { LuShoppingCart } from "react-icons/lu";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import MapModal from "../shared/LocationModal/MapModal";
-import { LuShoppingCart } from "react-icons/lu";
 
 const TopRightSection = () => {
   const [openMapModal, setOpenMapModal] = useState(false);
@@ -57,9 +56,8 @@ const TopRightSection = () => {
             width={632}
             height={300}
             className="transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/fashion-lifestyle-banner.jpg"
-            // src="/images/home/all-care-services.jpg"
-            alt="home-banner-2"
+            src="/images/home/fashion-lifestyle-banner.jpeg"
+            alt="fashion-lifestyle-banner1"
           />
 
           <div className="absolute top-16 left-3 md:top-10 md:left-4">
