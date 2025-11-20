@@ -1,8 +1,8 @@
 import {
+  BsTwitter,
+  BsLinkedin,
   BsFacebook,
   BsInstagram,
-  BsLinkedin,
-  BsTwitter,
   BsTelephonePlusFill,
 } from "react-icons/bs";
 import React from "react";
@@ -100,7 +100,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="https://notension-fashion-and-lifestyle.netlify.app"
+                href="/fashion_lifestyle"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
               >
                 <FiChevronRight className="mr-2" />
