@@ -28,6 +28,31 @@ const MiddleSection = () => {
   const handleOpenMapModal = () => setOpenMapModal(true);
   const handleCloseMapModal = () => setOpenMapModal(false);
 
+  // const handleSectionClick = (e, type) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+
+  //   setRouteType(type);
+
+  //   const isMobileDevice = window.innerWidth < 768;
+
+  //   if (!currentUserLocation?.districtId) {
+  //     if (isMobileDevice) {
+  //       router.push("/get-mobile-location");
+  //     } else {
+  //       handleOpenMapModal();
+  //     }
+  //     return;
+  //   }
+
+  //   // if (!userInfo?._id) {
+  //   //   return openModal();
+  //   // }
+
+  //   if (type === "medicalService") {
+  //     router.push("/medical-services/medical-service");
+  //   }
+  // };
   const handleSectionClick = (e, type) => {
     e.preventDefault();
     e.stopPropagation();
@@ -51,6 +76,8 @@ const MiddleSection = () => {
 
     if (type === "medicalService") {
       router.push("/medical-services/medical-service");
+    } else if (type === "allCareServices") {
+      router.push("/all-care-services");
     }
   };
 
@@ -85,7 +112,37 @@ const MiddleSection = () => {
           </div>
         </div>
 
-        <HomeSlider />
+        {/* <HomeSlider /> */}
+
+        <div className="space-y-4 flex flex-col-reverse lg:flex-col">
+          <div
+            onClick={(e) => handleSectionClick(e, "allCareServices")}
+            className="group overflow-hidden relative mt-4 lg:mt-0 cursor-pointer"
+          >
+            <Image
+              width={632}
+              height={300}
+              className="transition-transform duration-300 group-hover:scale-105"
+              src="/images/home/all-care-services.jpg"
+              alt="home-banner-2"
+            />
+
+            <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
+              <h3
+                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+            "
+              >
+                All Care Services
+              </h3>
+              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+                <span>
+                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
+                </span>
+                <span>Contact Now</span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {isModalOpen && routeType && (

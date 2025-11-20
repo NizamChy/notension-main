@@ -64,7 +64,7 @@ const SecondSection = () => {
 
   return (
     <>
-      <Link href="/fashion_lifestyle">
+      {/* <Link href="/fashion_lifestyle">
         <Image
           width={1280}
           height={300}
@@ -72,7 +72,7 @@ const SecondSection = () => {
           className="pt-4"
           alt="fashion and life style"
         />
-      </Link>
+      </Link> */}
 
       <div className="lg:flex gap-4 space-y-4">
         <div className="flex justify-center lg:gap-4 mt-4">
