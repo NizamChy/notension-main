@@ -45,7 +45,7 @@ const NavRow = ({
             navItem?.categories?.length > 0 && (
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[1000px] xl:w-[1200px] bg-white shadow-lg z-50 border rounded-b-lg">
                 <div className="p-6 grid grid-cols-5 gap-6">
-                  <div className="col-span-1">
+                  <div className="col-span-1 max-h-[50vh] overflow-y-auto">
                     <h3 className="font-bold text-lg text-blue-900">
                       Search By Brands
                     </h3>
