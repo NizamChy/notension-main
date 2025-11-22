@@ -16,6 +16,7 @@ import { KIDS_TYPE_ID, MEN_TYPE_ID, WOMEN_TYPE_ID } from "../../utils/constant";
 
 const fetchData = async (endpoint) => {
   const response = await axios.get(`${FASHION_BASE_URL}${endpoint}`);
+
   return response?.data?.data;
 };
 
@@ -25,6 +26,17 @@ const fetchKidsProductsByType = async (typeId, catId, subCatId) => {
     {
       category_info: catId,
       sub_category_info: subCatId,
+    }
+  );
+
+  return response?.data?.data;
+};
+
+const fetchKidsProductsByCatId = async (typeId, catId) => {
+  const response = await axios.put(
+    `${FASHION_BASE_URL}${KIDS_PRODUCT_BY_TYPE}/${typeId}`,
+    {
+      category_info: catId,
     }
   );
 
@@ -141,6 +153,14 @@ export const useCategoryItem = () => {
     });
   };
 
+  const useKidsProductsByCatId = (typeId, catId = null) => {
+    return useQuery({
+      queryKey: ["kidsProductsByCatId", typeId, catId],
+      queryFn: () => fetchKidsProductsByCatId(typeId, catId),
+      enabled: !!typeId,
+    });
+  };
+
   const useAllProducts = () => {
     return useQuery({
       queryKey: ["allProducts"],
@@ -217,6 +237,7 @@ export const useCategoryItem = () => {
     useKidsProductById,
     useAllPopularProducts,
     useKidsProductsByType,
+    useKidsProductsByCatId,
     usePopularProductsByType,
   };
 };

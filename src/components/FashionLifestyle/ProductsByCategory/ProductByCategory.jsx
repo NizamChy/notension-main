@@ -18,50 +18,72 @@ const ProductByCategory = () => {
   const [priceRange, setPriceRange] = useState([0, 25000]);
   const [selectedFabrics, setSelectedFabrics] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedSegments, setSelectedSegments] = useState([]);
   const [selectedEmbelishments, setSelectedEmbelishments] = useState([]);
   const [selectedSleeveLengths, setSelectedSleeveLengths] = useState([]);
 
   const params = useParams();
   const typeCatSubIdSlug = params?.category;
-
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
 
-  const { useKidsProductsByType, useSubCategoryById, brands } =
-    useCategoryItem();
+  const [selectedSegments, setSelectedSegments] = useState([subCatId]);
 
   const {
-    data: filteredKidsProducts,
+    brands,
+    useSubCategoryById,
+    useKidsProductsByType,
+    useKidsProductsByCatId,
+  } = useCategoryItem();
+
+  // const {
+  //   data: filteredKidsProducts,
+  //   isLoading,
+  //   isError,
+  // } = useKidsProductsByType(typeId, catId, subCatId);
+
+  const {
+    data: kidsProductsByCatId,
     isLoading,
     isError,
-  } = useKidsProductsByType(typeId, catId, subCatId);
+  } = useKidsProductsByCatId(typeId, catId);
 
   const { data: subCategories, isLoading: isSubCategoriesLoading } =
     useSubCategoryById(catId);
 
-  let products = filteredKidsProducts || [];
+  // let products = filteredKidsProducts || [];
 
   useEffect(() => {
-    applyFilters();
-  }, [
-    selectedSizes,
-    selectedColors,
-    selectedBrands,
-    selectedFits,
-    selectedFabrics,
-    selectedEmbelishments,
-    selectedSleeveLengths,
-    inStockOnly,
-    selectedSegments,
-    priceRange,
-  ]);
+    if (!kidsProductsByCatId) return;
 
-  const applyFilters = () => {
-    let filtered = [...products];
+    const filtered = selectedSegments.length
+      ? kidsProductsByCatId.filter((item) =>
+          selectedSegments.includes(item?.sub_category_info?._id)
+        )
+      : kidsProductsByCatId;
 
     setFilteredProducts(filtered);
-  };
+  }, [selectedSegments, kidsProductsByCatId]);
+
+  // useEffect(() => {
+  //   applyFilters();
+  // }, [
+  //   selectedSizes,
+  //   selectedColors,
+  //   selectedBrands,
+  //   selectedFits,
+  //   selectedFabrics,
+  //   selectedEmbelishments,
+  //   selectedSleeveLengths,
+  //   inStockOnly,
+  //   selectedSegments,
+  //   priceRange,
+  // ]);
+
+  // const applyFilters = () => {
+  //   let filtered = [...products];
+
+  //   setFilteredProducts(filtered);
+  // };
 
   const toggleFilter = (filterType, value) => {
     const setters = {
@@ -109,7 +131,8 @@ const ProductByCategory = () => {
     setSelectedEmbelishments([]);
     setSelectedSleeveLengths([]);
     setInStockOnly(false);
-    setSelectedSegments([]);
+    setSelectedSegments([subCatId]);
+    // setSelectedSegments([]);
     setPriceRange([0, 25000]);
   };
 
@@ -169,10 +192,11 @@ const ProductByCategory = () => {
 
           <FilterProducts
             isError={isError}
-            products={products}
             isLoading={isLoading}
+            products={filteredProducts}
             clearAllFilters={clearAllFilters}
-            filteredProducts={filteredProducts}
+            // products={products}
+            // filteredProducts={filteredProducts}
           />
         </div>
       </main>

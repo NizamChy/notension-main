@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { slugify } from "../utils/slugify";
+// import Link from "next/link";
+// import { slugify } from "../utils/slugify";
 import { useState, useEffect } from "react";
 import FilterSection from "./FilterSection";
 import FilterCheckbox from "./FilterCheckbox";
@@ -221,7 +221,8 @@ const FilterContent = ({
         </button>
       </div>
 
-      <FilterSection
+      {/* this  subCategories should not be a single link, it can select by multiple and multiple sub categories product shoud be shown by calling the useKidsProductsByType hook*/}
+      {/* <FilterSection
         title="Category"
         isOpen={openFilter === "segment"}
         onClick={() =>
@@ -263,6 +264,44 @@ const FilterContent = ({
                   </span>
                 </label>
               </Link>
+            ))}
+          </div>
+        )}
+      </FilterSection> */}
+
+      {/* MULTI SELECT SUB-CATEGORY FILTER */}
+      <FilterSection
+        title="Category"
+        isOpen={openFilter === "segment"}
+        onClick={() =>
+          setOpenFilter(openFilter === "segment" ? null : "segment")
+        }
+      >
+        {isSubCategoriesLoading ? (
+          <div className="text-mediumGray">Loading...</div>
+        ) : (
+          <div className="space-y-2">
+            {subCategories?.map((subCategory) => (
+              <div
+                key={subCategory?._id}
+                className="flex items-center cursor-pointer"
+              >
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={
+                      selectedSegments.includes(subCategory?._id) ||
+                      subCategory?._id === subCatId
+                    }
+                    onChange={() => toggleFilter("segment", subCategory?._id)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+
+                  <span className="text-sm">
+                    {subCategory?.sub_category_name}
+                  </span>
+                </label>
+              </div>
             ))}
           </div>
         )}
@@ -378,7 +417,7 @@ const FilterContent = ({
         </div>
       </FilterSection>
 
-      <FilterSection
+      {/* <FilterSection
         title="Fit"
         isOpen={openFilter === "fit"}
         onClick={() => setOpenFilter(openFilter === "fit" ? null : "fit")}
@@ -462,7 +501,7 @@ const FilterContent = ({
             onChange={() => setInStockOnly(!inStockOnly)}
           />
         </div>
-      </FilterSection>
+      </FilterSection> */}
 
       <PriceRangeSlider
         priceRange={priceRange}
