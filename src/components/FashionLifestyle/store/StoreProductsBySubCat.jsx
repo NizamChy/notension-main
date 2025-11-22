@@ -11,18 +11,14 @@ import FilterProducts from "../ProductsByCategory/FilterProducts";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const StoreProductsBySubCat = () => {
-  const [loading, setLoading] = useState(false);
   const [selectedFits, setSelectedFits] = useState([]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [sortOption, setSortOption] = useState("featured");
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 5000]);
-  // const [priceRange, setPriceRange] = useState([0, 25000]);
   const [selectedFabrics, setSelectedFabrics] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  // const [selectedSegments, setSelectedSegments] = useState([]);
   const [selectedEmbelishments, setSelectedEmbelishments] = useState([]);
   const [selectedSleeveLengths, setSelectedSleeveLengths] = useState([]);
 
@@ -53,9 +49,7 @@ const StoreProductsBySubCat = () => {
   const { data: subCategories, isLoading: isSubCategoriesLoading } =
     useSubCategoryById(catId);
 
-  let products = filteredKidsProducts || [];
-
-  console.log("filteredKidsProducts : ", filteredKidsProducts);
+  // let products = filteredKidsProducts || [];
 
   useEffect(() => {
     if (!filteredKidsProducts) return;
@@ -68,28 +62,6 @@ const StoreProductsBySubCat = () => {
 
     setFilteredProducts(filtered);
   }, [selectedSegments, filteredKidsProducts]);
-
-  // useEffect(() => {
-  //   applyFilters();
-  // }, [
-  //   selectedSizes,
-  //   selectedColors,
-  //   selectedBrands,
-  //   selectedFits,
-  //   selectedFabrics,
-  //   selectedEmbelishments,
-  //   selectedSleeveLengths,
-  //   inStockOnly,
-  //   selectedSegments,
-  //   priceRange,
-  //   sortOption,
-  // ]);
-
-  // const applyFilters = () => {
-  //   let filtered = [...products];
-
-  //   setFilteredProducts(filtered);
-  // };
 
   const toggleFilter = (filterType, value) => {
     const setters = {
@@ -129,37 +101,16 @@ const StoreProductsBySubCat = () => {
   };
 
   const clearAllFilters = () => {
+    setSelectedFits([]);
     setSelectedSizes([]);
     setSelectedColors([]);
     setSelectedBrands([]);
-    setSelectedFits([]);
-    setSelectedFabrics([]);
-    setSelectedEmbelishments([]);
-    setSelectedSleeveLengths([]);
     setInStockOnly(false);
-    setSelectedSegments([subCatId]);
-    // setSelectedSegments([]);
+    setSelectedFabrics([]);
     setPriceRange([0, 5000]);
-    // setPriceRange([0, 25000]);
-  };
-
-  const handleSortChange = (e) => {
-    setSortOption(e.target.value);
-  };
-
-  const sortProducts = (products, sortBy) => {
-    const sorted = [...products];
-
-    switch (sortBy) {
-      case "price-low":
-        return sorted.sort((a, b) => a.price - b.price);
-      case "price-high":
-        return sorted.sort((a, b) => b.price - a.price);
-      case "rating":
-        return sorted.sort((a, b) => b.rating - a.rating);
-      default:
-        return sorted;
-    }
+    setSelectedSleeveLengths([]);
+    setSelectedEmbelishments([]);
+    setSelectedSegments([subCatId]);
   };
 
   return (
@@ -225,16 +176,6 @@ const StoreProductsBySubCat = () => {
             // products={products}
             // filteredProducts={filteredProducts}
           />
-
-          {/* <FilterProducts
-            loading={loading}
-            products={products}
-            isLoading={isLoading}
-            sortOption={sortOption}
-            onSortChange={handleSortChange}
-            clearAllFilters={clearAllFilters}
-            filteredProducts={filteredProducts}
-          /> */}
         </div>
       </main>
     </div>
