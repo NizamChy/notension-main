@@ -66,7 +66,7 @@ const NavRow = ({
                                 );
                               setItemsByBrand(filterByBrand);
                             }}
-                            className="text-base text-primary hover:text-blue-500 transition-all duration-300 capitalize hover:underline focus:text-blue-500"
+                            className="text-sm text-primary hover:text-blue-500 transition-all duration-300 capitalize hover:underline focus:text-blue-500"
                           >
                             {brand?.brand_name}
                           </button>
