@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { LuShoppingCart } from "react-icons/lu";
+import { LuCalendarDays, LuShoppingCart } from "react-icons/lu";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import MapModal from "../shared/LocationModal/MapModal";
@@ -42,12 +42,42 @@ const TopRightSection = () => {
       router.push("/food");
     } else if (type === "fashionLifestyle") {
       router.push("/fashion_lifestyle");
+    } else if (type === "doctor") {
+      router.push("/medical-services/doctor");
     }
   };
 
   return (
     <>
       <div className="space-y-4 flex flex-col-reverse lg:flex-col">
+        <div
+          onClick={(e) => handleStoreClick(e, "doctor")}
+          className="lg:hidden block group overflow-hidden relative cursor-pointer mt-4"
+        >
+          <Image
+            width={632}
+            height={300}
+            className="transition-transform duration-300 group-hover:scale-105"
+            src="/images/home/home-banner-3.webp"
+            alt="home-banner-3"
+          />
+
+          <div className="absolute bottom-5 left-3 md:bottom-10 md:left-8">
+            <h3
+              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+                    "
+            >
+              Find Doctors
+            </h3>
+            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+              <span>
+                <LuCalendarDays className="text-sm md:text-lg text-mediumGray" />
+              </span>
+              <span>Book Appointment</span>
+            </p>
+          </div>
+        </div>
+
         <div
           onClick={(e) => handleStoreClick(e, "fashionLifestyle")}
           className="group overflow-hidden relative mt-4 lg:mt-0 cursor-pointer"

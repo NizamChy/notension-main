@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import HomeSlider from "./HomeSlider";
+// import HomeSlider from "./HomeSlider";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -117,7 +117,7 @@ const MiddleSection = () => {
         <div className="space-y-4 flex flex-col-reverse lg:flex-col">
           <div
             onClick={(e) => handleSectionClick(e, "allCareServices")}
-            className="group overflow-hidden relative mt-4 lg:mt-0 cursor-pointer"
+            className="group overflow-hidden relative lg:mt-0 cursor-pointer"
           >
             <Image
               width={632}

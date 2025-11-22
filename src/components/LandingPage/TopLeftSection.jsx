@@ -75,7 +75,7 @@ const TopLeftSection = () => {
       <div className="space-y-4">
         <div
           onClick={(e) => handleStoreClick(e, "grocery")}
-          className="group overflow-hidden relative cursor-pointer"
+          className="group overflow-hidden relative cursor-pointer mt-4"
         >
           <Image
             width={632}
@@ -103,7 +103,7 @@ const TopLeftSection = () => {
 
         <div
           onClick={(e) => handleSectionClick(e, "doctor")}
-          className="group overflow-hidden relative cursor-pointer"
+          className="hidden lg:block group overflow-hidden relative cursor-pointer"
         >
           <Image
             width={632}
