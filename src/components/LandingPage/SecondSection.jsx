@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -64,16 +64,6 @@ const SecondSection = () => {
 
   return (
     <>
-      {/* <Link href="/fashion_lifestyle">
-        <Image
-          width={1280}
-          height={300}
-          src="/images/home/fashion-lifestyle.jpeg"
-          className="pt-4"
-          alt="fashion and life style"
-        />
-      </Link> */}
-
       <div className="lg:flex gap-4 space-y-4">
         <div className="flex justify-center lg:gap-4 mt-4">
           <div

@@ -90,7 +90,7 @@ const TopRightSection = () => {
             alt="fashion-lifestyle-banner1"
           />
 
-          <div className="absolute top-16 left-3 md:top-10 md:left-4">
+          <div className="absolute top-6 left-3 md:top-10 md:left-4">
             <h3
               className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
             "
