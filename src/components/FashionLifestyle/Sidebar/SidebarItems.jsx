@@ -5,44 +5,45 @@ import React, { useState } from "react";
 import { slugify } from "../utils/slugify";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsChevronDown, BsPerson } from "react-icons/bs";
-import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
+import navItems from "../../../../public/data/navItems.json";
+// import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const SidebarItems = ({ onClose }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeCatMenu, setActiveCatMenu] = useState(null);
 
-  const { navItems, isLoading } = useCategoryItem();
+  // const { navItems, isLoading } = useCategoryItem();
 
-  if (isLoading) {
-    return (
-      <div className="bg-white h-[90vh] flex justify-center items-center animate-pulse">
-        <div className="flex flex-col gap-5 justify-center items-center border-b h-10 animate-pulse">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="min-h-8 border w-56 bg-gray-100 animate-pulse"
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="bg-white h-[90vh] flex justify-center items-center animate-pulse">
+  //       <div className="flex flex-col gap-5 justify-center items-center border-b h-10 animate-pulse">
+  //         {[...Array(6)].map((_, i) => (
+  //           <div
+  //             key={i}
+  //             className="min-h-8 border w-56 bg-gray-100 animate-pulse"
+  //           />
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (!navItems) {
-    return (
-      <div className="bg-white w-full h-[90vh] flex justify-center items-center">
-        <div className="relative hidden lg:flex justify-center items-center border-b h-12">
-          <p className="text-red-600">Something went wrong!</p>
-        </div>
-      </div>
-    );
-  }
+  // if (!navItems) {
+  //   return (
+  //     <div className="bg-white w-full h-[90vh] flex justify-center items-center">
+  //       <div className="relative hidden lg:flex justify-center items-center border-b h-12">
+  //         <p className="text-red-600">Something went wrong!</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-white max-h-[90vh] overflow-y-auto">
       <div className="p-4 border-b">
         <ul className="space-y-4">
-          {navItems?.map((navItem) => (
+          {navItems?.slice(0, 7)?.map((navItem) => (
             <li key={navItem?.type_name}>
               <button
                 className="flex items-center text-start justify-between w-full font-medium hover:text-blue-600 transition-colors duration-200"
