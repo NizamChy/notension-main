@@ -15,7 +15,8 @@ const ProductByCategory = () => {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 25000]);
+  const [priceRange, setPriceRange] = useState([0, 5000]);
+  // const [priceRange, setPriceRange] = useState([0, 25000]);
   const [selectedFabrics, setSelectedFabrics] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedEmbelishments, setSelectedEmbelishments] = useState([]);
@@ -63,6 +64,22 @@ const ProductByCategory = () => {
 
     setFilteredProducts(filtered);
   }, [selectedSegments, kidsProductsByCatId]);
+
+  console.log("filteredProducts : ", filteredProducts);
+
+  // useEffect(() => {
+  //   if (!kidsProductsByCatId) return;
+
+  //   const filtered = filteredProducts.filter(
+  //     (product) =>
+  //       product.sale_price >= priceRange[0] &&
+  //       product.sale_price <= priceRange[1]
+  //   );
+
+  //   setFilteredProducts(filtered);
+  // }, [priceRange]);
+
+  // console.log(priceRange);
 
   // useEffect(() => {
   //   applyFilters();
@@ -133,7 +150,8 @@ const ProductByCategory = () => {
     setInStockOnly(false);
     setSelectedSegments([subCatId]);
     // setSelectedSegments([]);
-    setPriceRange([0, 25000]);
+    setPriceRange([0, 5000]);
+    // setPriceRange([0, 25000]);
   };
 
   return (
