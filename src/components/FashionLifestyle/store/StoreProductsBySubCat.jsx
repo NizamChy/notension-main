@@ -18,10 +18,11 @@ const StoreProductsBySubCat = () => {
   const [sortOption, setSortOption] = useState("featured");
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 25000]);
+  const [priceRange, setPriceRange] = useState([0, 5000]);
+  // const [priceRange, setPriceRange] = useState([0, 25000]);
   const [selectedFabrics, setSelectedFabrics] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedSegments, setSelectedSegments] = useState([]);
+  // const [selectedSegments, setSelectedSegments] = useState([]);
   const [selectedEmbelishments, setSelectedEmbelishments] = useState([]);
   const [selectedSleeveLengths, setSelectedSleeveLengths] = useState([]);
 
@@ -33,14 +34,20 @@ const StoreProductsBySubCat = () => {
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
 
+  const [selectedSegments, setSelectedSegments] = useState([subCatId]);
+
   const { useProductsByStoreSubCatId } = useStoreItems();
   const { useSubCategoryById, brands } = useCategoryItem();
 
-  const { data: filteredKidsProducts, isLoading } = useProductsByStoreSubCatId(
+  const {
+    data: filteredKidsProducts,
+    isLoading,
+    isError,
+  } = useProductsByStoreSubCatId(
     shopId,
     typeId,
-    catId,
-    subCatId
+    catId
+    // subCatId
   );
 
   const { data: subCategories, isLoading: isSubCategoriesLoading } =
@@ -48,27 +55,41 @@ const StoreProductsBySubCat = () => {
 
   let products = filteredKidsProducts || [];
 
-  useEffect(() => {
-    applyFilters();
-  }, [
-    selectedSizes,
-    selectedColors,
-    selectedBrands,
-    selectedFits,
-    selectedFabrics,
-    selectedEmbelishments,
-    selectedSleeveLengths,
-    inStockOnly,
-    selectedSegments,
-    priceRange,
-    sortOption,
-  ]);
+  console.log("filteredKidsProducts : ", filteredKidsProducts);
 
-  const applyFilters = () => {
-    let filtered = [...products];
+  useEffect(() => {
+    if (!filteredKidsProducts) return;
+
+    const filtered = selectedSegments.length
+      ? filteredKidsProducts.filter((item) =>
+          selectedSegments.includes(item?.sub_category_info?._id)
+        )
+      : filteredKidsProducts;
 
     setFilteredProducts(filtered);
-  };
+  }, [selectedSegments, filteredKidsProducts]);
+
+  // useEffect(() => {
+  //   applyFilters();
+  // }, [
+  //   selectedSizes,
+  //   selectedColors,
+  //   selectedBrands,
+  //   selectedFits,
+  //   selectedFabrics,
+  //   selectedEmbelishments,
+  //   selectedSleeveLengths,
+  //   inStockOnly,
+  //   selectedSegments,
+  //   priceRange,
+  //   sortOption,
+  // ]);
+
+  // const applyFilters = () => {
+  //   let filtered = [...products];
+
+  //   setFilteredProducts(filtered);
+  // };
 
   const toggleFilter = (filterType, value) => {
     const setters = {
@@ -116,8 +137,10 @@ const StoreProductsBySubCat = () => {
     setSelectedEmbelishments([]);
     setSelectedSleeveLengths([]);
     setInStockOnly(false);
-    setSelectedSegments([]);
-    setPriceRange([0, 25000]);
+    setSelectedSegments([subCatId]);
+    // setSelectedSegments([]);
+    setPriceRange([0, 5000]);
+    // setPriceRange([0, 25000]);
   };
 
   const handleSortChange = (e) => {
@@ -195,6 +218,15 @@ const StoreProductsBySubCat = () => {
           />
 
           <FilterProducts
+            isError={isError}
+            isLoading={isLoading}
+            products={filteredProducts}
+            clearAllFilters={clearAllFilters}
+            // products={products}
+            // filteredProducts={filteredProducts}
+          />
+
+          {/* <FilterProducts
             loading={loading}
             products={products}
             isLoading={isLoading}
@@ -202,7 +234,7 @@ const StoreProductsBySubCat = () => {
             onSortChange={handleSortChange}
             clearAllFilters={clearAllFilters}
             filteredProducts={filteredProducts}
-          />
+          /> */}
         </div>
       </main>
     </div>

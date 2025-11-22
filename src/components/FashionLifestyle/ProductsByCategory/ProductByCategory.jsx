@@ -65,7 +65,7 @@ const ProductByCategory = () => {
     setFilteredProducts(filtered);
   }, [selectedSegments, kidsProductsByCatId]);
 
-  console.log("filteredProducts : ", filteredProducts);
+  // console.log("filteredProducts : ", filteredProducts);
 
   // useEffect(() => {
   //   if (!kidsProductsByCatId) return;
