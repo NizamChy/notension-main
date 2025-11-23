@@ -124,14 +124,25 @@ const SidebarItems = ({ onClose }) => {
       </div>
       <div className="p-4">
         <div className="flex flex-col space-y-4">
-          <button className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200">
-            <BsPerson className="text-lg" />
-            <span>Account</span>
-          </button>
-          <button className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200">
-            <IoMdHeartEmpty className="text-lg" />
-            <span>Wishlist</span>
-          </button>
+          <Link href="/fashion_lifestyle/user/profile">
+            <button
+              onClick={() => onClose()}
+              className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
+            >
+              <BsPerson className="text-lg" />
+              <span>Account</span>
+            </button>
+          </Link>
+
+          <Link href="/fashion_lifestyle/wishlist">
+            <button
+              onClick={() => onClose()}
+              className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
+            >
+              <IoMdHeartEmpty className="text-lg" />
+              <span>Wishlist</span>
+            </button>
+          </Link>
         </div>
       </div>
     </div>
