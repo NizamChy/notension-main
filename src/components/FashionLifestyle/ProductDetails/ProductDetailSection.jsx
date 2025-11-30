@@ -6,8 +6,8 @@ import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import ProductInfo from "./ProductInfo";
+import { FiHeart } from "react-icons/fi";
 import ImageGallery from "./ImageGallery";
-import { useSelector } from "react-redux";
 import { slugify } from "../utils/slugify";
 import ProductDetails from "./ProductDetails";
 import { usePathname } from "next/navigation";
@@ -15,7 +15,9 @@ import { MdLocationOn } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "../shared/Cart/CartDrawer";
+import { useDispatch, useSelector } from "react-redux";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const ProductDetailSection = () => {
   const [quantity, setQuantity] = useState(1);
@@ -26,17 +28,16 @@ const ProductDetailSection = () => {
   const pathname = usePathname();
   const { addToCart } = useCart();
 
-  // const params = useParams();
-  // const { useProductById } = useCategoryItem();
-  // const productSlugId = params?.slugId;
-  // const [slug, productId] = productSlugId?.split("_");
-  // const { data: productInfo, isLoading } = useProductById(productId);
-  // const product = productInfo;
+  const dispatch = useDispatch();
 
   const { currentProductDetails } = useSelector((state) => state.product);
   const product = currentProductDetails;
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
+
+  const favouriteFashionItems = useSelector(
+    (state) => state.userChoice.favouriteFashionItems
+  );
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -108,6 +109,61 @@ const ProductDetailSection = () => {
     toggleCart();
   };
 
+  const toggleWishlist = (e, productId, product) => {
+    e.preventDefault();
+
+    if (favouriteFashionItems?.find((product) => product?._id === productId)) {
+      removeFromReducer({
+        merchantType: 3,
+        productId: productId,
+      });
+    } else {
+      addToReducer({
+        merchantType: 3,
+        itemInfo: [product],
+      });
+    }
+  };
+
+  const addToReducer = (itemInfo) => {
+    dispatch(
+      handleUserChoiceReducer({
+        type: "ADD_TO_FAVOURITE_FASHION_ITEMS",
+        data: itemInfo,
+      })
+    );
+    toast.dismiss();
+    toast.success("💖 পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
+  };
+
+  const removeFromReducer = (Info) => {
+    dispatch(
+      handleUserChoiceReducer({
+        type: "REMOVE_FROM_FAVOURITE_FASHION_ITEMS",
+        data: Info,
+      })
+    );
+    toast.dismiss();
+    toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
+      style: {
+        border: "1px solid #FC8F1E",
+      },
+      icon: "🗑️",
+      iconTheme: {
+        primary: "#FC8F1E",
+        secondary: "#FFFAEE",
+      },
+    });
+  };
+
   return (
     <>
       <Head>
@@ -174,21 +230,51 @@ const ProductDetailSection = () => {
 
             <div className="my-3">
               <h3 className="text-lg font-semibold mb-2">Quantity</h3>
-              <div className="flex items-center">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center">
+                  <button
+                    onClick={() => handleQuantityChange("decrease")}
+                    className="px-3 py-1 border border-gray-300 rounded-l-md hover:bg-gray-100"
+                  >
+                    -
+                  </button>
+                  <span className="px-4 py-1 border-t border-b border-gray-300">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => handleQuantityChange("increase")}
+                    className="px-3 py-1 border border-gray-300 rounded-r-md hover:bg-gray-100"
+                  >
+                    +
+                  </button>
+                </div>
+
                 <button
-                  onClick={() => handleQuantityChange("decrease")}
-                  className="px-3 py-1 border border-gray-300 rounded-l-md hover:bg-gray-100"
+                  onClick={(e) => toggleWishlist(e, product?._id, product)}
+                  className={`p-2 rounded-lg flex justify-center items-center gap-1 px-3 py-1 border border-gray-300 hover:bg-gray-100 ${
+                    favouriteFashionItems?.find(
+                      (item) => item?._id === product?._id
+                    )
+                      ? "text-red-500 bg-white/90"
+                      : "text-gray-400 bg-white/70 hover:text-red-500"
+                  }`}
                 >
-                  -
-                </button>
-                <span className="px-4 py-1 border-t border-b border-gray-300">
-                  {quantity}
-                </span>
-                <button
-                  onClick={() => handleQuantityChange("increase")}
-                  className="px-3 py-1 border border-gray-300 rounded-r-md hover:bg-gray-100"
-                >
-                  +
+                  <FiHeart
+                    className={`text-lg ${
+                      favouriteFashionItems?.find(
+                        (item) => item?._id === product?._id
+                      )
+                        ? "fill-current"
+                        : ""
+                    }`}
+                  />
+                  <span className="text-deepGray text-xs sm:text-sm md:text-base">
+                    {favouriteFashionItems?.find(
+                      (item) => item?._id === product?._id
+                    )
+                      ? "Added to Wishlist"
+                      : "Add to Wishlist"}
+                  </span>
                 </button>
               </div>
             </div>

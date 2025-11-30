@@ -16,8 +16,8 @@ const initialState = {
   favouriteMedicineStore: [],
   favouriteMedicineItems: [],
   favouriteConsultationCentre: [],
-
   currentItemDetails: {},
+  favouriteFashionItems: [],
 };
 
 const userChoiceSlice = createSlice({
@@ -142,6 +142,23 @@ const userChoiceSlice = createSlice({
               (info) => info?.productId !== productId
             );
           }
+          break;
+        }
+
+        case "ADD_TO_FAVOURITE_FASHION_ITEMS": {
+          const { itemInfo } = data;
+          state.favouriteFashionItems = [
+            ...state.favouriteFashionItems,
+            ...itemInfo,
+          ];
+          break;
+        }
+
+        case "REMOVE_FROM_FAVOURITE_FASHION_ITEMS": {
+          const { productId } = data;
+          state.favouriteFashionItems = state.favouriteFashionItems.filter(
+            (info) => info?._id !== productId
+          );
           break;
         }
 
