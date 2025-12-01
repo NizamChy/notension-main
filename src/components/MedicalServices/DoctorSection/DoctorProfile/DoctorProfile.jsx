@@ -1,15 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { IoCall } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { FaCalendarAlt, FaHeart } from "react-icons/fa";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
-import { useRouter } from "next/navigation";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
@@ -73,7 +72,7 @@ const DoctorProfile = () => {
                 />
               </div>
               <div className="md:w-2/3">
-                <h3 className="mt-3 text-lg lg:text-xl xl:text-2xl font-semibold text-[#A93356]">
+                <h3 className="mt-3 text-lg lg:text-2xl xl:text-3xl font-semibold text-[#A93356]">
                   {currentDoctor?.doctorInfo?.doctor_name}
                 </h3>
 
@@ -91,14 +90,14 @@ const DoctorProfile = () => {
                 <p className="text-primary font-bold text-lg md:text-xl">
                   পরামর্শ কেন্দ্র:
                 </p>
-                <p className="py-1 md:text-lg font-semibold text-primary">
+                <p className="py-1 text-lg md:text-xl lg:text-2xl font-semibold text-green-600">
                   {currentDoctor?.consultationCenterInfo?.center_name}
                 </p>
                 <p className="flex items-start gap-2 pt-1">
                   <span>
                     <FaLocationDot className="mt-1 text-primary" />
                   </span>
-                  <span className="text-sm md:text-base font-medium pe-5">
+                  <span className="text-sm md:text-base lg:text-lg font-medium pe-5">
                     {currentDoctor?.consultationCenterInfo?.address}
                   </span>
                 </p>
@@ -116,12 +115,14 @@ const DoctorProfile = () => {
                     timeSlot && (
                       <p
                         key={index}
-                        className="flex items-start font-medium gap-2 text-[#A93356]"
+                        className="flex items-start font-medium gap-2 text-[#A93356] pe-3"
                       >
                         <span>
                           <MdAccessTimeFilled className="mt-1 text-primary" />
                         </span>
-                        <span className="text-sm md:text-base">{timeSlot}</span>
+                        <span className="text-sm md:text-base lg:text-lg">
+                          {timeSlot}
+                        </span>
                       </p>
                     )
                   );
@@ -129,7 +130,6 @@ const DoctorProfile = () => {
 
                 {currentDoctor?.book_an_appointment &&
                   !currentDoctor?.is_chamber_off && (
-                    // <Link href="/medical-services/doctor/book-appointment">
                     <button
                       onClick={handleBookAppointment}
                       className="mt-4 p-3 px-4 rounded-lg bg-primary text-white flex items-center justify-center gap-2"
@@ -139,7 +139,6 @@ const DoctorProfile = () => {
                       </span>
                       <span>Book an appointment</span>
                     </button>
-                    // </Link>
                   )}
 
                 {currentDoctor?.consultationCenterInfo
@@ -158,7 +157,7 @@ const DoctorProfile = () => {
                     contact && (
                       <p
                         key={index}
-                        className="flex items-center gap-2 font-medium"
+                        className="flex items-center gap-2 font-medium lg:text-lg"
                       >
                         <span>
                           <IoCall className="text-primary" />
