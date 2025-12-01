@@ -55,7 +55,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
         <div className="max-w-7xl mx-auto">
           <Title title={title} />
           <div className="text-center text-red-500 py-10">
-            Failed to load mens products
+            Failed to load {title} products
           </div>
         </div>
       </section>
