@@ -33,9 +33,9 @@ const ProductInfo = ({ product }) => {
           </p>
         </div>
         <div className="flex gap-2">
-          <button className="p-2 rounded-full hover:bg-gray-100">
+          {/* <button className="p-2 rounded-full hover:bg-gray-100">
             <FiHeart className="text-gray-600" />
-          </button>
+          </button> */}
           <button className="p-2 rounded-full hover:bg-gray-100">
             <FiShare2 className="text-gray-600" />
           </button>
