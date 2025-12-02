@@ -54,6 +54,7 @@ const ProductDetailSection = () => {
   const handleAddToCart = () => {
     if (
       product?.colors !== "null" &&
+      product?.colors !== "" &&
       product?.colors !== "undefined" &&
       product?.colors?.length > 0 &&
       !selectedColor
@@ -76,6 +77,7 @@ const ProductDetailSection = () => {
 
     if (
       product?.sizes !== "null" &&
+      product?.sizes !== "" &&
       product?.sizes !== "undefined" &&
       sizesArray?.length > 0 &&
       !selectedSize
@@ -164,6 +166,8 @@ const ProductDetailSection = () => {
     });
   };
 
+  console.log("product : ", product);
+
   return (
     <>
       <Head>
@@ -183,6 +187,7 @@ const ProductDetailSection = () => {
             <ProductInfo product={product} />
 
             {product?.colors !== "null" &&
+              product?.colors !== "" &&
               product?.colors !== "undefined" &&
               product?.colors?.length > 0 && (
                 <div className="my-3">
@@ -206,6 +211,7 @@ const ProductDetailSection = () => {
               )}
 
             {product?.sizes !== "null" &&
+              product?.sizes !== "" &&
               product?.sizes !== "undefined" &&
               sizesArray?.length > 0 && (
                 <div className="my-3">
