@@ -166,8 +166,6 @@ const ProductDetailSection = () => {
     });
   };
 
-  console.log("product : ", product);
-
   return (
     <>
       <Head>
