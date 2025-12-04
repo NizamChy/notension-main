@@ -99,7 +99,7 @@ const FavouriteDoctorProfile = () => {
                     <p className="text-primary font-bold text-lg md:text-xl">
                       পরামর্শ কেন্দ্র:
                     </p>
-                    <p className="py-1 md:text-lg font-semibold text-primary">
+                    <p className="py-1 md:text-lg lg:text-xl font-semibold text-green-600">
                       {profile?.consultationCenterInfo?.center_name}
                     </p>
                     <p className="flex items-start gap-2 pt-1">
