@@ -3,12 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const DoctorInfoCard = ({ doctor, isVisited = false }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const params = useParams();
+  const centerId = params?.id || null;
 
   const handleDoctorClick = (e, doctor) => {
     e.preventDefault();
@@ -21,7 +24,10 @@ const DoctorInfoCard = ({ doctor, isVisited = false }) => {
       })
     );
 
-    router.push("/medical-services/doctor/profile");
+    // router.push("/medical-services/doctor/profile");
+    router.push(
+      `/medical-services/doctor/consultation-center/visit/${centerId}/doctor-profile/${doctor?.doctorInfo?._id}`
+    );
   };
 
   return (
@@ -59,12 +65,6 @@ const DoctorInfoCard = ({ doctor, isVisited = false }) => {
           </div>
         </div>
       </div>
-
-      {/* <div className="bg-[#CCB8F7] mt-3 py-1 px-3 w-full">
-        <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base">
-          {doctor?.doctorInfo?.speciality}
-        </p>
-      </div> */}
 
       {!isVisited && (
         <div className="w-full px-3 my-2">

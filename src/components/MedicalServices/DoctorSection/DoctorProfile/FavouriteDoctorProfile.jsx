@@ -2,18 +2,21 @@
 
 import Image from "next/image";
 import { IoCall } from "react-icons/io5";
-import { useDispatch } from "react-redux";
 import { FaCalendarAlt } from "react-icons/fa";
 import Loader from "@/components/common/Loader";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
 const FavouriteDoctorProfile = () => {
   const [profileInfo, setProfileInfo] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { getProfileOfDoctor, progressing } = useDoctor();
 
@@ -21,8 +24,12 @@ const FavouriteDoctorProfile = () => {
   const params = useParams();
 
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const doctorId = params?.id || null;
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleBookAppointment = (e, profile) => {
     e.preventDefault();
@@ -35,7 +42,11 @@ const FavouriteDoctorProfile = () => {
       })
     );
 
-    router.push("/medical-services/doctor/book-appointment");
+    if (!userInfo?._id) {
+      return openModal();
+    } else {
+      router.push("/medical-services/doctor/book-appointment");
+    }
   };
 
   useEffect(() => {
@@ -169,6 +180,12 @@ const FavouriteDoctorProfile = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {isModalOpen && (
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <LoginModalDetails onClose={closeModal} type="appointment" />
+        </CommonModal>
       )}
     </>
   );

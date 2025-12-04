@@ -3,12 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const PopularDoctorSliderCard = ({ doctor, isVisited = false }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const params = useParams();
+  const centerId = params?.id || null;
 
   const handleDoctorClick = (e, doctor) => {
     e.preventDefault();
@@ -21,7 +24,9 @@ const PopularDoctorSliderCard = ({ doctor, isVisited = false }) => {
       })
     );
 
-    router.push("/medical-services/doctor/profile");
+    router.push(
+      `/medical-services/doctor/consultation-center/visit/${centerId}/doctor-profile/${doctor?.doctorInfo?._id}`
+    );
   };
 
   return (
@@ -60,12 +65,6 @@ const PopularDoctorSliderCard = ({ doctor, isVisited = false }) => {
 
       {!isVisited && (
         <>
-          {/* <div className="py-1 mt-4 px-3 bg-[#F78F1E] w-full">
-            <p className="truncate w-full text-white font-semibold text-sm md:text-base line-clamp-1">
-              {doctor?.doctorInfo?.speciality}
-            </p>
-          </div> */}
-
           <div className="w-full px-3 my-2">
             <p className="text-[#0C3F8E] text-sm md:text-lg font-semibold line-clamp-1 text-center">
               {doctor?.consultationCenterInfo?.center_name}
