@@ -14,13 +14,17 @@ const CustomTypeSection = ({ customTypeId }) => {
 
   return (
     <div className="m-4 lg:mx-20 pt-12 md:pt-16 min-h-content">
-      <div className="py-5 md:py-10 lg:w-2/3">
-        {DashboardSlider[0]?.fourth_slider?.length && (
-          <GroceryCommonSlider
-            classNames="max-h-[167px] md:max-h-[468px]"
-            slides={DashboardSlider[0]?.fourth_slider}
-          />
-        )}
+      <div className="flex justify-center">
+        <div className="w-full lg:w-3/4 p-4">
+          <div className="rounded-2xl shadow-lg overflow-hidden bg-white p-2">
+            {DashboardSlider[0]?.fourth_slider?.length && (
+              <GroceryCommonSlider
+                classNames="max-h-[167px] md:max-h-[468px]"
+                slides={DashboardSlider[0]?.fourth_slider}
+              />
+            )}
+          </div>
+        </div>
       </div>
 
       {customTypeId === "64f5a306baa57a4707524d6e" && <SpecialOffer />}
