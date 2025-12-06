@@ -17,9 +17,18 @@ const ProductsByCategory = () => {
   return (
     <div className="m-5 md:m-10 pt-14 md:pt-20 lg:pt-0 lg:my-28 lg:mx-16">
       <div className="lg:flex gap-5 space-y-5 lg:space-y-0 items-center">
-        <div className="w-full lg:w-[60%] rounded-lg">
+        {/* <div className="w-full lg:w-[60%] rounded-lg">
           <CategoryBannerCarousel />
+        </div> */}
+
+        <div className="w-full lg:w-[60%] rounded-lg">
+          <div className="w-full p-4">
+            <div className="rounded-2xl shadow-lg overflow-hidden bg-white p-2">
+              <CategoryBannerCarousel />
+            </div>
+          </div>
         </div>
+
         <div className="w-full lg:w-[40%] flex justify-center items-center">
           <ShopInfo />
         </div>
