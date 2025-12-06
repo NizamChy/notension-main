@@ -7,7 +7,7 @@ import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 import { useServiceProvider } from "@/hooks/fetch-data/useServiceProvider";
 import DoctorCommonSlider from "../DoctorSection/DoctorCommonSlider/DoctorCommonSlider";
 
-export default function MedicalService() {
+const MedicalService = () => {
   const [slider, setSlider] = useState([]);
   const [providerBanner, setProviderBanner] = useState([]);
   const [medicalServices, setMedicalServices] = useState([]);
@@ -63,7 +63,9 @@ export default function MedicalService() {
       )}
     </>
   );
-}
+};
+
+export default MedicalService;
 
 // "use client";
 
