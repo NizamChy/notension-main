@@ -114,9 +114,9 @@ const Navbar = () => {
   return (
     <>
       <div className="min-h-16">
-        <div className="fixed z-30 bg-white w-full">
+        <div className="fixed z-30 bg-white w-full border-b">
           {/* Main Navbar */}
-          <nav className="min-h-16 flex border-b justify-between items-center px-4 lg:px-8 relative">
+          <nav className="min-h-16 flex justify-between items-center px-4 lg:px-8 relative">
             <button
               onClick={toggleSidebar}
               className="lg:hidden p-2 rounded-md hover:bg-gray-100"

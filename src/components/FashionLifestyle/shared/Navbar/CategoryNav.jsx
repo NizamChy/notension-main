@@ -43,7 +43,7 @@ const CategoryNav = () => {
   // const secondRowItems = navItems.slice(6, 13);
 
   return (
-    <div className="lg:min-h-10">
+    <div className="lg:min-h-10 hidden lg:block">
       <div className="fixed z-20 bg-white w-full pt-0.5">
         <div className="relative hidden lg:flex justify-center items-center border-b">
           <NavRow
