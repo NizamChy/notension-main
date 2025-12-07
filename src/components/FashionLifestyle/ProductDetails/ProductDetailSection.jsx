@@ -186,6 +186,7 @@ const ProductDetailSection = () => {
   };
 
   console.log("detailImages : ", detailImages);
+  console.log("selectedImage : ", selectedImage);
 
   return (
     <>

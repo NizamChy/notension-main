@@ -24,7 +24,7 @@ const ProductDetails = ({ product }) => {
         />
       </div>
 
-      {product?.size_chart && (
+      {product?.size_chart && product?.size_chart !== "null" && (
         <div className="mt-5">
           <h3 className="font-semibold mb-2">Size Chart</h3>
           <div className="overflow-x-auto">
