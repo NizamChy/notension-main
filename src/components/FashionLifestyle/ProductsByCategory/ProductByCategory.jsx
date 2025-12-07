@@ -28,18 +28,8 @@ const ProductByCategory = () => {
 
   const [selectedSegments, setSelectedSegments] = useState([subCatId]);
 
-  const {
-    brands,
-    useSubCategoryById,
-    useKidsProductsByType,
-    useKidsProductsByCatId,
-  } = useCategoryItem();
-
-  // const {
-  //   data: filteredKidsProducts,
-  //   isLoading,
-  //   isError,
-  // } = useKidsProductsByType(typeId, catId, subCatId);
+  const { brands, useSubCategoryById, useKidsProductsByCatId } =
+    useCategoryItem();
 
   const {
     data: kidsProductsByCatId,
@@ -49,34 +39,6 @@ const ProductByCategory = () => {
 
   const { data: subCategories, isLoading: isSubCategoriesLoading } =
     useSubCategoryById(catId);
-
-  // let products = filteredKidsProducts || [];
-
-  useEffect(() => {
-    if (!kidsProductsByCatId) return;
-
-    const filtered = selectedSegments.length
-      ? kidsProductsByCatId.filter((item) =>
-          selectedSegments.includes(item?.sub_category_info?._id)
-        )
-      : kidsProductsByCatId;
-
-    setFilteredProducts(filtered);
-  }, [selectedSegments, kidsProductsByCatId]);
-
-  // console.log("filteredProducts : ", filteredProducts);
-
-  // useEffect(() => {
-  //   if (!kidsProductsByCatId) return;
-
-  //   const filtered = filteredProducts.filter(
-  //     (product) =>
-  //       product.sale_price >= priceRange[0] &&
-  //       product.sale_price <= priceRange[1]
-  //   );
-
-  //   setFilteredProducts(filtered);
-  // }, [priceRange]);
 
   const toggleFilter = (filterType, value) => {
     const setters = {
@@ -127,6 +89,30 @@ const ProductByCategory = () => {
     setSelectedEmbelishments([]);
     setSelectedSegments([subCatId]);
   };
+
+  useEffect(() => {
+    if (!kidsProductsByCatId) return;
+
+    let filtered = [...kidsProductsByCatId];
+
+    // Segment filter
+    if (selectedSegments.length) {
+      filtered = filtered.filter((item) =>
+        selectedSegments.includes(item?.sub_category_info?._id)
+      );
+    }
+
+    // Price filter
+    filtered = filtered.filter(
+      (product) =>
+        product.sale_price >= priceRange[0] &&
+        product.sale_price <= priceRange[1]
+    );
+
+    // You can add more filters later (size, color, brand etc.)
+
+    setFilteredProducts(filtered);
+  }, [kidsProductsByCatId, selectedSegments, priceRange]);
 
   return (
     <div className="bg-gray-50 max-w-screen-2xl mx-auto">

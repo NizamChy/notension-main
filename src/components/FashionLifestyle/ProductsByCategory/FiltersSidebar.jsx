@@ -221,7 +221,6 @@ const FilterContent = ({
         </button>
       </div>
 
-      {/* this  subCategories should not be a single link, it can select by multiple and multiple sub categories product shoud be shown by calling the useKidsProductsByType hook*/}
       {/* <FilterSection
         title="Category"
         isOpen={openFilter === "segment"}
@@ -293,6 +292,7 @@ const FilterContent = ({
                       selectedSegments.includes(subCategory?._id) ||
                       subCategory?._id === subCatId
                     }
+                    disabled={subCategory?._id === subCatId}
                     onChange={() => toggleFilter("segment", subCategory?._id)}
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />

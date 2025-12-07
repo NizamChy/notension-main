@@ -35,6 +35,9 @@ const ProductDetailSection = () => {
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
 
+  const [selectedImage, setSelectedImage] = useState(product?.web_image);
+  const detailImages = [product?.web_image, ...product?.detail_product_image];
+
   const favouriteFashionItems = useSelector(
     (state) => state.userChoice.favouriteFashionItems
   );
@@ -52,13 +55,7 @@ const ProductDetailSection = () => {
   };
 
   const handleAddToCart = () => {
-    if (
-      product?.colors !== "null" &&
-      product?.colors !== "" &&
-      product?.colors !== "undefined" &&
-      product?.colors?.length > 0 &&
-      !selectedColor
-    ) {
+    if (detailImages?.length > 0 && !selectedImage) {
       toast.dismiss();
       toast("Please select color!", {
         icon: "ℹ️",
@@ -74,6 +71,28 @@ const ProductDetailSection = () => {
       });
       return;
     }
+    // if (
+    //   product?.colors !== "null" &&
+    //   product?.colors !== "" &&
+    //   product?.colors !== "undefined" &&
+    //   product?.colors?.length > 0 &&
+    //   !selectedColor
+    // ) {
+    //   toast.dismiss();
+    //   toast("Please select color!", {
+    //     icon: "ℹ️",
+    //     style: {
+    //       border: "1px solid #2C3E50",
+    //       padding: "10px",
+    //       color: "#2C3E50",
+    //     },
+    //     iconTheme: {
+    //       primary: "#713200",
+    //       secondary: "#FFFAEE",
+    //     },
+    //   });
+    //   return;
+    // }
 
     if (
       product?.sizes !== "null" &&
@@ -166,6 +185,8 @@ const ProductDetailSection = () => {
     });
   };
 
+  console.log("detailImages : ", detailImages);
+
   return (
     <>
       <Head>
@@ -178,13 +199,88 @@ const ProductDetailSection = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-[42%]">
-            <ImageGallery product={product} />
+            {/* <ImageGallery product={product} /> */}
+
+            <ImageGallery product={product} selectedImage={selectedImage} />
           </div>
 
           <div className="md:w-1/2">
             <ProductInfo product={product} />
 
-            {product?.colors !== "null" &&
+            {/* Select Product Image Section */}
+            {detailImages?.length > 0 && (
+              <div className="my-4">
+                <h3 className="text-lg font-semibold mb-2">Select Color</h3>
+
+                <div className="flex gap-3 flex-wrap">
+                  {detailImages.map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(img)}
+                      className={`relative border-2 rounded-md overflow-hidden ${
+                        selectedImage === img
+                          ? "border-indigo-500"
+                          : "border-gray-200"
+                      }`}
+                    >
+                      <img
+                        src={`${FASHION_IMAGE_URL}/${img}`}
+                        alt={`Product image ${index + 1}`}
+                        className="w-16 h-16 object-cover"
+                      />
+
+                      {/* ✔ Corner checkmark (bottom-right) */}
+                      {selectedImage === img && (
+                        <div className="absolute bottom-1 right-1 bg-indigo-500 text-white rounded-full p-1 shadow-md">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-3 h-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* {detailImages?.length > 0 && (
+              <div className="my-4">
+                <h3 className="text-lg font-semibold mb-2">Select Image</h3>
+
+                <div className="flex gap-3 flex-wrap">
+                  {detailImages.map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(img)}
+                      className={`border-2 rounded-md overflow-hidden ${
+                        selectedImage === img
+                          ? "border-indigo-500"
+                          : "border-gray-200"
+                      }`}
+                    >
+                      <img
+                        src={`${FASHION_IMAGE_URL}/${img}`}
+                        alt={`Product image ${index + 1}`}
+                        className="w-16 h-16 object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )} */}
+
+            {/* {product?.colors !== "null" &&
               product?.colors !== "" &&
               product?.colors !== "undefined" &&
               product?.colors?.length > 0 && (
@@ -206,7 +302,7 @@ const ProductDetailSection = () => {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
 
             {product?.sizes !== "null" &&
               product?.sizes !== "" &&
