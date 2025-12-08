@@ -109,8 +109,6 @@ const ProductByCategory = () => {
         product.sale_price <= priceRange[1]
     );
 
-    // You can add more filters later (size, color, brand etc.)
-
     setFilteredProducts(filtered);
   }, [kidsProductsByCatId, selectedSegments, priceRange]);
 
