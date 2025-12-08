@@ -16,7 +16,7 @@ const StoreProductsBySubCat = () => {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 5000]);
+  const [priceRange, setPriceRange] = useState([0, 25000]);
   const [selectedFabrics, setSelectedFabrics] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedEmbelishments, setSelectedEmbelishments] = useState([]);
@@ -107,7 +107,7 @@ const StoreProductsBySubCat = () => {
     setSelectedBrands([]);
     setInStockOnly(false);
     setSelectedFabrics([]);
-    setPriceRange([0, 5000]);
+    setPriceRange([0, 25000]);
     setSelectedSleeveLengths([]);
     setSelectedEmbelishments([]);
     setSelectedSegments([subCatId]);

@@ -4,7 +4,7 @@ import React from "react";
 
 const PriceRangeSlider = ({ priceRange, handlePriceChange }) => {
   const minLimit = 0;
-  const maxLimit = 5000;
+  const maxLimit = 25000;
   // const maxLimit = 25000;
 
   const handleMinChange = (e) => {
