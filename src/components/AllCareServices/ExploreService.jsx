@@ -32,7 +32,15 @@ const ExploreService = () => {
         {currentService?.service_name_eng}
       </p>
 
-      {slider?.length > 0 && <ServiceBannerSlider slider={slider} />}
+      {slider?.length > 0 && (
+        <div className="flex justify-center">
+          <div className="w-full p-4">
+            <div className="rounded-2xl shadow-lg overflow-hidden bg-white p-2">
+              <ServiceBannerSlider slider={slider} />
+            </div>
+          </div>
+        </div>
+      )}
 
       <PopularInfoSlider slider={popularInfo} />
 
