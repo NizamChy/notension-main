@@ -64,7 +64,7 @@ const FilterProducts = ({
             id="sort"
             value={sortOption}
             onChange={handleSortChange}
-            className="border rounded p-2 text-sm"
+            className="border rounded p-2 text-sm outline-none"
           >
             <option value="featured">Featured</option>
             <option value="price-low">Price: Low to High</option>
