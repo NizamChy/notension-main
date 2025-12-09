@@ -54,6 +54,17 @@ const fetchPopularProductsByType = async (typeId) => {
   return response?.data?.data;
 };
 
+const fetchSearchedProductsByType = async (typeId, searchText) => {
+  const response = await axios.put(
+    `${FASHION_BASE_URL}${KIDS_PRODUCT_BY_TYPE}/${typeId}`,
+    {
+      search_text: searchText,
+    }
+  );
+
+  return response?.data?.data;
+};
+
 export const useCategoryItem = () => {
   const {
     data: allType,
@@ -215,6 +226,14 @@ export const useCategoryItem = () => {
     });
   };
 
+  const useSearchedProductsByType = (typeId, searchText = null) => {
+    return useQuery({
+      queryKey: ["searchedProductsByType", typeId, searchText],
+      queryFn: () => fetchSearchedProductsByType(typeId, searchText),
+      enabled: !!typeId,
+    });
+  };
+
   return {
     brands,
     allType,
@@ -239,5 +258,6 @@ export const useCategoryItem = () => {
     useKidsProductsByType,
     useKidsProductsByCatId,
     usePopularProductsByType,
+    useSearchedProductsByType,
   };
 };
