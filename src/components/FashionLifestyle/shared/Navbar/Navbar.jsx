@@ -158,18 +158,9 @@ const Navbar = () => {
             )}
 
             {/* Desktop Search */}
-            {/* <div className="hidden lg:block w-96 xl:w-[500px] relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border bg-transparent py-2 pl-4 pr-10 outline-none w-full rounded-md text-sm"
-              />
-              <button className="absolute top-0 right-0 h-full px-3 flex items-center justify-center text-gray-500 hover:text-black">
-                <IoSearch className="text-lg" />
-              </button>
-            </div> */}
-
-            <ProductSearchbar />
+            <div className="hidden lg:block">
+              <ProductSearchbar />
+            </div>
 
             {/* Right Side Icons */}
             <div className="flex items-center gap-4 lg:gap-5 relative">
@@ -231,16 +222,9 @@ const Navbar = () => {
 
             {/* Mobile Search Bar */}
             {searchOpen && (
-              <div className="absolute top-full left-0 right-0 bg-white p-4 shadow-md lg:hidden z-10">
+              <div className="absolute top-full left-0 right-0 bg-white px-4 py-2 shadow-md lg:hidden z-10">
                 <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="border bg-transparent py-3 pl-4 pr-10 outline-none w-full rounded-md"
-                  />
-                  <button className="absolute top-0 right-0 h-full px-3 flex items-center justify-center text-gray-500">
-                    <IoSearch className="text-xl" />
-                  </button>
+                  <ProductSearchbar />
                 </div>
               </div>
             )}

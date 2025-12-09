@@ -71,7 +71,7 @@ const FashionSearchedProducts = () => {
     <div className="min-h-content">
       <section className="py-4 lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
+          <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4 pt-12 lg:pt-0">
             Items found for{" "}
             <span className="text-gray-700">"{searchText}"</span>
           </h4>
