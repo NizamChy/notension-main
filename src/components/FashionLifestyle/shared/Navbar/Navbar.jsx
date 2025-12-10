@@ -222,7 +222,7 @@ const Navbar = () => {
 
             {/* Mobile Search Bar */}
             {searchOpen && (
-              <div className="absolute top-full left-0 right-0 bg-white px-4 py-2 shadow-md lg:hidden z-10">
+              <div className="absolute top-full left-0 right-0 bg-white pb-1 shadow-md lg:hidden z-10">
                 <div className="relative">
                   <ProductSearchbar />
                 </div>
