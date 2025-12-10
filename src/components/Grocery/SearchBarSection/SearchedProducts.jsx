@@ -3,10 +3,10 @@
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import GroceryItems from "../GroceryItems/GroceryItems";
+import NoItemFound from "@/components/common/NoItemFound";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
-import NoItemFound from "@/components/common/NoItemFound";
 
 const SearchedProducts = () => {
   const [pageNo, setPageNo] = useState(1);
