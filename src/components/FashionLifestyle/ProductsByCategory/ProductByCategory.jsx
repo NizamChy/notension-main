@@ -90,6 +90,28 @@ const ProductByCategory = () => {
     setSelectedSegments([subCatId]);
   };
 
+  // useEffect(() => {
+  //   if (!kidsProductsByCatId) return;
+
+  //   let filtered = [...kidsProductsByCatId];
+
+  //   // Segment filter
+  //   if (selectedSegments.length) {
+  //     filtered = filtered.filter((item) =>
+  //       selectedSegments.includes(item?.sub_category_info?._id)
+  //     );
+  //   }
+
+  //   // Price filter
+  //   filtered = filtered.filter(
+  //     (product) =>
+  //       product.sale_price >= priceRange[0] &&
+  //       product.sale_price <= priceRange[1]
+  //   );
+
+  //   setFilteredProducts(filtered);
+  // }, [kidsProductsByCatId, selectedSegments, priceRange]);
+
   useEffect(() => {
     if (!kidsProductsByCatId) return;
 
@@ -100,6 +122,14 @@ const ProductByCategory = () => {
       filtered = filtered.filter((item) =>
         selectedSegments.includes(item?.sub_category_info?._id)
       );
+
+      // Sort: last selected segment should come first
+      filtered.sort((a, b) => {
+        const aIndex = selectedSegments.indexOf(a?.sub_category_info?._id);
+        const bIndex = selectedSegments.indexOf(b?.sub_category_info?._id);
+
+        return bIndex - aIndex; // reverse order → last selected first
+      });
     }
 
     // Price filter

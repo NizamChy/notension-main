@@ -12,8 +12,8 @@ import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
-import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
