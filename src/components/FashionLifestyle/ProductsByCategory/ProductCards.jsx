@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { slugify } from "../utils/slugify";
+import { useParams } from "next/navigation";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 import { handleProductReducer } from "@/redux/productReducer";
 
 const ProductCards = ({ product }) => {
+  const params = useParams();
   const dispatch = useDispatch();
 
   const handleProductClick = (product) => {
@@ -21,9 +23,17 @@ const ProductCards = ({ product }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <Link
-        href={`/fashion_lifestyle/view-product/${slugify(
-          product?.product_title_eng
-        )}_${product?._id}`}
+        href={
+          params?.shopSlugId
+            ? `/fashion_lifestyle/shop/${
+                params?.shopSlugId
+              }/view-product/${slugify(product?.product_title_eng)}_${
+                product?._id
+              }`
+            : `/fashion_lifestyle/view-product/${slugify(
+                product?.product_title_eng
+              )}_${product?._id}`
+        }
         onClick={() => handleProductClick(product)}
       >
         <div className="block">
