@@ -161,7 +161,7 @@ const Navbar = () => {
             )}
 
             {/* Desktop Search */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:flex justify-center">
               <ProductSearchbar />
             </div>
 
