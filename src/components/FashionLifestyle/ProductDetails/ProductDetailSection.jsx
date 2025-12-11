@@ -135,12 +135,10 @@ const ProductDetailSection = () => {
 
     if (favouriteFashionItems?.find((product) => product?._id === productId)) {
       removeFromReducer({
-        merchantType: 3,
         productId: productId,
       });
     } else {
       addToReducer({
-        merchantType: 3,
         itemInfo: [product],
       });
     }
@@ -185,8 +183,8 @@ const ProductDetailSection = () => {
     });
   };
 
-  console.log("detailImages : ", detailImages);
-  console.log("selectedImage : ", selectedImage);
+  // console.log("detailImages : ", detailImages);
+  // console.log("selectedImage : ", selectedImage);
 
   return (
     <>
