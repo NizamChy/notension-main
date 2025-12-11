@@ -84,18 +84,20 @@ const ImageGallery = ({ product, selectedImage }) => {
       >
         {detailImages?.map((img, index) => (
           <SwiperSlide key={index}>
-            <button
-              onClick={() => setCurrentImageIndex(index)}
-              className={`w-full aspect-square bg-gray-100 rounded overflow-hidden ${
-                currentImageIndex === index ? "ring-2 ring-indigo-500" : ""
-              }`}
-            >
-              <img
-                src={`${FASHION_IMAGE_URL}/${img}`}
-                alt={`${product?.product_title_eng} thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </button>
+            <div className="p-1">
+              <button
+                onClick={() => setCurrentImageIndex(index)}
+                className={`w-full aspect-square bg-gray-100 rounded overflow-hidden ${
+                  currentImageIndex === index ? "ring-2 ring-indigo-500" : ""
+                }`}
+              >
+                <img
+                  src={`${FASHION_IMAGE_URL}/${img}`}
+                  alt={`${product?.product_title_eng} thumbnail ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>

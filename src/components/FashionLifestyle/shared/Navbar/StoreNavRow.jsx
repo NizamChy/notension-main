@@ -69,8 +69,10 @@ const StoreNavRow = ({
                             </h3>
                           </Link>
                           <ul className="list-none p-0 m-0">
-                            {cat?.subcategories?.map((subcat) => (
-                              <li key={`${subcat?.id}-${subcat?.name}`}>
+                            {cat?.subcategories?.map((subcat, index) => (
+                              <li
+                                key={`${subcat?.id}-${subcat?.name}-${index}`}
+                              >
                                 <Link
                                   href={`/fashion_lifestyle/shop/${shopSlugId}/category/${slugify(
                                     navItem?.type_name
