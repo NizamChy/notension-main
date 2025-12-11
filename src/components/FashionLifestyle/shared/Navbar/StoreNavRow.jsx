@@ -20,6 +20,8 @@ const StoreNavRow = ({
 
   if (!navItems) return null;
 
+  console.log("navItems : ", navItems);
+
   return (
     <ul className="hidden lg:flex gap-2 2xl:gap-6 font-medium h-full">
       {navItems?.map((navItem) => (
@@ -70,7 +72,7 @@ const StoreNavRow = ({
                           </Link>
                           <ul className="list-none p-0 m-0">
                             {cat?.subcategories?.map((subcat) => (
-                              <li key={subcat?.id}>
+                              <li key={`${subcat?.id}-${subcat?.name}`}>
                                 <Link
                                   href={`/fashion_lifestyle/shop/${shopSlugId}/category/${slugify(
                                     navItem?.type_name
