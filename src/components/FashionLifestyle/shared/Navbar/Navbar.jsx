@@ -35,6 +35,9 @@ const Navbar = () => {
 
   const { cartItems } = useCart();
   const userInfo = useSelector((state) => state.user.userInfo);
+  const favouriteFashionItems = useSelector(
+    (state) => state.userChoice.favouriteFashionItems
+  );
 
   let shopName = "";
   let shopFirstWord = "";
@@ -173,15 +176,24 @@ const Navbar = () => {
                 >
                   <LiaShoppingBagSolid className="text-xl mb-1" />
                   <span className="hidden lg:block text-xs">Bag</span>
-                  <span className="absolute -top-2 -right-2.5 bg-[#F1C40F] text-primary text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItems.length}
-                  </span>
+
+                  {cartItems?.length > 0 && (
+                    <span className="absolute -top-2 -right-2.5 bg-[#F1C40F] text-primary text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartItems?.length || 0}
+                    </span>
+                  )}
                 </button>
 
                 <Link href="/fashion_lifestyle/wishlist">
-                  <button className="hidden lg:flex flex-col items-center text-sm hover:text-primary">
+                  <button className="hidden lg:flex flex-col items-center text-sm hover:text-primary relative">
                     <IoMdHeartEmpty className="text-xl mb-1" />
                     <span className="hidden lg:block text-xs">Wishlist</span>
+
+                    {favouriteFashionItems?.length > 0 && (
+                      <span className="absolute -top-2 -right-1 bg-[#F1C40F] text-primary text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {favouriteFashionItems?.length || 0}
+                      </span>
+                    )}
                   </button>
                 </Link>
 
