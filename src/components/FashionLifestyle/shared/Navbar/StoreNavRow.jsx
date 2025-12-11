@@ -20,8 +20,6 @@ const StoreNavRow = ({
 
   if (!navItems) return null;
 
-  console.log("navItems : ", navItems);
-
   return (
     <ul className="hidden lg:flex gap-2 2xl:gap-6 font-medium h-full">
       {navItems?.map((navItem) => (
