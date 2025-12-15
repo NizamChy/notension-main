@@ -12,7 +12,7 @@ const LocationButton = ({ onOpenModal }) => {
     <>
       <button
         onClick={onOpenModal}
-        className="px-5 text-primary font-medium w-full justify-center items-center gap-1 bg-white rounded-lg hidden md:flex"
+        className="text-primary font-medium w-full justify-center items-center gap-1 bg-white rounded-lg hidden md:flex"
       >
         <span>
           <FaLocationDot className="text-primary" />
