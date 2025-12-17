@@ -402,57 +402,6 @@ const ProductDetailSection = () => {
 
       {!pathname?.includes("shop") && (
         <div className="py-5">
-          {/* <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
-            <Image
-              src={
-                product?.store_info?.shop_banner_app
-                  ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_app}`
-                  : "/png/dummyImage.png"
-              }
-              alt="Shopping store banner"
-              fill
-              className="object-cover"
-              priority
-            />
-
-            <div className="relative z-10 flex flex-col items-start justify-center h-full px-8 text-white max-w-7xl mx-auto">
-              <div className="bg-black bg-opacity-40 p-4">
-                <span className="text-sm md:text-xl font-medium mb-2">
-                  Products by
-                </span>
-                <h1 className="text-xl md:text-6xl font-bold mb-2 md:mb-4">
-                  {product?.store_info?.shop_name}
-                </h1>
-
-                <p className="text-xs md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex items-start">
-                  <span>
-                    <MdLocationOn className="md:text-xl mt-1" />
-                  </span>
-                  {product?.store_info?.shop_address}
-                </p>
-              </div>
-
-              <div className="flex gap-4 mt-2">
-                <Link
-                  href={`/fashion_lifestyle/shop/${slugify(
-                    product?.store_info?.shop_name
-                  )}_${product?.store_info?._id}`}
-                  className="px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition duration-300"
-                >
-                  Visit Store
-                </Link>
-                <Link
-                  href={`/fashion_lifestyle/shop/${slugify(
-                    product?.store_info?.shop_name
-                  )}_${product?.store_info?._id}`}
-                  className="px-6 py-2 md:px-8 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-gray-900 transition duration-300"
-                >
-                  Shop Now
-                </Link>
-              </div>
-            </div>
-          </div> */}
-
           <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
             <Image
               src={
@@ -481,25 +430,6 @@ const ProductDetailSection = () => {
                 </span>
                 <span>{product?.store_info?.shop_address}</span>
               </p>
-
-              {/* <div className="flex gap-4 mt-2">
-                <Link
-                  href={`/fashion_lifestyle/shop/${slugify(
-                    product?.store_info?.shop_name
-                  )}_${product?.store_info?._id}`}
-                  className="px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition duration-300"
-                >
-                  Visit Store
-                </Link>
-                <Link
-                  href={`/fashion_lifestyle/shop/${slugify(
-                    product?.store_info?.shop_name
-                  )}_${product?.store_info?._id}`}
-                  className="px-6 py-2 md:px-8 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-gray-900 transition duration-300"
-                >
-                  Shop Now
-                </Link>
-              </div> */}
 
               <Link
                 href={`/fashion_lifestyle/shop/${slugify(
