@@ -1746,6 +1746,24 @@
                         "name": "Face Pack",
                         "banner_type_1": "1758694119975-314825160.jpg",
                         "banner_type_2": "1758694119976-970224123.jpg"
+                    },
+                    {
+                        "id": "69423ee9a9a6296824b8a6fa",
+                        "name": "Stretch Mark Cream",
+                        "banner_type_1": "1765949159673-541301248.jpg",
+                        "banner_type_2": "1765949159674-473300133.jpg"
+                    },
+                    {
+                        "id": "6942438df68d912a41a7402c",
+                        "name": "Mosquito Lotion",
+                        "banner_type_1": "1765950347961-812383865.jpg",
+                        "banner_type_2": "1765950347962-766148305.jpg"
+                    },
+                    {
+                        "id": "6942454086a2fe8da57213fb",
+                        "name": "Face Cream",
+                        "banner_type_1": "1765950782507-85461439.jpg",
+                        "banner_type_2": "1765950782509-313562808.jpg"
                     }
                 ]
             },
@@ -1832,6 +1850,12 @@
                         "name": "Curly & Wavy",
                         "banner_type_1": "1753684060276-154380291.jpg",
                         "banner_type_2": "1753684060277-982707994.jpg"
+                    },
+                    {
+                        "id": "69424148f68d912a41a74013",
+                        "name": "Hair Lotion",
+                        "banner_type_1": "1765949766572-757564728.jpg",
+                        "banner_type_2": "1765949766572-779555647.jpg"
                     }
                 ]
             },
@@ -2216,6 +2240,18 @@
                         "name": "Women Watches",
                         "banner_type_1": "1753695679234-103608556.jpg",
                         "banner_type_2": "1753695679234-940132082.jpg"
+                    },
+                    {
+                        "id": "6921a4e846fe7889be2e4743",
+                        "name": "Kids Sunglasses",
+                        "banner_type_1": "1763812583222-979024607.jpg",
+                        "banner_type_2": "1763812583224-82443001.jpg"
+                    },
+                    {
+                        "id": "6921a51c2eef9585d7fa59dd",
+                        "name": "Kids Watch",
+                        "banner_type_1": "1763812634082-152717487.jpg",
+                        "banner_type_2": "1763812634084-350383692.jpg"
                     }
                 ]
             },
@@ -2236,6 +2272,12 @@
                         "name": "Women Caps & Hats",
                         "banner_type_1": "1753695732506-646993739.jpg",
                         "banner_type_2": "1753695732507-333564233.jpg"
+                    },
+                    {
+                        "id": "6921a6302eef9585d7fa5a1f",
+                        "name": "Kids Caps & Hats",
+                        "banner_type_1": "1763812910172-251272708.jpg",
+                        "banner_type_2": "1763812910173-41199216.jpg"
                     }
                 ]
             }
