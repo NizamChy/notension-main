@@ -18,7 +18,7 @@ const CategoryCard = ({ category, typeName }) => {
             src={
               category?.banner
                 ? `${FASHION_IMAGE_URL}/${category?.banner}`
-                : "/images/png/dummyImage.png"
+                : "/png/dummyImage.png"
             }
             alt={category?.category_name}
             width={600}

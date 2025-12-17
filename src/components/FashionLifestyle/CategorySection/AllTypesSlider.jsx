@@ -86,7 +86,7 @@ const AllTypesSlider = () => {
                       src={
                         type?.type_img
                           ? `${FASHION_IMAGE_URL}/${type?.type_img}`
-                          : "/images/png/dummyImage.png"
+                          : "/png/dummyImage.png"
                       }
                       alt={type?.type_name}
                       width={400}

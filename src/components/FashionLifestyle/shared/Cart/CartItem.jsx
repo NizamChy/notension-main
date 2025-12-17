@@ -41,7 +41,7 @@ const CartItem = () => {
               src={
                 item.web_image
                   ? `${FASHION_IMAGE_URL}/${item?.web_image}`
-                  : "/images/png/dummyImage.png"
+                  : "/png/dummyImage.png"
               }
               alt={item?.product_title_eng}
               width={100}

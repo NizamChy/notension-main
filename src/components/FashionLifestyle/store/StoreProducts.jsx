@@ -110,7 +110,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
                     src={
                       product?.web_image
                         ? `${FASHION_IMAGE_URL}/${product?.web_image}`
-                        : "/images/png/dummyImage.png"
+                        : "/png/dummyImage.png"
                     }
                     alt={product?.product_title_eng}
                     fill

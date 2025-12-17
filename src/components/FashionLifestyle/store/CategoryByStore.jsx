@@ -104,7 +104,7 @@ const CategoryByStoreSlider = () => {
                     src={
                       category?.sub_category_info?.banner_type_1
                         ? `${FASHION_IMAGE_URL}/${category?.sub_category_info?.banner_type_1}`
-                        : "/images/png/dummyImage.png"
+                        : "/png/dummyImage.png"
                     }
                     alt={category?.sub_category_info?.sub_category_name}
                     width={183}

@@ -60,7 +60,7 @@ const ImageGallery = ({ product, selectedImage }) => {
           src={
             detailImages?.length > 0 && detailImages[currentImageIndex] !== null
               ? `${FASHION_IMAGE_URL}/${detailImages[currentImageIndex]}`
-              : "/images/png/dummyImage.png"
+              : "/png/dummyImage.png"
           }
           alt={product?.product_title_eng}
           className="w-full h-full object-cover transition-transform duration-700 touch-none hover:cursor-zoom-out"
@@ -173,7 +173,7 @@ export default ImageGallery;
 //               detailImages?.length > 0 &&
 //               detailImages[currentImageIndex] !== null
 //                 ? `${FASHION_IMAGE_URL}/${detailImages[currentImageIndex]}`
-//                 : "/images/png/dummyImage.png"
+//                 : "/png/dummyImage.png"
 //             }
 //             alt={product?.product_title_eng}
 //             className="w-full h-full object-cover transition-transform duration-700 touch-none hover:cursor-zoom-out"
@@ -274,7 +274,7 @@ export default ImageGallery;
 //               detailImages?.length > 0 &&
 //               detailImages[currentImageIndex] !== null
 //                 ? `${FASHION_IMAGE_URL}/${detailImages[currentImageIndex]}`
-//                 : "/images/png/dummyImage.png"
+//                 : "/png/dummyImage.png"
 //             }
 //             alt={product?.product_title_eng}
 //             className="w-full h-full object-cover transition-transform duration-700 touch-none hover:cursor-zoom-out"

@@ -402,12 +402,12 @@ const ProductDetailSection = () => {
 
       {!pathname?.includes("shop") && (
         <div className="py-5">
-          <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
+          {/* <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
             <Image
               src={
                 product?.store_info?.shop_banner_app
                   ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_app}`
-                  : "/images/png/dummyImage.png"
+                  : "/png/dummyImage.png"
               }
               alt="Shopping store banner"
               fill
@@ -450,6 +450,80 @@ const ProductDetailSection = () => {
                   Shop Now
                 </Link>
               </div>
+            </div>
+          </div> */}
+
+          <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
+            <Image
+              src={
+                product?.store_info?.shop_banner_app
+                  ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_app}`
+                  : "/png/dummyImage.png"
+              }
+              alt="Shopping store banner"
+              fill
+              className="object-cover"
+              priority
+            />
+
+            <div
+              className="relative z-10 flex flex-col items-start justify-center h-full px-8
+                       text-deepGray w-2/3 lg:w-1/3 bg-gradient-to-br from-white to-white/20 md:to-white/30
+                       clip-diagonal"
+            >
+              <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">
+                {product?.store_info?.shop_name}
+              </h1>
+
+              <p className="text-sm md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex gap-1 items-start">
+                <span>
+                  <MdLocationOn className="lg:text-xl lg:mt-1" />
+                </span>
+                <span>{product?.store_info?.shop_address}</span>
+              </p>
+
+              {/* <div className="flex gap-4 mt-2">
+                <Link
+                  href={`/fashion_lifestyle/shop/${slugify(
+                    product?.store_info?.shop_name
+                  )}_${product?.store_info?._id}`}
+                  className="px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition duration-300"
+                >
+                  Visit Store
+                </Link>
+                <Link
+                  href={`/fashion_lifestyle/shop/${slugify(
+                    product?.store_info?.shop_name
+                  )}_${product?.store_info?._id}`}
+                  className="px-6 py-2 md:px-8 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-gray-900 transition duration-300"
+                >
+                  Shop Now
+                </Link>
+              </div> */}
+
+              <Link
+                href={`/fashion_lifestyle/shop/${slugify(
+                  product?.store_info?.shop_name
+                )}_${product?.store_info?._id}`}
+              >
+                <button className="inline-flex items-center px-6 py-3 border border-gray-400 text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50 hover:border-gray-600 transition-colors">
+                  Visit Store
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              </Link>
             </div>
           </div>
         </div>

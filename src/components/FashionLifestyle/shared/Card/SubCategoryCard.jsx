@@ -26,7 +26,7 @@ const SubCategoryCard = ({ subCategory, cat }) => {
             src={
               subCategory?.banner_type_1
                 ? `${FASHION_IMAGE_URL}/${subCategory?.banner_type_1}`
-                : "/images/png/dummyImage.png"
+                : "/png/dummyImage.png"
             }
             alt={subCategory?.sub_category_name}
             width={300}

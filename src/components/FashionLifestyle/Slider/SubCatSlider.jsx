@@ -97,7 +97,7 @@ const SubCatSlider = () => {
                       src={
                         category?.banner_type_1
                           ? `${FASHION_IMAGE_URL}/${category?.banner_type_1}`
-                          : "/images/png/dummyImage.png"
+                          : "/png/dummyImage.png"
                       }
                       alt={category?.sub_category_name}
                       width={400}

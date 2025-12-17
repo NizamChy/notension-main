@@ -51,7 +51,7 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
                       src={
                         item.web_image
                           ? `${FASHION_IMAGE_URL}/${item?.web_image}`
-                          : "/images/png/dummyImage.png"
+                          : "/png/dummyImage.png"
                       }
                       alt={item?.product_title_eng}
                       className="h-full w-full object-cover object-center"
