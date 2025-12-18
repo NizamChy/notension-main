@@ -37,7 +37,7 @@ const ProductDetailSection = () => {
 
   // const [selectedImage, setSelectedImage] = useState(product?.web_image);
   const [selectedImage, setSelectedImage] = useState(
-    product?.images_by_color?.[0]
+    product?.images_by_color?.[0] || product?.web_image
   );
   const detailImages = [product?.web_image, ...product?.detail_product_image];
 
