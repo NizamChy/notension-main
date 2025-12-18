@@ -45,6 +45,11 @@ const Navbar = () => {
 
   if (pathname.includes("shop")) {
     shopName = params?.shopSlugId?.split("_")[0];
+
+    // console.log(shopName.split("-"));
+    // console.log(shopName.trim().replace("-", " "));
+    // console.log(shopName.replace("-", /\s+/g));
+
     shopFirstWord = shopName?.split("-")[0];
     shopLogoWords = shopName?.slice(0, 2);
   }
@@ -144,6 +149,7 @@ const Navbar = () => {
               <button onClick={handleLogoClick}>
                 <p className="text-4xl capitalize font-bold italic text-primary">
                   {shopFirstWord}
+                  {/* {shopName} */}
                 </p>
               </button>
             ) : (
