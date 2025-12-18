@@ -32,16 +32,16 @@ const StoreNavRow = ({
             setHoveredCategory(null);
           }}
         >
-          <Link
-            href={`/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
-              navItem?.type_id
-            }`}
+          <button
+            // href={`/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+            //   navItem?.type_id
+            // }`}
             onClick={() => setActiveMenu(null)}
             className="flex items-center py-2 cursor-pointer text-primary hover:text-blue-700 px-2"
           >
             {navItem?.type_name}
             <BsChevronDown className="ml-1 text-xs transition-transform duration-300 group-hover:rotate-180" />
-          </Link>
+          </button>
 
           {activeMenu === navItem?.type_name &&
             navItem?.categories?.length > 0 && (
@@ -56,18 +56,18 @@ const StoreNavRow = ({
                           onMouseEnter={() => setHoveredCategory(cat)}
                           onMouseLeave={() => setHoveredCategory(null)}
                         >
-                          <Link
-                            href={`/fashion_lifestyle/subcat/${slugify(
-                              navItem?.type_name
-                            )}_${cat?.type_id}_${slugify(cat?.name)}_${
-                              cat?.category_id
-                            }`}
+                          <button
+                            // href={`/fashion_lifestyle/subcat/${slugify(
+                            //   navItem?.type_name
+                            // )}_${cat?.type_id}_${slugify(cat?.name)}_${
+                            //   cat?.category_id
+                            // }`}
                             onClick={() => setActiveMenu(null)}
                           >
                             <h3 className="font-bold text-sm text-blue-800 capitalize">
                               {cat?.name}
                             </h3>
-                          </Link>
+                          </button>
                           <ul className="list-none p-0 m-0">
                             {cat?.subcategories?.map((subcat, index) => (
                               <li
