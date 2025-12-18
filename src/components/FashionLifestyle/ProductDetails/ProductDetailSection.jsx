@@ -209,7 +209,7 @@ const ProductDetailSection = () => {
             {/* Select Product Image Section */}
             {detailImages?.length > 0 && (
               <div className="my-4">
-                <h3 className="text-lg font-semibold mb-2">Select Color</h3>
+                <h3 className="text-lg font-semibold mb-2">Select Variant</h3>
 
                 <div className="flex gap-3 flex-wrap">
                   {detailImages.map((img, index) => (
