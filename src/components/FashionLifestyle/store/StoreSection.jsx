@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import StoreBanner from "./StoreBanner";
 import CategoryByStore from "./CategoryByStore";
