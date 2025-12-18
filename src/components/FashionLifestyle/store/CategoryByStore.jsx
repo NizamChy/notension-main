@@ -28,7 +28,7 @@ const CategoryByStoreSlider = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-12">
         <Title title="Shop by Category" />
         <div className="w-full min-h-20 lg:min-h-56 animate-pulse bg-gray-100 rounded-lg" />
       </div>
@@ -37,7 +37,7 @@ const CategoryByStoreSlider = () => {
 
   if (error) {
     return (
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-12">
         <Title title="Shop by Category" />
         <div className="text-center text-red-500 py-10">
           Failed to load categories
@@ -52,7 +52,7 @@ const CategoryByStoreSlider = () => {
 
   return (
     <div
-      className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-12"
       style={{
         "--swiper-navigation-size": "24px",
         "--swiper-pagination-bullet-size": "10px",

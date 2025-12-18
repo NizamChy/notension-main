@@ -426,9 +426,11 @@ const ProductDetailSection = () => {
 
               <p className="text-sm md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex gap-1 items-start">
                 <span>
-                  <MdLocationOn className="lg:text-xl lg:mt-1" />
+                  <MdLocationOn className="lg:text-xl mt-1" />
                 </span>
-                <span>{product?.store_info?.shop_address}</span>
+                <span className="line-clamp-3 md:line-clamp-none">
+                  {product?.store_info?.shop_address}
+                </span>
               </p>
 
               <Link

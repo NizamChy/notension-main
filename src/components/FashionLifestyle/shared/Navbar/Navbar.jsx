@@ -42,16 +42,13 @@ const Navbar = () => {
   let shopName = "";
   let shopFirstWord = "";
   let shopLogoWords = "";
+  let shopWords = [];
 
   if (pathname.includes("shop")) {
     shopName = params?.shopSlugId?.split("_")[0];
-
-    // console.log(shopName.split("-"));
-    // console.log(shopName.trim().replace("-", " "));
-    // console.log(shopName.replace("-", /\s+/g));
-
     shopFirstWord = shopName?.split("-")[0];
     shopLogoWords = shopName?.slice(0, 2);
+    shopWords = shopName?.split("-");
   }
 
   const handleLogoClick = () => {
@@ -146,10 +143,19 @@ const Navbar = () => {
             </button>
 
             {pathname?.includes("shop") ? (
+              // <button onClick={handleLogoClick}>
+              //   <p className="text-4xl capitalize font-bold italic text-primary">
+              //     {shopFirstWord}
+              //   </p>
+              // </button>
               <button onClick={handleLogoClick}>
-                <p className="text-4xl capitalize font-bold italic text-primary">
-                  {shopFirstWord}
-                  {/* {shopName} */}
+                <p className="capitalize italic text-primary font-bold">
+                  <span className="text-2xl md:text-4xl">{shopWords[0]}</span>
+                  {shopWords.slice(1).map((word, index) => (
+                    <span key={index} className="text-xl ml-2 font-semibold">
+                      {word}
+                    </span>
+                  ))}
                 </p>
               </button>
             ) : (

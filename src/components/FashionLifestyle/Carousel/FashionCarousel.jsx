@@ -9,7 +9,7 @@ import { FASHION_CAROUSEL_SLIDES } from "../utils/constants";
 
 const FashionCarousel = () => {
   return (
-    <div className="w-full py-10">
+    <div className="w-full py-10 px-4 md:px-0">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={0}

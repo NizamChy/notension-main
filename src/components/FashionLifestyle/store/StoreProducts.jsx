@@ -37,7 +37,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
 
   if (isLoading)
     return (
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="min-h-8 lg:min-h-10 mb-3 rounded-md bg-gray-200 animate-pulse w-1/3 lg:w-1/4" />
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -51,7 +51,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
 
   if (isError) {
     return (
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <Title title={title} />
           <div className="text-center text-red-500 py-10">
@@ -71,7 +71,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
   const hasMoreProducts = reversedProducts?.length > visibleProductsCount;
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <Title title={title} />
 

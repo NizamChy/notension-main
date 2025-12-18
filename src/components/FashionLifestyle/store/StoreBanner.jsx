@@ -51,9 +51,11 @@ const StoreBanner = () => {
 
           <p className="text-sm md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex gap-1 items-start">
             <span>
-              <MdLocationOn className="lg:text-xl lg:mt-1" />
+              <MdLocationOn className="lg:text-xl mt-1" />
             </span>
-            <span>{storeInfo?.shop_address}</span>
+            <span className="line-clamp-3 md:line-clamp-none">
+              {storeInfo?.shop_address}
+            </span>
           </p>
         </div>
       </div>
