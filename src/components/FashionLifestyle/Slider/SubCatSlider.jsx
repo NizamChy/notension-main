@@ -59,7 +59,7 @@ const SubCatSlider = () => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
-          slidesPerView={3}
+          slidesPerView={4}
           navigation={{
             nextEl: ".custom-swiper-button-next-cat1",
             prevEl: ".custom-swiper-button-prev-cat1",

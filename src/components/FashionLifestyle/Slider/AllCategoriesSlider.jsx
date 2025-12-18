@@ -52,7 +52,7 @@ const AllCategoriesSlider = () => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
-          slidesPerView={3}
+          slidesPerView={4}
           navigation={{
             nextEl: ".custom-swiper-button-next-cat1",
             prevEl: ".custom-swiper-button-prev-cat1",
@@ -83,7 +83,7 @@ const AllCategoriesSlider = () => {
                 }_${slugify(category?.category_name)}_${category?._id}`}
                 className="flex flex-col items-center"
               >
-                <div className="aspect-square min-h-[111px] lg:min-h-[133px] xl:min-h-[183px] max-w-[111px] lg:max-w-[133px] xl:max-w-[183px] rounded-full border group-hover:border-blue-500">
+                <div className="aspect-square min-h-20 lg:min-h-[133px] xl:min-h-[183px] max-w-20 lg:max-w-[133px] xl:max-w-[183px] rounded-full border group-hover:border-blue-500">
                   <Image
                     src={
                       category?.banner
@@ -98,7 +98,7 @@ const AllCategoriesSlider = () => {
                   />
                 </div>
 
-                <h3 className="text-sm lg:text-base text-center font-semibold text-gray-800 p-2 group-hover:text-blue-500">
+                <h3 className="text-xs md:text-sm lg:text-base text-center font-semibold text-gray-800 p-2 group-hover:text-blue-500">
                   {category?.category_name}
                 </h3>
               </Link>

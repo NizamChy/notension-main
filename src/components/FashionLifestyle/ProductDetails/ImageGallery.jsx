@@ -11,6 +11,7 @@ const ImageGallery = ({ product, selectedImage }) => {
 
   const detailImages = [
     product?.web_image,
+    selectedImage,
     ...(product?.detail_product_image || []),
   ];
 
@@ -82,7 +83,7 @@ const ImageGallery = ({ product, selectedImage }) => {
 
       {/* Thumbnail gallery */}
       <div className="grid grid-cols-4 gap-2">
-        {detailImages?.map((img, index) => (
+        {detailImages?.slice(0, 4)?.map((img, index) => (
           <button
             key={index}
             onClick={() => setCurrentImageIndex(index)}

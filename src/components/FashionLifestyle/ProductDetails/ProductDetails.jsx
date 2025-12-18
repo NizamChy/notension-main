@@ -6,7 +6,7 @@ const ProductDetails = ({ product }) => {
       <div className="mb-4">
         <h3 className="text-lg font-semibold mb-2">Description</h3>
         <div
-          className="text-gray-600"
+          className="text-gray-600 text-sm md:text-base"
           dangerouslySetInnerHTML={{ __html: product?.description }}
         />
       </div>
@@ -17,7 +17,7 @@ const ProductDetails = ({ product }) => {
             : "Detailed Specification"}
         </h3>
         <div
-          className="text-gray-600"
+          className="text-gray-600 text-sm md:text-base"
           dangerouslySetInnerHTML={{
             __html: product?.specification || product?.ingredients,
           }}

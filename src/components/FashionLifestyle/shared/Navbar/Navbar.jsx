@@ -150,9 +150,12 @@ const Navbar = () => {
               // </button>
               <button onClick={handleLogoClick}>
                 <p className="capitalize italic text-primary font-bold">
-                  <span className="text-2xl md:text-4xl">{shopWords[0]}</span>
+                  <span className="text-lg md:text-4xl">{shopWords[0]}</span>
                   {shopWords.slice(1).map((word, index) => (
-                    <span key={index} className="text-xl ml-2 font-semibold">
+                    <span
+                      key={index}
+                      className="text-base md:text-xl ml-2 font-semibold"
+                    >
                       {word}
                     </span>
                   ))}

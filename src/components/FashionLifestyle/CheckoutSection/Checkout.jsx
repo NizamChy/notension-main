@@ -124,7 +124,7 @@ const Checkout = () => {
           quantity: item?.quantity,
           delivered_qty: 0,
           inc_qty: 1,
-          app_image: item?.app_image,
+          ordered_img: item?.app_image,
         })),
         subTotal: subtotal,
         less_amount: 0,

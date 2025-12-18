@@ -35,7 +35,10 @@ const ProductDetailSection = () => {
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
 
-  const [selectedImage, setSelectedImage] = useState(product?.web_image);
+  // const [selectedImage, setSelectedImage] = useState(product?.web_image);
+  const [selectedImage, setSelectedImage] = useState(
+    product?.images_by_color?.[0]
+  );
   const detailImages = [product?.web_image, ...product?.detail_product_image];
 
   const favouriteFashionItems = useSelector(
@@ -186,6 +189,8 @@ const ProductDetailSection = () => {
   // console.log("detailImages : ", detailImages);
   // console.log("selectedImage : ", selectedImage);
 
+  console.log("product : ", product);
+
   return (
     <>
       <Head>
@@ -207,12 +212,12 @@ const ProductDetailSection = () => {
             <ProductInfo product={product} />
 
             {/* Select Product Image Section */}
-            {detailImages?.length > 0 && (
+            {product?.images_by_color?.length > 0 && (
               <div className="my-4">
                 <h3 className="text-lg font-semibold mb-2">Select Variant</h3>
 
                 <div className="flex gap-3 flex-wrap">
-                  {detailImages.map((img, index) => (
+                  {product?.images_by_color?.map((img, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(img)}

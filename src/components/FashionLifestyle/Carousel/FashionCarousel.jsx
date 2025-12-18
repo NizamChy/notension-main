@@ -9,7 +9,7 @@ import { FASHION_CAROUSEL_SLIDES } from "../utils/constants";
 
 const FashionCarousel = () => {
   return (
-    <div className="w-full py-10 px-4 md:px-0">
+    <div className="w-full py-10 px-3 md:px-0">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={0}
@@ -24,17 +24,17 @@ const FashionCarousel = () => {
           disableOnInteraction: false,
         }}
         loop={true}
-        className="w-full h-full"
+        className="w-full h-full rounded-lg md:rounded-none"
       >
         {FASHION_CAROUSEL_SLIDES?.map((slide) => (
           <SwiperSlide key={slide?.id} className="w-full">
-            <div className="relative w-full h-[250px] md:h-[600px] lg:h-[700px]">
+            <div className="relative w-full h-[220px] md:h-[600px] lg:h-[700px] rounded-lg md:rounded-none">
               <img
                 src={slide?.image}
                 alt={slide?.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-lg md:rounded-none">
                 <div className="text-center px-4 max-w-3xl">
                   <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 sm:mb-4">
                     {slide?.title}

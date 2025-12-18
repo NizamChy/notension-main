@@ -28,7 +28,7 @@ const CategoryByStoreSlider = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-12">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Title title="Shop by Category" />
         <div className="w-full min-h-20 lg:min-h-56 animate-pulse bg-gray-100 rounded-lg" />
       </div>
@@ -37,7 +37,7 @@ const CategoryByStoreSlider = () => {
 
   if (error) {
     return (
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-12">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Title title="Shop by Category" />
         <div className="text-center text-red-500 py-10">
           Failed to load categories
@@ -66,7 +66,7 @@ const CategoryByStoreSlider = () => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
-          slidesPerView={3}
+          slidesPerView={4}
           navigation={{
             nextEl: ".custom-swiper-button-next-cat1",
             prevEl: ".custom-swiper-button-prev-cat1",
@@ -99,7 +99,7 @@ const CategoryByStoreSlider = () => {
                 )}_${category?.sub_category_info?._id}`}
                 className="flex flex-col items-center"
               >
-                <div className="aspect-square min-h-[111px] lg:min-h-[133px] max-w-[111px] lg:max-w-[133px] rounded-full border group-hover:border-blue-500">
+                <div className="aspect-square min-h-20 lg:min-h-[133px] max-w-20 lg:max-w-[133px] rounded-full border group-hover:border-blue-500">
                   <Image
                     src={
                       category?.sub_category_info?.banner_type_1
@@ -114,7 +114,7 @@ const CategoryByStoreSlider = () => {
                   />
                 </div>
 
-                <h3 className="text-sm lg:text-base text-center font-semibold text-gray-800 p-2 group-hover:text-blue-500">
+                <h3 className="text-xs md:text-sm lg:text-base text-center font-semibold text-gray-800 p-2 group-hover:text-blue-500">
                   {category?.sub_category_info?.sub_category_name}
                 </h3>
               </Link>
