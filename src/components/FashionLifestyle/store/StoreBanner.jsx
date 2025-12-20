@@ -18,18 +18,32 @@ const StoreBanner = () => {
 
   if (isLoading) return <Loader />;
 
+  console.log("storeInfo : ", storeInfo);
+
   return (
     <div className="pt-5">
       <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
         <Image
           src={
-            storeInfo?.shop_banner_app
+            storeInfo?.shop_banner_web
               ? `${FASHION_IMAGE_URL}/${storeInfo?.shop_banner_web}`
               : "/png/dummyImage.png"
           }
           alt="Shopping store banner"
           fill
-          className="object-cover"
+          className="object-cover hidden md:block"
+          priority
+        />
+
+        <Image
+          src={
+            storeInfo?.shop_banner_app
+              ? `${FASHION_IMAGE_URL}/${storeInfo?.shop_banner_app}`
+              : "/png/dummyImage.png"
+          }
+          alt="Shopping store banner"
+          fill
+          className="object-cover block md:hidden"
           priority
         />
 
