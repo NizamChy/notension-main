@@ -18,8 +18,6 @@ const StoreBanner = () => {
 
   if (isLoading) return <Loader />;
 
-  console.log("storeInfo : ", storeInfo);
-
   return (
     <div className="pt-5">
       <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
