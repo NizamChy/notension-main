@@ -5,8 +5,8 @@ import { RxCross2 } from "react-icons/rx";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 
 const OrderSummary = ({ items, total, removeFromCart }) => {
-  const handleRemoveItem = (productId, selectedSize, selectedColor) => {
-    removeFromCart(productId, selectedSize, selectedColor);
+  const handleRemoveItem = (productId, selectedSize, selectedImage) => {
+    removeFromCart(productId, selectedSize, selectedImage);
     toast.dismiss();
     toast.success("Item removed from cart!");
   };
@@ -72,7 +72,7 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
                               handleRemoveItem(
                                 item?._id,
                                 item?.selectedSize,
-                                item?.selectedColor
+                                item?.selectedImage
                               )
                             }
                           >
@@ -81,12 +81,12 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
                         </div>
                       </div>
 
-                      {(item?.selectedColor || item?.selectedSize) && (
+                      {(item?.selectedImage || item?.selectedSize) && (
                         <p className="mt-1 text-sm text-gray-500">
-                          {item?.selectedColor && (
-                            <span>{item?.selectedColor}</span>
-                          )}
-                          {item?.selectedColor && item?.selectedSize && " / "}
+                          {/* {item?.selectedImage && (
+                            <span>{item?.selectedImage}</span>
+                          )} */}
+                          {/* {item?.selectedImage && item?.selectedSize && " / "} */}
                           {item?.selectedSize && (
                             <span>{item?.selectedSize}</span>
                           )}

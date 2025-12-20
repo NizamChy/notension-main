@@ -23,7 +23,7 @@ const ProductDetailSection = () => {
   const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
+  // const [selectedColor, setSelectedColor] = useState(null);
 
   const pathname = usePathname();
   const { addToCart } = useCart();
@@ -35,11 +35,12 @@ const ProductDetailSection = () => {
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
 
+  // const detailImages = [product?.web_image, ...product?.detail_product_image];
   // const [selectedImage, setSelectedImage] = useState(product?.web_image);
+
   const [selectedImage, setSelectedImage] = useState(
     product?.images_by_color?.[0] || product?.web_image
   );
-  const detailImages = [product?.web_image, ...product?.detail_product_image];
 
   const favouriteFashionItems = useSelector(
     (state) => state.userChoice.favouriteFashionItems
@@ -58,22 +59,23 @@ const ProductDetailSection = () => {
   };
 
   const handleAddToCart = () => {
-    if (detailImages?.length > 0 && !selectedImage) {
-      toast.dismiss();
-      toast("Please select color!", {
-        icon: "ℹ️",
-        style: {
-          border: "1px solid #2C3E50",
-          padding: "10px",
-          color: "#2C3E50",
-        },
-        iconTheme: {
-          primary: "#713200",
-          secondary: "#FFFAEE",
-        },
-      });
-      return;
-    }
+    // if (detailImages?.length > 0 && !selectedImage) {
+    //   toast.dismiss();
+    //   toast("Please select color!", {
+    //     icon: "ℹ️",
+    //     style: {
+    //       border: "1px solid #2C3E50",
+    //       padding: "10px",
+    //       color: "#2C3E50",
+    //     },
+    //     iconTheme: {
+    //       primary: "#713200",
+    //       secondary: "#FFFAEE",
+    //     },
+    //   });
+    //   return;
+    // }
+
     // if (
     //   product?.colors !== "null" &&
     //   product?.colors !== "" &&
@@ -120,7 +122,7 @@ const ProductDetailSection = () => {
       return;
     }
 
-    addToCart(product, quantity, selectedSize, selectedColor);
+    addToCart(product, quantity, selectedSize, selectedImage);
 
     toast.dismiss();
     toast.success(`${product?.product_title_eng} added to cart!`, {
@@ -185,11 +187,6 @@ const ProductDetailSection = () => {
       },
     });
   };
-
-  // console.log("detailImages : ", detailImages);
-  // console.log("selectedImage : ", selectedImage);
-
-  console.log("product : ", product);
 
   return (
     <>
@@ -383,7 +380,14 @@ const ProductDetailSection = () => {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:gap-4 mt-8">
+            <button
+              onClick={handleAddToCart}
+              className="mt-8 flex items-center justify-center flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 lg:px-12 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FaShoppingCart /> Add to Cart
+            </button>
+
+            {/* <div className="flex flex-col md:flex-row md:gap-4 mt-8">
               <button
                 onClick={handleAddToCart}
                 className="flex items-center justify-center flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -398,7 +402,7 @@ const ProductDetailSection = () => {
               >
                 Buy Now
               </Link>
-            </div>
+            </div> */}
 
             <ProductDetails product={product} />
           </div>

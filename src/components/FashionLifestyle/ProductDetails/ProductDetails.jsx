@@ -40,7 +40,7 @@ const ProductDetails = ({ product }) => {
         <div className="mt-5">
           <h3 className="font-semibold mb-2">How To Use</h3>
           <div
-            className="text-gray-600"
+            className="text-gray-600 text-sm md:text-base"
             dangerouslySetInnerHTML={{ __html: product?.use_directions }}
           />
         </div>

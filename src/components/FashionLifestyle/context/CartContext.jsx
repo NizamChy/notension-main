@@ -31,14 +31,14 @@ export const CartProvider = ({ children }) => {
     product,
     quantity = 1,
     selectedSize = null,
-    selectedColor = null
+    selectedImage = null
   ) => {
     setCartItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex(
         (item) =>
           item?._id === product?._id &&
           item?.selectedSize === selectedSize &&
-          item?.selectedColor === selectedColor
+          item?.selectedImage === selectedImage
       );
 
       if (existingItemIndex >= 0) {
@@ -55,7 +55,7 @@ export const CartProvider = ({ children }) => {
             ...product,
             quantity,
             selectedSize,
-            selectedColor,
+            selectedImage,
             addedAt: new Date().toISOString(),
           },
         ];
@@ -67,7 +67,7 @@ export const CartProvider = ({ children }) => {
     productId,
     newQuantity,
     selectedSize,
-    selectedColor
+    selectedImage
   ) => {
     if (newQuantity < 1) return;
 
@@ -75,21 +75,21 @@ export const CartProvider = ({ children }) => {
       prevItems.map((item) =>
         item?._id === productId &&
         item?.selectedSize === selectedSize &&
-        item?.selectedColor === selectedColor
+        item?.selectedImage === selectedImage
           ? { ...item, quantity: newQuantity }
           : item
       )
     );
   };
 
-  const removeFromCart = (productId, selectedSize, selectedColor) => {
+  const removeFromCart = (productId, selectedSize, selectedImage) => {
     setCartItems((prevItems) =>
       prevItems.filter(
         (item) =>
           !(
             item?._id === productId &&
             item?.selectedSize === selectedSize &&
-            item?.selectedColor === selectedColor
+            item?.selectedImage === selectedImage
           )
       )
     );

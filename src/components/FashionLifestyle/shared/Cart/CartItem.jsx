@@ -10,8 +10,8 @@ import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
 const CartItem = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-  const handleRemoveItem = (productId, selectedSize, selectedColor) => {
-    removeFromCart(productId, selectedSize, selectedColor);
+  const handleRemoveItem = (productId, selectedSize, selectedImage) => {
+    removeFromCart(productId, selectedSize, selectedImage);
 
     toast.dismiss();
     toast.success("Item removed from cart");
@@ -21,9 +21,9 @@ const CartItem = () => {
     productId,
     newQuantity,
     selectedSize,
-    selectedColor
+    selectedImage
   ) => {
-    updateQuantity(productId, newQuantity, selectedSize, selectedColor);
+    updateQuantity(productId, newQuantity, selectedSize, selectedImage);
   };
 
   return (
@@ -31,7 +31,7 @@ const CartItem = () => {
       {cartItems?.map((item) => (
         <div
           key={`${item?._id?.toString()}-${item?.selectedSize}-${
-            item?.selectedColor
+            item?.selectedImage
           }`}
           className="border p-2 rounded"
         >
@@ -62,7 +62,7 @@ const CartItem = () => {
                         item?._id,
                         item?.quantity - 1,
                         item?.selectedSize,
-                        item?.selectedColor
+                        item?.selectedImage
                       )
                     }
                     className="px-2 border border-gray-300 rounded-l-md hover:bg-gray-100"
@@ -78,7 +78,7 @@ const CartItem = () => {
                         item?._id,
                         item?.quantity + 1,
                         item?.selectedSize,
-                        item?.selectedColor
+                        item?.selectedImage
                       )
                     }
                     className="px-2 border border-gray-300 rounded-r-md hover:bg-gray-100"
@@ -95,11 +95,11 @@ const CartItem = () => {
                   </p>
                 )}
 
-                {item?.selectedColor && (
+                {/* {item?.selectedImage && (
                   <p className="text-xs text-gray-700 capitalize">
-                    Color: {item?.selectedColor}
+                    Color: {item?.selectedImage}
                   </p>
-                )}
+                )} */}
               </div>
 
               <div className="flex justify-between gap-5">
@@ -119,7 +119,7 @@ const CartItem = () => {
                 handleRemoveItem(
                   item?._id,
                   item?.selectedSize,
-                  item?.selectedColor
+                  item?.selectedImage
                 )
               }
             >

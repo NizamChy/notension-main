@@ -4,8 +4,12 @@ import React from "react";
 import { useEffect } from "react";
 import SidebarItems from "./SidebarItems";
 import { IoClose } from "react-icons/io5";
+import { useParams } from "next/navigation";
+import StoreSidebarItems from "./StoreSidebarItems";
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const params = useParams();
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isOpen && !event.target.closest(".sidebar-container")) {
@@ -41,7 +45,11 @@ const Sidebar = ({ isOpen, onClose }) => {
             </button>
           </div>
 
-          <SidebarItems onClose={onClose} />
+          {params?.shopSlugId ? (
+            <StoreSidebarItems onClose={onClose} />
+          ) : (
+            <SidebarItems onClose={onClose} />
+          )}
         </div>
       </div>
     </>
