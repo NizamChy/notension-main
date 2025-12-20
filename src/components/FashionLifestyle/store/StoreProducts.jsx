@@ -49,18 +49,18 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
       </section>
     );
 
-  if (isError) {
-    return (
-      <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <Title title={title} />
-          <div className="text-center text-red-500 py-10">
-            Failed to load {title} products
-          </div>
-        </div>
-      </section>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
+  //       <div className="max-w-7xl mx-auto">
+  //         <Title title={title} />
+  //         <div className="text-center text-red-500 py-10">
+  //           Failed to load {title} products
+  //         </div>
+  //       </div>
+  //     </section>
+  //   );
+  // }
 
   if (!productInfo || productInfo?.length === 0) {
     return null;
