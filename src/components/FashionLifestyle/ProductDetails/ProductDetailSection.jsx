@@ -424,6 +424,20 @@ const ProductDetailSection = () => {
               priority
             />
 
+            {/* {console.log(product?.store_info)} */}
+
+            {/* <Image
+              src={
+                product?.store_info?.shop_banner_web
+                  ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_web}`
+                  : "/png/dummyImage.png"
+              }
+              alt="Shopping store banner"
+              fill
+              className="object-cover hidden md:block"
+              priority
+            /> */}
+
             <div
               className="relative z-10 flex flex-col items-start justify-center h-full px-8
                        text-deepGray w-2/3 lg:w-1/3 bg-gradient-to-br from-white to-white/20 md:to-white/30
