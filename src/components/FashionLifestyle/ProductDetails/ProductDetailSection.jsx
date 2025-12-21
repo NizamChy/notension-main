@@ -420,13 +420,11 @@ const ProductDetailSection = () => {
               }
               alt="Shopping store banner"
               fill
-              className="object-cover"
+              className="object-cover block md:hidden"
               priority
             />
 
-            {/* {console.log(product?.store_info)} */}
-
-            {/* <Image
+            <Image
               src={
                 product?.store_info?.shop_banner_web
                   ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_web}`
@@ -436,7 +434,7 @@ const ProductDetailSection = () => {
               fill
               className="object-cover hidden md:block"
               priority
-            /> */}
+            />
 
             <div
               className="relative z-10 flex flex-col items-start justify-center h-full px-8
