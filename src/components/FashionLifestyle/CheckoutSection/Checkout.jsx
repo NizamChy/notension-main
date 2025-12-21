@@ -14,6 +14,7 @@ import { PAYMENT_DATA } from "../utils/constants";
 import { useMutation } from "@tanstack/react-query";
 import { FASHION_BASE_URL } from "@/api-endpoints/secret";
 import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import ExploreButton from "../shared/ExploreButton/ExploreButton";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
@@ -178,7 +179,7 @@ const Checkout = () => {
         </div>
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>
           <div className="flex flex-col justify-center items-center min-h-80 text-gray bg-gray-50 rounded-md">
-            <div className="w-40">
+            {/* <div className="w-40">
               <Image
                 className="w-full object-contain"
                 src="/images/fashion-lifestyle/success-icon.png"
@@ -186,11 +187,23 @@ const Checkout = () => {
                 height={160}
                 width={160}
               />
-            </div>
-            <p className="py-3 font-semibold text-2xl text-primary">
-              Order placed for {totalStores} stores!
-              {/* Order placed successfully! */}
-            </p>
+            </div> */}
+
+            <DotLottieReact
+              src="https://lottie.host/7ea3cf4e-a72b-407b-8ea9-9103738dab49/nZY9k8iTb7.lottie"
+              loop
+              autoplay
+            />
+
+            {totalStores > 1 ? (
+              <p className="pb-3 font-semibold text-2xl text-green-600">
+                Order placed for {totalStores} stores!
+              </p>
+            ) : (
+              <p className="pb-3 font-semibold text-2xl text-green-600">
+                Order placed successfully!
+              </p>
+            )}
 
             <ExploreButton title="Go Home" onClick={handleGoHomeClick} />
           </div>
