@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { slugify } from "../utils/slugify";
+import { useRouter } from "next/navigation";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsChevronDown, BsPerson } from "react-icons/bs";
 import navItems from "../../../../public/data/navItems.json";
@@ -11,6 +12,8 @@ import navItems from "../../../../public/data/navItems.json";
 const SidebarItems = ({ onClose }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeCatMenu, setActiveCatMenu] = useState(null);
+
+  const router = useRouter();
 
   // const { navItems, isLoading } = useCategoryItem();
 
@@ -47,13 +50,18 @@ const SidebarItems = ({ onClose }) => {
             <li key={navItem?.type_name}>
               <button
                 className="flex items-center text-start justify-between w-full font-medium hover:text-blue-600 transition-colors duration-200"
-                onClick={() =>
+                onClick={() => {
                   setActiveMenu(
                     activeMenu === navItem?.type_name
                       ? null
                       : navItem?.type_name
-                  )
-                }
+                  );
+                  router.push(
+                    `/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+                      navItem?.type_id
+                    }`
+                  );
+                }}
               >
                 {navItem?.type_name}
                 <BsChevronDown
@@ -74,11 +82,18 @@ const SidebarItems = ({ onClose }) => {
                   {navItem?.categories?.map((cat) => (
                     <div key={cat?.name} className="mb-4">
                       <button
-                        onClick={() =>
+                        onClick={() => {
                           setActiveCatMenu(
                             activeCatMenu === cat?.name ? null : cat?.name
-                          )
-                        }
+                          );
+                          router.push(
+                            `/fashion_lifestyle/subcat/${slugify(
+                              navItem?.type_name
+                            )}_${cat?.type_id}_${slugify(cat?.name)}_${
+                              cat?.category_id
+                            }`
+                          );
+                        }}
                         className="font-medium mb-2 flex items-center justify-between w-full text-gray-800 hover:text-blue-600 transition-colors duration-200"
                       >
                         {cat?.name}
