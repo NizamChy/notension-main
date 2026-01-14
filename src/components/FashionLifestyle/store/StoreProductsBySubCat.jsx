@@ -51,17 +51,47 @@ const StoreProductsBySubCat = () => {
 
   // let products = filteredKidsProducts || [];
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (!filteredKidsProducts) return;
+
+  //   const filtered = selectedSegments.length
+  //     ? filteredKidsProducts.filter((item) =>
+  //         selectedSegments.includes(item?.sub_category_info?._id)
+  //       )
+  //     : filteredKidsProducts;
+
+  //   setFilteredProducts(filtered);
+  // }, [selectedSegments, filteredKidsProducts]);
+
+    useEffect(() => {
     if (!filteredKidsProducts) return;
 
-    const filtered = selectedSegments.length
-      ? filteredKidsProducts.filter((item) =>
-          selectedSegments.includes(item?.sub_category_info?._id)
-        )
-      : filteredKidsProducts;
+    let filtered = [...filteredKidsProducts];
+
+    // Segment filter
+    if (selectedSegments.length) {
+      filtered = filtered.filter((item) =>
+        selectedSegments.includes(item?.sub_category_info?._id)
+      );
+
+      // Sort: last selected segment should come first
+      filtered.sort((a, b) => {
+        const aIndex = selectedSegments.indexOf(a?.sub_category_info?._id);
+        const bIndex = selectedSegments.indexOf(b?.sub_category_info?._id);
+
+        return bIndex - aIndex; // reverse order → last selected first
+      });
+    }
+
+    // Price filter
+    filtered = filtered.filter(
+      (product) =>
+        product.sale_price >= priceRange[0] &&
+        product.sale_price <= priceRange[1]
+    );
 
     setFilteredProducts(filtered);
-  }, [selectedSegments, filteredKidsProducts]);
+  }, [filteredKidsProducts, selectedSegments, priceRange]);
 
   const toggleFilter = (filterType, value) => {
     const setters = {
