@@ -1,5 +1,5 @@
 import { getApiClient } from "@/lib/apiClient";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
 export const useAppointment = () => {
   const [message, setMessage] = useState("");
   const [progressing, setProgressing] = useState(false);
+  const requestInFlight = useRef(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isAppointmentBooked, setIsAppointmentBooked] = useState(false);
@@ -22,6 +23,9 @@ export const useAppointment = () => {
   const Axios = getApiClient(HEALTH_CARE_URL);
 
   const bookAppointment = (appointmentData) => {
+    // Ignore repeat clicks while the request is still in flight.
+    if (requestInFlight.current) return Promise.resolve(false);
+    requestInFlight.current = true;
     setProgressing(true);
     const {
       doctor_name,
@@ -39,6 +43,9 @@ export const useAppointment = () => {
 
     // Resolves to true when the appointment was booked.
     return Axios.post(BOOK_APPOINTMENT, appointmentInfo)
+      .finally(() => {
+        requestInFlight.current = false;
+      })
       .then((response) => {
 
         if (response?.data?.success) {

@@ -1,5 +1,5 @@
 import { getApiClient } from "@/lib/apiClient";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
   GET_PATIENTS,
@@ -12,6 +12,7 @@ import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 
 export const usePatient = () => {
   const [progressing, setProgressing] = useState(false);
+  const requestInFlight = useRef(false);
 
   const dispatch = useDispatch();
   const { userInfo, patientInfo } = useSelector((state) => state.user);
@@ -19,6 +20,9 @@ export const usePatient = () => {
   const Axios = getApiClient(HEALTH_CARE_URL);
 
   const registerPatient = (patientData) => {
+    // Ignore repeat clicks while the request is still in flight.
+    if (requestInFlight.current) return Promise.resolve(false);
+    requestInFlight.current = true;
     setProgressing(true);
     patientData.createdBy = {
       user_id: userInfo?._id,
@@ -28,6 +32,9 @@ export const usePatient = () => {
 
     // Resolves to true when the patient was registered.
     return Axios.post(REGISTER_PATIENT, patientData)
+      .finally(() => {
+        requestInFlight.current = false;
+      })
       .then((response) => {
         if (response?.data?.success) {
           toast.success(`${response?.data?.message}`, {

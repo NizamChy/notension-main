@@ -1,5 +1,5 @@
 import { getApiClient } from "@/lib/apiClient";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
   MEDICINE_ORDER_INFO,
@@ -15,6 +15,7 @@ const Axios = getApiClient(MEDICINE_URL);
 
 export const useOrderMedicine = () => {
   const [progressing, setProgressing] = useState(false);
+  const orderInFlight = useRef(false);
 
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
@@ -74,9 +75,15 @@ export const useOrderMedicine = () => {
   };
 
   const placeOrder = (itemOrderObj) => {
+    // Ignore repeat clicks while an order request is still in flight.
+    if (orderInFlight.current) return;
+    orderInFlight.current = true;
     setProgressing(true);
 
     Axios.post(MEDICINE_PLACE_ORDER, itemOrderObj)
+      .finally(() => {
+        orderInFlight.current = false;
+      })
       .then((res) => {
         if (res.data.success) {
           toast.success("Order has been placed!", {

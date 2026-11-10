@@ -9,6 +9,9 @@ import { CART_MODULES } from "./cartModules";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { toNumber } from "@/utils/price";
 
+// Stable empty list so the selector does not return a new array each call.
+const NO_ITEMS = [];
+
 const CartContent = ({
   handleCheckout,
   getPrimaryClass,
@@ -19,7 +22,7 @@ const CartContent = ({
   const config = CART_MODULES[moduleName];
 
   const items = useSelector((state) =>
-    config ? state.cart[config.itemsKey] : []
+    config ? state.cart[config.itemsKey] : NO_ITEMS
   );
   const total = useSelector((state) =>
     config ? state.cart[config.totalKey] : 0
