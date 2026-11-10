@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import HomeBannerCard from "./HomeBannerCard";
 // import HomeSlider from "./HomeSlider";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -74,66 +74,28 @@ const MiddleSection = () => {
 
   return (
     <>
-      <div className="lg:flex gap-4 lg:w-[1280px] max-w-full min-w-0">
-        <div
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 w-full">
+        <HomeBannerCard
           onClick={(e) => handleSectionClick(e, "medicalService")}
-          className="group overflow-hidden relative mb-4 lg:mb-0 lg:flex-1 min-w-0 cursor-pointer"
-        >
-          <Image
-            width={632}
-            height={300}
-            className="w-full transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/find-medical-services.jpg"
-            alt="find-medical-services.jpg"
-          />
+          width={632}
+          height={300}
+          image="/images/home/find-medical-services.jpg"
+          alt="find-medical-services.jpg"
+          title="Find Medical Services"
+          actionText="Contact Now"
+          ActionIcon={BsTelephone}
+        />
 
-          <div className="absolute bottom-3 left-4 md:bottom-10 md:left-8">
-            <h3
-              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-            >
-              Find Medical Services
-            </h3>
-            <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              <span>
-                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-              </span>
-              <span>Contact Now</span>
-            </p>
-          </div>
-        </div>
-
-        {/* <HomeSlider /> */}
-
-        <div className="space-y-4 flex flex-col-reverse lg:flex-col lg:flex-1 min-w-0">
-          <div
-            onClick={(e) => handleSectionClick(e, "allCareServices")}
-            className="group overflow-hidden relative lg:mt-0 cursor-pointer"
-          >
-            <Image
-              width={632}
-              height={300}
-              className="w-full transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/all-care-services.jpg"
-              alt="home-banner-2"
-            />
-
-            <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
-              <h3
-                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-              >
-                All Care Services
-              </h3>
-              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                </span>
-                <span>Contact Now</span>
-              </p>
-            </div>
-          </div>
-        </div>
+        <HomeBannerCard
+          onClick={(e) => handleSectionClick(e, "allCareServices")}
+          width={632}
+          height={300}
+          image="/images/home/all-care-services.jpg"
+          alt="home-banner-2"
+          title="All Care Services"
+          actionText="Contact Now"
+          ActionIcon={BsTelephone}
+        />
       </div>
 
       {isModalOpen && routeType && (

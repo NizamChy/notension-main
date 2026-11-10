@@ -48,14 +48,14 @@ const OrderDetailsMobile = ({ orderId }) => {
 
   if (userInfo?._id && !order) {
     return (
-      <p className="p-2 mt-16 text-center text-gray-600">Order not found.</p>
+      <p className="py-16 text-center text-gray-600">Order not found.</p>
     );
   }
 
   return (
     <>
       {userInfo?._id && (
-        <div className="p-2 mt-16">
+        <div className="max-w-3xl bg-white border border-gray-200 rounded-2xl p-4 md:p-6 shadow-sm">
           <div className="space-y-1.5 text-sm">
             <h2 className="text-lg md:text-xl font-bold mb-1 text-secondary">
               Order Details

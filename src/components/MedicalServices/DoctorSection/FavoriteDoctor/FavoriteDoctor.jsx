@@ -6,6 +6,11 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { IoTrashOutline } from "react-icons/io5";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
+import DoctorCardView from "../DoctorCard/DoctorCardView";
+import {
+  MedicalCardGrid,
+  MedicalContainer,
+} from "../../Layout/MedicalLayout";
 
 const FavoriteDoctor = () => {
   const router = useRouter();
@@ -32,79 +37,47 @@ const FavoriteDoctor = () => {
   };
 
   return (
-    <div className="container pt-20">
-      <div>
-        {favouriteDoctors?.length > 0 && (
-          <h1 className="text-lg md:text-xl lg:text-2xl font-bold md:mt-3 mb-3 text-deepGray">
-            Favourite Doctor
-          </h1>
-        )}
+    <MedicalContainer className="pt-20 md:pt-24 pb-8">
+      {favouriteDoctors?.length > 0 && (
+        <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-4 md:mb-6 text-deepGray">
+          Favourite Doctor
+        </h1>
+      )}
 
-        <>
-          {favouriteDoctors?.length < 1 && (
-            <div className="flex flex-col justify-center items-center min-h-content">
-              <Image
-                className="max-w-4xl w-full"
-                src="/images/favorite/fav-doctor-not-found.jpg"
-                alt="favourite-doctor-not-found"
-                width={1867}
-                height={1179}
-              />
-            </div>
-          )}
-        </>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
-          {favouriteDoctors?.map((doctor) => (
-            <div
-              key={doctor?.mongodbId}
-              onClick={(e) => handleDoctorClick(e, doctor)}
-              className="relative bg-white w-full min-h-60 flex flex-col justify-center items-center border rounded-lg shadow-sm cursor-pointer py-3 my-2"
-            >
-              <div className="flex gap-2 px-3 lg:px-8 justify-center items-center">
-                <div className="w-1/3">
-                  <Image
-                    src={
-                      doctor?.gender === "Female"
-                        ? "/images/medical-services/doctor-female.png"
-                        : "/images/medical-services/doctor-male.png"
-                    }
-                    alt={doctor?.doctor_name || "Doctor"}
-                    width={110}
-                    height={140}
-                    className="object-cover w-full md:w-[110px] md:h-[140px]"
-                  />
-                </div>
-                <div className="w-2/3 flex flex-col justify-start items-start">
-                  <h3 className="mt-3 text-sm md:text-base font-semibold text-[#A93356]">
-                    {doctor?.doctor_name}
-                  </h3>
-
-                  <div className="mt-1 mb-2">
-                    <p className="text-xs md:text-sm line-clamp-4 text-mediumGray">
-                      {doctor?.qualifications}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#CCB8F7] mt-3 py-1 w-full">
-                <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base px-3">
-                  {doctor?.speciality}
-                </p>
-              </div>
-
-              <button
-                onClick={(e) => handleRemoveFromFavorite(e, doctor)}
-                className="absolute top-3 right-2 md:right-4 text-deepGray opacity-65 hover:text-primaryFood rounded-full hover:bg-white flex justify-center items-center"
-              >
-                <IoTrashOutline className="size-7 p-1 text-xl rounded-full text-primaryFood" />
-              </button>
-            </div>
-          ))}
+      {favouriteDoctors?.length < 1 && (
+        <div className="flex flex-col justify-center items-center min-h-[60vh]">
+          <Image
+            className="max-w-xl w-full h-auto"
+            src="/images/favorite/fav-doctor-not-found.jpg"
+            alt="favourite-doctor-not-found"
+            width={1867}
+            height={1179}
+          />
         </div>
-      </div>
-    </div>
+      )}
+
+      <MedicalCardGrid>
+        {favouriteDoctors?.map((doctor) => (
+          <DoctorCardView
+            key={doctor?.mongodbId}
+            onClick={(e) => handleDoctorClick(e, doctor)}
+            name={doctor?.doctor_name}
+            gender={doctor?.gender}
+            speciality={doctor?.speciality}
+            qualifications={doctor?.qualifications}
+          >
+            <button
+              type="button"
+              aria-label="Remove from favourite"
+              onClick={(e) => handleRemoveFromFavorite(e, doctor)}
+              className="absolute top-2 right-2 flex items-center justify-center rounded-full bg-white/90 p-1 text-primaryFood shadow-sm hover:bg-primaryBg"
+            >
+              <IoTrashOutline className="size-5" />
+            </button>
+          </DoctorCardView>
+        ))}
+      </MedicalCardGrid>
+    </MedicalContainer>
   );
 };
 

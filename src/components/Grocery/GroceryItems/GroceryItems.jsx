@@ -1,12 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
 import { useParams } from "next/navigation";
-import { TbCurrencyTaka } from "react-icons/tb";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
+import StoreItemCard from "@/components/StoreModule/StoreItemCard";
 import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
@@ -20,7 +17,6 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
-  const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const params = useParams();
@@ -150,145 +146,35 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
   return (
     <>
-      <div className="flex justify-center lg:mb-8">
-        <div
-          onClick={handleProductClick}
-          className="group cursor-pointer w-full max-w-52 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-        >
-          <div className="relative overflow-hidden rounded-t-lg">
-            {/* Skeleton loader that shows while image is loading */}
-            {isImageLoading && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
-                <div className="h-full flex justify-center items-center">
-                  <Image
-                    src="/gif/loading.gif"
-                    alt="loading.gif"
-                    width={60}
-                    height={60}
-                  />
-                </div>
-              </div>
-            )}
-            <Image
-              src={
-                item?.app_image
-                  ? `${GROCERY_ITEMS_IMAGES}/${item?.app_image}`
-                  : "/png/dummyImage.png"
-              }
-              alt={item?.product_title_eng || "Product image"}
-              width={400}
-              height={400}
-              className={`w-full h-52 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105 ${
-                isImageLoading ? "opacity-0" : "opacity-100"
-              }`}
-              onLoadingComplete={() => setIsImageLoading(false)}
-              onLoad={() => setIsImageLoading(false)}
-              onError={() => setIsImageLoading(false)}
-            />
-
-            {item?.less > 0 && (
-              <p className="flex items-center absolute top-0 left-0 text-white text-sm bg-primaryGrocery px-3 rounded-tl-lg rounded-br-lg">
-                {item?.less}
-                {item?.less_type === "Percent" ? "%" : "৳"} OFF
-              </p>
-            )}
-
-            {!isFavoriteAdded && !isFavorite && (
-              <button
-                onClick={handleAddToFavorite}
-                className="absolute top-4 right-3 md:right-4"
-              >
-                <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
-              </button>
-            )}
-
-            {isFavoriteAdded && (
-              <button
-                onClick={handleRemoveFromFavorite}
-                className="absolute top-4 right-3 md:right-4"
-              >
-                <FaHeart className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
-              </button>
-            )}
-
-            {isFavorite && (
-              <button
-                onClick={handleRemoveFromFavorite}
-                className="absolute top-4 right-3 md:right-4"
-              >
-                <FaHeart className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
-              </button>
-            )}
-          </div>
-
-          <div className="px-2 md:px-3 pb-3 pt-2">
-            <div className="h-8 md:h-11 lg:h-12">
-              <h5 className="text-xs md:text-base font-semibold text-deepGray line-clamp-2 overflow-hidden">
-                {item?.product_title_eng}
-              </h5>
-            </div>
-
-            <p className="text-xs py-0.5 md:py-0 md:text-sm text-mediumGray truncate">
-              {item?.pack_size}
-            </p>
-
-            <div className="flex gap-3 items-center pb-3">
-              {item?.sale_price && (
-                <p className="text-sm md:text-lg font-medium flex items-center text-primaryGrocery">
-                  <TbCurrencyTaka className="md:text-2xl" />
-                  {item?.sale_price}
-                </p>
-              )}
-
-              {item?.sale_price < item?.max_retail_price ? (
-                <>
-                  <p className="text-sm md:text-base flex items-center text-lightGray line-through">
-                    <TbCurrencyTaka className="md:text-lg" />
-                    {item?.max_retail_price}
-                  </p>
-                </>
-              ) : null}
-            </div>
-
-            {!isFavorite && (
-              <div>
-                {currentQuantity === 0 ? (
-                  <button
-                    onClick={handleAddToCart}
-                    className="w-full py-1.5 md:py-2 md:px-4 bg-primaryGrocery text-white font-medium rounded-lg  text-xs md:text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
-                  >
-                    Add to cart
-                  </button>
-                ) : (
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                    }}
-                    className="w-full bg-primaryGrocery rounded-lg flex items-center justify-between"
-                  >
-                    <button
-                      onClick={(e) => handleDecrement(e, item._id)}
-                      className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
-                    >
-                      -
-                    </button>
-                    <span className="font-medium text-lg text-white">
-                      {currentQuantity}
-                    </span>
-                    <button
-                      onClick={(e) => handleIncrement(e, item._id)}
-                      className="md:py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
-                    >
-                      +
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <StoreItemCard
+        moduleName="grocery"
+        imageSrc={
+          item?.app_image
+            ? `${GROCERY_ITEMS_IMAGES}/${item?.app_image}`
+            : "/png/dummyImage.png"
+        }
+        title={item?.product_title_eng}
+        subtitle={item?.pack_size}
+        salePrice={item?.sale_price}
+        mrp={item?.max_retail_price}
+        discountLabel={
+          item?.less > 0
+            ? `${item?.less}${item?.less_type === "Percent" ? "%" : "৳"} OFF`
+            : null
+        }
+        isFavorite={isFavorite || !!isFavoriteAdded}
+        onClick={handleProductClick}
+        onFavoriteToggle={
+          isFavorite || isFavoriteAdded
+            ? handleRemoveFromFavorite
+            : handleAddToFavorite
+        }
+        showCartControls={!isFavorite}
+        quantity={currentQuantity}
+        onAddToCart={handleAddToCart}
+        onIncrement={(e) => handleIncrement(e, item._id)}
+        onDecrement={(e) => handleDecrement(e, item._id)}
+      />
 
       {selectedItem && !isFavorite && (
         <GroceryItemDetailsModal

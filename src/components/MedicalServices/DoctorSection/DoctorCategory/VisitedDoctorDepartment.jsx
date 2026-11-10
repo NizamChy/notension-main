@@ -1,14 +1,12 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import DepartmentGrid from "./DepartmentGrid";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
-import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const VisitedDoctorDepartment = ({
-  gridClassName = "grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center",
   sliceStart = 0,
   sliceEnd = 12,
   imageWidth = 300,
@@ -20,9 +18,7 @@ const VisitedDoctorDepartment = ({
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { currentCenter, currentDept } = useSelector(
-    (state) => state.doctorInfo
-  );
+  const { currentCenter } = useSelector((state) => state.doctorInfo);
 
   const handleDeptClick = (e, dept) => {
     e.preventDefault();
@@ -40,38 +36,18 @@ const VisitedDoctorDepartment = ({
     );
   };
 
-  return (
-    <>
-      {allDeptInfo?.length > sliceStart ? (
-        <div
-          className={`flex justify-center p-4 lg:p-20 ${bgClassName} rounded-2xl`}
-        >
-          <div>
-            <p className="md:text-2xl font-semibold pb-5 text-[#0C3F8E]">
-              বিভাগ অনুযায়ী ডাক্তার খুঁজুন
-            </p>
+  if (!(allDeptInfo?.length > sliceStart)) return null;
 
-            <div className={gridClassName}>
-              {allDeptInfo?.slice(sliceStart, sliceEnd)?.map((dept) => (
-                <div
-                  key={dept?._id}
-                  onClick={(e) => handleDeptClick(e, dept)}
-                  className="lg:m-3 cursor-pointer"
-                >
-                  <Image
-                    src={`${HEALTH_CARE_IMAGES}/${dept?.deptInfo?.[imageKey]}`}
-                    alt={`${dept?.dept_name}`}
-                    width={imageWidth}
-                    height={imageHeight}
-                    className="rounded-2xl shadow-lg border border-white hover:border-primary"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </>
+  return (
+    <DepartmentGrid
+      items={allDeptInfo?.slice(sliceStart, sliceEnd)}
+      getImage={(dept) => dept?.deptInfo?.[imageKey]}
+      getName={(dept) => dept?.deptInfo?.dept_name || dept?.dept_name}
+      onSelect={handleDeptClick}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
+      bgClassName={bgClassName}
+    />
   );
 };
 

@@ -33,7 +33,7 @@ const AllCategorySection = () => {
             typeId={type?._id?.toString()}
             exploreTitle="Browse All Items"
             bgColor={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
-            gridClass="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-6"
+            gridClass="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6"
           />
         </div>
       ))}

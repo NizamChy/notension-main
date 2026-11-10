@@ -10,7 +10,7 @@ const MenCategory = () => {
         bgColor="bg-white"
         exploreTitle="Explore Men's Fashion"
         typeId={MEN_TYPE_ID}
-        gridClass="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6"
+        gridClass="grid grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"
       />
     </>
   );

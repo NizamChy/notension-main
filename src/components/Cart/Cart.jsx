@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import CartContent from "./CartContent";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 
@@ -15,6 +15,7 @@ const Cart = () => {
 
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname();
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
@@ -29,6 +30,22 @@ const Cart = () => {
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const moduleName = currentModule?.toLowerCase();
+
+  const cartCount =
+    {
+      food: foodItems?.length,
+      grocery: groceryItems?.length,
+      medicine: medicineItems?.length,
+    }[moduleName] || 0;
+  const cartTotal = (
+    Number(
+      {
+        food: totalAmountFood,
+        grocery: totalAmountGrocery,
+        medicine: totalAmountMedicine,
+      }[moduleName],
+    ) || 0
+  ).toFixed(2);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -86,43 +103,31 @@ const Cart = () => {
 
   return (
     <>
+      {/* Floating cart: a slim tab on the right edge on lg+ (store pages keep a
+          right gutter for it, so it never covers content), and a compact pill in
+          the bottom-right corner on smaller screens. */}
       <button
         onClick={toggleDrawer}
-        className={`fixed z-10 lg:z-50 top-1/2 right-0 ${getPrimaryClass()} text-white rounded-s-xl shadow-lg`}
+        aria-label="Open cart"
+        // On checkout the pill would cover the "Place order" button on small
+        // screens, and the order summary is already on the page.
+        className={`fixed z-40 bottom-4 right-4 lg:bottom-auto lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-auto lg:w-[72px] ${
+          pathname?.endsWith("/checkout") ? "hidden lg:flex" : "flex"
+        } lg:flex-col items-center overflow-hidden ${getPrimaryClass()} text-white rounded-full lg:rounded-none lg:rounded-s-xl shadow-lg`}
       >
-        <div className="px-2 md:px-3 pt-1 md:pt-3 md:pb-0.5">
-          <span className="flex justify-center">
-            <Image
-              src="/svg/minicart-icon.svg"
-              alt="minicart-icon"
-              width={22}
-              height={13}
-            />
+        <span className="flex items-center gap-1.5 lg:flex-col lg:gap-0.5 ps-3 pe-2 py-2 lg:px-1 lg:pt-2.5 lg:pb-1.5 text-xs lg:text-[13px] font-medium whitespace-nowrap">
+          <HiOutlineShoppingBag aria-hidden="true" className="text-lg shrink-0" />
+          <span>
+            {cartCount} {cartCount === 1 ? "item" : "items"}
           </span>
-          <p className="flex items-center justify-center gap-1 pb-0.5 text-sm md:text-base">
-            {moduleName === "food" && <span> {foodItems?.length || 0} items </span>}
-            {moduleName === "grocery" && (
-              <span> {groceryItems?.length || 0} items </span>
-            )}
-            {moduleName === "medicine" && (
-              <span> {medicineItems?.length || 0} items </span>
-            )}
-          </p>
-        </div>
+        </span>
 
-        <p
-          className={`font-medium text-sm md:text-base flex items-center ${getSecondaryClass()} text-white rounded-bl-xl px-2 py-0.5`}
+        <span
+          className={`flex items-center justify-center self-stretch ${getSecondaryClass()} text-xs lg:text-[13px] font-semibold px-3 lg:px-1 py-2 lg:py-1 whitespace-nowrap`}
         >
-          <TbCurrencyTaka />
-
-          {moduleName === "food" && <span>{totalAmountFood?.toFixed(2) || 0}</span>}
-          {moduleName === "grocery" && (
-            <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
-          )}
-          {moduleName === "medicine" && (
-            <span>{totalAmountMedicine?.toFixed(2) || 0}</span>
-          )}
-        </p>
+          <TbCurrencyTaka className="shrink-0" />
+          {cartTotal}
+        </span>
       </button>
 
       <div

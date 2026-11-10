@@ -1,14 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { MdContactPhone } from "react-icons/md";
-import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
 import EmptyCart from "@/components/Cart/EmptyCart";
+import CheckoutCard from "@/components/common/CheckoutCard";
 import { useOrderFood } from "@/hooks/place-order/useOrderFood";
-import FloatingInput from "@/components/LoginSection/FloatingInput";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { PAYMENT_DATA } from "@/components/FashionLifestyle/utils/constants";
@@ -140,110 +137,30 @@ const CheckoutSection = () => {
   return (
     <>
       {userInfo?._id && foodItems?.length > 0 && (
-        <div className="flex justify-center">
-          <div className="bg-white p-4 w-full md:w-96">
-            <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
-              <p className="text-primaryFood text-base md:text-xl font-medium underline flex items-center gap-2">
-                <span className="mt-1">
-                  <MdContactPhone />
-                </span>
-                <span> Contact details</span>
-              </p>
-
-              <p className="font-medium text-base">{userInfo?.customer_name}</p>
-              <p className="text-sm md:text-base">
-                {userInfo?.customer_address}
-              </p>
-              <p className="text-sm md:text-base">{userInfo?.contact_no}</p>
-
-              <div className="flex flex-col py-4 font-bold text-sm md:text-lg border-b">
-                <div className="flex justify-between">
-                  <p>Subtotal Amount</p>
-                  <span>{totalPrice.toFixed(2)}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <p>Delivery Charge</p>
-                  <span>{shippingCharge}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <p>Less</p>
-                  <span>{discount}</span>
-                </div>
-              </div>
-
-              <div className="text-center font-bold text-sm md:text-xl text-green-600 flex justify-center">
-                <p className="flex items-center justify-between w-full">
-                  <span>Total Amount</span>
-                  <span className="flex items-center">
-                    <TbCurrencyTaka className="text-xl mt-0.5" /> {grandTotal}
-                  </span>
-                </p>
-              </div>
-
-              <div className="py-4">
-                <FloatingInput
-                  label="User remark"
-                  id="remark"
-                  size="text-base"
-                  multiline={true}
-                  value={remarks}
-                  onChange={(e) => setRemarks(e.target.value)}
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <h2 className="text-sm md:text-xl font-semibold">
-                  Payment Option
-                </h2>
-                {PAYMENT_DATA.map((option) => (
-                  <label
-                    key={option.id}
-                    className="flex items-center gap-2 p-1 cursor-pointer transition-colors hover:bg-gray-100"
-                  >
-                    <input
-                      type="radio"
-                      name="paymentOption"
-                      value={option.label}
-                      checked={paymentOption === option.label}
-                      onChange={() => setPaymentOption(option.label)}
-                      className="form-radio h-5 w-5 text-blue-600"
-                    />
-                    <Image
-                      src={option.icon}
-                      alt={option.label}
-                      width={40}
-                      height={40}
-                      className="w-10"
-                    />
-                    <span className="text-gray-800 font-medium text-xs md:text-base">
-                      {option.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-
-              <div className="flex justify-center">
-                <button
-                  onClick={handleCustomerOrder}
-                  disabled={progressing}
-                  className={`mt-4 px-4 py-1 text-sm md:text-base font-medium rounded-md w-full ${
-                    progressing
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-primaryFood hover:bg-red-600 text-white"
-                  }`}
-                >
-                  {progressing ? "PLACING ORDER..." : "PLACE ORDER"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CheckoutCard
+          userInfo={userInfo}
+          totalPrice={totalPrice}
+          shippingCharge={shippingCharge}
+          discount={discount}
+          grandTotal={grandTotal}
+          remarks={remarks}
+          setRemarks={setRemarks}
+          paymentData={PAYMENT_DATA}
+          paymentOption={paymentOption}
+          setPaymentOption={setPaymentOption}
+          onPlaceOrder={handleCustomerOrder}
+          progressing={progressing}
+          accent={{
+            text: "text-primaryFood",
+            button: "bg-primaryFood hover:bg-red-600",
+            selected: "border-primaryFood bg-red-50/60",
+            radio: "accent-primaryFood",
+          }}
+        />
       )}
 
       {userInfo?._id && foodItems?.length < 1 && (
-        <div className="h-screen flex justify-center items-center">
+        <div className="min-h-[50vh] flex justify-center items-center">
           <EmptyCart />
         </div>
       )}

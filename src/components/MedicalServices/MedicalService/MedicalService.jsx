@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 import { useServiceProvider } from "@/hooks/fetch-data/useServiceProvider";
 import DoctorCommonSlider from "../DoctorSection/DoctorCommonSlider/DoctorCommonSlider";
+import { MedicalPageBody } from "../Layout/MedicalLayout";
 
 const MedicalService = () => {
   const [slider, setSlider] = useState([]);
@@ -30,35 +31,31 @@ const MedicalService = () => {
       {progressing ? (
         <Loader />
       ) : (
-        <div className="min-h-screen pt-20 bg-gray-50">
-          <div className="flex justify-center">
-            <div className="w-full lg:w-3/4 p-4">
-              <div className="rounded-2xl shadow-lg overflow-hidden bg-white p-2">
-                <DoctorCommonSlider slider={slider} />
-              </div>
+        <div className="min-h-screen pt-16 md:pt-20 bg-gray-50">
+          <MedicalPageBody>
+            <div className="max-w-3xl mx-auto">
+              <DoctorCommonSlider slider={slider} />
             </div>
-          </div>
 
-          <div className="flex justify-center items-center px-4 lg:px-20 xl:px-28 py-10">
-            <div className="w-full lg:w-5/6 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {medicalServices?.map((service) => (
                 <div
                   key={service?._id}
-                  className="bg-white shadow-md rounded-2xl p-2 lg:p-4 hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                  className="group bg-white border border-gray-200 shadow-sm rounded-xl p-2 lg:p-3 hover:shadow-md hover:border-primary transition-all duration-300 cursor-pointer"
                 >
-                  <div className="overflow-hidden rounded-xl">
+                  <div className="relative aspect-square overflow-hidden rounded-lg">
                     <Image
                       src={`${HEALTH_CARE_IMAGES}/${service?.file_name}`}
                       alt={service?.title || "Medical Service"}
-                      width={384}
-                      height={384}
-                      className="rounded-xl w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      sizes="(min-width: 1280px) 300px, (min-width: 768px) 33vw, 50vw"
+                      className="object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </MedicalPageBody>
         </div>
       )}
     </>

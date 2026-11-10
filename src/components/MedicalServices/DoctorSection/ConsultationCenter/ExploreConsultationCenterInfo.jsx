@@ -31,22 +31,23 @@ const ExploreConsultationCenterInfo = () => {
   }, [currentCenter, handleAddToFavorite]);
 
   return (
-    <div className="relative m-4 bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4 md:p-6">
-        <div className="relative h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden">
+    <div className="relative bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-4 md:p-6">
+        <div className="relative aspect-[2/1] rounded-xl overflow-hidden bg-gray-100">
           <Image
             src={
               currentCenter?.medical_center_banner_app
                 ? `${HEALTH_CARE_IMAGES}/${currentCenter?.medical_center_banner_app}`
                 : "/png/dummyImage.png"
             }
-            alt={currentCenter?.center_name}
+            alt={currentCenter?.center_name || "Consultation center"}
             fill
+            sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
         </div>
         <div className="flex flex-col justify-center space-y-3">
-          <h3 className="text-xl md:text-2xl lg:text-2xl xl:text-3xl font-bold text-[#A93356]">
+          <h3 className="text-xl md:text-2xl xl:text-3xl font-bold text-[#A93356] md:pe-32">
             {currentCenter?.center_name}
           </h3>
 

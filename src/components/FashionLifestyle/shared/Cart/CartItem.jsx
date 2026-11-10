@@ -34,11 +34,11 @@ const CartItem = () => {
           key={`${item?._id?.toString()}-${item?.selectedSize}-${
             item?.selectedImage
           }`}
-          className="border p-2 rounded"
+          className="border border-gray-200 p-3 rounded-xl"
         >
-          <div className="flex gap-2 relative">
+          <div className="flex gap-3 relative">
             <Image
-              className="aspect-square rounded object-cover"
+              className="w-20 h-20 shrink-0 rounded-lg object-cover bg-gray-50"
               src={
                 item.web_image
                   ? `${FASHION_IMAGE_URL}/${item?.web_image}`
@@ -48,74 +48,66 @@ const CartItem = () => {
               width={100}
               height={100}
             />
-            <div className="space-y-1">
-              <p className="pe-3 line-clamp-2 text-primary font-semibold">
+            <div className="min-w-0 flex-1">
+              <p className="pe-7 line-clamp-2 text-sm font-semibold text-gray-900">
                 {item?.product_title_eng}
               </p>
 
-              <div className="flex gap-2 items-center">
-                <p className="text-sm text-gray-700">Quantity: </p>
-
-                <div className="flex items-center text-sm">
-                  <button
-                    onClick={() =>
-                      handleQuantityChange(
-                        item?._id,
-                        item?.quantity - 1,
-                        item?.selectedSize,
-                        item?.selectedImage
-                      )
-                    }
-                    className="px-2 border border-gray-300 rounded-l-md hover:bg-gray-100"
-                  >
-                    -
-                  </button>
-                  <span className="px-2 border-t border-b border-gray-300">
-                    {item?.quantity}
-                  </span>
-                  <button
-                    onClick={() =>
-                      handleQuantityChange(
-                        item?._id,
-                        item?.quantity + 1,
-                        item?.selectedSize,
-                        item?.selectedImage
-                      )
-                    }
-                    className="px-2 border border-gray-300 rounded-r-md hover:bg-gray-100"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                {item?.selectedSize && (
-                  <p className="text-xs text-gray-700">
-                    Size: {item?.selectedSize}
-                  </p>
-                )}
-
-                {/* {item?.selectedImage && (
-                  <p className="text-xs text-gray-700 capitalize">
-                    Color: {item?.selectedImage}
-                  </p>
-                )} */}
-              </div>
-
-              <div className="flex justify-between gap-5">
-                <p className="text-xs md:text-sm text-gray-700">
-                  Price: ৳{item?.sale_price} X {item?.quantity}
+              {item?.selectedSize && (
+                <p className="mt-0.5 text-xs text-gray-500">
+                  Size: {item?.selectedSize}
                 </p>
+              )}
 
-                <p className="text-xs md:text-sm text-gray-700">
-                  ৳{lineTotal(item).toFixed(2)}
-                </p>
+              {/* Unit price x quantity, then the line total. */}
+              <p className="mt-1 text-xs text-gray-500 tabular-nums">
+                ৳{item?.sale_price} × {item?.quantity}
+              </p>
+              <p className="text-sm font-semibold text-primary tabular-nums">
+                ৳{lineTotal(item).toFixed(2)}
+              </p>
+
+              <div className="mt-2 inline-flex items-center rounded-md border border-gray-200 overflow-hidden text-sm">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  onClick={() =>
+                    handleQuantityChange(
+                      item?._id,
+                      item?.quantity - 1,
+                      item?.selectedSize,
+                      item?.selectedImage
+                    )
+                  }
+                  className="h-7 w-7 flex items-center justify-center font-semibold text-gray-700 hover:bg-gray-100"
+                >
+                  −
+                </button>
+                <span className="h-7 min-w-8 px-1 flex items-center justify-center border-x border-gray-200 font-medium">
+                  {item?.quantity}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  onClick={() =>
+                    handleQuantityChange(
+                      item?._id,
+                      item?.quantity + 1,
+                      item?.selectedSize,
+                      item?.selectedImage
+                    )
+                  }
+                  className="h-7 w-7 flex items-center justify-center font-semibold text-gray-700 hover:bg-gray-100"
+                >
+                  +
+                </button>
               </div>
             </div>
 
             <button
-              className="absolute right-0 border text-gray-500 hover:text-red-500 hover:border-red-500"
+              type="button"
+              aria-label="Remove from cart"
+              className="absolute top-0 right-0 p-1 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50"
               onClick={() =>
                 handleRemoveItem(
                   item?._id,

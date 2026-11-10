@@ -60,7 +60,7 @@ const StoreProductsBySubCat = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-screen-2xl mx-auto">
+    <div className="min-h-screen bg-gray-50">
       <Head>
         <title>{typeSlug} | Fashion Store</title>
         <meta
@@ -69,8 +69,8 @@ const StoreProductsBySubCat = () => {
         />
       </Head>
 
-      <main className="py-4 lg:py-8 px-4">
-        <h1 className="md:text-2xl font-semibold text-gray-700 capitalize lg:mb-8 flex items-center">
+      <main className="max-w-7xl mx-auto py-4 md:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
+        <h1 className="text-lg md:text-2xl font-semibold text-gray-700 capitalize mb-4 md:mb-6 flex flex-wrap items-center gap-y-1">
           <Link href={`/fashion-lifestyle/type/${typeSlug}_${typeId}`}>
             <span className="flex items-center text-gray-800 hover:text-blue-600">
               {typeSlug?.replace(/-/g, " ")}{" "}
@@ -91,7 +91,7 @@ const StoreProductsBySubCat = () => {
           </span>
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
           <FiltersSidebar
             priceRange={priceRange}
             inStockOnly={inStockOnly}

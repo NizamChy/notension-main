@@ -13,7 +13,7 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <div className="container min-h-content pt-20">
+      <div className="min-h-content pt-16 lg:pt-20">
         <UserProfile />
       </div>
       <Footer />

@@ -41,15 +41,15 @@ const WomensFashionCategory = () => {
   }
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="py-6 md:py-10 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <Title title="Women's Fashion Categories" />
 
-        <div className="grid grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
           {womenCategories?.map((category) => (
             <div
               key={category?._id?.toString()}
-              className="group p-2 bg-white relative rounded-xl overflow-hidden transition-all duration-300"
+              className="group bg-white relative transition-all duration-300"
             >
               <Link
                 href={`/fashion-lifestyle/category/women_${
@@ -58,7 +58,7 @@ const WomensFashionCategory = () => {
                 className="block h-full"
                 aria-label={`Browse ${category?.category_name} category`}
               >
-                <div className="aspect-square">
+                <div className="aspect-square rounded-full overflow-hidden border bg-gray-50 group-hover:border-blue-500 transition-colors">
                   <Image
                     src={
                       category?.banner
@@ -68,12 +68,12 @@ const WomensFashionCategory = () => {
                     alt={category?.category_name}
                     width={400}
                     height={400}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-full border"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     priority={false}
                   />
                 </div>
 
-                <h3 className="text-sm text-center sm:text-base font-bold text-primary mb-2">
+                <h3 className="mt-2 text-xs sm:text-sm md:text-base text-center font-semibold text-primary leading-snug line-clamp-2">
                   {category?.category_name}
                 </h3>
               </Link>
@@ -81,10 +81,10 @@ const WomensFashionCategory = () => {
           ))}
         </div>
 
-        <div className="mt-14 text-center">
+        <div className="mt-8 md:mt-10 text-center">
           <Link
             href={`/fashion-lifestyle/type/women_${WOMEN_TYPE_ID}`}
-            className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
+            className="inline-flex items-center px-6 py-2.5 border border-gray-300 text-sm md:text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
             aria-label="Explore all women's collections"
           >
             Explore All Women&apos;s Collections

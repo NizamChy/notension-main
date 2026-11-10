@@ -11,6 +11,18 @@ import { useFood } from "@/hooks/fetch-data/useFood";
 import MapModal from "@/components/shared/LocationModal/MapModal";
 import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
+// Two equal 5:2 sliders side by side (stacked on mobile).
+const SliderPair = ({ first, second }) => {
+  if (!first?.length && !second?.length) return null;
+
+  return (
+    <div className="grid gap-4 md:gap-6 md:grid-cols-2">
+      {first?.length > 0 && <Slider slides={first} />}
+      {second?.length > 0 && <Slider slides={second} />}
+    </div>
+  );
+};
+
 const FoodCategorySection = () => {
   const [openMapModal, setOpenMapModal] = useState(false);
 
@@ -28,6 +40,7 @@ const FoodCategorySection = () => {
   const DashboardSlider = useSelector(
     (state) => state.dashboard.DashboardSlider
   );
+  const sliders = DashboardSlider?.[0] || {};
 
   useEffect(() => {
     if (currentUserLocation) {
@@ -41,6 +54,8 @@ const FoodCategorySection = () => {
         handleOpenMapModal();
       }
     }
+    // Runs once on mount; the helpers are recreated on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -52,179 +67,44 @@ const FoodCategorySection = () => {
               <Loader />
             </div>
           ) : (
-            <div className="p-3 lg:p-10 max-w-screen-2xl mx-auto">
-              {/* Section 1 */}
-              <div className="flex flex-col-reverse lg:flex-row gap-3 lg:gap-5">
-                <div className="flex flex-col w-full lg:w-1/2 p-3 lg:p-5">
-                  <Link
-                    href={`/food/${shopCategory[2]?._id}`}
-                    className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                  >
-                    <div className="relative overflow-hidden rounded-lg">
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[2]?.banner}`}
-                        alt={`${shopCategory[2]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="w-full max-w-full border h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                  </Link>
+            <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-10 space-y-8 md:space-y-12">
+              <SliderPair
+                first={sliders.first_slider}
+                second={sliders.second_slider}
+              />
 
-                  <Link
-                    href={`/food/${shopCategory[3]?._id}`}
-                    className="mt-3 group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                  >
-                    <div className="relative overflow-hidden rounded-lg">
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[3]?.banner}`}
-                        alt={`${shopCategory[3]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="w-full max-w-full border h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                  </Link>
-                </div>
-                <div className="w-full lg:w-1/2 p-3 lg:p-5">
-                  {DashboardSlider[0]?.second_slider?.length && (
-                    <Slider
-                      classNames="max-h-[228px] md:max-h-[458px]"
-                      slides={DashboardSlider[0]?.second_slider}
-                    />
-                  )}
-                </div>
-              </div>
-
-              {/* Section 2 */}
-              <div className="flex flex-col lg:flex-row gap-3 py-3 lg:py-5 justify-center items-center">
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-3 lg:p-10">
-                  {DashboardSlider[0]?.first_slider?.length && (
-                    <Slider
-                      classNames="max-h-[359px]"
-                      slides={DashboardSlider[0]?.first_slider}
-                    />
-                  )}
-                </div>
-                <div className="w-full lg:w-1/2 p-3 md:p-0 lg:p-5 flex justify-center">
-                  <div className="flex flex-row gap-3 lg:gap-10">
-                    <Link
-                      href={`/food/${shopCategory[1]?._id}`}
-                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                    >
-                      <div className="relative overflow-hidden rounded-lg">
+              {shopCategory?.length > 0 && (
+                <section>
+                  <h2 className="text-lg md:text-2xl font-bold text-deepGray mb-4 md:mb-6">
+                    Explore by category
+                  </h2>
+                  {/* Equal 5:3 tiles (the banners' ratio): 2 columns on
+                      phones, 4 from tablet up. */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
+                    {shopCategory.map((category) => (
+                      <Link
+                        key={category?._id}
+                        href={`/food/${category?._id}`}
+                        title={category?.store_category_name}
+                        className="group relative block aspect-[5/3] overflow-hidden rounded-xl md:rounded-2xl bg-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300"
+                      >
                         <Image
-                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[1]?.banner}`}
-                          alt={`${shopCategory[1]?.store_category_name} banner`}
-                          width={500}
-                          height={300}
-                          className="w-full max-w-full border lg:w-72 h-auto rounded-lg object-cover hover:shadow-xl transition-transform duration-500 group-hover:scale-105"
+                          fill
+                          sizes="(min-width: 1024px) 25vw, 50vw"
+                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.banner}`}
+                          alt={`${category?.store_category_name} banner`}
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                      </div>
-                    </Link>
-                    <Link
-                      href={`/food/${shopCategory[0]?._id}`}
-                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                    >
-                      <div className="relative overflow-hidden rounded-lg">
-                        <Image
-                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[0]?.banner}`}
-                          alt={`${shopCategory[0]?.store_category_name} banner`}
-                          width={500}
-                          height={300}
-                          className="w-full max-w-full border lg:w-72 h-auto rounded-lg object-cover hover:shadow-xl transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                    </Link>
+                      </Link>
+                    ))}
                   </div>
-                </div>
-              </div>
+                </section>
+              )}
 
-              {/* Section 3 */}
-              <div className="flex flex-col-reverse lg:flex-row gap-3 py-3 lg:py-5 justify-center items-center">
-                <div className="flex flex-col w-full lg:w-1/2 p-3 md:p-2 lg:p-5">
-                  <Link
-                    href={`/food/${shopCategory[4]?._id}`}
-                    className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                  >
-                    <div className="relative overflow-hidden rounded-lg">
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[4]?.banner}`}
-                        alt={`${shopCategory[4]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="w-full max-w-full border h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                  </Link>
-                  <div className="flex flex-row gap-3 justify-evenly mt-3 lg:my-5">
-                    <Link
-                      href={`/food/${shopCategory[5]?._id}`}
-                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                    >
-                      <div className="relative overflow-hidden rounded-lg">
-                        <Image
-                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[5]?.banner}`}
-                          alt={`${shopCategory[5]?.store_category_name} banner`}
-                          width={500}
-                          height={300}
-                          className="w-full border max-w-full lg:w-64 h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                    </Link>
-                    <Link
-                      href={`/food/${shopCategory[6]?._id}`}
-                      className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                    >
-                      <div className="relative overflow-hidden rounded-lg">
-                        <Image
-                          src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[6]?.banner}`}
-                          alt={`${shopCategory[6]?.store_category_name} banner`}
-                          width={500}
-                          height={300}
-                          className="w-full border max-w-full lg:w-64 h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-                <div className="w-full lg:w-1/2 flex items-center p-3 lg:p-5">
-                  {DashboardSlider[0]?.third_slider?.length && (
-                    <Slider
-                      classNames="max-h-[532px]"
-                      slides={DashboardSlider[0]?.third_slider}
-                    />
-                  )}
-                </div>
-              </div>
-
-              {/* Section 4 */}
-              <div className="flex flex-col lg:flex-row gap-3 py-3 lg:py-5 justify-center items-center">
-                <div className="w-full lg:w-1/2 flex items-center p-3 lg:p-5">
-                  {DashboardSlider[0]?.fourth_slider?.length && (
-                    <Slider
-                      classNames="max-h-[399px]"
-                      slides={DashboardSlider[0]?.fourth_slider}
-                    />
-                  )}
-                </div>
-                <div className="w-full lg:w-1/2 flex items-center p-3 lg:p-5">
-                  <Link
-                    href={`/food/${shopCategory[7]?._id}`}
-                    className="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl"
-                  >
-                    <div className="relative overflow-hidden rounded-lg">
-                      <Image
-                        src={`${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${shopCategory[7]?.banner}`}
-                        alt={`${shopCategory[7]?.store_category_name} banner`}
-                        width={500}
-                        height={300}
-                        className="w-full border max-w-full h-auto rounded-lg object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                  </Link>
-                </div>
-              </div>
+              <SliderPair
+                first={sliders.third_slider}
+                second={sliders.fourth_slider}
+              />
             </div>
           )}
         </>

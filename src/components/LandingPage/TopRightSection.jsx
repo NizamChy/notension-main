@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import HomeBannerCard from "./HomeBannerCard";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -49,119 +49,55 @@ const TopRightSection = () => {
 
   return (
     <>
-      <div className="space-y-4 flex flex-col-reverse lg:flex-col">
-        <div
+      <div className="flex flex-col-reverse lg:flex-col gap-3 md:gap-4">
+        <HomeBannerCard
           onClick={(e) => handleStoreClick(e, "doctor")}
-          className="lg:hidden block group overflow-hidden relative cursor-pointer mt-4"
-        >
-          <Image
-            width={632}
-            height={300}
-            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/home-banner-3.webp"
-            alt="home-banner-3"
-          />
+          className="lg:hidden"
+          width={632}
+          height={300}
+          image="/images/home/home-banner-3.webp"
+          alt="home-banner-3"
+          title="Find Doctors"
+          actionText="Book Appointment"
+          ActionIcon={LuCalendarDays}
+        />
 
-          <div className="absolute bottom-5 left-3 md:bottom-10 md:left-8">
-            <h3
-              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-                    "
-            >
-              Find Doctors
-            </h3>
-            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              <span>
-                <LuCalendarDays className="text-sm md:text-lg text-mediumGray" />
-              </span>
-              <span>Book Appointment</span>
-            </p>
-          </div>
-        </div>
-
-        <div
+        <HomeBannerCard
           onClick={(e) => handleStoreClick(e, "fashionLifestyle")}
-          className="group overflow-hidden relative mt-4 lg:mt-0 cursor-pointer"
-        >
-          <Image
-            width={632}
-            height={300}
-            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/fashion-lifestyle-banner.jpeg"
-            alt="fashion-lifestyle-banner1"
+          position="top"
+          width={632}
+          height={300}
+          image="/images/home/fashion-lifestyle-banner.jpeg"
+          alt="fashion-lifestyle-banner1"
+          title="Fashion & Lifestyle"
+          actionText="Shop Now"
+          ActionIcon={LuShoppingCart}
+        />
+
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
+          <HomeBannerCard
+            onClick={(e) => handleStoreClick(e, "medicine")}
+            size="sm"
+            width={308}
+            height={470}
+            image="/images/home/medicine-shop.jpg"
+            alt="home-banner-4"
+            title="Medicine Store"
+            actionText="Shop Now"
+            ActionIcon={MdOutlineShoppingBag}
           />
 
-          <div className="absolute top-6 left-3 md:top-10 md:left-4">
-            <h3
-              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-            >
-              Fashion & Lifestyle
-            </h3>
-            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              <span>
-                <LuShoppingCart className="text-sm md:text-lg text-mediumGray" />
-              </span>
-              <span>Shop Now</span>
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:gap-3 lg:gap-4">
-          <div
-            onClick={(e) => handleStoreClick(e, "medicine")}
-            className="group overflow-hidden relative cursor-pointer"
-          >
-            <Image
-              width={308}
-              height={470}
-              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/medicine-shop.jpg"
-              alt="home-banner-4"
-            />
-
-            <div className="absolute bottom-4 left-4 md:bottom-10 md:left-8">
-              <h3
-                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-              >
-                Medicine Store
-              </h3>
-              <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <MdOutlineShoppingBag className="text-sm md:text-lg text-mediumGray" />
-                </span>
-                <span>Shop Now</span>
-              </p>
-            </div>
-          </div>
-
-          <div
+          <HomeBannerCard
             onClick={(e) => handleStoreClick(e, "food")}
-            className="group overflow-hidden relative cursor-pointer"
-          >
-            <Image
-              width={308}
-              height={470}
-              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/home-banner-5-6.jpg"
-              alt="home-banner-5"
-            />
-
-            <div className="absolute bottom-4 left-4 md:bottom-10 md:left-8">
-              <h3
-                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-              >
-                Food Store
-              </h3>
-              <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <IoFastFoodOutline className="text-sm md:text-lg text-mediumGray" />
-                </span>
-                <span>Order Now</span>
-              </p>
-            </div>
-          </div>
+            size="sm"
+            width={308}
+            height={470}
+            image="/images/home/home-banner-5-6.jpg"
+            alt="home-banner-5"
+            title="Food Store"
+            actionText="Order Now"
+            ActionIcon={IoFastFoodOutline}
+          />
         </div>
       </div>
 

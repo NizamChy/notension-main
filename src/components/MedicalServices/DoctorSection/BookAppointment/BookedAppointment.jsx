@@ -6,6 +6,11 @@ import { WiTime4 } from "react-icons/wi";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toLocalYMD } from "@/utils/date";
+import {
+  MedicalCardGrid,
+  MedicalContainer,
+  MedicalSectionTitle,
+} from "../../Layout/MedicalLayout";
 
 const BookedAppointment = () => {
   const dispatch = useDispatch();
@@ -84,7 +89,7 @@ const BookedAppointment = () => {
   const DateCard = ({ date }) => {
     const { day, month } = formatDate(date);
     return (
-      <div className="flex flex-col items-center justify-center w-16 h-20 bg-[#1F7A8C] text-white rounded-lg">
+      <div className="shrink-0 flex flex-col items-center justify-center w-16 h-20 bg-[#1F7A8C] text-white rounded-lg">
         <span className="text-2xl font-bold">{day}</span>
         <span className="text-base">{month}</span>
       </div>
@@ -92,18 +97,18 @@ const BookedAppointment = () => {
   };
 
   return (
-    <div className="container">
+    <MedicalContainer className="py-6 md:py-8">
       <div>
         {bookedAppoinmentInfo?.length > 0 && (
-          <p className="md:text-2xl font-semibold py-5 text-[#0C3F8E] text-center">
+          <MedicalSectionTitle className="text-center">
             অ্যাপয়েন্টমেন্টের তালিকা
-          </p>
+          </MedicalSectionTitle>
         )}
 
         {bookedAppoinmentInfo?.length < 1 && (
-          <div className="flex flex-col justify-center items-center min-h-content">
+          <div className="flex flex-col justify-center items-center min-h-[60vh]">
             <Image
-              className="max-w-md w-full"
+              className="max-w-md w-full h-auto"
               src="/images/medical-services/no-appointment-found.png"
               alt="no-appointment-found"
               width={1024}
@@ -112,20 +117,20 @@ const BookedAppointment = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <MedicalCardGrid className="xl:grid-cols-4">
           {[...bookedAppoinmentInfo]
             ?.slice()
             ?.reverse()
             ?.map((appointment) => (
               <div
                 key={appointment?._id}
-                className="border shadow-md rounded-lg mt-3 flex flex-col justify-between"
+                className="h-full bg-white border border-gray-200 shadow-sm rounded-xl overflow-hidden flex flex-col justify-between"
               >
-                <div className="text-primary font-medium px-4 pt-4 pb-2 space-y-1">
-                  <div className="flex items-center gap-2">
+                <div className="text-primary font-medium p-4 space-y-1">
+                  <div className="flex items-center gap-3">
                     <DateCard date={appointment?.appointment_date} />
 
-                    <div className="text-sm space-y-0.5">
+                    <div className="min-w-0 text-sm space-y-0.5">
                       <p>
                         {" "}
                         <span className="text-mediumGray">রোগীর নাম:</span>{" "}
@@ -152,20 +157,20 @@ const BookedAppointment = () => {
                   </p>
                 </div>
 
-                <div className="text-[#A93356] text-base bg-[#EDF7EF] font-semibold p-4 rounded-b-lg space-y-1 px-6">
-                  <p>{appointment?.doctor_name}</p>
-                  <p className="text-sm text-primary">
+                <div className="text-[#A93356] text-base bg-[#EDF7EF] font-semibold p-4 space-y-1">
+                  <p className="line-clamp-1">{appointment?.doctor_name}</p>
+                  <p className="text-sm text-primary line-clamp-1">
                     {appointment?.doctor_speciality}
                   </p>
-                  <p className="text-base text-secondaryMedicine">
+                  <p className="text-base text-secondaryMedicine line-clamp-1">
                     {appointment?.consultation_center_name}
                   </p>
                 </div>
               </div>
             ))}
-        </div>
+        </MedicalCardGrid>
       </div>
-    </div>
+    </MedicalContainer>
   );
 };
 

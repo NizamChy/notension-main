@@ -13,7 +13,7 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-content">
+      <div className="min-h-content pt-16 lg:pt-20">
         <UpdateAddress />
       </div>
       <Footer />

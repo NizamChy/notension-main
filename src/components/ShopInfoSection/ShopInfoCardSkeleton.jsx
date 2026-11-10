@@ -1,16 +1,14 @@
 import React from "react";
 
+// Same shape as ShopInfoCard.
 const ShopInfoCardSkeleton = () => {
   return (
-    <div className="card bg-white shadow-lg rounded-lg mb-4 animate-pulse">
-      <div className="w-full h-60 bg-gray-300 rounded-t-lg"></div>
-      <div className="p-4">
-        <div className="h-6 w-3/4 bg-gray-300 rounded mb-2"></div>
-        <div className="h-4 w-1/2 bg-gray-300 rounded mb-2 flex gap-1">
-          <div className="h-4 w-4 bg-gray-300 rounded-full"></div>
-          <div className="h-4 w-2/3 bg-gray-300 rounded"></div>
-        </div>
-        <div className="h-4 w-1/2 bg-gray-300 rounded mb-2"></div>
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden animate-pulse">
+      <div className="w-full aspect-[5/3] bg-gray-200" />
+      <div className="p-4 space-y-2">
+        <div className="h-5 w-3/4 bg-gray-200 rounded" />
+        <div className="h-4 w-full bg-gray-200 rounded" />
+        <div className="h-4 w-1/3 bg-gray-200 rounded" />
       </div>
     </div>
   );

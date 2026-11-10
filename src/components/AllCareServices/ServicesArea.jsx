@@ -24,14 +24,14 @@ const ServicesArea = ({
       ) : (
         <>
           {allServicesInfo?.length > sliceStart ? (
-            <div className="py-10 lg:py-5">
+            <div>
               <div
-                className={`flex justify-center p-4 lg:p-20 ${bgClassName} rounded-md`}
+                className={`p-4 md:p-8 lg:p-10 ${bgClassName} rounded-xl`}
               >
                 <div>
-                  <p className="md:text-2xl font-semibold pb-5 text-[#0C3F8E] text-center">
+                  <h2 className="text-lg md:text-2xl font-semibold mb-4 md:mb-6 text-[#0C3F8E] text-center">
                     {title}
-                  </p>
+                  </h2>
 
                   <div className={gridClassName}>
                     {allServicesInfo

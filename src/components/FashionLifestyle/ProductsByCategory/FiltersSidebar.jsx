@@ -81,8 +81,8 @@ const FiltersSidebar = ({
       />
 
       {/* Desktop Sidebar */}
-      <div className="hidden md:block w-full md:w-64 flex-shrink-0">
-        <div className="bg-white p-6 rounded-lg shadow-sm sticky top-28">
+      <div className="hidden md:block w-full md:w-60 lg:w-64 flex-shrink-0 self-stretch">
+        <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
           <FilterContent
             openFilter={openFilter}
             setOpenFilter={setOpenFilter}
@@ -113,7 +113,7 @@ const FiltersSidebar = ({
       {/* Mobile Drawer */}
       <div
         id="filter-drawer"
-        className={`fixed inset-0 z-30 md:hidden transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 z-[60] md:hidden transform transition-transform duration-300 ease-in-out ${
           isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -122,8 +122,8 @@ const FiltersSidebar = ({
           onClick={() => setIsMobileDrawerOpen(false)}
         ></div>
         <div className="relative h-full w-4/5 max-w-sm bg-white shadow-xl overflow-y-auto">
-          <div className="p-6">
-            <div className="flex justify-end items-center mb-6">
+          <div className="p-5">
+            <div className="flex justify-end items-center mb-2">
               <button
                 onClick={() => setIsMobileDrawerOpen(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -170,10 +170,10 @@ const FiltersSidebar = ({
               isSubCategoriesLoading={isSubCategoriesLoading}
             />
 
-            <div className="mt-5 flex justify-center">
+            <div className="sticky bottom-0 -mx-5 px-5 py-4 mt-5 bg-white border-t border-gray-100 flex justify-center">
               <button
                 onClick={() => setIsMobileDrawerOpen(false)}
-                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg px-4 w-full"
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2.5 rounded-lg px-4 w-full font-medium"
               >
                 Apply
               </button>

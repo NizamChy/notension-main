@@ -129,16 +129,14 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                 </p>
               </Link>
 
-              <div className="flex items-center gap-2 mt-2 ps-1">
-                <TbLogout className="text-lg text-secondaryMedicine" />
-
-                <button
-                  onClick={handleLogout}
-                  className="text-secondaryMedicine text-sm font-medium"
-                >
-                  Logout
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="mt-2 flex gap-2 text-secondaryMedicine text-sm font-medium"
+              >
+                <TbLogout className="text-lg" />
+                Logout
+              </button>
             </div>
             <hr className="mb-1" />
           </>

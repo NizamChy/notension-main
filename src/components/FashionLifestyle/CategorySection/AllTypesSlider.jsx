@@ -33,7 +33,7 @@ const AllTypesSlider = () => {
   }
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <section className="py-6 md:py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div
         style={{
           "--swiper-navigation-size": "24px",
@@ -45,10 +45,10 @@ const AllTypesSlider = () => {
       >
         <Title title="Shop By Category" />
 
-        <div className="relative max-h-32 sm:max-h-64">
+        <div className="relative">
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={30}
+            spaceBetween={12}
             slidesPerView={3}
             navigation={{
               nextEl: ".custom-swiper-button-next-cat2",
@@ -63,10 +63,8 @@ const AllTypesSlider = () => {
             autoplay={{ delay: 2000 }}
             loop={true}
             breakpoints={{
-              640: { slidesPerView: 3 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 6 },
-              1536: { slidesPerView: 6 },
+              640: { slidesPerView: 4, spaceBetween: 16 },
+              1024: { slidesPerView: 6, spaceBetween: 24 },
             }}
           >
             {allType?.map((type) => (
@@ -81,7 +79,7 @@ const AllTypesSlider = () => {
                   className="block"
                   aria-label={`Browse ${type?.type_name} category`}
                 >
-                  <div className="aspect-square">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-white">
                     <Image
                       src={
                         type?.type_img
@@ -96,7 +94,7 @@ const AllTypesSlider = () => {
                     />
                   </div>
 
-                  <h3 className="text-sm lg:text-base text-center font-semibold text-gray-800 p-2 group-hover:underline">
+                  <h3 className="mt-2 text-xs sm:text-sm lg:text-base text-center font-semibold text-gray-800 leading-snug line-clamp-2 group-hover:underline">
                     {type?.type_name}
                   </h3>
                 </Link>
@@ -106,14 +104,14 @@ const AllTypesSlider = () => {
 
           <button
             aria-label="Next category"
-            className="custom-swiper-button-next-cat2 absolute top-1/2 -right-2.5 sm:-right-5 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 text-black flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
+            className="custom-swiper-button-next-cat2 absolute top-[40%] right-0 translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
           >
             <GrNext />
           </button>
 
           <button
             aria-label="Previous category"
-            className="custom-swiper-button-prev-cat2 absolute top-1/2 -left-2.5 sm:-left-5 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 text-black flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
+            className="custom-swiper-button-prev-cat2 absolute top-[40%] left-0 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
           >
             <GrPrevious />
           </button>

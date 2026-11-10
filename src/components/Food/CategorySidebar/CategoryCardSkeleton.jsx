@@ -1,12 +1,10 @@
 import React from "react";
 
+// Same shape as a food category tile.
 const CategoryCardSkeleton = () => {
   return (
-    <div className="h-32 w-32 py-4 px-4 flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer bg-white shadow-sm animate-pulse">
-      <div className="flex flex-col justify-center items-center text-center">
-        <div className="h-16 w-24 bg-gray-300 rounded mb-2"></div>
-        <div className="h-4 w-full bg-gray-300 rounded"></div>
-      </div>
+    <div className="aspect-square w-full rounded-xl bg-white border-2 border-white shadow-sm p-1.5 animate-pulse">
+      <div className="w-full h-full rounded-lg bg-gray-200" />
     </div>
   );
 };

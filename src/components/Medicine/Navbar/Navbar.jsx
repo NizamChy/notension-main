@@ -65,7 +65,7 @@ const Navbar = () => {
 
       <button
         onClick={handleLogoClick}
-        className="hidden lg:block focus:outline-none"
+        className="hidden md:block shrink-0 ms-2 lg:ms-0 focus:outline-none"
       >
         <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
           <Image
@@ -78,7 +78,7 @@ const Navbar = () => {
         </div>
       </button>
 
-      <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
+      <div className="mx-auto px-2 w-full md:w-1/2 lg:w-1/3">
         <SearchBar moduleName="medicine" />
       </div>
 

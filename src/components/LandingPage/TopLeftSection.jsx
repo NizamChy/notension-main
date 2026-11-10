@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import HomeBannerCard from "./HomeBannerCard";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -72,62 +72,32 @@ const TopLeftSection = () => {
 
   return (
     <>
-      <div className="space-y-4">
-        <div
+      <div className="flex flex-col gap-3 md:gap-4">
+        <HomeBannerCard
           onClick={(e) => handleStoreClick(e, "grocery")}
-          className="group overflow-hidden relative cursor-pointer mt-4"
-        >
-          <Image
-            width={632}
-            height={463}
-            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/home-banner-1.webp"
-            alt="home-banner-1"
-          />
+          width={632}
+          height={463}
+          priority
+          image="/images/home/home-banner-1.webp"
+          alt="home-banner-1"
+          title="Grocery Store"
+          actionText="Shop Now"
+          ActionIcon={LuShoppingCart}
+        />
 
-          <div className="absolute bottom-10 left-4 md:bottom-10 md:left-8">
-            <h3
-              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-            >
-              Grocery Store
-            </h3>
-            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              <span>
-                <LuShoppingCart className="text-sm md:text-lg text-mediumGray" />
-              </span>
-              <span>Shop Now</span>
-            </p>
-          </div>
-        </div>
-
-        <div
+        {/* On desktop this tile stretches so both columns end on the same line */}
+        <HomeBannerCard
           onClick={(e) => handleSectionClick(e, "doctor")}
-          className="hidden lg:block group overflow-hidden relative cursor-pointer"
-        >
-          <Image
-            width={632}
-            height={300}
-            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-            src="/images/home/home-banner-3.webp"
-            alt="home-banner-3"
-          />
-
-          <div className="absolute bottom-5 left-3 md:bottom-10 md:left-8">
-            <h3
-              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
-            "
-            >
-              Find Doctors
-            </h3>
-            <p className="flex items-center gap-2 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-              <span>
-                <LuCalendarDays className="text-sm md:text-lg text-mediumGray" />
-              </span>
-              <span>Book Appointment</span>
-            </p>
-          </div>
-        </div>
+          className="hidden lg:block lg:flex-1"
+          fill
+          width={632}
+          height={300}
+          image="/images/home/home-banner-3.webp"
+          alt="home-banner-3"
+          title="Find Doctors"
+          actionText="Book Appointment"
+          ActionIcon={LuCalendarDays}
+        />
       </div>
 
       {isModalOpen && (

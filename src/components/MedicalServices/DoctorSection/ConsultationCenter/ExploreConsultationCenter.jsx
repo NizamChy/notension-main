@@ -7,6 +7,7 @@ import { useCenter } from "@/hooks/fetch-data/useCenter";
 import ExploreConsultationCenterInfo from "./ExploreConsultationCenterInfo";
 import VisitedDoctorDepartment from "../DoctorCategory/VisitedDoctorDepartment";
 import VisitedPopularDoctorSlider from "../PopularDoctor/VisitedPopularDoctorSlider";
+import { MedicalPageBody } from "../../Layout/MedicalLayout";
 
 const ExploreConsultationCenter = () => {
   const [slider, setSlider] = useState([]);
@@ -35,7 +36,7 @@ const ExploreConsultationCenter = () => {
       {progressing ? (
         <Loader />
       ) : (
-        <div className="lg:px-10 2xl:px-28 space-y-10">
+        <MedicalPageBody>
           <ExploreConsultationCenterInfo />
 
           {slider?.length > 0 && (
@@ -48,7 +49,6 @@ const ExploreConsultationCenter = () => {
 
           {allDeptInfo?.length > 0 && (
             <VisitedDoctorDepartment
-              gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
               sliceStart={0}
               sliceEnd={12}
               imageWidth={300}
@@ -69,7 +69,6 @@ const ExploreConsultationCenter = () => {
 
           {allDeptInfo?.length > 12 && (
             <VisitedDoctorDepartment
-              gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
               sliceStart={12}
               sliceEnd={16}
               imageWidth={600}
@@ -90,7 +89,6 @@ const ExploreConsultationCenter = () => {
 
           {allDeptInfo?.length > 15 && (
             <VisitedDoctorDepartment
-              gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
               sliceStart={15}
               sliceEnd={21}
               imageWidth={300}
@@ -111,7 +109,6 @@ const ExploreConsultationCenter = () => {
 
           {allDeptInfo?.length > 21 && (
             <VisitedDoctorDepartment
-              gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
               sliceStart={21}
               sliceEnd={30}
               imageWidth={600}
@@ -132,7 +129,6 @@ const ExploreConsultationCenter = () => {
 
           {allDeptInfo?.length > 30 && (
             <VisitedDoctorDepartment
-              gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
               sliceStart={30}
               sliceEnd={34}
               imageWidth={600}
@@ -142,7 +138,7 @@ const ExploreConsultationCenter = () => {
               allDeptInfo={allDeptInfo}
             />
           )}
-        </div>
+        </MedicalPageBody>
       )}
     </div>
   );

@@ -13,7 +13,7 @@ const CategoryCard = ({ category, typeName }) => {
         }_${slugify(category?.category_name)}_${category?._id}`}
         className="block h-full"
       >
-        <div className="aspect-square">
+        <div className="aspect-square overflow-hidden bg-gray-50">
           <Image
             src={
               category?.banner
@@ -26,8 +26,8 @@ const CategoryCard = ({ category, typeName }) => {
             className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
           />
         </div>
-        <div className="p-1 sm:p-2">
-          <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1 text-center">
+        <div className="px-1.5 py-2 sm:px-2 sm:py-2.5">
+          <h3 className="text-xs sm:text-sm md:text-base font-semibold text-gray-900 text-center leading-snug line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">
             {category?.category_name}
           </h3>
         </div>

@@ -5,6 +5,10 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import FoodItems from "@/components/Food/FoodItems/FoodItems";
 import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
+import {
+  ITEM_GRID_CLASS,
+  SECTION_TITLE_CLASS,
+} from "@/components/StoreModule/storeModules";
 
 const FoodItemsByCategory = () => {
   const [loading, setLoading] = useState(true);
@@ -38,19 +42,17 @@ const FoodItemsByCategory = () => {
   }, [catId, productInfoByShop]);
 
   return (
-    <div className="min-h-screen">
-      <p className="md:text-3xl font-medium ps-2 lg:pt-2 text-deepGray">
-        {categoryName}
-      </p>
-      <div className="flex-1 lg:pt-5 p-2">
+    <div>
+      {categoryName && <h2 className={SECTION_TITLE_CLASS}>{categoryName}</h2>}
+      <div>
         {loading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
-            {Array.from({ length: 6 }).map((_, index) => (
+          <div className={ITEM_GRID_CLASS}>
+            {Array.from({ length: 4 }).map((_, index) => (
               <FoodItemCardSkeleton key={index} />
             ))}
           </div>
         ) : foodItems?.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+          <div className={ITEM_GRID_CLASS}>
             {foodItems?.map((item) => (
               <FoodItems key={item?._id} item={item} />
             ))}

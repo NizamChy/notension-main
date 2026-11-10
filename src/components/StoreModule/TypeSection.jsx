@@ -8,6 +8,9 @@ import { useParams, useRouter } from "next/navigation";
 import NoItemFound from "@/components/common/NoItemFound";
 import { getStoreModule, toSlug } from "./storeModules";
 
+const SUBTYPE_GRID_CLASS =
+  "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 md:gap-5";
+
 const TypeSection = ({ moduleName }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
@@ -33,54 +36,50 @@ const TypeSection = ({ moduleName }) => {
   };
 
   return (
-    <div className="mt-20 md:mt-32 px-4 lg:mx-20 min-h-content">
-      <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-6 text-deepGray">
+    <div>
+      <h2 className="text-lg md:text-2xl font-semibold text-deepGray mb-4 md:mb-6">
         {selectedType?.name || ""}
       </h2>
 
+      {/* Equal square tiles: 3 → 4 → 5 → 6 columns. */}
       {isLoading && (
-        <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
+        <div className={SUBTYPE_GRID_CLASS}>
           {Array.from({ length: 6 }).map((_, index) => (
             <SubtypeSkeleton key={index} />
           ))}
         </div>
       )}
-      <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 md:gap-6">
+      <div className={SUBTYPE_GRID_CLASS}>
         {subtypes.map((subtype) => (
-          <div
+          <button
+            type="button"
             onClick={() => handleSubtype(subtype?.subtypeInfo?._id, subtype)}
             key={subtype?._id}
-            className="relative cursor-pointer bg-white rounded-lg shadow-md p-2 md:p-4 hover:shadow-lg transition-shadow"
+            title={subtype?.sub_type_name}
+            className="relative aspect-square w-full overflow-hidden cursor-pointer bg-white border border-gray-200 rounded-xl shadow-sm p-1.5 hover:shadow-md transition-shadow"
           >
             {isImageLoading && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
-                <div className="h-full flex justify-center items-center">
-                  <Image
-                    src="/gif/loading.gif"
-                    alt="loading.gif"
-                    width={60}
-                    height={60}
-                  />
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gray-200 animate-pulse" />
             )}
 
-            <Image
-              height={200}
-              width={200}
-              src={
-                subtype?.subtypeInfo?.banner_type_1
-                  ? `${sliderImageBaseUrl}/${subtype?.subtypeInfo?.banner_type_1}`
-                  : "/png/dummyImage.png"
-              }
-              alt={subtype?.sub_type_name || "subtype"}
-              className={`w-full md:h-40 object-contain rounded-lg ${
-                isImageLoading ? "opacity-0" : "opacity-100"
-              }`}
-              onLoad={() => setIsImageLoading(false)}
-              onError={() => setIsImageLoading(false)}
-            />
-          </div>
+            <span className="relative block w-full h-full">
+              <Image
+                fill
+                sizes="(min-width: 1024px) 15vw, 33vw"
+                src={
+                  subtype?.subtypeInfo?.banner_type_1
+                    ? `${sliderImageBaseUrl}/${subtype?.subtypeInfo?.banner_type_1}`
+                    : "/png/dummyImage.png"
+                }
+                alt={subtype?.sub_type_name || "subtype"}
+                className={`object-contain rounded-lg ${
+                  isImageLoading ? "opacity-0" : "opacity-100"
+                }`}
+                onLoad={() => setIsImageLoading(false)}
+                onError={() => setIsImageLoading(false)}
+              />
+            </span>
+          </button>
         ))}
       </div>
 

@@ -125,16 +125,16 @@ const FoodItemDetails = () => {
   return (
     <>
       {item && (
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 px-6 pt-6">
+        <div className="max-w-6xl">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <h2 className="text-lg md:text-2xl font-bold text-gray-800 px-4 md:px-6 pt-4 md:pt-6">
               Product Details
             </h2>
 
-            <div className="md:flex p-6">
+            <div className="md:flex p-4 md:p-6">
               {/* Product Image Section */}
               <div className="md:w-2/5 lg:w-1/3 flex flex-col items-center">
-                <div className="relative w-full h-64 md:h-80 bg-gray-100 rounded-lg overflow-hidden mb-4 flex items-center justify-center">
+                <div className="relative w-full max-w-sm aspect-square bg-gray-50 rounded-xl overflow-hidden mb-4">
                   <Image
                     src={
                       item?.app_image
@@ -142,9 +142,9 @@ const FoodItemDetails = () => {
                         : "/png/dummyImage.png"
                     }
                     alt={item?.product_title_eng || "Product image"}
-                    width={320}
-                    height={320}
-                    className="object-contain w-full h-full"
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover"
                     priority
                   />
 

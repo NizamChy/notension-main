@@ -74,25 +74,26 @@ const ServiceProviderDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-8">
-      <div className="mx-auto p-4 max-w-6xl">
+    <div className="min-h-content bg-gradient-to-br from-blue-50 to-gray-100">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         {/* Header with Banner and Basic Info */}
-        <div className="relative rounded-xl overflow-hidden shadow-lg mb-8">
-          <div className="h-64 md:h-80 w-full relative">
+        {/* Banner images often carry their own text, so the name/address
+            sit in a bar under the banner instead of on top of it. */}
+        <div className="rounded-xl overflow-hidden shadow-lg bg-white mb-6 md:mb-8">
+          <div className="aspect-[2/1] sm:aspect-[5/2] lg:aspect-[3/1] max-h-80 w-full relative bg-gray-100">
             <Image
               src={`${SERVICE_PROVIDER_IMAGES}/${currentProviderDetails?.provider_banner_app}`}
               alt={`${currentProviderDetails?.provider_name} banner`}
-              layout="fill"
-              objectFit="cover"
-              className="w-full"
+              fill
+              sizes="(max-width: 1280px) 100vw, 1216px"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
           </div>
 
-          <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full">
-            <div className="flex items-end gap-4">
-              <div className="bg-white p-2 rounded-full shadow-xl">
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+          <div className="relative px-4 sm:px-6 md:px-8 pb-4 md:pb-6">
+            <div className="flex items-start gap-3 md:gap-4 -mt-8 md:-mt-10">
+              <div className="shrink-0 bg-white p-1.5 md:p-2 rounded-full shadow-xl">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                   {currentProviderDetails?.provider_logo ? (
                     <Image
                       src={`${SERVICE_PROVIDER_IMAGES}/${currentProviderDetails?.provider_logo}`}
@@ -106,13 +107,15 @@ const ServiceProviderDetails = () => {
                   )}
                 </div>
               </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">
+              <div className="min-w-0 pt-10 md:pt-12">
+                <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 line-clamp-2">
                   {currentProviderDetails?.provider_name}
                 </h1>
-                <div className="flex items-center gap-2 text-white/90 mt-1">
-                  <FaMapMarkerAlt className="text-blue-300" />
-                  <span>{currentProviderDetails?.address}</span>
+                <div className="flex items-start gap-2 text-sm md:text-base text-gray-600 mt-1">
+                  <FaMapMarkerAlt className="shrink-0 mt-1 text-blue-500" />
+                  <span className="line-clamp-2">
+                    {currentProviderDetails?.address}
+                  </span>
                 </div>
               </div>
             </div>
@@ -245,15 +248,15 @@ const ServiceProviderDetails = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-8 bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl shadow-lg p-6 text-white">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-6 md:mt-8 bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl shadow-lg p-5 md:p-6 text-white">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <div>
-              <h3 className="text-xl font-bold">আজই সেবা নিন!</h3>
+              <h3 className="text-lg md:text-xl font-bold">আজই সেবা নিন!</h3>
               <p className="opacity-90">দ্রুত সেবা পেতে এখনই কল করুন</p>
             </div>
             <a
               href={`tel:${currentProviderDetails?.contact_no}`}
-              className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-bold text-lg shadow-md transition-all flex items-center gap-2"
+              className="w-full md:w-auto justify-center bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-bold text-base md:text-lg shadow-md transition-all flex items-center gap-2"
             >
               <FaPhone /> {currentProviderDetails?.contact_no}
             </a>

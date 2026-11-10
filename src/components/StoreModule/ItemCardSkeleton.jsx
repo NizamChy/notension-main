@@ -1,22 +1,14 @@
 import React from "react";
-import { getStoreModule } from "./storeModules";
 
-const ItemCardSkeleton = ({ moduleName }) => {
-  const { itemSkeletonHeightClass } = getStoreModule(moduleName);
-
+// Placeholder with the same shape as the grocery / medicine item cards.
+const ItemCardSkeleton = () => {
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg animate-pulse p-2 md:p-4">
-      <div
-        className={`relative ${itemSkeletonHeightClass} w-full bg-gray-300 rounded-lg`}
-      ></div>
-
-      <div className="pt-4">
-        <div className="h-4 w-3/4 bg-gray-300 rounded mb-2"></div>
-        <div className="h-4 w-1/2 bg-gray-300 rounded mb-2"></div>
-
-        <div className="flex items-center justify-between mt-3">
-          <div className="h-8 w-full bg-gray-300 rounded-lg"></div>
-        </div>
+    <div className="w-full h-full flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden animate-pulse">
+      <div className="w-full aspect-square bg-gray-200" />
+      <div className="p-3 space-y-2">
+        <div className="h-4 w-3/4 bg-gray-200 rounded" />
+        <div className="h-4 w-1/2 bg-gray-200 rounded" />
+        <div className="h-9 w-full bg-gray-200 rounded-lg mt-3" />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import CheckoutSection from "@/components/Medicine/CheckoutSection/CheckoutSecti
 
 const page = () => {
   return (
-    <div className="bg-gray-100 min-h-[100vh]">
+    <div>
       <CheckoutSection />
     </div>
   );

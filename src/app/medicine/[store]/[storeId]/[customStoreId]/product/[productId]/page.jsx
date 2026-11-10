@@ -3,7 +3,7 @@ import MedicineItemDetails from "@/components/Medicine/MedicineItems/MedicineIte
 
 const page = () => {
   return (
-    <div className="min-h-content mt-10 lg:mt-20">
+    <div>
       <MedicineItemDetails />
     </div>
   );

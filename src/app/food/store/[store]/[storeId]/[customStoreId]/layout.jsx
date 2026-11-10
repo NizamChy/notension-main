@@ -1,13 +1,12 @@
 "use client";
 
 import Cart from "@/components/Cart/Cart";
-import { useSelector } from "react-redux";
 import Loader from "@/components/common/Loader";
 import { useEffect, useRef, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import Footer from "@/components/shared/Footer/Footer";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import ShopInfoCard from "@/components/ShopInfoSection/ShopInfoCard";
+import ShopInfo from "@/components/ShopInfoSection/ShopInfo";
 import CategorySlider from "@/components/Food/CategorySidebar/CategorySlider";
 import CategorySidebar from "@/components/Food/CategorySidebar/CategorySidebar";
 import CategoryBannerCarousel from "@/components/Food/CategoryBannerCarousel/CategoryBannerCarousel";
@@ -21,7 +20,6 @@ export default function FoodLayout({ children }) {
   const foodItemsRef = useRef(null);
 
   const { exploreStore, progressing } = useFood();
-  const { visitedFoodStore } = useSelector((state) => state.dashboard);
 
   const scrollToFoodItems = () => {
     if (isScroll) {
@@ -73,35 +71,38 @@ export default function FoodLayout({ children }) {
             </div>
           </div>
 
-          <div className="w-full lg:w-[75%] xl:w-[80%] ml-auto md:p-16">
-            {!pathname.includes("/orders") &&
-              !pathname.includes("/checkout") &&
-              !pathname.includes("/user") && (
-                <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-10">
-                  <div className="lg:w-1/2 xl:w-1/3 px-4 lg:px-0">
-                    <ShopInfoCard
+          <div className="w-full lg:w-[75%] xl:w-[80%] ml-auto min-w-0">
+            {/* Same frame as the grocery / medicine store pages: one side
+                padding per breakpoint and a right gutter on lg+ for the
+                floating cart tab. */}
+            <div className="px-4 md:px-6 lg:pl-8 lg:pr-24 py-5 md:py-8">
+              {!pathname.includes("/orders") &&
+                !pathname.includes("/checkout") &&
+                !pathname.includes("/user") && (
+                  <div className="space-y-4 md:space-y-5">
+                    <button
+                      type="button"
                       onClick={() =>
                         router.push(
                           `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
                         )
                       }
-                      shop={visitedFoodStore}
-                      type="food"
-                    />
-                  </div>
-                  <div className="lg:w-1/2 xl:w-2/3">
+                      className="block w-full text-left"
+                    >
+                      <ShopInfo moduleName="food" layout="row" />
+                    </button>
                     <CategoryBannerCarousel />
                   </div>
-                </div>
+                )}
+
+              {pathname ===
+                `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${params?.catId}` && (
+                <CategorySlider />
               )}
 
-            {pathname ===
-              `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${params?.catId}` && (
-              <CategorySlider />
-            )}
-
-            <div ref={foodItemsRef} className="min-h-content mt-5">
-              {children}
+              <div ref={foodItemsRef} className="min-h-content mt-6 md:mt-8">
+                {children}
+              </div>
             </div>
             <Footer />
           </div>

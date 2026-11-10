@@ -13,8 +13,6 @@ export const STORE_MODULES = {
     basePath: "/grocery",
     sliderImageBaseUrl: GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES,
     useShop: useGroceryShop,
-    bannerHeightClass: "max-h-[140px] md:max-h-[400px]",
-    itemSkeletonHeightClass: "h-52",
     searchInputFocusClass: "focus:ring-blue-500 focus:border-blue-500",
     searchButtonClass: "bg-blue-500 hover:bg-blue-600 focus:ring-blue-500",
     customTypes: {
@@ -27,8 +25,6 @@ export const STORE_MODULES = {
     basePath: "/medicine",
     sliderImageBaseUrl: MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
     useShop: useMedicine,
-    bannerHeightClass: "max-h-[167px] md:max-h-[400px]",
-    itemSkeletonHeightClass: "h-32 md:h-52",
     searchInputFocusClass:
       "focus:ring-primaryMedicine focus:border-primaryMedicine",
     searchButtonClass:
@@ -40,6 +36,20 @@ export const STORE_MODULES = {
     },
   },
 };
+
+// Shared page frame for every page inside a grocery / medicine store: clears
+// the fixed navbar (59px mobile, 75px md+), gives one side padding per
+// breakpoint and keeps a right gutter on lg+ for the floating cart tab.
+export const STORE_PAGE_CLASS =
+  "pt-[calc(59px+1.25rem)] md:pt-[calc(75px+2rem)] pb-10 md:pb-14 px-4 md:px-6 lg:pl-8 lg:pr-24";
+
+// Product card grid used by every item list in the store modules.
+export const ITEM_GRID_CLASS =
+  "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5";
+
+// Section heading used above item lists.
+export const SECTION_TITLE_CLASS =
+  "text-lg md:text-2xl font-semibold text-deepGray mb-3 md:mb-5";
 
 export const getStoreModule = (moduleName) => {
   const config = STORE_MODULES[moduleName];

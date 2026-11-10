@@ -41,45 +41,42 @@ const CategorySidebar = ({ scrollToFoodItems, setIsScroll }) => {
 
   return (
     <>
-      <div className="max-w-screen-md hidden lg:block">
-        <div className="h-full border-e ps-7 max-w-screen-md py-16 bg-[#F3F4F6]">
-          <div className="overflow-y-auto overflow-x-hidden h-[85vh] no-scrollbar mt-10">
-            <div className="grid grid-cols-2 gap-5 justify-items-center my-5 mx-5">
-              {progressing
-                ? Array.from({ length: 6 }).map((_, index) => (
-                    <CategoryCardSkeleton key={index} />
-                  ))
-                : productCategory.map((category) => (
-                    <div
-                      key={category?._id}
-                      className={`max-w-32 px-2 pt-2 flex flex-col justify-center items-center border-2 rounded-lg cursor-pointer bg-white shadow-sm ${
-                        activeCategory === category.categoryInfo._id
-                          ? "border-primaryFood"
-                          : "border-white"
-                      }`}
-                      onClick={() =>
-                        handleCategoryClick(category.categoryInfo._id)
+      {/* Sits under the fixed food navbar (65px) and scrolls on its own. */}
+      <aside className="hidden lg:flex flex-col h-full pt-[65px] border-e border-gray-200 bg-[#F3F4F6]">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-5 xl:p-6">
+          <div className="grid grid-cols-2 gap-3 xl:gap-4">
+            {progressing
+              ? Array.from({ length: 6 }).map((_, index) => (
+                  <CategoryCardSkeleton key={index} />
+                ))
+              : productCategory.map((category) => (
+                  <button
+                    type="button"
+                    key={category?._id}
+                    className={`aspect-square w-full p-1.5 flex items-center justify-center border-2 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow ${
+                      activeCategory === category.categoryInfo._id
+                        ? "border-primaryFood"
+                        : "border-white"
+                    }`}
+                    onClick={() =>
+                      handleCategoryClick(category.categoryInfo._id)
+                    }
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={
+                        category?.categoryInfo?.banner_type_1
+                          ? `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
+                          : "/png/dummyImage.png"
                       }
-                    >
-                      <div className="flex flex-col justify-center items-center text-center">
-                        <img
-                          src={
-                            category?.categoryInfo?.banner_type_1
-                              ? `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
-                              : "/png/dummyImage.png"
-                          }
-                          alt="category image"
-                          width={200}
-                          height={200}
-                          className="rounded object-contain"
-                        />
-                      </div>
-                    </div>
-                  ))}
-            </div>
+                      alt="category image"
+                      className="w-full h-full rounded-lg object-contain"
+                    />
+                  </button>
+                ))}
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 };

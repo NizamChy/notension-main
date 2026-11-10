@@ -22,7 +22,8 @@ const ServiceBannerSlider = ({ slider }) => {
               "--swiper-pagination-bullet-inactive-opacity": "1",
               "--swiper-pagination-bullet-inactive-color": "#FFF",
             }}
-            loop={true}
+            loop={slider?.length > 2}
+            rewind={slider?.length === 2}
             slidesPerView={1}
             spaceBetween={30}
             autoplay={{ delay: 3000 }}

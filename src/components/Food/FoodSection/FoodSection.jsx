@@ -67,15 +67,15 @@ const FoodSection = () => {
   }, [selectedCategory]);
 
   return (
-    <div className="mx-auto px-4 lg:px-24 py-6">
-      <h1 className="text-2xl font-bold mb-6 text-deepGray">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
+      <h1 className="text-lg md:text-2xl font-bold text-deepGray mb-4 md:mb-6">
         Nearest Food Stores
       </h1>
 
       {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}
 
       {shopCategory?.length > 0 && nearestInfo?.length > 0 && !progressing ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {nearestInfo.map((shop) => (
             <ShopInfoCard
               onClick={() => {
@@ -88,7 +88,7 @@ const FoodSection = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {Array.from({ length: 8 }).map((_, index) => (
             <ShopInfoCardSkeleton key={index} />
           ))}

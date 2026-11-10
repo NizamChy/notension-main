@@ -19,9 +19,9 @@ const CartSummary = ({ moduleName }) => {
 
   return (
     <>
-      <p className="flex justify-between">
-        <span className="font-semibold">Delivery Charge</span>
-        <span className="font-semibold flex items-center">
+      <p className="mt-1 flex justify-between text-sm text-gray-600">
+        <span>Delivery Charge</span>
+        <span className="flex items-center">
           <span>
             <TbCurrencyTaka />
           </span>
@@ -30,9 +30,9 @@ const CartSummary = ({ moduleName }) => {
       </p>
 
       {discount > 0 && (
-        <p className="flex justify-between">
-          <span className="font-semibold">Discount</span>
-          <span className="font-semibold flex items-center">
+        <p className="mt-1 flex justify-between text-sm text-gray-600">
+          <span>Discount</span>
+          <span className="flex items-center">
             <span>
               <TbCurrencyTaka />
             </span>
@@ -41,7 +41,7 @@ const CartSummary = ({ moduleName }) => {
         </p>
       )}
 
-      <p className="flex justify-between">
+      <p className="mt-2 pt-2 border-t border-dashed flex justify-between text-base">
         <span className="font-semibold">Total Amount</span>
         <span className="font-semibold flex items-center">
           <span>

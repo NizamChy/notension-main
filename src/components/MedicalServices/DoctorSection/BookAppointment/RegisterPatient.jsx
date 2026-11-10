@@ -72,17 +72,19 @@ const RegisterPatient = ({ setShowForm = true }) => {
   };
 
   return (
-    <div className="flex items-center justify-center px-4 pt-5 lg:pt-0 lg:p-12">
+    <div>
       <div>
-        <p className="text-2xl font-bold mb-3 text-primary">Register Patient</p>
-        <p className="text-sm text-[#07074D] md:max-w-[550px] text-justify">
+        <h2 className="text-lg md:text-2xl font-bold mb-3 text-primary">
+          Register Patient
+        </h2>
+        <p className="text-sm text-[#07074D] mb-4">
           👉 রোগীর জন্ম তারিখ নিশ্চিত করা কেন গুরুত্বপূর্ণ? রোগীর যত্নের সাথে
           সঠিক চিকিৎসা, ওষুধ এবং সম্ভাব্য সমস্যা এড়াতে রোগীর বয়স গুরুত্বপূর্ণ।
           রোগীর বয়সও বহুলাংশে নির্ধারণ করতে পারে যে ধরনের মেডিকেল পরীক্ষাগুলি
           প্রয়োজনীয় এবং ফলাফলের জন্য প্রভাব রয়েছে। বয়স্ক রোগীদের আরও গভীরভাবে
           পরীক্ষার প্রয়োজন হতে পারে।
         </p>
-        <div className="mx-auto w-full max-w-[550px] bg-white p-6 rounded-lg shadow-lg">
+        <div className="w-full bg-white p-4 md:p-6 rounded-xl border border-gray-200 shadow-sm">
           <form onSubmit={handleSubmit}>
             <div className="mb-5">
               <label

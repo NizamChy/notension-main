@@ -33,8 +33,8 @@ const StoreBanner = () => {
 
   return (
     <>
-      <div className="pt-5">
-        <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-6">
+        <div className="relative w-full h-48 sm:h-56 md:h-[320px] overflow-hidden rounded-xl shadow-md">
           <Image
             src={
               storeInfo?.shop_banner_web
@@ -43,7 +43,9 @@ const StoreBanner = () => {
             }
             alt="Shopping store banner"
             fill
-            className="object-cover hidden md:block"
+            // Banner art and tagline sit on the right; the left side is
+            // covered by the store info panel, so crop from the left.
+            className="object-cover object-right hidden md:block"
             priority
           />
 
@@ -55,27 +57,25 @@ const StoreBanner = () => {
             }
             alt="Shopping store banner"
             fill
-            className="object-cover block md:hidden"
+            className="object-cover object-right block md:hidden"
             priority
           />
 
           <div
-            className="relative z-10 flex flex-col items-start justify-center h-full px-8
-             text-deepGray w-2/3 lg:w-1/3 bg-gradient-to-br from-white to-white/20 md:to-white/30
+            className="relative z-10 flex flex-col items-start justify-center h-full px-5 md:px-8
+             text-deepGray w-3/4 md:w-2/3 lg:w-1/2 bg-gradient-to-br from-white to-white/20 md:to-white/30
              clip-diagonal"
           >
-            <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">
+            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3 line-clamp-2">
               {storeInfo?.shop_name}
             </h1>
 
-            <p className="text-sm md:text-xl font-semibold max-w-lg flex gap-1 items-start">
-              <span>
-                <FaPhone className="lg:text-base lg:mt-1" />
-              </span>
+            <p className="text-sm md:text-lg font-semibold max-w-lg flex gap-1.5 items-center">
+              <FaPhone className="shrink-0 text-xs md:text-sm" />
               <span>{storeInfo?.contact_no}</span>
             </p>
 
-            <p className="text-sm md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex gap-1 items-start">
+            <p className="mt-1 text-sm md:text-lg font-semibold max-w-lg flex gap-1 items-start">
               <span>
                 <MdLocationOn className="lg:text-xl mt-1" />
               </span>

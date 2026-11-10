@@ -4,33 +4,31 @@ import React, { useState } from "react";
 import PatientInfo from "./PatientInfo";
 import RegisterPatient from "./RegisterPatient";
 import { FaRegAddressCard } from "react-icons/fa";
+import { MedicalContainer } from "../../Layout/MedicalLayout";
 
 const AppointmentHome = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <>
-      <div className="flex flex-col lg:flex-row justify-center gap-7 lg:gap-20 min-h-content">
+    <MedicalContainer className="py-6 md:py-8 min-h-content">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start">
         <div>
           {showForm ? (
             <RegisterPatient setShowForm={setShowForm} />
           ) : (
-            <div className="flex justify-center items-center mt-5 mx-4">
-              <div>
-                <p className="text-primary text-lg my-4 font-semibold">
-                  লিস্টে রোগীর নাম না পেলে &ldquo;Register Patient&rdquo; রোগীর নিবন্ধন করুন
-                  ৷
-                </p>
-                <button
-                  onClick={() => setShowForm(true)}
-                  className="flex justify-center items-center gap-2 p-4 bg-primary hover:bg-[#264066] text-white rounded-lg shadow-md  transition-colors duration-300"
-                >
-                  <span>
-                    <FaRegAddressCard className="text-xl" />
-                  </span>
-                  <span>Register Patient</span>
-                </button>
-              </div>
+            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+              <p className="text-primary text-base md:text-lg mb-4 font-semibold">
+                লিস্টে রোগীর নাম না পেলে &ldquo;Register Patient&rdquo; রোগীর
+                নিবন্ধন করুন ৷
+              </p>
+              <button
+                type="button"
+                onClick={() => setShowForm(true)}
+                className="inline-flex justify-center items-center gap-2 px-5 py-3 bg-primary hover:bg-[#264066] text-white rounded-lg shadow-sm transition-colors duration-300"
+              >
+                <FaRegAddressCard className="text-xl" />
+                <span>Register Patient</span>
+              </button>
             </div>
           )}
         </div>
@@ -38,7 +36,7 @@ const AppointmentHome = () => {
           <PatientInfo />
         </div>
       </div>
-    </>
+    </MedicalContainer>
   );
 };
 

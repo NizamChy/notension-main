@@ -45,8 +45,8 @@ const OrderDetailsMobile = () => {
   return (
     <>
       {userInfo?._id && (
-        <div className="p-2">
-          <div className="space-y-1.5 text-sm">
+        <div className="bg-[#F3F4F6] min-h-content px-4 sm:px-6 py-5 md:py-8">
+          <div className="max-w-3xl mx-auto bg-white rounded-lg border border-gray-100 shadow-sm p-4 md:p-6 space-y-1.5 text-sm">
             <h2 className="text-lg md:text-xl font-bold mb-1 text-secondary">
               Order Details
             </h2>
@@ -108,7 +108,7 @@ const OrderDetailsMobile = () => {
             </p>
 
             <div className="mt-4 max-h-[40vh] overflow-y-auto">
-              <h3 className="font-bold text-secondary mb-4">Ordered Items</h3>
+              <h3 className="font-bold text-secondary mb-2">Ordered Items</h3>
               <table className="table-auto w-full border-collapse border border-gray-100">
                 <thead>
                   <tr className="bg-gray-100">
@@ -157,8 +157,8 @@ const OrderDetailsMobile = () => {
               </table>
             </div>
 
-            <div className="mt-4 space-y-1">
-              <h3 className="font-bold text-secondary">Price Details</h3>
+            <div className="mt-4 pt-3 border-t border-gray-100 space-y-1">
+              <h3 className="font-bold text-secondary mb-1">Price Details</h3>
 
               <p className="flex justify-between items-center gap-1">
                 <span className="font-medium">Subtotal:</span>{" "}
