@@ -126,7 +126,6 @@ export const useFavouriteItem = () => {
       })
       .catch((error) => {
         setVisible(false);
-        // console.log("Error.........+", error);
       });
   };
 
@@ -196,7 +195,6 @@ export const useFavouriteItem = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result);
         setVisible(false);
         if (res?.data?.success) {
           setItemDetails(res?.data?.result);
@@ -213,7 +211,6 @@ export const useFavouriteItem = () => {
   const AxiosMedicine = getApiClient(MEDICINE_URL);
 
   const getMedicineProductDetails = (medStoreProductInfo) => {
-    // console.log(medStoreProductInfo);
 
     setShowErrorMessage(false);
     setVisible(true);
@@ -225,7 +222,6 @@ export const useFavouriteItem = () => {
       },
     })
       .then((res) => {
-        // console.log(res?.data?.result);
 
         setVisible(false);
         if (res?.data?.success) {

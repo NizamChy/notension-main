@@ -143,11 +143,6 @@ const Navbar = () => {
             </button>
 
             {pathname?.includes("shop") ? (
-              // <button onClick={handleLogoClick}>
-              //   <p className="text-4xl capitalize font-bold italic text-primary">
-              //     {shopFirstWord}
-              //   </p>
-              // </button>
               <button onClick={handleLogoClick}>
                 <p className="capitalize italic text-primary font-bold">
                   <span className="text-lg md:text-4xl">{shopWords[0]}</span>

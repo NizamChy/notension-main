@@ -57,7 +57,6 @@ export const useFood = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        //console.log('Error : ', error.response)
         setProgressing(false);
       });
   };
@@ -79,7 +78,6 @@ export const useFood = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        //console.log('Error : ', error.response)
         setProgressing(false);
       });
   };
@@ -115,7 +113,6 @@ export const useFood = () => {
       },
     })
       .then((res) => {
-        // console.log("res?.data?.result", res?.data?.result);
 
         if (
           res?.data?.result?.shopDetails[0]?.is_closed ||
@@ -124,12 +121,6 @@ export const useFood = () => {
         ) {
           alert("Sorry we're closed !!", "See you tomorrow !!");
         } else {
-          // dispatch(
-          //   handleDashboardReducer({
-          //     type: "EXPLORE_STORE",
-          //     data: res?.data?.result[0],
-          //   })
-          // );
 
           dispatch(
             handleItemsByStoreReducer({
@@ -146,7 +137,6 @@ export const useFood = () => {
           );
         }
 
-        // console.log(
         //   "res?.data?.result?.shopDetails : ",
         //   res?.data?.result?.shopDetails
         // );
@@ -155,7 +145,6 @@ export const useFood = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 

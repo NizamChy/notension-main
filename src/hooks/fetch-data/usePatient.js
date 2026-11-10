@@ -92,7 +92,6 @@ export const usePatient = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result.length);
         if (res?.data?.result.length > 0) {
           savePatientInfo("save_all", res?.data?.result);
         }
@@ -100,14 +99,12 @@ export const usePatient = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
 
   };
 
   const savePatientInfo = (task, patientInfo) => {
     if (task === "save_all") {
-      // console.log('console.log(task);', task);
       dispatch(
         handleUserReducer({
           type: "SAVE_PATIENT_INFO",
@@ -115,7 +112,6 @@ export const usePatient = () => {
         })
       );
     } else {
-      //console.log('console.log;', task);
       dispatch(
         handleUserReducer({
           type: "UPDATE_PATIENT_INFO",

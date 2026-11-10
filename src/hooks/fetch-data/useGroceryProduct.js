@@ -34,12 +34,6 @@ export const useGroceryProduct = () => {
       setProductInfo((prevInfo) => [...prevInfo, ...items]);
     }
 
-    // dispatch(
-    //     handleItemsByStoreReducer({
-    //         type: 'SAVE_PRODUCT_INFO',
-    //         data: items,
-    //     })
-    // );
   };
 
   const handleSearch = (searchText, pageNo, setPageNo) => {
@@ -115,7 +109,6 @@ export const useGroceryProduct = () => {
       params: parameter,
     })
       .then((res) => {
-        // console.log(res?.data?.result);
 
         if (res?.data?.result?.length > 0) {
           setProgressing(false);

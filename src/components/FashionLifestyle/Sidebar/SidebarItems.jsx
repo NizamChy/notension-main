@@ -17,31 +17,6 @@ const SidebarItems = ({ onClose }) => {
 
   // const { navItems, isLoading } = useCategoryItem();
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="bg-white h-[90vh] flex justify-center items-center animate-pulse">
-  //       <div className="flex flex-col gap-5 justify-center items-center border-b h-10 animate-pulse">
-  //         {[...Array(6)].map((_, i) => (
-  //           <div
-  //             key={i}
-  //             className="min-h-8 border w-56 bg-gray-100 animate-pulse"
-  //           />
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // if (!navItems) {
-  //   return (
-  //     <div className="bg-white w-full h-[90vh] flex justify-center items-center">
-  //       <div className="relative hidden lg:flex justify-center items-center border-b h-12">
-  //         <p className="text-red-600">Something went wrong!</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="bg-white max-h-[90vh] overflow-y-auto">
       <div className="p-4 border-b">

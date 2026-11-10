@@ -44,7 +44,6 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 
@@ -57,7 +56,6 @@ export const useServiceProvider = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result?.length);
         if (res?.data?.result?.length < 1) {
           setMessage("This Service not available in your region!!");
         } else {
@@ -69,7 +67,6 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 
@@ -84,12 +81,10 @@ export const useServiceProvider = () => {
 
     Axios.post(NEAREST_CONSULTATION_CENTER, props)
       .then((response) => {
-        //console.log(response.data);
         setCenterInfo(response.data.result);
         setProgressing(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
   };
@@ -148,7 +143,6 @@ export const useServiceProvider = () => {
         setLoadingMore(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -173,7 +167,6 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
 
   };

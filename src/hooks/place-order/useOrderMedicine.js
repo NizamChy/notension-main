@@ -106,7 +106,6 @@ export const useOrderMedicine = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log("error:", error);
 
         toast.error("Failed to place order.");
       });
@@ -132,7 +131,6 @@ export const useOrderMedicine = () => {
         );
       })
       .catch((error) => {
-        // console.log("Error : ", error.response);
         setProgressing(false);
       });
 

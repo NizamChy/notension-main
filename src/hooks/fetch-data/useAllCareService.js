@@ -54,7 +54,6 @@ export const useAllCareService = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
       });
   };
 
@@ -76,7 +75,6 @@ export const useAllCareService = () => {
 
     Axios.post(EXPLORE_CARE_PROVIDER, props)
       .then((response) => {
-        // console.log("EXPLORE_CARE_PROVIDER : ", response?.data?.result);
 
         if (response?.data?.result?.nearestCareProvider) {
           setPopularInfo(response?.data?.result?.careProviderByDistrict);
@@ -88,7 +86,6 @@ export const useAllCareService = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
         setProgressing(false);
       });
   };

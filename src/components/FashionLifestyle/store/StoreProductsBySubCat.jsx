@@ -54,12 +54,6 @@ const StoreProductsBySubCat = () => {
   // useEffect(() => {
   //   if (!filteredKidsProducts) return;
 
-  //   const filtered = selectedSegments.length
-  //     ? filteredKidsProducts.filter((item) =>
-  //         selectedSegments.includes(item?.sub_category_info?._id)
-  //       )
-  //     : filteredKidsProducts;
-
   //   setFilteredProducts(filtered);
   // }, [selectedSegments, filteredKidsProducts]);
 

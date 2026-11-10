@@ -49,7 +49,6 @@ export const useUser = () => {
   });
 
   const getOtp = (props) => {
-    // console.log("props : ", props);
 
     handleDataChange(props.contact_no, "contact_no");
     setProgressing(true);
@@ -58,7 +57,6 @@ export const useUser = () => {
     // Resolves to true when the OTP request succeeded.
     return Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
-        // console.log("res?.result?.data otp data", res?.data);
 
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
@@ -97,9 +95,6 @@ export const useUser = () => {
 
       .catch((error) => {
         setProgressing(false);
-        // console.log("error.errors", error);
-        // console.log("result =", error?.response);
-        // console.log("result =", error?.response?.data?.errors);
 
         toast.error("Something went wrong. Please Try Again!");
         return false;
@@ -154,15 +149,6 @@ export const useUser = () => {
         return false;
       });
   };
-
-  // const saveLoggedInUserInfo = (user) => {
-  //   dispatch(
-  //     handleUserReducer({
-  //       type: "SAVE_LOGGEDIN_INFO",
-  //       data: user,
-  //     })
-  //   );
-  // };
 
   const saveLoggedInUserInfo = (user) => {
     dispatch(

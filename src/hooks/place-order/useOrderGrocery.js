@@ -131,7 +131,6 @@ export const useOrderGrocery = () => {
         );
       })
       .catch((error) => {
-        // console.log("Error : ", error.response);
         setProgressing(false);
       });
   };

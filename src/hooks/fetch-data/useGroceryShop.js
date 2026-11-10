@@ -52,12 +52,10 @@ export const useGroceryShop = () => {
     //saveLoadingStatus(true);
     Axios.post(NEAREST_GROCERY_STORE, props)
       .then((response) => {
-        // console.log(response?.data);
         setNearestInfo(response?.data?.result);
         setProgressing(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error?.response?.data);
         setProgressing(false);
       });
   };
@@ -117,15 +115,8 @@ export const useGroceryShop = () => {
             })
           );
 
-          // dispatch(
-          //   handleDashboardReducer({
-          //     type: "VISITED_FOOD_STORE",
-          //     data: res?.data?.result?.shopDetails[0] || {},
-          //   })
-          // );
         }
 
-        // console.log(
         //   "res?.data?.result?.shopDetails : ",
         //   res?.data?.result?.ShopDetails[0]
         // );
@@ -136,15 +127,6 @@ export const useGroceryShop = () => {
         setProgressing(false);
       });
   };
-
-  //   const resetFoodStore = () => {
-  //     dispatch(
-  //       handleItemsByStoreReducer({
-  //         type: "FOOD_STORE_RESET",
-  //         data: [],
-  //       })
-  //     );
-  //   };
 
   return {
     progressing,

@@ -95,20 +95,6 @@ const ProductByCategory = () => {
 
   //   let filtered = [...kidsProductsByCatId];
 
-  //   // Segment filter
-  //   if (selectedSegments.length) {
-  //     filtered = filtered.filter((item) =>
-  //       selectedSegments.includes(item?.sub_category_info?._id)
-  //     );
-  //   }
-
-  //   // Price filter
-  //   filtered = filtered.filter(
-  //     (product) =>
-  //       product.sale_price >= priceRange[0] &&
-  //       product.sale_price <= priceRange[1]
-  //   );
-
   //   setFilteredProducts(filtered);
   // }, [kidsProductsByCatId, selectedSegments, priceRange]);
 

@@ -52,12 +52,6 @@ export const useMedicine = () => {
       //setProductInfo(items);
       setProductInfo((prevInfo) => [...prevInfo, ...items]);
     }
-    // dispatch(
-    //     handleItemsByStoreReducer({
-    //         type: 'SAVE_PRODUCT_INFO',
-    //         data: items,
-    //     })
-    // );
   };
 
   const resetReducer = () => {
@@ -88,12 +82,10 @@ export const useMedicine = () => {
 
     Axios.post(NEAREST_MEDICINE_STORE, props)
       .then((response) => {
-        //console.log(response.data);
         setNearestInfo(response.data.result);
         setProgressing(false);
       })
       .catch((error) => {
-        //console.log('Error : ', error.response)
         setProgressing(false);
       });
   };
@@ -130,7 +122,6 @@ export const useMedicine = () => {
       },
     })
       .then((res) => {
-        //console.log('res?.data?.result?.ShopDetails[0]?.is_closed', res?.data?.result?.ShopDetails[0]?.is_closed);
         if (
           res?.data?.result?.ShopDetails[0]?.is_closed ||
           !res?.data?.result?.ShopDetails[0]?.is_active ||
@@ -156,7 +147,6 @@ export const useMedicine = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 
@@ -231,13 +221,11 @@ export const useMedicine = () => {
       params: parameter,
     })
       .then((res) => {
-        //console.log(res?.data?.result);
 
         if (res?.data?.result?.length > 0) {
           setProgressing(false);
           setPageNo(pageNo + 1);
           saveItemsToReducer(res?.data?.result);
-          // console.log(res?.data?.result);
         }
 
         if (pageNo === 1 && res?.data?.result?.length < 1) {

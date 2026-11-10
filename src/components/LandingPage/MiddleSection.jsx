@@ -36,15 +36,6 @@ const MiddleSection = () => {
 
   //   const isMobileDevice = window.innerWidth < 768;
 
-  //   if (!currentUserLocation?.districtId) {
-  //     if (isMobileDevice) {
-  //       router.push("/get-mobile-location");
-  //     } else {
-  //       handleOpenMapModal();
-  //     }
-  //     return;
-  //   }
-
   //   // if (!userInfo?._id) {
   //   //   return openModal();
   //   // }

@@ -263,39 +263,10 @@ const MapMobile = () => {
       </div>
     </div>
 
-    // <div className="relative">
-    //   <div className="mb-2 px-4 md:px-0">
-    //     <input
-    //       ref={inputRef}
-    //       type="text"
-    //       placeholder="Search location"
-    //       className="w-full outline-none border p-2 lg:mb-2"
-    //     />
-    //   </div>
-
     //   <div className="h-[75vh] md:h-[55vh] relative">
     //     {/* Google Map */}
     //     <div ref={mapRef} id="map" className="h-full w-full" />
 
-    //     {/* Fixed Flag Image at the Center */}
-    //     <Image
-    //       src={isMapMoving ? "/png/moving-flag.png" : "/png/location-flag.png"}
-    //       alt="Fixed Flag"
-    //       width={40}
-    //       height={40}
-    //       className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-full pointer-events-none"
-    //     />
-    //   </div>
-
-    //   <div className="flex md:hidden justify-center gap-2 mx-4">
-    //     <button
-    //       onClick={handleConfirmMobileLocation}
-    //       className="disabled:bg-gray-300 rounded-md px-5 py-2 text-white text-xl font-medium bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 transition duration-300 w-full mt-3"
-    //     >
-    //       Confirm Location
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 
