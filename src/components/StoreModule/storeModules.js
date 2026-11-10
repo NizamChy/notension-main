@@ -14,6 +14,9 @@ export const STORE_MODULES = {
     sliderImageBaseUrl: GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES,
     useShop: useGroceryShop,
     bannerHeightClass: "max-h-[140px] md:max-h-[400px]",
+    itemSkeletonHeightClass: "h-52",
+    searchInputFocusClass: "focus:ring-blue-500 focus:border-blue-500",
+    searchButtonClass: "bg-blue-500 hover:bg-blue-600 focus:ring-blue-500",
     customTypes: {
       specialOffer: "64f5a306baa57a4707524d6e",
       dealOfTheDay: "6525306cf79d9e77f12a2a63",
@@ -25,6 +28,11 @@ export const STORE_MODULES = {
     sliderImageBaseUrl: MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
     useShop: useMedicine,
     bannerHeightClass: "max-h-[167px] md:max-h-[400px]",
+    itemSkeletonHeightClass: "h-32 md:h-52",
+    searchInputFocusClass:
+      "focus:ring-primaryMedicine focus:border-primaryMedicine",
+    searchButtonClass:
+      "bg-primaryMedicine hover:bg-primaryMedicine focus:ring-primaryMedicine",
     customTypes: {
       specialOffer: "65128cbd20db0921f13b40b3",
       dealOfTheDay: "64ec724d538280d7999a2d39",

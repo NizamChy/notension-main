@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import MedicineItems from "../MedicineItems/MedicineItems";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
-import ItemCardSkeleton from "../MedicineItems/ItemCardSkeleton";
+import ItemCardSkeleton from "@/components/StoreModule/ItemCardSkeleton";
 import NoItemFound from "@/components/common/NoItemFound";
 
 const SearchedProducts = () => {
@@ -33,7 +33,7 @@ const SearchedProducts = () => {
       {!allLoaded && productInfo.length < 1 && (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
           {Array.from({ length: 12 }).map((_, index) => (
-            <ItemCardSkeleton key={index} />
+            <ItemCardSkeleton moduleName="medicine" key={index} />
           ))}
         </div>
       )}

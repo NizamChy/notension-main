@@ -1,9 +1,14 @@
 import React from "react";
+import { getStoreModule } from "./storeModules";
 
-const ItemCardSkeleton = () => {
+const ItemCardSkeleton = ({ moduleName }) => {
+  const { itemSkeletonHeightClass } = getStoreModule(moduleName);
+
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg animate-pulse p-2 md:p-4">
-      <div className="relative h-32 md:h-52 w-full bg-gray-300 rounded-lg"></div>
+      <div
+        className={`relative ${itemSkeletonHeightClass} w-full bg-gray-300 rounded-lg`}
+      ></div>
 
       <div className="pt-4">
         <div className="h-4 w-3/4 bg-gray-300 rounded mb-2"></div>

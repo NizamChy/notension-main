@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import GroceryItems from "../GroceryItems/GroceryItems";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
+import ItemCardSkeleton from "@/components/StoreModule/ItemCardSkeleton";
 import NoConnection from "@/components/NoConnection/NoConnection";
 import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
@@ -141,7 +141,7 @@ const SubTypeSection = () => {
           {!allLoaded && productInfo.length < 1 && (
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
               {Array.from({ length: 12 }).map((_, index) => (
-                <ItemCardSkeleton key={index} />
+                <ItemCardSkeleton moduleName="grocery" key={index} />
               ))}
             </div>
           )}
@@ -157,7 +157,7 @@ const SubTypeSection = () => {
                 loader={
                   <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
                     {Array.from({ length: 6 }).map((_, index) => (
-                      <ItemCardSkeleton key={index} />
+                      <ItemCardSkeleton moduleName="grocery" key={index} />
                     ))}
                   </div>
                 }

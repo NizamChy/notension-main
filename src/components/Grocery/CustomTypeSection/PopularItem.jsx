@@ -3,7 +3,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import GroceryItems from "../GroceryItems/GroceryItems";
-import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
+import ItemCardSkeleton from "@/components/StoreModule/ItemCardSkeleton";
 
 const PopularItem = () => {
   const { popularItem, isLoading } = useSelector((state) => state.itemsByStore);
@@ -13,7 +13,7 @@ const PopularItem = () => {
       {isLoading && (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center w-full">
           {Array.from({ length: 6 }).map((_, index) => (
-            <ItemCardSkeleton key={index} />
+            <ItemCardSkeleton moduleName="grocery" key={index} />
           ))}
         </div>
       )}

@@ -13,7 +13,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
-import MedicineItemSearchBar from "../SearchBarSection/MedicineItemSearchBar";
+import SearchBar from "@/components/StoreModule/SearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
 const Navbar = () => {
@@ -79,7 +79,7 @@ const Navbar = () => {
       </button>
 
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
-        <MedicineItemSearchBar />
+        <SearchBar moduleName="medicine" />
       </div>
 
       {!userInfo?._id && (
