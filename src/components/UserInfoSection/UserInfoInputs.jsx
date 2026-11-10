@@ -1,6 +1,7 @@
 "use client";
 
 import toast from "react-hot-toast";
+import { isLengthBetween } from "@/utils/validation";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import RoundLoader from "../common/RoundLoader";
@@ -35,7 +36,7 @@ const UserInfoInputs = ({
     e.preventDefault();
     e.stopPropagation();
 
-    if (userInfo?.customer_name < 3) {
+    if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
       return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৫০ অক্ষরের হতে পারে!", {
         style: {
           border: "1px solid #FC8F1E",
@@ -48,7 +49,7 @@ const UserInfoInputs = ({
       });
     }
 
-    if (userInfo?.customer_address < 5) {
+    if (!isLengthBetween(userInfo?.customer_address, 5, 200)) {
       return toast(
         "ঠিকানা কমপক্ষে ৫ অক্ষরের এবং সর্বোচ্চ ২০০ অক্ষরের মধ্যে হতে হবে!",
         {
