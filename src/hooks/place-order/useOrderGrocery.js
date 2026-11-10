@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   GROCERY_ORDER_INFO,
@@ -11,15 +11,7 @@ import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: GROCERY_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(GROCERY_URL);
 
 export const useOrderGrocery = () => {
   const [progressing, setProgressing] = useState(false);
@@ -142,11 +134,6 @@ export const useOrderGrocery = () => {
         // console.log("Error : ", error.response);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

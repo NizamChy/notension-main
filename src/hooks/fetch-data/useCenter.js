@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_CONSULTATION_CENTER,
   EXPLORE_CONSULTATION_CENTER,
@@ -8,8 +8,6 @@ import {
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
-
-axios.defaults.withCredentials = true;
 
 export const useCenter = () => {
   const [banner, setBanner] = useState([]);
@@ -23,13 +21,7 @@ export const useCenter = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const getNearestCenterInfo = (centerType, setCenterInfo) => {
     setProgressing(true);
@@ -52,11 +44,6 @@ export const useCenter = () => {
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getCenterInfoByDistrict = (
@@ -160,11 +147,6 @@ export const useCenter = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 
@@ -191,11 +173,6 @@ export const useCenter = () => {
         setProgressing(false);
         // console.log(error);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

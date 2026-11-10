@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -12,15 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/secret";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: USER_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(USER_URL);
 
 export const useFavouriteItem = () => {
   const [message, setMessage] = useState("");
@@ -191,13 +183,7 @@ export const useFavouriteItem = () => {
     });
   };
 
-  const AxiosGrocery = axios.create({
-    baseURL: GROCERY_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const AxiosGrocery = getApiClient(GROCERY_URL);
 
   const getGroceryProductDetails = (productInfoTable) => {
     setShowErrorMessage(false);
@@ -224,13 +210,7 @@ export const useFavouriteItem = () => {
       });
   };
 
-  const AxiosMedicine = axios.create({
-    baseURL: MEDICINE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const AxiosMedicine = getApiClient(MEDICINE_URL);
 
   const getMedicineProductDetails = (medStoreProductInfo) => {
     // console.log(medStoreProductInfo);

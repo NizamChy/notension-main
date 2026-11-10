@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   SEARCH_MEDICINE_ITEMS,
@@ -12,8 +12,6 @@ import { MEDICINE_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
-
-axios.defaults.withCredentials = true;
 
 export const useMedicine = () => {
   const [message, setMessage] = useState("");
@@ -36,13 +34,7 @@ export const useMedicine = () => {
     (state) => state.itemsByStore
   );
 
-  const Axios = axios.create({
-    baseURL: MEDICINE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(MEDICINE_URL);
 
   const setCurrentModule = () => {
     dispatch(
@@ -104,11 +96,6 @@ export const useMedicine = () => {
         //console.log('Error : ', error.response)
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const handleSearchStore = (searchText, setNearestInfo) => {
@@ -127,11 +114,6 @@ export const useMedicine = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 

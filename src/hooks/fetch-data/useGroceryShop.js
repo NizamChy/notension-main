@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_GROCERY_STORE,
   EXPLORE_GROCERY_STORE,
@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 
-axios.defaults.withCredentials = true;
-
 export const useGroceryShop = () => {
   const [progressing, setProgressing] = useState(false);
 
@@ -21,13 +19,7 @@ export const useGroceryShop = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: GROCERY_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(GROCERY_URL);
 
   const resetReducer = () => {
     dispatch(
@@ -68,11 +60,6 @@ export const useGroceryShop = () => {
         // console.log("Error : ", error?.response?.data);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const handleSearchStore = (searchText, setNearestInfo) => {
@@ -91,11 +78,6 @@ export const useGroceryShop = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 

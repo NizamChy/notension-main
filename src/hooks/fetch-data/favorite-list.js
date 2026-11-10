@@ -1,9 +1,9 @@
+import { getApiClient } from "@/lib/apiClient";
 import {
   ADD_TO_FAVOURITE,
   PUSH_TO_FAVOURITE,
   REMOVE_FROM_FAVOURITE,
 } from "@/api-endpoints/api-endpoint";
-import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { USER_URL } from "@/api-endpoints/secret";
@@ -11,15 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: USER_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(USER_URL);
 
 export const useFavouriteList = () => {
   const [visible, setVisible] = useState(false);

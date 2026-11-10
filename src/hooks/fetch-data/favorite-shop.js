@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -12,15 +12,7 @@ import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: USER_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(USER_URL);
 
 export const useFavouriteStore = () => {
   const [visible, setVisible] = useState(false);

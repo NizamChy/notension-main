@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   EXPLORE_CARE_PROVIDER,
@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { ALL_CARE_SERVICE_URL } from "@/api-endpoints/secret";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
-
-axios.defaults.withCredentials = true;
 
 export const useAllCareService = () => {
   const [allLoaded, setAllLoaded] = useState(false);
@@ -24,13 +22,7 @@ export const useAllCareService = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: ALL_CARE_SERVICE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(ALL_CARE_SERVICE_URL);
 
   const setCurrentModule = () => {
     dispatch(
@@ -99,11 +91,6 @@ export const useAllCareService = () => {
         console.log("Error : ", error.response.data);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

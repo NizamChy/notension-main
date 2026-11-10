@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   GET_DOCTOR_PROFILE,
@@ -11,8 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 
-axios.defaults.withCredentials = true;
-
 export const useDoctor = () => {
   const [allLoaded, setAllLoaded] = useState(false);
   const [loadingMore, setLoadingMore] = useState(true);
@@ -24,13 +22,7 @@ export const useDoctor = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const setCurrentModule = () => {
     dispatch(
@@ -85,12 +77,6 @@ export const useDoctor = () => {
         setProgressing(false);
         setAllLoaded(true);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-        setAllLoaded(true);
-      }
-    }, 10000);
   };
 
   const getDoctorsInfoByDistrict = (

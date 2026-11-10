@@ -1,10 +1,8 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import { BASE_ADMIN_URL } from "@env";
 import { useSelector } from "react-redux";
 import { GET_BANKING_OUTLET } from "@/api-endpoints/api-endpoint";
-
-axios.defaults.withCredentials = true;
 
 export const useBankingOutlet = () => {
   const [progressing, setProgressing] = useState(false);
@@ -14,13 +12,7 @@ export const useBankingOutlet = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: BASE_ADMIN_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(BASE_ADMIN_URL);
 
   const findNearestBankingOutlet = () => {
     setProgressing(true);
@@ -42,11 +34,6 @@ export const useBankingOutlet = () => {
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

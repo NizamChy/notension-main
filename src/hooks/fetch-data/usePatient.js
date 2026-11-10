@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -10,21 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 
-axios.defaults.withCredentials = true;
-
 export const usePatient = () => {
   const [progressing, setProgressing] = useState(false);
 
   const dispatch = useDispatch();
   const { userInfo, patientInfo } = useSelector((state) => state.user);
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const registerPatient = (patientData) => {
     setProgressing(true);
@@ -56,11 +48,6 @@ export const usePatient = () => {
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const updatePatientProfile = (patientData) => {
@@ -90,11 +77,6 @@ export const usePatient = () => {
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getPatientInfo = () => {
@@ -118,11 +100,6 @@ export const usePatient = () => {
         // console.log(error);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const savePatientInfo = (task, patientInfo) => {

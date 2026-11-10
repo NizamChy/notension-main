@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   EXPLORE_CONSULTATION_CENTER,
   NEAREST_CONSULTATION_CENTER,
@@ -10,8 +10,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
-
-axios.defaults.withCredentials = true;
 
 export const useServiceProvider = () => {
   const [banner, setBanner] = useState([]);
@@ -31,13 +29,7 @@ export const useServiceProvider = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const exploreMedicalServiceProvider = (setProviderBanner) => {
     setProgressing(true);
@@ -54,11 +46,6 @@ export const useServiceProvider = () => {
         setProgressing(false);
         // console.log(error);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getMedicalServiceProvider = (serviceType, setProviderInfo) => {
@@ -84,11 +71,6 @@ export const useServiceProvider = () => {
         setProgressing(false);
         // console.log(error);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getNearestCenterInfo = (centerType, setCenterInfo) => {
@@ -110,11 +92,6 @@ export const useServiceProvider = () => {
         // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getCenterInfoByDistrict = (
@@ -175,12 +152,6 @@ export const useServiceProvider = () => {
         setProgressing(false);
         setAllLoaded(true);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-        setAllLoaded(true);
-      }
-    }, 10000);
   };
 
   const exploreConsultationCenter = (centerInfo, setExploreInfo) => {
@@ -205,11 +176,6 @@ export const useServiceProvider = () => {
         // console.log(error);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

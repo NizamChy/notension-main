@@ -1,14 +1,12 @@
+import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_GROCERY_ITEMS,
   GROCERY_ITEMS_BY_SUBTYPE,
   GROCERY_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { GROCERY_URL } from "@/api-endpoints/secret";
-
-axios.defaults.withCredentials = true;
 
 export const useGroceryProduct = () => {
   const [allLoaded, setAllLoaded] = useState(false);
@@ -26,13 +24,7 @@ export const useGroceryProduct = () => {
   //   (state) => state.itemsByStoreReducer
   // );
 
-  const Axios = axios.create({
-    baseURL: GROCERY_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(GROCERY_URL);
 
   const saveItemsToReducer = (items) => {
     if (items.length < 1) {

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
 import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
-
-axios.defaults.withCredentials = true;
 
 export const useAppointment = () => {
   const [message, setMessage] = useState("");
@@ -21,13 +19,7 @@ export const useAppointment = () => {
 
   const { userInfo, patientInfo } = useSelector((state) => state.user);
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const bookAppointment = (bookAppoinmentData) => {
     setProgressing(true);
@@ -95,11 +87,6 @@ export const useAppointment = () => {
         toast.error("কিছু একটা ভুল হয়েছে! পরে আবার চেষ্টা করুন!");
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const saveAppoinmentInfo = (task, bookAppoinmentData) => {

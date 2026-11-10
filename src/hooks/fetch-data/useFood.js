@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_FOOD_STORE,
   NEAREST_FOOD_STORE,
@@ -11,8 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 
-axios.defaults.withCredentials = true;
-
 export const useFood = () => {
   const [progressing, setProgressing] = useState(false);
 
@@ -22,13 +20,7 @@ export const useFood = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: FOOD_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(FOOD_URL);
 
   const resetReducer = () => {
     dispatch(
@@ -68,11 +60,6 @@ export const useFood = () => {
         //console.log('Error : ', error.response)
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getNearestFoodStoreInfo = (setNearestInfo, data) => {
@@ -95,11 +82,6 @@ export const useFood = () => {
         //console.log('Error : ', error.response)
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const handleSearchStore = (searchText, setNearestInfo, data) => {
@@ -119,11 +101,6 @@ export const useFood = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 

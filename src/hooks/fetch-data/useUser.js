@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -12,15 +12,7 @@ import { USER_URL } from "@/api-endpoints/secret";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: USER_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(USER_URL);
 
 export const useUser = () => {
   const [progressing, setProgressing] = useState(false);
