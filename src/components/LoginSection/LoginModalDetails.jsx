@@ -14,7 +14,12 @@ const noopSubscribe = () => () => {};
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
-const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
+// `showHeading` is off on the /login page, which renders its own heading.
+const LoginModalDetails = ({
+  onClose = () => {},
+  type = "login",
+  showHeading = true,
+}) => {
   const [phone, setPhone] = useState("");
   const [otpGenerated, setOtpGenerated] = useState("");
   const [contentType, setContentType] = useState("otp");
@@ -113,6 +118,16 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
     <>
       {contentType === "otp" ? (
         <div className="w-full">
+          {showHeading && (
+            <div className="pt-2 pr-6">
+              <h2 className="text-lg md:text-xl font-semibold text-deepGray">
+                Log in to NoTension
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Enter your mobile number to get a one-time code.
+              </p>
+            </div>
+          )}
           <OtpSection setPhone={setPhone} />
           <div className="flex justify-center">
             <button
@@ -132,7 +147,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
                 </div>
               ) : (
                 <>
-                  <p className="py-2">LOGIN WITH OTP</p>
+                  <p className="py-2.5">Log in with OTP</p>
                 </>
               )}
             </button>
@@ -151,7 +166,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
                 disabled={progressing}
                 className="w-full rounded-md border border-gray-300 py-2 font-medium text-deepGray hover:bg-gray-50 disabled:opacity-60"
               >
-                Login as Demo User
+                Log in as Demo User
               </button>
               <p className="mt-2 text-center text-xs text-gray-400">
                 Demo mode: signs in as {DEMO_USER_NAME} ({DEMO_USER_CONTACT}),

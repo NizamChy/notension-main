@@ -59,7 +59,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">
-              Your Cart({getCartCount() || 0})
+              Your Cart ({getCartCount() || 0})
             </h2>
             <button onClick={onClose}>
               <IoClose className="text-2xl" />
@@ -81,8 +81,11 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
           {cartItems.length > 0 && (
             <div className="p-4 border-t">
-              <p className="text-center font-medium text-primary">
-                Cart Total: ৳ {getCartTotal() || 0}
+              <p className="flex justify-between items-center text-base font-semibold text-gray-900">
+                <span>Total</span>
+                <span className="tabular-nums">
+                  ৳{Number(getCartTotal() || 0).toFixed(2)}
+                </span>
               </p>
               <div className="mt-4 text-center w-full">
                 <button

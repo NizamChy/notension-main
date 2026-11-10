@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import CartContent from "./CartContent";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 
@@ -15,6 +15,7 @@ const Cart = () => {
 
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname();
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
@@ -108,16 +109,17 @@ const Cart = () => {
       <button
         onClick={toggleDrawer}
         aria-label="Open cart"
-        className={`fixed z-40 bottom-4 right-4 lg:bottom-auto lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-auto lg:w-[72px] flex lg:flex-col items-center overflow-hidden ${getPrimaryClass()} text-white rounded-full lg:rounded-none lg:rounded-s-xl shadow-lg`}
+        // On checkout the pill would cover the "Place order" button on small
+        // screens, and the order summary is already on the page.
+        className={`fixed z-40 bottom-4 right-4 lg:bottom-auto lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-auto lg:w-[72px] ${
+          pathname?.endsWith("/checkout") ? "hidden lg:flex" : "flex"
+        } lg:flex-col items-center overflow-hidden ${getPrimaryClass()} text-white rounded-full lg:rounded-none lg:rounded-s-xl shadow-lg`}
       >
         <span className="flex items-center gap-1.5 lg:flex-col lg:gap-0.5 ps-3 pe-2 py-2 lg:px-1 lg:pt-2.5 lg:pb-1.5 text-xs lg:text-[13px] font-medium whitespace-nowrap">
-          <Image
-            src="/svg/minicart-icon.svg"
-            alt=""
-            width={22}
-            height={13}
-          />
-          <span>{cartCount} items</span>
+          <HiOutlineShoppingBag aria-hidden="true" className="text-lg shrink-0" />
+          <span>
+            {cartCount} {cartCount === 1 ? "item" : "items"}
+          </span>
         </span>
 
         <span

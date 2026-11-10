@@ -32,7 +32,7 @@ const page = () => {
             Log in with your mobile number to continue
           </p>
 
-          <LoginModalDetails type="login" />
+          <LoginModalDetails type="login" showHeading={false} />
         </div>
       </div>
     </div>

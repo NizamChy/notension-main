@@ -129,16 +129,14 @@ const DrawerContent = ({ toggleDrawer, openModal }) => {
                 <p className="text-secondary text-sm font-medium">Wishlists</p>
               </Link>
 
-              <div className="flex items-center gap-2 mt-2 ps-1">
-                <TbLogout className="text-lg text-secondary" />
-
-                <button
-                  onClick={handleLogout}
-                  className="text-secondary text-sm font-medium"
-                >
-                  Logout
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="mt-2 flex gap-2 text-secondary text-sm font-medium"
+              >
+                <TbLogout className="text-lg" />
+                Logout
+              </button>
             </div>
             <hr className="mb-1" />
           </>

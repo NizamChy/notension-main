@@ -39,9 +39,9 @@ const CartContent = ({
       </div>
 
       <div className="p-4 border-t">
-        <div className="flex justify-between">
-          <span className="font-semibold">Subtotal</span>
-          <span className="font-semibold flex items-center">
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Subtotal</span>
+          <span className="flex items-center">
             <TbCurrencyTaka />
             {config && <span>{toNumber(total).toFixed(2)}</span>}
           </span>
@@ -56,7 +56,7 @@ const CartContent = ({
         <button
           onClick={handleCheckout}
           disabled={!!config && !hasItems}
-          className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none transition-colors duration-200 text-white py-2 rounded-lg ${getPrimaryClass()}`}
+          className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none transition-colors duration-200 text-white font-medium py-2.5 rounded-lg ${getPrimaryClass()}`}
         >
           Checkout
         </button>

@@ -73,31 +73,34 @@ const CartItems = ({ moduleName }) => {
                 <p className="text-xs md:text-base font-semibold">
                   {item?.[titleField]}
                 </p>
-                <div className="flex gap-2 md:gap-10">
-                  <p className={`flex items-center ${textClass} text-xs text-nowrap md:text-sm font-medium mt-1`}>
-                    <TbCurrencyTaka className="text-lg" />
-                    {item?.sale_price} x {item?.quantity}
-                  </p>
+                {/* Unit price x quantity, then the line total. */}
+                <p className="mt-1 flex items-center text-xs md:text-sm text-gray-500 whitespace-nowrap">
+                  <TbCurrencyTaka className="shrink-0" />
+                  {item?.sale_price} × {item?.quantity}
+                </p>
+                <p className={`flex items-center ${textClass} text-sm md:text-base font-semibold`}>
+                  <TbCurrencyTaka className="shrink-0" />
+                  {lineTotal(item).toFixed(2)}
+                </p>
 
-                  <p className={`flex items-center ${textClass} text-xs md:text-sm font-medium mt-1`}>
-                    <TbCurrencyTaka className="text-lg" />
-
-                    {lineTotal(item).toFixed(2)}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 mt-2">
+                <div className="mt-2 inline-flex items-center rounded-md border border-gray-200 overflow-hidden">
                   <button
+                    type="button"
+                    aria-label="Decrease quantity"
                     disabled={item?.quantity === 1}
                     onClick={(e) => handleDecrement(e, item?._id)}
-                    className="px-2 py-1 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300"
+                    className="h-7 w-7 flex items-center justify-center text-gray-700 font-semibold hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-transparent"
                   >
-                    -
+                    −
                   </button>
-                  <span className="text-sm font-medium">{item?.quantity}</span>
+                  <span className="h-7 min-w-8 px-1 flex items-center justify-center border-x border-gray-200 text-sm font-medium">
+                    {item?.quantity}
+                  </span>
                   <button
+                    type="button"
+                    aria-label="Increase quantity"
                     onClick={(e) => handleIncrement(e, item?._id)}
-                    className="px-2 py-1 bg-gray-200 text-gray-700 rounded font-semibold hover:bg-gray-300"
+                    className="h-7 w-7 flex items-center justify-center text-gray-700 font-semibold hover:bg-gray-100"
                   >
                     +
                   </button>
@@ -106,8 +109,10 @@ const CartItems = ({ moduleName }) => {
             </div>
 
             <button
+              type="button"
+              aria-label="Remove from cart"
               onClick={(e) => handleRemoveFromCart(e, item?._id)}
-              className="text-xl text-gray-600 hover:text-red-600"
+              className="self-start p-1 text-xl text-gray-500 hover:text-red-600"
             >
               <MdDeleteForever />
             </button>

@@ -180,7 +180,7 @@ const Checkout = () => {
           <div className="mt-6">
             <Link
               href="/"
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90"
             >
               Continue Shopping
             </Link>
@@ -254,7 +254,7 @@ const Checkout = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-indigo-500"
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
                       required
                     />
                   </div>
@@ -268,7 +268,7 @@ const Checkout = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-indigo-500"
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
                       required
                     />
                   </div>
@@ -283,7 +283,7 @@ const Checkout = () => {
                       name="address"
                       value={formData.address}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-indigo-500"
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
                       required
                     />
                   </div>
@@ -300,7 +300,7 @@ const Checkout = () => {
                         key={option.id}
                         className={`flex items-center gap-3 px-3 py-2 rounded-md border cursor-pointer transition-colors ${
                           formData.paymentOption === option.label
-                            ? "border-indigo-500 bg-indigo-50/50"
+                            ? "border-primary bg-primary/5"
                             : "border-gray-200 hover:bg-gray-50"
                         }`}
                       >
@@ -310,16 +310,16 @@ const Checkout = () => {
                           value={option.label}
                           checked={formData.paymentOption === option.label}
                           onChange={handleChange}
-                          className="h-5 w-5 text-blue-600"
+                          className="h-4 w-4 accent-primary"
                         />
                         <Image
                           src={option.icon}
-                          alt={option.label}
+                          alt=""
                           width={40}
                           height={40}
-                          className="w-10"
+                          className="w-8 h-8 object-contain"
                         />
-                        <span className="text-gray-800 font-medium text-xs md:text-base">
+                        <span className="text-gray-800 font-medium text-sm">
                           {option.label}
                         </span>
                       </label>
@@ -330,7 +330,7 @@ const Checkout = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto bg-indigo-600 py-2.5 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700"
+                      className="w-full sm:w-auto bg-primary py-3 px-8 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white hover:bg-primary/90 disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >
                       {isSubmitting
                         ? "Placing Order..."
@@ -341,7 +341,9 @@ const Checkout = () => {
               </form>
             </div>
 
-            <div className="lg:col-span-1">
+            {/* On small screens the summary comes first, so shoppers see what
+                they are paying for before the "Place order" button. */}
+            <div className="lg:col-span-1 order-first lg:order-none">
               <OrderSummary
                 items={cartItems}
                 subtotal={overallSubtotal}
