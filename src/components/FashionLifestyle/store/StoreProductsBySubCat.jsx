@@ -15,8 +15,11 @@ const StoreProductsBySubCat = () => {
 
   const typeCatSubIdSlug = params?.category || "";
   const shopId = params?.shopSlugId?.split("_")[1];
+  const shopName = decodeURIComponent(
+    params?.shopSlugId?.split("_")[0] || ""
+  ).replace(/-/g, " ");
 
-  const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
+  const [, typeId, , catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
 
   const { useProductsByStoreSubCatId } = useStoreItems();
@@ -62,27 +65,21 @@ const StoreProductsBySubCat = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
-        <title>{typeSlug} | Fashion Store</title>
+        <title>{`${subCatSlug?.replace(/-/g, " ")} | ${shopName}`}</title>
         <meta
           name="description"
-          content={`Browse our ${typeSlug} collection`}
+          content={`Browse ${subCatSlug?.replace(/-/g, " ")} at ${shopName}`}
         />
       </Head>
 
       <main className="max-w-7xl mx-auto py-4 md:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
+        {/* Store links only carry the type and category ids (their slugs
+            are the placeholders "type" and "category"), so the breadcrumb
+            is "shop name > sub-category" and leads back to the shop. */}
         <h1 className="text-lg md:text-2xl font-semibold text-gray-700 capitalize mb-4 md:mb-6 flex flex-wrap items-center gap-y-1">
-          <Link href={`/fashion-lifestyle/type/${typeSlug}_${typeId}`}>
+          <Link href={`/fashion-lifestyle/shop/${params?.shopSlugId}`}>
             <span className="flex items-center text-gray-800 hover:text-blue-600">
-              {typeSlug?.replace(/-/g, " ")}{" "}
-              <MdKeyboardArrowRight className="text-gray-500" />
-            </span>
-          </Link>
-
-          <Link
-            href={`/fashion-lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}`}
-          >
-            <span className="flex items-center text-gray-700 hover:text-blue-600">
-              {catSlug?.replace(/-/g, " ")}{" "}
+              {shopName}
               <MdKeyboardArrowRight className="text-gray-500" />
             </span>
           </Link>
