@@ -91,7 +91,7 @@ const WishlistProduct = () => {
     <section className="py-4 lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <Title title="Wishlist Items" />
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
           {favouriteFashionItems?.map((product) => (
             <Link
               key={product?._id?.toString()}

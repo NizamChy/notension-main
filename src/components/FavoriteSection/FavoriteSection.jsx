@@ -53,10 +53,10 @@ const FavoriteSection = () => {
         <GrNext />
       </button>
 
-      <div className="w-full flex justify-center mx-auto md:px-5 items-center">
+      <div className="w-full flex justify-center mx-auto px-3 md:px-14 items-center">
         <Swiper
-          slidesPerView={3.6}
-          spaceBetween={20}
+          slidesPerView={3.3}
+          spaceBetween={12}
           loop={true}
           navigation={{
             prevEl: "#custom-prev",
@@ -86,9 +86,10 @@ const FavoriteSection = () => {
                     alt={item.name}
                     width={130}
                     height={64}
-                    className="rounded object-contain"
+                    className="rounded object-contain w-full max-w-[130px] h-auto"
                   />
-                  <p className="text-xs md:text-base font-semibold text-deepGray text-center">
+                  <p className="mt-1 text-[11px] leading-tight sm:text-xs md:text-base md:leading-snug font-semibold text-deepGray text-center">
+
                     {item.name}
                   </p>
                 </div>

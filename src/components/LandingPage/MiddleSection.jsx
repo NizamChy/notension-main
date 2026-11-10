@@ -89,7 +89,7 @@ const MiddleSection = () => {
 
           <div className="absolute bottom-3 left-4 md:bottom-10 md:left-8">
             <h3
-              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
             >
               Find Medical Services
@@ -120,7 +120,7 @@ const MiddleSection = () => {
 
             <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
               <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
               >
                 All Care Services

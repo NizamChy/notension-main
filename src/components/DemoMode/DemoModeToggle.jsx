@@ -63,7 +63,7 @@ const DemoModeToggle = () => {
   return (
     <div
       ref={panelRef}
-      className="fixed bottom-4 right-4 z-30 flex flex-col items-end gap-2"
+      className="fixed bottom-3 right-3 md:bottom-4 md:right-4 z-30 flex flex-col items-end gap-2"
     >
       {isOpen && (
         <div className="w-[min(18rem,calc(100vw-2rem))] rounded-xl border bg-white p-4 shadow-lg">
@@ -130,14 +130,17 @@ const DemoModeToggle = () => {
         type="button"
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
-        className="flex items-center gap-2 rounded-full border bg-white px-4 py-2 text-sm font-medium text-deepGray shadow-md hover:shadow-lg"
+        aria-label={`Demo mode: ${demoOn ? "On" : "Off"}`}
+        className="flex items-center gap-1.5 md:gap-2 rounded-full border bg-white/95 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-deepGray shadow-md hover:shadow-lg"
       >
         <span
-          className={`h-2.5 w-2.5 rounded-full ${
+          className={`h-2 w-2 md:h-2.5 md:w-2.5 rounded-full ${
             demoOn ? "bg-green-500" : "bg-gray-400"
           }`}
         />
-        Demo mode: {demoOn ? "On" : "Off"}
+        <span className="hidden md:inline">Demo mode: </span>
+        <span className="md:hidden">Demo </span>
+        {demoOn ? "On" : "Off"}
       </button>
     </div>
   );

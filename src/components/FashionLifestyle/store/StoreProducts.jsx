@@ -40,7 +40,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
       <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="min-h-8 lg:min-h-10 mb-3 rounded-md bg-gray-200 animate-pulse w-1/3 lg:w-1/4" />
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
             {[...Array(4)].map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))}
@@ -62,7 +62,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
       <div className="max-w-7xl mx-auto">
         <Title title={title} />
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
           {displayedProducts?.map((product) => (
             <Link
               key={product?._id?.toString()}

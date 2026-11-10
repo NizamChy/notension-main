@@ -9,10 +9,16 @@ const ImageGallery = ({ product, selectedImage }) => {
   const [zoomStyle, setZoomStyle] = useState({});
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Unique, non-empty images only (a missing variant image used to show up
+  // as a blank thumbnail).
   const detailImages = [
-    product?.web_image,
-    selectedImage,
-    ...(product?.detail_product_image || []),
+    ...new Set(
+      [
+        product?.web_image,
+        selectedImage,
+        ...(product?.detail_product_image || []),
+      ].filter(Boolean),
+    ),
   ];
 
   // 👉 Sync parent selectedImage with gallery
@@ -73,7 +79,8 @@ const ImageGallery = ({ product, selectedImage }) => {
           />
 
           {/* Sale badge */}
-          {product?.sale_price && (
+          {Number(product?.sale_price) <
+            Number(product?.max_retail_price) && (
             <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
               SALE
             </div>

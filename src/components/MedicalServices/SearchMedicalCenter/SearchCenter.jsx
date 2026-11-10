@@ -4,7 +4,7 @@ import { IoSearch } from "react-icons/io5";
 
 const SearchCenter = () => {
   return (
-    <div className="w-2/3 md:w-1/2 lg:w-1/3 mx-auto my-5 border text-mediumGray hover:border-primary hover:text-primary rounded-lg cursor-pointer">
+    <div className="mx-4 sm:mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 my-5border text-mediumGray hover:border-primary hover:text-primary rounded-lg cursor-pointer">
       <Link href="/medical-services/search">
         <button className="h-10 ps-3 w-full flex justify-between items-center">
           <span>Search center</span>

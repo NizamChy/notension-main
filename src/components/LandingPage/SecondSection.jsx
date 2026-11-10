@@ -10,6 +10,29 @@ import MapModal from "../shared/LocationModal/MapModal";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 
+const CARDS = [
+  {
+    type: "eyeCareCenter",
+    title: "Find Eye Care Center",
+    image: "/images/home/find-eye-care.jpg",
+  },
+  {
+    type: "dentalCareCenter",
+    title: "Find Dental Care Center",
+    image: "/images/home/find-dental-care.jpg",
+  },
+  {
+    type: "hospital",
+    title: "Find Hospital",
+    image: "/images/home/home-banner-6.webp",
+  },
+  {
+    type: "diagnostic",
+    title: "Find Diagnostic",
+    image: "/images/home/home-banner-8.webp",
+  },
+];
+
 const SecondSection = () => {
   const [routeType, setRouteType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,115 +87,32 @@ const SecondSection = () => {
 
   return (
     <>
-      <div className="lg:flex gap-4 space-y-4">
-        <div className="flex justify-center lg:gap-4 mt-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mt-4 w-full">
+        {CARDS.map(({ type, title, image }) => (
           <div
-            onClick={(e) => handleSectionClick(e, "eyeCareCenter")}
+            key={type}
+            onClick={(e) => handleSectionClick(e, type)}
             className="group overflow-hidden relative cursor-pointer"
           >
             <Image
               width={308}
               height={303}
-              className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/find-eye-care.jpg"
-              alt="find-eye-care.jpg"
+              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+              src={image}
+              alt={title}
             />
 
-            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
-              <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
-            "
-              >
-                Find Eye Care Center
+            <div className="absolute bottom-2 left-3 right-3 md:bottom-5 md:left-8 md:right-4">
+              <h3 className="text-sm md:text-xl xl:text-2xl font-semibold tracking-wide xl:tracking-widest text-gray-500">
+                {title}
               </h3>
               <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                </span>
+                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
                 <span>Contact Now</span>
               </p>
             </div>
           </div>
-
-          <div
-            onClick={(e) => handleSectionClick(e, "dentalCareCenter")}
-            className="group overflow-hidden relative cursor-pointer"
-          >
-            <Image
-              width={308}
-              height={303}
-              className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/find-dental-care.jpg"
-              alt="find-dental-care.jpg"
-            />
-
-            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
-              <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
-            "
-              >
-                Find Dental Care Center
-              </h3>
-              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                </span>
-                <span>Contact Now</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center lg:gap-4 mt-4">
-          <div
-            onClick={(e) => handleSectionClick(e, "hospital")}
-            className="group overflow-hidden relative cursor-pointer"
-          >
-            <Image
-              width={308}
-              height={302}
-              className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/home-banner-6.webp"
-              alt="home-banner-6"
-            />
-
-            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
-              <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
-                Find Hospital
-              </h3>
-              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                </span>
-                <span>Contact Now</span>
-              </p>
-            </div>
-          </div>
-
-          <div
-            onClick={(e) => handleSectionClick(e, "diagnostic")}
-            className="group overflow-hidden relative cursor-pointer"
-          >
-            <Image
-              width={308}
-              height={302}
-              className="transition-transform duration-300 group-hover:scale-105"
-              src="/images/home/home-banner-8.webp"
-              alt="home-banner-8"
-            />
-
-            <div className="absolute bottom-2 left-3 md:bottom-5 md:left-8">
-              <h3 className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500">
-                Find Diagnostic
-              </h3>
-              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <span>
-                  <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                </span>
-                <span>Contact Now</span>
-              </p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {isModalOpen && routeType && (

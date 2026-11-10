@@ -2,18 +2,14 @@
 
 import NavRow from "./NavRow";
 import React, { useState } from "react";
-import navItems from "../../../../../public/data/navItems.json";
-import { useCategoryItem } from "../../hooks/fetchData/useCategoryItem";
+import { useNavItems } from "../../hooks/useNavItems";
 
 const CategoryNav = () => {
   const [activeMenu, setActiveMenu] = useState(null);
   const [itemsByBrand, setItemsByBrand] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
-  const { brands } = useCategoryItem();
-  // const { brands, navItems, isLoading } = useCategoryItem();
-
-  const firstRowItems = navItems.slice(0, 7);
+  const { navItems: firstRowItems, brands } = useNavItems();
   // const firstRowItems = navItems.slice(0, 6);
   // const secondRowItems = navItems.slice(6, 13);
 
