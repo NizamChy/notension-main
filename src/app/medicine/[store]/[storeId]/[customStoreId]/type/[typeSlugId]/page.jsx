@@ -1,11 +1,11 @@
 import React from "react";
-import TypeSection from "@/components/Medicine/TypeSection/TypeSection";
+import TypeSection from "@/components/StoreModule/TypeSection";
 
 // TypeSection reads `typeSlugId` itself via useParams().
 const page = () => {
   return (
     <>
-      <TypeSection />
+      <TypeSection moduleName="medicine" />
     </>
   );
 };

@@ -2,20 +2,21 @@
 
 import toast from "react-hot-toast";
 import React, { useEffect, useState } from "react";
-import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import { useRouter, useSearchParams } from "next/navigation";
-import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
-import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
-import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
+import { getStoreModule, toSlug } from "./storeModules";
+import ShopInfoCard from "../ShopInfoSection/ShopInfoCard";
+import NoStoreFound from "../ShopInfoSection/NoStoreFound";
+import ShopInfoCardSkeleton from "../ShopInfoSection/ShopInfoCardSkeleton";
 
-const MedicineSearchedStores = () => {
+const SearchedStores = ({ moduleName }) => {
   const [nearestInfo, setNearestInfo] = useState([]);
-
-  const { handleSearchStore, progressing } = useMedicine();
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchText = searchParams.get("query");
+
+  const { basePath, useShop } = getStoreModule(moduleName);
+  const { handleSearchStore, progressing } = useShop();
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
@@ -32,25 +33,21 @@ const MedicineSearchedStores = () => {
         },
       });
 
-    const formattedShopName = shop?.shop_name
-      ?.trim()
-      .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-      .replace(/\s+/g, "-");
-
     router.push(
-      `/medicine/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
+      `${basePath}/${toSlug(shop?.shop_name)}/${shop?._id}/${shop?.custom_store_id}`
     );
   };
 
   useEffect(() => {
     handleSearchStore(searchText, setNearestInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
 
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
       <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
-        Store found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
+        Store found for{" "}
+        <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
       </h4>
 
       {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}
@@ -66,12 +63,10 @@ const MedicineSearchedStores = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
         {nearestInfo?.map((shop) => (
           <ShopInfoCard
-            onClick={() => {
-              handleStoreClick(shop);
-            }}
+            onClick={() => handleStoreClick(shop)}
             key={shop?._id}
             shop={shop}
-            type="medicine"
+            type={moduleName}
           />
         ))}
       </div>
@@ -79,4 +74,4 @@ const MedicineSearchedStores = () => {
   );
 };
 
-export default MedicineSearchedStores;
+export default SearchedStores;

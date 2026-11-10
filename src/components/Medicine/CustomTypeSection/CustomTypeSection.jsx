@@ -4,11 +4,14 @@ import PopularItem from "./PopularItem";
 import SpecialOffer from "./SpecialOffer";
 import DealOfTheDay from "./DealOfTheDay";
 import { useSelector } from "react-redux";
-import MedicineCommonSlider from "../CategoryBannerCarousel/MedicineCommonSlider";
+import CommonSlider from "@/components/StoreModule/CommonSlider";
+import { getStoreModule } from "@/components/StoreModule/storeModules";
+
+const { customTypes } = getStoreModule("medicine");
 
 const CustomTypeSection = ({ customTypeId }) => {
   const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider
+    (state) => state.dashboard.DashboardSlider,
   );
 
   return (
@@ -16,8 +19,9 @@ const CustomTypeSection = ({ customTypeId }) => {
       <div className="flex justify-center">
         <div className="w-full lg:w-3/4 p-4">
           <div className="rounded-2xl shadow-lg overflow-hidden bg-white p-2">
-            {DashboardSlider[0]?.fourth_slider?.length && (
-              <MedicineCommonSlider
+            {DashboardSlider?.[0]?.fourth_slider?.length > 0 && (
+              <CommonSlider
+                moduleName="medicine"
                 classNames="max-h-[167px] md:max-h-[468px]"
                 slides={DashboardSlider[0]?.fourth_slider}
               />
@@ -26,9 +30,9 @@ const CustomTypeSection = ({ customTypeId }) => {
         </div>
       </div>
 
-      {customTypeId === "65128cbd20db0921f13b40b3" && <SpecialOffer />}
-      {customTypeId === "64ec724d538280d7999a2d39" && <DealOfTheDay />}
-      {customTypeId === "651284f9330595b483e38d73" && <PopularItem />}
+      {customTypeId === customTypes.specialOffer && <SpecialOffer />}
+      {customTypeId === customTypes.dealOfTheDay && <DealOfTheDay />}
+      {customTypeId === customTypes.popularItem && <PopularItem />}
     </div>
   );
 };
