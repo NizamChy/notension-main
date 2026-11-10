@@ -1,10 +1,10 @@
 import React from "react";
-import FavoriteItem from "@/components/Medicine/FavoriteSection/FavoriteItem";
+import FavoriteItems from "@/components/StoreModule/FavoriteItems";
 
 const page = () => {
   return (
     <>
-      <FavoriteItem />
+      <FavoriteItems moduleName="medicine" />
     </>
   );
 };
