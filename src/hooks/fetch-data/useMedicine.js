@@ -210,7 +210,7 @@ export const useMedicine = () => {
 
     if (option === "custom-type") {
       parameter.customType = id;
-      dataURL = GROCERY_ITEMS_BY_CUSTOMTYPE;
+      dataURL = MEDICINE_ITEMS_BY_CUSTOMTYPE;
     }
 
     if (pageNo === 1) {
