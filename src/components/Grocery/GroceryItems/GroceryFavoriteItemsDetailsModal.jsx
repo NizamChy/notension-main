@@ -77,7 +77,9 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
 
   useEffect(() => {
     isExists = isAddedToFavouriteItems(
-      itemDetails?.productInfoTable?._id,
+      // productInfoTable is an id string (populated object on some
+      // responses); `?._id` alone was always undefined for the string form.
+      itemDetails?.productInfoTable?._id ?? itemDetails?.productInfoTable,
       merchantType
     );
 

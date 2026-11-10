@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  FOOD_ITEMS_IMAGES,
-  FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,
-} from "@/api-endpoints/api-endpoint";
+import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
@@ -58,7 +55,11 @@ const MobileCategory = ({ gridClass, toggleDrawer }) => {
               >
                 <div className="flex flex-col justify-center items-center text-center">
                   <img
-                    src={`${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`}
+                    src={
+                      category?.categoryInfo?.banner_type_1
+                        ? `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
+                        : "/png/dummyImage.png"
+                    }
                     alt="category"
                     width={95}
                     height={113}

@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { WiTime4 } from "react-icons/wi";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { toLocalYMD } from "@/utils/date";
 
 const BookedAppointment = () => {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const BookedAppointment = () => {
   };
 
   useEffect(() => {
-    const currentDate = new Date().toISOString().split("T")[0];
+    const currentDate = toLocalYMD();
     const pastAppointments = bookedAppoinmentInfo.filter(
       (appointment) =>
         new Date(appointment?.appointment_date).getTime() <

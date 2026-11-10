@@ -37,7 +37,7 @@ export const useAppointment = () => {
 
     appointmentInfo.createdBy = {
       user_id: userInfo?._id,
-      user: userInfo?.contact_no.slice(-11),
+      user: userInfo?.contact_no?.slice(-11),
       user_type: "Customer",
     };
 

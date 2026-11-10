@@ -1,9 +1,9 @@
 // Demo routes for the ALL_CARE backend. See src/demo/README.md for the contract.
 //
 // UI notes that shape this data:
-// - ServiceCard picks each service icon by list position from SERVICES in
-//   src/utils/constant.js (services-1.png ... services-45.png), so ALL_SERVICES
-//   is ordered to match those pictures and must never exceed 45 entries.
+// - ServiceCard picks each service icon from its English name
+//   (src/utils/allCareServiceIcon.js -> services-1.png ... services-45.png);
+//   names that match no rule get a generic icon.
 // - Banner and provider images are built as `${SERVICE_BANNER_IMAGES}/<file>`
 //   and `${SERVICE_PROVIDER_IMAGES}/<file>`; the demo rewrite drops the
 //   "service_banner" / "service_provider" segment, so file names here are

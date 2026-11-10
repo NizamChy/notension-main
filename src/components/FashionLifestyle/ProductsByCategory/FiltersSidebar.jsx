@@ -26,6 +26,7 @@ const FiltersSidebar = ({
   clearAllFilters,
   subCategories,
   brands,
+  filterOptions,
   typeCatSubIdSlug,
   shopSlugId = null,
   isSubCategoriesLoading,
@@ -101,6 +102,7 @@ const FiltersSidebar = ({
             clearAllFilters={clearAllFilters}
             subCategories={subCategories}
             brands={brands}
+            filterOptions={filterOptions}
             typeCatSubIdSlug={typeCatSubIdSlug}
             shopSlugId={shopSlugId}
             isSubCategoriesLoading={isSubCategoriesLoading}
@@ -162,6 +164,7 @@ const FiltersSidebar = ({
               clearAllFilters={clearAllFilters}
               subCategories={subCategories}
               brands={brands}
+              filterOptions={filterOptions}
               typeCatSubIdSlug={typeCatSubIdSlug}
               shopSlugId={shopSlugId}
               isSubCategoriesLoading={isSubCategoriesLoading}
@@ -201,12 +204,39 @@ const FilterContent = ({
   clearAllFilters,
   subCategories,
   brands,
+  filterOptions,
   typeCatSubIdSlug,
   shopSlugId,
   isSubCategoriesLoading,
 }) => {
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug?.split("_") || "";
+
+  // Options come from the loaded products (see useProductFilters) so every
+  // choice actually matches something. Fall back to the static lists only
+  // when no options were passed at all.
+  const brandOptions =
+    filterOptions?.brands ??
+    (brands || []).map((brand) => ({
+      value: brand?._id,
+      label: brand?.brand_name,
+    }));
+  const sizeOptions =
+    filterOptions?.sizes ??
+    FILTER_OPTIONS.sizes.map((size) => ({
+      value: size.toLowerCase(),
+      label: size,
+    }));
+  const colorOptions =
+    filterOptions?.colors ??
+    FILTER_OPTIONS.colors.map((color) => ({
+      value: color.toLowerCase(),
+      label: color,
+    }));
+
+  const emptyOptions = (label) => (
+    <p className="text-sm text-gray-500">No {label} for these products</p>
+  );
 
   return (
     <>
@@ -355,14 +385,16 @@ const FilterContent = ({
         onClick={() => setOpenFilter(openFilter === "brand" ? null : "brand")}
       >
         <div className="space-y-2">
-          {brands?.map((brand) => (
-            <FilterCheckbox
-              key={brand?._id}
-              label={brand?.brand_name}
-              checked={selectedBrands.includes(brand?.brand_name)}
-              onChange={() => toggleFilter("brand", brand?.brand_name)}
-            />
-          ))}
+          {brandOptions.length
+            ? brandOptions.map((brand) => (
+                <FilterCheckbox
+                  key={brand.value}
+                  label={brand.label}
+                  checked={selectedBrands.includes(brand.value)}
+                  onChange={() => toggleFilter("brand", brand.value)}
+                />
+              ))
+            : emptyOptions("brands")}
         </div>
       </FilterSection>
 
@@ -388,16 +420,20 @@ const FilterContent = ({
         isOpen={openFilter === "size"}
         onClick={() => setOpenFilter(openFilter === "size" ? null : "size")}
       >
-        <div className="grid grid-cols-3 gap-2">
-          {FILTER_OPTIONS.sizes.map((size) => (
-            <FilterCheckbox
-              key={size}
-              label={size}
-              checked={selectedSizes.includes(size)}
-              onChange={() => toggleFilter("size", size)}
-            />
-          ))}
-        </div>
+        {sizeOptions.length ? (
+          <div className="grid grid-cols-3 gap-2">
+            {sizeOptions.map((size) => (
+              <FilterCheckbox
+                key={size.value}
+                label={size.label}
+                checked={selectedSizes.includes(size.value)}
+                onChange={() => toggleFilter("size", size.value)}
+              />
+            ))}
+          </div>
+        ) : (
+          emptyOptions("sizes")
+        )}
       </FilterSection>
 
       <FilterSection
@@ -405,16 +441,20 @@ const FilterContent = ({
         isOpen={openFilter === "color"}
         onClick={() => setOpenFilter(openFilter === "color" ? null : "color")}
       >
-        <div className="grid grid-cols-2 gap-2">
-          {FILTER_OPTIONS.colors.map((color) => (
-            <FilterCheckbox
-              key={color}
-              label={color}
-              checked={selectedColors.includes(color.toLowerCase())}
-              onChange={() => toggleFilter("color", color.toLowerCase())}
-            />
-          ))}
-        </div>
+        {colorOptions.length ? (
+          <div className="grid grid-cols-2 gap-2">
+            {colorOptions.map((color) => (
+              <FilterCheckbox
+                key={color.value}
+                label={color.label}
+                checked={selectedColors.includes(color.value)}
+                onChange={() => toggleFilter("color", color.value)}
+              />
+            ))}
+          </div>
+        ) : (
+          emptyOptions("colors")
+        )}
       </FilterSection>
 
       {/* <FilterSection

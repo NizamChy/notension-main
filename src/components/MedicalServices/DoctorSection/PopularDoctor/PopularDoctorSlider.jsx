@@ -1,7 +1,7 @@
 "use client";
 
 import "swiper/css";
-import React from "react";
+import React, { useState } from "react";
 import "swiper/css/navigation";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
@@ -14,6 +14,11 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
   const { popularDoctors, isLoading } = useSelector(
     (state) => state.doctorInfo
   );
+
+  // Per-instance arrow elements: the page renders this slider more than
+  // once, and shared element ids made every arrow drive the first slider.
+  const [prevEl, setPrevEl] = useState(null);
+  const [nextEl, setNextEl] = useState(null);
 
   return (
     <>
@@ -30,14 +35,18 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
               <div className="relative flex justify-center items-center">
                 <button
                   className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:text-white text-[#0C3F8E] hover:bg-primary transition-all duration-300"
-                  id="custom-prev-doc"
+                  ref={setPrevEl}
+                  type="button"
+                  aria-label="Previous doctors"
                 >
                   <GrPrevious />
                 </button>
 
                 <button
                   className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:text-white text-[#0C3F8E] hover:bg-primary transition-all duration-300"
-                  id="custom-next-doc"
+                  ref={setNextEl}
+                  type="button"
+                  aria-label="Next doctors"
                 >
                   <GrNext />
                 </button>
@@ -47,10 +56,7 @@ const PopularDoctorSlider = ({ startValue = 0, endValue = 5 }) => {
                     slidesPerView={1.2}
                     spaceBetween={20}
                     loop={true}
-                    navigation={{
-                      prevEl: "#custom-prev-doc",
-                      nextEl: "#custom-next-doc",
-                    }}
+                    navigation={{ prevEl, nextEl }}
                     breakpoints={{
                       640: {
                         slidesPerView: 2,

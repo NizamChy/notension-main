@@ -3,13 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
 import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const NearestInfoCard = ({ provider }) => {
   const router = useRouter();
+  const params = useParams();
   const dispatch = useDispatch();
 
   const handleProviderClick = () => {
@@ -20,7 +21,10 @@ const NearestInfoCard = ({ provider }) => {
       })
     );
 
-    router.push("/all-care-services/provider-details");
+    // The ids let the details page load the provider on a direct link.
+    router.push(
+      `/all-care-services/provider-details?serviceId=${params?.serviceId}&id=${provider?._id}`
+    );
   };
 
   return (
@@ -49,7 +53,7 @@ const NearestInfoCard = ({ provider }) => {
           {provider?.address}
         </p>
 
-        {provider?.distance && (
+        {provider?.distance != null && (
           <p className="text-xs md:text-base text-primary ps-4">
             Distance: {(provider?.distance / 1000).toFixed(2)} km
           </p>

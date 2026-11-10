@@ -1,20 +1,77 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
+import Loader from "../common/Loader";
 import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 import {
   FaMapMarkerAlt,
   FaPhone,
   FaWhatsapp,
   FaStar,
+  FaStarHalfAlt,
+  FaRegStar,
   FaRegClock,
 } from "react-icons/fa";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
+// Returns a finite number, or null for missing / non-numeric values.
+const toNumberOrNull = (value) => {
+  if (value === "" || value == null) return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+};
+
 const ServiceProviderDetails = () => {
-  const { currentProviderDetails } = useSelector((state) => state.allCare);
+  const [popularList, setPopularList] = useState([]);
+  const [nearestList, setNearestList] = useState([]);
+  const [requested, setRequested] = useState(false);
+
+  const searchParams = useSearchParams();
+  const providerId = searchParams.get("id");
+  const serviceId = searchParams.get("serviceId");
+
+  const { exploreCareProvider, progressing } = useAllCareService();
+  const { currentProviderDetails: reduxProvider } = useSelector(
+    (state) => state.allCare
+  );
+  const districtId = useSelector((state) => state.user.districtId);
+
+  // Redux has the provider when it was opened from a list (and for old links
+  // without an id). A direct link (or a reload with cleared state) looks it
+  // up in the service's provider list instead (no provider-by-id endpoint).
+  const hasReduxProvider = !providerId || reduxProvider?._id === providerId;
+  const currentProviderDetails = hasReduxProvider
+    ? reduxProvider
+    : [...popularList, ...nearestList].find(
+        (provider) => provider?._id === providerId
+      );
+
+  useEffect(() => {
+    if (hasReduxProvider || !serviceId) return;
+    setRequested(true);
+    return exploreCareProvider(serviceId, setPopularList, setNearestList, 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [providerId, serviceId, hasReduxProvider, districtId]);
+
+  const rating = toNumberOrNull(currentProviderDetails?.rating);
+  const hasRating = rating != null && rating > 0 && rating <= 5;
+  const reviewCount = toNumberOrNull(currentProviderDetails?.total_reviews);
+
+  if (!currentProviderDetails && (progressing || (serviceId && !requested))) {
+    return <Loader />;
+  }
+
+  if (!currentProviderDetails?._id) {
+    return (
+      <p className="mx-auto max-w-6xl px-4 py-16 text-center text-gray-600">
+        Service provider not found.
+      </p>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-8">
@@ -143,43 +200,47 @@ const ServiceProviderDetails = () => {
               </div>
             </div>
 
-            {/* Rating Card */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
-                <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
-                গ্রাহক রেটিং
-              </h2>
-              <div className="flex flex-col md:flex-row items-center gap-6">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-gray-800">4.8</div>
-                  <div className="flex justify-center mt-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <FaStar key={star} className="text-yellow-400 text-xl" />
-                    ))}
-                  </div>
-                  <p className="text-gray-500 mt-1">২৪৫ রিভিউ</p>
-                </div>
-                <div className="flex-1 w-full">
-                  {[5, 4, 3, 2, 1].map((rating) => (
-                    <div key={rating} className="flex items-center gap-3 mb-2">
-                      <span className="text-sm font-medium w-8">
-                        {rating}{" "}
-                        <FaStar className="inline text-yellow-400 ml-1" />
-                      </span>
-                      <div className="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-yellow-400"
-                          style={{ width: `${(rating / 5) * 100}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-500 w-10">
-                        {((rating / 5) * 100).toFixed(0)}%
-                      </span>
+            {/* Rating Card: only shown when the provider has a real rating */}
+            {hasRating && (
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
+                  <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
+                  গ্রাহক রেটিং
+                </h2>
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  <div className="text-center">
+                    <div className="text-5xl font-bold text-gray-800">
+                      {rating.toFixed(1)}
                     </div>
-                  ))}
+                    <div
+                      className="flex justify-center mt-2"
+                      aria-label={`${rating.toFixed(1)} out of 5`}
+                    >
+                      {[1, 2, 3, 4, 5].map((star) => {
+                        const Icon =
+                          rating >= star
+                            ? FaStar
+                            : rating >= star - 0.5
+                              ? FaStarHalfAlt
+                              : FaRegStar;
+                        return (
+                          <Icon
+                            key={star}
+                            aria-hidden="true"
+                            className="text-yellow-400 text-xl"
+                          />
+                        );
+                      })}
+                    </div>
+                    {reviewCount != null && (
+                      <p className="text-gray-500 mt-1">
+                        {reviewCount.toLocaleString("bn-BD")} রিভিউ
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

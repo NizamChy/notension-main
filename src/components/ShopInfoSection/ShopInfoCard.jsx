@@ -136,7 +136,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
             </span>
           </p>
 
-          {shop?.distance && (
+          {shop?.distance != null && (
             <p className="text-xs md:text-base text-gray-500 ps-4">
               Distance: {(shop?.distance / 1000).toFixed(2)} km
             </p>

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  FOOD_ITEMS_IMAGES,
-  FOOD_SLIDER_TYPE_SUBTYPE_IMAGES,
-} from "@/api-endpoints/api-endpoint";
+import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { GrPrevious, GrNext } from "react-icons/gr";
@@ -88,7 +85,7 @@ const CategorySlider = () => {
                   <img
                     src={
                       category?.categoryInfo?.banner_type_1
-                        ? `${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
+                        ? `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
                         : "/png/dummyImage.png"
                     }
                     alt="category image"

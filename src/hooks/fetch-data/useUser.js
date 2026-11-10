@@ -36,6 +36,11 @@ export const useUser = () => {
     email: loggedinUserInfo?.email || "",
     contact_no: loggedinUserInfo?.contact_no || "",
     alternative_contact_no: loggedinUserInfo?.alternative_contact_no || "",
+    // NOTE: intentionally swapped to match what the backend already stores:
+    // it saves [longitude, latitude] from these fields, and getOtp() reads
+    // location.coordinates[0] back as latitude. Fixing only one side would
+    // corrupt existing users' locations; change it together with the
+    // backend (plus a data migration).
     longitude: userLatitude,
     latitude: userLongitude,
     district_area_id: "303030303030303030303030",

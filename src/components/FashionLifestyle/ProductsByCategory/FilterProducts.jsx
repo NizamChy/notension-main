@@ -9,6 +9,7 @@ const FilterProducts = ({
   products = [],
   isLoading,
   clearAllFilters,
+  totalCount,
 }) => {
   const [sortOption, setSortOption] = useState("featured");
 
@@ -53,7 +54,8 @@ const FilterProducts = ({
     <div className="flex-1">
       <div className="flex justify-between items-center mb-6">
         <p className="text-gray-600">
-          Showing {sortedProducts?.length} of {products?.length} products
+          Showing {sortedProducts?.length} of{" "}
+          {totalCount ?? products?.length} products
         </p>
 
         <div>

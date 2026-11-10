@@ -316,7 +316,10 @@ export const routes = [
     path: MEDICINE_ITEM_DETAILS,
     handler: ({ query }) => {
       const item = storeItems(query.merchantId, query.custom_store_id).find(
-        (i) => i.medStoreProductInfo === query.medStoreProductInfo,
+        // Product pages link by the store item's _id.
+        (i) =>
+          i.medStoreProductInfo === query.medStoreProductInfo ||
+          i._id === query.medStoreProductInfo,
       );
       return item
         ? ok(item)

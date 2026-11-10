@@ -9,13 +9,16 @@ import AllCareServices from "@/components/AllCareServices/AllCareServices";
 
 const AllCareHome = () => {
   const { exploreAllCareService } = useAllCareService();
-  const { careSlider, allServicesInfo } = useSelector((state) => state.allCare);
+  const { careSlider } = useSelector((state) => state.allCare);
+  const districtId = useSelector((state) => state.user.districtId);
 
+  // Refetch whenever the user's district changes. Persisted data is kept on
+  // screen meanwhile only if it was fetched for this same district (the
+  // reducer clears it otherwise).
   useEffect(() => {
-    if (allServicesInfo?.length < 1) {
-      exploreAllCareService();
-    }
-  }, []);
+    return exploreAllCareService();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [districtId]);
 
   return (
     <>

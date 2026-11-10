@@ -3,14 +3,16 @@
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import toast from "react-hot-toast";
 import ProductInfo from "./ProductInfo";
 import { FiHeart } from "react-icons/fi";
 import ImageGallery from "./ImageGallery";
+import { useEffect, useState } from "react";
 import { slugify } from "../utils/slugify";
 import ProductDetails from "./ProductDetails";
-import { usePathname } from "next/navigation";
+import Loader from "../shared/Loader/Loader";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import { MdLocationOn } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
@@ -26,12 +28,25 @@ const ProductDetailSection = () => {
   // const [selectedColor, setSelectedColor] = useState(null);
 
   const pathname = usePathname();
+  const router = useRouter();
+  const params = useParams();
   const { addToCart } = useCart();
+  const { useProductById } = useCategoryItem();
 
   const dispatch = useDispatch();
 
+  // The slug is "<title-slug>_<productId>".
+  const productId = params?.slugId?.split("_").pop() || null;
+
+  // Redux has the product when it was opened from a list. A direct link (or
+  // a reload with cleared state) fetches it by id instead.
   const { currentProductDetails } = useSelector((state) => state.product);
-  const product = currentProductDetails;
+  const hasReduxProduct =
+    !!productId && currentProductDetails?._id === productId;
+  const { data: fetchedProduct, isLoading: isFetching } = useProductById(
+    hasReduxProduct ? null : productId
+  );
+  const product = hasReduxProduct ? currentProductDetails : fetchedProduct;
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
 
@@ -41,6 +56,12 @@ const ProductDetailSection = () => {
   const [selectedImage, setSelectedImage] = useState(
     product?.images_by_color?.[0] || product?.web_image
   );
+
+  // A fetched product arrives after the first render.
+  useEffect(() => {
+    setSelectedImage(product?.images_by_color?.[0] || product?.web_image);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?._id]);
 
   const favouriteFashionItems = useSelector(
     (state) => state.userChoice.favouriteFashionItems
@@ -58,7 +79,9 @@ const ProductDetailSection = () => {
     }
   };
 
-  const handleAddToCart = () => {
+  // Buy Now = same validation + add to cart, then straight to checkout
+  // instead of opening the cart drawer.
+  const handleAddToCart = ({ buyNow = false } = {}) => {
 
     if (
       product?.sizes !== "null" &&
@@ -84,6 +107,12 @@ const ProductDetailSection = () => {
     }
 
     addToCart(product, quantity, selectedSize, selectedImage);
+
+    if (buyNow) {
+      toast.dismiss();
+      router.push("/fashion-lifestyle/checkout");
+      return;
+    }
 
     toast.dismiss();
     toast.success(`${product?.product_title_eng} added to cart!`, {
@@ -148,6 +177,16 @@ const ProductDetailSection = () => {
       },
     });
   };
+
+  if (!product && isFetching) return <Loader />;
+
+  if (!product?._id) {
+    return (
+      <p className="container mx-auto px-4 py-16 text-center text-gray-600">
+        Product not found.
+      </p>
+    );
+  }
 
   return (
     <>
@@ -341,29 +380,23 @@ const ProductDetailSection = () => {
               </div>
             </div>
 
-            <button
-              onClick={handleAddToCart}
-              className="mt-8 flex items-center justify-center flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 lg:px-12 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <FaShoppingCart /> Add to Cart
-            </button>
-
-            {/* <div className="flex flex-col md:flex-row md:gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
               <button
-                onClick={handleAddToCart}
+                type="button"
+                onClick={() => handleAddToCart()}
                 className="flex items-center justify-center flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <FaShoppingCart /> Add to Cart
               </button>
 
-              <Link
-                href="#"
-                className="mt-4 md:mt-0 flex-1 bg-primary hover:bg-primary/95
-                text-white py-3 px-6 rounded-md font-medium transition-colors text-center"
+              <button
+                type="button"
+                onClick={() => handleAddToCart({ buyNow: true })}
+                className="flex items-center justify-center flex-1 bg-primary hover:bg-primary/95 text-white py-3 px-6 rounded-md font-medium transition-colors"
               >
                 Buy Now
-              </Link>
-            </div> */}
+              </button>
+            </div>
 
             <ProductDetails product={product} />
           </div>

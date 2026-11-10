@@ -2,10 +2,9 @@
 //
 // Images: every image field holds a path under public/demo/ (food/*.svg).
 // Product category icons (`banner_type_1`) are rendered as
-// `${FOOD_ITEMS_IMAGES}/${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${file}`, i.e. two
-// image base URLs glued together, so their value climbs back out with
-// "../../../" and the browser resolves it to
-// /demo-images/food-items-images/food/<file> -> public/demo/food/<file>.
+// `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${file}`, which resolves to
+// /demo-images/food-slider-type-subtype-images/food/<file>
+// -> public/demo/food/<file>.
 import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
@@ -84,7 +83,7 @@ export const DEMO_FOOD_PRODUCT_CATEGORIES = PRODUCT_CATEGORY_ROWS.map(
     _id: hexId("30", index + 1),
     key,
     category_name: name,
-    banner_type_1: `../../../food/pcat-${key}.svg`,
+    banner_type_1: `food/pcat-${key}.svg`,
     is_active: true,
   }),
 );

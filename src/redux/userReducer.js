@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toLocalYMD } from "@/utils/date";
 
 const initialState = {
   userInfo: {},
@@ -135,7 +136,7 @@ const userSlice = createSlice({
           } else if (action === "add") {
             updatedAppointments = [...updatedAppointments, appoinmentData];
           } else if (action === "update") {
-            const currentDate = new Date().toISOString().split("T")[0];
+            const currentDate = toLocalYMD();
             updatedAppointments = updatedAppointments.filter(
               (info) =>
                 new Date(info?.appointment_date).getTime() >=
