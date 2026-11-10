@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { lineTotal } from "@/utils/price";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
@@ -108,7 +109,7 @@ const CartItem = () => {
                 </p>
 
                 <p className="text-xs md:text-sm text-gray-700">
-                  ৳{item?.sale_price * item?.quantity}
+                  ৳{lineTotal(item).toFixed(2)}
                 </p>
               </div>
             </div>

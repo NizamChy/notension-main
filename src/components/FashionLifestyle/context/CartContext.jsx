@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { lineTotal, toNumber } from "@/utils/price";
 
 const CartContext = createContext();
 
@@ -101,13 +102,13 @@ export const CartProvider = ({ children }) => {
 
   const getCartTotal = () => {
     return cartItems.reduce(
-      (total, item) => total + item?.sale_price * item?.quantity,
+      (total, item) => total + lineTotal(item),
       0
     );
   };
 
   const getCartCount = () => {
-    return cartItems.reduce((count, item) => count + item?.quantity, 0);
+    return cartItems.reduce((count, item) => count + toNumber(item?.quantity), 0);
   };
 
   return (

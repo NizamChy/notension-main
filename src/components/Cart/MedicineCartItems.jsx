@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { lineTotal } from "@/utils/price";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -78,7 +79,7 @@ const MedicineCartItems = () => {
                   <p className="flex items-center text-primaryMedicine text-xs md:text-sm font-medium mt-1">
                     <TbCurrencyTaka className="text-lg" />
 
-                    {(item?.sale_price * item?.quantity).toFixed(2)}
+                    {lineTotal(item).toFixed(2)}
                   </p>
                 </div>
 

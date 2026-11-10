@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { lineTotal } from "@/utils/price";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -60,31 +61,31 @@ const Checkout = () => {
       );
       return response.data;
     },
-    onSuccess: (data) => {
-      // toast.dismiss();
-      // toast.success(data?.message || "Order placed successfully!");
+    onSuccess: () => {
       setTotalStores((prev) => prev + 1);
-
-      console.log(data?.message || "Order placed successfully!");
-    },
-    onError: (error) => {
-      console.error("Error posting order:", error);
-      toast.error("Failed to place order");
     },
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Guard against double submit while orders are being placed.
+    if (isSubmitting) return;
 
     if (!formData?.name || !formData?.phone || !formData?.address) {
       return toast.error("Please fill all required fields");
     }
 
-    for (const [storeId, items] of Object.entries(groupedItems)) {
+    setIsSubmitting(true);
+    const failedStores = [];
+
+    for (const [, items] of Object.entries(groupedItems)) {
       const merchantInfo = items[0]?.store_info;
 
       const subtotal = items.reduce(
-        (sum, item) => sum + item?.sale_price * item?.quantity,
+        (sum, item) => sum + lineTotal(item),
         0
       );
       const deliveryCharge = 0;
@@ -136,21 +137,29 @@ const Checkout = () => {
         paymet_method: formData?.paymentOption,
       };
 
-      console.log(
-        "Posting order for store:",
-        merchantInfo?.shop_name,
-        orderData
-      );
-
-      await postOrderMutation.mutateAsync(orderData);
+      try {
+        await postOrderMutation.mutateAsync(orderData);
+        // Remove this store's items right away so a retry after a partial
+        // failure does not place the same order twice.
+        items.forEach((item) =>
+          removeFromCart(item?._id, item?.selectedSize, item?.selectedImage)
+        );
+      } catch {
+        failedStores.push(merchantInfo?.shop_name || "a store");
+      }
     }
 
-    // toast.success("Order placed successfully!");
+    setIsSubmitting(false);
+
+    if (failedStores.length) {
+      toast.error(
+        `Failed to place order for ${failedStores.join(", ")}. Please try again.`
+      );
+      return;
+    }
 
     openModal();
     clearCart();
-    // router.push("/fashion_lifestyle");
-    // toast.success("All store orders placed successfully!");
   };
 
   const handleGoHomeClick = () => {
@@ -212,7 +221,7 @@ const Checkout = () => {
     );
 
   const overallSubtotal = cartItems.reduce(
-    (sum, item) => sum + item?.sale_price * item?.quantity,
+    (sum, item) => sum + lineTotal(item),
     0
   );
   const deliveryCharge = 0 * groupedItemsLength;
@@ -314,10 +323,10 @@ const Checkout = () => {
                   <div className="mt-6 flex justify-between">
                     <button
                       type="submit"
-                      disabled={postOrderMutation.isPending}
+                      disabled={isSubmitting}
                       className="ml-auto bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700"
                     >
-                      {postOrderMutation.isPending
+                      {isSubmitting
                         ? "Placing Order..."
                         : "Place Order"}
                     </button>
