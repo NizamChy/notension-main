@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Notension | Grocery",
+  title: "Grocery",
   description:
-    "Online Shopping Site for Fashion & Lifestyle in Bangladesh. Bangladesh's Fashion Expert brings you a variety of footwear, Clothing, Accessories and lifestyle products.",
+    "Shop groceries and daily essentials from nearby stores with fast home delivery on NoTension.",
 };
 
 export default function GroceryLayout({ children }) {

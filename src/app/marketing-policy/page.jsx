@@ -4,6 +4,12 @@ import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import MarketingPolicy from "@/components/Policy/MarketingPolicy";
 
+export const metadata = {
+  title: "Marketing Policy",
+  description:
+    "NoTension marketing policy.",
+};
+
 const NotoSansBengali = Noto_Sans_Bengali({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],

@@ -15,7 +15,10 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata = {
-  title: "NoTension | E-commerce Platform.",
+  title: {
+    default: "NoTension | E-commerce Platform",
+    template: "NoTension | %s",
+  },
   description:
     "NoTension is an E-commerce Online Service Provider. You can get all kinds of services like Grocery Stores, Medicine, Food, and more.",
 };

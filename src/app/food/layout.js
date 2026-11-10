@@ -1,9 +1,9 @@
 import Navbar from "@/components/Food/Navbar/Navbar";
 
 export const metadata = {
-  title: "Notension | Food",
+  title: "Food",
   description:
-    "Online Shopping Site for Fashion & Lifestyle in Bangladesh. Bangladesh's Fashion Expert brings you a variety of footwear, Clothing, Accessories and lifestyle products.",
+    "Order food from nearby restaurants and food stores in your area with NoTension.",
 };
 
 export default function FoodLayout({ children }) {

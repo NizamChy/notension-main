@@ -3,6 +3,12 @@ import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
 import UserProfile from "@/components/UserInfoSection/UserProfile";
 
+export const metadata = {
+  title: "My Profile",
+  description:
+    "Manage your NoTension profile.",
+};
+
 const page = () => {
   return (
     <>
