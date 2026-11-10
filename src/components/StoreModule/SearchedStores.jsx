@@ -34,7 +34,7 @@ const SearchedStores = ({ moduleName }) => {
       });
 
     router.push(
-      `${basePath}/${toSlug(shop?.shop_name)}/${shop?._id}/${shop?.custom_store_id}`
+      `${basePath}/${toSlug(shop?.shop_name)}/${shop?._id}/${shop?.custom_store_id}`,
     );
   };
 

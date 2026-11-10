@@ -26,7 +26,7 @@ const SearchBar = ({ moduleName, scope = "item" }) => {
     router.push(
       isStoreSearch
         ? `${basePath}/home/search-store?query=${encoded}`
-        : `${basePath}/${params?.store}/${params?.storeId}/${params?.customStoreId}/search?query=${encoded}`
+        : `${basePath}/${params?.store}/${params?.storeId}/${params?.customStoreId}/search?query=${encoded}`,
     );
   };
 

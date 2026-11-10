@@ -7,7 +7,7 @@ import { getStoreModule } from "./storeModules";
 
 const CategoryBannerCarousel = ({ moduleName }) => {
   const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider
+    (state) => state.dashboard.DashboardSlider,
   );
   const { bannerHeightClass } = getStoreModule(moduleName);
 

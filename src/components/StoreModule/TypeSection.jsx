@@ -20,7 +20,7 @@ const TypeSection = ({ moduleName }) => {
   const { typeInfo, isLoading } = useSelector((state) => state.dashboard);
 
   const selectedType = typeInfo?.find(
-    (type) => type?.id === typeId || type?.custom_type_id === typeId
+    (type) => type?.id === typeId || type?.custom_type_id === typeId,
   );
   const subtypes = selectedType?.subtype || [];
 
@@ -28,7 +28,7 @@ const TypeSection = ({ moduleName }) => {
     const subTypeSlugId = `${toSlug(sub?.sub_type_name)}_${subTypeId}`;
 
     router.push(
-      `${basePath}/${params?.store}/${params?.storeId}/${params?.customStoreId}/sub-type/${subTypeSlugId}`
+      `${basePath}/${params?.store}/${params?.storeId}/${params?.customStoreId}/sub-type/${subTypeSlugId}`,
     );
   };
 
