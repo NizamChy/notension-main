@@ -34,7 +34,7 @@ const HomeBannerCard = ({
         width={width}
         height={height}
         priority={priority}
-        className={`w-full transition-transform duration-300 group-hover:scale-105 ${
+        className={`w-full transition-[transform,filter] duration-300 group-hover:scale-105 dark:brightness-[0.8] dark:group-hover:brightness-90 ${
           fill ? "h-full object-cover" : "h-auto"
         }`}
         src={image}
@@ -48,15 +48,17 @@ const HomeBannerCard = ({
             : "bottom-3 sm:bottom-4 md:bottom-8"
         }`}
       >
+        {/* The banners are light photos in both themes, so the text stays
+            dark gray in dark mode too (gray-500 would turn light). */}
         <h3
-          className={`${titleSize} font-semibold leading-tight tracking-wide xl:tracking-widest text-gray-500`}
+          className={`${titleSize} font-semibold leading-tight tracking-wide xl:tracking-widest text-gray-500 dark:text-[#4b5563]`}
         >
           {title}
         </h3>
         {actionText && (
-          <p className="mt-0.5 md:mt-1 flex items-center gap-1.5 text-xs md:text-base tracking-wider font-semibold text-gray-500">
+          <p className="mt-0.5 md:mt-1 flex items-center gap-1.5 text-xs md:text-base tracking-wider font-semibold text-gray-500 dark:text-[#4b5563]">
             {ActionIcon && (
-              <ActionIcon className="shrink-0 text-xs md:text-base text-mediumGray" />
+              <ActionIcon className="shrink-0 text-xs md:text-base text-mediumGray dark:text-[#4b5563]" />
             )}
             <span>{actionText}</span>
           </p>
