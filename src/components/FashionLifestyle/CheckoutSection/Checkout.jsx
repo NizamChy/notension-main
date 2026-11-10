@@ -13,7 +13,7 @@ import { TiShoppingCart } from "react-icons/ti";
 import { useCart } from "../context/CartContext";
 import { PAYMENT_DATA } from "../utils/constants";
 import { useMutation } from "@tanstack/react-query";
-import { FASHION_BASE_URL } from "@/api-endpoints/secret";
+import { FASHION_BASE_URL } from "@/api-endpoints/env";
 import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import ExploreButton from "../shared/ExploreButton/ExploreButton";

@@ -6,7 +6,7 @@ import {
   FAVORITE_STORE_PUSH,
   FAVORITE_STORE_REMOVE,
 } from "@/api-endpoints/api-endpoint";
-import { USER_URL } from "@/api-endpoints/secret";
+import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";

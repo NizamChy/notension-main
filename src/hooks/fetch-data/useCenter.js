@@ -7,7 +7,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 
 export const useCenter = () => {
   const [banner, setBanner] = useState([]);

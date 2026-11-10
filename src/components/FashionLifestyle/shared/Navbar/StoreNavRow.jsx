@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { slugify } from "../../utils/slugify";
 import { BsChevronDown } from "react-icons/bs";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const StoreNavRow = ({
   navItems,

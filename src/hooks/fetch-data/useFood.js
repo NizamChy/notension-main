@@ -6,7 +6,7 @@ import {
   EXPLORE_FOOD_MODULE,
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
-import { FOOD_URL } from "@/api-endpoints/secret";
+import { FOOD_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";

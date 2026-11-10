@@ -10,7 +10,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { IoStorefrontSharp } from "react-icons/io5";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { useProductOrder } from "../hooks/fetchData/useProductOrder";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";

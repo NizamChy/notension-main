@@ -3,7 +3,7 @@ import { lineTotal } from "@/utils/price";
 import toast from "react-hot-toast";
 import { FaShop } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const OrderSummary = ({ items, total, removeFromCart }) => {
   const handleRemoveItem = (productId, selectedSize, selectedImage) => {

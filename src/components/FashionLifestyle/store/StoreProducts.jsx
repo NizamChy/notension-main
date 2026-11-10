@@ -8,7 +8,7 @@ import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import Title from "../CategorySection/Title";
 import { FiShoppingCart } from "react-icons/fi";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 

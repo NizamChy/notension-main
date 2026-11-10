@@ -8,7 +8,7 @@ import {
   FIND_DOCTOR_BY_CONSULTATION_CENTER,
 } from "@/api-endpoints/api-endpoint";
 import { useDispatch, useSelector } from "react-redux";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 export const useDoctor = () => {

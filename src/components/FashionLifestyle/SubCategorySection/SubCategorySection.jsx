@@ -5,7 +5,7 @@ import Image from "next/image";
 import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 

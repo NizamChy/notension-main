@@ -10,7 +10,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
-import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/secret";
+import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/env";
 
 const Axios = getApiClient(USER_URL);
 

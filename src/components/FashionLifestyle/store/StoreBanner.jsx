@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Loader from "../shared/Loader/Loader";
 import { MdLocationOn } from "react-icons/md";
 import React, { useEffect, useState } from "react";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";

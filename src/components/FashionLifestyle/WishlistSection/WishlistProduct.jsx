@@ -9,7 +9,7 @@ import EmptyWishlist from "./EmptyWishlist";
 import Title from "../CategorySection/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 

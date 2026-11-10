@@ -4,8 +4,8 @@ import Title from "./Title";
 import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "../utils/slugify";
-import { WOMEN_TYPE_ID } from "../utils/constant";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { WOMEN_TYPE_ID } from "../utils/constants";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 

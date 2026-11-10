@@ -5,7 +5,7 @@ import { IoIosCall } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { IoStorefrontSharp } from "react-icons/io5";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {

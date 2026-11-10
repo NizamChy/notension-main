@@ -5,7 +5,7 @@ import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import { FOOD_URL } from "@/api-endpoints/secret";
+import { FOOD_URL } from "@/api-endpoints/env";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";

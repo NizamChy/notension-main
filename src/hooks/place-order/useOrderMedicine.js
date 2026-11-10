@@ -5,7 +5,7 @@ import {
   MEDICINE_ORDER_INFO,
   MEDICINE_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import { MEDICINE_URL } from "@/api-endpoints/secret";
+import { MEDICINE_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";

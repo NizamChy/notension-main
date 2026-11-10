@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import Title from "../CategorySection/Title";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 

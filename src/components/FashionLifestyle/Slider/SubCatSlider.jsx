@@ -9,7 +9,7 @@ import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 

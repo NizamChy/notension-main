@@ -10,9 +10,9 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { FASHION_BASE_URL } from "@/api-endpoints/secret";
+import { FASHION_BASE_URL } from "@/api-endpoints/env";
 import { generateNavItems } from "../../utils/generateNavItems";
-import { KIDS_TYPE_ID, MEN_TYPE_ID, WOMEN_TYPE_ID } from "../../utils/constant";
+import { KIDS_TYPE_ID, MEN_TYPE_ID, WOMEN_TYPE_ID } from "../../utils/constants";
 
 const fetchData = async (endpoint) => {
   const response = await axios.get(`${FASHION_BASE_URL}${endpoint}`);

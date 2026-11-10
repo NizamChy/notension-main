@@ -7,7 +7,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { FASHION_BASE_URL } from "@/api-endpoints/secret";
+import { FASHION_BASE_URL } from "@/api-endpoints/env";
 
 const fetchStoreInfo = async (storeId) => {
   const response = await axios.get(

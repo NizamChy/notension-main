@@ -6,7 +6,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { USER_URL } from "@/api-endpoints/secret";
+import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";

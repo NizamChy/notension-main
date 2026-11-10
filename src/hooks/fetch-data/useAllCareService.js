@@ -6,7 +6,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAllCareReducer } from "@/redux/allCareReducer";
-import { ALL_CARE_SERVICE_URL } from "@/api-endpoints/secret";
+import { ALL_CARE_SERVICE_URL } from "@/api-endpoints/env";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 
 export const useAllCareService = () => {

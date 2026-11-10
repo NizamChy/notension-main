@@ -6,7 +6,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
 import { useCart } from "../../context/CartContext";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const CartItem = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();

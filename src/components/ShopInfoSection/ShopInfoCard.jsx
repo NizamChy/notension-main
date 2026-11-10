@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoTrashOutline } from "react-icons/io5";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { IMAGE_URL } from "@/api-endpoints/env";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import { useFavouriteStore } from "@/hooks/fetch-data/favorite-shop";

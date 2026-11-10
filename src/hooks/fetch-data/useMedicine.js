@@ -8,7 +8,7 @@ import {
   MEDICINE_ITEMS_BY_SUBTYPE,
   MEDICINE_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { MEDICINE_URL } from "@/api-endpoints/secret";
+import { MEDICINE_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";

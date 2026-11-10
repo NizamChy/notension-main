@@ -3,12 +3,12 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
-  USER_REGISTARTION,
-  OTP_FOR_REGISTARTION,
+  USER_REGISTRATION,
+  OTP_FOR_REGISTRATION,
 } from "@/api-endpoints/api-endpoint";
 import { persistor } from "@/redux/store";
 import { useRouter } from "next/navigation";
-import { USER_URL } from "@/api-endpoints/secret";
+import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 
@@ -55,7 +55,7 @@ export const useUser = () => {
     setIsUserRegistered(false);
 
     // Resolves to true when the OTP request succeeded.
-    return Axios.post(OTP_FOR_REGISTARTION, props)
+    return Axios.post(OTP_FOR_REGISTRATION, props)
       .then((res) => {
 
         if (res?.data?.user_exist) {
@@ -126,7 +126,7 @@ export const useUser = () => {
     if (!currentUserLocation) return Promise.resolve(false);
 
     setProgressing(true);
-    return Axios.post(USER_REGISTARTION, userInfo)
+    return Axios.post(USER_REGISTRATION, userInfo)
       .then((res) => {
         saveLoggedInUserInfo(res?.data?.result);
 

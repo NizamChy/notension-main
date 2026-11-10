@@ -3,7 +3,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const ImageGallery = ({ product, selectedImage }) => {
   const [zoomStyle, setZoomStyle] = useState({});

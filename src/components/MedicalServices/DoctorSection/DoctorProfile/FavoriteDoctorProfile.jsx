@@ -14,7 +14,7 @@ import { handleDoctorReducer } from "@/redux/doctorReducer";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
-const FavouriteDoctorProfile = () => {
+const FavoriteDoctorProfile = () => {
   const [profileInfo, setProfileInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -191,4 +191,4 @@ const FavouriteDoctorProfile = () => {
   );
 };
 
-export default FavouriteDoctorProfile;
+export default FavoriteDoctorProfile;

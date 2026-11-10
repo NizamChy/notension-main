@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 
 const ProductCards = ({ product }) => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { FASHION_BASE_URL } from "@/api-endpoints/secret";
+import { FASHION_BASE_URL } from "@/api-endpoints/env";
 import { ALL_ORDER_BY_CUSTOMER } from "@/api-endpoints/api-endpoint";
 
 const fetchOrderByCustomer = async (customerId, customId) => {

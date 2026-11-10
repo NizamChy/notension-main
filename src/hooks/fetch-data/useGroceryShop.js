@@ -5,7 +5,7 @@ import {
   NEAREST_GROCERY_STORE,
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
-import { GROCERY_URL } from "@/api-endpoints/secret";
+import { GROCERY_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";

@@ -16,7 +16,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "../shared/Cart/CartDrawer";
 import { useDispatch, useSelector } from "react-redux";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const ProductDetailSection = () => {

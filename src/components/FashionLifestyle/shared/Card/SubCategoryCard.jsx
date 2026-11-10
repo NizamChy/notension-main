@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { slugify } from "../../utils/slugify";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const SubCategoryCard = ({ subCategory, cat }) => {
   const params = useParams();

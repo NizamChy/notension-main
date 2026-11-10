@@ -5,7 +5,7 @@ import {
   GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import toast from "react-hot-toast";
-import { GROCERY_URL } from "@/api-endpoints/secret";
+import { GROCERY_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";

@@ -170,7 +170,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
       return;
     }
 
-    let bookAppoinmentData = {
+    let appointmentData = {
       doctor_info: currentDoctor?.doctorInfo?._id,
       doctor_name: currentDoctor?.doctorInfo?.doctor_name,
       consultation_center_name:
@@ -191,7 +191,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     };
 
     // Close only after the request has finished (success or failure).
-    await bookAppointment(bookAppoinmentData);
+    await bookAppointment(appointmentData);
     onClose();
   };
 
