@@ -25,6 +25,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { demoResponse } from "../demoAdapter";
 import { DEFAULT_DEMO_LOCATION } from "../demoLocations";
+import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "../demoUser";
 
 const NO_AREA_ID = "303030303030303030303030";
 
@@ -46,10 +47,10 @@ const users = [
   {
     _id: "65a1d0c0e4b0a1b2c3d4e5f6",
     custom_id: "CUS0000001",
-    customer_name: "Demo User",
+    customer_name: DEMO_USER_NAME,
     customer_address: "House 12, Road 45, Gulshan 2, Dhaka",
     email: "demo.user@example.com",
-    contact_no: "01700000000",
+    contact_no: DEMO_USER_CONTACT,
     alternative_contact_no: "",
     district_id: DEFAULT_DEMO_LOCATION.districtId,
     district_name_by_location: DEFAULT_DEMO_LOCATION.districtName,

@@ -2,10 +2,15 @@
 
 import toast from "react-hot-toast";
 import OtpSection from "./OtpSection";
-import React, { useState } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
+import { isDemoMode } from "@/demo/demoMode";
 import { useUser } from "@/hooks/fetch-data/useUser";
+import { useAfterLogin } from "@/hooks/useAfterLogin";
+import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "@/demo/demoUser";
+
+const noopSubscribe = () => () => {};
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
@@ -15,8 +20,21 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
   const [contentType, setContentType] = useState("otp");
 
   const pathname = usePathname();
-  const { progressing, userInfo, handleDataChange, getOtp, registerUser } =
-    useUser();
+  const {
+    progressing,
+    userInfo,
+    handleDataChange,
+    getOtp,
+    registerUser,
+    loginAsDemoUser,
+  } = useUser();
+
+  const afterLogin = useAfterLogin(type, onClose);
+  const demoOn = useSyncExternalStore(noopSubscribe, isDemoMode, () => false);
+
+  const handleDemoLogin = async () => {
+    if (await loginAsDemoUser()) afterLogin();
+  };
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const moduleName = currentModule.toLowerCase();
@@ -119,6 +137,28 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
               )}
             </button>
           </div>
+
+          {demoOn && (
+            <>
+              <div className="my-3 flex items-center gap-3 text-xs text-gray-400">
+                <span className="h-px flex-1 bg-gray-200" />
+                or
+                <span className="h-px flex-1 bg-gray-200" />
+              </div>
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                disabled={progressing}
+                className="w-full rounded-md border border-gray-300 py-2 text-deepGray hover:bg-gray-50 disabled:opacity-60"
+              >
+                Login as Demo User
+              </button>
+              <p className="mt-1 text-center text-xs text-gray-400">
+                Demo mode: signs in as {DEMO_USER_NAME} ({DEMO_USER_CONTACT}),
+                no OTP needed
+              </p>
+            </>
+          )}
         </div>
       ) : (
         <div className="md:border-2 rounded-md p-3 md:p-6">
