@@ -14,6 +14,7 @@ import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import SearchBar from "@/components/StoreModule/SearchBar";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
 const Navbar = () => {
@@ -82,6 +83,8 @@ const Navbar = () => {
       <div className="mx-auto px-2 w-full md:w-1/2 lg:w-1/3">
         <SearchBar moduleName="grocery" />
       </div>
+
+      <ThemeToggle className="md:me-3" />
 
       {!userInfo?._id && (
         <div className="hidden md:block">

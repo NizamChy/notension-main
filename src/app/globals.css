@@ -2,17 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------------------------------------------------------
+   Theme. Light is the default; the "dark" class on <html> (set by
+   ThemeToggle and the inline script in app/layout.js) switches to dark.
+   The gray / slate scales and deepGray / mediumGray / lightGray read these
+   variables (tailwind.config.mjs), so dark mode flips them everywhere.
+   Values are "R G B" so Tailwind opacity modifiers keep working.
+   ------------------------------------------------------------------------- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --surface: 255 255 255; /* bg-white in dark mode */
+
+  --c-gray-50: 249 250 251;
+  --c-gray-100: 243 244 246;
+  --c-gray-200: 229 231 235;
+  --c-gray-300: 209 213 219;
+  --c-gray-400: 156 163 175;
+  --c-gray-500: 107 114 128;
+  --c-gray-600: 75 85 99;
+  --c-gray-700: 55 65 81;
+  --c-gray-800: 31 41 55;
+  --c-gray-900: 17 24 39;
+  --c-gray-950: 3 7 18;
+
+  --c-slate-50: 248 250 252;
+  --c-slate-100: 241 245 249;
+  --c-slate-200: 226 232 240;
+  --c-slate-300: 203 213 225;
+  --c-slate-400: 148 163 184;
+  --c-slate-500: 100 116 139;
+  --c-slate-600: 71 85 105;
+  --c-slate-700: 51 65 85;
+  --c-slate-800: 30 41 59;
+  --c-slate-900: 15 23 42;
+  --c-slate-950: 2 6 23;
+
+  --c-deepGray: 59 59 59;
+  --c-mediumGray: 108 108 108;
+  --c-lightGray: 149 149 149;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+html.dark {
+  color-scheme: dark;
+
+  --background: #121418;
+  --foreground: #e6e8ec;
+  --surface: 28 31 38;
+
+  /* Light backgrounds become dark, dark text becomes light. */
+  --c-gray-50: 22 25 31;
+  --c-gray-100: 37 41 49;
+  --c-gray-200: 50 55 65;
+  --c-gray-300: 68 74 86;
+  --c-gray-400: 112 120 134;
+  --c-gray-500: 152 159 172;
+  --c-gray-600: 180 186 197;
+  --c-gray-700: 204 209 217;
+  --c-gray-800: 224 227 232;
+  --c-gray-900: 238 240 243;
+  --c-gray-950: 248 249 250;
+
+  --c-slate-50: 22 25 31;
+  --c-slate-100: 37 41 49;
+  --c-slate-200: 50 55 65;
+  --c-slate-300: 68 74 86;
+  --c-slate-400: 112 120 134;
+  --c-slate-500: 152 159 172;
+  --c-slate-600: 180 186 197;
+  --c-slate-700: 204 209 217;
+  --c-slate-800: 224 227 232;
+  --c-slate-900: 238 240 243;
+  --c-slate-950: 248 249 250;
+
+  --c-deepGray: 222 224 228;
+  --c-mediumGray: 172 177 186;
+  --c-lightGray: 140 146 156;
+}
 
 body {
   color: var(--foreground);
@@ -51,4 +117,143 @@ body {
 
 .clip-diagonal {
   clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+}
+
+/* ---------------------------------------------------------------------------
+   Dark mode overrides for colors that are not on the gray scale.
+   Base classes use :where(.dark) so their specificity equals the utility's:
+   these rules come after the utilities, so they win over the light value
+   but still lose to hover: / focus: variants on the same element.
+   ------------------------------------------------------------------------- */
+.dark ::-webkit-scrollbar-track {
+  background: #1c1f26;
+}
+
+/* White surfaces (cards, navbars, drawers). text-white stays white: it sits
+   on colored buttons and banners. */
+:where(.dark) .bg-white,
+.dark .hover\:bg-white:hover {
+  background-color: rgb(var(--surface));
+}
+:where(.dark) .bg-white\/95 {
+  background-color: rgb(var(--surface) / 0.95);
+}
+:where(.dark) .bg-white\/90 {
+  background-color: rgb(var(--surface) / 0.9);
+}
+:where(.dark) .bg-white\/80 {
+  background-color: rgb(var(--surface) / 0.8);
+}
+:where(.dark) .bg-white\/70 {
+  background-color: rgb(var(--surface) / 0.7);
+}
+:where(.dark) .bg-white\/60 {
+  background-color: rgb(var(--surface) / 0.6);
+}
+:where(.dark) .from-white {
+  --tw-gradient-from: rgb(var(--surface)) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(var(--surface) / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+:where(.dark) .to-white\/20 {
+  --tw-gradient-to: rgb(var(--surface) / 0.2) var(--tw-gradient-to-position);
+}
+@media (min-width: 768px) {
+  :where(.dark) .md\:to-white\/30 {
+    --tw-gradient-to: rgb(var(--surface) / 0.3) var(--tw-gradient-to-position);
+  }
+}
+:where(.dark) .text-black,
+.dark .hover\:text-black:hover {
+  color: rgb(var(--c-gray-900));
+}
+
+/* Light tinted section backgrounds -> dark tints of the same hue. */
+:where(.dark) .bg-\[\#F9FAFB\],
+.dark .hover\:bg-\[\#F9FAFB\]:hover {
+  background-color: rgb(var(--c-gray-50));
+}
+:where(.dark) .bg-\[\#F3F4F6\] {
+  background-color: rgb(var(--c-gray-100));
+}
+:where(.dark) .bg-\[\#F3F7FB\] {
+  background-color: #1a2230;
+}
+:where(.dark) .bg-\[\#E9F8FF\] {
+  background-color: #16262f;
+}
+:where(.dark) .bg-\[\#FFF3FF\] {
+  background-color: #2b1f2b;
+}
+:where(.dark) .bg-\[\#F2FCE4\],
+:where(.dark) .bg-\[\#EDF7EF\] {
+  background-color: #1d2a1f;
+}
+:where(.dark) .bg-\[\#DEF9EC\] {
+  background-color: #17302a;
+}
+:where(.dark) .bg-\[\#FFFCEB\] {
+  background-color: #2d2a19;
+}
+:where(.dark) .bg-\[\#FFF5E1D9\] {
+  background-color: rgb(52 42 24 / 0.85);
+}
+:where(.dark) .bg-\[\#FFF1EA\],
+:where(.dark) .bg-\[\#FEEFEA\] {
+  background-color: #33231d;
+}
+:where(.dark) .bg-primaryBg,
+:where(.dark) .bg-primaryBgFood,
+:where(.dark) .bg-primaryBgGrocery,
+:where(.dark) .bg-primaryBgMedicine,
+.dark .hover\:bg-primaryBg:hover {
+  background-color: #3a2129;
+}
+:where(.dark) .border-primaryBg {
+  border-color: #3a2129;
+}
+:where(.dark) .border-\[\#e0e0e0\] {
+  border-color: rgb(var(--c-gray-200));
+}
+
+/* Dark brand text (navy / deep teal / maroon) -> lighter tints that read on
+   dark backgrounds. bg-primary etc. keep their color for buttons. */
+:where(.dark) .text-primary,
+:where(.dark) .text-\[\#0C3F8E\],
+.dark .hover\:text-primary:hover,
+.dark .group:hover .group-hover\:text-primary {
+  color: #7fa8ee;
+}
+/* Yellow badges and notices stay yellow, so their text stays dark. */
+.dark [class*="bg-yellow-"] {
+  color: #1f2937;
+}
+/* ...and the yellow count badges keep navy text. */
+.dark .bg-\[\#F1C40F\].text-primary {
+  color: #0c3f8e;
+}
+:where(.dark) .text-secondary,
+:where(.dark) .text-secondaryFood,
+:where(.dark) .text-secondaryGrocery {
+  color: #a9bff0;
+}
+:where(.dark) .text-\[\#07074D\] {
+  color: #b9b9f2;
+}
+:where(.dark) .text-secondaryMedicine,
+.dark .hover\:text-secondaryMedicine:hover {
+  color: #5fd3b8;
+}
+:where(.dark) .text-\[\#A93356\] {
+  color: #ef8aa6;
+}
+:where(.dark) .text-\[\#6B7280\] {
+  color: rgb(var(--c-gray-500));
+}
+
+/* The logo's navy lettering disappears on dark: invert + rotate the hue
+   turns the navy light blue and keeps the orange orange (the brightness
+   brings the orange back up after the inversion darkens it). */
+.dark img[src*="notension-logo"] {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2);
 }

@@ -14,6 +14,7 @@ import { useUser } from "@/hooks/fetch-data/useUser";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoMdClose, IoMdHeartEmpty } from "react-icons/io";
 import LocationModal from "../LocationModal/LocationModal";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
@@ -178,6 +179,8 @@ const Navbar = () => {
             {/* Right Side Icons */}
             <div className="flex items-center gap-4 lg:gap-5 relative">
               <LocationModal />
+
+              <ThemeToggle className="-mx-1" />
 
               <div className="flex items-center gap-4">
                 <button

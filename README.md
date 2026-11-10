@@ -111,6 +111,25 @@ from your environment variables.
 
 To add or change demo data, see [`src/demo/README.md`](src/demo/README.md).
 
+## Dark mode
+
+The sun/moon button in every navbar switches between light and dark. The
+choice is saved per browser; until a choice is made the site follows the
+system setting.
+
+How it works:
+
+- The theme is the `dark` class on `<html>`. An inline script in
+  `src/app/layout.js` sets it before the first paint, so the page doesn't
+  flash light. The button is `src/components/shared/ThemeToggle`.
+- The `gray` and `slate` scales and `deepGray` / `mediumGray` / `lightGray`
+  read CSS variables (`tailwind.config.mjs`, `src/app/globals.css`), so they
+  flip in dark mode without `dark:` classes.
+- `bg-white`, light tinted backgrounds (`bg-[#FFF1EA]` and so on) and dark
+  brand text (`text-primary`, `text-secondary`) get dark values at the end of
+  `globals.css`. When you add a new light background or dark text color that
+  isn't on the gray scale, add its dark value there or use a `dark:` class.
+
 ## Project structure
 
 ```
