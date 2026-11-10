@@ -414,7 +414,8 @@ const ProductDetailSection = () => {
               }
               alt="Shopping store banner"
               fill
-              className="object-cover block md:hidden"
+              // Banner art and tagline sit on the right; crop from the left.
+              className="object-cover object-right block md:hidden"
               priority
             />
 
@@ -426,7 +427,7 @@ const ProductDetailSection = () => {
               }
               alt="Shopping store banner"
               fill
-              className="object-cover hidden md:block"
+              className="object-cover object-right hidden md:block"
               priority
             />
 

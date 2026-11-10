@@ -83,36 +83,49 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
             onError={() => setIsImageLoading(false)}
           />
 
+          {/* Badges and the favorite button sit in the top corners: the
+              banner's name and subtitle fill its centre and bottom. */}
           {!shop?.is_closed && !isFavoriteAdded && !isFavorite && (
             <button
+              type="button"
               onClick={handleAddToFavorite}
-              className="absolute bottom-3 right-3 h-8 ps-1.5 pe-3 flex items-center gap-1 rounded-full bg-white/90 hover:bg-white text-deepGray shadow-sm"
+              aria-label="Add to favorite"
+              title="Add to favorite"
+              className="absolute top-3 right-3 h-9 w-9 flex items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-sm"
             >
-              <FaHeart className="text-primaryFood text-sm mx-1" />
-              <span className="text-xs font-medium">Add to Favorite</span>
+              <FaHeart className="text-primaryFood text-base" />
             </button>
           )}
 
           {isFavorite && (
             <button
+              type="button"
               onClick={handleRemoveFromFavorite}
-              className="absolute bottom-3 right-3 h-8 ps-1.5 pe-3 flex items-center gap-1 rounded-full bg-white/90 hover:bg-white text-deepGray shadow-sm"
+              aria-label="Remove from favorite"
+              title="Remove from favorite"
+              className="absolute top-3 right-3 h-9 w-9 flex items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-sm"
             >
-              <IoTrashOutline className="text-primaryFood text-base mx-1" />
-              <span className="text-xs font-medium">Remove</span>
+              <IoTrashOutline className="text-primaryFood text-lg" />
             </button>
           )}
 
-          {shop?.delivery_notice && (
-            <p className="absolute top-3 right-3 max-w-[60%] truncate bg-yellow-300/95 rounded-md px-2 py-0.5 text-xs font-semibold text-gray-900">
-              {shop?.delivery_notice}
-            </p>
-          )}
+          {(shop?.is_closed || shop?.delivery_notice) && (
+            <div className="absolute top-3 left-3 right-14 flex flex-col items-start gap-1.5">
+              {shop?.is_closed && (
+                <p className="bg-red-500 text-white rounded-md px-2 py-0.5 text-xs font-semibold shadow">
+                  Closed
+                </p>
+              )}
 
-          {shop?.is_closed && (
-            <p className="absolute top-3 left-3 bg-red-500 text-white rounded-md px-2 py-0.5 text-xs font-semibold shadow">
-              Closed
-            </p>
+              {shop?.delivery_notice && (
+                <p
+                  title={shop?.delivery_notice}
+                  className="max-w-full truncate bg-yellow-300/95 rounded-md px-2 py-0.5 text-xs font-semibold text-gray-900"
+                >
+                  {shop?.delivery_notice}
+                </p>
+              )}
+            </div>
           )}
         </div>
 
