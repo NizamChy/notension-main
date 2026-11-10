@@ -12,7 +12,7 @@ const CategoryItems = ({
   title = "Category",
   bgColor = "bg-white",
   exploreTitle = "Browse All Items",
-  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-6",
+  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6",
 }) => {
   const { useCategoryById, allType } = useCategoryItem();
   const { data: categories, isLoading, isError } = useCategoryById(typeId);
@@ -29,13 +29,13 @@ const CategoryItems = ({
   if (!categories || categories?.length < 1) return null;
 
   if (categories?.length < 5) {
-    gridClass = "grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6";
+    gridClass = "grid grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6";
   } else if (categories?.length === 5) {
-    gridClass = "grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-6";
+    gridClass = "grid grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6";
   }
 
   return (
-    <section className={`py-16 px-2 sm:px-6 lg:px-8 ${bgColor}`}>
+    <section className={`py-6 md:py-10 px-4 sm:px-6 lg:px-8 ${bgColor}`}>
       <div className="max-w-7xl mx-auto">
         <Title title={title} />
 
@@ -49,10 +49,10 @@ const CategoryItems = ({
           ))}
         </div>
 
-        <div className="mt-10 sm:mt-16 text-center">
+        <div className="mt-8 md:mt-10 text-center">
           <Link
             href={exploreHref}
-            className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
+            className="inline-flex items-center px-6 py-2.5 border border-gray-300 text-sm md:text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
           >
             {exploreTitle}
             <svg

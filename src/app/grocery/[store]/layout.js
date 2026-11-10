@@ -7,6 +7,7 @@ import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/Grocery/Navbar/Navbar";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
+import { STORE_PAGE_CLASS } from "@/components/StoreModule/storeModules";
 import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
 
 export default function GroceryStoreLayout({ children }) {
@@ -38,13 +39,13 @@ export default function GroceryStoreLayout({ children }) {
           </div>
         </div>
 
-        <div className="w-full lg:w-[80%] ml-auto">
+        <div className="w-full lg:w-[80%] ml-auto min-w-0">
           {progressing ? (
             <div className="min-h-content mx-auto flex justify-center items-center">
               <Loader />
             </div>
           ) : (
-            <div className="min-h-content">{children}</div>
+            <div className={`min-h-content ${STORE_PAGE_CLASS}`}>{children}</div>
           )}
 
           <Footer />

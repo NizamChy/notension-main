@@ -1,7 +1,7 @@
 "use client";
 
 // import Link from "next/link";
-import Image from "next/image";
+import HomeBannerCard from "./HomeBannerCard";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -87,31 +87,19 @@ const SecondSection = () => {
 
   return (
     <>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mt-4 w-full">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full">
         {CARDS.map(({ type, title, image }) => (
-          <div
+          <HomeBannerCard
             key={type}
             onClick={(e) => handleSectionClick(e, type)}
-            className="group overflow-hidden relative cursor-pointer"
-          >
-            <Image
-              width={308}
-              height={303}
-              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-              src={image}
-              alt={title}
-            />
-
-            <div className="absolute bottom-2 left-3 right-3 md:bottom-5 md:left-8 md:right-4">
-              <h3 className="text-sm md:text-xl xl:text-2xl font-semibold tracking-wide xl:tracking-widest text-gray-500">
-                {title}
-              </h3>
-              <p className="flex items-center gap-1 text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                <span>Contact Now</span>
-              </p>
-            </div>
-          </div>
+            size="sm"
+            width={308}
+            height={303}
+            image={image}
+            title={title}
+            actionText="Contact Now"
+            ActionIcon={BsTelephone}
+          />
         ))}
       </div>
 

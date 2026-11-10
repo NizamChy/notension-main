@@ -4,8 +4,8 @@ import { CiSearch } from "react-icons/ci";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
-import MedicalCenterCard from "../MedicalCenterCard/MedicalCenterCard";
-import ShopInfoCardSkeleton from "@/components/ShopInfoSection/ShopInfoCardSkeleton";
+import CenterGrid from "../Layout/CenterGrid";
+import { MedicalCardGrid, MedicalContainer } from "../Layout/MedicalLayout";
 
 const SearchedMedicalCenters = () => {
   const [centerInfo, setCenterInfo] = useState([]);
@@ -17,17 +17,25 @@ const SearchedMedicalCenters = () => {
   const centerType = "Consultation Center";
 
   useEffect(() => {
+    if (!searchText) return;
     searchConsultationCenter(centerType, searchText, setCenterInfo);
   }, [searchText]);
 
   return (
     <>
-      <div className="mx-auto px-4 lg:px-24 py-6">
-        <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
-          Found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
-        </h4>
+      <MedicalContainer className="py-6 md:py-8">
+        {searchText ? (
+          <h2 className="text-base md:text-xl font-medium text-gray-500 pb-4 md:pb-5">
+            Found for{" "}
+            <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
+          </h2>
+        ) : (
+          <p className="text-center text-sm md:text-base text-mediumGray py-10">
+            Search hospitals, diagnostic, eye care and dental care centers.
+          </p>
+        )}
 
-        {!progressing && centerInfo?.length < 1 && (
+        {searchText && !progressing && centerInfo?.length < 1 && (
           <div className="flex flex-col justify-center items-center mt-10 lg:mt-20">
             <CiSearch className="text-8xl text-deepGray" />
 
@@ -40,20 +48,25 @@ const SearchedMedicalCenters = () => {
           </div>
         )}
 
-        {progressing && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
+        {searchText && progressing ? (
+          <MedicalCardGrid className="xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, index) => (
-              <ShopInfoCardSkeleton key={index} />
+              <div
+                key={index}
+                className="animate-pulse overflow-hidden rounded-xl border border-gray-200 bg-white"
+              >
+                <div className="aspect-[2/1] bg-gray-200" />
+                <div className="space-y-2 p-4">
+                  <div className="h-4 w-3/4 rounded bg-gray-200" />
+                  <div className="h-3 w-full rounded bg-gray-100" />
+                </div>
+              </div>
             ))}
-          </div>
+          </MedicalCardGrid>
+        ) : (
+          <CenterGrid centers={centerInfo} />
         )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
-          {centerInfo.map((center) => (
-            <MedicalCenterCard key={center._id} center={center} />
-          ))}
-        </div>
-      </div>
+      </MedicalContainer>
     </>
   );
 };

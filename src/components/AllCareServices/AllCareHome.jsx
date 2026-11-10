@@ -22,7 +22,7 @@ const AllCareHome = () => {
 
   return (
     <>
-      <div className="max-w-screen-2xl mx-auto min-h-content lg:pt-20">
+      <div className="max-w-7xl mx-auto min-h-content px-4 sm:px-6 lg:px-8 py-6 md:py-10 flex flex-col gap-8 md:gap-12">
         <AllCareServices />
 
         <ServicesSlider slider={careSlider[0]?.first_slider} />
@@ -35,7 +35,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#FEEFEA]"
           imageKey="service_banner_app"
           title="Your Trusted Partner for Every Service"
-          gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.second_slider} />
@@ -48,7 +48,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#FFF3FF]"
           imageKey="service_banner_app"
           title="One Platform, Endless Solutions!"
-          gridClassName="grid grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
           // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
         />
 
@@ -62,7 +62,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#F2FCE4]"
           imageKey="service_banner_app"
           title="Learn, Grow, Succeed with Us!"
-          gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.fourth_slider} />
@@ -75,7 +75,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#FFFCEB]"
           imageKey="service_banner_app"
           title="Building Skills, Shaping Futures"
-          gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.fifth_slider} />
@@ -88,7 +88,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#DEF9EC]"
           imageKey="service_banner_app"
           title="All-in-One Service at Your Fingertips!"
-          gridClassName="grid grid-cols-3 xl:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
           // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
         />
 
@@ -102,7 +102,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#FEEFEA]"
           imageKey="service_banner_app"
           title="Expert Help, Anytime!"
-          gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
         />
 
         <ServicesSlider slider={careSlider[0]?.seventh_slider} />
@@ -115,7 +115,7 @@ const AllCareHome = () => {
           bgClassName="bg-[#FFF5E1D9]"
           imageKey="service_banner_app"
           title="Connecting You to Expert Services!"
-          gridClassName="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5"
+          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
         />
       </div>
     </>

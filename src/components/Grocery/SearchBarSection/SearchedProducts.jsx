@@ -25,15 +25,15 @@ const SearchedProducts = () => {
 
   return (
     <>
-      <div className="m-4 lg:m-20 pt-20 lg:pt-10">
-        <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
+      <div>
+        <h4 className="text-base md:text-xl font-medium text-gray-500 mb-4 md:mb-6">
           Items found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
         </h4>
 
         {allLoaded && productInfo.length < 1 && <NoItemFound />}
 
         {!allLoaded && productInfo.length < 1 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
             {Array.from({ length: 12 }).map((_, index) => (
               <ItemCardSkeleton moduleName="grocery" key={index} />
             ))}
@@ -49,14 +49,14 @@ const SearchedProducts = () => {
               }}
               hasMore={loadingMore}
               loader={
-                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
                   {Array.from({ length: 6 }).map((_, index) => (
                     <ItemCardSkeleton moduleName="grocery" key={index} />
                   ))}
                 </div>
               }
             >
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
                 {productInfo?.map((item) => (
                   <div key={item?._id}>
                     <GroceryItems item={item} />

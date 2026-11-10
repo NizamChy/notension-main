@@ -4,6 +4,10 @@ import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
+import {
+  MedicalCardGrid,
+  MedicalSectionTitle,
+} from "../../Layout/MedicalLayout";
 
 const NearestDoctor = () => {
   const [doctorsInfo, setDoctorsInfo] = useState(null);
@@ -14,20 +18,24 @@ const NearestDoctor = () => {
     getNearestDoctorsInfo(setDoctorsInfo);
   }, []);
 
+  if (progressing) return <Loader />;
+
   return (
-    <div className="container min-h-content px-2 md:px-4">
-      {progressing ? (
-        <Loader />
+    <section className="min-h-[40vh]">
+      <MedicalSectionTitle>Doctors near you</MedicalSectionTitle>
+
+      {doctorsInfo?.length > 0 ? (
+        <MedicalCardGrid>
+          {doctorsInfo.map((doctor) => (
+            <DoctorInfoCard key={doctor?._id} doctor={doctor} />
+          ))}
+        </MedicalCardGrid>
       ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-5 lg:gap-10 justify-center items-center">
-            {doctorsInfo?.map((doctor) => (
-              <DoctorInfoCard key={doctor?._id} doctor={doctor} />
-            ))}
-          </div>
-        </>
+        <p className="py-16 text-center text-mediumGray">
+          No doctor found near your location.
+        </p>
       )}
-    </div>
+    </section>
   );
 };
 

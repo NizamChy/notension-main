@@ -8,23 +8,18 @@ import FavoriteSection from "../FavoriteSection/FavoriteSection";
 
 const LandingPage = () => {
   return (
-    <div className="flex flex-col justify-center items-center overflow-hidden md:px-4">
+    <div className="w-full max-w-[1312px] mx-auto px-3 md:px-4 pb-8 md:pb-10 overflow-hidden flex flex-col gap-3 md:gap-4">
       <FavoriteSection />
-      <div className="w-full lg:w-[1280px] max-w-full lg:grid lg:grid-cols-2 gap-4 mt-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
         <TopLeftSection />
         <TopRightSection />
       </div>
 
-      <div className="w-full lg:w-[1280px] max-w-full">
-        <SecondSection />
-      </div>
+      <SecondSection />
 
-      <div className="flex justify-center gap-4 mt-4 w-full">
-        <MiddleSection />
-      </div>
-      <div className="flex justify-center gap-4 mt-4 w-full lg:w-[1280px] max-w-full">
-        <BottomSection />
-      </div>
+      <MiddleSection />
+
+      <BottomSection />
     </div>
   );
 };

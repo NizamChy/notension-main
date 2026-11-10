@@ -23,21 +23,29 @@ const UserProfile = () => {
   return (
     <>
       {userInfo?._id && (
-        <div className="flex justify-center items-center">
-          <div className="text-center space-y-1">
-            <div className="flex justify-center">
-              <CgProfile className="text-8xl text-primary my-3" />
+        <div className="flex justify-center px-4 py-8 md:py-12">
+          <div className="w-full max-w-md bg-white border border-gray-100 rounded-xl shadow-sm p-6 md:p-8">
+            <div className="flex flex-col items-center text-center">
+              <CgProfile className="text-7xl md:text-8xl text-primary" />
+              <h1 className="mt-3 text-xl md:text-2xl font-semibold text-primary break-words">
+                {userInfo?.customer_name}
+              </h1>
             </div>
 
-            <p className="font-medium text-base lg:text-2xl text-primary">
-              Name: {userInfo?.customer_name}
-            </p>
-            <p className="text-sm md:text-base lg:text-xl text-mediumGray">
-              Address: {userInfo?.customer_address}
-            </p>
-            <p className="text-sm md:text-base lg:text-xl text-deepGray">
-              Phone: {userInfo?.contact_no}
-            </p>
+            <dl className="mt-6 divide-y divide-gray-100 text-sm md:text-base">
+              <div className="flex justify-between gap-4 py-3">
+                <dt className="text-mediumGray shrink-0">Phone</dt>
+                <dd className="text-deepGray font-medium text-right break-words">
+                  {userInfo?.contact_no || "—"}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-4 py-3">
+                <dt className="text-mediumGray shrink-0">Address</dt>
+                <dd className="text-deepGray font-medium text-right break-words">
+                  {userInfo?.customer_address || "—"}
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
       )}

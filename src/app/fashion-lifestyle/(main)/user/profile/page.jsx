@@ -4,7 +4,7 @@ import UserProfile from "@/components/UserInfoSection/UserProfile";
 const page = () => {
   return (
     <>
-      <div className="container min-h-content">
+      <div className="min-h-content">
         <UserProfile />
       </div>
     </>

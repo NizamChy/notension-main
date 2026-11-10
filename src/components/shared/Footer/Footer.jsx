@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <div className="mt-12 px-4 md:px-10 max-w-screen-2xl mx-auto lg:h-footer">
       <hr />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 mb-8 px-4 lg:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 mb-8">
         {/* Section 1 */}
         <div className="space-y-6">
           <Image

@@ -197,15 +197,15 @@ const ProductDetailSection = () => {
         <meta name="description" content={product?.description} />
       </Head>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="md:w-[42%]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+        <div className="flex flex-col md:flex-row gap-6 lg:gap-10">
+          <div className="md:w-1/2 lg:w-[45%] md:flex-shrink-0">
             {/* <ImageGallery product={product} /> */}
 
             <ImageGallery product={product} selectedImage={selectedImage} />
           </div>
 
-          <div className="md:w-1/2">
+          <div className="flex-1 min-w-0">
             <ProductInfo product={product} />
 
             {/* Select Product Image Section */}
@@ -316,7 +316,7 @@ const ProductDetailSection = () => {
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
-                        className={`px-4 py-1 border ${
+                        className={`min-w-[2.75rem] h-9 px-3 text-sm font-medium border rounded-md transition-colors ${
                           selectedSize === size
                             ? "bg-black text-white border-black"
                             : "border-gray-300 hover:border-gray-400"
@@ -335,16 +335,16 @@ const ProductDetailSection = () => {
                 <div className="flex items-center">
                   <button
                     onClick={() => handleQuantityChange("decrease")}
-                    className="px-3 py-1 border border-gray-300 rounded-l-md hover:bg-gray-100"
+                    className="w-9 h-9 border border-gray-300 rounded-l-md hover:bg-gray-100"
                   >
                     -
                   </button>
-                  <span className="px-4 py-1 border-t border-b border-gray-300">
+                  <span className="min-w-[3rem] h-9 px-3 flex items-center justify-center border-t border-b border-gray-300">
                     {quantity}
                   </span>
                   <button
                     onClick={() => handleQuantityChange("increase")}
-                    className="px-3 py-1 border border-gray-300 rounded-r-md hover:bg-gray-100"
+                    className="w-9 h-9 border border-gray-300 rounded-r-md hover:bg-gray-100"
                   >
                     +
                   </button>
@@ -352,7 +352,7 @@ const ProductDetailSection = () => {
 
                 <button
                   onClick={(e) => toggleWishlist(e, product?._id, product)}
-                  className={`p-2 rounded-lg flex justify-center items-center gap-1 px-3 py-1 border border-gray-300 hover:bg-gray-100 ${
+                  className={`h-9 rounded-md flex justify-center items-center gap-1.5 px-3 border border-gray-300 hover:bg-gray-100 ${
                     favouriteFashionItems?.find(
                       (item) => item?._id === product?._id
                     )
@@ -380,7 +380,7 @@ const ProductDetailSection = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
               <button
                 type="button"
                 onClick={() => handleAddToCart()}
@@ -404,8 +404,8 @@ const ProductDetailSection = () => {
       </div>
 
       {!pathname?.includes("shop") && (
-        <div className="py-5">
-          <div className="relative w-full h-56 md:h-[350px] overflow-hidden shadow-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+          <div className="relative w-full h-56 md:h-[320px] overflow-hidden rounded-xl shadow-md">
             <Image
               src={
                 product?.store_info?.shop_banner_app
@@ -431,15 +431,15 @@ const ProductDetailSection = () => {
             />
 
             <div
-              className="relative z-10 flex flex-col items-start justify-center h-full px-8
-                       text-deepGray w-2/3 lg:w-1/3 bg-gradient-to-br from-white to-white/20 md:to-white/30
+              className="relative z-10 flex flex-col items-start justify-center h-full px-5 md:px-8
+                       text-deepGray w-3/4 md:w-2/3 lg:w-1/2 bg-gradient-to-br from-white to-white/20 md:to-white/30
                        clip-diagonal"
             >
-              <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">
+              <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3 line-clamp-2">
                 {product?.store_info?.shop_name}
               </h1>
 
-              <p className="text-sm md:text-xl font-semibold mb-4 md:mb-8 max-w-lg flex gap-1 items-start">
+              <p className="text-sm md:text-lg font-semibold mb-4 md:mb-6 max-w-lg flex gap-1 items-start">
                 <span>
                   <MdLocationOn className="lg:text-xl mt-1" />
                 </span>
@@ -453,7 +453,7 @@ const ProductDetailSection = () => {
                   product?.store_info?.shop_name
                 )}_${product?.store_info?._id}`}
               >
-                <button className="inline-flex items-center px-6 py-3 border border-gray-400 text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50 hover:border-gray-600 transition-colors">
+                <button className="inline-flex items-center px-5 md:px-6 py-2 md:py-2.5 border border-gray-400 text-sm md:text-base font-medium rounded-lg text-gray-900 bg-white hover:bg-gray-50 hover:border-gray-600 transition-colors">
                   Visit Store
                   <svg
                     className="ml-2 w-4 h-4"

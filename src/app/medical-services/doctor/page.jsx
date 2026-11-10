@@ -1,12 +1,11 @@
 import React from "react";
 import DoctorHome from "@/components/MedicalServices/DoctorSection/DoctorHome/DoctorHome";
+import { MedicalPageHeader } from "@/components/MedicalServices/Layout/MedicalLayout";
 
 const page = () => {
   return (
     <>
-      <p className="text-center mt-2 md:mt-0 py-3 lg:text-xl text-primaryFood bg-[#FFF1EA]">
-        Find Doctor
-      </p>
+      <MedicalPageHeader title="Find Doctor" />
       <DoctorHome />
     </>
   );

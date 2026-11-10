@@ -31,23 +31,23 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
     storeItems.reduce((sum, item) => sum + lineTotal(item), 0);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
+    <div className="bg-white p-5 md:p-6 rounded-lg border border-gray-100 shadow-sm">
       <h2 className="text-lg font-medium text-gray-900 mb-6">Order Summary</h2>
 
       {Object.values(groupedItems).map((store, idx) => (
-        <div key={idx} className="mb-8">
-          <p className="text-xl font-semibold text-primary pb-3 border-b border-gray-200 flex items-center gap-1">
+        <div key={idx} className="mb-6 last:mb-0">
+          <p className="text-base md:text-lg font-semibold text-primary pb-3 border-b border-gray-200 flex items-center gap-1.5">
             <span>
               <FaShop className="text-lg" />
             </span>
             <span>{store?.shop_name}</span>
           </p>
 
-          <ul className="divide-y divide-gray-200 mt-4">
+          <ul className="divide-y divide-gray-200">
             {store?.items?.map((item, index) => (
-              <li key={index} className="py-6">
+              <li key={index} className="py-4">
                 <div className="flex">
-                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                  <div className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-50">
                     <img
                       src={
                         item.web_image
@@ -59,12 +59,14 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
                     />
                   </div>
 
-                  <div className="ml-4 flex flex-1 flex-col">
+                  <div className="ml-3 md:ml-4 flex flex-1 min-w-0 flex-col">
                     <div>
-                      <div className="flex justify-between text-sm md:text-base font-medium text-gray-900">
-                        <h3>{item?.product_title_eng}</h3>
-                        <div className="flex gap-2 items-center">
-                          <p className="ml-4">
+                      <div className="flex justify-between items-start gap-3 text-sm md:text-base font-medium text-gray-900">
+                        <h3 className="min-w-0 line-clamp-2">
+                          {item?.product_title_eng}
+                        </h3>
+                        <div className="flex gap-2 items-center shrink-0">
+                          <p className="whitespace-nowrap">
                             ৳{item?.sale_price?.toFixed(2)} × {item?.quantity}
                           </p>
                           <button
@@ -132,8 +134,8 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
         </div>
       ))}
 
-      <div className="pt-6 mt-6">
-        <div className="flex justify-between text-lg font-medium text-gray-900 mt-4 pt-4 border-t border-gray-200">
+      <div className="mt-6">
+        <div className="flex justify-between text-lg font-semibold text-gray-900 pt-4 border-t-2 border-gray-200">
           <p>Overall Total</p>
           <p>৳ {total?.toFixed(2)}</p>
         </div>

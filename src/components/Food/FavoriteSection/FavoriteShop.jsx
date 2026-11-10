@@ -28,9 +28,9 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
   };
 
   return (
-    <div className="mx-auto px-4 lg:px-24 py-6">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
       {favouriteFoodShop.length > 0 && (
-        <h1 className="text-2xl font-bold mb-6 text-deepGray">
+        <h1 className="text-lg md:text-2xl font-bold text-deepGray mb-4 md:mb-6">
           Favourite Food Shop
         </h1>
       )}
@@ -51,7 +51,7 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
         </>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
         {favouriteFoodShop.map((shop) => (
           <ShopInfoCard
             key={shop?.storeId}

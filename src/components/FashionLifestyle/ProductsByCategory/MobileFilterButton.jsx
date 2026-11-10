@@ -4,11 +4,11 @@ const MobileFilterButton = ({ onClick, filterCount }) => {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-6 right-2 md:hidden z-30 bg-white text-black p-3 rounded-3xl shadow-lg flex items-center gap-1 justify-center"
+      className="fixed bottom-5 right-4 md:hidden z-30 bg-white text-gray-900 text-sm font-medium px-4 py-2.5 rounded-full border border-gray-200 shadow-lg flex items-center gap-1.5 justify-center"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
+        className="h-5 w-5"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

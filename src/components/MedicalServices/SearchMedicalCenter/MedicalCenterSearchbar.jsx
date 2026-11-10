@@ -26,7 +26,7 @@ const MedicalCenterSearchbar = () => {
       <form onSubmit={handleSearchSubmit} className="relative w-full">
         <input
           type="text"
-          className="w-full py-3 px-5 text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full h-11 ps-4 pe-24 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
           placeholder="Search here"
           value={searchText}
           onChange={(e) => {
@@ -37,14 +37,16 @@ const MedicalCenterSearchbar = () => {
           <button
             type="button"
             onClick={clearSearchText}
-            className="absolute top-1/2 transform -translate-y-1/2 right-14 bg-gray-100 text-gray-500 p-1.5 rounded-xl hover:bg-gray-200 focus:outline-none"
+            aria-label="Clear search"
+            className="absolute top-1/2 -translate-y-1/2 right-14 bg-gray-100 text-gray-500 p-1 rounded-md hover:bg-gray-200 focus:outline-none"
           >
             <RxCross2 className="w-5 h-5" />
           </button>
         )}
         <button
           type="submit"
-          className="absolute top-1/2 transform -translate-y-1/2 right-4 bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          aria-label="Search"
+          className="absolute inset-y-0 right-0 w-12 flex items-center justify-center bg-primary text-white rounded-e-lg hover:bg-[#264066] focus:outline-none"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

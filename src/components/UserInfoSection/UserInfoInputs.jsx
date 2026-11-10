@@ -101,10 +101,10 @@ const UserInfoInputs = ({
         </div>
       ) : (
         <>
-          <p className="text-center font-medium text-secondary text-2xl mb-3">
+          <p className="text-center font-semibold text-secondary text-xl md:text-2xl mb-2">
             Your Information
           </p>
-          <div className="py-2 md:py-4">
+          <div className="py-2.5">
             <FloatingInput
               label="Name"
               id="customer_name"
@@ -114,7 +114,7 @@ const UserInfoInputs = ({
               }
             />
           </div>
-          <div className="py-2 md:py-4">
+          <div className="py-2.5">
             <FloatingInput
               label="Address"
               id="customer_address"
@@ -125,7 +125,7 @@ const UserInfoInputs = ({
               }
             />
           </div>
-          <div className="py-2 md:py-4">
+          <div className="py-2.5">
             <FloatingInput
               label="Alternative number"
               id="alternative_contact_no"
@@ -135,7 +135,7 @@ const UserInfoInputs = ({
               }
             />
           </div>
-          <div className="py-2 md:py-4">
+          <div className="py-2.5">
             <FloatingInput
               label="Enter OTP"
               id="otp"
@@ -146,7 +146,7 @@ const UserInfoInputs = ({
           <div className="flex justify-center">
             <button
               onClick={(e) => handleLogin(e)}
-              className={`mt-4 px-4 ${getPrimaryClass()} text-white rounded-md w-full`}
+              className={`mt-3 px-4 ${getPrimaryClass()} text-white font-medium rounded-md w-full`}
               disabled={progressing}
             >
               {progressing ? (

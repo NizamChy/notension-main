@@ -141,8 +141,8 @@ const CheckoutSection = () => {
     <>
       {userInfo?._id && foodItems?.length > 0 && (
         <div className="flex justify-center">
-          <div className="bg-white p-4 w-full md:w-96">
-            <div className="border-2 rounded-sm p-6 text-lg space-y-1 shadow-sm text-gray-800">
+          <div className="w-full max-w-md">
+            <div className="bg-white border border-gray-200 rounded-2xl p-5 md:p-6 text-lg space-y-1 shadow-sm text-gray-800">
               <p className="text-primaryFood text-base md:text-xl font-medium underline flex items-center gap-2">
                 <span className="mt-1">
                   <MdContactPhone />
@@ -243,7 +243,7 @@ const CheckoutSection = () => {
       )}
 
       {userInfo?._id && foodItems?.length < 1 && (
-        <div className="h-screen flex justify-center items-center">
+        <div className="min-h-[50vh] flex justify-center items-center">
           <EmptyCart />
         </div>
       )}

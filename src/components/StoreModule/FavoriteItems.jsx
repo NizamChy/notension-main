@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { ITEM_CARDS } from "./itemCards";
+import { ITEM_GRID_CLASS, SECTION_TITLE_CLASS } from "./storeModules";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
@@ -36,16 +37,12 @@ const FavoriteItems = ({ moduleName }) => {
   return (
     <>
       {userInfo?._id && (
-        <div className="mx-auto px-4 lg:px-24 py-6 mt-12 md:mt-20">
-          <h1 className="text-lg md:text-xl lg:text-2xl font-semibold lg:font-bold mb-2 md:mb-6 text-deepGray">
-            {title}
-          </h1>
+        <div>
+          <h1 className={SECTION_TITLE_CLASS}>{title}</h1>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+          <div className={ITEM_GRID_CLASS}>
             {favoriteItems?.map((item) => (
-              <div key={item?.productId}>
-                <ItemCard item={item} isFavorite={true} />
-              </div>
+              <ItemCard key={item?.productId} item={item} isFavorite={true} />
             ))}
           </div>
 

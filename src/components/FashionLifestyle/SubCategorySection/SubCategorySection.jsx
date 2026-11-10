@@ -11,7 +11,7 @@ import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const SubCategorySection = ({
   bgColor = "bg-white",
-  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-6",
+  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6",
 }) => {
   const params = useParams();
   const catSlugId = params?.categorySlugId;
@@ -22,7 +22,7 @@ const SubCategorySection = ({
 
   if (isLoading)
     return (
-      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-6" />
+      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6" />
     );
   if (isError)
     return (
@@ -34,10 +34,10 @@ const SubCategorySection = ({
 
   return (
     <section
-      className={`md:mb-8 lg:mb-16 lg:mt-4 pb-6 px-2 sm:px-6 lg:px-8 ${bgColor}`}
+      className={`py-6 md:py-10 px-4 sm:px-6 lg:px-8 ${bgColor}`}
     >
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-bold py-4 text-gray-700 capitalize flex items-center">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6 text-gray-700 capitalize flex flex-wrap items-center">
           <Link href={`/fashion-lifestyle/type/${typeSlug}_${typeId}`}>
             <span className="flex items-center hover:text-blue-500">
               {typeSlug?.replace(/-/g, " ")}{" "}
@@ -61,7 +61,7 @@ const SubCategorySection = ({
                 )}_${subCategory?._id}`}
                 className="block h-full"
               >
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden bg-gray-50">
                   <Image
                     src={
                       subCategory?.banner_type_1
@@ -74,8 +74,8 @@ const SubCategorySection = ({
                     className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-1 sm:p-2">
-                  <h3 className="text-sm sm:text-base lg:text-xl font-semibold text-deepGray mb-1 text-center">
+                <div className="px-1.5 py-2 sm:px-2 sm:py-2.5">
+                  <h3 className="text-xs sm:text-sm md:text-base font-semibold text-deepGray text-center leading-snug line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">
                     {subCategory?.sub_category_name}
                   </h3>
                 </div>

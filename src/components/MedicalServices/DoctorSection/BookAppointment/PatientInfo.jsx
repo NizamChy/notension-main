@@ -40,17 +40,17 @@ const PatientInfo = () => {
 
   return (
     <>
-      <div className="cursor-pointer mt-7 px-4">
-        <p className="text-2xl font-bold mb-3 text-primary">
+      <div>
+        <h2 className="text-lg md:text-2xl font-bold mb-3 text-primary">
           Patient Information
-        </p>
+        </h2>
 
         {progressing ? (
           <Loader />
         ) : (
           <>
             {patientInfo?.length < 1 && (
-              <p className="h-40 text-sm text-mediumGray flex justify-center items-center">
+              <p className="h-32 rounded-xl border border-dashed border-gray-300 text-sm text-mediumGray flex justify-center items-center">
                 No patient registered.
               </p>
             )}
@@ -62,9 +62,9 @@ const PatientInfo = () => {
                 <div
                   onClick={(e) => handlePatientClick(e, patient)}
                   key={patient?._id}
-                  className="border border-gray-100 rounded-lg p-4 my-5 shadow-md hover:shadow-lg transition-shadow duration-300"
+                  className="cursor-pointer bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm hover:shadow-md hover:border-primary transition-all duration-300"
                 >
-                  <p className="text-lg font-semibold text-primary">
+                  <p className="text-base md:text-lg font-semibold text-primary break-words">
                     Name: {patient?.patient_name}
                   </p>
                   <p className="text-gray-600">Contact: {patient?.contact}</p>

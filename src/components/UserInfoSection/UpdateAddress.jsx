@@ -66,31 +66,37 @@ const UpdateAddress = () => {
   return (
     <>
       {savedUserInfo?._id && (
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-20 justify-center items-center">
-          <div className="px-4">
-            <div className="mx-auto mt-20 lg:mt-0 text-center space-y-1 max-w-md border rounded-lg p-4">
-              <div className="flex justify-center">
-                <CgProfile className="text-8xl text-primary" />
-              </div>
-
-              <p className="font-medium text-base lg:text-xl text-primary">
-                Name: {savedUserInfo?.customer_name}
-              </p>
-              <p className="text-sm md:text-base lg:text-lg text-mediumGray">
-                Address: {savedUserInfo?.customer_address}
-              </p>
-              <p className="text-sm md:text-base lg:text-lg text-deepGray">
-                Phone: {savedUserInfo?.contact_no}
+        <div className="max-w-4xl mx-auto px-4 py-8 md:py-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-6 md:p-8">
+            <div className="flex flex-col items-center text-center">
+              <CgProfile className="text-7xl md:text-8xl text-primary" />
+              <p className="mt-3 text-lg md:text-xl font-semibold text-primary break-words">
+                {savedUserInfo?.customer_name}
               </p>
             </div>
+
+            <dl className="mt-6 divide-y divide-gray-100 text-sm md:text-base">
+              <div className="flex justify-between gap-4 py-3">
+                <dt className="text-mediumGray shrink-0">Phone</dt>
+                <dd className="text-deepGray font-medium text-right break-words">
+                  {savedUserInfo?.contact_no || "—"}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-4 py-3">
+                <dt className="text-mediumGray shrink-0">Address</dt>
+                <dd className="text-deepGray font-medium text-right break-words">
+                  {savedUserInfo?.customer_address || "—"}
+                </dd>
+              </div>
+            </dl>
           </div>
 
-          <div className="w-full lg:w-80 lg:py-32 min-h-content px-4">
-            <p className="text-center font-medium text-secondary text-2xl mb-3">
+          <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-6 md:p-8">
+            <h1 className="font-semibold text-secondary text-xl md:text-2xl mb-2">
               Update Address
-            </p>
+            </h1>
 
-            <div className="py-4">
+            <div className="py-3">
               <FloatingInput
                 label="Name"
                 id="customer_name"
@@ -101,7 +107,7 @@ const UpdateAddress = () => {
               />
             </div>
 
-            <div className="py-4">
+            <div className="py-3">
               <FloatingInput
                 label="Address"
                 id="customer_address"
@@ -113,7 +119,7 @@ const UpdateAddress = () => {
               />
             </div>
 
-            <div className="py-4">
+            <div className="py-3">
               <FloatingInput
                 label="Alternative number"
                 id="alternative_contact_no"
@@ -127,7 +133,7 @@ const UpdateAddress = () => {
             <div className="flex justify-center">
               <button
                 onClick={(e) => handleUpdateUser(e)}
-                className="mt-4 px-4 bg-primary text-white rounded-md w-full"
+                className="mt-3 px-4 bg-primary hover:bg-primary/95 text-white font-medium rounded-md w-full"
                 disabled={progressing}
               >
                 {progressing ? (

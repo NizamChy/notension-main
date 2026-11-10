@@ -52,7 +52,7 @@ const CategoryByStoreSlider = () => {
 
   return (
     <div
-      className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-12"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10"
       style={{
         "--swiper-navigation-size": "24px",
         "--swiper-pagination-bullet-size": "10px",
@@ -65,8 +65,8 @@ const CategoryByStoreSlider = () => {
       <div className="relative">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={30}
-          slidesPerView={4}
+          spaceBetween={12}
+          slidesPerView={3.5}
           navigation={{
             nextEl: ".custom-swiper-button-next-cat1",
             prevEl: ".custom-swiper-button-prev-cat1",
@@ -80,10 +80,8 @@ const CategoryByStoreSlider = () => {
           autoplay={{ delay: 2000 }}
           loop={true}
           breakpoints={{
-            640: { slidesPerView: 3 },
-            768: { slidesPerView: 3 },
-            1024: { slidesPerView: 6 },
-            1536: { slidesPerView: 9 },
+            640: { slidesPerView: 5, spaceBetween: 16 },
+            1024: { slidesPerView: 6, spaceBetween: 24 },
           }}
         >
           {allSubCategoriesByStore?.map((category) => (
@@ -99,7 +97,7 @@ const CategoryByStoreSlider = () => {
                 )}_${category?.sub_category_info?._id}`}
                 className="flex flex-col items-center"
               >
-                <div className="aspect-square min-h-20 lg:min-h-[133px] max-w-20 lg:max-w-[133px] rounded-full border group-hover:border-blue-500">
+                <div className="w-full max-w-[170px] aspect-square rounded-full border overflow-hidden bg-gray-50 group-hover:border-blue-500 transition-colors">
                   <Image
                     src={
                       category?.sub_category_info?.banner_type_1
@@ -114,7 +112,7 @@ const CategoryByStoreSlider = () => {
                   />
                 </div>
 
-                <h3 className="text-xs md:text-sm lg:text-base text-center font-semibold text-gray-800 p-2 group-hover:text-blue-500">
+                <h3 className="mt-2 text-xs md:text-sm lg:text-base text-center font-semibold text-gray-800 leading-snug line-clamp-2 group-hover:text-blue-500">
                   {category?.sub_category_info?.sub_category_name}
                 </h3>
               </Link>
@@ -124,14 +122,14 @@ const CategoryByStoreSlider = () => {
 
         <button
           aria-label="Next category"
-          className="custom-swiper-button-next-cat1 absolute top-1/2 right-2.5 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 text-black flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
+          className="custom-swiper-button-next-cat1 absolute top-[40%] right-0 translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
         >
           <GrNext />
         </button>
 
         <button
           aria-label="Previous category"
-          className="custom-swiper-button-prev-cat1 absolute top-1/2 left-2.5 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 text-black flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
+          className="custom-swiper-button-prev-cat1 absolute top-[40%] left-0 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
         >
           <GrPrevious />
         </button>

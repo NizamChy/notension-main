@@ -1,12 +1,12 @@
 import React from "react";
 
 const CategorySkeleton = ({
-  gridClass = "grid grid-cols-3 lg:grid-cols-5 gap-2 md:gap-6",
+  gridClass = "grid grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6",
 }) => {
   return (
-    <section className="py-16 px-2 sm:px-6 lg:px-8 bg-white">
+    <section className="py-6 md:py-10 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="min-h-8 mb-3 rounded-md bg-gray-200 animate-pulse w-1/3 lg:w-1/4" />
+        <div className="h-8 lg:h-9 mb-4 md:mb-6 rounded-md bg-gray-200 animate-pulse w-1/3 lg:w-1/4" />
         <div className={`${gridClass}`}>
           {[...Array(4)].map((_, index) => (
             <div

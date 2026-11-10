@@ -2,19 +2,16 @@ import React from "react";
 
 const ProductCardSkeleton = () => {
   return (
-    <div className="group relative cursor-pointer animate-pulse">
-      <div className="aspect-[3/4] relative bg-gray-200 rounded-lg overflow-hidden mb-3">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
-      </div>
+    <div className="flex flex-col h-full bg-white rounded-lg border border-gray-100 overflow-hidden animate-pulse">
+      <div className="aspect-[3/4] bg-gray-200" />
 
-      <div className="px-1">
-        <h3 className="h-4 bg-gray-200 rounded-full w-3/4 mb-2"></h3>
-        <h3 className="h-4 bg-gray-200 rounded-full w-1/2 mb-3"></h3>
+      <div className="p-2.5 sm:p-3">
+        <div className="h-4 bg-gray-200 rounded-full w-3/4 mb-2" />
+        <div className="h-3 bg-gray-200 rounded-full w-1/2 mb-4" />
 
         <div className="flex items-center gap-2">
-          <span className="h-4 bg-gray-200 rounded-full w-1/4"></span>
-          <span className="h-3 bg-gray-200 rounded-full w-1/5"></span>
-          <span className="h-3 bg-gray-200 rounded-full w-1/5"></span>
+          <span className="h-4 bg-gray-200 rounded-full w-1/4" />
+          <span className="h-3 bg-gray-200 rounded-full w-1/5" />
         </div>
       </div>
     </div>

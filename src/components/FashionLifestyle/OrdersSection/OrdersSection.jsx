@@ -40,29 +40,30 @@ const OrdersSection = () => {
   return (
     <>
       {userInfo?._id && (
-        <div className="p-10 bg-[#F3F4F6] max-w-screen-2xl mx-auto">
-          <p className="text-base md:text-2xl text-textDeep font-bold text-secondary">
+        <div className="bg-[#F3F4F6] min-h-content">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-8">
+          <h1 className="text-xl md:text-2xl font-bold text-secondary">
             Order History
-          </p>
+          </h1>
 
           {isLoading ? (
             <Loader />
           ) : (
             <>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3 md:mt-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
                 {orderInfo && orderInfo?.length > 0 ? (
                   orderInfo?.map((order) => (
                     <div
                       key={order?._id}
-                      className="border rounded-lg p-4 bg-white shadow-md"
+                      className="flex flex-col h-full border border-gray-100 rounded-lg p-4 md:p-5 bg-white shadow-sm"
                     >
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center gap-3">
                         <p className="text-sm font-medium md:text-lg md:font-bold text-secondary">
                           Order# {order?.order_id?.split("-").pop()}
                         </p>
 
                         <p
-                          className={`px-3 py-1 rounded-full ${
+                          className={`shrink-0 px-3 py-1 rounded-full text-xs md:text-sm font-medium ${
                             order?.order_status === "Pending"
                               ? "bg-yellow-100 text-yellow-600"
                               : "bg-green-100 text-green-600"
@@ -126,7 +127,7 @@ const OrdersSection = () => {
                         </p>
                       </div>
 
-                      <div className="md:flex justify-end hidden">
+                      <div className="md:flex justify-end hidden mt-auto">
                         <button
                           onClick={() => setSelectedOrder(order)}
                           className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"
@@ -135,7 +136,7 @@ const OrdersSection = () => {
                         </button>
                       </div>
 
-                      <div className="flex justify-end md:hidden text-sm">
+                      <div className="flex justify-end md:hidden text-sm mt-auto">
                         <button
                           onClick={() =>
                             router.push(
@@ -150,7 +151,9 @@ const OrdersSection = () => {
                     </div>
                   ))
                 ) : (
-                  <NoItemFound />
+                  <div className="col-span-full">
+                    <NoItemFound />
+                  </div>
                 )}
               </div>
             </>
@@ -163,6 +166,7 @@ const OrdersSection = () => {
               order={selectedOrder}
             />
           )}
+        </div>
         </div>
       )}
 

@@ -77,16 +77,16 @@ const SubTypeSection = () => {
   };
 
   return (
-    <div className="m-4 lg:m-20 pt-14 md:pt-20 lg:pt-10 min-h-content">
+    <div>
       {selectedSubType && (
         <>
-          <nav className="flex mb-5" aria-label="Breadcrumb">
+          <nav className="flex mb-4 md:mb-6" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
               <li
                 onClick={handleType}
                 className="inline-flex items-center cursor-pointer"
               >
-                <p className="inline-flex items-center text-xs md:text-xl font-medium text-gray-700 hover:text-secondaryMedicine">
+                <p className="inline-flex items-center text-sm md:text-lg font-medium text-gray-700 hover:text-secondaryMedicine">
                   {typeName}
                 </p>
               </li>
@@ -107,7 +107,7 @@ const SubTypeSection = () => {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <p className="ms-1 text-xs md:text-xl font-medium text-gray-500 md:ms-2">
+                  <p className="ms-1 text-sm md:text-lg font-semibold text-deepGray md:ms-2">
                     {selectedSubType?.sub_type_name}
                   </p>
                 </div>
@@ -119,7 +119,7 @@ const SubTypeSection = () => {
 
       {allLoaded && productInfo.length < 1 && <NoItemFound />}
       {!allLoaded && productInfo.length < 1 && (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
           {Array.from({ length: 12 }).map((_, index) => (
             <ItemCardSkeleton moduleName="medicine" key={index} />
           ))}
@@ -135,14 +135,14 @@ const SubTypeSection = () => {
             }}
             hasMore={loadingMore}
             loader={
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
                 {Array.from({ length: 6 }).map((_, index) => (
                   <ItemCardSkeleton moduleName="medicine" key={index} />
                 ))}
               </div>
             }
           >
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
               {productInfo?.map((item) => (
                 <MedicineItems key={item?._id} item={item} />
               ))}

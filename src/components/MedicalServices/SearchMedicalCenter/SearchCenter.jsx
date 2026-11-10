@@ -2,18 +2,22 @@ import React from "react";
 import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
 
+// Looks like a search field (bordered, white, button attached on the right)
+// and opens the medical-center search page.
 const SearchCenter = () => {
   return (
-    <div className="mx-4 sm:mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 my-5border text-mediumGray hover:border-primary hover:text-primary rounded-lg cursor-pointer">
-      <Link href="/medical-services/search">
-        <button className="h-10 ps-3 w-full flex justify-between items-center">
-          <span>Search center</span>
-          <span className="bg-primary h-full rounded-e-lg px-3 flex items-center justify-center">
-            <IoSearch className="text-2xl text-white" />
-          </span>
-        </button>
-      </Link>
-    </div>
+    <Link
+      href="/medical-services/search"
+      aria-label="Search center"
+      className="group mx-auto flex h-11 w-full max-w-xl items-stretch overflow-hidden rounded-lg border border-gray-300 bg-white text-mediumGray shadow-sm transition-colors hover:border-primary hover:text-primary"
+    >
+      <span className="flex flex-1 items-center px-4 text-sm md:text-base">
+        Search center
+      </span>
+      <span className="flex w-12 items-center justify-center bg-primary">
+        <IoSearch className="text-xl text-white" />
+      </span>
+    </Link>
   );
 };
 

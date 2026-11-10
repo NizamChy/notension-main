@@ -41,20 +41,20 @@ const OrdersSection = () => {
   return (
     <>
       {userInfo?._id && (
-        <div className="px-3 lg:px-36 py-10 md:py-16 lg:py-20 mt-10 bg-[#F3F4F6]">
-          <p className="text-base md:text-2xl text-textDeep font-bold text-secondary">
+        <div className="max-w-6xl">
+          <p className="text-lg md:text-2xl font-bold text-secondary">
             Order History
           </p>
 
           {progressing ? (
             <Loader />
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-3 md:mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
               {groceryOrderInfo && groceryOrderInfo.length > 0 ? (
                 groceryOrderInfo.map((order) => (
                   <div
                     key={order?._id}
-                    className="border rounded-lg p-4 bg-white shadow-md"
+                    className="border border-gray-200 rounded-2xl p-4 md:p-5 bg-white shadow-sm"
                   >
                     <div className="flex justify-between items-center">
                       <p className="text-sm font-medium md:text-lg md:font-bold text-secondary">

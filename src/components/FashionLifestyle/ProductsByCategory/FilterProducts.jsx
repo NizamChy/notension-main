@@ -51,9 +51,9 @@ const FilterProducts = ({
     );
 
   return (
-    <div className="flex-1">
-      <div className="flex justify-between items-center mb-6">
-        <p className="text-gray-600">
+    <div className="flex-1 min-w-0">
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-4 md:mb-6">
+        <p className="text-sm md:text-base text-gray-600">
           Showing {sortedProducts?.length} of{" "}
           {totalCount ?? products?.length} products
         </p>
@@ -66,7 +66,7 @@ const FilterProducts = ({
             id="sort"
             value={sortOption}
             onChange={handleSortChange}
-            className="border rounded p-2 text-sm outline-none"
+            className="border border-gray-300 bg-white rounded-lg px-2 py-2 text-sm outline-none focus:border-blue-500"
           >
             <option value="featured">Featured</option>
             <option value="price-low">Price: Low to High</option>
@@ -77,7 +77,7 @@ const FilterProducts = ({
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {[...Array(8)].map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
@@ -96,7 +96,7 @@ const FilterProducts = ({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {sortedProducts.map((product) => (
             <ProductCards key={product?._id?.toString()} product={product} />
           ))}

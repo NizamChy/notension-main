@@ -3,50 +3,42 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
+const tiles = [
+  { href: "/medical-services/doctor/nearest-doctor", alt: "Find Nearest Doctor" },
+  { href: "/medical-services/doctor/consultation-center", alt: "Consultation Center" },
+];
+
+// Two shortcut tiles next to the doctor slider. On mobile they are squares;
+// from md up they stretch to the slider's height so the row lines up.
 const DoctorNav = () => {
-  const [slider, setSlider] = useState([]);
   const { findDoctorBanner } = useSelector((state) => state.doctorInfo);
 
-  useEffect(() => {
-    if (findDoctorBanner && findDoctorBanner.length > 2) {
-      setSlider(findDoctorBanner.slice(3, findDoctorBanner.length));
-    }
-  }, [findDoctorBanner]);
+  // Banners after the first three are the two shortcut tiles.
+  const slider = findDoctorBanner?.length > 2 ? findDoctorBanner.slice(3) : [];
 
   return (
-    <>
-      {slider?.length > 0 && (
-        <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center gap-5 py-4 lg:py-0">
-            <div>
-              <Link href="/medical-services/doctor/nearest-doctor">
-                <Image
-                  src={`${HEALTH_CARE_IMAGES}/${slider[0]?.file_name}`}
-                  alt="Find Nearest Doctor"
-                  width={400}
-                  height={400}
-                  className="w-full lg:max-w-[400px] rounded-lg shadow-md hover:shadow-lg"
-                />
-              </Link>
-            </div>
-            <div>
-              <Link href="/medical-services/doctor/consultation-center">
-                <Image
-                  src={`${HEALTH_CARE_IMAGES}/${slider[1]?.file_name}`}
-                  alt="consultation-center"
-                  width={400}
-                  height={400}
-                  className="w-full lg:max-w-[400px] rounded-lg shadow-md hover:shadow-lg"
-                />
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    <div className="grid grid-cols-2 gap-4 lg:gap-6">
+      {tiles.map((tile, index) => (
+        <Link
+          key={tile.href}
+          href={tile.href}
+          className="group relative block aspect-square md:aspect-auto md:h-full rounded-xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow"
+        >
+          {slider[index]?.file_name && (
+            <Image
+              src={`${HEALTH_CARE_IMAGES}/${slider[index].file_name}`}
+              alt={tile.alt}
+              fill
+              sizes="(min-width: 1280px) 310px, (min-width: 768px) 25vw, 50vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          )}
+        </Link>
+      ))}
+    </div>
   );
 };
 

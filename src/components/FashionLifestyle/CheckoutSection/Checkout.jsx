@@ -229,20 +229,22 @@ const Checkout = () => {
 
   return (
     <>
-      <div className="bg-gray-50 min-h-screen py-5 md:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-gray-50 min-h-screen py-5 md:py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-700">Checkout</h1>
+          <div className="mb-5 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-700">
+              Checkout
+            </h1>
           </div>
 
-          <div className="lg:grid lg:grid-cols-2 lg:gap-x-12">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+            <div className="bg-white p-5 md:p-6 rounded-lg border border-gray-100 shadow-sm">
               <h2 className="text-lg font-medium text-gray-900 mb-6">
                 Shipping information
               </h2>
 
               <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-4">
                   <div className="sm:col-span-2">
                     <label className="block text-sm font-medium text-gray-700">
                       Name <span className="text-red-600">*</span>
@@ -252,7 +254,7 @@ const Checkout = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-indigo-500"
                       required
                     />
                   </div>
@@ -266,7 +268,7 @@ const Checkout = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-indigo-500"
                       required
                     />
                   </div>
@@ -281,22 +283,26 @@ const Checkout = () => {
                       name="address"
                       value={formData.address}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none"
+                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-indigo-500"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="bg-white p-6 mt-8 rounded-lg shadow-sm">
-                  <h2 className="text-lg font-medium text-gray-900 mb-6">
+                <div className="mt-8 pt-6 border-t border-gray-100">
+                  <h2 className="text-lg font-medium text-gray-900 mb-4">
                     Payment method
                   </h2>
 
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     {PAYMENT_DATA.map((option) => (
                       <label
                         key={option.id}
-                        className="flex items-center gap-2 p-1 cursor-pointer hover:bg-gray-100"
+                        className={`flex items-center gap-3 px-3 py-2 rounded-md border cursor-pointer transition-colors ${
+                          formData.paymentOption === option.label
+                            ? "border-indigo-500 bg-indigo-50/50"
+                            : "border-gray-200 hover:bg-gray-50"
+                        }`}
                       >
                         <input
                           type="radio"
@@ -320,11 +326,11 @@ const Checkout = () => {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex justify-between">
+                  <div className="mt-6 flex justify-end">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="ml-auto bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700"
+                      className="w-full sm:w-auto bg-indigo-600 py-2.5 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700"
                     >
                       {isSubmitting
                         ? "Placing Order..."
@@ -335,7 +341,7 @@ const Checkout = () => {
               </form>
             </div>
 
-            <div className="mt-10 lg:mt-0 lg:col-span-1">
+            <div className="lg:col-span-1">
               <OrderSummary
                 items={cartItems}
                 subtotal={overallSubtotal}

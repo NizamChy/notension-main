@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import HomeBannerCard from "./HomeBannerCard";
 import Link from "next/link";
 import { BsTelephone } from "react-icons/bs";
 
@@ -16,28 +16,24 @@ const CARDS = [
 // three across from `sm` up.
 const BottomSection = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 w-full">
       {CARDS.map(({ title, image }) => (
-        <Link key={title} href={APP_URL} prefetch={false} target="_blank">
-          <div className="group overflow-hidden relative">
-            <Image
-              width={416}
-              height={350}
-              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-              src={image}
-              alt={title}
-            />
-
-            <div className="absolute bottom-3 left-3 md:bottom-10 md:left-8">
-              <h3 className="text-lg sm:text-sm md:text-xl lg:text-2xl font-semibold tracking-wide lg:tracking-widest text-gray-500">
-                {title}
-              </h3>
-              <p className="flex items-center gap-1 text-sm sm:text-xs md:text-base tracking-wider font-semibold text-gray-500">
-                <BsTelephone className="text-xs md:text-sm text-mediumGray" />
-                <span>Contact Now</span>
-              </p>
-            </div>
-          </div>
+        <Link
+          key={title}
+          href={APP_URL}
+          prefetch={false}
+          target="_blank"
+          className="block"
+        >
+          <HomeBannerCard
+            size="sm"
+            width={416}
+            height={350}
+            image={image}
+            title={title}
+            actionText="Contact Now"
+            ActionIcon={BsTelephone}
+          />
         </Link>
       ))}
     </div>

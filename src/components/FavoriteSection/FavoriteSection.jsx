@@ -39,7 +39,7 @@ const FavoriteSection = () => {
   ];
 
   return (
-    <div className="container bg-white max-w-screen-xl mx-auto mt-5 mb-1 relative flex justify-center items-center">
+    <div className="w-full bg-white mx-auto mt-3 md:mt-4 relative flex justify-center items-center">
       <button
         className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-deepGray"
         id="custom-prev"
@@ -53,7 +53,7 @@ const FavoriteSection = () => {
         <GrNext />
       </button>
 
-      <div className="w-full flex justify-center mx-auto px-3 md:px-14 items-center">
+      <div className="w-full flex justify-center mx-auto md:px-14 items-center">
         <Swiper
           slidesPerView={3.3}
           spaceBetween={12}
@@ -79,16 +79,16 @@ const FavoriteSection = () => {
             <SwiperSlide key={index} className="flex justify-center">
               <Link href={item.link}>
                 <div
-                  className={`bg-white w-full max-w-lg flex flex-col justify-center items-center rounded-lg cursor-pointer`}
+                  className={`bg-white w-full max-w-lg flex flex-col justify-start items-center rounded-lg cursor-pointer`}
                 >
                   <Image
                     src={item.src}
                     alt={item.name}
                     width={130}
                     height={64}
-                    className="rounded object-contain w-full max-w-[130px] h-auto"
+                    className="rounded object-contain w-full max-w-[130px] h-12 sm:h-14 md:h-16"
                   />
-                  <p className="mt-1 text-[11px] leading-tight sm:text-xs md:text-base md:leading-snug font-semibold text-deepGray text-center">
+                  <p className="mt-1.5 text-[11px] leading-tight sm:text-xs md:text-base md:leading-snug font-semibold text-deepGray text-center line-clamp-2">
 
                     {item.name}
                   </p>

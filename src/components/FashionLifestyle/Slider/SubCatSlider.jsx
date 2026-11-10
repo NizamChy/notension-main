@@ -47,7 +47,7 @@ const SubCatSlider = () => {
 
   return (
     <div
-      className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-2"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-6"
       style={{
         "--swiper-navigation-size": "24px",
         "--swiper-pagination-bullet-size": "10px",
@@ -58,7 +58,7 @@ const SubCatSlider = () => {
       <div className="relative">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={30}
+          spaceBetween={12}
           slidesPerView={4}
           navigation={{
             nextEl: ".custom-swiper-button-next-cat1",
@@ -73,18 +73,13 @@ const SubCatSlider = () => {
           autoplay={{ delay: 2000 }}
           loop={true}
           breakpoints={{
-            640: { slidesPerView: 3 },
-            768: { slidesPerView: 3 },
-            1024: { slidesPerView: 4 },
-            1536: { slidesPerView: 8 },
+            640: { slidesPerView: 6, spaceBetween: 16 },
+            1024: { slidesPerView: 8, spaceBetween: 24 },
           }}
         >
           {subCategories.map((category) => (
-            <SwiperSlide
-              key={category?._id?.toString()}
-              className="max-w-[212px] max-h-[212px] lg:max-w-[270px] lg:max-h-[270px] md:max-w-[220px] md:max-h-[220px]"
-            >
-              <div className="group rounded-lg relative transition-all duration-300 pt-2">
+            <SwiperSlide key={category?._id?.toString()}>
+              <div className="group rounded-lg relative transition-all duration-300 pt-1">
                 <Link
                   href={`/fashion-lifestyle/subcategory/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                     category?.sub_category_name
@@ -92,7 +87,7 @@ const SubCatSlider = () => {
                   className="block"
                   aria-label={`View ${category?.sub_category_name} subcategory`}
                 >
-                  <div className="lg:w-36 lg:h-36 mx-auto aspect-square rounded-full">
+                  <div className="w-full max-w-[120px] mx-auto aspect-square rounded-full overflow-hidden border bg-gray-50 group-hover:border-blue-500 transition-colors">
                     <Image
                       src={
                         category?.banner_type_1
@@ -102,12 +97,12 @@ const SubCatSlider = () => {
                       alt={category?.sub_category_name}
                       width={400}
                       height={400}
-                      className="w-full h-full object-contain border rounded-full group-hover:shadow group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       priority={false}
                     />
                   </div>
 
-                  <h3 className="text-xs lg:text-base text-gray-700 font-semibold my-1 text-center">
+                  <h3 className="mt-2 text-xs lg:text-sm text-gray-700 font-semibold leading-snug text-center line-clamp-2">
                     {category?.sub_category_name}
                   </h3>
                 </Link>
@@ -118,14 +113,14 @@ const SubCatSlider = () => {
 
         <button
           aria-label="Next subcategory"
-          className="custom-swiper-button-next-cat1 absolute top-1/2 right-2.5 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 text-black flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
+          className="custom-swiper-button-next-cat1 absolute top-[40%] right-0 translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
         >
           <GrNext />
         </button>
 
         <button
           aria-label="Previous subcategory"
-          className="custom-swiper-button-prev-cat1 absolute top-1/2 left-2.5 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 text-black flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
+          className="custom-swiper-button-prev-cat1 absolute top-[40%] left-0 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
         >
           <GrPrevious />
         </button>

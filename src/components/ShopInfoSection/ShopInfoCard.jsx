@@ -60,33 +60,25 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
 
   return (
     <>
+      {/* Fixed-ratio banner + fixed-height text rows, so every card in a grid
+          row is the same height. */}
       <div
         onClick={onClick}
-        className="group card bg-white shadow-md cursor-pointer rounded-lg mb-4 hover:shadow-lg transition-shadow duration-300"
+        className="group h-full flex flex-col bg-white border border-gray-200 shadow-sm cursor-pointer rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-300"
       >
-        <div className="relative overflow-hidden rounded-t-lg">
+        <div className="relative w-full aspect-[5/3] overflow-hidden bg-gray-100">
           {isImageLoading && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse w-full h-full">
-              <div className="h-full flex justify-center items-center">
-                <Image
-                  src="/gif/loading.gif"
-                  alt="loading.gif"
-                  width={60}
-                  height={60}
-                />
-              </div>
-            </div>
+            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
           )}
 
           <Image
+            fill
+            sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
             src={`${IMAGE_URL}/${type}-store-docs/${shop?.shop_banner_app}`}
             alt={`${shop?.shop_name} banner`}
-            width={500}
-            height={300}
-            className={`w-full h-44 md:h-60 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105 ${
+            className={`object-cover transition-transform duration-300 group-hover:scale-105 ${
               isImageLoading ? "opacity-0" : "opacity-100"
             }`}
-            onLoadingComplete={() => setIsImageLoading(false)}
             onLoad={() => setIsImageLoading(false)}
             onError={() => setIsImageLoading(false)}
           />
@@ -94,9 +86,9 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           {!shop?.is_closed && !isFavoriteAdded && !isFavorite && (
             <button
               onClick={handleAddToFavorite}
-              className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
+              className="absolute bottom-3 right-3 h-8 ps-1.5 pe-3 flex items-center gap-1 rounded-full bg-white/90 hover:bg-white text-deepGray shadow-sm"
             >
-              <FaHeart className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+              <FaHeart className="text-primaryFood text-sm mx-1" />
               <span className="text-xs font-medium">Add to Favorite</span>
             </button>
           )}
@@ -104,40 +96,42 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           {isFavorite && (
             <button
               onClick={handleRemoveFromFavorite}
-              className="absolute bottom-4 right-3 md:right-4 text-deepGray bg-primaryBg opacity-65 hover:text-primaryFood border hover:border-primaryFood rounded-full hover:bg-white px-1 flex justify-center items-center "
+              className="absolute bottom-3 right-3 h-8 ps-1.5 pe-3 flex items-center gap-1 rounded-full bg-white/90 hover:bg-white text-deepGray shadow-sm"
             >
-              <IoTrashOutline className="size-7 p-1 text-xl rounded-full text-primaryFood" />
+              <IoTrashOutline className="text-primaryFood text-base mx-1" />
               <span className="text-xs font-medium">Remove</span>
             </button>
           )}
 
           {shop?.delivery_notice && (
-            <p className="bg-yellow-300 absolute top-3 right-3 rounded-lg px-2 py-0.5 text-sm font-semibold opacity-75">
+            <p className="absolute top-3 right-3 max-w-[60%] truncate bg-yellow-300/95 rounded-md px-2 py-0.5 text-xs font-semibold text-gray-900">
               {shop?.delivery_notice}
             </p>
           )}
 
           {shop?.is_closed && (
-            <p className="bg-red-500 text-white absolute top-3 left-3 rounded-lg px-2 py-0.5 text-sm md:text-base font-semibold shadow">
-
-              Closed!
+            <p className="absolute top-3 left-3 bg-red-500 text-white rounded-md px-2 py-0.5 text-xs font-semibold shadow">
+              Closed
             </p>
           )}
         </div>
 
-        <div className="p-4">
-          <h2 className="md:text-xl font-semibold mb-2">{shop?.shop_name}</h2>
-          <p className="text-sm md:text-base text-gray-700 mb-2 flex gap-1 lg:min-h-12">
-            <span className="text-blue-600 mt-1">
-              <FaLocationDot />
-            </span>
+        <div className="flex flex-col flex-1 p-4">
+          <h2
+            title={shop?.shop_name}
+            className="text-base md:text-lg font-semibold text-gray-900 truncate"
+          >
+            {shop?.shop_name}
+          </h2>
+          <p className="mt-1 text-sm text-gray-600 flex gap-1.5 min-h-[2.5rem]">
+            <FaLocationDot className="shrink-0 mt-0.5 text-blue-600" />
             <span title={shop?.shop_address} className="line-clamp-2">
               {shop?.shop_address}
             </span>
           </p>
 
           {shop?.distance != null && (
-            <p className="text-xs md:text-base text-gray-500 ps-4">
+            <p className="mt-auto pt-2 text-xs md:text-sm text-gray-500">
               Distance: {(shop?.distance / 1000).toFixed(2)} km
             </p>
           )}
