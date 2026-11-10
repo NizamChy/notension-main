@@ -26,7 +26,7 @@ const Navbar = () => {
   const { handleUserLogout } = useUser();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleLogout = () => {
@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   const handleLogoClick = () => {
-    const basePath = `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+    const basePath = `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
     const currentPath = window.location.pathname;
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {

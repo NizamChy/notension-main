@@ -18,7 +18,7 @@ const AppointmentHome = () => {
             <div className="flex justify-center items-center mt-5 mx-4">
               <div>
                 <p className="text-primary text-lg my-4 font-semibold">
-                  লিস্টে রোগীর নাম না পেলে "Register Patient" রোগীর নিবন্ধন করুন
+                  লিস্টে রোগীর নাম না পেলে &ldquo;Register Patient&rdquo; রোগীর নিবন্ধন করুন
                   ৷
                 </p>
                 <button

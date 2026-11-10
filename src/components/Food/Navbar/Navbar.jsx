@@ -26,14 +26,14 @@ const Navbar = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule?.toLowerCase();
+  const moduleName = currentModule?.toLowerCase();
 
   const handleLogout = () => {
     handleUserLogout();
   };
 
   const handleLogoClick = () => {
-    const basePath = `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+    const basePath = `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
     const currentPath = window.location.pathname;
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {

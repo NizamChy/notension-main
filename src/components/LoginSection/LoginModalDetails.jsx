@@ -19,7 +19,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
     useUser();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
 
   let category = "";
 
@@ -87,11 +87,11 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
   };
 
   const getPrimaryClass = () => {
-    if (module === "medicine" && category === "medicine")
+    if (moduleName === "medicine" && category === "medicine")
       return "bg-primaryMedicine";
-    if (module === "grocery" && category === "grocery")
+    if (moduleName === "grocery" && category === "grocery")
       return "bg-primaryGrocery";
-    if (module === "food" && category === "food") return "bg-primaryFood";
+    if (moduleName === "food" && category === "food") return "bg-primaryFood";
     return "bg-primary";
   };
 

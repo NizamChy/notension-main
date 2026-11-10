@@ -50,7 +50,7 @@ const MedicineSearchedStores = () => {
   return (
     <div className="mx-auto px-4 lg:px-24 py-6">
       <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
-        Store found for <span className="text-gray-700">"{searchText}"</span>
+        Store found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
       </h4>
 
       {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}

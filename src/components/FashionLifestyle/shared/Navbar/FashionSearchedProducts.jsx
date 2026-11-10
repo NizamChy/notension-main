@@ -73,7 +73,7 @@ const FashionSearchedProducts = () => {
         <div className="max-w-7xl mx-auto">
           <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4 pt-12 lg:pt-0">
             Items found for{" "}
-            <span className="text-gray-700">"{searchText}"</span>
+            <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
           </h4>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">

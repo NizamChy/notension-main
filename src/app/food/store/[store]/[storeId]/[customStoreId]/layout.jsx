@@ -29,7 +29,7 @@ export default function FoodLayout({ children }) {
         const elementPosition =
           foodItemsRef.current.getBoundingClientRect().top + window.scrollY;
         const offset = window.innerHeight * 0.1;
-        // 0.16
+
         window.scrollTo({
           top: elementPosition - offset,
           behavior: "smooth",
@@ -49,7 +49,10 @@ export default function FoodLayout({ children }) {
 
       exploreStore(shop);
     }
-  }, []);
+    // Re-fetch when the user navigates to a different store; exploreStore is
+    // recreated on every render, so it is intentionally not a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.storeId, params?.customStoreId]);
 
   return (
     <>

@@ -26,16 +26,16 @@ const CartContent = ({
   } = useSelector((state) => state.cart);
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule?.toLowerCase();
+  const moduleName = currentModule?.toLowerCase();
 
   return (
     <>
       <div className="p-4 flex-grow overflow-y-scroll no-scrollbar">
         <EmptyCart />
 
-        {module === "food" && <FoodCartItems />}
-        {module === "grocery" && <GroceryCartItems />}
-        {module === "medicine" && <MedicineCartItems />}
+        {moduleName === "food" && <FoodCartItems />}
+        {moduleName === "grocery" && <GroceryCartItems />}
+        {moduleName === "medicine" && <MedicineCartItems />}
       </div>
 
       <div className="p-4 border-t">
@@ -43,36 +43,36 @@ const CartContent = ({
           <span className="font-semibold">Subtotal</span>
           <span className="font-semibold flex items-center">
             <TbCurrencyTaka />
-            {module === "food" && (
+            {moduleName === "food" && (
               <span>{totalAmountFood?.toFixed(2) || 0}</span>
             )}
-            {module === "grocery" && (
+            {moduleName === "grocery" && (
               <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
             )}
-            {module === "medicine" && (
+            {moduleName === "medicine" && (
               <span>{totalAmountMedicine?.toFixed(2) || 0}</span>
             )}
           </span>
         </div>
 
         <div className="mb-4">
-          {module === "grocery" && groceryItems?.length > 0 && (
+          {moduleName === "grocery" && groceryItems?.length > 0 && (
             <GroceryCartSummary />
           )}
 
-          {module === "medicine" && medicineItems?.length > 0 && (
+          {moduleName === "medicine" && medicineItems?.length > 0 && (
             <MedicineCartSummary />
           )}
 
-          {module === "food" && foodItems?.length > 0 && <FoodCartSummary />}
+          {moduleName === "food" && foodItems?.length > 0 && <FoodCartSummary />}
         </div>
 
         <button
           onClick={handleCheckout}
           disabled={
-            (module === "food" && foodItems?.length == 0) ||
-            (module === "grocery" && groceryItems?.length == 0) ||
-            (module === "medicine" && medicineItems?.length == 0)
+            (moduleName === "food" && foodItems?.length == 0) ||
+            (moduleName === "grocery" && groceryItems?.length == 0) ||
+            (moduleName === "medicine" && medicineItems?.length == 0)
           }
           className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none transition-colors duration-200 text-white py-2 rounded-lg ${getPrimaryClass()}`}
         >

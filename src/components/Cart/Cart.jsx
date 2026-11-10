@@ -28,7 +28,7 @@ const Cart = () => {
   } = useSelector((state) => state.cart);
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule?.toLowerCase();
+  const moduleName = currentModule?.toLowerCase();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -39,11 +39,11 @@ const Cart = () => {
     if (userInfo?._id) {
       toggleDrawer();
 
-      if (module === "food") {
+      if (moduleName === "food") {
         router.push(
-          `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+          `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
         );
-      } else if (module === "grocery") {
+      } else if (moduleName === "grocery") {
         router.push(
           `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
         );
@@ -59,16 +59,16 @@ const Cart = () => {
   };
 
   const getPrimaryClass = () => {
-    if (module === "medicine") return "bg-primaryMedicine";
-    if (module === "grocery") return "bg-primaryGrocery";
-    if (module === "food") return "bg-primaryFood";
+    if (moduleName === "medicine") return "bg-primaryMedicine";
+    if (moduleName === "grocery") return "bg-primaryGrocery";
+    if (moduleName === "food") return "bg-primaryFood";
     return "bg-primary";
   };
 
   const getSecondaryClass = () => {
-    if (module === "medicine") return "bg-secondaryMedicine";
-    if (module === "grocery") return "bg-secondaryGrocery";
-    if (module === "food") return "bg-secondaryFood";
+    if (moduleName === "medicine") return "bg-secondaryMedicine";
+    if (moduleName === "grocery") return "bg-secondaryGrocery";
+    if (moduleName === "food") return "bg-secondaryFood";
     return "bg-secondary";
   };
 
@@ -100,11 +100,11 @@ const Cart = () => {
             />
           </span>
           <p className="flex items-center justify-center gap-1 pb-0.5 text-sm md:text-base">
-            {module === "food" && <span> {foodItems?.length || 0} items </span>}
-            {module === "grocery" && (
+            {moduleName === "food" && <span> {foodItems?.length || 0} items </span>}
+            {moduleName === "grocery" && (
               <span> {groceryItems?.length || 0} items </span>
             )}
-            {module === "medicine" && (
+            {moduleName === "medicine" && (
               <span> {medicineItems?.length || 0} items </span>
             )}
           </p>
@@ -115,11 +115,11 @@ const Cart = () => {
         >
           <TbCurrencyTaka />
 
-          {module === "food" && <span>{totalAmountFood?.toFixed(2) || 0}</span>}
-          {module === "grocery" && (
+          {moduleName === "food" && <span>{totalAmountFood?.toFixed(2) || 0}</span>}
+          {moduleName === "grocery" && (
             <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
           )}
-          {module === "medicine" && (
+          {moduleName === "medicine" && (
             <span>{totalAmountMedicine?.toFixed(2) || 0}</span>
           )}
         </p>
@@ -133,9 +133,9 @@ const Cart = () => {
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-base md:text-xl font-bold">
             Cart
-            {module === "food" && <span> ({foodItems?.length}) </span>}
-            {module === "grocery" && <span> ({groceryItems?.length}) </span>}
-            {module === "medicine" && <span> ({medicineItems?.length}) </span>}
+            {moduleName === "food" && <span> ({foodItems?.length}) </span>}
+            {moduleName === "grocery" && <span> ({groceryItems?.length}) </span>}
+            {moduleName === "medicine" && <span> ({medicineItems?.length}) </span>}
           </h2>
           <button
             onClick={toggleDrawer}

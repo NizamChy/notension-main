@@ -25,7 +25,7 @@ const UserInfoInputs = ({
   const params = useParams();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
 
   const resendOTP = () => {
     sendSms();
@@ -97,13 +97,13 @@ const UserInfoInputs = ({
       onClose();
       if (!progressing) {
         if (type === "cart") {
-          if (module === "food") {
+          if (moduleName === "food") {
             router.push(
-              `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+              `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
             );
           } else {
             router.push(
-              `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+              `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
             );
           }
         } else if (type === "login") {

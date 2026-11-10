@@ -29,7 +29,7 @@ const WomensFashionCategory = () => {
         <div className="max-w-7xl mx-auto">
           <Title title="Women's Fashion Categories" />
           <div className="text-center text-red-500 py-10">
-            Failed to load women's categories
+            Failed to load women&apos;s categories
           </div>
         </div>
       </section>
@@ -87,7 +87,7 @@ const WomensFashionCategory = () => {
             className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
             aria-label="Explore all women's collections"
           >
-            Explore All Women's Collections
+            Explore All Women&apos;s Collections
             <svg
               className="ml-2 w-4 h-4"
               fill="none"

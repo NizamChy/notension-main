@@ -27,7 +27,7 @@ const SearchedProducts = () => {
     <>
       <div className="m-4 lg:m-20 pt-20 lg:pt-10">
         <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
-          Items found for <span className="text-gray-700">"{searchText}"</span>
+          Items found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
         </h4>
 
         {allLoaded && productInfo.length < 1 && <NoItemFound />}
