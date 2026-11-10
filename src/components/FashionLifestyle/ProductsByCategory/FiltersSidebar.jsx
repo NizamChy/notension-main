@@ -237,10 +237,10 @@ const FilterContent = ({
                 key={subCategory?._id}
                 href={
                   shopSlugId === null
-                    ? `/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                    ? `/fashion-lifestyle/subcategory/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                         subCategory?.sub_category_name
                       )}_${subCategory?._id}`
-                    : `/fashion_lifestyle/shop/${shopSlugId}/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                    : `/fashion-lifestyle/shop/${shopSlugId}/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                         subCategory?.sub_category_name
                       )}_${subCategory?._id}`
                 }

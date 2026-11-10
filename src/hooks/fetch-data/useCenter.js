@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_CONSULTATION_CENTER,
   EXPLORE_CONSULTATION_CENTER,
@@ -7,9 +7,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
-
-axios.defaults.withCredentials = true;
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 
 export const useCenter = () => {
   const [banner, setBanner] = useState([]);
@@ -23,13 +21,7 @@ export const useCenter = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const getNearestCenterInfo = (centerType, setCenterInfo) => {
     setProgressing(true);
@@ -43,20 +35,13 @@ export const useCenter = () => {
 
     Axios.post(NEAREST_CONSULTATION_CENTER, props)
       .then((response) => {
-        //console.log(response.data);
         setCenterInfo(response.data.result);
         setProgressing(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getCenterInfoByDistrict = (
@@ -77,11 +62,9 @@ export const useCenter = () => {
       districtId: districtId,
     };
 
-    // console.log("props", props);
 
     Axios.post(CONSULTATION_CENTER_BY_DISTRICT, props)
       .then((response) => {
-        // console.log(response?.data?.result?.consultationCenterInfo);
 
         if (response?.data?.result?.consultationCenterInfo.length > 0) {
           setProgressing(false);
@@ -100,7 +83,6 @@ export const useCenter = () => {
         }
 
         if (pageNo === 1) {
-          //console.log(response?.data?.result?.banners.length);
           if (response?.data?.result?.banners.length > 0) {
             if (centerType === "Hospital") {
               setBanner(response?.data?.result?.banners[0]?.hospital_banner);
@@ -131,17 +113,10 @@ export const useCenter = () => {
         // setLoadingMore(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
 
-    // setTimeout(() => {
-    //   if (progressing) {
-    //     setProgressing(false);
-    //     setAllLoaded(true);
-    //   }
-    // }, 10000);
   };
 
   const searchConsultationCenter = (centerType, searchText, setCenterInfo) => {
@@ -160,21 +135,10 @@ export const useCenter = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 
   const exploreConsultationCenter = (centerInfo, setExploreInfo) => {
-    // dispatch(
-    //   handleDoctorReducer({
-    //     type: "SAVE_CENTER_INFO",
-    //     data: centerInfo,
-    //   })
-    // );
 
     setProgressing(true);
     Axios.get(EXPLORE_CONSULTATION_CENTER, {
@@ -189,13 +153,7 @@ export const useCenter = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

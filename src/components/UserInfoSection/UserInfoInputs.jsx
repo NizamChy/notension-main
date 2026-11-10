@@ -1,6 +1,7 @@
 "use client";
 
 import toast from "react-hot-toast";
+import { isLengthBetween } from "@/utils/validation";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import RoundLoader from "../common/RoundLoader";
@@ -25,17 +26,17 @@ const UserInfoInputs = ({
   const params = useParams();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
 
   const resendOTP = () => {
     sendSms();
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (userInfo?.customer_name < 3) {
+    if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
       return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৫০ অক্ষরের হতে পারে!", {
         style: {
           border: "1px solid #FC8F1E",
@@ -48,7 +49,7 @@ const UserInfoInputs = ({
       });
     }
 
-    if (userInfo?.customer_address < 5) {
+    if (!isLengthBetween(userInfo?.customer_address, 5, 200)) {
       return toast(
         "ঠিকানা কমপক্ষে ৫ অক্ষরের এবং সর্বোচ্চ ২০০ অক্ষরের মধ্যে হতে হবে!",
         {
@@ -91,40 +92,38 @@ const UserInfoInputs = ({
     }
 
     const success_message = "Login successful";
-    registerUser(success_message);
+    const loggedIn = await registerUser(success_message);
+    if (!loggedIn) return;
 
-    setTimeout(() => {
-      onClose();
-      if (!progressing) {
-        if (type === "cart") {
-          if (module === "food") {
-            router.push(
-              `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-            );
-          } else {
-            router.push(
-              `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-            );
-          }
-        } else if (type === "login") {
-          router.push("/");
-        } else if (type === "doctor") {
-          router.push("/medical-services/doctor");
-        } else if (type === "eyeCareCenter") {
-          router.push("/medical-services/eye-care-center");
-        } else if (type === "dentalCareCenter") {
-          router.push("/medical-services/dental-care-center");
-        } else if (type === "hospital") {
-          router.push("/medical-services/hospital");
-        } else if (type === "diagnostic") {
-          router.push("/medical-services/diagnostic");
-        } else if (type === "medicalService") {
-          router.push("/medical-services/medical-service");
-        } else if (type === "appointment") {
-          router.push("/medical-services/doctor/book-appointment");
-        }
+    onClose();
+
+    if (type === "cart") {
+      if (moduleName === "food") {
+        router.push(
+          `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
+      } else {
+        router.push(
+          `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
       }
-    }, 1000);
+    } else if (type === "login") {
+      router.push("/");
+    } else if (type === "doctor") {
+      router.push("/medical-services/doctor");
+    } else if (type === "eyeCareCenter") {
+      router.push("/medical-services/eye-care-center");
+    } else if (type === "dentalCareCenter") {
+      router.push("/medical-services/dental-care-center");
+    } else if (type === "hospital") {
+      router.push("/medical-services/hospital");
+    } else if (type === "diagnostic") {
+      router.push("/medical-services/diagnostic");
+    } else if (type === "medicalService") {
+      router.push("/medical-services");
+    } else if (type === "appointment") {
+      router.push("/medical-services/doctor/book-appointment");
+    }
   };
 
   return (

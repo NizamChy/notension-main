@@ -1,26 +1,18 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
-  USER_REGISTARTION,
-  OTP_FOR_REGISTARTION,
+  USER_REGISTRATION,
+  OTP_FOR_REGISTRATION,
 } from "@/api-endpoints/api-endpoint";
 import { persistor } from "@/redux/store";
 import { useRouter } from "next/navigation";
-import { USER_URL } from "@/api-endpoints/secret";
+import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: USER_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(USER_URL);
 
 export const useUser = () => {
   const [progressing, setProgressing] = useState(false);
@@ -57,15 +49,14 @@ export const useUser = () => {
   });
 
   const getOtp = (props) => {
-    // console.log("props : ", props);
 
     handleDataChange(props.contact_no, "contact_no");
     setProgressing(true);
     setIsUserRegistered(false);
 
-    Axios.post(OTP_FOR_REGISTARTION, props)
+    // Resolves to true when the OTP request succeeded.
+    return Axios.post(OTP_FOR_REGISTRATION, props)
       .then((res) => {
-        // console.log("res?.result?.data otp data", res?.data);
 
         if (res?.data?.user_exist) {
           setUserData(res?.data?.result);
@@ -99,15 +90,14 @@ export const useUser = () => {
 
         toast.success("OTP sent to your phone!");
         setProgressing(false);
+        return true;
       })
 
       .catch((error) => {
         setProgressing(false);
-        // console.log("error.errors", error);
-        // console.log("result =", error?.response);
-        // console.log("result =", error?.response?.data?.errors);
 
         toast.error("Something went wrong. Please Try Again!");
+        return false;
       });
   };
 
@@ -131,41 +121,34 @@ export const useUser = () => {
     }));
   };
 
+  // Resolves to true when login/registration succeeded.
   const registerUser = (success_message = "") => {
+    if (!currentUserLocation) return Promise.resolve(false);
+
     setProgressing(true);
+    return Axios.post(USER_REGISTRATION, userInfo)
+      .then((res) => {
+        saveLoggedInUserInfo(res?.data?.result);
 
-    if (currentUserLocation) {
-      Axios.post(USER_REGISTARTION, userInfo)
-        .then((res) => {
-          saveLoggedInUserInfo(res?.data?.result);
-
-          if (res?.data?.success) {
-            toast.success(`${success_message}`, {
-              style: {
-                border: "1px solid #FC8F1E",
-              },
-              iconTheme: {
-                primary: "#FC8F1E",
-                secondary: "#FFFAEE",
-              },
-            });
-          }
-          setProgressing(false);
-        })
-        .catch((error) => {
-          setProgressing(false);
-        });
-    }
+        if (res?.data?.success) {
+          toast.success(`${success_message}`, {
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
+          });
+        }
+        setProgressing(false);
+        return Boolean(res?.data?.success);
+      })
+      .catch(() => {
+        setProgressing(false);
+        return false;
+      });
   };
-
-  // const saveLoggedInUserInfo = (user) => {
-  //   dispatch(
-  //     handleUserReducer({
-  //       type: "SAVE_LOGGEDIN_INFO",
-  //       data: user,
-  //     })
-  //   );
-  // };
 
   const saveLoggedInUserInfo = (user) => {
     dispatch(
@@ -175,18 +158,13 @@ export const useUser = () => {
       })
     );
 
-    // Save only necessary user data to cookies (DO NOT store sensitive info)
-    Cookies.set(
-      "user_info",
-      JSON.stringify({
-        _id: user._id,
-        name: user.customer_name,
-        phone: user.contact_no,
-      }),
-      {
-        expires: 7, // days
-      }
-    );
+    // Only the user id is stored: it lets a future proxy/middleware route
+    // guard know the user is logged in. No name/phone (PII) in cookies.
+    Cookies.set("user_info", JSON.stringify({ _id: user._id }), {
+      expires: 7, // days
+      sameSite: "lax",
+      secure: window.location.protocol === "https:",
+    });
   };
 
   const handleUserLogout = () => {

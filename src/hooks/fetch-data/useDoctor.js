@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   GET_DOCTOR_PROFILE,
@@ -8,10 +8,8 @@ import {
   FIND_DOCTOR_BY_CONSULTATION_CENTER,
 } from "@/api-endpoints/api-endpoint";
 import { useDispatch, useSelector } from "react-redux";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
-
-axios.defaults.withCredentials = true;
 
 export const useDoctor = () => {
   const [allLoaded, setAllLoaded] = useState(false);
@@ -24,13 +22,7 @@ export const useDoctor = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const setCurrentModule = () => {
     dispatch(
@@ -42,7 +34,6 @@ export const useDoctor = () => {
   };
 
   const exploreFindDoctor = () => {
-    //console.log('exploreFindDoctor');
     // resetReducer();
     setProgressing(true);
     Axios.get(EXPLORE_FIND_DOCTOR, {
@@ -61,7 +52,6 @@ export const useDoctor = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 
@@ -75,22 +65,14 @@ export const useDoctor = () => {
 
     Axios.post(FIND_NEAREST_DOCTOR, props)
       .then((response) => {
-        //console.log(response.data);
         setDoctorsInfo(response.data.result);
         setProgressing(false);
         setAllLoaded(true);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-        setAllLoaded(true);
-      }
-    }, 10000);
   };
 
   const getDoctorsInfoByDistrict = (
@@ -129,7 +111,6 @@ export const useDoctor = () => {
         }
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -162,7 +143,6 @@ export const useDoctor = () => {
           ]);
         }
 
-        // console.log("response?.data?.result: ", response?.data?.result);
 
         if (pageNo === 1 && response?.data?.result.length < 1) {
           setItemNotfound(true);
@@ -174,7 +154,6 @@ export const useDoctor = () => {
         }
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
@@ -188,13 +167,11 @@ export const useDoctor = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result.length);
         setProfileInfo(res?.data?.result);
         setProgressing(false);
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 

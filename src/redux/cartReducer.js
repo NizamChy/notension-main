@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { lineTotal } from "@/utils/price";
 
 const cartReducer = createSlice({
   name: "cart",
@@ -190,17 +191,17 @@ const cartReducer = createSlice({
       }
 
       state.totalAmountFood = state.foodItems.reduce(
-        (total, item) => total + item.sale_price * item.quantity,
+        (total, item) => total + lineTotal(item),
         0
       );
 
       state.totalAmountGrocery = state.groceryItems.reduce(
-        (total, item) => total + item.sale_price * item.quantity,
+        (total, item) => total + lineTotal(item),
         0
       );
 
       state.totalAmountMedicine = state.medicineItems?.reduce(
-        (total, item) => total + item.sale_price * item.quantity,
+        (total, item) => total + lineTotal(item),
         0
       );
     },

@@ -1,8 +1,9 @@
 import React from "react";
+import { lineTotal } from "@/utils/price";
 import toast from "react-hot-toast";
 import { FaShop } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const OrderSummary = ({ items, total, removeFromCart }) => {
   const handleRemoveItem = (productId, selectedSize, selectedImage) => {
@@ -27,7 +28,7 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
   const deliveryChargeByStore = 0;
 
   const subtotalByStore = (storeItems) =>
-    storeItems.reduce((sum, item) => sum + item.sale_price * item.quantity, 0);
+    storeItems.reduce((sum, item) => sum + lineTotal(item), 0);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -99,7 +100,7 @@ const OrderSummary = ({ items, total, removeFromCart }) => {
                         Qty {item?.quantity}
                       </p>
                       <p className="text-base font-medium text-gray-900">
-                        ৳ {(item?.sale_price * item?.quantity).toFixed(2)}
+                        ৳ {lineTotal(item).toFixed(2)}
                       </p>
                     </div>
                   </div>

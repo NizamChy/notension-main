@@ -1,10 +1,10 @@
 import React from "react";
-import MedicineSearchedStores from "@/components/Medicine/MedicineSearchStore/MedicineSearchedStores";
+import SearchedStores from "@/components/StoreModule/SearchedStores";
 
 const page = () => {
   return (
     <>
-      <MedicineSearchedStores />
+      <SearchedStores moduleName="medicine" />
     </>
   );
 };

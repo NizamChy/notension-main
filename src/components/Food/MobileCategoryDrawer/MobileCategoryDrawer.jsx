@@ -17,14 +17,14 @@ const MobileCategoryDrawer = () => {
   const params = useParams();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   const handleLogoClick = () => {
-    const basePath = `/${module}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+    const basePath = `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
     const currentPath = window.location.pathname;
 
     toggleDrawer();

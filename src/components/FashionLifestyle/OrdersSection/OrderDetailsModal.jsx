@@ -1,10 +1,11 @@
 import React from "react";
+import { lineTotal } from "@/utils/price";
 import Image from "next/image";
 import { IoIosCall } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { IoStorefrontSharp } from "react-icons/io5";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
@@ -106,7 +107,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                   <td className="px-4 py-2 text-right">
                     <span className="flex justify-end items-center gap-1">
                       <TbCurrencyTaka />
-                      {(item?.sale_price * item?.quantity).toFixed(2)}
+                      {lineTotal(item).toFixed(2)}
                     </span>
                   </td>
                 </tr>

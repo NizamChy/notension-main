@@ -13,7 +13,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { useParams, useRouter } from "next/navigation";
 import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
-import GroceryItemSearchBar from "../SearchBarSection/GroceryItemSearchBar";
+import SearchBar from "@/components/StoreModule/SearchBar";
 import MobileCategoryDrawer from "../MobileCategoryDrawer/MobileCategoryDrawer";
 
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
   const { handleUserLogout } = useUser();
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
@@ -35,7 +35,7 @@ const Navbar = () => {
   };
 
   const handleLogoClick = () => {
-    const basePath = `/${module}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+    const basePath = `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
     const currentPath = window.location.pathname;
 
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
@@ -80,7 +80,7 @@ const Navbar = () => {
       </button>
 
       <div className="mx-auto px-2 w-full md:w-2/3 lg:w-1/3">
-        <GroceryItemSearchBar />
+        <SearchBar moduleName="grocery" />
       </div>
 
       {!userInfo?._id && (

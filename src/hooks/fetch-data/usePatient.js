@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useState } from "react";
+import { getApiClient } from "@/lib/apiClient";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
   GET_PATIENTS,
@@ -8,25 +8,21 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
-
-axios.defaults.withCredentials = true;
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 
 export const usePatient = () => {
   const [progressing, setProgressing] = useState(false);
+  const requestInFlight = useRef(false);
 
   const dispatch = useDispatch();
   const { userInfo, patientInfo } = useSelector((state) => state.user);
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const registerPatient = (patientData) => {
+    // Ignore repeat clicks while the request is still in flight.
+    if (requestInFlight.current) return Promise.resolve(false);
+    requestInFlight.current = true;
     setProgressing(true);
     patientData.createdBy = {
       user_id: userInfo?._id,
@@ -34,7 +30,11 @@ export const usePatient = () => {
       user_type: "Customer",
     };
 
-    Axios.post(REGISTER_PATIENT, patientData)
+    // Resolves to true when the patient was registered.
+    return Axios.post(REGISTER_PATIENT, patientData)
+      .finally(() => {
+        requestInFlight.current = false;
+      })
       .then((response) => {
         if (response?.data?.success) {
           toast.success(`${response?.data?.message}`, {
@@ -51,16 +51,13 @@ export const usePatient = () => {
         savePatientInfo("add", response?.data?.result);
 
         setProgressing(false);
+        return Boolean(response?.data?.success);
       })
-      .catch((error) => {
+      .catch(() => {
         setProgressing(false);
+        return false;
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const updatePatientProfile = (patientData) => {
@@ -90,11 +87,6 @@ export const usePatient = () => {
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getPatientInfo = () => {
@@ -107,7 +99,6 @@ export const usePatient = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result.length);
         if (res?.data?.result.length > 0) {
           savePatientInfo("save_all", res?.data?.result);
         }
@@ -115,19 +106,12 @@ export const usePatient = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const savePatientInfo = (task, patientInfo) => {
     if (task === "save_all") {
-      // console.log('console.log(task);', task);
       dispatch(
         handleUserReducer({
           type: "SAVE_PATIENT_INFO",
@@ -135,7 +119,6 @@ export const usePatient = () => {
         })
       );
     } else {
-      //console.log('console.log;', task);
       dispatch(
         handleUserReducer({
           type: "UPDATE_PATIENT_INFO",

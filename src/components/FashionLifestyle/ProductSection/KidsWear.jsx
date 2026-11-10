@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Title from "../CategorySection/Title";
-import { KIDS_TYPE_ID } from "../utils/constant";
+import { KIDS_TYPE_ID } from "../utils/constants";
 import PopularProductCard from "./PopularProductCard";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";

@@ -1,24 +1,16 @@
 import React from "react";
-
-// /pages
-// /medical-services
-// /doctor
-//     index.js
-// /hospital
-//     index.js
-// /diagnostic
-//     index.js
-// /eye-care-center
-//     index.js
-// /dental-care-center
-//     index.js
-// /ambulance
-//     index.js
-// /medical-service
-//     index.js
+import Navbar from "@/components/shared/Navbar/Navbar";
+import Footer from "@/components/shared/Footer/Footer";
+import MedicalService from "@/components/MedicalServices/MedicalService/MedicalService";
 
 const page = () => {
-  return <></>;
+  return (
+    <>
+      <Navbar />
+      <MedicalService />
+      <Footer />
+    </>
+  );
 };
 
 export default page;

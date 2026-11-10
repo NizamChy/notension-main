@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "../../utils/slugify";
 import { BsChevronDown } from "react-icons/bs";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const NavRow = ({
   navItems,
@@ -31,7 +31,7 @@ const NavRow = ({
           }}
         >
           <Link
-            href={`/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+            href={`/fashion-lifestyle/type/${slugify(navItem?.type_name)}_${
               navItem?.type_id
             }`}
             onClick={() => setActiveMenu(null)}
@@ -85,7 +85,7 @@ const NavRow = ({
                           onMouseLeave={() => setHoveredCategory(null)}
                         >
                           <Link
-                            href={`/fashion_lifestyle/subcat/${slugify(
+                            href={`/fashion-lifestyle/category/${slugify(
                               navItem?.type_name
                             )}_${cat?.type_id}_${slugify(cat?.name)}_${
                               cat?.category_id
@@ -100,7 +100,7 @@ const NavRow = ({
                             {cat?.subcategories?.map((subcat) => (
                               <li key={subcat?.id}>
                                 <Link
-                                  href={`/fashion_lifestyle/category/${slugify(
+                                  href={`/fashion-lifestyle/subcategory/${slugify(
                                     navItem?.type_name
                                   )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                     cat?.category_id

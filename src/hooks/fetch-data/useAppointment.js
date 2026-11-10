@@ -1,17 +1,16 @@
-import axios from "axios";
-import { useState } from "react";
+import { getApiClient } from "@/lib/apiClient";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 import { BOOK_APPOINTMENT } from "@/api-endpoints/api-endpoint";
-
-axios.defaults.withCredentials = true;
 
 export const useAppointment = () => {
   const [message, setMessage] = useState("");
   const [progressing, setProgressing] = useState(false);
+  const requestInFlight = useRef(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isAppointmentBooked, setIsAppointmentBooked] = useState(false);
@@ -21,33 +20,33 @@ export const useAppointment = () => {
 
   const { userInfo, patientInfo } = useSelector((state) => state.user);
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
-  const bookAppointment = (bookAppoinmentData) => {
+  const bookAppointment = (appointmentData) => {
+    // Ignore repeat clicks while the request is still in flight.
+    if (requestInFlight.current) return Promise.resolve(false);
+    requestInFlight.current = true;
     setProgressing(true);
     const {
       doctor_name,
       doctor_speciality,
       consultation_center_name,
       appointment_day,
-      ...bookAppoinmentInfo
-    } = bookAppoinmentData;
+      ...appointmentInfo
+    } = appointmentData;
 
-    bookAppoinmentInfo.createdBy = {
+    appointmentInfo.createdBy = {
       user_id: userInfo?._id,
       user: userInfo?.contact_no.slice(-11),
       user_type: "Customer",
     };
 
-    Axios.post(BOOK_APPOINTMENT, bookAppoinmentInfo)
+    // Resolves to true when the appointment was booked.
+    return Axios.post(BOOK_APPOINTMENT, appointmentInfo)
+      .finally(() => {
+        requestInFlight.current = false;
+      })
       .then((response) => {
-        // console.log("response : ", response);
 
         if (response?.data?.success) {
           setShowSuccessMessage(true);
@@ -66,7 +65,7 @@ export const useAppointment = () => {
 
           saveAppoinmentInfo("add", {
             ...response?.data?.result,
-            ...bookAppoinmentData,
+            ...appointmentData,
           });
 
           router.push("/medical-services/doctor/booked-appointment");
@@ -88,25 +87,21 @@ export const useAppointment = () => {
         setMessage(response?.data?.message);
 
         setProgressing(false);
+        return Boolean(response?.data?.success);
       })
       .catch((error) => {
-        // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
         toast.error("কিছু একটা ভুল হয়েছে! পরে আবার চেষ্টা করুন!");
+        return false;
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
-  const saveAppoinmentInfo = (task, bookAppoinmentData) => {
+  const saveAppoinmentInfo = (task, appointmentData) => {
     dispatch(
       handleUserReducer({
         type: "UPDATE_BOOKED_APPOINTMENT_INFO",
-        data: { action: task, appoinmentData: bookAppoinmentData },
+        data: { action: task, appoinmentData: appointmentData },
       })
     );
   };

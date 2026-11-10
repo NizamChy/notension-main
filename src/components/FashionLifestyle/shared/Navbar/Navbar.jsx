@@ -52,7 +52,7 @@ const Navbar = () => {
   }
 
   const handleLogoClick = () => {
-    const basePath = `/fashion_lifestyle/shop/${params?.shopSlugId}`;
+    const basePath = `/fashion-lifestyle/shop/${params?.shopSlugId}`;
     const currentPath = window.location.pathname;
 
     if (currentPath.startsWith(basePath) && currentPath !== basePath) {
@@ -60,14 +60,14 @@ const Navbar = () => {
     }
 
     if (currentPath === basePath) {
-      return router.push("/fashion_lifestyle");
+      return router.push("/fashion-lifestyle");
     }
 
-    if (currentPath === "/fashion_lifestyle") {
+    if (currentPath === "/fashion-lifestyle") {
       return router.push("/");
     }
 
-    router.push("/fashion_lifestyle");
+    router.push("/fashion-lifestyle");
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -143,11 +143,6 @@ const Navbar = () => {
             </button>
 
             {pathname?.includes("shop") ? (
-              // <button onClick={handleLogoClick}>
-              //   <p className="text-4xl capitalize font-bold italic text-primary">
-              //     {shopFirstWord}
-              //   </p>
-              // </button>
               <button onClick={handleLogoClick}>
                 <p className="capitalize italic text-primary font-bold">
                   <span className="text-lg md:text-4xl">{shopWords[0]}</span>
@@ -199,7 +194,7 @@ const Navbar = () => {
                   )}
                 </button>
 
-                <Link href="/fashion_lifestyle/wishlist">
+                <Link href="/fashion-lifestyle/wishlist">
                   <button className="hidden lg:flex flex-col items-center text-sm hover:text-primary relative">
                     <IoMdHeartEmpty className="text-xl mb-1" />
                     <span className="hidden lg:block text-xs">Wishlist</span>

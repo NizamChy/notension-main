@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   SEARCH_MEDICINE_ITEMS,
@@ -8,12 +8,10 @@ import {
   MEDICINE_ITEMS_BY_SUBTYPE,
   MEDICINE_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { MEDICINE_URL } from "@/api-endpoints/secret";
+import { MEDICINE_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
-
-axios.defaults.withCredentials = true;
 
 export const useMedicine = () => {
   const [message, setMessage] = useState("");
@@ -36,13 +34,7 @@ export const useMedicine = () => {
     (state) => state.itemsByStore
   );
 
-  const Axios = axios.create({
-    baseURL: MEDICINE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(MEDICINE_URL);
 
   const setCurrentModule = () => {
     dispatch(
@@ -60,12 +52,6 @@ export const useMedicine = () => {
       //setProductInfo(items);
       setProductInfo((prevInfo) => [...prevInfo, ...items]);
     }
-    // dispatch(
-    //     handleItemsByStoreReducer({
-    //         type: 'SAVE_PRODUCT_INFO',
-    //         data: items,
-    //     })
-    // );
   };
 
   const resetReducer = () => {
@@ -96,19 +82,12 @@ export const useMedicine = () => {
 
     Axios.post(NEAREST_MEDICINE_STORE, props)
       .then((response) => {
-        //console.log(response.data);
         setNearestInfo(response.data.result);
         setProgressing(false);
       })
       .catch((error) => {
-        //console.log('Error : ', error.response)
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const handleSearchStore = (searchText, setNearestInfo) => {
@@ -127,11 +106,6 @@ export const useMedicine = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 
@@ -148,7 +122,6 @@ export const useMedicine = () => {
       },
     })
       .then((res) => {
-        //console.log('res?.data?.result?.ShopDetails[0]?.is_closed', res?.data?.result?.ShopDetails[0]?.is_closed);
         if (
           res?.data?.result?.ShopDetails[0]?.is_closed ||
           !res?.data?.result?.ShopDetails[0]?.is_active ||
@@ -174,7 +147,6 @@ export const useMedicine = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 
@@ -249,13 +221,11 @@ export const useMedicine = () => {
       params: parameter,
     })
       .then((res) => {
-        //console.log(res?.data?.result);
 
         if (res?.data?.result?.length > 0) {
           setProgressing(false);
           setPageNo(pageNo + 1);
           saveItemsToReducer(res?.data?.result);
-          // console.log(res?.data?.result);
         }
 
         if (pageNo === 1 && res?.data?.result?.length < 1) {

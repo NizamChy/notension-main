@@ -1,4 +1,5 @@
 import React from "react";
+import { lineTotal } from "@/utils/price";
 import Image from "next/image";
 import { IoIosCall } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -115,7 +116,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                   <td className="px-4 py-2 text-right">
                     <span className="flex justify-end items-center gap-1">
                       <TbCurrencyTaka />
-                      {(item?.sale_price * item?.quantity).toFixed(2)}
+                      {lineTotal(item).toFixed(2)}
                     </span>
                   </td>
                 </tr>

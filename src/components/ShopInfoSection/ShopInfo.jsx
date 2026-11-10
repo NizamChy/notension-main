@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { BsShop } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { IMAGE_URL } from "@/api-endpoints/secret";
+import { IMAGE_URL } from "@/api-endpoints/env";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 
 const ShopInfo = () => {

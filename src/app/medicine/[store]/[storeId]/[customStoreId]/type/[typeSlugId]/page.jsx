@@ -1,13 +1,11 @@
 import React from "react";
-import TypeSection from "@/components/Medicine/TypeSection/TypeSection";
+import TypeSection from "@/components/StoreModule/TypeSection";
 
-const page = async ({ params }) => {
-  const { id } = await params;
-  const typeId = id || null;
-
+// TypeSection reads `typeSlugId` itself via useParams().
+const page = () => {
   return (
     <>
-      <TypeSection typeId={typeId} />
+      <TypeSection moduleName="medicine" />
     </>
   );
 };

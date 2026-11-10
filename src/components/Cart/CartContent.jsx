@@ -2,40 +2,40 @@
 
 import React from "react";
 import EmptyCart from "./EmptyCart";
+import CartItems from "./CartItems";
+import CartSummary from "./CartSummary";
 import { useSelector } from "react-redux";
-import FoodCartItems from "./FoodCartItems";
-import FoodCartSummary from "./FoodCartSummary";
+import { CART_MODULES } from "./cartModules";
 import { TbCurrencyTaka } from "react-icons/tb";
-import GroceryCartItems from "./GroceryCartItems";
-import MedicineCartItems from "./MedicineCartItems";
-import GroceryCartSummary from "./GroceryCartSummary";
-import MedicineCartSummary from "./MedicineCartSummary";
+import { toNumber } from "@/utils/price";
+
+// Stable empty list so the selector does not return a new array each call.
+const NO_ITEMS = [];
 
 const CartContent = ({
   handleCheckout,
   getPrimaryClass,
   getSecondaryClass,
 }) => {
-  const {
-    foodItems,
-    groceryItems,
-    medicineItems,
-    totalAmountFood,
-    totalAmountGrocery,
-    totalAmountMedicine,
-  } = useSelector((state) => state.cart);
-
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule?.toLowerCase();
+  const moduleName = currentModule?.toLowerCase();
+  const config = CART_MODULES[moduleName];
+
+  const items = useSelector((state) =>
+    config ? state.cart[config.itemsKey] : NO_ITEMS
+  );
+  const total = useSelector((state) =>
+    config ? state.cart[config.totalKey] : 0
+  );
+
+  const hasItems = items?.length > 0;
 
   return (
     <>
       <div className="p-4 flex-grow overflow-y-scroll no-scrollbar">
         <EmptyCart />
 
-        {module === "food" && <FoodCartItems />}
-        {module === "grocery" && <GroceryCartItems />}
-        {module === "medicine" && <MedicineCartItems />}
+        {config && <CartItems key={moduleName} moduleName={moduleName} />}
       </div>
 
       <div className="p-4 border-t">
@@ -43,37 +43,19 @@ const CartContent = ({
           <span className="font-semibold">Subtotal</span>
           <span className="font-semibold flex items-center">
             <TbCurrencyTaka />
-            {module === "food" && (
-              <span>{totalAmountFood?.toFixed(2) || 0}</span>
-            )}
-            {module === "grocery" && (
-              <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
-            )}
-            {module === "medicine" && (
-              <span>{totalAmountMedicine?.toFixed(2) || 0}</span>
-            )}
+            {config && <span>{toNumber(total).toFixed(2)}</span>}
           </span>
         </div>
 
         <div className="mb-4">
-          {module === "grocery" && groceryItems?.length > 0 && (
-            <GroceryCartSummary />
+          {config && hasItems && (
+            <CartSummary key={moduleName} moduleName={moduleName} />
           )}
-
-          {module === "medicine" && medicineItems?.length > 0 && (
-            <MedicineCartSummary />
-          )}
-
-          {module === "food" && foodItems?.length > 0 && <FoodCartSummary />}
         </div>
 
         <button
           onClick={handleCheckout}
-          disabled={
-            (module === "food" && foodItems?.length == 0) ||
-            (module === "grocery" && groceryItems?.length == 0) ||
-            (module === "medicine" && medicineItems?.length == 0)
-          }
+          disabled={!!config && !hasItems}
           className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none transition-colors duration-200 text-white py-2 rounded-lg ${getPrimaryClass()}`}
         >
           Checkout

@@ -16,7 +16,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "../shared/Cart/CartDrawer";
 import { useDispatch, useSelector } from "react-redux";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 
 const ProductDetailSection = () => {
@@ -59,45 +59,6 @@ const ProductDetailSection = () => {
   };
 
   const handleAddToCart = () => {
-    // if (detailImages?.length > 0 && !selectedImage) {
-    //   toast.dismiss();
-    //   toast("Please select color!", {
-    //     icon: "ℹ️",
-    //     style: {
-    //       border: "1px solid #2C3E50",
-    //       padding: "10px",
-    //       color: "#2C3E50",
-    //     },
-    //     iconTheme: {
-    //       primary: "#713200",
-    //       secondary: "#FFFAEE",
-    //     },
-    //   });
-    //   return;
-    // }
-
-    // if (
-    //   product?.colors !== "null" &&
-    //   product?.colors !== "" &&
-    //   product?.colors !== "undefined" &&
-    //   product?.colors?.length > 0 &&
-    //   !selectedColor
-    // ) {
-    //   toast.dismiss();
-    //   toast("Please select color!", {
-    //     icon: "ℹ️",
-    //     style: {
-    //       border: "1px solid #2C3E50",
-    //       padding: "10px",
-    //       color: "#2C3E50",
-    //     },
-    //     iconTheme: {
-    //       primary: "#713200",
-    //       secondary: "#FFFAEE",
-    //     },
-    //   });
-    //   return;
-    // }
 
     if (
       product?.sizes !== "null" &&
@@ -455,7 +416,7 @@ const ProductDetailSection = () => {
               </p>
 
               <Link
-                href={`/fashion_lifestyle/shop/${slugify(
+                href={`/fashion-lifestyle/shop/${slugify(
                   product?.store_info?.shop_name
                 )}_${product?.store_info?._id}`}
               >

@@ -1,5 +1,5 @@
 import React from 'react';
-import './single-round-loder.css';
+import './single-round-loader.css';
 
 const SingleRoundLoader = () => {
   return <span className="loader"></span>;

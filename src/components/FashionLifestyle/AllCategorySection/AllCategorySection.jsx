@@ -3,6 +3,7 @@
 import React from "react";
 import CategoryItems from "./CategoryItems";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
+import Title from "../CategorySection/Title";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const AllCategorySection = () => {

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_FOOD_STORE,
   NEAREST_FOOD_STORE,
@@ -6,12 +6,10 @@ import {
   EXPLORE_FOOD_MODULE,
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
-import { FOOD_URL } from "@/api-endpoints/secret";
+import { FOOD_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
-
-axios.defaults.withCredentials = true;
 
 export const useFood = () => {
   const [progressing, setProgressing] = useState(false);
@@ -22,13 +20,7 @@ export const useFood = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: FOOD_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(FOOD_URL);
 
   const resetReducer = () => {
     dispatch(
@@ -65,14 +57,8 @@ export const useFood = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        //console.log('Error : ', error.response)
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getNearestFoodStoreInfo = (setNearestInfo, data) => {
@@ -92,14 +78,8 @@ export const useFood = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        //console.log('Error : ', error.response)
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const handleSearchStore = (searchText, setNearestInfo, data) => {
@@ -119,11 +99,6 @@ export const useFood = () => {
           setProgressing(false);
         });
 
-      setTimeout(() => {
-        if (progressing) {
-          setProgressing(false);
-        }
-      }, 10000);
     }
   };
 
@@ -138,7 +113,6 @@ export const useFood = () => {
       },
     })
       .then((res) => {
-        // console.log("res?.data?.result", res?.data?.result);
 
         if (
           res?.data?.result?.shopDetails[0]?.is_closed ||
@@ -147,12 +121,6 @@ export const useFood = () => {
         ) {
           alert("Sorry we're closed !!", "See you tomorrow !!");
         } else {
-          // dispatch(
-          //   handleDashboardReducer({
-          //     type: "EXPLORE_STORE",
-          //     data: res?.data?.result[0],
-          //   })
-          // );
 
           dispatch(
             handleItemsByStoreReducer({
@@ -169,7 +137,6 @@ export const useFood = () => {
           );
         }
 
-        // console.log(
         //   "res?.data?.result?.shopDetails : ",
         //   res?.data?.result?.shopDetails
         // );
@@ -178,7 +145,6 @@ export const useFood = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
   };
 

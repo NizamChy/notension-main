@@ -1,3 +1,7 @@
+export const MEN_TYPE_ID = "6880c239098c458993b32675";
+export const WOMEN_TYPE_ID = "6880c244098c458993b32677";
+export const KIDS_TYPE_ID = "6880c24c098c458993b32679";
+
 export const FASHION_CAROUSEL_SLIDES = [
   {
     id: 1,

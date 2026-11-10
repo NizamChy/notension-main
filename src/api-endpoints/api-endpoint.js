@@ -1,4 +1,4 @@
-import { IMAGE_URL } from "./secret";
+import { IMAGE_URL } from "./env";
 
 export const GET_DASHBOARD_INFO = "/public-api/v1/admin/all-appdashboard-data";
 export const GET_DISTRICT_INFO = "/public-api/v1/admin/all-district";
@@ -6,8 +6,8 @@ export const GET_DISTRICT_AREA_INFO =
   "/public-api/v1/admin/all-districtarea/:id";
 export const GET_DISTRICT_SUB_AREA_INFO =
   "/public-api/v1/admin/all-districtsubarea/:id";
-export const USER_REGISTARTION = "/api/v1/customer/register";
-export const OTP_FOR_REGISTARTION = "/api/v1/customer/send-otp";
+export const USER_REGISTRATION = "/api/v1/customer/register";
+export const OTP_FOR_REGISTRATION = "/api/v1/customer/send-otp";
 export const GET_BANKING_OUTLET = "/public-api/v1/admin/nearest-banking-outlet";
 
 // FAVORITE

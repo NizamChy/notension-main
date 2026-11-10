@@ -156,7 +156,7 @@ const CheckoutSection = () => {
                 <span className="mt-1">
                   <MdContactPhone />
                 </span>
-                <span> Cotnact details</span>
+                <span> Contact details</span>
               </p>
 
               <p className="font-medium text-base ps-6 pt-1">

@@ -8,7 +8,7 @@ import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import Title from "../CategorySection/Title";
 import { FiShoppingCart } from "react-icons/fi";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 
@@ -49,19 +49,6 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
       </section>
     );
 
-  // if (isError) {
-  //   return (
-  //     <section className="lg:py-12 px-4 sm:px-6 lg:px-8 bg-white">
-  //       <div className="max-w-7xl mx-auto">
-  //         <Title title={title} />
-  //         <div className="text-center text-red-500 py-10">
-  //           Failed to load {title} products
-  //         </div>
-  //       </div>
-  //     </section>
-  //   );
-  // }
-
   if (!productInfo || productInfo?.length === 0) {
     return null;
   }
@@ -79,7 +66,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
           {displayedProducts?.map((product) => (
             <Link
               key={product?._id?.toString()}
-              href={`/fashion_lifestyle/shop/${
+              href={`/fashion-lifestyle/shop/${
                 params?.shopSlugId
               }/view-product/${slugify(product?.product_title_eng)}_${
                 product?._id

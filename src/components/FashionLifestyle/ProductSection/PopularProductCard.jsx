@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { slugify } from "../utils/slugify";
 import { FiShoppingCart } from "react-icons/fi";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 
 const PopularProductCard = ({ product }) => {
@@ -23,7 +23,7 @@ const PopularProductCard = ({ product }) => {
 
   return (
     <Link
-      href={`/fashion_lifestyle/view-product/${slugify(
+      href={`/fashion-lifestyle/view-product/${slugify(
         product?.product_title_eng
       )}_${product?._id}`}
       onClick={() => handleProductClick(product)}

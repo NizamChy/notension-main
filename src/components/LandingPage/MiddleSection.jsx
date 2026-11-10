@@ -36,21 +36,12 @@ const MiddleSection = () => {
 
   //   const isMobileDevice = window.innerWidth < 768;
 
-  //   if (!currentUserLocation?.districtId) {
-  //     if (isMobileDevice) {
-  //       router.push("/get-mobile-location");
-  //     } else {
-  //       handleOpenMapModal();
-  //     }
-  //     return;
-  //   }
-
   //   // if (!userInfo?._id) {
   //   //   return openModal();
   //   // }
 
   //   if (type === "medicalService") {
-  //     router.push("/medical-services/medical-service");
+  //     router.push("/medical-services");
   //   }
   // };
   const handleSectionClick = (e, type) => {
@@ -75,7 +66,7 @@ const MiddleSection = () => {
     // }
 
     if (type === "medicalService") {
-      router.push("/medical-services/medical-service");
+      router.push("/medical-services");
     } else if (type === "allCareServices") {
       router.push("/all-care-services");
     }

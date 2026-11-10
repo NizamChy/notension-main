@@ -1,7 +1,6 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
-const page = () => {
-  return <></>;
-};
-
-export default page;
+// This segment has no landing page of its own.
+export default function Page() {
+  redirect("/medical-services/search/search-center");
+}

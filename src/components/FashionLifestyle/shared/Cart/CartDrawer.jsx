@@ -27,7 +27,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
     if (!userInfo?._id) return openModal();
 
-    router.push("/fashion_lifestyle/checkout");
+    router.push("/fashion-lifestyle/checkout");
   };
 
   useEffect(() => {

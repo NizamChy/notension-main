@@ -9,7 +9,7 @@ import { slugify } from "../utils/slugify";
 import Title from "../CategorySection/Title";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
@@ -78,7 +78,7 @@ const AllCategoriesSlider = () => {
               className="group relative rounded-lg transition-shadow duration-300"
             >
               <Link
-                href={`/fashion_lifestyle/subcat/all_${
+                href={`/fashion-lifestyle/category/all_${
                   category?.type_info
                 }_${slugify(category?.category_name)}_${category?._id}`}
                 className="flex flex-col items-center"

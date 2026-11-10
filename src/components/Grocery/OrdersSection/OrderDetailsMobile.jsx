@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { lineTotal } from "@/utils/price";
 import { useSelector } from "react-redux";
 import { IoIosCall } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -132,7 +133,7 @@ const OrderDetailsMobile = ({ orderId }) => {
                       <td className="px-4 py-2 text-right">
                         <span className="flex justify-end items-center gap-1">
                           <TbCurrencyTaka />
-                          {(item.sale_price * item.quantity).toFixed(2)}
+                          {lineTotal(item).toFixed(2)}
                         </span>
                       </td>
                     </tr>

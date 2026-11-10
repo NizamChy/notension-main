@@ -1,6 +1,12 @@
 import React from "react";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 
+export const metadata = {
+  title: "Login",
+  description:
+    "Log in to NoTension with your mobile number.",
+};
+
 const page = () => {
   return (
     <div className="min-h-content flex justify-center items-center mt-20">

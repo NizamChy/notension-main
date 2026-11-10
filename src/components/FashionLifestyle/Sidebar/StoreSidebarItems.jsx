@@ -122,7 +122,7 @@ const StoreSidebarItems = ({ onClose }) => {
                           {cat?.subcategories?.map((subcat) => (
                             <li key={subcat?.id}>
                               <Link
-                                href={`/fashion_lifestyle/shop/${shopSlugId}/category/${slugify(
+                                href={`/fashion-lifestyle/shop/${shopSlugId}/category/${slugify(
                                   navItem?.type_name
                                 )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                   cat?.category_id
@@ -146,7 +146,7 @@ const StoreSidebarItems = ({ onClose }) => {
       </div>
       <div className="p-4">
         <div className="flex flex-col space-y-4">
-          <Link href="/fashion_lifestyle/user/profile">
+          <Link href="/fashion-lifestyle/user/profile">
             <button
               onClick={() => onClose()}
               className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
@@ -156,7 +156,7 @@ const StoreSidebarItems = ({ onClose }) => {
             </button>
           </Link>
 
-          <Link href="/fashion_lifestyle/wishlist">
+          <Link href="/fashion-lifestyle/wishlist">
             <button
               onClick={() => onClose()}
               className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"

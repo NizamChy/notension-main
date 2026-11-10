@@ -24,7 +24,7 @@ const SearchedMedicalCenters = () => {
     <>
       <div className="mx-auto px-4 lg:px-24 py-6">
         <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
-          Found for <span className="text-gray-700">"{searchText}"</span>
+          Found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
         </h4>
 
         {!progressing && centerInfo?.length < 1 && (

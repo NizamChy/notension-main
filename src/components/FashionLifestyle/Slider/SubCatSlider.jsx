@@ -9,13 +9,13 @@ import { slugify } from "../utils/slugify";
 import { useParams } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const SubCatSlider = () => {
   const params = useParams();
-  const typeCatSubIdSlug = params?.category;
+  const typeCatSubIdSlug = params?.subcategorySlugId;
 
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
@@ -86,7 +86,7 @@ const SubCatSlider = () => {
             >
               <div className="group rounded-lg relative transition-all duration-300 pt-2">
                 <Link
-                  href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                  href={`/fashion-lifestyle/subcategory/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                     category?.sub_category_name
                   )}_${category?._id}`}
                   className="block"

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { slugify } from "../../utils/slugify";
 import { BsChevronDown } from "react-icons/bs";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const StoreNavRow = ({
   navItems,
@@ -33,7 +33,7 @@ const StoreNavRow = ({
           }}
         >
           <button
-            // href={`/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+            // href={`/fashion-lifestyle/type/${slugify(navItem?.type_name)}_${
             //   navItem?.type_id
             // }`}
             onClick={() => setActiveMenu(null)}
@@ -57,11 +57,6 @@ const StoreNavRow = ({
                           onMouseLeave={() => setHoveredCategory(null)}
                         >
                           <button
-                            // href={`/fashion_lifestyle/subcat/${slugify(
-                            //   navItem?.type_name
-                            // )}_${cat?.type_id}_${slugify(cat?.name)}_${
-                            //   cat?.category_id
-                            // }`}
                             onClick={() => setActiveMenu(null)}
                           >
                             <h3 className="font-bold text-sm text-blue-800 capitalize">
@@ -74,7 +69,7 @@ const StoreNavRow = ({
                                 key={`${subcat?.id}-${subcat?.name}-${index}`}
                               >
                                 <Link
-                                  href={`/fashion_lifestyle/shop/${shopSlugId}/category/${slugify(
+                                  href={`/fashion-lifestyle/shop/${shopSlugId}/category/${slugify(
                                     navItem?.type_name
                                   )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                     cat?.category_id

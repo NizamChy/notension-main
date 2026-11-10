@@ -1,28 +1,21 @@
-import axios from "axios";
-import { useState } from "react";
+import { getApiClient } from "@/lib/apiClient";
+import { useRef, useState } from "react";
 import {
   GROCERY_ORDER_INFO,
   GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import toast from "react-hot-toast";
-import { GROCERY_URL } from "@/api-endpoints/secret";
+import { GROCERY_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: GROCERY_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(GROCERY_URL);
 
 export const useOrderGrocery = () => {
   const [progressing, setProgressing] = useState(false);
+  const orderInFlight = useRef(false);
 
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
@@ -82,9 +75,15 @@ export const useOrderGrocery = () => {
   };
 
   const placeOrder = (itemOrderObj) => {
+    // Ignore repeat clicks while an order request is still in flight.
+    if (orderInFlight.current) return;
+    orderInFlight.current = true;
     setProgressing(true);
 
     Axios.post(GROCERY_PLACE_ORDER, itemOrderObj)
+      .finally(() => {
+        orderInFlight.current = false;
+      })
       .then((res) => {
         if (res.data.success) {
           toast.success("Order has been placed!", {
@@ -139,14 +138,8 @@ export const useOrderGrocery = () => {
         );
       })
       .catch((error) => {
-        // console.log("Error : ", error.response);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

@@ -1,5 +1,5 @@
 import React from "react";
-import CustomTypeSection from "@/components/Medicine/CustomTypeSection/CustomTypeSection";
+import CustomTypeSection from "@/components/StoreModule/CustomTypeSection";
 
 const page = async ({ params }) => {
   const { id } = await params;
@@ -7,7 +7,7 @@ const page = async ({ params }) => {
 
   return (
     <>
-      <CustomTypeSection customTypeId={customTypeId} />
+      <CustomTypeSection moduleName="medicine" customTypeId={customTypeId} />
     </>
   );
 };

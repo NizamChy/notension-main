@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 import { slugify } from "../utils/slugify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
@@ -75,7 +75,7 @@ const AllTypesSlider = () => {
                 className="group relative rounded-lg transition-shadow duration-300"
               >
                 <Link
-                  href={`/fashion_lifestyle/cat/${slugify(type?.type_name)}_${
+                  href={`/fashion-lifestyle/type/${slugify(type?.type_name)}_${
                     type?._id
                   }`}
                   className="block"

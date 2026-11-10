@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import GroceryItems from "../GroceryItems/GroceryItems";
 import NoItemFound from "@/components/common/NoItemFound";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ItemCardSkeleton from "../GroceryItems/ItemCardSkeleton";
+import ItemCardSkeleton from "@/components/StoreModule/ItemCardSkeleton";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
 
 const SearchedProducts = () => {
@@ -27,7 +27,7 @@ const SearchedProducts = () => {
     <>
       <div className="m-4 lg:m-20 pt-20 lg:pt-10">
         <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4">
-          Items found for <span className="text-gray-700">"{searchText}"</span>
+          Items found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
         </h4>
 
         {allLoaded && productInfo.length < 1 && <NoItemFound />}
@@ -35,7 +35,7 @@ const SearchedProducts = () => {
         {!allLoaded && productInfo.length < 1 && (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
             {Array.from({ length: 12 }).map((_, index) => (
-              <ItemCardSkeleton key={index} />
+              <ItemCardSkeleton moduleName="grocery" key={index} />
             ))}
           </div>
         )}
@@ -51,7 +51,7 @@ const SearchedProducts = () => {
               loader={
                 <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5 justify-center items-center">
                   {Array.from({ length: 6 }).map((_, index) => (
-                    <ItemCardSkeleton key={index} />
+                    <ItemCardSkeleton moduleName="grocery" key={index} />
                   ))}
                 </div>
               }

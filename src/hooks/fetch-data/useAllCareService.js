@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   EXPLORE_CARE_PROVIDER,
@@ -6,10 +6,8 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAllCareReducer } from "@/redux/allCareReducer";
-import { ALL_CARE_SERVICE_URL } from "@/api-endpoints/secret";
+import { ALL_CARE_SERVICE_URL } from "@/api-endpoints/env";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
-
-axios.defaults.withCredentials = true;
 
 export const useAllCareService = () => {
   const [allLoaded, setAllLoaded] = useState(false);
@@ -24,13 +22,7 @@ export const useAllCareService = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: ALL_CARE_SERVICE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(ALL_CARE_SERVICE_URL);
 
   const setCurrentModule = () => {
     dispatch(
@@ -62,7 +54,6 @@ export const useAllCareService = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        console.log(error);
       });
   };
 
@@ -84,7 +75,6 @@ export const useAllCareService = () => {
 
     Axios.post(EXPLORE_CARE_PROVIDER, props)
       .then((response) => {
-        // console.log("EXPLORE_CARE_PROVIDER : ", response?.data?.result);
 
         if (response?.data?.result?.nearestCareProvider) {
           setPopularInfo(response?.data?.result?.careProviderByDistrict);
@@ -96,14 +86,8 @@ export const useAllCareService = () => {
         setProgressing(false);
       })
       .catch((error) => {
-        console.log("Error : ", error.response.data);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

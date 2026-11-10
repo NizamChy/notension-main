@@ -22,7 +22,7 @@ const ProductByCategory = () => {
   const [selectedSleeveLengths, setSelectedSleeveLengths] = useState([]);
 
   const params = useParams();
-  const typeCatSubIdSlug = params?.category;
+  const typeCatSubIdSlug = params?.subcategorySlugId;
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
 
@@ -95,20 +95,6 @@ const ProductByCategory = () => {
 
   //   let filtered = [...kidsProductsByCatId];
 
-  //   // Segment filter
-  //   if (selectedSegments.length) {
-  //     filtered = filtered.filter((item) =>
-  //       selectedSegments.includes(item?.sub_category_info?._id)
-  //     );
-  //   }
-
-  //   // Price filter
-  //   filtered = filtered.filter(
-  //     (product) =>
-  //       product.sale_price >= priceRange[0] &&
-  //       product.sale_price <= priceRange[1]
-  //   );
-
   //   setFilteredProducts(filtered);
   // }, [kidsProductsByCatId, selectedSegments, priceRange]);
 
@@ -154,7 +140,7 @@ const ProductByCategory = () => {
 
       <main className="py-4 lg:py-8 px-4">
         <h1 className="md:text-2xl font-semibold text-gray-700 capitalize lg:mb-8 flex items-center">
-          <Link href={`/fashion_lifestyle/cat/${typeSlug}_${typeId}`}>
+          <Link href={`/fashion-lifestyle/type/${typeSlug}_${typeId}`}>
             <span className="flex items-center text-gray-800 hover:text-blue-600">
               {typeSlug?.replace(/-/g, " ")}{" "}
               <MdKeyboardArrowRight className="text-gray-500" />
@@ -162,7 +148,7 @@ const ProductByCategory = () => {
           </Link>
 
           <Link
-            href={`/fashion_lifestyle/subcat/${typeSlug}_${typeId}_${catSlug}_${catId}`}
+            href={`/fashion-lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}`}
           >
             <span className="flex items-center text-gray-700 hover:text-blue-600">
               {catSlug?.replace(/-/g, " ")}{" "}

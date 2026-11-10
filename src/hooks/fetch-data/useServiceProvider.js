@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getApiClient } from "@/lib/apiClient";
 import {
   EXPLORE_CONSULTATION_CENTER,
   NEAREST_CONSULTATION_CENTER,
@@ -8,10 +8,8 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HEALTH_CARE_URL } from "@/api-endpoints/secret";
+import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
-
-axios.defaults.withCredentials = true;
 
 export const useServiceProvider = () => {
   const [banner, setBanner] = useState([]);
@@ -31,13 +29,7 @@ export const useServiceProvider = () => {
     (state) => state.user
   );
 
-  const Axios = axios.create({
-    baseURL: HEALTH_CARE_URL,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const Axios = getApiClient(HEALTH_CARE_URL);
 
   const exploreMedicalServiceProvider = (setProviderBanner) => {
     setProgressing(true);
@@ -52,13 +44,7 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getMedicalServiceProvider = (serviceType, setProviderInfo) => {
@@ -70,7 +56,6 @@ export const useServiceProvider = () => {
       },
     })
       .then((res) => {
-        //console.log(res?.data?.result?.length);
         if (res?.data?.result?.length < 1) {
           setMessage("This Service not available in your region!!");
         } else {
@@ -82,13 +67,7 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getNearestCenterInfo = (centerType, setCenterInfo) => {
@@ -102,19 +81,12 @@ export const useServiceProvider = () => {
 
     Axios.post(NEAREST_CONSULTATION_CENTER, props)
       .then((response) => {
-        //console.log(response.data);
         setCenterInfo(response.data.result);
         setProgressing(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   const getCenterInfoByDistrict = (
@@ -171,16 +143,9 @@ export const useServiceProvider = () => {
         setLoadingMore(false);
       })
       .catch((error) => {
-        // console.log("Error : ", error.response.data);
         setProgressing(false);
         setAllLoaded(true);
       });
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-        setAllLoaded(true);
-      }
-    }, 10000);
   };
 
   const exploreConsultationCenter = (centerInfo, setExploreInfo) => {
@@ -202,14 +167,8 @@ export const useServiceProvider = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log(error);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

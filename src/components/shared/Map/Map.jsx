@@ -64,10 +64,6 @@ const Map = ({ onCloseModal = false }) => {
     router.push("/");
   };
 
-  // console.log("curLoc:", curLoc);
-  // console.log("all districts:", districts);
-  // console.log("userLocation:", userLocation);
-  // console.log("currentUserLocation from redux:", currentUserLocation);
 
   useEffect(() => {
     setIsMapLoading(true);
@@ -87,8 +83,6 @@ const Map = ({ onCloseModal = false }) => {
                 longitude
               );
 
-              // console.log("latitude", latitude);
-              // console.log("longitude", longitude);
 
               const mapOptions = {
                 center: currentLocation,
@@ -113,7 +107,6 @@ const Map = ({ onCloseModal = false }) => {
                 { location: currentLocation },
                 (results, status) => {
                   if (status === "OK" && results[0]) {
-                    // console.log("Current Location Details:", results[0]);
 
                     const addressComponents = results[0].address_components;
                     const getAddressPart = (type) =>
@@ -137,15 +130,10 @@ const Map = ({ onCloseModal = false }) => {
                           new RegExp(district?.split(" ")[0], "ui")
                         ) // Case-insensitive, Unicode search
                     );
-                    // console.log(searchInfo);
 
                     setSearchInfo(searchInfo);
 
-                    // console.log("Current Location District:", district);
-                    // console.log("Current Location City:", city);
-                    // console.log("Current Location Country:", country);
                   } else {
-                    // console.error("Geocoder failed:", status);
                   }
                 }
               );
@@ -212,7 +200,6 @@ const Map = ({ onCloseModal = false }) => {
           map.setCenter(location);
           map.setZoom(18);
 
-          // console.log("Searched Location Details:", place);
 
           const addressComponents = place.address_components;
           const getAddressPart = (type) =>
@@ -222,15 +209,11 @@ const Map = ({ onCloseModal = false }) => {
 
           const district = getAddressPart("administrative_area_level_2");
 
-          // console.log("district   ======  ", district);
 
           const city =
             getAddressPart("locality") || getAddressPart("political");
           const country = getAddressPart("country");
 
-          // console.log("Searched Location District:", district);
-          // console.log("Searched Location City:", city);
-          // console.log("Searched Location Country:", country);
 
           setCurLoc({ latitude, longitude });
 
@@ -243,7 +226,6 @@ const Map = ({ onCloseModal = false }) => {
                 new RegExp(district?.split(" ")[0], "ui")
               )
           );
-          // console.log(searchInfo);
 
           setSearchInfo(searchInfo);
         } else {

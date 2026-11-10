@@ -1,10 +1,10 @@
 import React from "react";
-import GrocerySearchedStores from "@/components/Grocery/GrocerySearchStore/GrocerySearchedStores";
+import SearchedStores from "@/components/StoreModule/SearchedStores";
 
 const page = () => {
   return (
     <>
-      <GrocerySearchedStores />
+      <SearchedStores moduleName="grocery" />
     </>
   );
 };

@@ -55,7 +55,7 @@ const LoginDropdown = ({
                 </li>
                 <li className="px-3 hover:underline hover:text-blue-600">
                   <Link
-                    href="/fashion_lifestyle/user/profile"
+                    href="/fashion-lifestyle/user/profile"
                     className="flex items-center gap-1"
                   >
                     <span>
@@ -67,7 +67,7 @@ const LoginDropdown = ({
 
                 <li className="px-3 hover:underline hover:text-blue-600">
                   <Link
-                    href="/fashion_lifestyle/user/update-address"
+                    href="/fashion-lifestyle/user/update-address"
                     className="flex items-center gap-1"
                   >
                     <span>
@@ -79,7 +79,7 @@ const LoginDropdown = ({
 
                 <li className="px-3 hover:underline hover:text-blue-600">
                   <Link
-                    href="/fashion_lifestyle/orders"
+                    href="/fashion-lifestyle/orders"
                     className="flex items-center gap-1"
                   >
                     <span>

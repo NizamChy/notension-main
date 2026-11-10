@@ -9,6 +9,37 @@ const nextConfig = {
       },
     ],
   },
+  // Old URLs -> new URLs (routes were renamed; keep bookmarks/SEO working).
+  // Specific rules must come before the catch-all fashion rule.
+  async redirects() {
+    return [
+      {
+        source: "/fashion_lifestyle/cat/:slug",
+        destination: "/fashion-lifestyle/type/:slug",
+        permanent: true,
+      },
+      {
+        source: "/fashion_lifestyle/subcat/:slug",
+        destination: "/fashion-lifestyle/category/:slug",
+        permanent: true,
+      },
+      {
+        source: "/fashion_lifestyle/category/:slug",
+        destination: "/fashion-lifestyle/subcategory/:slug",
+        permanent: true,
+      },
+      {
+        source: "/fashion_lifestyle/:path*",
+        destination: "/fashion-lifestyle/:path*",
+        permanent: true,
+      },
+      {
+        source: "/medical-services/medical-service",
+        destination: "/medical-services",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Title from "../CategorySection/Title";
-import { MEN_TYPE_ID } from "../utils/constant";
+import { MEN_TYPE_ID } from "../utils/constants";
 import PopularProductCard from "./PopularProductCard";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";

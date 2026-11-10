@@ -4,8 +4,8 @@ import Title from "./Title";
 import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "../utils/slugify";
-import { WOMEN_TYPE_ID } from "../utils/constant";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { WOMEN_TYPE_ID } from "../utils/constants";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
@@ -29,7 +29,7 @@ const WomensFashionCategory = () => {
         <div className="max-w-7xl mx-auto">
           <Title title="Women's Fashion Categories" />
           <div className="text-center text-red-500 py-10">
-            Failed to load women's categories
+            Failed to load women&apos;s categories
           </div>
         </div>
       </section>
@@ -52,7 +52,7 @@ const WomensFashionCategory = () => {
               className="group p-2 bg-white relative rounded-xl overflow-hidden transition-all duration-300"
             >
               <Link
-                href={`/fashion_lifestyle/subcat/women_${
+                href={`/fashion-lifestyle/category/women_${
                   category?.type_info
                 }_${slugify(category?.category_name)}_${category?._id}`}
                 className="block h-full"
@@ -83,11 +83,11 @@ const WomensFashionCategory = () => {
 
         <div className="mt-14 text-center">
           <Link
-            href={`/fashion_lifestyle/cat/women_${WOMEN_TYPE_ID}`}
+            href={`/fashion-lifestyle/type/women_${WOMEN_TYPE_ID}`}
             className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
             aria-label="Explore all women's collections"
           >
-            Explore All Women's Collections
+            Explore All Women&apos;s Collections
             <svg
               className="ml-2 w-4 h-4"
               fill="none"

@@ -22,7 +22,10 @@ export default function GroceryStoreLayout({ children }) {
 
       exploreStore(shop);
     }
-  }, []);
+    // Re-fetch when the user navigates to a different store; exploreStore is
+    // recreated on every render, so it is intentionally not a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params?.storeId, params?.customStoreId]);
 
   return (
     <>
@@ -41,7 +44,7 @@ export default function GroceryStoreLayout({ children }) {
               <Loader />
             </div>
           ) : (
-            <div className="min-h-content"> {children}</div>
+            <div className="min-h-content">{children}</div>
           )}
 
           <Footer />

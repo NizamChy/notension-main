@@ -139,7 +139,7 @@ const OrdersSection = () => {
                         <button
                           onClick={() =>
                             router.push(
-                              `/fashion_lifestyle/orders/${order?._id}`
+                              `/fashion-lifestyle/orders/${order?._id}`
                             )
                           }
                           className="mt-4 px-4 py-2 bg-secondary text-white rounded-lg"

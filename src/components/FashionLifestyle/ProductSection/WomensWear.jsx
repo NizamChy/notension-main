@@ -6,10 +6,10 @@ import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { slugify } from "../utils/slugify";
 import Title from "../CategorySection/Title";
-import { WOMEN_TYPE_ID } from "../utils/constant";
+import { WOMEN_TYPE_ID } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { FiShoppingCart, FiHeart } from "react-icons/fi";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
@@ -148,7 +148,7 @@ const WomensWear = () => {
           {displayedProducts?.map((product) => (
             <Link
               key={product?._id?.toString()}
-              href={`/fashion_lifestyle/view-product/${slugify(
+              href={`/fashion-lifestyle/view-product/${slugify(
                 product?.product_title_eng
               )}_${product?._id}`}
               onClick={() => handleProductClick(product)}

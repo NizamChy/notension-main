@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Notension | Medicine",
+  title: "Medicine",
   description:
-    "Online Shopping Site for Fashion & Lifestyle in Bangladesh. Bangladesh's Fashion Expert brings you a variety of footwear, Clothing, Accessories and lifestyle products.",
+    "Order medicines and healthcare products from nearby pharmacies with home delivery on NoTension.",
 };
 
 export default function MedicineLayout({ children }) {

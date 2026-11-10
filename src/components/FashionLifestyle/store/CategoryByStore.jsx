@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import Title from "../CategorySection/Title";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
@@ -92,7 +92,7 @@ const CategoryByStoreSlider = () => {
               className="group relative rounded-lg transition-shadow duration-300"
             >
               <Link
-                href={`/fashion_lifestyle/shop/${shopSlugId}/category/type_${
+                href={`/fashion-lifestyle/shop/${shopSlugId}/category/type_${
                   category?.type_info
                 }_category_${category?.category_info}_${slugify(
                   category?.sub_category_info?.sub_category_name

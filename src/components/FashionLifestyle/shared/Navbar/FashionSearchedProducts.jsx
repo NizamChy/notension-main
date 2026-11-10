@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { slugify } from "../../utils/slugify";
 import { useSearchParams } from "next/navigation";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 import { useCategoryItem } from "../../hooks/fetchData/useCategoryItem";
 import ProductCardSkeleton from "../SkeletonLoading/ProductCardSkeleton";
@@ -73,14 +73,14 @@ const FashionSearchedProducts = () => {
         <div className="max-w-7xl mx-auto">
           <h4 className="text-sm md:text-xl font-medium text-gray-500 pb-4 pt-12 lg:pt-0">
             Items found for{" "}
-            <span className="text-gray-700">"{searchText}"</span>
+            <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
           </h4>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {productInfo?.map((product) => (
               <Link
                 key={product?._id?.toString()}
-                href={`/fashion_lifestyle/view-product/${slugify(
+                href={`/fashion-lifestyle/view-product/${slugify(
                   product?.product_title_eng
                 )}_${product?._id}`}
                 onClick={() => handleProductClick(product)}

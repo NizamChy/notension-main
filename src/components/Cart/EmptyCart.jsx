@@ -10,12 +10,12 @@ const EmptyCart = () => {
   );
 
   const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const module = currentModule.toLowerCase();
+  const moduleName = currentModule.toLowerCase();
 
   const isCartEmpty =
-    (module === "food" && foodItems?.length === 0) ||
-    (module === "grocery" && groceryItems?.length === 0) ||
-    (module === "medicine" && medicineItems?.length === 0);
+    (moduleName === "food" && foodItems?.length === 0) ||
+    (moduleName === "grocery" && groceryItems?.length === 0) ||
+    (moduleName === "medicine" && medicineItems?.length === 0);
 
   if (!isCartEmpty) {
     return null;

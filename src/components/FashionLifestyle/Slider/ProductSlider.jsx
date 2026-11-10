@@ -9,7 +9,7 @@ import { slugify } from "../utils/slugify";
 import Title from "../CategorySection/Title";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleProductReducer } from "@/redux/productReducer";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
@@ -95,7 +95,7 @@ const ProductSlider = () => {
           {productInfo?.map((product) => (
             <SwiperSlide key={product?._id?.toString()}>
               <Link
-                href={`/fashion_lifestyle/view-product/${slugify(
+                href={`/fashion-lifestyle/view-product/${slugify(
                   product?.product_title_eng
                 )}_${product?._id}`}
                 onClick={() => handleProductClick(product)}

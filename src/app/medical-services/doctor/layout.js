@@ -3,9 +3,9 @@ import Navbar from "@/components/shared/Navbar/Navbar";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 
 export const metadata = {
-  title: "Notension | Find Doctor",
+  title: "Find Doctor",
   description:
-    "Online Shopping Site for Fashion & Lifestyle in Bangladesh. Bangladesh's Fashion Expert brings you a variety of footwear, Clothing, Accessories and lifestyle products.",
+    "Find doctors by department or location and book appointments online with NoTension.",
 };
 
 export default function DoctorLayout({ children }) {

@@ -32,7 +32,7 @@ const Footer = () => {
           <p className="text-xs md:text-sm leading-6 text-gray-700">
             NoTension is an ECommerce Online Service Provider. You can get all
             kinds of services like Grocery Stores, Medicine, Food, and more.
-            Doctor's appointments, nurses, ambulances, & blood donors are also
+            Doctor&apos;s appointments, nurses, ambulances, & blood donors are also
             available.
           </p>
           <div className="flex space-x-4 text-2xl text-gray-700">
@@ -100,7 +100,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="/fashion_lifestyle"
+                href="/fashion-lifestyle"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
               >
                 <FiChevronRight className="mr-2" />

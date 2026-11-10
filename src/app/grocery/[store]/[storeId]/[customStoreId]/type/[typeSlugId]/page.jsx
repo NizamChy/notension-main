@@ -1,10 +1,10 @@
 import React from "react";
-import TypeSection from "@/components/Grocery/TypeSection/TypeSection";
+import TypeSection from "@/components/StoreModule/TypeSection";
 
 const page = () => {
   return (
     <>
-      <TypeSection />
+      <TypeSection moduleName="grocery" />
     </>
   );
 };

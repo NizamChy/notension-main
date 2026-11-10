@@ -3,6 +3,12 @@ import Navbar from "@/components/shared/Navbar/Navbar";
 import LocationMobile from "@/components/shared/LocationModal/LocationMobile";
 import MedicalCenterSearchbar from "@/components/MedicalServices/SearchMedicalCenter/MedicalCenterSearchbar";
 
+export const metadata = {
+  title: "Search Medical Centers",
+  description:
+    "Search hospitals, diagnostic, eye care and dental care centers with NoTension.",
+};
+
 export default function SearchCenterLayout({ children }) {
   return (
     <>

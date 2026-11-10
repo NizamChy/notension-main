@@ -1,28 +1,21 @@
-import axios from "axios";
-import { useState } from "react";
+import { getApiClient } from "@/lib/apiClient";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
   MEDICINE_ORDER_INFO,
   MEDICINE_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import { MEDICINE_URL } from "@/api-endpoints/secret";
+import { MEDICINE_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 
-axios.defaults.withCredentials = true;
-
-const Axios = axios.create({
-  baseURL: MEDICINE_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+const Axios = getApiClient(MEDICINE_URL);
 
 export const useOrderMedicine = () => {
   const [progressing, setProgressing] = useState(false);
+  const orderInFlight = useRef(false);
 
   const [discount, setDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
@@ -82,9 +75,15 @@ export const useOrderMedicine = () => {
   };
 
   const placeOrder = (itemOrderObj) => {
+    // Ignore repeat clicks while an order request is still in flight.
+    if (orderInFlight.current) return;
+    orderInFlight.current = true;
     setProgressing(true);
 
     Axios.post(MEDICINE_PLACE_ORDER, itemOrderObj)
+      .finally(() => {
+        orderInFlight.current = false;
+      })
       .then((res) => {
         if (res.data.success) {
           toast.success("Order has been placed!", {
@@ -114,7 +113,6 @@ export const useOrderMedicine = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        // console.log("error:", error);
 
         toast.error("Failed to place order.");
       });
@@ -140,15 +138,9 @@ export const useOrderMedicine = () => {
         );
       })
       .catch((error) => {
-        // console.log("Error : ", error.response);
         setProgressing(false);
       });
 
-    setTimeout(() => {
-      if (progressing) {
-        setProgressing(false);
-      }
-    }, 10000);
   };
 
   return {

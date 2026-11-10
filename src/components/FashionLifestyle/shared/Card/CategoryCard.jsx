@@ -2,13 +2,13 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "../../utils/slugify";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/secret";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const CategoryCard = ({ category, typeName }) => {
   return (
     <div className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white">
       <Link
-        href={`/fashion_lifestyle/subcat/${slugify(typeName)}_${
+        href={`/fashion-lifestyle/category/${slugify(typeName)}_${
           category?.type_info
         }_${slugify(category?.category_name)}_${category?._id}`}
         className="block h-full"

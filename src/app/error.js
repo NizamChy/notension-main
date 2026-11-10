@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ErrorPage from "@/components/common/ErrorPage";
 
-const error = () => {
-  return (
-    <>
-      <ErrorPage />
-    </>
-  );
+const GlobalError = ({ error, reset }) => {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
+  return <ErrorPage onRetry={reset} />;
 };
 
-export default error;
+export default GlobalError;

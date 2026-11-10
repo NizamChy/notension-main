@@ -17,31 +17,6 @@ const SidebarItems = ({ onClose }) => {
 
   // const { navItems, isLoading } = useCategoryItem();
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="bg-white h-[90vh] flex justify-center items-center animate-pulse">
-  //       <div className="flex flex-col gap-5 justify-center items-center border-b h-10 animate-pulse">
-  //         {[...Array(6)].map((_, i) => (
-  //           <div
-  //             key={i}
-  //             className="min-h-8 border w-56 bg-gray-100 animate-pulse"
-  //           />
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // if (!navItems) {
-  //   return (
-  //     <div className="bg-white w-full h-[90vh] flex justify-center items-center">
-  //       <div className="relative hidden lg:flex justify-center items-center border-b h-12">
-  //         <p className="text-red-600">Something went wrong!</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="bg-white max-h-[90vh] overflow-y-auto">
       <div className="p-4 border-b">
@@ -57,7 +32,7 @@ const SidebarItems = ({ onClose }) => {
                       : navItem?.type_name
                   );
                   router.push(
-                    `/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+                    `/fashion-lifestyle/type/${slugify(navItem?.type_name)}_${
                       navItem?.type_id
                     }`
                   );
@@ -87,7 +62,7 @@ const SidebarItems = ({ onClose }) => {
                             activeCatMenu === cat?.name ? null : cat?.name
                           );
                           router.push(
-                            `/fashion_lifestyle/subcat/${slugify(
+                            `/fashion-lifestyle/category/${slugify(
                               navItem?.type_name
                             )}_${cat?.type_id}_${slugify(cat?.name)}_${
                               cat?.category_id
@@ -115,7 +90,7 @@ const SidebarItems = ({ onClose }) => {
                           {cat?.subcategories?.map((subcat) => (
                             <li key={subcat?.id}>
                               <Link
-                                href={`/fashion_lifestyle/category/${slugify(
+                                href={`/fashion-lifestyle/subcategory/${slugify(
                                   navItem?.type_name
                                 )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                   cat?.category_id
@@ -139,7 +114,7 @@ const SidebarItems = ({ onClose }) => {
       </div>
       <div className="p-4">
         <div className="flex flex-col space-y-4">
-          <Link href="/fashion_lifestyle/user/profile">
+          <Link href="/fashion-lifestyle/user/profile">
             <button
               onClick={() => onClose()}
               className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
@@ -149,7 +124,7 @@ const SidebarItems = ({ onClose }) => {
             </button>
           </Link>
 
-          <Link href="/fashion_lifestyle/wishlist">
+          <Link href="/fashion-lifestyle/wishlist">
             <button
               onClick={() => onClose()}
               className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"

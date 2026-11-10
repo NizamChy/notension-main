@@ -12,13 +12,13 @@ import {
 } from "redux-persist";
 import userReducer from "./userReducer";
 import cartReducer from "./cartReducer";
-import { combineReducers } from "redux";
 import doctorReducer from "./doctorReducer";
 import allCareReducer from "./allCareReducer";
 import itemsByStoreReducer from "./items-by-shop";
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import dashboardReducer from "./dashboardReducer";
 import userChoiceReducer from "./userChoiceReducer";
+import createMigrate from "redux-persist/lib/createMigrate";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import productReducer from "./productReducer";
 
@@ -52,9 +52,21 @@ const rootReducer = combineReducers({
   product: productReducer,
 });
 
+// Bump `version` and add a migration whenever the persisted shape changes.
+const migrations = {
+  // v1: drop never-used credential fields that older builds persisted.
+  1: (state) => {
+    if (!state?.user) return state;
+    const { apiKey, userPin, fireBaseToken, ...user } = state.user;
+    return { ...state, user };
+  },
+};
+
 const persistConfig = {
   key: "root",
+  version: 1,
   storage,
+  migrate: createMigrate(migrations, { debug: false }),
   whitelist: [
     "user",
     "cart",
