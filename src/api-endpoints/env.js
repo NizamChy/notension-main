@@ -1,11 +1,18 @@
+import { isDemoMode } from "@/demo/demoMode";
+
 export const ALL_CARE_SERVICE_URL =
   process.env.NEXT_PUBLIC_ALL_CARE_SERVICE_URL;
 export const FOOD_URL = process.env.NEXT_PUBLIC_FOOD_URL;
 export const USER_URL = process.env.NEXT_PUBLIC_USER_URL;
-export const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+// Demo mode serves images from public/demo/ (see next.config.mjs rewrites).
+export const IMAGE_URL = isDemoMode()
+  ? "/demo-images"
+  : process.env.NEXT_PUBLIC_IMAGE_URL;
 export const GROCERY_URL = process.env.NEXT_PUBLIC_GROCERY_URL;
 export const MEDICINE_URL = process.env.NEXT_PUBLIC_MEDICINE_URL;
 export const HEALTH_CARE_URL = process.env.NEXT_PUBLIC_HEALTH_CARE_URL;
 export const ALL_DISTRICTS_URL = process.env.NEXT_PUBLIC_ALL_DISTRICTS_URL;
 export const FASHION_BASE_URL = process.env.NEXT_PUBLIC_FASHION_BASE_URL;
-export const FASHION_IMAGE_URL = process.env.NEXT_PUBLIC_FASHION_IMAGE_URL;
+export const FASHION_IMAGE_URL = isDemoMode()
+  ? "/demo-images/fashion"
+  : process.env.NEXT_PUBLIC_FASHION_IMAGE_URL;

@@ -6,21 +6,25 @@ import { useSelector } from "react-redux";
 import { IoIosCall } from "react-icons/io";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
+import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { IoStorefrontSharp } from "react-icons/io5";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [requested, setRequested] = useState(false);
 
+  const { progressing, getOrderInfo } = useOrderMedicine();
   const { userInfo } = useSelector((state) => state.user);
   const medicineOrderInfo = useSelector(
     (state) => state.user.medicineOrderInfo
   );
 
-  const order = medicineOrderInfo.find((order) => order._id === orderId);
+  const order = medicineOrderInfo?.find((order) => order?._id === orderId);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -30,6 +34,25 @@ const OrderDetailsMobile = ({ orderId }) => {
       openModal();
     }
   }, [orderId]);
+
+  // The order list is in Redux when the user came from Order History. A
+  // direct link (or a reload with cleared state) fetches it again.
+  useEffect(() => {
+    if (userInfo?._id && !order) {
+      setRequested(true);
+      getOrderInfo();
+    }
+  }, [orderId, userInfo?._id]);
+
+  if (userInfo?._id && !order && (progressing || !requested)) {
+    return <Loader />;
+  }
+
+  if (userInfo?._id && !order) {
+    return (
+      <p className="p-2 mt-16 text-center text-gray-600">Order not found.</p>
+    );
+  }
 
   return (
     <>

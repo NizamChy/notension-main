@@ -26,7 +26,7 @@ export const usePatient = () => {
     setProgressing(true);
     patientData.createdBy = {
       user_id: userInfo?._id,
-      user: userInfo?.contact_no.slice(-11),
+      user: userInfo?.contact_no?.slice(-11),
       user_type: "Customer",
     };
 
@@ -65,7 +65,7 @@ export const usePatient = () => {
     setProgressing(true);
     patientData.updatedBy = {
       user_id: userInfo?._id,
-      user: userInfo?.contact_no.slice(-11),
+      user: userInfo?.contact_no?.slice(-11),
       user_type: "Customer",
     };
 
@@ -95,11 +95,11 @@ export const usePatient = () => {
     Axios.get(GET_PATIENTS, {
       params: {
         userId: userInfo?._id,
-        contact: userInfo?.contact_no.slice(-11),
+        contact: userInfo?.contact_no?.slice(-11),
       },
     })
       .then((res) => {
-        if (res?.data?.result.length > 0) {
+        if (res?.data?.result?.length > 0) {
           savePatientInfo("save_all", res?.data?.result);
         }
         setProgressing(false);

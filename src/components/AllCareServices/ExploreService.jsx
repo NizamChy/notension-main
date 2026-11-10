@@ -11,7 +11,6 @@ import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 
 const ExploreService = () => {
   const [pageNo, setPageNo] = useState(1);
-  const [slider, setSlider] = useState([]);
   const [popularInfo, setPopularInfo] = useState([]);
   const [nearestInfo, setNearestInfo] = useState([]);
 
@@ -20,11 +19,20 @@ const ExploreService = () => {
 
   const { exploreCareProvider, progressing } = useAllCareService();
   const { currentService } = useSelector((state) => state.allCare);
+  const districtId = useSelector((state) => state.user.districtId);
 
+  const slider = currentService?.sliderInfo?.service_slider;
+
+  // Providers are per district: refetch when the user's location changes.
   useEffect(() => {
-    setSlider(currentService?.sliderInfo?.service_slider);
-    exploreCareProvider(serviceId, setPopularInfo, setNearestInfo, pageNo);
-  }, []);
+    return exploreCareProvider(
+      serviceId,
+      setPopularInfo,
+      setNearestInfo,
+      pageNo
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serviceId, districtId, pageNo]);
 
   return (
     <div className="p-4 md:py-5">

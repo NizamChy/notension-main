@@ -6,6 +6,7 @@ import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosCall } from "react-icons/io";
+import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   return (
@@ -88,7 +89,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
                 <tr key={item?._id} className="hover:bg-[#F9FAFB]">
                   <td className="px-4 py-2 flex items-center gap-3">
                     <Image
-                      src={`https://we-care-base.sgp1.cdn.digitaloceanspaces.com/food-items-images/${item?.app_image}`}
+                      src={`${FOOD_ITEMS_IMAGES}/${item?.app_image}`}
                       alt="food image"
                       width={40}
                       height={40}

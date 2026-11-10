@@ -118,7 +118,8 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           )}
 
           {shop?.is_closed && (
-            <p className="bg-red-400 absolute bottom-14 right-5 rounded-lg px-2 py-0.5 text-lg font-semibold">
+            <p className="bg-red-500 text-white absolute top-3 left-3 rounded-lg px-2 py-0.5 text-sm md:text-base font-semibold shadow">
+
               Closed!
             </p>
           )}
@@ -135,7 +136,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
             </span>
           </p>
 
-          {shop?.distance && (
+          {shop?.distance != null && (
             <p className="text-xs md:text-base text-gray-500 ps-4">
               Distance: {(shop?.distance / 1000).toFixed(2)} km
             </p>

@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
+import { handleDashboardReducer } from "@/redux/dashboardReducer";
 
 export const useDoctor = () => {
   const [allLoaded, setAllLoaded] = useState(false);

@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { isDemoMode } from "@/demo/demoMode";
+import { DEMO_USER_CONTACT } from "@/demo/demoUser";
 
 const Axios = getApiClient(USER_URL);
 
@@ -34,6 +36,11 @@ export const useUser = () => {
     email: loggedinUserInfo?.email || "",
     contact_no: loggedinUserInfo?.contact_no || "",
     alternative_contact_no: loggedinUserInfo?.alternative_contact_no || "",
+    // NOTE: intentionally swapped to match what the backend already stores:
+    // it saves [longitude, latitude] from these fields, and getOtp() reads
+    // location.coordinates[0] back as latitude. Fixing only one side would
+    // corrupt existing users' locations; change it together with the
+    // backend (plus a data migration).
     longitude: userLatitude,
     latitude: userLongitude,
     district_area_id: "303030303030303030303030",
@@ -150,6 +157,28 @@ export const useUser = () => {
       });
   };
 
+  // Demo mode only: sign in as the ready-made demo user without an OTP.
+  // send-otp without an `otp` just looks the account up (no SMS, no toast).
+  const loginAsDemoUser = () => {
+    if (!isDemoMode()) return Promise.resolve(false);
+
+    setProgressing(true);
+    return Axios.post(OTP_FOR_REGISTRATION, { contact_no: DEMO_USER_CONTACT })
+      .then((res) => {
+        const user = res?.data?.result;
+        if (!user?._id) throw new Error("Demo user not found");
+
+        saveLoggedInUserInfo(user);
+        toast.success(`Logged in as ${user.customer_name}`);
+        return true;
+      })
+      .catch(() => {
+        toast.error("Demo login failed. Please try again!");
+        return false;
+      })
+      .finally(() => setProgressing(false));
+  };
+
   const saveLoggedInUserInfo = (user) => {
     dispatch(
       handleUserReducer({
@@ -187,5 +216,6 @@ export const useUser = () => {
     setProgressing,
     handleDataChange,
     handleUserLogout,
+    loginAsDemoUser,
   };
 };

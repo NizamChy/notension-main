@@ -9,6 +9,7 @@ const FilterProducts = ({
   products = [],
   isLoading,
   clearAllFilters,
+  totalCount,
 }) => {
   const [sortOption, setSortOption] = useState("featured");
 
@@ -53,7 +54,8 @@ const FilterProducts = ({
     <div className="flex-1">
       <div className="flex justify-between items-center mb-6">
         <p className="text-gray-600">
-          Showing {sortedProducts?.length} of {products?.length} products
+          Showing {sortedProducts?.length} of{" "}
+          {totalCount ?? products?.length} products
         </p>
 
         <div>
@@ -75,7 +77,7 @@ const FilterProducts = ({
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
           {[...Array(8)].map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
@@ -94,7 +96,7 @@ const FilterProducts = ({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
           {sortedProducts.map((product) => (
             <ProductCards key={product?._id?.toString()} product={product} />
           ))}

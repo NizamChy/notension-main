@@ -36,20 +36,15 @@ const ServicesArea = ({
                   <div className={gridClassName}>
                     {allServicesInfo
                       ?.slice(sliceStart, sliceEnd)
-                      ?.map((service, index) => {
-                        const originalIndex = sliceStart + index;
-
-                        return (
-                          <ServiceCard
-                            key={service?._id}
-                            service={service}
-                            imageKey={imageKey}
-                            index={originalIndex}
-                            imageWidth={imageWidth}
-                            imageHeight={imageHeight}
-                          />
-                        );
-                      })}
+                      ?.map((service) => (
+                        <ServiceCard
+                          key={service?._id}
+                          service={service}
+                          imageKey={imageKey}
+                          imageWidth={imageWidth}
+                          imageHeight={imageHeight}
+                        />
+                      ))}
                   </div>
                 </div>
               </div>

@@ -105,7 +105,7 @@ const FavoriteConsultationCenter = () => {
                   <span className="line-clamp-4">{center?.address}</span>
                 </p>
 
-                {center?.distance && (
+                {center?.distance != null && (
                   <p className="text-xs pt-1 font-medium md:text-sm text-secondary">
                     Distance: {(center?.distance / 1000).toFixed(2)} km
                   </p>

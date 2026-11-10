@@ -57,14 +57,14 @@ const TopRightSection = () => {
           <Image
             width={632}
             height={300}
-            className="transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
             src="/images/home/home-banner-3.webp"
             alt="home-banner-3"
           />
 
           <div className="absolute bottom-5 left-3 md:bottom-10 md:left-8">
             <h3
-              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
                     "
             >
               Find Doctors
@@ -85,14 +85,14 @@ const TopRightSection = () => {
           <Image
             width={632}
             height={300}
-            className="transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
             src="/images/home/fashion-lifestyle-banner.jpeg"
             alt="fashion-lifestyle-banner1"
           />
 
           <div className="absolute top-6 left-3 md:top-10 md:left-4">
             <h3
-              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
             >
               Fashion & Lifestyle
@@ -106,7 +106,7 @@ const TopRightSection = () => {
           </div>
         </div>
 
-        <div className="flex justify-center lg:gap-4">
+        <div className="grid grid-cols-2 md:gap-3 lg:gap-4">
           <div
             onClick={(e) => handleStoreClick(e, "medicine")}
             className="group overflow-hidden relative cursor-pointer"
@@ -114,14 +114,14 @@ const TopRightSection = () => {
             <Image
               width={308}
               height={470}
-              className="transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               src="/images/home/medicine-shop.jpg"
               alt="home-banner-4"
             />
 
             <div className="absolute bottom-4 left-4 md:bottom-10 md:left-8">
               <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
               >
                 Medicine Store
@@ -142,14 +142,14 @@ const TopRightSection = () => {
             <Image
               width={308}
               height={470}
-              className="transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               src="/images/home/home-banner-5-6.jpg"
               alt="home-banner-5"
             />
 
             <div className="absolute bottom-4 left-4 md:bottom-10 md:left-8">
               <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
               >
                 Food Store

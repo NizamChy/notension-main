@@ -3,9 +3,8 @@
 import toast from "react-hot-toast";
 import { isLengthBetween } from "@/utils/validation";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import RoundLoader from "../common/RoundLoader";
-import { useParams, useRouter } from "next/navigation";
+import { useAfterLogin } from "@/hooks/useAfterLogin";
 import FloatingInput from "../LoginSection/FloatingInput";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
@@ -22,11 +21,7 @@ const UserInfoInputs = ({
 }) => {
   const [otp, setOtp] = useState("");
 
-  const router = useRouter();
-  const params = useParams();
-
-  const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const moduleName = currentModule.toLowerCase();
+  const afterLogin = useAfterLogin(type, onClose);
 
   const resendOTP = () => {
     sendSms();
@@ -95,35 +90,7 @@ const UserInfoInputs = ({
     const loggedIn = await registerUser(success_message);
     if (!loggedIn) return;
 
-    onClose();
-
-    if (type === "cart") {
-      if (moduleName === "food") {
-        router.push(
-          `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-        );
-      } else {
-        router.push(
-          `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-        );
-      }
-    } else if (type === "login") {
-      router.push("/");
-    } else if (type === "doctor") {
-      router.push("/medical-services/doctor");
-    } else if (type === "eyeCareCenter") {
-      router.push("/medical-services/eye-care-center");
-    } else if (type === "dentalCareCenter") {
-      router.push("/medical-services/dental-care-center");
-    } else if (type === "hospital") {
-      router.push("/medical-services/hospital");
-    } else if (type === "diagnostic") {
-      router.push("/medical-services/diagnostic");
-    } else if (type === "medicalService") {
-      router.push("/medical-services");
-    } else if (type === "appointment") {
-      router.push("/medical-services/doctor/book-appointment");
-    }
+    afterLogin();
   };
 
   return (

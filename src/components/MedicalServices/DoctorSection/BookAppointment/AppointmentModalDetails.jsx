@@ -7,6 +7,7 @@ import { LuHospital } from "react-icons/lu";
 import { FaCalendarAlt } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { useAppointment } from "@/hooks/fetch-data/useAppointment";
+import { toLocalYMD } from "@/utils/date";
 
 const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
   const [timeSlot, setTimeSlot] = useState("");
@@ -53,7 +54,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
   let current_day_name = weekday[(today.getDay() + 1) % 7];
   const appointmentDays = [];
   const CurrentDay = new Date(today.setDate(today.getDate()));
-  const formattedDate = CurrentDay.toISOString().split("T")[0];
+  const formattedDate = toLocalYMD(CurrentDay);
   const formattedTime = formatAMPM(CurrentDay);
   const [appointment_date, setAppointment] = useState(formattedDate);
 
@@ -100,7 +101,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
       const nextIndex = (currentIndex + i) % 7;
       if (appointmentDays.includes(weekday[nextIndex])) {
         const appointmetDate = new Date(today.setDate(today.getDate() + i));
-        const formattedDate = appointmetDate.toISOString().split("T")[0];
+        const formattedDate = toLocalYMD(appointmetDate);
         setAppointment(formattedDate);
         return weekday[nextIndex];
       }

@@ -206,13 +206,17 @@ export const useCategoryItem = () => {
     return useQuery({
       queryKey: ["product", productId],
       queryFn: async () => {
-        const [mens, womens, kids] = await Promise.all([
-          fetchData(MENS_PRODUCT),
-          fetchData(WOMENS_PRODUCT),
-          fetchData(KIDS_PRODUCT),
-        ]);
-        const allProducts = [...mens, ...womens, ...kids];
-        return allProducts.find((product) => product?._id === productId);
+        // There is no product-by-id endpoint, so search every type (not just
+        // men/women/kids: footwear, beauty, home decor, ... too).
+        const types = (await fetchData(ALL_TYPE)) || [];
+        const productsByType = await Promise.all(
+          types.map((type) => fetchKidsProductsByType(type?._id))
+        );
+        const allProducts = productsByType.flatMap((list) => list || []);
+        // null, not undefined: react-query treats undefined data as an error.
+        return (
+          allProducts.find((product) => product?._id === productId) || null
+        );
       },
       enabled: !!productId,
     });

@@ -4,19 +4,72 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { getApiClient } from "@/lib/apiClient";
+import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { GROCERY_URL } from "@/api-endpoints/env";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
-import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import {
+  GROCERY_ITEM_DETAILS,
+  GROCERY_ITEMS_IMAGES,
+} from "@/api-endpoints/api-endpoint";
 
 const GroceryItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+  const [fetchedItem, setFetchedItem] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
-  const { currentItemDetails: item } = useSelector((state) => state.userChoice);
+  const params = useParams();
+  const productId = params?.productId;
+
+  const { currentItemDetails } = useSelector((state) => state.userChoice);
+
+  // Redux has the item when it was opened from a list. A direct link (or a
+  // reload with cleared state) fetches it by id instead.
+  const hasReduxItem = !!productId && currentItemDetails?._id === productId;
+  const item = hasReduxItem ? currentItemDetails : fetchedItem;
+
+  useEffect(() => {
+    if (!productId || hasReduxItem) return;
+
+    let cancelled = false;
+    setIsFetching(true);
+    setNotFound(false);
+
+    getApiClient(GROCERY_URL)
+      .get(GROCERY_ITEM_DETAILS, {
+        params: {
+          productInfoTable: productId,
+          groceryStoreId: params?.storeId,
+          custom_store_id: params?.customStoreId,
+        },
+      })
+      .then((res) => {
+        if (cancelled) return;
+        if (res?.data?.success && res?.data?.result) {
+          setFetchedItem(res.data.result);
+        } else {
+          setNotFound(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setNotFound(true);
+      })
+      .finally(() => {
+        if (!cancelled) setIsFetching(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [productId, hasReduxItem, params?.storeId, params?.customStoreId]);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useGroceryItems();
@@ -129,6 +182,16 @@ const GroceryItemDetails = () => {
     isExists = isAddedToFavouriteItems(item?.productInfoTable, merchantType);
     setIsFavoriteAdded(isExists);
   }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
+
+  if (!item && isFetching) return <Loader />;
+
+  if (!item && notFound) {
+    return (
+      <p className="max-w-6xl mx-auto px-4 py-16 text-center text-gray-600">
+        Product not found.
+      </p>
+    );
+  }
 
   return (
     <>

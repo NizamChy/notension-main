@@ -74,10 +74,10 @@ const MiddleSection = () => {
 
   return (
     <>
-      <div className="lg:flex gap-4">
+      <div className="lg:flex gap-4 lg:w-[1280px] max-w-full min-w-0">
         <div
           onClick={(e) => handleSectionClick(e, "medicalService")}
-          className="group overflow-hidden relative mb-4 lg:mb-0 cursor-pointer"
+          className="group overflow-hidden relative mb-4 lg:mb-0 lg:flex-1 min-w-0 cursor-pointer"
         >
           <Image
             width={632}
@@ -89,7 +89,7 @@ const MiddleSection = () => {
 
           <div className="absolute bottom-3 left-4 md:bottom-10 md:left-8">
             <h3
-              className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+              className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
             >
               Find Medical Services
@@ -105,7 +105,7 @@ const MiddleSection = () => {
 
         {/* <HomeSlider /> */}
 
-        <div className="space-y-4 flex flex-col-reverse lg:flex-col">
+        <div className="space-y-4 flex flex-col-reverse lg:flex-col lg:flex-1 min-w-0">
           <div
             onClick={(e) => handleSectionClick(e, "allCareServices")}
             className="group overflow-hidden relative lg:mt-0 cursor-pointer"
@@ -113,14 +113,14 @@ const MiddleSection = () => {
             <Image
               width={632}
               height={300}
-              className="transition-transform duration-300 group-hover:scale-105"
+              className="w-full transition-transform duration-300 group-hover:scale-105"
               src="/images/home/all-care-services.jpg"
               alt="home-banner-2"
             />
 
             <div className="absolute bottom-16 left-3 md:bottom-10 md:left-4">
               <h3
-                className="text-sm md:text-2xl font-semibold tracking-widest text-gray-500
+                className="text-sm md:text-2xl font-semibold tracking-wide md:tracking-widest text-gray-500
             "
               >
                 All Care Services

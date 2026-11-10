@@ -11,6 +11,9 @@ const nextConfig = {
   },
   // Old URLs -> new URLs (routes were renamed; keep bookmarks/SEO working).
   // Specific rules must come before the catch-all fashion rule.
+  async rewrites() {
+    return [{ source: "/demo-images/:folder/:path*", destination: "/demo/:path*" }];
+  },
   async redirects() {
     return [
       {

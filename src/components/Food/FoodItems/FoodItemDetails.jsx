@@ -3,16 +3,72 @@
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { getApiClient } from "@/lib/apiClient";
+import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { FOOD_URL } from "@/api-endpoints/env";
 import useFoodItems from "@/hooks/fetch-data/useFoodItems";
-import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import {
+  EXPLORE_FOOD_STORE,
+  FOOD_ITEMS_IMAGES,
+} from "@/api-endpoints/api-endpoint";
 
 const FoodItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentQuantity, setCurrentQuantity] = useState(0);
+  const [fetchedItem, setFetchedItem] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
-  const { currentItemDetails: item } = useSelector((state) => state.userChoice);
+  const params = useParams();
+  const productId = params?.productId;
+
+  const { currentItemDetails } = useSelector((state) => state.userChoice);
+
+  // Redux has the item when it was opened from a list. A direct link (or a
+  // reload with cleared state) looks it up in the store's menu instead (the
+  // food backend has no item-by-id endpoint).
+  const hasReduxItem = !!productId && currentItemDetails?._id === productId;
+  const item = hasReduxItem ? currentItemDetails : fetchedItem;
+
+  useEffect(() => {
+    if (!productId || hasReduxItem) return;
+
+    let cancelled = false;
+    setIsFetching(true);
+    setNotFound(false);
+
+    getApiClient(FOOD_URL)
+      .get(EXPLORE_FOOD_STORE, {
+        params: {
+          storeId: params?.storeId,
+          custom_store_id: params?.customStoreId,
+        },
+      })
+      .then((res) => {
+        if (cancelled) return;
+        const found = res?.data?.result?.allProduct?.find(
+          (product) => product?._id === productId
+        );
+        if (found) {
+          setFetchedItem(found);
+        } else {
+          setNotFound(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setNotFound(true);
+      })
+      .finally(() => {
+        if (!cancelled) setIsFetching(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [productId, hasReduxItem, params?.storeId, params?.customStoreId]);
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useFoodItems();
 
@@ -55,6 +111,16 @@ const FoodItemDetails = () => {
     const itemQty = getCurrentQty(item);
     setCurrentQuantity(itemQty);
   }, [item, incrementQty, decrementQty]);
+
+  if (!item && isFetching) return <Loader />;
+
+  if (!item && notFound) {
+    return (
+      <p className="max-w-6xl mx-auto px-4 py-16 text-center text-gray-600">
+        Product not found.
+      </p>
+    );
+  }
 
   return (
     <>

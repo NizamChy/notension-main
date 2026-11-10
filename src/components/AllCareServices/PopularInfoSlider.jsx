@@ -1,7 +1,7 @@
 "use client";
 
 import "swiper/css";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
@@ -10,6 +10,10 @@ import { GrPrevious, GrNext } from "react-icons/gr";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
 const PopularInfoSlider = ({ slider }) => {
+  // Each slider binds its own arrow elements (no shared DOM ids).
+  const [prevEl, setPrevEl] = useState(null);
+  const [nextEl, setNextEl] = useState(null);
+
   return (
     <>
       {slider?.length > 0 && (
@@ -20,15 +24,19 @@ const PopularInfoSlider = ({ slider }) => {
 
           <div className="relative flex justify-center items-center">
             <button
+              type="button"
+              aria-label="Previous slide"
               className="hidden md:block absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
-              id="custom-prev-doc"
+              ref={setPrevEl}
             >
               <GrPrevious />
             </button>
 
             <button
+              type="button"
+              aria-label="Next slide"
               className="hidden md:block absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300 text-[#0C3F8E]"
-              id="custom-next-doc"
+              ref={setNextEl}
             >
               <GrNext />
             </button>
@@ -38,10 +46,7 @@ const PopularInfoSlider = ({ slider }) => {
                 slidesPerView={1.2}
                 spaceBetween={20}
                 loop={true}
-                navigation={{
-                  prevEl: "#custom-prev-doc",
-                  nextEl: "#custom-next-doc",
-                }}
+                navigation={{ prevEl, nextEl }}
                 breakpoints={{
                   640: {
                     slidesPerView: 2,
