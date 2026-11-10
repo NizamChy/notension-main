@@ -3,17 +3,19 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useOrderFood } from "@/hooks/place-order/useOrderFood";
+import { CART_MODULES } from "./cartModules";
 
-const FoodCartSummary = () => {
-  const { shippingCharge, discount, grandTotal, getGrandTotalFood } =
-    useOrderFood();
+// Render with key={moduleName} (see CartItems).
+const CartSummary = ({ moduleName }) => {
+  const { totalKey, useOrder } = CART_MODULES[moduleName];
+  const { shippingCharge, discount, grandTotal, getGrandTotal } = useOrder();
 
-  const { totalAmountFood } = useSelector((state) => state.cart);
+  const total = useSelector((state) => state.cart[totalKey]);
 
   useEffect(() => {
-    getGrandTotalFood();
-  }, [totalAmountFood]);
+    getGrandTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total]);
 
   return (
     <>
@@ -53,4 +55,4 @@ const FoodCartSummary = () => {
   );
 };
 
-export default FoodCartSummary;
+export default CartSummary;

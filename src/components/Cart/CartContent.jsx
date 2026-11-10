@@ -2,40 +2,37 @@
 
 import React from "react";
 import EmptyCart from "./EmptyCart";
+import CartItems from "./CartItems";
+import CartSummary from "./CartSummary";
 import { useSelector } from "react-redux";
-import FoodCartItems from "./FoodCartItems";
-import FoodCartSummary from "./FoodCartSummary";
+import { CART_MODULES } from "./cartModules";
 import { TbCurrencyTaka } from "react-icons/tb";
-import GroceryCartItems from "./GroceryCartItems";
-import MedicineCartItems from "./MedicineCartItems";
-import GroceryCartSummary from "./GroceryCartSummary";
-import MedicineCartSummary from "./MedicineCartSummary";
+import { toNumber } from "@/utils/price";
 
 const CartContent = ({
   handleCheckout,
   getPrimaryClass,
   getSecondaryClass,
 }) => {
-  const {
-    foodItems,
-    groceryItems,
-    medicineItems,
-    totalAmountFood,
-    totalAmountGrocery,
-    totalAmountMedicine,
-  } = useSelector((state) => state.cart);
-
   const currentModule = useSelector((state) => state.dashboard.currentModule);
   const moduleName = currentModule?.toLowerCase();
+  const config = CART_MODULES[moduleName];
+
+  const items = useSelector((state) =>
+    config ? state.cart[config.itemsKey] : []
+  );
+  const total = useSelector((state) =>
+    config ? state.cart[config.totalKey] : 0
+  );
+
+  const hasItems = items?.length > 0;
 
   return (
     <>
       <div className="p-4 flex-grow overflow-y-scroll no-scrollbar">
         <EmptyCart />
 
-        {moduleName === "food" && <FoodCartItems />}
-        {moduleName === "grocery" && <GroceryCartItems />}
-        {moduleName === "medicine" && <MedicineCartItems />}
+        {config && <CartItems key={moduleName} moduleName={moduleName} />}
       </div>
 
       <div className="p-4 border-t">
@@ -43,37 +40,19 @@ const CartContent = ({
           <span className="font-semibold">Subtotal</span>
           <span className="font-semibold flex items-center">
             <TbCurrencyTaka />
-            {moduleName === "food" && (
-              <span>{totalAmountFood?.toFixed(2) || 0}</span>
-            )}
-            {moduleName === "grocery" && (
-              <span>{totalAmountGrocery?.toFixed(2) || 0}</span>
-            )}
-            {moduleName === "medicine" && (
-              <span>{totalAmountMedicine?.toFixed(2) || 0}</span>
-            )}
+            {config && <span>{toNumber(total).toFixed(2)}</span>}
           </span>
         </div>
 
         <div className="mb-4">
-          {moduleName === "grocery" && groceryItems?.length > 0 && (
-            <GroceryCartSummary />
+          {config && hasItems && (
+            <CartSummary key={moduleName} moduleName={moduleName} />
           )}
-
-          {moduleName === "medicine" && medicineItems?.length > 0 && (
-            <MedicineCartSummary />
-          )}
-
-          {moduleName === "food" && foodItems?.length > 0 && <FoodCartSummary />}
         </div>
 
         <button
           onClick={handleCheckout}
-          disabled={
-            (moduleName === "food" && foodItems?.length == 0) ||
-            (moduleName === "grocery" && groceryItems?.length == 0) ||
-            (moduleName === "medicine" && medicineItems?.length == 0)
-          }
+          disabled={!!config && !hasItems}
           className={`w-full disabled:bg-gray-300 hover:${getSecondaryClass()} focus:outline-none transition-colors duration-200 text-white py-2 rounded-lg ${getPrimaryClass()}`}
         >
           Checkout

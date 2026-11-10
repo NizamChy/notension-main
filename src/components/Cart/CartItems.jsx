@@ -6,30 +6,33 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { MdDeleteForever } from "react-icons/md";
-import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
-import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
+import { CART_MODULES } from "./cartModules";
 
-const MedicineCartItems = () => {
-  const { incrementQty, decrementQty, removeFromCart } = useMedicineItems();
+// Render with key={moduleName} so the per-module hooks never change between
+// renders of the same instance.
+const CartItems = ({ moduleName }) => {
+  const { itemsKey, visitedStoreKey, imageBaseUrl, titleField, textClass, useItems } =
+    CART_MODULES[moduleName];
+  const { incrementQty, decrementQty, removeFromCart } = useItems();
 
-  const medicineItems = useSelector((state) => state.cart.medicineItems);
+  const items = useSelector((state) => state.cart[itemsKey]);
 
-  const visitedMedicineStore = useSelector(
-    (state) => state.dashboard.visitedMedicineStore
+  const visitedStore = useSelector(
+    (state) => state.dashboard[visitedStoreKey]
   );
-
-  const handleDecrement = (e, itemId) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    decrementQty(itemId);
-  };
 
   const handleIncrement = (e, itemId) => {
     e.preventDefault();
     e.stopPropagation();
 
     incrementQty(itemId);
+  };
+
+  const handleDecrement = (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    decrementQty(itemId);
   };
 
   const handleRemoveFromCart = (e, itemId) => {
@@ -41,14 +44,14 @@ const MedicineCartItems = () => {
 
   return (
     <>
-      {medicineItems.length > 0 && visitedMedicineStore?.delivery_notice && (
+      {items?.length > 0 && visitedStore?.delivery_notice && (
         <p className="text-deepGray font-semibold bg-yellow-400 text-center text-sm p-2 rounded-md mb-2">
-          {visitedMedicineStore?.delivery_notice}
+          {visitedStore?.delivery_notice}
         </p>
       )}
 
       <ul className="space-y-4">
-        {medicineItems?.map((item) => (
+        {items?.map((item) => (
           <li
             key={item?._id}
             className="flex items-center justify-between gap-4 border-b pb-4"
@@ -57,10 +60,10 @@ const MedicineCartItems = () => {
               <Image
                 src={
                   item?.app_image
-                    ? `${MEDICINE_ITEMS_IMAGES}/${item?.app_image}`
+                    ? `${imageBaseUrl}/${item?.app_image}`
                     : "/png/dummyImage.png"
                 }
-                alt="food image"
+                alt={item?.[titleField] || "item image"}
                 width={60}
                 height={60}
                 className="rounded-lg object-cover"
@@ -68,15 +71,15 @@ const MedicineCartItems = () => {
 
               <div>
                 <p className="text-xs md:text-base font-semibold">
-                  {item?.item_title_eng}
+                  {item?.[titleField]}
                 </p>
                 <div className="flex gap-2 md:gap-10">
-                  <p className="flex items-center text-primaryMedicine text-xs text-nowrap md:text-sm font-medium mt-1">
+                  <p className={`flex items-center ${textClass} text-xs text-nowrap md:text-sm font-medium mt-1`}>
                     <TbCurrencyTaka className="text-lg" />
                     {item?.sale_price} x {item?.quantity}
                   </p>
 
-                  <p className="flex items-center text-primaryMedicine text-xs md:text-sm font-medium mt-1">
+                  <p className={`flex items-center ${textClass} text-xs md:text-sm font-medium mt-1`}>
                     <TbCurrencyTaka className="text-lg" />
 
                     {lineTotal(item).toFixed(2)}
@@ -115,4 +118,4 @@ const MedicineCartItems = () => {
   );
 };
 
-export default MedicineCartItems;
+export default CartItems;
