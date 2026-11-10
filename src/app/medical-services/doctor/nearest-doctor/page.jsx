@@ -12,7 +12,7 @@ const page = () => {
       <MedicalPageHeader title="Nearest Doctor Info" />
 
       <MedicalPageBody>
-        <NearestDoctorSlider className="max-w-3xl mx-auto" />
+        <NearestDoctorSlider wide />
 
         <NearestDoctor />
       </MedicalPageBody>

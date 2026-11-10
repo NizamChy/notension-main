@@ -33,9 +33,7 @@ const MedicalService = () => {
       ) : (
         <div className="min-h-screen pt-16 md:pt-20 bg-gray-50">
           <MedicalPageBody>
-            <div className="max-w-3xl mx-auto">
-              <DoctorCommonSlider slider={slider} />
-            </div>
+            <DoctorCommonSlider slider={slider} wide />
 
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {medicalServices?.map((service) => (

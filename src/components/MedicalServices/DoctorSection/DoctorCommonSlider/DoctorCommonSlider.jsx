@@ -12,10 +12,15 @@ import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 // 2:1 box (the banners are 800x400), so the layout never jumps while the
 // banners load and the pagination bullets can't float around on a 0-height
 // slider (that was the stray red dot above the slider).
-const DoctorCommonSlider = ({ slider, className = "" }) => {
+// `wide` is for a slider that spans the full page width: from md up it uses a
+// 3:1 box so it isn't too tall. The banners keep their content in the middle
+// band, so the crop doesn't cut it.
+const DoctorCommonSlider = ({ slider, className = "", wide = false }) => {
   return (
     <div
-      className={`relative w-full aspect-[2/1] rounded-xl overflow-hidden bg-gray-100 ${className}`}
+      className={`relative w-full aspect-[2/1] ${
+        wide ? "md:aspect-[3/1]" : ""
+      } rounded-xl overflow-hidden bg-gray-100 ${className}`}
     >
       {slider?.length > 0 ? (
         <Swiper
@@ -46,7 +51,11 @@ const DoctorCommonSlider = ({ slider, className = "" }) => {
                 src={`${HEALTH_CARE_IMAGES}/${image?.file_name}`}
                 alt={image?.title || "Medical services banner"}
                 fill
-                sizes="(min-width: 1280px) 640px, (min-width: 768px) 50vw, 100vw"
+                sizes={
+                  wide
+                    ? "(min-width: 1280px) 1232px, 100vw"
+                    : "(min-width: 1280px) 640px, (min-width: 768px) 50vw, 100vw"
+                }
               />
             </SwiperSlide>
           ))}

@@ -31,10 +31,7 @@ const DoctorInfoByDept = () => {
 
   return (
     <MedicalPageBody>
-      <NearestDoctorSlider
-        hideWhenEmpty
-        className="max-w-3xl mx-auto"
-      />
+      <NearestDoctorSlider hideWhenEmpty wide />
 
       <section>
         <MedicalSectionTitle>
