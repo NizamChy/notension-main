@@ -167,18 +167,13 @@ export const useUser = () => {
       })
     );
 
-    // Save only necessary user data to cookies (DO NOT store sensitive info)
-    Cookies.set(
-      "user_info",
-      JSON.stringify({
-        _id: user._id,
-        name: user.customer_name,
-        phone: user.contact_no,
-      }),
-      {
-        expires: 7, // days
-      }
-    );
+    // Only the user id is stored: it lets a future proxy/middleware route
+    // guard know the user is logged in. No name/phone (PII) in cookies.
+    Cookies.set("user_info", JSON.stringify({ _id: user._id }), {
+      expires: 7, // days
+      sameSite: "lax",
+      secure: window.location.protocol === "https:",
+    });
   };
 
   const handleUserLogout = () => {

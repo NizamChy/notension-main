@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  apiKey: "",
-  userPin: "",
   userInfo: {},
   allAddress: [],
   patientInfo: [],
@@ -10,7 +8,6 @@ const initialState = {
   districtId: "00",
   foodOrderInfo: [],
   isLoggedin: false,
-  fireBaseToken: "",
   userLatitude: "00",
   setManually: false,
   userLongitude: "00",
@@ -33,23 +30,6 @@ const userSlice = createSlice({
       const { type, data } = payload;
 
       switch (type) {
-        case "SAVE_USER_INFO":
-          return {
-            ...state,
-            setManually: false,
-            userLatitude: data.userLatitude,
-            userLongitude: data.userLongitude,
-            isLoggedin: data.isLoggedin,
-            deliveryAddress: data.deliveryAddress,
-            allAddress: data.allAddress,
-            fireBaseToken: data.fireBaseToken,
-            apiKey: data.apiKey,
-            userPin: data.userPin,
-            default_outlet_id: data.default_outlet_id,
-            default_outlet_name: data.default_outlet_name,
-            default_outlet_address: data.default_outlet_address,
-          };
-
         case "SAVE_CURRENT_GEOLOCATION":
           return {
             ...state,

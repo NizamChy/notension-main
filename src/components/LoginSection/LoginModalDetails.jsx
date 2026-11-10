@@ -46,7 +46,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
     getOtp({
       contact_no: cleanedPhone,
       otp: generatedOtp,
-      smsKey: "fZtUYT1",
+      smsKey: process.env.NEXT_PUBLIC_SMS_KEY,
     });
 
     setOtpGenerated(generatedOtp.toString());
