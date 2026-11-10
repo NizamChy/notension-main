@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import LoginButton from "../NavbarLogin/LoginButton";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import LocationModal from "../LocationModal/LocationModal";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 const Navbar = () => {
   const [dropDownState, setDropDownState] = useState(false);
@@ -72,126 +73,126 @@ const Navbar = () => {
 
       <LocationModal />
 
-      {!userInfo?._id && (
-        <>
-          <LoginButton />
-        </>
-      )}
+      <div className="flex items-center gap-2 md:gap-3">
+        <ThemeToggle />
 
-      {userInfo?._id && (
-        <div className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
-          <div className="relative" ref={dropDownMenuRef}>
-            <button
-              onClick={() => setDropDownState(!dropDownState)}
-              className="relative flex items-center gap-1 py-2 hover:underline text-secondary"
-            >
-              <p className="font-semibold flex items-center gap-2">
-                <CgProfile className="text-2xl" />
-                <span className="hidden md:block">
-                  {userInfo?.customer_name}
-                </span>
-              </p>
-              <svg
-                className={`${
-                  dropDownState ? "" : "rotate-180"
-                } hidden md:block`}
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+        {!userInfo?._id && <LoginButton />}
+
+        {userInfo?._id && (
+          <div className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
+            <div className="relative" ref={dropDownMenuRef}>
+              <button
+                onClick={() => setDropDownState(!dropDownState)}
+                className="relative flex items-center gap-1 py-2 hover:underline text-secondary"
               >
-                <path d="m18 15-6-6-6 6" />
-              </svg>
-            </button>
-            {dropDownState && (
-              <ul className="absolute text-deepGray right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 min-w-48">
-                <li className="md:hidden block px-3 hover:underline">
-                  <p className="flex items-center text-sm text-secondary ps-1">
+                <p className="font-semibold flex items-center gap-2">
+                  <CgProfile className="text-2xl" />
+                  <span className="hidden md:block">
                     {userInfo?.customer_name}
-                  </p>
-                </li>
-
-                {category && (
-                  <li className="px-3 hover:underline">
-                    <Link
-                      href={`/${category}/store/orders`}
-                      className="flex items-center gap-1"
-                    >
-                      <span>
-                        <BsCartCheck className="text-primary" />
-                      </span>
-                      My Orders
-                    </Link>
+                  </span>
+                </p>
+                <svg
+                  className={`${
+                    dropDownState ? "" : "rotate-180"
+                  } hidden md:block`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m18 15-6-6-6 6" />
+                </svg>
+              </button>
+              {dropDownState && (
+                <ul className="absolute text-deepGray right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 min-w-48">
+                  <li className="md:hidden block px-3 hover:underline">
+                    <p className="flex items-center text-sm text-secondary ps-1">
+                      {userInfo?.customer_name}
+                    </p>
                   </li>
-                )}
 
-                {userInfo?._id &&
-                  category !== "food" &&
-                  category !== "grocery" &&
-                  category !== "medicine" &&
-                  category !== "all-care-services" && (
+                  {category && (
                     <li className="px-3 hover:underline">
                       <Link
-                        href="/medical-services/doctor/booked-appointment"
-                        className="flex items-center gap-1 text-nowrap"
+                        href={`/${category}/store/orders`}
+                        className="flex items-center gap-1"
                       >
                         <span>
-                          <FaUserDoctor className="text-primaryMedicine" />
+                          <BsCartCheck className="text-primary" />
                         </span>
-                        Booked Appointment
+                        My Orders
                       </Link>
                     </li>
                   )}
 
-                {userInfo?._id && (
-                  <>
-                    <li className="px-3 hover:underline">
-                      <Link
-                        href="/user/profile"
-                        className="flex items-center gap-1"
-                      >
-                        <span>
-                          <CgProfile className="text-primaryGrocery" />
-                        </span>
-                        Profile
-                      </Link>
-                    </li>
+                  {userInfo?._id &&
+                    category !== "food" &&
+                    category !== "grocery" &&
+                    category !== "medicine" &&
+                    category !== "all-care-services" && (
+                      <li className="px-3 hover:underline">
+                        <Link
+                          href="/medical-services/doctor/booked-appointment"
+                          className="flex items-center gap-1 text-nowrap"
+                        >
+                          <span>
+                            <FaUserDoctor className="text-primaryMedicine" />
+                          </span>
+                          Booked Appointment
+                        </Link>
+                      </li>
+                    )}
 
-                    <li className="px-3 hover:underline">
-                      <Link
-                        href="/user/update-address"
-                        className="flex items-center gap-1"
-                      >
-                        <span>
-                          <IoLocationOutline className="text-primary" />
-                        </span>
-                        Update Address
-                      </Link>
-                    </li>
-                  </>
-                )}
+                  {userInfo?._id && (
+                    <>
+                      <li className="px-3 hover:underline">
+                        <Link
+                          href="/user/profile"
+                          className="flex items-center gap-1"
+                        >
+                          <span>
+                            <CgProfile className="text-primaryGrocery" />
+                          </span>
+                          Profile
+                        </Link>
+                      </li>
 
-                <li className="px-3 hover:underline">
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-1"
-                  >
-                    <span>
-                      <BiLogOut className="text-primaryFood" />
-                    </span>
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            )}
+                      <li className="px-3 hover:underline">
+                        <Link
+                          href="/user/update-address"
+                          className="flex items-center gap-1"
+                        >
+                          <span>
+                            <IoLocationOutline className="text-primary" />
+                          </span>
+                          Update Address
+                        </Link>
+                      </li>
+                    </>
+                  )}
+
+                  <li className="px-3 hover:underline">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-1"
+                    >
+                      <span>
+                        <BiLogOut className="text-primaryFood" />
+                      </span>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 };
