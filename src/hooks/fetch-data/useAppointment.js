@@ -37,7 +37,8 @@ export const useAppointment = () => {
       user_type: "Customer",
     };
 
-    Axios.post(BOOK_APPOINTMENT, bookAppoinmentInfo)
+    // Resolves to true when the appointment was booked.
+    return Axios.post(BOOK_APPOINTMENT, bookAppoinmentInfo)
       .then((response) => {
         // console.log("response : ", response);
 
@@ -80,11 +81,13 @@ export const useAppointment = () => {
         setMessage(response?.data?.message);
 
         setProgressing(false);
+        return Boolean(response?.data?.success);
       })
       .catch((error) => {
         // console.log("Error :: ", error?.response?.data);
         setProgressing(false);
         toast.error("কিছু একটা ভুল হয়েছে! পরে আবার চেষ্টা করুন!");
+        return false;
       });
 
   };

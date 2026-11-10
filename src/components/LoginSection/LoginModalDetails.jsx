@@ -33,7 +33,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
     category = "all-care-services";
   }
 
-  const sendSms = () => {
+  const sendSms = async () => {
     const generatedOtp = Math.floor(Math.random() * 8999 + 1000);
 
     let cleanedPhone = phone
@@ -43,7 +43,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
       .replace(/[-]/g, "")
       .replace(/^\+?88/, "");
 
-    getOtp({
+    const sent = await getOtp({
       contact_no: cleanedPhone,
       otp: generatedOtp,
       smsKey: process.env.NEXT_PUBLIC_SMS_KEY,
@@ -51,11 +51,7 @@ const LoginModalDetails = ({ onClose = () => {}, type = "login" }) => {
 
     setOtpGenerated(generatedOtp.toString());
 
-    if (!progressing) {
-      setTimeout(() => {
-        setContentType("userInfo");
-      }, 1000);
-    }
+    if (sent) setContentType("userInfo");
   };
 
   const handleOtp = () => {

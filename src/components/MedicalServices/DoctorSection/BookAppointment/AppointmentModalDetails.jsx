@@ -85,7 +85,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     currentDoctor?.chamber_schedule?.map((day, i) => {
       if (
         !day?.is_closed &&
-        currentDoctor?.appointment_scheduling?.scheduling_type ==
+        currentDoctor?.appointment_scheduling?.scheduling_type ===
           "ScheduleForNextDay"
       ) {
         appointmentDays.push(day?.day_name);
@@ -107,29 +107,29 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     }
   };
 
+  // Work out the bookable day whenever the doctor's schedule is available.
   useEffect(() => {
-    setTimeout(() => {
-      currentDoctor?.chamber_schedule?.map((day, i) => {
-        if (
-          !day?.is_closed &&
-          currentDoctor?.appointment_scheduling?.scheduling_type ==
-            "ScheduleForNextDay"
-        ) {
-          const nextAppointmentDay = getNextAppointmentDay(current_day_name);
-          setAvailable_Booking_Day(nextAppointmentDay);
-        } else if (
-          !day?.is_closed &&
-          currentDoctor?.appointment_scheduling?.scheduling_type ===
-            "ScheduleForSameDay" &&
-          day?.day_name === current_day_name
-        ) {
-          setAvailable_Booking_Day(day?.day_name);
-        }
-      });
-    }, 1000);
-  }, []);
+    currentDoctor?.chamber_schedule?.forEach((day) => {
+      if (
+        !day?.is_closed &&
+        currentDoctor?.appointment_scheduling?.scheduling_type ===
+          "ScheduleForNextDay"
+      ) {
+        const nextAppointmentDay = getNextAppointmentDay(current_day_name);
+        setAvailable_Booking_Day(nextAppointmentDay);
+      } else if (
+        !day?.is_closed &&
+        currentDoctor?.appointment_scheduling?.scheduling_type ===
+          "ScheduleForSameDay" &&
+        day?.day_name === current_day_name
+      ) {
+        setAvailable_Booking_Day(day?.day_name);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentDoctor]);
 
-  const handleBookAppointment = (e) => {
+  const handleBookAppointment = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -190,13 +190,9 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
       },
     };
 
-    bookAppointment(bookAppoinmentData);
-
-    if (!progressing) {
-      setTimeout(() => {
-        onClose();
-      }, 500);
-    }
+    // Close only after the request has finished (success or failure).
+    await bookAppointment(bookAppoinmentData);
+    onClose();
   };
 
   return (

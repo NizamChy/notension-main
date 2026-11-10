@@ -26,7 +26,7 @@ const RegisterPatient = ({ setShowForm = true }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData?.patient_name?.length < 3) {
@@ -53,23 +53,22 @@ const RegisterPatient = ({ setShowForm = true }) => {
       });
     }
 
-    registerPatient(formData);
+    const registered = await registerPatient(formData);
 
-    setTimeout(() => {
-      if (!progressing) {
-        setFormData({
-          patient_name: "",
-          contact: "",
-          alternative_contact: "",
-          date_of_birth: "",
-          gender: "",
-          email: "",
-          address: "",
-        });
+    // Keep the form filled in if registration failed so the user can retry.
+    if (registered) {
+      setFormData({
+        patient_name: "",
+        contact: "",
+        alternative_contact: "",
+        date_of_birth: "",
+        gender: "",
+        email: "",
+        address: "",
+      });
 
-        setShowForm(false);
-      }
-    }, 300);
+      setShowForm(false);
+    }
   };
 
   return (

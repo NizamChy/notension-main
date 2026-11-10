@@ -55,7 +55,8 @@ export const useUser = () => {
     setProgressing(true);
     setIsUserRegistered(false);
 
-    Axios.post(OTP_FOR_REGISTARTION, props)
+    // Resolves to true when the OTP request succeeded.
+    return Axios.post(OTP_FOR_REGISTARTION, props)
       .then((res) => {
         // console.log("res?.result?.data otp data", res?.data);
 
@@ -91,6 +92,7 @@ export const useUser = () => {
 
         toast.success("OTP sent to your phone!");
         setProgressing(false);
+        return true;
       })
 
       .catch((error) => {
@@ -100,6 +102,7 @@ export const useUser = () => {
         // console.log("result =", error?.response?.data?.errors);
 
         toast.error("Something went wrong. Please Try Again!");
+        return false;
       });
   };
 
@@ -123,31 +126,33 @@ export const useUser = () => {
     }));
   };
 
+  // Resolves to true when login/registration succeeded.
   const registerUser = (success_message = "") => {
+    if (!currentUserLocation) return Promise.resolve(false);
+
     setProgressing(true);
+    return Axios.post(USER_REGISTARTION, userInfo)
+      .then((res) => {
+        saveLoggedInUserInfo(res?.data?.result);
 
-    if (currentUserLocation) {
-      Axios.post(USER_REGISTARTION, userInfo)
-        .then((res) => {
-          saveLoggedInUserInfo(res?.data?.result);
-
-          if (res?.data?.success) {
-            toast.success(`${success_message}`, {
-              style: {
-                border: "1px solid #FC8F1E",
-              },
-              iconTheme: {
-                primary: "#FC8F1E",
-                secondary: "#FFFAEE",
-              },
-            });
-          }
-          setProgressing(false);
-        })
-        .catch((error) => {
-          setProgressing(false);
-        });
-    }
+        if (res?.data?.success) {
+          toast.success(`${success_message}`, {
+            style: {
+              border: "1px solid #FC8F1E",
+            },
+            iconTheme: {
+              primary: "#FC8F1E",
+              secondary: "#FFFAEE",
+            },
+          });
+        }
+        setProgressing(false);
+        return Boolean(res?.data?.success);
+      })
+      .catch(() => {
+        setProgressing(false);
+        return false;
+      });
   };
 
   // const saveLoggedInUserInfo = (user) => {

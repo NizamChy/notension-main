@@ -26,7 +26,8 @@ export const usePatient = () => {
       user_type: "Customer",
     };
 
-    Axios.post(REGISTER_PATIENT, patientData)
+    // Resolves to true when the patient was registered.
+    return Axios.post(REGISTER_PATIENT, patientData)
       .then((response) => {
         if (response?.data?.success) {
           toast.success(`${response?.data?.message}`, {
@@ -43,9 +44,11 @@ export const usePatient = () => {
         savePatientInfo("add", response?.data?.result);
 
         setProgressing(false);
+        return Boolean(response?.data?.success);
       })
-      .catch((error) => {
+      .catch(() => {
         setProgressing(false);
+        return false;
       });
 
   };

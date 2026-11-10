@@ -31,7 +31,7 @@ const UserInfoInputs = ({
     sendSms();
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -91,40 +91,38 @@ const UserInfoInputs = ({
     }
 
     const success_message = "Login successful";
-    registerUser(success_message);
+    const loggedIn = await registerUser(success_message);
+    if (!loggedIn) return;
 
-    setTimeout(() => {
-      onClose();
-      if (!progressing) {
-        if (type === "cart") {
-          if (moduleName === "food") {
-            router.push(
-              `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-            );
-          } else {
-            router.push(
-              `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
-            );
-          }
-        } else if (type === "login") {
-          router.push("/");
-        } else if (type === "doctor") {
-          router.push("/medical-services/doctor");
-        } else if (type === "eyeCareCenter") {
-          router.push("/medical-services/eye-care-center");
-        } else if (type === "dentalCareCenter") {
-          router.push("/medical-services/dental-care-center");
-        } else if (type === "hospital") {
-          router.push("/medical-services/hospital");
-        } else if (type === "diagnostic") {
-          router.push("/medical-services/diagnostic");
-        } else if (type === "medicalService") {
-          router.push("/medical-services/medical-service");
-        } else if (type === "appointment") {
-          router.push("/medical-services/doctor/book-appointment");
-        }
+    onClose();
+
+    if (type === "cart") {
+      if (moduleName === "food") {
+        router.push(
+          `/${moduleName}/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
+      } else {
+        router.push(
+          `/${moduleName}/${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`
+        );
       }
-    }, 1000);
+    } else if (type === "login") {
+      router.push("/");
+    } else if (type === "doctor") {
+      router.push("/medical-services/doctor");
+    } else if (type === "eyeCareCenter") {
+      router.push("/medical-services/eye-care-center");
+    } else if (type === "dentalCareCenter") {
+      router.push("/medical-services/dental-care-center");
+    } else if (type === "hospital") {
+      router.push("/medical-services/hospital");
+    } else if (type === "diagnostic") {
+      router.push("/medical-services/diagnostic");
+    } else if (type === "medicalService") {
+      router.push("/medical-services/medical-service");
+    } else if (type === "appointment") {
+      router.push("/medical-services/doctor/book-appointment");
+    }
   };
 
   return (
