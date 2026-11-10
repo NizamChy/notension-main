@@ -163,7 +163,7 @@ const Checkout = () => {
   };
 
   const handleGoHomeClick = () => {
-    router.push("/fashion_lifestyle");
+    router.push("/fashion-lifestyle");
     setTotalStores(0);
 
     closeModal();

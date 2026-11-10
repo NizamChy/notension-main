@@ -25,12 +25,12 @@ const ProductCards = ({ product }) => {
       <Link
         href={
           params?.shopSlugId
-            ? `/fashion_lifestyle/shop/${
+            ? `/fashion-lifestyle/shop/${
                 params?.shopSlugId
               }/view-product/${slugify(product?.product_title_eng)}_${
                 product?._id
               }`
-            : `/fashion_lifestyle/view-product/${slugify(
+            : `/fashion-lifestyle/view-product/${slugify(
                 product?.product_title_eng
               )}_${product?._id}`
         }

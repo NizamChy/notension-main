@@ -32,7 +32,7 @@ const SidebarItems = ({ onClose }) => {
                       : navItem?.type_name
                   );
                   router.push(
-                    `/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+                    `/fashion-lifestyle/type/${slugify(navItem?.type_name)}_${
                       navItem?.type_id
                     }`
                   );
@@ -62,7 +62,7 @@ const SidebarItems = ({ onClose }) => {
                             activeCatMenu === cat?.name ? null : cat?.name
                           );
                           router.push(
-                            `/fashion_lifestyle/subcat/${slugify(
+                            `/fashion-lifestyle/category/${slugify(
                               navItem?.type_name
                             )}_${cat?.type_id}_${slugify(cat?.name)}_${
                               cat?.category_id
@@ -90,7 +90,7 @@ const SidebarItems = ({ onClose }) => {
                           {cat?.subcategories?.map((subcat) => (
                             <li key={subcat?.id}>
                               <Link
-                                href={`/fashion_lifestyle/category/${slugify(
+                                href={`/fashion-lifestyle/subcategory/${slugify(
                                   navItem?.type_name
                                 )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                   cat?.category_id
@@ -114,7 +114,7 @@ const SidebarItems = ({ onClose }) => {
       </div>
       <div className="p-4">
         <div className="flex flex-col space-y-4">
-          <Link href="/fashion_lifestyle/user/profile">
+          <Link href="/fashion-lifestyle/user/profile">
             <button
               onClick={() => onClose()}
               className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
@@ -124,7 +124,7 @@ const SidebarItems = ({ onClose }) => {
             </button>
           </Link>
 
-          <Link href="/fashion_lifestyle/wishlist">
+          <Link href="/fashion-lifestyle/wishlist">
             <button
               onClick={() => onClose()}
               className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"

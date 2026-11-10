@@ -15,7 +15,7 @@ import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 
 const SubCatSlider = () => {
   const params = useParams();
-  const typeCatSubIdSlug = params?.category;
+  const typeCatSubIdSlug = params?.subcategorySlugId;
 
   const [typeSlug, typeId, catSlug, catId, subCatSlug, subCatId] =
     typeCatSubIdSlug.split("_");
@@ -86,7 +86,7 @@ const SubCatSlider = () => {
             >
               <div className="group rounded-lg relative transition-all duration-300 pt-2">
                 <Link
-                  href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                  href={`/fashion-lifestyle/subcategory/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                     category?.sub_category_name
                   )}_${category?._id}`}
                   className="block"

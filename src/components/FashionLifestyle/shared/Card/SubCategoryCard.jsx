@@ -9,12 +9,12 @@ import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const SubCategoryCard = ({ subCategory, cat }) => {
   const params = useParams();
-  const typeSlugId = params?.category || null;
+  const typeSlugId = params?.typeSlugId || null;
 
   return (
     <div className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white">
       <Link
-        href={`/fashion_lifestyle/category/${typeSlugId}_${slugify(
+        href={`/fashion-lifestyle/subcategory/${typeSlugId}_${slugify(
           cat?.category_name
         )}_${cat?._id}_${slugify(subCategory?.sub_category_name)}_${
           subCategory?._id

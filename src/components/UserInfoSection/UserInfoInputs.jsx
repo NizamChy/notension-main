@@ -119,7 +119,7 @@ const UserInfoInputs = ({
     } else if (type === "diagnostic") {
       router.push("/medical-services/diagnostic");
     } else if (type === "medicalService") {
-      router.push("/medical-services/medical-service");
+      router.push("/medical-services");
     } else if (type === "appointment") {
       router.push("/medical-services/doctor/book-appointment");
     }

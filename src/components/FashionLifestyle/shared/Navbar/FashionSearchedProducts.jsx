@@ -80,7 +80,7 @@ const FashionSearchedProducts = () => {
             {productInfo?.map((product) => (
               <Link
                 key={product?._id?.toString()}
-                href={`/fashion_lifestyle/view-product/${slugify(
+                href={`/fashion-lifestyle/view-product/${slugify(
                   product?.product_title_eng
                 )}_${product?._id}`}
                 onClick={() => handleProductClick(product)}

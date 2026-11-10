@@ -52,7 +52,7 @@ const WomensFashionCategory = () => {
               className="group p-2 bg-white relative rounded-xl overflow-hidden transition-all duration-300"
             >
               <Link
-                href={`/fashion_lifestyle/subcat/women_${
+                href={`/fashion-lifestyle/category/women_${
                   category?.type_info
                 }_${slugify(category?.category_name)}_${category?._id}`}
                 className="block h-full"
@@ -83,7 +83,7 @@ const WomensFashionCategory = () => {
 
         <div className="mt-14 text-center">
           <Link
-            href={`/fashion_lifestyle/cat/women_${WOMEN_TYPE_ID}`}
+            href={`/fashion-lifestyle/type/women_${WOMEN_TYPE_ID}`}
             className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
             aria-label="Explore all women's collections"
           >

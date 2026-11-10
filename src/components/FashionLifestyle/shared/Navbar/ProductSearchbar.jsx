@@ -20,7 +20,7 @@ const ProductSearchbar = () => {
 
     if (selectedType && searchText.trim().length > 2) {
       router.push(
-        `/fashion_lifestyle/search-product?query=${searchText}&type_id=${selectedType}`
+        `/fashion-lifestyle/search-product?query=${searchText}&type_id=${selectedType}`
       );
     }
   };

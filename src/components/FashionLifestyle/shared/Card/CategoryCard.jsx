@@ -8,7 +8,7 @@ const CategoryCard = ({ category, typeName }) => {
   return (
     <div className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white">
       <Link
-        href={`/fashion_lifestyle/subcat/${slugify(typeName)}_${
+        href={`/fashion-lifestyle/category/${slugify(typeName)}_${
           category?.type_info
         }_${slugify(category?.category_name)}_${category?._id}`}
         className="block h-full"

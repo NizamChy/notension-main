@@ -41,7 +41,7 @@ const TopRightSection = () => {
     } else if (type === "food") {
       router.push("/food");
     } else if (type === "fashionLifestyle") {
-      router.push("/fashion_lifestyle");
+      router.push("/fashion-lifestyle");
     } else if (type === "doctor") {
       router.push("/medical-services/doctor");
     }

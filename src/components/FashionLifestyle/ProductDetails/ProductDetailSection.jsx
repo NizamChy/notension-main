@@ -416,7 +416,7 @@ const ProductDetailSection = () => {
               </p>
 
               <Link
-                href={`/fashion_lifestyle/shop/${slugify(
+                href={`/fashion-lifestyle/shop/${slugify(
                   product?.store_info?.shop_name
                 )}_${product?.store_info?._id}`}
               >

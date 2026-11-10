@@ -33,7 +33,7 @@ const StoreNavRow = ({
           }}
         >
           <button
-            // href={`/fashion_lifestyle/cat/${slugify(navItem?.type_name)}_${
+            // href={`/fashion-lifestyle/type/${slugify(navItem?.type_name)}_${
             //   navItem?.type_id
             // }`}
             onClick={() => setActiveMenu(null)}
@@ -69,7 +69,7 @@ const StoreNavRow = ({
                                 key={`${subcat?.id}-${subcat?.name}-${index}`}
                               >
                                 <Link
-                                  href={`/fashion_lifestyle/shop/${shopSlugId}/category/${slugify(
+                                  href={`/fashion-lifestyle/shop/${shopSlugId}/category/${slugify(
                                     navItem?.type_name
                                   )}_${cat?.type_id}_${slugify(cat?.name)}_${
                                     cat?.category_id

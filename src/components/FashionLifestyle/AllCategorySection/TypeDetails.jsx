@@ -8,7 +8,7 @@ import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const TypeDetails = () => {
   const params = useParams();
-  const typeSlugId = params?.category;
+  const typeSlugId = params?.typeSlugId;
   const [slug, typeId] = typeSlugId?.split("_");
 
   const { useCategoryById } = useCategoryItem();

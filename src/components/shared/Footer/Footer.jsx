@@ -100,7 +100,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="/fashion_lifestyle"
+                href="/fashion-lifestyle"
                 className="flex items-center text-gray-700 hover:text-yellow-500"
               >
                 <FiChevronRight className="mr-2" />

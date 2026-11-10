@@ -78,7 +78,7 @@ const AllCategoriesSlider = () => {
               className="group relative rounded-lg transition-shadow duration-300"
             >
               <Link
-                href={`/fashion_lifestyle/subcat/all_${
+                href={`/fashion-lifestyle/category/all_${
                   category?.type_info
                 }_${slugify(category?.category_name)}_${category?._id}`}
                 className="flex flex-col items-center"

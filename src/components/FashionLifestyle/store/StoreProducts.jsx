@@ -66,7 +66,7 @@ const StoreProducts = ({ title, productInfo, isLoading, isError }) => {
           {displayedProducts?.map((product) => (
             <Link
               key={product?._id?.toString()}
-              href={`/fashion_lifestyle/shop/${
+              href={`/fashion-lifestyle/shop/${
                 params?.shopSlugId
               }/view-product/${slugify(product?.product_title_eng)}_${
                 product?._id

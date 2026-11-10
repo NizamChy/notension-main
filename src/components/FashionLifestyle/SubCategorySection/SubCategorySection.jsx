@@ -14,7 +14,7 @@ const SubCategorySection = ({
   gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-6",
 }) => {
   const params = useParams();
-  const catSlugId = params.catSlugId;
+  const catSlugId = params?.categorySlugId;
   const [typeSlug, typeId, catSlug, catId] = catSlugId.split("_");
 
   const { useSubCategoryById } = useCategoryItem();
@@ -38,7 +38,7 @@ const SubCategorySection = ({
     >
       <div className="max-w-7xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold py-4 text-gray-700 capitalize flex items-center">
-          <Link href={`/fashion_lifestyle/cat/${typeSlug}_${typeId}`}>
+          <Link href={`/fashion-lifestyle/type/${typeSlug}_${typeId}`}>
             <span className="flex items-center hover:text-blue-500">
               {typeSlug?.replace(/-/g, " ")}{" "}
               <MdKeyboardArrowRight className="text-gray-500" />
@@ -56,7 +56,7 @@ const SubCategorySection = ({
               className="group relative rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow transition-all duration-300 bg-white"
             >
               <Link
-                href={`/fashion_lifestyle/category/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
+                href={`/fashion-lifestyle/subcategory/${typeSlug}_${typeId}_${catSlug}_${catId}_${slugify(
                   subCategory?.sub_category_name
                 )}_${subCategory?._id}`}
                 className="block h-full"
