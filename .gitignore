@@ -1,7 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-../../../../public/AllDistrictsData/AllDistricts
-
 # dependencies
 /node_modules
 /.pnp
@@ -32,9 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-# .env*
-.env*.local
+# env files (never commit real values; .env.example is the template)
+.env*
+!.env.example
 
 # vercel
 .vercel
