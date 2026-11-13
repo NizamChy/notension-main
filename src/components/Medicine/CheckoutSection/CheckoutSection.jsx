@@ -3,7 +3,7 @@
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import EmptyCart from "@/components/Cart/EmptyCart";
+import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import CheckoutCard from "@/components/common/CheckoutCard";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
@@ -157,19 +157,13 @@ const CheckoutSection = () => {
           setPaymentOption={setPaymentOption}
           onPlaceOrder={handleCustomerOrder}
           progressing={progressing}
-          accent={{
-            text: "text-primaryMedicine",
-            button: "bg-primaryMedicine hover:bg-secondaryMedicine",
-            selected: "border-primaryMedicine bg-primaryMedicine/5",
-            radio: "accent-primaryMedicine",
-          }}
+          moduleName="medicine"
+          storeName={medicineStoreInfo?.shop_name}
         />
       )}
 
       {userInfo?._id && medicineItems?.length < 1 && (
-        <div className="min-h-[50vh] flex justify-center items-center">
-          <EmptyCart />
-        </div>
+        <CheckoutEmpty href="/medicine" />
       )}
 
       {isModalOpen && (

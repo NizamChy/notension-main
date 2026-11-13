@@ -60,13 +60,13 @@ const Cart = () => {
     <>
       {/* Floating cart: a slim tab on the right edge on lg+ (store pages keep
           a right gutter for it) and a pill in the bottom-right corner below.
-          Hidden on small screens at checkout so it can't cover "Place order". */}
+          Hidden at checkout, which already lists the cart. */}
       <button
         type="button"
         onClick={() => setIsOpen(true)}
         aria-label={`Open cart, ${count} ${count === 1 ? "item" : "items"}`}
         className={`fixed bottom-4 right-4 z-40 items-center overflow-hidden rounded-full bg-[#0C3F8E] text-white shadow-lg shadow-[#0C3F8E]/30 transition-transform hover:-translate-y-0.5 lg:bottom-auto lg:right-0 lg:top-1/2 lg:w-[76px] lg:-translate-y-1/2 lg:flex-col lg:rounded-none lg:rounded-s-2xl lg:hover:-translate-y-1/2 ${
-          onCheckout ? "hidden lg:flex" : "flex"
+          onCheckout ? "hidden" : "flex"
         }`}
       >
         <span className="flex items-center gap-2 py-2.5 pl-3.5 pr-3 lg:flex-col lg:gap-1 lg:px-2 lg:pb-2 lg:pt-3">

@@ -1,23 +1,30 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { TbCurrencyTaka } from "react-icons/tb";
+import { useSelector } from "react-redux";
 import { AiOutlinePhone } from "react-icons/ai";
-import { IoLocationOutline } from "react-icons/io5";
-import FloatingInput from "../LoginSection/FloatingInput";
+import { IoLocationOutline, IoPersonOutline } from "react-icons/io5";
+import { lineTotal } from "@/utils/price";
+import { CART_MODULES } from "../Cart/cartModules";
+import {
+  formatTaka,
+  PriceRow,
+  PrimaryButton,
+} from "../shared/CartUI/CartUI";
+import {
+  CheckoutLayout,
+  CheckoutStep,
+  PaymentOptions,
+  StepLink,
+  SummaryCard,
+  SummaryItem,
+  TextField,
+} from "../shared/Checkout/CheckoutUI";
 
-const Amount = ({ value }) => (
-  <span className="flex items-center tabular-nums">
-    <TbCurrencyTaka className="shrink-0" />
-    {Number(value || 0).toFixed(2)}
-  </span>
-);
-
-// Shared checkout card for the grocery, medicine and food stores. `accent`
-// carries each module's literal Tailwind classes:
-// { text, button, selected, radio }.
+// Shared checkout page for the grocery, medicine and food stores.
 const CheckoutCard = ({
+  moduleName,
+  storeName,
   userInfo,
   totalPrice,
   shippingCharge,
@@ -31,117 +38,107 @@ const CheckoutCard = ({
   onPlaceOrder,
   progressing,
   disabled,
-  accent,
 }) => {
-  return (
-    <div className="flex justify-center py-2 md:py-6">
-      <div className="w-full max-w-md space-y-4">
-        <h1 className="text-xl md:text-2xl font-semibold text-deepGray">
-          Checkout
-        </h1>
+  const { itemsKey, imageBaseUrl, titleField } = CART_MODULES[moduleName];
+  const items = useSelector((state) => state.cart[itemsKey]) || [];
+  const itemCount = items.reduce((sum, item) => sum + (item?.quantity || 0), 0);
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Deliver to
-          </h2>
-          <p className="mt-2 font-semibold text-gray-900">
-            {userInfo?.customer_name}
+  const main = (
+    <>
+      <CheckoutStep
+        step={1}
+        title="Delivery details"
+        action={<StepLink href="/user/update-address">Change</StepLink>}
+      >
+        <div className="space-y-2.5 rounded-xl bg-gray-50 p-4 text-sm text-gray-700">
+          <p className="flex items-center gap-2.5 font-semibold text-gray-900">
+            <IoPersonOutline className="shrink-0 text-base text-gray-500" />
+            {userInfo?.customer_name || "—"}
           </p>
-          <p className="mt-1.5 flex gap-2 items-start text-sm text-gray-700">
-            <IoLocationOutline className={`shrink-0 mt-0.5 text-base ${accent.text}`} />
-            <span>{userInfo?.customer_address}</span>
+          <p className="flex items-start gap-2.5">
+            <IoLocationOutline className="mt-0.5 shrink-0 text-base text-gray-500" />
+            <span>{userInfo?.customer_address || "No address added yet"}</span>
           </p>
-          <p className="mt-1 flex gap-2 items-center text-sm text-gray-700">
-            <AiOutlinePhone className={`shrink-0 text-base ${accent.text}`} />
-            <span>{userInfo?.contact_no}</span>
+          <p className="flex items-center gap-2.5">
+            <AiOutlinePhone className="shrink-0 text-base text-gray-500" />
+            <span className="tabular-nums">{userInfo?.contact_no || "—"}</span>
           </p>
-        </section>
+        </div>
+      </CheckoutStep>
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Order summary
-          </h2>
-          <div className="mt-3 space-y-1.5 text-sm text-gray-700">
-            <div className="flex justify-between">
-              <span>Subtotal</span>
-              <Amount value={totalPrice} />
-            </div>
-            <div className="flex justify-between">
-              <span>Delivery charge</span>
-              <Amount value={shippingCharge} />
-            </div>
-            <div className="flex justify-between">
-              <span>Discount</span>
-              <Amount value={discount} />
-            </div>
-          </div>
-          <div className="mt-3 pt-3 border-t border-dashed flex justify-between text-base font-semibold text-gray-900">
-            <span>Total</span>
-            <Amount value={grandTotal} />
-          </div>
-        </section>
+      <CheckoutStep step={2} title="Payment method">
+        <PaymentOptions
+          options={paymentData}
+          value={paymentOption}
+          onChange={setPaymentOption}
+        />
+      </CheckoutStep>
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Payment method
-          </h2>
-          <div className="mt-3 space-y-2">
-            {paymentData?.map((option) => {
-              const checked = paymentOption === option.label;
-              return (
-                <label
-                  key={option.id}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
-                    checked
-                      ? accent.selected
-                      : "border-gray-200 hover:bg-gray-50"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentOption"
-                    value={option.label}
-                    checked={checked}
-                    onChange={() => setPaymentOption(option.label)}
-                    className={`h-4 w-4 ${accent.radio}`}
-                  />
-                  <Image
-                    src={option.icon}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="w-8 h-8 object-contain"
-                  />
-                  <span className="text-sm font-medium text-gray-800">
-                    {option.label}
-                  </span>
-                </label>
-              );
-            })}
-          </div>
+      <CheckoutStep step={3} title="Note for the store">
+        <TextField
+          label="Anything the store should know? (optional)"
+          multiline
+          id="remark"
+          placeholder="E.g. call before delivery, gate code…"
+          value={remarks}
+          onChange={(e) => setRemarks(e.target.value)}
+        />
+      </CheckoutStep>
+    </>
+  );
 
-          <div className="mt-4">
-            <FloatingInput
-              label="Note for the store (optional)"
-              id="remark"
-              size="text-base"
-              multiline={true}
-              value={remarks}
-              onChange={(e) => setRemarks(e.target.value)}
-            />
-          </div>
-        </section>
+  const aside = (
+    <SummaryCard
+      meta={`${itemCount} item${itemCount === 1 ? "" : "s"}`}
+      footer={
+        <>
+          <PrimaryButton
+            onClick={onPlaceOrder}
+            disabled={progressing || disabled}
+          >
+            {progressing ? "Placing order…" : `Place order · ${formatTaka(grandTotal)}`}
+          </PrimaryButton>
+          <p className="mt-3 text-center text-xs text-gray-500">
+            By placing this order you agree to our terms of service.
+          </p>
+        </>
+      }
+    >
+      {storeName && (
+        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+          From {storeName}
+        </p>
+      )}
+      <ul className="max-h-[320px] divide-y divide-gray-100 overflow-y-auto pr-1">
+        {items.map((item) => (
+          <SummaryItem
+            key={item?._id}
+            image={item?.app_image ? `${imageBaseUrl}/${item.app_image}` : null}
+            title={item?.[titleField]}
+            meta={`${formatTaka(item?.sale_price)} each`}
+            quantity={item?.quantity}
+            total={formatTaka(lineTotal(item))}
+          />
+        ))}
+      </ul>
 
-        <button
-          type="button"
-          onClick={onPlaceOrder}
-          disabled={progressing || disabled}
-          className={`w-full py-3 rounded-xl font-semibold text-white shadow-sm transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed ${accent.button}`}
-        >
-          {progressing ? "Placing order..." : "Place order"}
-        </button>
+      <div className="mt-4 space-y-2 border-t border-gray-100 pt-4">
+        <PriceRow label="Subtotal" value={formatTaka(totalPrice)} />
+        <PriceRow label="Delivery charge" value={formatTaka(shippingCharge)} />
+        {Number(discount) > 0 && (
+          <PriceRow label="Discount" value={`−${formatTaka(discount)}`} />
+        )}
+        <PriceRow label="Total" value={formatTaka(grandTotal)} strong />
       </div>
-    </div>
+    </SummaryCard>
+  );
+
+  return (
+    <CheckoutLayout
+      subtitle="Review your order and choose how you'd like to pay."
+      main={main}
+      aside={aside}
+    />
   );
 };
 

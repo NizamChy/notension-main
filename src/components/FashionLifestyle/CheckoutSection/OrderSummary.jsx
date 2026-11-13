@@ -1,146 +1,124 @@
 import React from "react";
-import { lineTotal } from "@/utils/price";
 import toast from "react-hot-toast";
 import { FaShop } from "react-icons/fa6";
-import { RxCross2 } from "react-icons/rx";
+import { lineTotal } from "@/utils/price";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
+import {
+  formatTaka,
+  PriceRow,
+  PrimaryButton,
+} from "@/components/shared/CartUI/CartUI";
+import {
+  SummaryCard,
+  SummaryItem,
+} from "@/components/shared/Checkout/CheckoutUI";
 
-const OrderSummary = ({ items, total, removeFromCart }) => {
+// Order summary grouped by shop. Each shop becomes its own order.
+const OrderSummary = ({
+  items,
+  subtotal,
+  deliveryCharge,
+  total,
+  removeFromCart,
+  formId,
+  isSubmitting,
+}) => {
   const handleRemoveItem = (productId, selectedSize, selectedImage) => {
     removeFromCart(productId, selectedSize, selectedImage);
     toast.dismiss();
-    toast.success("Item removed from cart!");
+    toast.success("Item removed from bag");
   };
 
   const groupedItems = items.reduce((groups, item) => {
     const storeId = item?.store_info?._id;
     if (!groups[storeId]) {
-      groups[storeId] = {
-        shop_name: item?.store_info?.shop_name,
-        shop_address: item?.store_info?.shop_address,
-        items: [],
-      };
+      groups[storeId] = { shop_name: item?.store_info?.shop_name, items: [] };
     }
     groups[storeId].items.push(item);
     return groups;
   }, {});
+  const stores = Object.values(groupedItems);
 
-  const deliveryChargeByStore = 0;
-
-  const subtotalByStore = (storeItems) =>
-    storeItems.reduce((sum, item) => sum + lineTotal(item), 0);
+  const itemCount = items.reduce((sum, item) => sum + (item?.quantity || 0), 0);
 
   return (
-    <div className="bg-white p-5 md:p-6 rounded-lg border border-gray-100 shadow-sm">
-      <h2 className="text-lg font-medium text-gray-900 mb-6">Order Summary</h2>
-
-      {Object.values(groupedItems).map((store, idx) => (
-        <div key={idx} className="mb-6 last:mb-0">
-          <p className="text-base md:text-lg font-semibold text-primary pb-3 border-b border-gray-200 flex items-center gap-1.5">
-            <span>
-              <FaShop className="text-lg" />
-            </span>
-            <span>{store?.shop_name}</span>
-          </p>
-
-          <ul className="divide-y divide-gray-200">
-            {store?.items?.map((item, index) => (
-              <li key={index} className="py-4">
-                <div className="flex">
-                  <div className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 bg-gray-50">
-                    <img
-                      src={
-                        item.web_image
-                          ? `${FASHION_IMAGE_URL}/${item?.web_image}`
-                          : "/png/dummyImage.png"
-                      }
-                      alt={item?.product_title_eng}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-
-                  <div className="ml-3 md:ml-4 flex flex-1 min-w-0 flex-col">
-                    <div>
-                      <div className="flex justify-between items-start gap-3 text-sm md:text-base font-medium text-gray-900">
-                        <h3 className="min-w-0 line-clamp-2">
-                          {item?.product_title_eng}
-                        </h3>
-                        <div className="flex gap-2 items-center shrink-0">
-                          <p className="whitespace-nowrap">
-                            ৳{item?.sale_price?.toFixed(2)} × {item?.quantity}
-                          </p>
-                          <button
-                            className="border text-gray-500 hover:text-red-500 hover:border-red-500 rounded p-1"
-                            onClick={() =>
-                              handleRemoveItem(
-                                item?._id,
-                                item?.selectedSize,
-                                item?.selectedImage
-                              )
-                            }
-                          >
-                            <RxCross2 />
-                          </button>
-                        </div>
-                      </div>
-
-                      {(item?.selectedImage || item?.selectedSize) && (
-                        <p className="mt-1 text-sm text-gray-500">
-                          {/* {item?.selectedImage && (
-                            <span>{item?.selectedImage}</span>
-                          )} */}
-                          {/* {item?.selectedImage && item?.selectedSize && " / "} */}
-                          {item?.selectedSize && (
-                            <span>{item?.selectedSize}</span>
-                          )}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex flex-1 items-end justify-between mt-2">
-                      <p className="text-gray-500 text-sm">
-                        Qty {item?.quantity}
-                      </p>
-                      <p className="text-base font-medium text-gray-900">
-                        ৳ {lineTotal(item).toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className="border-t border-gray-200 pt-3 mt-3">
-            <div className="flex justify-between text-base font-medium text-gray-900">
-              <p>Subtotal</p>
-              <p>৳ {subtotalByStore(store?.items)?.toFixed(2)}</p>
-            </div>
-
-            <div className="flex justify-between text-sm text-gray-600 mt-1">
-              <p>Delivery charge</p>
-              <p>৳ {deliveryChargeByStore?.toFixed(2)}</p>
-            </div>
-            <div className="flex justify-between text-lg font-medium text-gray-900 mt-4 pt-4 border-t border-gray-200">
-              <p>Total</p>
-              <p>
-                ৳{" "}
-                {(
-                  deliveryChargeByStore + subtotalByStore(store?.items)
-                )?.toFixed(2)}
+    <SummaryCard
+      meta={`${itemCount} item${itemCount === 1 ? "" : "s"}`}
+      footer={
+        <>
+          <PrimaryButton type="submit" form={formId} disabled={isSubmitting}>
+            {isSubmitting ? "Placing order…" : `Place order · ${formatTaka(total)}`}
+          </PrimaryButton>
+          {stores.length > 1 && (
+            <p className="mt-3 text-center text-xs text-gray-500">
+              Your bag has items from {stores.length} shops, so we&apos;ll place{" "}
+              {stores.length} separate orders.
+            </p>
+          )}
+        </>
+      }
+    >
+      <div className="max-h-[360px] space-y-5 overflow-y-auto pr-1">
+        {stores.map((store, idx) => {
+          const storeSubtotal = store.items.reduce(
+            (sum, item) => sum + lineTotal(item),
+            0
+          );
+          return (
+            <div key={store?.shop_name || idx}>
+              <p className="mb-3 flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <span className="flex min-w-0 items-center gap-1.5">
+                  <FaShop className="shrink-0 text-sm" />
+                  <span className="truncate">{store?.shop_name || "Shop"}</span>
+                </span>
+                {stores.length > 1 && (
+                  <span className="tabular-nums normal-case tracking-normal">
+                    {formatTaka(storeSubtotal)}
+                  </span>
+                )}
               </p>
+              <ul className="divide-y divide-gray-100">
+                {store.items.map((item, index) => (
+                  <SummaryItem
+                    key={`${item?._id}-${item?.selectedSize}-${index}`}
+                    image={
+                      item?.web_image
+                        ? `${FASHION_IMAGE_URL}/${item.web_image}`
+                        : null
+                    }
+                    title={item?.product_title_eng}
+                    meta={[
+                      item?.selectedSize && `Size ${item.selectedSize}`,
+                      `${formatTaka(item?.sale_price)} each`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                    quantity={item?.quantity}
+                    total={formatTaka(lineTotal(item))}
+                    onRemove={() =>
+                      handleRemoveItem(
+                        item?._id,
+                        item?.selectedSize,
+                        item?.selectedImage
+                      )
+                    }
+                  />
+                ))}
+              </ul>
             </div>
-          </div>
-        </div>
-      ))}
-
-      <div className="mt-6">
-        <div className="flex justify-between text-lg font-semibold text-gray-900 pt-4 border-t-2 border-gray-200">
-          <p>Overall Total</p>
-          <p>৳ {total?.toFixed(2)}</p>
-        </div>
+          );
+        })}
       </div>
-    </div>
+
+      <div className="mt-4 space-y-2 border-t border-gray-100 pt-4">
+        <PriceRow label="Subtotal" value={formatTaka(subtotal)} />
+        <PriceRow
+          label="Delivery charge"
+          value={deliveryCharge > 0 ? formatTaka(deliveryCharge) : "Free"}
+        />
+        <PriceRow label="Total" value={formatTaka(total)} strong />
+      </div>
+    </SummaryCard>
   );
 };
 
