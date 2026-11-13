@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
-import { BiLogOut } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { FaUserDoctor } from "react-icons/fa6";
-import { HiChevronDown, HiMenuAlt3, HiX } from "react-icons/hi";
+import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { IoLocationOutline } from "react-icons/io5";
+import AccountMenu from "./AccountMenu";
 import LoginButton from "../NavbarLogin/LoginButton";
-import { useUser } from "@/hooks/fetch-data/useUser";
 import LocationModal from "../LocationModal/LocationModal";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
@@ -29,20 +28,13 @@ const NAV_LINKS = [
 const Navbar = () => {
   const pathname = usePathname();
 
-  // Each menu remembers the path it was opened on, so it closes by itself
+  // The menu remembers the path it was opened on, so it closes by itself
   // after navigating.
-  const [accountOpenOn, setAccountOpenOn] = useState(null);
   const [menuOpenOn, setMenuOpenOn] = useState(null);
-  const accountOpen = accountOpenOn === pathname;
   const menuOpen = menuOpenOn === pathname;
-  const setAccountOpen = (open) => setAccountOpenOn(open ? pathname : null);
   const setMenuOpen = (open) => setMenuOpenOn(open ? pathname : null);
 
-  const accountRef = useRef();
-
-  const { handleUserLogout } = useUser();
   const userInfo = useSelector((state) => state.user.userInfo);
-  const userName = userInfo?.customer_name || "Account";
 
   // Order history lives under each store section.
   let category = "";
@@ -50,16 +42,6 @@ const Navbar = () => {
   else if (pathname.includes("/medicine")) category = "medicine";
   else if (pathname.includes("/food")) category = "food";
   else if (pathname.includes("/all-care-services")) category = "all-care-services";
-
-  useEffect(() => {
-    const close = (e) => {
-      if (accountRef.current && !accountRef.current.contains(e.target)) {
-        setAccountOpenOn(null);
-      }
-    };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
-  }, []);
 
   const isActive = (match) => pathname.startsWith(match);
 
@@ -121,68 +103,7 @@ const Navbar = () => {
 
           {!userInfo?._id && <LoginButton />}
 
-          {userInfo?._id && (
-            <div className="relative" ref={accountRef}>
-              <button
-                type="button"
-                onClick={() => setAccountOpen(!accountOpen)}
-                aria-expanded={accountOpen}
-                aria-haspopup="menu"
-                className="flex items-center gap-2 rounded-full border border-gray-200 py-1 pl-1 pr-1 transition-colors hover:bg-gray-50 md:pr-3"
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0C3F8E] text-sm font-semibold uppercase text-white">
-                  {userName.charAt(0)}
-                </span>
-                <span className="hidden max-w-[120px] truncate text-sm font-medium text-gray-800 md:block">
-                  {userName}
-                </span>
-                <HiChevronDown
-                  className={`hidden text-gray-500 transition-transform md:block ${
-                    accountOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {accountOpen && (
-                <div
-                  role="menu"
-                  className="absolute right-0 top-12 w-60 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl shadow-gray-900/10"
-                >
-                  <div className="border-b border-gray-100 px-4 py-3">
-                    <p className="text-xs text-gray-500">Signed in as</p>
-                    <p className="truncate text-sm font-semibold text-gray-900">
-                      {userName}
-                    </p>
-                  </div>
-                  <ul className="p-1.5">
-                    {accountItems.map(({ href, label, Icon }) => (
-                      <li key={href}>
-                        <Link
-                          href={href}
-                          role="menuitem"
-                          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                        >
-                          <Icon className="text-base text-gray-400" />
-                          {label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="border-t border-gray-100 p-1.5">
-                    <button
-                      type="button"
-                      role="menuitem"
-                      onClick={handleUserLogout}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-[#D92D20] transition-colors hover:bg-[#D92D20]/10"
-                    >
-                      <BiLogOut className="text-base" />
-                      Log out
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+          {userInfo?._id && <AccountMenu items={accountItems} />}
 
           {/* Section menu toggle, below xl */}
           <button

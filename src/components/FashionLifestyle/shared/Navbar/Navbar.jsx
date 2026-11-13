@@ -2,33 +2,49 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BsPerson } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { IoSearch } from "react-icons/io5";
-import LoginDropdown from "./LoginDropdown";
+import React, { useState } from "react";
+import { CgProfile } from "react-icons/cg";
+import { BsCartCheck } from "react-icons/bs";
+import { HiMenuAlt2 } from "react-icons/hi";
+import { IoLocationOutline, IoSearch } from "react-icons/io5";
+import { IoMdClose, IoMdHeartEmpty } from "react-icons/io";
+import { LiaShoppingBagSolid } from "react-icons/lia";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import CartDrawer from "../Cart/CartDrawer";
 import Sidebar from "../../Sidebar/Sidebar";
 import ProductSearchbar from "./ProductSearchbar";
 import { useCart } from "../../context/CartContext";
-import { useUser } from "@/hooks/fetch-data/useUser";
-import { LiaShoppingBagSolid } from "react-icons/lia";
-import { IoMdClose, IoMdHeartEmpty } from "react-icons/io";
 import LocationModal from "../LocationModal/LocationModal";
+import AccountMenu from "@/components/shared/Navbar/AccountMenu";
+import LoginButton from "@/components/shared/NavbarLogin/LoginButton";
 import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
-import React, { useEffect, useRef, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+
+const ACCOUNT_ITEMS = [
+  { href: "/fashion-lifestyle/orders", label: "My orders", Icon: BsCartCheck },
+  { href: "/fashion-lifestyle/wishlist", label: "Wishlist", Icon: IoMdHeartEmpty },
+  { href: "/fashion-lifestyle/user/profile", label: "Profile", Icon: CgProfile },
+  {
+    href: "/fashion-lifestyle/user/update-address",
+    label: "Update address",
+    Icon: IoLocationOutline,
+  },
+];
+
+const iconButton =
+  "relative flex h-10 w-10 items-center justify-center rounded-full text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900";
+
+const CountBadge = ({ count }) =>
+  count > 0 ? (
+    <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#EB5C2F] px-1 text-[11px] font-semibold leading-none text-white ring-2 ring-white">
+      {count > 99 ? "99+" : count}
+    </span>
+  ) : null;
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dropDownState, setDropDownState] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const dropDownMenuRef = useRef();
-  const { handleUserLogout } = useUser();
 
   const router = useRouter();
   const params = useParams();
@@ -40,229 +56,137 @@ const Navbar = () => {
     (state) => state.userChoice.favouriteFashionItems
   );
 
-  let shopName = "";
-  let shopFirstWord = "";
-  let shopLogoWords = "";
-  let shopWords = [];
+  // Inside a shop the shop's name replaces the NoTension logo.
+  const inShop = pathname?.includes("shop") && params?.shopSlugId;
+  const shopWords = inShop
+    ? params.shopSlugId.split("_")[0].split("-").filter(Boolean)
+    : [];
 
-  if (pathname.includes("shop")) {
-    shopName = params?.shopSlugId?.split("_")[0];
-    shopFirstWord = shopName?.split("-")[0];
-    shopLogoWords = shopName?.slice(0, 2);
-    shopWords = shopName?.split("-");
-  }
-
+  // Shop sub-page → shop home → fashion home → site home.
   const handleLogoClick = () => {
     const basePath = `/fashion-lifestyle/shop/${params?.shopSlugId}`;
-    const currentPath = window.location.pathname;
 
-    if (currentPath.startsWith(basePath) && currentPath !== basePath) {
+    if (pathname.startsWith(basePath) && pathname !== basePath) {
       return router.push(basePath);
     }
-
-    if (currentPath === basePath) {
-      return router.push("/fashion-lifestyle");
-    }
-
-    if (currentPath === "/fashion-lifestyle") {
-      return router.push("/");
-    }
-
+    if (pathname === basePath) return router.push("/fashion-lifestyle");
+    if (pathname === "/fashion-lifestyle") return router.push("/");
     router.push("/fashion-lifestyle");
   };
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const handleLogin = () => {
-    openModal();
-  };
-
-  const handleLogout = () => {
-    handleUserLogout();
-  };
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
-  function getFirstWord(str) {
-    if (typeof str !== "string" || str.trim() === "") {
-      return "";
-    }
-    const words = str.trim().split(" ");
-    return words[0];
-  }
-
-  useEffect(() => {
-    const closeDropDown = (e) => {
-      if (
-        dropDownMenuRef.current &&
-        !dropDownMenuRef.current.contains(e.target)
-      ) {
-        setDropDownState(false);
-      }
-    };
-    document.addEventListener("mousedown", closeDropDown);
-    return () => {
-      document.removeEventListener("mousedown", closeDropDown);
-    };
-  }, []);
-
   return (
     <>
-      <div className="min-h-16">
-        <div className="fixed z-30 bg-white w-full border-b">
-          {/* Main Navbar */}
-          <nav className="max-w-screen-2xl mx-auto min-h-16 flex justify-between items-center px-4 lg:px-8 relative">
+      <div className="h-16 lg:h-[72px]">
+        <div className="fixed inset-x-0 top-0 z-30 border-b border-gray-200 bg-white/90 backdrop-blur-md">
+          <nav className="relative mx-auto flex h-16 max-w-screen-2xl items-center gap-2 px-4 sm:gap-3 lg:h-[72px] lg:gap-6 lg:px-8">
             <button
-              onClick={toggleSidebar}
-              className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+              type="button"
+              onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open categories"
+              className={`${iconButton} -ml-2 text-xl lg:hidden`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              <HiMenuAlt2 />
             </button>
 
-            {pathname?.includes("shop") ? (
-              <button onClick={handleLogoClick}>
-                <p className="capitalize italic text-primary font-bold">
-                  <span className="text-lg md:text-4xl">{shopWords[0]}</span>
-                  {shopWords.slice(1).map((word, index) => (
-                    <span
-                      key={index}
-                      className="text-base md:text-xl ml-2 font-semibold"
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </p>
-              </button>
-            ) : (
-              <button onClick={handleLogoClick}>
-                <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
+            <div className="flex min-w-0 items-center gap-3">
+              <button
+                type="button"
+                onClick={handleLogoClick}
+                aria-label={inShop ? "Shop home" : "Fashion home"}
+                className="min-w-0 shrink-0"
+              >
+                {inShop ? (
+                  <span className="block truncate text-lg font-bold capitalize tracking-tight text-gray-900 md:text-2xl">
+                    {shopWords.join(" ")}
+                  </span>
+                ) : (
                   <Image
                     width={224}
                     height={40}
+                    priority
                     src="/png/notension-logo.png"
-                    alt="notension"
-                    className="object-contain w-full"
+                    alt="NoTension"
+                    className="h-6 w-auto sm:h-7 lg:h-9"
                   />
-                </div>
+                )}
               </button>
-            )}
+              <span aria-hidden className="hidden h-6 w-px bg-gray-200 xl:block" />
+              <Link
+                href="/fashion-lifestyle"
+                className="hidden items-center gap-2 rounded-full px-2 py-1 text-sm font-semibold text-gray-800 transition-colors hover:bg-gray-100 xl:inline-flex"
+              >
+                <span className="h-2 w-2 rounded-full bg-[#EB5C2F]" />
+                Fashion
+              </Link>
+            </div>
 
-            {/* Desktop Search */}
-            <div className="hidden lg:flex justify-center">
+            {/* Desktop search */}
+            <div className="mx-auto hidden min-w-0 max-w-xl flex-1 lg:block">
               <ProductSearchbar />
             </div>
 
-            {/* Right Side Icons */}
-            <div className="flex items-center gap-4 lg:gap-5 relative">
-              <LocationModal />
-
-              <ThemeToggle className="-mx-1" />
-
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={toggleCart}
-                  className="flex flex-col items-center text-sm hover:text-primary relative"
-                >
-                  <LiaShoppingBagSolid className="text-xl mb-1" />
-                  <span className="hidden lg:block text-xs">Bag</span>
-
-                  {cartItems?.length > 0 && (
-                    <span className="absolute -top-2 -right-2.5 bg-[#F1C40F] text-primary text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartItems?.length || 0}
-                    </span>
-                  )}
-                </button>
-
-                <Link href="/fashion-lifestyle/wishlist">
-                  <button className="hidden lg:flex flex-col items-center text-sm hover:text-primary relative">
-                    <IoMdHeartEmpty className="text-xl mb-1" />
-                    <span className="hidden lg:block text-xs">Wishlist</span>
-
-                    {favouriteFashionItems?.length > 0 && (
-                      <span className="absolute -top-2 -right-1 bg-[#F1C40F] text-primary text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        {favouriteFashionItems?.length || 0}
-                      </span>
-                    )}
-                  </button>
-                </Link>
-
-                {!userInfo?._id ? (
-                  <button
-                    onClick={handleLogin}
-                    className="hidden lg:flex flex-col items-center text-sm hover:text-primary"
-                  >
-                    <BsPerson className="text-xl mb-1" />
-                    <span className="text-xs">Login</span>
-                  </button>
-                ) : (
-                  <>
-                    <LoginDropdown
-                      userInfo={userInfo}
-                      getFirstWord={getFirstWord}
-                      handleLogout={handleLogout}
-                      dropDownState={dropDownState}
-                      dropDownMenuRef={dropDownMenuRef}
-                      setDropDownState={setDropDownState}
-                    />
-                  </>
-                )}
+            <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-1.5 lg:ml-0">
+              <div className="hidden xl:block">
+                <LocationModal />
               </div>
 
-              {/* Mobile Search Button */}
               <button
-                className="lg:hidden p-2"
+                type="button"
                 onClick={() => setSearchOpen(!searchOpen)}
+                aria-label={searchOpen ? "Close search" : "Search"}
+                aria-expanded={searchOpen}
+                className={`${iconButton} text-xl lg:hidden`}
               >
-                {searchOpen ? (
-                  <IoMdClose className="text-xl" />
-                ) : (
-                  <IoSearch className="text-xl" />
-                )}
+                {searchOpen ? <IoMdClose /> : <IoSearch />}
               </button>
+
+              <ThemeToggle />
+
+              <Link
+                href="/fashion-lifestyle/wishlist"
+                aria-label="Wishlist"
+                className={`${iconButton} hidden text-[22px] sm:flex`}
+              >
+                <IoMdHeartEmpty />
+                <CountBadge count={favouriteFashionItems?.length} />
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => setIsCartOpen(!isCartOpen)}
+                aria-label="Shopping bag"
+                className={`${iconButton} text-[22px]`}
+              >
+                <LiaShoppingBagSolid />
+                <CountBadge count={cartItems?.length} />
+              </button>
+
+              {userInfo?._id ? (
+                <div className="ml-1">
+                  <AccountMenu items={ACCOUNT_ITEMS} />
+                </div>
+              ) : (
+                <div className="ml-1">
+                  <LoginButton compact />
+                </div>
+              )}
             </div>
 
-            {/* Mobile Search Bar */}
+            {/* Mobile search */}
             {searchOpen && (
-              <div className="absolute top-full left-0 right-0 bg-white pb-1 shadow-md lg:hidden z-10">
-                <div className="relative">
-                  <ProductSearchbar />
-                </div>
+              <div className="absolute inset-x-0 top-full border-b border-gray-200 bg-white py-3 shadow-md lg:hidden">
+                <ProductSearchbar />
               </div>
             )}
           </nav>
         </div>
 
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <Sidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+        />
         <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       </div>
-
-      <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-        <LoginModalDetails onClose={closeModal} type="login" />
-      </CommonModal>
     </>
   );
 };

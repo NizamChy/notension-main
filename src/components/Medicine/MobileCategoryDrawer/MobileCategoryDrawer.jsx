@@ -47,10 +47,13 @@ const MobileCategoryDrawer = () => {
   return (
     <>
       <div className="lg:hidden">
-        <button onClick={toggleDrawer}>
-          <div className="text-2xl text-secondaryMedicine">
-            <RxHamburgerMenu />
-          </div>
+        <button
+          type="button"
+          onClick={toggleDrawer}
+          aria-label="Open categories"
+          className="-ml-2 flex h-9 w-9 items-center justify-center rounded-full text-xl text-gray-700 transition-colors hover:bg-gray-100"
+        >
+          <RxHamburgerMenu />
         </button>
 
         <div

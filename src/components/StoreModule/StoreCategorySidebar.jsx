@@ -57,7 +57,7 @@ const StoreCategorySidebar = ({ moduleName }) => {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col h-full pt-[75px] bg-white border-e border-gray-200">
+    <aside className="hidden lg:flex flex-col h-full pt-[72px] bg-white border-e border-gray-200">
       <nav className="flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-3 xl:px-4 py-4">
         <ul className="space-y-1">
           {typeInfo?.map((data, idx) =>

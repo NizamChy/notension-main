@@ -37,7 +37,11 @@ const StoreNavRow = ({
             //   navItem?.type_id
             // }`}
             onClick={() => setActiveMenu(null)}
-            className="flex items-center py-2 cursor-pointer text-primary hover:text-blue-700 px-2"
+            className={`flex items-center rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
+              activeMenu === navItem?.type_name
+                ? "text-gray-900"
+                : "text-gray-600 hover:text-gray-900"
+            }`}
           >
             {navItem?.type_name}
             <BsChevronDown className="ml-1 text-xs transition-transform duration-300 group-hover:rotate-180" />
@@ -45,7 +49,7 @@ const StoreNavRow = ({
 
           {activeMenu === navItem?.type_name &&
             navItem?.categories?.length > 0 && (
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[900px] bg-white shadow-lg z-50 border rounded-b-lg">
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[900px] bg-white shadow-xl shadow-gray-900/10 z-50 border border-gray-200 rounded-b-2xl">
                 <div className="p-6 grid grid-cols-4 gap-6">
                   <div className="col-span-3 max-h-[50vh] overflow-y-auto">
                     <div className="columns-4 gap-8">
@@ -59,7 +63,7 @@ const StoreNavRow = ({
                           <button
                             onClick={() => setActiveMenu(null)}
                           >
-                            <h3 className="font-bold text-sm text-blue-800 capitalize">
+                            <h3 className="mb-1 font-semibold text-sm text-gray-900 capitalize hover:text-[#D9481C] dark:hover:text-[#FF8A5B]">
                               {cat?.name}
                             </h3>
                           </button>
@@ -75,7 +79,7 @@ const StoreNavRow = ({
                                     cat?.category_id
                                   }_${slugify(subcat?.name)}_${subcat?.id}`}
                                   onClick={() => setActiveMenu(null)}
-                                  className="text-sm text-gray-800 hover:text-blue-500 transition-all duration-300 capitalize"
+                                  className="text-sm leading-6 text-gray-600 hover:text-[#D9481C] dark:hover:text-[#FF8A5B] transition-colors capitalize"
                                 >
                                   {subcat?.name}
                                 </Link>

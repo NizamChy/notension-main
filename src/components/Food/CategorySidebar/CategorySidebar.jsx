@@ -42,7 +42,7 @@ const CategorySidebar = ({ scrollToFoodItems, setIsScroll }) => {
   return (
     <>
       {/* Sits under the fixed food navbar (65px) and scrolls on its own. */}
-      <aside className="hidden lg:flex flex-col h-full pt-[65px] border-e border-gray-200 bg-[#F3F4F6]">
+      <aside className="hidden lg:flex flex-col h-full pt-[72px] border-e border-gray-200 bg-[#F3F4F6]">
         <div className="flex-1 overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-5 xl:p-6">
           <div className="grid grid-cols-2 gap-3 xl:gap-4">
             {progressing

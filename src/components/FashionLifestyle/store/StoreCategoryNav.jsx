@@ -33,8 +33,8 @@ const StoreCategoryNav = () => {
 
   return (
     <div className="lg:min-h-10">
-      <div className="fixed z-20 bg-white w-full pt-0.5">
-        <div className="relative hidden lg:flex justify-center items-center border-b">
+      <div className="fixed z-20 w-full bg-white/90 backdrop-blur-md">
+        <div className="relative hidden lg:flex justify-center items-center border-b border-gray-200">
           <StoreNavRow
             navItems={storeNavItems}
             activeMenu={activeMenu}

@@ -26,15 +26,16 @@ const ProductSearchbar = () => {
   };
 
   return (
-    <div className="flex justify-center items-center px-4">
+    <div className="flex justify-center items-center px-4 lg:px-0">
       <div className="w-full max-w-xl">
         <form
           onSubmit={handleSearchSubmit}
-          className="flex items-center bg-white shadow-md rounded-full overflow-hidden border border-gray-300"
+          className="flex h-11 items-center overflow-hidden rounded-full border border-gray-200 bg-gray-50 transition-colors focus-within:border-gray-300 focus-within:bg-white"
         >
           {/* Dropdown */}
           <select
-            className="bg-transparent px-4 py-2 text-gray-700 text-sm focus:outline-none cursor-pointer border-r border-gray-300"
+            aria-label="Product type"
+            className="h-full max-w-[40%] bg-transparent pl-4 pr-2 text-sm font-medium text-gray-700 focus:outline-none cursor-pointer border-r border-gray-200"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
           >
@@ -48,7 +49,8 @@ const ProductSearchbar = () => {
           {/* Search Input */}
           <input
             type="search"
-            className="flex-1 px-4 py-2 bg-transparent text-gray-700 text-sm focus:outline-none"
+            aria-label="Search products"
+            className="min-w-0 flex-1 px-4 py-2 bg-transparent text-gray-800 text-sm placeholder:text-gray-400 focus:outline-none"
             placeholder="Search products..."
             autoComplete="off"
             value={searchText}
@@ -58,7 +60,8 @@ const ProductSearchbar = () => {
           {/* Search Button */}
           <button
             type="submit"
-            className="me-1.5 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-all"
+            aria-label="Search"
+            className="me-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E] text-white transition-colors hover:bg-[#0A3478]"
           >
             <IoSearch className="text-lg" />
           </button>

@@ -41,7 +41,7 @@ export const STORE_MODULES = {
 // the fixed navbar (59px mobile, 75px md+), gives one side padding per
 // breakpoint and keeps a right gutter on lg+ for the floating cart tab.
 export const STORE_PAGE_CLASS =
-  "pt-[calc(59px+1.25rem)] md:pt-[calc(75px+2rem)] pb-10 md:pb-14 px-4 md:px-6 lg:pl-8 lg:pr-24";
+  "pt-[calc(64px+1.25rem)] md:pt-[calc(64px+2rem)] lg:pt-[calc(72px+2rem)] pb-10 md:pb-14 px-4 md:px-6 lg:pl-8 lg:pr-24";
 
 // Product card grid used by every item list in the store modules.
 export const ITEM_GRID_CLASS =
