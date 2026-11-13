@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import DrawerContent from "./DrawerContent";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { BiCategory } from "react-icons/bi";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
@@ -53,7 +53,7 @@ const MobileCategoryDrawer = () => {
           aria-label="Open categories"
           className="-ml-2 flex h-9 w-9 items-center justify-center rounded-full text-xl text-gray-700 transition-colors hover:bg-gray-100"
         >
-          <RxHamburgerMenu />
+          <BiCategory />
         </button>
 
         <div

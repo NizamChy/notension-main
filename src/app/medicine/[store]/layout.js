@@ -5,7 +5,8 @@ import Cart from "@/components/Cart/Cart";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
-import Navbar from "@/components/Medicine/Navbar/Navbar";
+import Navbar from "@/components/shared/Navbar/Navbar";
+import MobileCategoryDrawer from "@/components/Medicine/MobileCategoryDrawer/MobileCategoryDrawer";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import { STORE_PAGE_CLASS } from "@/components/StoreModule/storeModules";
 import CategorySidebar from "@/components/Medicine/MedicineCategorySection/CategorySidebar";
@@ -31,7 +32,7 @@ export default function MedicineStoreLayout({ children }) {
   return (
     <>
       <Cart />
-      <Navbar />
+      <Navbar search="medicine" leading={<MobileCategoryDrawer />} />
       <div className="flex justify-center">
         <div className="lg:w-[20%] hidden lg:block">
           <div className="fixed top-0 left-0 w-[20%] h-full">

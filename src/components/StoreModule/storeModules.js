@@ -13,8 +13,6 @@ export const STORE_MODULES = {
     basePath: "/grocery",
     sliderImageBaseUrl: GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES,
     useShop: useGroceryShop,
-    searchInputFocusClass: "focus:ring-blue-500 focus:border-blue-500",
-    searchButtonClass: "bg-blue-500 hover:bg-blue-600 focus:ring-blue-500",
     customTypes: {
       specialOffer: "64f5a306baa57a4707524d6e",
       dealOfTheDay: "6525306cf79d9e77f12a2a63",
@@ -25,10 +23,6 @@ export const STORE_MODULES = {
     basePath: "/medicine",
     sliderImageBaseUrl: MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
     useShop: useMedicine,
-    searchInputFocusClass:
-      "focus:ring-primaryMedicine focus:border-primaryMedicine",
-    searchButtonClass:
-      "bg-primaryMedicine hover:bg-primaryMedicine focus:ring-primaryMedicine",
     customTypes: {
       specialOffer: "65128cbd20db0921f13b40b3",
       dealOfTheDay: "64ec724d538280d7999a2d39",
@@ -38,7 +32,7 @@ export const STORE_MODULES = {
 };
 
 // Shared page frame for every page inside a grocery / medicine store: clears
-// the fixed navbar (59px mobile, 75px md+), gives one side padding per
+// the fixed navbar (64px, 72px on lg+), gives one side padding per
 // breakpoint and keeps a right gutter on lg+ for the floating cart tab.
 export const STORE_PAGE_CLASS =
   "pt-[calc(64px+1.25rem)] md:pt-[calc(64px+2rem)] lg:pt-[calc(72px+2rem)] pb-10 md:pb-14 px-4 md:px-6 lg:pl-8 lg:pr-24";

@@ -8,7 +8,7 @@ export default function FoodCategoryLayout({ children }) {
     <>
       <LocationMobile />
       <SelectedCategory />
-      <div className="mx-4 sm:mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 my-5">
+      <div className="mx-auto my-5 max-w-2xl px-4 md:my-8">
         <FoodStoreSearchBar />
       </div>
 
