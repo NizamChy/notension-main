@@ -16,23 +16,14 @@ import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
 const MODULES = {
   grocery: { label: "Grocery", home: "/grocery/home", dot: "bg-primaryGrocery" },
   medicine: { label: "Medicine", home: "/medicine/home", dot: "bg-primaryMedicine" },
-  food: { label: "Food", home: "/food", dot: "bg-primaryFood" },
 };
 
-// Top bar for the store modules (grocery, medicine, food).
+// Top bar inside grocery and medicine stores.
 // - `drawer`: the module's mobile category drawer (shows its own hamburger)
 // - `center`: search box (optional)
-// - `actions`: extra controls before the theme toggle, e.g. location picker
-// - `storePrefix`: path segment before the store params ("/food/store" for food)
+// - `storePrefix`: path segment before the store params
 // - `wishlist`: show the store wishlist link in the account menu
-const ModuleNavbar = ({
-  module,
-  drawer,
-  center,
-  actions,
-  storePrefix,
-  wishlist,
-}) => {
+const ModuleNavbar = ({ module, drawer, center, storePrefix, wishlist }) => {
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
@@ -101,7 +92,6 @@ const ModuleNavbar = ({
         )}
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          {actions}
           <ThemeToggle />
           {userInfo?._id ? (
             <AccountMenu items={accountItems} />

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
 import { FaUserDoctor } from "react-icons/fa6";
@@ -27,6 +27,7 @@ const NAV_LINKS = [
 
 const Navbar = () => {
   const pathname = usePathname();
+  const params = useParams();
 
   // The menu remembers the path it was opened on, so it closes by itself
   // after navigating.
@@ -36,22 +37,28 @@ const Navbar = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  // Order history lives under each store section.
-  let category = "";
-  if (pathname.includes("/grocery")) category = "grocery";
-  else if (pathname.includes("/medicine")) category = "medicine";
-  else if (pathname.includes("/food")) category = "food";
-  else if (pathname.includes("/all-care-services")) category = "all-care-services";
+  // Order history lives inside each store, so the link only shows there.
+  let ordersHref = "";
+  if (params?.storeId && params?.customStoreId) {
+    const store = `${params.store}/${params.storeId}/${params.customStoreId}`;
+    if (pathname.startsWith("/food/store/")) {
+      ordersHref = `/food/store/${store}/orders`;
+    } else if (pathname.startsWith("/grocery/")) {
+      ordersHref = `/grocery/${store}/orders`;
+    } else if (pathname.startsWith("/medicine/")) {
+      ordersHref = `/medicine/${store}/orders`;
+    }
+  }
 
   const isActive = (match) => pathname.startsWith(match);
 
   const accountItems = [
-    category && {
-      href: `/${category}/store/orders`,
+    ordersHref && {
+      href: ordersHref,
       label: "My orders",
       Icon: BsCartCheck,
     },
-    !category && {
+    !ordersHref && {
       href: "/medical-services/doctor/booked-appointment",
       label: "Booked appointments",
       Icon: FaUserDoctor,
