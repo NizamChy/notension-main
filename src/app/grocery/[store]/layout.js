@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
-import MobileCategoryDrawer from "@/components/Grocery/MobileCategoryDrawer/MobileCategoryDrawer";
+import StoreCategoryDrawer from "@/components/StoreModule/StoreCategoryDrawer";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { STORE_PAGE_CLASS } from "@/components/StoreModule/storeModules";
 import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
@@ -32,7 +32,7 @@ export default function GroceryStoreLayout({ children }) {
   return (
     <>
       <Cart />
-      <Navbar search="grocery" leading={<MobileCategoryDrawer />} />
+      <Navbar search="grocery" leading={<StoreCategoryDrawer moduleName="grocery" />} />
       <div className="flex justify-center">
         <div className="lg:w-[20%] hidden lg:block">
           <div className="fixed top-0 left-0 w-[20%] h-full">

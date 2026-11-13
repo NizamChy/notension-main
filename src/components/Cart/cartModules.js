@@ -10,8 +10,7 @@ import {
   MEDICINE_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
 
-// Per-module differences for the shared cart UI. Tailwind classes are
-// written out in full so the JIT compiler can see them.
+// Per-module differences for the shared cart UI.
 export const CART_MODULES = {
   food: {
     itemsKey: "foodItems",
@@ -19,7 +18,6 @@ export const CART_MODULES = {
     visitedStoreKey: "visitedFoodStore",
     imageBaseUrl: FOOD_ITEMS_IMAGES,
     titleField: "product_title_eng",
-    textClass: "text-primaryFood",
     useItems: useFoodItems,
     useOrder: () => {
       const { getGrandTotalFood, ...rest } = useOrderFood();
@@ -32,7 +30,6 @@ export const CART_MODULES = {
     visitedStoreKey: "visitedGroceryStore",
     imageBaseUrl: GROCERY_ITEMS_IMAGES,
     titleField: "product_title_eng",
-    textClass: "text-primaryGrocery",
     useItems: useGroceryItems,
     useOrder: () => {
       const { getGrandTotalGrocery, ...rest } = useOrderGrocery();
@@ -45,7 +42,6 @@ export const CART_MODULES = {
     visitedStoreKey: "visitedMedicineStore",
     imageBaseUrl: MEDICINE_ITEMS_IMAGES,
     titleField: "item_title_eng",
-    textClass: "text-primaryMedicine",
     useItems: useMedicineItems,
     useOrder: () => {
       const { getGrandTotalMedicine, ...rest } = useOrderMedicine();

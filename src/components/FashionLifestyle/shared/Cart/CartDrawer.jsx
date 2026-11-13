@@ -1,126 +1,89 @@
 "use client";
 
-import { useEffect } from "react";
 import CartItem from "./CartItem";
 import React, { useState } from "react";
-import { IoClose } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { TiShoppingCart } from "react-icons/ti";
+import { HiArrowRight } from "react-icons/hi";
 import { useCart } from "../../context/CartContext";
+import Drawer from "@/components/shared/Drawer/Drawer";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import {
+  CartEmpty,
+  PriceRow,
+  PrimaryButton,
+  formatTaka,
+} from "@/components/shared/CartUI/CartUI";
 
 const CartDrawer = ({ isOpen, onClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
-
   const { cartItems, getCartCount, getCartTotal } = useCart();
   const { userInfo } = useSelector((state) => state.user);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const count = getCartCount() || 0;
+  const hasItems = cartItems?.length > 0;
 
   const handleCheckoutClick = () => {
     onClose();
-
-    if (!userInfo?._id) return openModal();
-
+    if (!userInfo?._id) return setIsModalOpen(true);
     router.push("/fashion-lifestyle/checkout");
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isOpen && !event.target.closest(".cartdrawer-container")) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, onClose]);
-
   return (
     <>
-      <div
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      />
-
-      <div
-        className={`cartdrawer-container fixed top-0 right-0 h-full w-[90%] lg:w-96 bg-white shadow-lg z-50 transform transition-all duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold">
-              Your Cart ({getCartCount() || 0})
-            </h2>
-            <button onClick={onClose}>
-              <IoClose className="text-2xl" />
-            </button>
-          </div>
-
-          <div className="flex-grow p-4 overflow-y-auto">
-            <div className="h-full flex flex-col">
-              {cartItems?.length < 1 && (
-                <p className="relative text-gray-500 h-full flex flex-col gap-1 items-center justify-center">
-                  <TiShoppingCart className="text-5xl text-primary" />
-                  Your cart is empty!
+      <Drawer
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Your bag"
+        subtitle={
+          hasItems ? `${count} ${count === 1 ? "item" : "items"}` : undefined
+        }
+        footer={
+          hasItems ? (
+            <>
+              <div className="space-y-2">
+                <PriceRow label="Subtotal" value={formatTaka(getCartTotal())} strong />
+                <p className="text-xs text-gray-500">
+                  Delivery charge is added at checkout.
                 </p>
-              )}
-
-              <CartItem />
-            </div>
-          </div>
-
-          {cartItems.length > 0 && (
-            <div className="p-4 border-t">
-              <p className="flex justify-between items-center text-base font-semibold text-gray-900">
-                <span>Total</span>
-                <span className="tabular-nums">
-                  ৳{Number(getCartTotal() || 0).toFixed(2)}
-                </span>
-              </p>
-              <div className="mt-4 text-center w-full">
-                <button
-                  onClick={handleCheckoutClick}
-                  disabled={cartItems?.length < 1}
-                  className="w-full inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-white bg-primary disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-primary/95 hover:border-gray-400 transition-colors"
-                >
-                  Proceed to Checkout
-                  <svg
-                    className="ml-2 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
               </div>
-            </div>
-          )}
-        </div>
-      </div>
+              <PrimaryButton onClick={handleCheckoutClick} className="mt-4">
+                Proceed to checkout
+                <HiArrowRight />
+              </PrimaryButton>
+            </>
+          ) : null
+        }
+      >
+        {hasItems ? (
+          <CartItem />
+        ) : (
+          <CartEmpty
+            title="Your bag is empty"
+            text="Find something you love and add it to your bag."
+            action={
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              >
+                Continue shopping
+              </button>
+            }
+          />
+        )}
+      </Drawer>
 
       {isModalOpen && (
-        <>
-          <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-            <LoginModalDetails onClose={closeModal} type="private-route" />
-          </CommonModal>
-        </>
+        <CommonModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <LoginModalDetails
+            onClose={() => setIsModalOpen(false)}
+            type="private-route"
+          />
+        </CommonModal>
       )}
     </>
   );
