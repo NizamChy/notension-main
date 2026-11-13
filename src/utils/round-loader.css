@@ -47,6 +47,20 @@
   border-left-color: #e474cc;
 }
 
+/* Dark mode: the logo is a JPG on a white background with navy lettering.
+   Invert + hue-rotate (same as the navbar logo) turns the white black and
+   the navy light blue while the orange stays orange; "lighten" then lets
+   the black background show the page color through. The navy ring gets a
+   lighter blue so it doesn't vanish. */
+.dark .loader-mian-sec img {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2);
+  mix-blend-mode: lighten;
+}
+
+.dark .loader-mian-sec .ring:nth-child(1) {
+  border-bottom-color: #7fb2ff;
+}
+
 .loading {
   opacity: 0;
   font-size: 16px;

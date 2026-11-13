@@ -3,7 +3,8 @@ import RoundLoader from "@/utils/round-loader";
 
 const Loading = () => {
   return (
-    <div className="fixed inset-0 z-50 bg-white flex justify-center items-center">
+    // Page background (white / near-black), so the overlay matches the page.
+    <div className="fixed inset-0 z-50 bg-[var(--background)] flex justify-center items-center">
       <RoundLoader />
     </div>
   );
