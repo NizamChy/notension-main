@@ -3,37 +3,31 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
-import { IoIosArrowDown } from "react-icons/io";
+import { HiChevronRight } from "react-icons/hi";
 
+// Phone-only location bar shown under the navbar.
 const LocationMobile = () => {
   const router = useRouter();
 
-  const currentUserLocation = useSelector(
+  const districtName = useSelector(
     (state) => state.user.currentUserLocation.districtName
   );
 
-  const handleMobileLocation = () => {
-    router.push("/get-mobile-location");
-  };
-
   return (
-    <>
-      <button
-        onClick={handleMobileLocation}
-        className="px-5 py-3 text-sm md:text-xl text-white font-medium w-full justify-center items-center gap-1 shadow-md bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 transition duration-300 md:hidden flex outline-none"
-      >
-        {/* bg-[#FC8F1E] hover:bg-[#fb9d3a] transition duration-300 */}
-        <span>
-          <FaLocationDot />
-        </span>
-        {!currentUserLocation && <span>Select Location</span>}
-        {currentUserLocation && (
-          <span className="flex items-center gap-1">
-            Current Location: {currentUserLocation} <IoIosArrowDown />
-          </span>
-        )}
-      </button>
-    </>
+    <button
+      type="button"
+      onClick={() => router.push("/get-mobile-location")}
+      className="flex w-full items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-left text-sm md:hidden"
+    >
+      <FaLocationDot className="shrink-0 text-[#EB5C2F]" />
+      <span className="text-gray-500">
+        {districtName ? "Delivering to" : "Set your location"}
+      </span>
+      <span className="truncate font-semibold text-gray-900">
+        {districtName || "Select district"}
+      </span>
+      <HiChevronRight className="ml-auto shrink-0 text-gray-400" />
+    </button>
   );
 };
 

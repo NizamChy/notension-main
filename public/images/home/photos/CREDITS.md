@@ -1,6 +1,6 @@
 # Home page photos
 
-From Unsplash, free under the Unsplash License (https://unsplash.com/license). Downloaded at 1000px wide.
+From Unsplash, free under the Unsplash License (https://unsplash.com/license). Downloaded at 1000px wide (the fav-* thumbnails at 400px).
 
 | File | Source |
 |---|---|
@@ -17,3 +17,8 @@ From Unsplash, free under the Unsplash License (https://unsplash.com/license). D
 | ambulance.jpg | https://unsplash.com/photos/an-ambulance-driving-down-a-street-next-to-tall-buildings-T1C9zpFpky4 |
 | blood.jpg | https://unsplash.com/photos/blood-bag-in-clinical-setting-0ZZo5o00o80 |
 | home-services.jpg | https://unsplash.com/photos/a-variety-of-tools-are-sitting-on-a-table-iwz5tmhjl7o |
+| fav-doctors.jpg | https://unsplash.com/photos/a-person-holding-a-stethoscope-vkqr2zpOPhQ |
+| fav-consultation.jpg | https://unsplash.com/photos/woman-in-white-long-sleeve-shirt-holding-white-printer-paper-xM_1ZYHOc9E |
+| fav-grocery.jpg | https://unsplash.com/photos/a-grocery-store-aisle-filled-with-lots-of-food-IH65r4HEQWQ |
+| fav-medicine.jpg | https://unsplash.com/photos/a-man-and-a-woman-looking-at-items-in-a-store-uNawp6qgpcE |
+| fav-restaurant.jpg | https://unsplash.com/photos/cozy-restaurant-interior-with-tables-and-seating-yQYtdkKOLnQ |
