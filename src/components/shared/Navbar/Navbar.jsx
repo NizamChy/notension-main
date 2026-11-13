@@ -126,7 +126,14 @@ const Navbar = ({ search, leading, actions }) => {
   const isActive = (match) => pathname.startsWith(match);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-30 border-b border-gray-200 bg-white/90 backdrop-blur-md">
+    <nav className="fixed inset-x-0 top-0 z-30 border-b border-gray-200">
+      {/* The blur sits on its own layer: backdrop-filter on <nav> itself
+          would trap fixed children (cart, drawers, map modal) inside the
+          bar instead of the viewport. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-white/90 backdrop-blur-md"
+      />
       {searchOpen ? (
         <div className="mx-auto flex h-16 max-w-[1312px] items-center gap-2 px-4 lg:h-[72px] lg:gap-4">
           <div className="mx-auto w-full min-w-0 max-w-2xl">
