@@ -4,7 +4,5 @@ export const APP_URL =
 export const HOTLINE = "+88 01719662995";
 export const HOTLINE_TEL = "+8801719662995";
 
-// Flat SVG illustration set in public/images/home/illustrations (400x300,
-// subject centered, so any center crop down to a square keeps it whole).
-export const illustration = (name) =>
-  `/images/home/illustrations/${name}.svg`;
+// Unsplash photos in public/images/home/photos (sources in CREDITS.md there).
+export const homeImage = (name) => `/images/home/photos/${name}.jpg`;

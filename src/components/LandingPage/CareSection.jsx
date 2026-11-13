@@ -6,24 +6,24 @@ import { LuPhoneCall } from "react-icons/lu";
 import SectionHeader from "./SectionHeader";
 import ServiceTile from "./ServiceTile";
 import useGatedNavigate from "./useGatedNavigate";
-import { APP_URL, HOTLINE, HOTLINE_TEL, illustration } from "./constants";
+import { APP_URL, HOTLINE, HOTLINE_TEL, homeImage } from "./constants";
 
 // Nurse, ambulance and blood donor requests are handled in the mobile app.
 const APP_SERVICES = [
   {
     title: "Nurse at home",
     description: "Trained nurses for home care and recovery.",
-    image: illustration("nurse"),
+    image: homeImage("nurse"),
   },
   {
     title: "Ambulance",
     description: "Request an ambulance quickly, any time of day.",
-    image: illustration("ambulance"),
+    image: homeImage("ambulance"),
   },
   {
     title: "Blood donors",
     description: "Reach donors by blood group in your area.",
-    image: illustration("blood"),
+    image: homeImage("blood"),
   },
 ];
 
@@ -53,7 +53,7 @@ const CareSection = () => {
           />
         ))}
         <ServiceTile
-          image={illustration("home-services")}
+          image={homeImage("home-services")}
           title="All care services"
           description="Cleaning, repairs, AC service, shifting and more."
           cta="Browse services"

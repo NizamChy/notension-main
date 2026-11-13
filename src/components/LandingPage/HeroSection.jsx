@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiArrowRight } from "react-icons/hi";
 import { LuShieldCheck, LuTruck, LuWallet } from "react-icons/lu";
-import { APP_URL, illustration } from "./constants";
+import { APP_URL, homeImage } from "./constants";
 
 const HERO_TILES = [
   { name: "grocery", label: "Grocery" },
@@ -95,14 +95,14 @@ const HeroSection = () => {
                 }`}
               >
                 <Image
-                  src={illustration(name)}
+                  src={homeImage(name)}
                   alt=""
                   fill
                   priority
                   sizes="(min-width: 1024px) 280px, 45vw"
                   className="object-cover"
                 />
-                {/* Explicit colors: the illustrations are light in both
+                {/* Explicit colors: the homeImages are light in both
                     themes, so this label must not follow dark mode. */}
                 <span className="absolute bottom-2.5 left-2.5 rounded-full bg-[#FFFFFFEB] px-2.5 py-1 text-xs font-semibold text-[#1E2A3B] shadow-sm">
                   {label}

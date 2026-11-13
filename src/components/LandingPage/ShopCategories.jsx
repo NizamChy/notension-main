@@ -5,7 +5,7 @@ import Image from "next/image";
 import { HiArrowRight } from "react-icons/hi";
 import SectionHeader from "./SectionHeader";
 import useGatedNavigate from "./useGatedNavigate";
-import { illustration } from "./constants";
+import { homeImage } from "./constants";
 
 const CATEGORIES = [
   {
@@ -13,7 +13,7 @@ const CATEGORIES = [
     description: "Fresh produce, staples and household needs.",
     cta: "Shop groceries",
     path: "/grocery/home",
-    image: illustration("grocery"),
+    image: homeImage("grocery"),
     accent: "text-[#2E8B57]",
   },
   {
@@ -21,7 +21,7 @@ const CATEGORIES = [
     description: "Prescription and OTC medicine from licensed pharmacies.",
     cta: "Order medicine",
     path: "/medicine/home",
-    image: illustration("medicine"),
+    image: homeImage("medicine"),
     accent: "text-[#0D7C66]",
   },
   {
@@ -29,7 +29,7 @@ const CATEGORIES = [
     description: "Meals from local restaurants, delivered hot.",
     cta: "Order food",
     path: "/food",
-    image: illustration("food"),
+    image: homeImage("food"),
     accent: "text-[#D9481C]",
   },
   {
@@ -37,7 +37,7 @@ const CATEGORIES = [
     description: "Clothing, home decor and everyday lifestyle picks.",
     cta: "Shop fashion",
     path: "/fashion-lifestyle",
-    image: illustration("fashion"),
+    image: homeImage("fashion"),
     accent: "text-[#5B4B8A]",
   },
 ];

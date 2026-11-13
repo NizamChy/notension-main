@@ -7,32 +7,32 @@ import { LuCalendarCheck, LuStethoscope, LuClock } from "react-icons/lu";
 import SectionHeader from "./SectionHeader";
 import ServiceTile from "./ServiceTile";
 import useGatedNavigate from "./useGatedNavigate";
-import { illustration } from "./constants";
+import { homeImage } from "./constants";
 
 const SERVICES = [
   {
     title: "Hospitals",
     description: "Compare hospitals and departments near you.",
     path: "/medical-services/hospital",
-    image: illustration("hospital"),
+    image: homeImage("hospital"),
   },
   {
     title: "Diagnostic centers",
     description: "Lab tests and imaging from certified centers.",
     path: "/medical-services/diagnostic",
-    image: illustration("diagnostic"),
+    image: homeImage("diagnostic"),
   },
   {
     title: "Eye care",
     description: "Eye specialists, check-ups and optical care.",
     path: "/medical-services/eye-care-center",
-    image: illustration("eye-care"),
+    image: homeImage("eye-care"),
   },
   {
     title: "Dental care",
     description: "Dentists for check-ups, cleaning and treatment.",
     path: "/medical-services/dental-care-center",
-    image: illustration("dental"),
+    image: homeImage("dental"),
   },
 ];
 
@@ -78,7 +78,7 @@ const HealthcareSection = () => {
         <div className="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white">
           <div className="relative aspect-[2/1] w-full">
             <Image
-              src={illustration("doctor")}
+              src={homeImage("doctor")}
               alt=""
               fill
               sizes="(min-width: 1024px) 520px, 100vw"
