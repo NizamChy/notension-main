@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { toUserLocation } from "@/utils/userLocation";
 import { isDemoMode } from "@/demo/demoMode";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
 
@@ -73,18 +74,13 @@ export const useUser = () => {
             !currentUserLocation ||
             Object.keys(currentUserLocation).length === 0
           ) {
-            let userLocation = {
-              setCurrentLocation: false,
-              userLatitude: res?.data?.result?.location?.coordinates[0],
-              userLongitude: res?.data?.result?.location?.coordinates[1],
-              districtId: res?.data?.result?.district_id,
-              districtName: res?.data?.result?.district_name_by_location,
-              districtAreaId: "00",
-              districtAreaName: "",
-              districtSubAreaId: "00",
-              districtSubAreaName: "",
-              // formatted_address: formatted_address,
-            };
+            const result = res?.data?.result;
+            const userLocation = toUserLocation({
+              latitude: result?.location?.coordinates?.[0],
+              longitude: result?.location?.coordinates?.[1],
+              districtId: result?.district_id,
+              districtName: result?.district_name_by_location,
+            });
 
             dispatch(
               handleUserReducer({
