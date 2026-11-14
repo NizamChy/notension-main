@@ -4,8 +4,8 @@ import { useSyncExternalStore } from "react";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 // Light / dark switch. The theme is the "dark" class on <html>: the inline
-// script in app/layout.js sets it before the first paint (saved choice, or
-// the system preference), and this button flips it and saves the choice.
+// script in app/layout.js sets it before the first paint (dark only when
+// that was the saved choice, light by default), and this button flips it and saves the choice.
 
 const subscribe = (onChange) => {
   const observer = new MutationObserver(onChange);
