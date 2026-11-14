@@ -14,22 +14,30 @@ import MapModal from "../shared/LocationModal/MapModal";
  */
 const useGatedNavigate = () => {
   const router = useRouter();
-  const [mapOpen, setMapOpen] = useState(false);
+  // The page to open once a location is saved; null = modal closed.
+  const [pendingPath, setPendingPath] = useState(null);
   const districtId = useSelector(
     (state) => state.user.currentUserLocation?.districtId
   );
 
   const navigate = (path) => {
     if (!districtId) {
-      if (window.innerWidth < 768) router.push("/get-mobile-location");
-      else setMapOpen(true);
+      if (window.innerWidth < 768) {
+        router.push(`/get-mobile-location?next=${encodeURIComponent(path)}`);
+      } else {
+        setPendingPath(path);
+      }
       return;
     }
     router.push(path);
   };
 
-  const locationModal = mapOpen ? (
-    <MapModal isOpen={mapOpen} onCloseModal={() => setMapOpen(false)} />
+  const locationModal = pendingPath ? (
+    <MapModal
+      isOpen
+      onCloseModal={() => setPendingPath(null)}
+      onConfirmed={() => router.push(pendingPath)}
+    />
   ) : null;
 
   return { navigate, locationModal };
