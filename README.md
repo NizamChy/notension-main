@@ -114,8 +114,8 @@ To add or change demo data, see [`src/demo/README.md`](src/demo/README.md).
 ## Dark mode
 
 The sun/moon button in every navbar switches between light and dark. The
-choice is saved per browser; until a choice is made the site follows the
-system setting.
+choice is saved per browser. The site starts in light mode, even when the
+system is set to dark, until the visitor switches.
 
 How it works:
 
