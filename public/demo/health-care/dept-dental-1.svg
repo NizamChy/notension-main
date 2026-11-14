@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><rect width="300" height="300" rx="16" fill="#0C3F8E"/><circle cx="270" cy="45" r="105" fill="#fff" opacity=".18"/><circle cx="150" cy="114" r="85.5" fill="#fff" opacity=".85"/><path d="M110.1 74.1q39.9 -17.099999999999998 79.8 0q11.4 45.6 -11.4 91.2q-11.4 -34.199999999999996 -28.5 -34.199999999999996q-17.099999999999998 0 -28.5 34.199999999999996q-22.8 -45.6 -11.4 -91.2z" fill="#0C3F8E"/><text x="150" y="228" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">Dental</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#0E7490"/></linearGradient></defs>
+<rect width="300" height="300" fill="url(#g)"/>
+<circle cx="270" cy="20" r="126" fill="#fff" opacity=".10"/>
+<circle cx="18" cy="290" r="84.00000000000001" fill="#fff" opacity=".08"/>
+<circle cx="150" cy="112" r="68" fill="#fff" opacity=".22"/><circle cx="150" cy="112" r="58" fill="#fff"/>
+<g transform="translate(114.03999999999999 76.03999999999999) scale(1.4983333333333333)" color="#0E7490"><path d="M15 7c-6 0-9 4-9 10 0 6 3 9 4 16 1 7 2 9 4.5 9 3.5 0 3-11 7-11h5c4 0 3.5 11 7 11 2.5 0 3.5-2 4.5-9 1-7 4-10 4-16 0-6-3-10-9-10-3.5 0-5.5 2-9 2s-5.5-2-9-2z" fill="currentColor"/></g>
+<text x="150" y="226" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">Dental</text>
+<text x="150" y="258" font-family="'Nirmala UI','Noto Sans Bengali','Bangla Sangam MN',Vrinda,sans-serif" font-size="18" font-weight="600" fill="#fff" fill-opacity=".88" text-anchor="middle">দন্ত</text></svg>

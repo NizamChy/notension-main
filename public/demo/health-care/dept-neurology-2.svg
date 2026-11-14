@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><rect width="600" height="300" rx="16" fill="#1F7A8C"/><circle cx="540" cy="45" r="105" fill="#fff" opacity=".18"/><circle cx="132" cy="150" r="85.5" fill="#fff" opacity=".85"/><path d="M113 93h38v38h38v38h-38v38h-38v-38h-38v-38h38z" fill="#1F7A8C"/><text x="240" y="144" font-family="Arial,Helvetica,sans-serif" font-size="33" font-weight="700" fill="#fff" text-anchor="start">Neurology</text><text x="240" y="183.6" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#fff" opacity=".9" text-anchor="start">Find a specialist</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818CF8"/><stop offset="1" stop-color="#4338CA"/></linearGradient></defs>
+<rect width="600" height="300" fill="url(#g)"/>
+<circle cx="570" cy="20" r="126" fill="#fff" opacity=".10"/>
+<circle cx="18" cy="290" r="84.00000000000001" fill="#fff" opacity=".08"/>
+<circle cx="150" cy="150" r="84" fill="#fff" opacity=".22"/><circle cx="150" cy="150" r="74" fill="#fff"/>
+<g transform="translate(104.12 104.12) scale(1.9116666666666668)" color="#4338CA"><path d="M24 9v30M24 12c-2-3-8-3-9 1-4 0-6 4-4 7-3 2-3 7 0 9-1 4 2 7 6 6 1 3 5 4 7 2M24 12c2-3 8-3 9 1 4 0 6 4 4 7 3 2 3 7 0 9 1 4-2 7-6 6-1 3-5 4-7 2M17 20c2 0 3 2 3 4M31 20c-2 0-3 2-3 4" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="270" y="134" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="34" font-weight="700" fill="#fff">Neurology</text>
+<text x="270" y="172" font-family="'Nirmala UI','Noto Sans Bengali','Bangla Sangam MN',Vrinda,sans-serif" font-size="21" font-weight="600" fill="#fff" fill-opacity=".9">স্নায়ু রোগ</text>
+<text x="270" y="208" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="17" fill="#fff" fill-opacity=".85">Brain &amp; nerves</text></svg>

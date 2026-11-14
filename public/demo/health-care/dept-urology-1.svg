@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><rect width="300" height="300" rx="16" fill="#D9822B"/><circle cx="270" cy="45" r="105" fill="#fff" opacity=".18"/><circle cx="150" cy="114" r="85.5" fill="#fff" opacity=".85"/><path d="M136.32 62.699999999999996h27.36v39.9l34.199999999999996 57h-95.75999999999999l34.199999999999996 -57z" fill="#D9822B"/><text x="150" y="228" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">Urology</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#0F766E"/></linearGradient></defs>
+<rect width="300" height="300" fill="url(#g)"/>
+<circle cx="270" cy="20" r="126" fill="#fff" opacity=".10"/>
+<circle cx="18" cy="290" r="84.00000000000001" fill="#fff" opacity=".08"/>
+<circle cx="150" cy="112" r="68" fill="#fff" opacity=".22"/><circle cx="150" cy="112" r="58" fill="#fff"/>
+<g transform="translate(114.03999999999999 76.03999999999999) scale(1.4983333333333333)" color="#0F766E"><path d="M24 15c-9 0-15 6-15 13.5S15 41 24 41s15-5 15-12.5S33 15 24 15z" fill="currentColor"/><path d="M13 3c0 6 2 9 5 13M35 3c0 6-2 9-5 13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 29c2 3 4 4 6 4" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="150" y="226" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">Urology</text>
+<text x="150" y="258" font-family="'Nirmala UI','Noto Sans Bengali','Bangla Sangam MN',Vrinda,sans-serif" font-size="18" font-weight="600" fill="#fff" fill-opacity=".88" text-anchor="middle">মূত্ররোগ</text></svg>

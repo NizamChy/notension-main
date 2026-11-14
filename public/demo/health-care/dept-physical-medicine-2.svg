@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><rect width="600" height="300" rx="16" fill="#16A085"/><circle cx="540" cy="45" r="105" fill="#fff" opacity=".18"/><circle cx="132" cy="150" r="85.5" fill="#fff" opacity=".85"/><circle cx="132" cy="124.92" r="25.080000000000002" fill="#16A085"/><path d="M80.69999999999999 207a51.300000000000004 45.6 0 0 1 102.60000000000001 0z" fill="#16A085"/><text x="240" y="144" font-family="Arial,Helvetica,sans-serif" font-size="33" font-weight="700" fill="#fff" text-anchor="start">Physical Medicine</text><text x="240" y="183.6" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#fff" opacity=".9" text-anchor="start">Find a specialist</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34D399"/><stop offset="1" stop-color="#065F46"/></linearGradient></defs>
+<rect width="600" height="300" fill="url(#g)"/>
+<circle cx="570" cy="20" r="126" fill="#fff" opacity=".10"/>
+<circle cx="18" cy="290" r="84.00000000000001" fill="#fff" opacity=".08"/>
+<circle cx="150" cy="150" r="84" fill="#fff" opacity=".22"/><circle cx="150" cy="150" r="74" fill="#fff"/>
+<g transform="translate(104.12 104.12) scale(1.9116666666666668)" color="#065F46"><circle cx="24" cy="7.5" r="4.5" fill="currentColor"/><path d="M24 14v13M11 9l13 9 13-9M24 27l-8 15M24 27l8 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="270" y="134" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="32" font-weight="700" fill="#fff">Physical Medicine</text>
+<text x="270" y="172" font-family="'Nirmala UI','Noto Sans Bengali','Bangla Sangam MN',Vrinda,sans-serif" font-size="21" font-weight="600" fill="#fff" fill-opacity=".9">ফিজিক্যাল মেডিসিন</text>
+<text x="270" y="208" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="17" fill="#fff" fill-opacity=".85">Physiotherapy &amp; rehab</text></svg>

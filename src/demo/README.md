@@ -55,3 +55,14 @@ there when you add one. Don't use photos of identifiable people or real brands
 as stand-ins for fictional shops, doctors or products. The old `.svg`
 placeholders stay next to the photos so carts saved in localStorage before the
 switch still show an image. All-care provider logos are still SVG.
+
+Where the UI shows an image with no text next to it, the image has to carry
+its own label:
+
+- Doctor department tiles (`health-care/dept-*.svg`) and the doctor nav tiles
+  (`health-care/nav-*.svg`) are illustrations with the name drawn in, not
+  photos.
+- Slider and promo banners (grocery `slider-*`, medicine `banner-*`, food
+  `slider-*`, health-care `banner-*`, all-care `banners/*`) are photos with the
+  headline and subline drawn on a dark gradient on the left. Keep text in the
+  vertical middle: the sliders crop the top and bottom (5:2, 2:1 or 3:1).

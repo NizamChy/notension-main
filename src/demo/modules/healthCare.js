@@ -50,13 +50,14 @@ const banner = (n, file, title) => ({
 });
 
 // Find doctor page: the first 3 are the slider, the last 2 the nav tiles
-// (nearest doctor, consultation center).
+// (nearest doctor, consultation center). The nav tiles are illustrations with
+// their label drawn in, because the tile shows nothing but the image.
 const FIND_DOCTOR_BANNER = [
   banner(1, "banner-find-doctor-1.webp", "Find the right doctor"),
   banner(2, "banner-find-doctor-2.webp", "Book a serial online"),
   banner(3, "banner-find-doctor-3.webp", "Specialists near you"),
-  banner(4, "nav-nearest-doctor.webp", "Nearest doctor"),
-  banner(5, "nav-consultation-center.webp", "Consultation center"),
+  banner(4, "nav-nearest-doctor.svg", "Nearest doctor"),
+  banner(5, "nav-consultation-center.svg", "Consultation center"),
 ];
 
 // The slider shows all but the last one.
@@ -115,8 +116,10 @@ const dept = (n, dept_name, slug, dept_name_bn) => ({
   slug,
   dept_name,
   dept_name_bn,
-  banner_1: IMG(`dept-${slug}-1.webp`),
-  banner_2: IMG(`dept-${slug}-2.webp`),
+  // Illustrated tiles with the department name drawn in (the grid shows only
+  // the image, so a photo would hide which department it is).
+  banner_1: IMG(`dept-${slug}-1.svg`),
+  banner_2: IMG(`dept-${slug}-2.svg`),
   serial: n,
   is_active: true,
 });
