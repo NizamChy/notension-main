@@ -1,17 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { HiChevronRight } from "react-icons/hi";
 import { useParams, useRouter } from "next/navigation";
 import { getStoreModule, toSlug } from "./storeModules";
-
-// Per-module type images (full strings for the Tailwind scanner).
-const TYPE_IMAGES = {
-  grocery: (idx) => `/images/grocery/type/type${idx + 1}.jpg`,
-  medicine: (idx) => `/images/medicine/type/type${idx + 1}.webp`,
-};
+import { getCategoryIcon } from "./categoryIcons";
 
 // Category tree of a grocery / medicine store. Used by the desktop sidebar
 // and the mobile drawer. `onNavigate` runs after a leaf is picked.
@@ -51,6 +45,7 @@ export const StoreCategoryList = ({ moduleName, onNavigate }) => {
         if (data?.parent !== null) return null;
         const open = openIndex === idx;
         const hasSub = data?.subtype?.length > 0;
+        const { Icon, tone } = getCategoryIcon(data?.name);
 
         return (
           <li key={data?.id}>
@@ -64,18 +59,11 @@ export const StoreCategoryList = ({ moduleName, onNavigate }) => {
                   : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               }`}
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white ring-1 ring-gray-100">
-                <Image
-                  width={40}
-                  height={40}
-                  src={
-                    data?.image
-                      ? TYPE_IMAGES[moduleName](idx)
-                      : "/png/dummyImage.png"
-                  }
-                  alt=""
-                  className="h-9 w-9 object-contain"
-                />
+              <span
+                aria-hidden
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${tone}`}
+              >
+                <Icon className="h-5 w-5" />
               </span>
               <span className="line-clamp-2 min-w-0 flex-1 text-sm font-medium leading-snug">
                 {data?.name}
