@@ -9,9 +9,6 @@ import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 
 const NavRow = ({
   navItems,
-  brands,
-  itemsByBrand,
-  setItemsByBrand,
   activeMenu,
   setActiveMenu,
   hoveredCategory,
@@ -27,7 +24,6 @@ const NavRow = ({
           onMouseLeave={() => {
             setActiveMenu(null);
             setHoveredCategory(null);
-            itemsByBrand && setItemsByBrand(null);
           }}
         >
           <Link
@@ -49,39 +45,9 @@ const NavRow = ({
             navItem?.categories?.length > 0 && (
               <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[1000px] xl:w-[1200px] bg-white shadow-xl shadow-gray-900/10 z-50 border border-gray-200 rounded-b-2xl">
                 <div className="p-6 grid grid-cols-5 gap-6">
-                  <div className="col-span-1 max-h-[50vh] overflow-y-auto">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-                      Search By Brands
-                    </h3>
-                    <ul className="space-y-1 mt-1">
-                      {brands?.map((brand, index) => (
-                        <li key={index}>
-                          <button
-                            onClick={() => {
-                              const activeNavItem = navItems?.find(
-                                (item) => item?.type_name === activeMenu
-                              );
-                              if (!activeNavItem) return;
-                              const filterByBrand =
-                                activeNavItem?.categories?.filter((item) =>
-                                  item?.name
-                                    .toLowerCase()
-                                    .includes(brand?.brand_name?.toLowerCase())
-                                );
-                              setItemsByBrand(filterByBrand);
-                            }}
-                            className="text-sm text-gray-700 hover:text-[#D9481C] dark:hover:text-[#FF8A5B] transition-colors capitalize focus:text-[#D9481C]"
-                          >
-                            {brand?.brand_name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="col-span-3 max-h-[50vh] overflow-y-auto">
+                  <div className="col-span-4 max-h-[50vh] overflow-y-auto">
                     <div className="columns-4 gap-8">
-                      {(itemsByBrand || navItem?.categories)?.map((cat) => (
+                      {navItem?.categories?.map((cat) => (
                         <div
                           key={cat?.category_id}
                           className="break-inside-avoid mb-4"

@@ -14,10 +14,10 @@ const noopSubscribe = () => () => {};
 // to the JSON, which has the same ids and names.
 export const useNavItems = () => {
   const demoOn = useSyncExternalStore(noopSubscribe, isDemoMode, () => false);
-  const { navItems: apiNavItems, brands } = useCategoryItem();
+  const { navItems: apiNavItems } = useCategoryItem();
 
   const navItems =
     demoOn && apiNavItems?.length ? apiNavItems : staticNavItems;
 
-  return { navItems: navItems.slice(0, 7), brands };
+  return { navItems: navItems.slice(0, 7) };
 };
