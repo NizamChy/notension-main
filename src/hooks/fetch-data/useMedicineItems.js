@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
+import { requestStoreSwitch } from "@/components/Cart/storeSwitch";
 
 const useMedicineItems = () => {
   const dispatch = useDispatch();
@@ -72,7 +73,11 @@ const useMedicineItems = () => {
         medicineStoreInfo?._id &&
         medicineStoreInfo?._id !== visitedMedicineStore?._id
       ) {
-        emptyCartItems(product);
+        requestStoreSwitch({
+          fromStore: medicineStoreInfo?.shop_name,
+          toStore: visitedMedicineStore?.shop_name,
+          onConfirm: () => emptyCartItems(product),
+        });
       } else {
         addProduct(product);
       }

@@ -250,7 +250,8 @@ export const fashionStores = STORE_DEFS.map((s, i) => {
     alternative_contact_no: s.alt,
     shop_banner_web: web,
     shop_banner_app: app,
-    shop_logo: app,
+    // Monogram, not the cover photo: a photo crop doesn't read as a logo.
+    shop_logo: `fashion/logo-${s.key}.svg`,
     isShowingMsg: Boolean(s.popup),
     popup_message: s.popup || "",
     status: true,
@@ -539,7 +540,9 @@ const buildProduct = (n, p) => {
 
   const imagesByColor = p.colorImages
     ? p.colors.map((color) => {
-        const file = uniqueFile(`${webImage.slice(8, -4)}-${slug(color)}`);
+        // "fashion/<name>.webp" -> "<name>-<colour>"
+        const base = webImage.replace(/^fashion\//, "").replace(/\.\w+$/, "");
+        const file = uniqueFile(`${base}-${slug(color)}`);
         addImage({ file, shape: p.shape, color, label: `${p.title} - ${color}` });
         return file;
       })

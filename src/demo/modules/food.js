@@ -268,7 +268,8 @@ export const DEMO_FOOD_STORES = STORE_ROWS.map((row, index) => {
     ...rest,
     shop_banner_app: `food/store-${key}.webp`,
     shop_banner_web: `food/store-${key}.webp`,
-    shop_logo: `food/store-${key}.webp`,
+    // Monogram, not the cover photo: a photo crop doesn't read as a logo.
+    shop_logo: `food/logo-${key}.svg`,
     district_id: location.districtId,
     district_name: location.districtName,
     shop_latitude: lat,

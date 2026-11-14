@@ -1,7 +1,10 @@
 import React from "react";
 import FindStoreHero from "@/components/StoreModule/FindStoreHero";
 import FavoriteShop from "@/components/Grocery/FavoriteSection/FavoriteShop";
+import GrocerySection from "@/components/Grocery/GrocerySection/GrocerySection";
 
+// Hero, saved stores, then the stores near the delivery location, so the
+// page is useful without another click.
 const page = () => {
   return (
     <>
@@ -10,6 +13,7 @@ const page = () => {
       </div>
 
       <FavoriteShop isFavoriteRoute={false} />
+      <GrocerySection />
     </>
   );
 };

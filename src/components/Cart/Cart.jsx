@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 import { HiArrowRight } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 import CartItems from "./CartItems";
+import { StoreSwitchModal, storePath } from "./storeSwitch";
 import CartSummary from "./CartSummary";
 import { CART_MODULES } from "./cartModules";
 import Drawer from "../shared/Drawer/Drawer";
@@ -38,20 +40,27 @@ const Cart = () => {
   const visitedStore = useSelector((state) =>
     config ? state.dashboard[config.visitedStoreKey] : null,
   );
+  // The store the items were added from, which may not be the page's store.
+  const cartStore = useSelector((state) =>
+    config ? state.cart[config.storeInfoKey] : null,
+  );
 
   const count = items?.length || 0;
   const hasItems = count > 0;
+  const cartStorePath = storePath(moduleName, cartStore);
+  const fromOtherStore =
+    hasItems && cartStore?._id && cartStore._id !== visitedStore?._id;
+  const store = cartStore?._id ? cartStore : visitedStore;
 
   const handleCheckout = () => {
     setIsOpen(false);
     if (!userInfo?._id) return setIsModalOpen(true);
 
-    const store = `${params?.store}/${params?.storeId}/${params?.customStoreId}`;
-    router.push(
-      moduleName === "food"
-        ? `/food/store/${store}/checkout`
-        : `/${moduleName}/${store}/checkout`,
-    );
+    const current = `${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+    const base =
+      cartStorePath ||
+      (moduleName === "food" ? `/food/store/${current}` : `/${moduleName}/${current}`);
+    router.push(`${base}/checkout`);
   };
 
   const onCheckout = pathname?.endsWith("/checkout");
@@ -94,14 +103,27 @@ const Cart = () => {
         subtitle={
           hasItems
             ? `${count} ${count === 1 ? "item" : "items"}${
-                visitedStore?.shop_name ? ` from ${visitedStore.shop_name}` : ""
+                store?.shop_name ? ` from ${store.shop_name}` : ""
               }`
             : undefined
         }
         headerExtra={
-          hasItems && visitedStore?.delivery_notice ? (
+          fromOtherStore ? (
+            <p className="border-b border-[#2E6FD8]/20 bg-[#EEF4FF] px-5 py-2.5 text-xs font-medium text-[#0C3F8E] dark:bg-[#2E6FD8]/10 dark:text-[#9DC1FF]">
+              These items are from {cartStore.shop_name || "another store"}.{" "}
+              {cartStorePath && (
+                <Link
+                  href={cartStorePath}
+                  onClick={() => setIsOpen(false)}
+                  className="font-semibold underline underline-offset-2"
+                >
+                  Go to store
+                </Link>
+              )}
+            </p>
+          ) : hasItems && store?.delivery_notice ? (
             <p className="border-b border-[#F5B700]/30 bg-[#FFF8E1] px-5 py-2.5 text-xs font-medium text-[#7A5A00] dark:bg-[#F5B700]/10 dark:text-[#F5D06B]">
-              {visitedStore.delivery_notice}
+              {store.delivery_notice}
             </p>
           ) : null
         }
@@ -134,6 +156,8 @@ const Cart = () => {
           />
         )}
       </Drawer>
+
+      <StoreSwitchModal />
 
       <CommonModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <LoginModalDetails onClose={() => setIsModalOpen(false)} type="cart" />

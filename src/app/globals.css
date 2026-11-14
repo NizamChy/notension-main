@@ -135,6 +135,11 @@ body {
 .dark .hover\:bg-white:hover {
   background-color: rgb(var(--surface));
 }
+@media (max-width: 767.98px) {
+  .dark .max-md\:bg-white {
+    background-color: rgb(var(--surface));
+  }
+}
 :where(.dark) .bg-white\/95 {
   background-color: rgb(var(--surface) / 0.95);
 }

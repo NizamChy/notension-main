@@ -132,14 +132,16 @@ const RestaurantHeader = ({ compact = false }) => {
       )}
 
       <div className="px-4 pb-5 sm:px-6 sm:pb-6">
+        {/* Only the logo overlaps the cover; the name starts below it so the
+            photo never sits behind the text. */}
         <div
-          className={`flex flex-wrap items-end gap-3 sm:gap-4 ${
-            compact ? "pt-4 sm:pt-5" : "-mt-10 sm:-mt-12"
+          className={`flex items-start gap-3 sm:gap-4 ${
+            compact ? "pt-4 sm:pt-5" : ""
           }`}
         >
           <div
             className={`relative shrink-0 overflow-hidden rounded-2xl border-4 border-white bg-white shadow-md shadow-gray-900/10 ${
-              compact ? "h-16 w-16" : "h-20 w-20 sm:h-24 sm:w-24"
+              compact ? "h-16 w-16" : "-mt-10 h-20 w-20 sm:-mt-12 sm:h-24 sm:w-24"
             }`}
           >
             {logoSrc && (
@@ -153,7 +155,7 @@ const RestaurantHeader = ({ compact = false }) => {
             )}
           </div>
 
-          <div className="min-w-0 flex-1 basis-56 pb-0.5">
+          <div className={`min-w-0 flex-1 ${compact ? "" : "pt-3"}`}>
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 sm:text-2xl lg:text-3xl">
               <Link href={homePath} className="hover:underline">
                 {store?.shop_name}
