@@ -3,7 +3,7 @@ export const WOMEN_TYPE_ID = "6880c244098c458993b32677";
 export const KIDS_TYPE_ID = "6880c24c098c458993b32679";
 
 // Carousel banners are local files only (no third-party image hosts).
-// `image` is a flat SVG in public/demo/fashion/; `liveImage` is an optional
+// `image` is a demo photo in public/demo/fashion/; `liveImage` is an optional
 // local photo used instead when demo mode is off.
 export const FASHION_CAROUSEL_SLIDES = [
   {
@@ -12,7 +12,7 @@ export const FASHION_CAROUSEL_SLIDES = [
     subtitle: "Complete Your Look",
     cta: "View All",
     href: `/fashion-lifestyle/type/men_${MEN_TYPE_ID}`,
-    image: "carousel-panjabi.svg",
+    image: "carousel-panjabi.webp",
     liveImage: "/images/home/fashion-lifestyle-banner.jpeg",
   },
   {
@@ -21,7 +21,7 @@ export const FASHION_CAROUSEL_SLIDES = [
     subtitle: "Get your own style",
     cta: "Shop Now",
     href: `/fashion-lifestyle/type/men_${MEN_TYPE_ID}`,
-    image: "carousel-shirts.svg",
+    image: "carousel-shirts.webp",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const FASHION_CAROUSEL_SLIDES = [
     subtitle: "Find your favourites",
     cta: "Discover",
     href: `/fashion-lifestyle/type/kids_${KIDS_TYPE_ID}`,
-    image: "carousel-kids.svg",
+    image: "carousel-kids.webp",
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ export const FASHION_CAROUSEL_SLIDES = [
     subtitle: "New Arrivals",
     cta: "Shop Now",
     href: `/fashion-lifestyle/type/women_${WOMEN_TYPE_ID}`,
-    image: "carousel-summer.svg",
+    image: "carousel-summer.webp",
   },
   {
     id: 5,
@@ -45,7 +45,7 @@ export const FASHION_CAROUSEL_SLIDES = [
     subtitle: "Comfort Meets Fashion",
     cta: "Browse Collection",
     href: `/fashion-lifestyle/type/women_${WOMEN_TYPE_ID}`,
-    image: "carousel-casual.svg",
+    image: "carousel-casual.webp",
   },
 ];
 

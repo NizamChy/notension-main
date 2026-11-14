@@ -42,9 +42,16 @@ export const routes = [
 
 The rewrite drops the first path segment after `/demo-images`:
 
-- `${IMAGE_URL}/grocery-items-images/grocery/rice.svg` → `public/demo/grocery/rice.svg`
-- `${FASHION_IMAGE_URL}/fashion/shirt.svg` → `public/demo/fashion/shirt.svg`
+- `${IMAGE_URL}/grocery-items-images/grocery/rice.webp` → `public/demo/grocery/rice.webp`
+- `${FASHION_IMAGE_URL}/fashion/shirt.webp` → `public/demo/fashion/shirt.webp`
 
 So an image field in demo data holds the path under `public/demo/`. Keep each
-module's images in its own folder (`public/demo/<module>/`). Prefer small SVGs;
-`next/image` serves `.svg` without optimisation.
+module's images in its own folder (`public/demo/<module>/`).
+
+Demo images are freely licensed photos (CC0, public domain, CC BY, CC BY-SA)
+from Wikimedia Commons, saved as small `.webp` files (quality ~64, at most
+1400px wide). Every photo is credited in `public/demo/CREDITS.md`; add a line
+there when you add one. Don't use photos of identifiable people or real brands
+as stand-ins for fictional shops, doctors or products. The old `.svg`
+placeholders stay next to the photos so carts saved in localStorage before the
+switch still show an image. All-care provider logos are still SVG.

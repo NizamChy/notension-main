@@ -1,6 +1,6 @@
 // Demo routes for the FOOD backend. See src/demo/README.md for the contract.
 //
-// Images: every image field holds a path under public/demo/ (food/*.svg).
+// Images: every image field holds a path under public/demo/ (food/*.webp).
 // Product category icons (`banner_type_1`) are rendered as
 // `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${file}`, which resolves to
 // /demo-images/food-slider-type-subtype-images/food/<file>
@@ -45,7 +45,7 @@ export const DEMO_FOOD_STORE_CATEGORIES = STORE_CATEGORY_ROWS.map(
     _id: hexId("10", index + 1),
     key,
     store_category_name: name,
-    banner: `food/cat-${key}.svg`,
+    banner: `food/cat-${key}.webp`,
     regularDistance: 10000, // metres, sent back as max_distance
     serial_no: index + 1,
     is_active: true,
@@ -83,7 +83,7 @@ export const DEMO_FOOD_PRODUCT_CATEGORIES = PRODUCT_CATEGORY_ROWS.map(
     _id: hexId("30", index + 1),
     key,
     category_name: name,
-    banner_type_1: `food/pcat-${key}.svg`,
+    banner_type_1: `food/pcat-${key}.webp`,
     is_active: true,
   }),
 );
@@ -266,9 +266,9 @@ export const DEMO_FOOD_STORES = STORE_ROWS.map((row, index) => {
     _id: hexId("20", index + 1),
     key,
     ...rest,
-    shop_banner_app: `food/store-${key}.svg`,
-    shop_banner_web: `food/store-${key}.svg`,
-    shop_logo: `food/store-${key}.svg`,
+    shop_banner_app: `food/store-${key}.webp`,
+    shop_banner_web: `food/store-${key}.webp`,
+    shop_logo: `food/store-${key}.webp`,
     district_id: location.districtId,
     district_name: location.districtName,
     shop_latitude: lat,
@@ -366,8 +366,8 @@ export const DEMO_FOOD_ITEMS = ITEM_ROWS.map(
       less_type: "Flat",
       unit_symbol: "",
       max_allowed: 10,
-      app_image: `food/item-${key}.svg`,
-      web_image: `food/item-${key}.svg`,
+      app_image: `food/item-${key}.webp`,
+      web_image: `food/item-${key}.webp`,
       is_popular: popular,
       is_available: true,
       is_active: true,
@@ -386,18 +386,18 @@ const DEMO_FOOD_SLIDERS = {
   [DHAKA.districtId]: {
     _id: hexId("51", 1),
     district_id: DHAKA.districtId,
-    first_slider: [slide(1, "slider-kacchi.svg"), slide(2, "slider-pizza.svg")],
-    second_slider: [slide(3, "slider-burger.svg"), slide(4, "slider-cafe.svg")],
-    third_slider: [slide(5, "slider-chinese.svg"), slide(6, "slider-delivery.svg")],
-    fourth_slider: [slide(7, "slider-street.svg"), slide(8, "slider-kacchi.svg")],
+    first_slider: [slide(1, "slider-kacchi.webp"), slide(2, "slider-pizza.webp")],
+    second_slider: [slide(3, "slider-burger.webp"), slide(4, "slider-cafe.webp")],
+    third_slider: [slide(5, "slider-chinese.webp"), slide(6, "slider-delivery.webp")],
+    fourth_slider: [slide(7, "slider-street.webp"), slide(8, "slider-kacchi.webp")],
   },
   [CHITTAGONG.districtId]: {
     _id: hexId("51", 2),
     district_id: CHITTAGONG.districtId,
-    first_slider: [slide(9, "slider-mezban.svg")],
-    second_slider: [slide(10, "slider-delivery.svg")],
-    third_slider: [slide(11, "slider-mezban.svg")],
-    fourth_slider: [slide(12, "slider-delivery.svg")],
+    first_slider: [slide(9, "slider-mezban.webp")],
+    second_slider: [slide(10, "slider-delivery.webp")],
+    third_slider: [slide(11, "slider-mezban.webp")],
+    fourth_slider: [slide(12, "slider-delivery.webp")],
   },
 };
 
@@ -457,7 +457,7 @@ const merchantInfoOf = (store) => ({
 
 const orderLine = (itemKey, quantity) => {
   const item = DEMO_FOOD_ITEMS.find(
-    (i) => i.app_image === `food/item-${itemKey}.svg`,
+    (i) => i.app_image === `food/item-${itemKey}.webp`,
   );
   return {
     _id: item._id,

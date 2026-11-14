@@ -4,8 +4,8 @@
 //
 // Image fields hold a path under public/demo/. Components build image URLs
 // as `${HEALTH_CARE_IMAGES}/${file}`, and the /demo-images rewrite drops the
-// "medical-service-provider-images" segment, so "health-care/x.svg" resolves
-// to public/demo/health-care/x.svg.
+// "medical-service-provider-images" segment, so "health-care/x.webp" resolves
+// to public/demo/health-care/x.webp.
 
 import {
   GET_PATIENTS,
@@ -52,58 +52,58 @@ const banner = (n, file, title) => ({
 // Find doctor page: the first 3 are the slider, the last 2 the nav tiles
 // (nearest doctor, consultation center).
 const FIND_DOCTOR_BANNER = [
-  banner(1, "banner-find-doctor-1.svg", "Find the right doctor"),
-  banner(2, "banner-find-doctor-2.svg", "Book a serial online"),
-  banner(3, "banner-find-doctor-3.svg", "Specialists near you"),
-  banner(4, "nav-nearest-doctor.svg", "Nearest doctor"),
-  banner(5, "nav-consultation-center.svg", "Consultation center"),
+  banner(1, "banner-find-doctor-1.webp", "Find the right doctor"),
+  banner(2, "banner-find-doctor-2.webp", "Book a serial online"),
+  banner(3, "banner-find-doctor-3.webp", "Specialists near you"),
+  banner(4, "nav-nearest-doctor.webp", "Nearest doctor"),
+  banner(5, "nav-consultation-center.webp", "Consultation center"),
 ];
 
 // The slider shows all but the last one.
 const CONSULTATION_CENTER_BANNER = [
-  banner(11, "banner-consultation-1.svg", "Consultation centers"),
-  banner(12, "banner-consultation-2.svg", "Doctors by center"),
-  banner(13, "banner-consultation-3.svg", "Consultation centers"),
+  banner(11, "banner-consultation-1.webp", "Consultation centers"),
+  banner(12, "banner-consultation-2.webp", "Doctors by center"),
+  banner(13, "banner-consultation-3.webp", "Consultation centers"),
 ];
 
 const NEAREST_DOCTOR_BANNER = [
-  banner(21, "banner-nearest-doctor-1.svg", "Doctors near you"),
-  banner(22, "banner-nearest-doctor-2.svg", "Evening chambers"),
+  banner(21, "banner-nearest-doctor-1.webp", "Doctors near you"),
+  banner(22, "banner-nearest-doctor-2.webp", "Evening chambers"),
 ];
 
 const CENTER_TYPE_BANNERS = {
   hospital_banner: [
-    banner(31, "banner-hospital-1.svg", "Hospitals"),
-    banner(32, "banner-hospital-2.svg", "24/7 emergency"),
-    banner(33, "banner-hospital-1.svg", "Hospitals"),
+    banner(31, "banner-hospital-1.webp", "Hospitals"),
+    banner(32, "banner-hospital-2.webp", "24/7 emergency"),
+    banner(33, "banner-hospital-1.webp", "Hospitals"),
   ],
   diagnostic_center_banner: [
-    banner(41, "banner-diagnostic-1.svg", "Diagnostic centers"),
-    banner(42, "banner-diagnostic-2.svg", "Lab tests and imaging"),
-    banner(43, "banner-diagnostic-1.svg", "Diagnostic centers"),
+    banner(41, "banner-diagnostic-1.webp", "Diagnostic centers"),
+    banner(42, "banner-diagnostic-2.webp", "Lab tests and imaging"),
+    banner(43, "banner-diagnostic-1.webp", "Diagnostic centers"),
   ],
   eye_care_center_banner: [
-    banner(51, "banner-eye-1.svg", "Eye care centers"),
-    banner(52, "banner-eye-2.svg", "Eye check-up"),
-    banner(53, "banner-eye-1.svg", "Eye care centers"),
+    banner(51, "banner-eye-1.webp", "Eye care centers"),
+    banner(52, "banner-eye-2.webp", "Eye check-up"),
+    banner(53, "banner-eye-1.webp", "Eye care centers"),
   ],
   deltal_care_center_banner: [
-    banner(61, "banner-dental-1.svg", "Dental care centers"),
-    banner(62, "banner-dental-2.svg", "Healthy smiles"),
-    banner(63, "banner-dental-1.svg", "Dental care centers"),
+    banner(61, "banner-dental-1.webp", "Dental care centers"),
+    banner(62, "banner-dental-2.webp", "Healthy smiles"),
+    banner(63, "banner-dental-1.webp", "Dental care centers"),
   ],
 };
 
 // Medical services home: the first 4 are the slider, the last 4 the tiles.
 const MEDICAL_SERVICE_BANNER = [
-  banner(71, "banner-medical-1.svg", "Medical services"),
-  banner(72, "banner-medical-2.svg", "Doctor appointments"),
-  banner(73, "banner-medical-3.svg", "Hospitals and clinics"),
-  banner(74, "banner-medical-4.svg", "Diagnostics"),
-  banner(75, "tile-doctor.svg", "Find Doctor"),
-  banner(76, "tile-hospital.svg", "Hospital"),
-  banner(77, "tile-diagnostic.svg", "Diagnostic Center"),
-  banner(78, "tile-eye-dental.svg", "Eye and Dental Care"),
+  banner(71, "banner-medical-1.webp", "Medical services"),
+  banner(72, "banner-medical-2.webp", "Doctor appointments"),
+  banner(73, "banner-medical-3.webp", "Hospitals and clinics"),
+  banner(74, "banner-medical-4.webp", "Diagnostics"),
+  banner(75, "tile-doctor.webp", "Find Doctor"),
+  banner(76, "tile-hospital.webp", "Hospital"),
+  banner(77, "tile-diagnostic.webp", "Diagnostic Center"),
+  banner(78, "tile-eye-dental.webp", "Eye and Dental Care"),
 ];
 
 // ---------------------------------------------------------------------------
@@ -115,8 +115,8 @@ const dept = (n, dept_name, slug, dept_name_bn) => ({
   slug,
   dept_name,
   dept_name_bn,
-  banner_1: IMG(`dept-${slug}-1.svg`),
-  banner_2: IMG(`dept-${slug}-2.svg`),
+  banner_1: IMG(`dept-${slug}-1.webp`),
+  banner_2: IMG(`dept-${slug}-2.webp`),
   serial: n,
   is_active: true,
 });
@@ -153,7 +153,7 @@ const center = (n, districtId, center_type, center_name, slug, rest) => ({
   center_name,
   center_type,
   district_id: districtId,
-  medical_center_banner_app: IMG(`center-${slug}.svg`),
+  medical_center_banner_app: IMG(`center-${slug}.webp`),
   is_active: true,
   ...rest,
 });

@@ -11,9 +11,10 @@
 // - products carry type/category/sub-category/brand/store info populated
 // - `sizes` and `colors` are comma-separated strings (the UI splits them)
 //
-// Image fields hold paths under public/demo/ ("fashion/<file>.svg"). The SVGs
-// in public/demo/fashion/ were generated from `fashionImageSpecs` (one entry
-// per file: shape, colour and label); add a spec when adding images.
+// Image fields hold paths under public/demo/ ("fashion/<file>.webp"). The
+// photos are freely licensed (see public/demo/CREDITS.md). The older SVG
+// placeholders next to them came from `fashionImageSpecs` (shape, colour and
+// label per file) and stay so carts saved before the switch still render.
 //
 // The fashion backend is not district-based, so nothing here is filtered by
 // location.
@@ -34,7 +35,7 @@ const slug = (text) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-const img = (name) => `fashion/${name}.svg`;
+const img = (name) => `fashion/${name}.webp`;
 
 const CREATED_AT = "2026-09-01T10:00:00.000Z";
 

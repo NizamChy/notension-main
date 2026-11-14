@@ -15,7 +15,7 @@ import { FASHION_CAROUSEL_SLIDES } from "../utils/constants";
 import { FASHION_CONTAINER } from "../shared/FashionSection";
 
 // Demo mode serves the banner through the fashion image base URL
-// (/demo-images/fashion/fashion/x.svg -> public/demo/fashion/x.svg). Outside
+// (/demo-images/fashion/fashion/x.webp -> public/demo/fashion/x.webp). Outside
 // demo mode FASHION_IMAGE_URL is the remote CDN, so use the local file
 // directly (or the slide's local photo when it has one).
 const slideImage = (slide, demo) => {
@@ -63,7 +63,7 @@ const FashionCarousel = () => {
                 alt={slide?.title || "Fashion banner"}
                 fill
                 sizes="(min-width: 1312px) 1248px, 100vw"
-                priority={index === 0}
+                preload={index === 0}
                 className="object-cover"
               />
 
