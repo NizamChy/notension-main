@@ -130,6 +130,44 @@ How it works:
   `globals.css`. When you add a new light background or dark text color that
   isn't on the gray scale, add its dark value there or use a `dark:` class.
 
+## Roadmap
+
+Known gaps and planned work, most important first.
+
+### Still to fix
+
+- **Security:** restrict the Google Maps key to the site's domains and move
+  the SMS gateway call to a server route so its key never reaches the browser.
+- **Fashion product photos:** some products show a photo that doesn't match
+  the item (the demo reuses a shared photo pool).
+- **Medicine photos:** a few products share the same generic photo.
+- **Grocery checkout:** the delivery charge shows ৳0.00.
+- **Theme toggle:** two quick clicks don't switch back (the handler reads React
+  state instead of the `dark` class on `<html>`).
+- **Footer:** social icons stay hidden until real URLs are added to
+  `SOCIAL_LINKS`. The fashion module still has its own older footer.
+- **Fashion:** one shop name needs correcting in the demo data.
+- **Doctor data:** a doctor with two chambers is listed twice in a department.
+- **Dark mode:** modals, dropdowns and checkout have not been fully reviewed.
+  Some white-on-teal and white-on-yellow buttons have low contrast.
+- **Cleanup:** 21 unused images in `public/images/home/`, the unused
+  dotlottie package and the `OrderUI` folder.
+
+### Known limitations
+
+- Demo orders, bookings and favourites are lost on reload.
+- OTP sign-up can't be tested in demo mode.
+- Direct links to an all-care service search only the first page of results.
+
+### Features not built yet
+
+- Doctor video consultation
+- Online payment gateway integration for bKash and Nagad
+- Home sample collection for lab tests
+- Health check-up packages
+- Search doctors by code, plus specialty descriptions and a stats row on the
+  doctor pages
+
 ## Project structure
 
 ```
