@@ -1,6 +1,7 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LuStethoscope } from "react-icons/lu";
@@ -25,15 +26,30 @@ const DoctorsByCenter = () => {
   const [doctorsInfo, setDoctorsInfo] = useState([]);
 
   const { getDoctorsInfoByCenter, loadingMore, allLoaded } = useDoctor();
-  const { currentDept } = useSelector((state) => state.doctorInfo);
+  const { currentDept, currentCenter } = useSelector((state) => state.doctorInfo);
+  const dispatch = useDispatch();
 
   const params = useParams();
   const deptId = params?.deptId;
   const centerId = params?.centerId;
 
+  // Saved department/centre only count when they match the URL; otherwise
+  // take them from the doctors' chambers (direct links, other tabs).
+  const dept =
+    currentDept?._id === deptId ? currentDept : doctorsInfo?.[0]?.deptInfo;
+  const chamberCenter = doctorsInfo?.[0]?.consultationCenterInfo;
+
   useEffect(() => {
     getDoctorsInfoByCenter(centerId, deptId, setDoctorsInfo, pageNo, setPageNo);
-  }, [centerId]);
+    // getDoctorsInfoByCenter is recreated on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [centerId, deptId]);
+
+  useEffect(() => {
+    if (chamberCenter?._id === centerId && currentCenter?._id !== centerId) {
+      dispatch(handleDoctorReducer({ type: "SAVE_CENTER_INFO", data: chamberCenter }));
+    }
+  }, [chamberCenter, centerId, currentCenter?._id, dispatch]);
 
   return (
     <MedicalPageBody className="min-h-content">
@@ -47,9 +63,7 @@ const DoctorsByCenter = () => {
               : null
           }
         >
-          {currentDept?.dept_name
-            ? `${currentDept.dept_name} specialists`
-            : "Doctors"}
+          {dept?.dept_name ? `${dept.dept_name} specialists` : "Doctors"}
         </MedicalSectionTitle>
 
         {!allLoaded && doctorsInfo?.length < 1 && (

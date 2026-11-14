@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
+import { requestStoreSwitch } from "@/components/Cart/storeSwitch";
 
 const useFoodItems = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,11 @@ const useFoodItems = () => {
 
     if (foodItems.length > 0) {
       if (foodStoreInfo?._id && foodStoreInfo?._id !== visitedFoodStore?._id) {
-        emptyCartItems(product);
+        requestStoreSwitch({
+          fromStore: foodStoreInfo?.shop_name,
+          toStore: visitedFoodStore?.shop_name,
+          onConfirm: () => emptyCartItems(product),
+        });
       } else {
         addProduct(product);
       }

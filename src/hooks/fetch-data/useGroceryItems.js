@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
+import { requestStoreSwitch } from "@/components/Cart/storeSwitch";
 
 const useGroceryItems = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,11 @@ const useGroceryItems = () => {
         groceryStoreInfo?._id &&
         groceryStoreInfo?._id !== visitedGroceryStore?._id
       ) {
-        emptyCartItems(product);
+        requestStoreSwitch({
+          fromStore: groceryStoreInfo?.shop_name,
+          toStore: visitedGroceryStore?.shop_name,
+          onConfirm: () => emptyCartItems(product),
+        });
       } else {
         addProduct(product);
       }

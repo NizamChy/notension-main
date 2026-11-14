@@ -8,11 +8,12 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Pagination, Autoplay } from "swiper/modules";
 
+// Generic offers that hold for every restaurant (photos credited in
+// public/demo/CREDITS.md).
 const images = [
-  "/images/food/food-banner-1.png",
-  "/images/food/food-banner-2.png",
-  "/images/food/food-banner-3.png",
-  "/images/food/food-banner-4.png",
+  "/demo/food/offer-delivery.webp",
+  "/demo/food/offer-cod.webp",
+  "/demo/food/offer-sweets.webp",
 ];
 
 // Offer banners on a restaurant's page. The box keeps the banners' own

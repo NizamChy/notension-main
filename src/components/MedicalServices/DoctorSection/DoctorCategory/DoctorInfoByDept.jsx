@@ -30,11 +30,21 @@ const DoctorInfoByDept = () => {
   const { currentDept } = useSelector((state) => state.doctorInfo);
 
   const deptId = params?.deptId || null;
-  const deptName = currentDept?.dept_name;
+  // The saved department only counts when it is the one in the URL (a direct
+  // link or another tab may have saved a different one); otherwise read it
+  // from the doctors' chambers.
+  const dept =
+    currentDept?._id === deptId ? currentDept : doctorsInfo?.[0]?.deptInfo;
+  const deptName = dept?.dept_name;
 
+  // Reload when the department in the URL changes (the page stays mounted).
   useEffect(() => {
-    getDoctorsInfoByDistrict(deptId, setDoctorsInfo, pageNo, setPageNo);
-  }, []);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDoctorsInfo([]);
+    getDoctorsInfoByDistrict(deptId, setDoctorsInfo, 1, setPageNo);
+    // getDoctorsInfoByDistrict is recreated on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deptId]);
 
   return (
     <MedicalPageBody>
@@ -44,8 +54,8 @@ const DoctorInfoByDept = () => {
         backLabel="All departments"
         title={deptName ? `${deptName} specialists` : "Specialists"}
         subtitle={
-          currentDept?.dept_name_bn
-            ? `${currentDept.dept_name_bn} বিশেষজ্ঞ ডাক্তার`
+          dept?.dept_name_bn
+            ? `${dept.dept_name_bn} বিশেষজ্ঞ ডাক্তার`
             : "Doctors in your district, ready to book."
         }
       />

@@ -1,6 +1,8 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { handleDoctorReducer } from "@/redux/doctorReducer";
 import React, { useEffect, useState } from "react";
 import { Skeleton } from "@/components/shared/UI/UI";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
@@ -26,21 +28,37 @@ const ExploreConsultationCenter = () => {
   const [allDeptInfo, setAllDeptInfo] = useState([]);
   const [exploreInfo, setExploreInfo] = useState(null);
 
+  const params = useParams();
+  const dispatch = useDispatch();
   const { exploreConsultationCenter, progressing } = useCenter();
   const { currentCenter } = useSelector((state) => state.doctorInfo);
 
-  useEffect(() => {
-    exploreConsultationCenter(currentCenter, setExploreInfo);
-  }, [currentCenter]);
+  // The URL decides which centre this is. The centre saved when a card was
+  // clicked only fills in the type; a direct link loads the centre itself.
+  const centerId = params?.id;
+  const savedType =
+    currentCenter?._id === centerId ? currentCenter?.center_type : undefined;
 
   useEffect(() => {
-    if (!progressing && exploreInfo?.popularDoctorsByCenter?.length > 0) {
-      setSlider(exploreInfo?.popularDoctorsByCenter);
-    }
+    if (!centerId) return;
+    exploreConsultationCenter(
+      { _id: centerId, center_type: savedType },
+      setExploreInfo,
+    );
+    // exploreConsultationCenter is recreated on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [centerId]);
 
-    if (!progressing && exploreInfo?.departmentsInfoByCenter?.length > 0) {
-      setAllDeptInfo(exploreInfo?.departmentsInfoByCenter);
+  useEffect(() => {
+    if (progressing) return;
+    const info = exploreInfo?.centerInfo;
+    if (info?._id === centerId && currentCenter?._id !== centerId) {
+      dispatch(handleDoctorReducer({ type: "SAVE_CENTER_INFO", data: info }));
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSlider(exploreInfo?.popularDoctorsByCenter || []);
+    setAllDeptInfo(exploreInfo?.departmentsInfoByCenter || []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exploreInfo]);
 
   return (
