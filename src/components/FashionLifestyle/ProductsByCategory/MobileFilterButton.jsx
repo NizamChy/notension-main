@@ -1,28 +1,19 @@
 "use client";
 
+import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
+
 const MobileFilterButton = ({ onClick, filterCount }) => {
   return (
     <button
+      type="button"
+      id="filter-button"
       onClick={onClick}
-      className="fixed bottom-5 right-4 md:hidden z-30 bg-white text-gray-900 text-sm font-medium px-4 py-2.5 rounded-full border border-gray-200 shadow-lg flex items-center gap-1.5 justify-center"
+      className="fixed bottom-5 left-1/2 z-30 flex h-11 -translate-x-1/2 items-center justify-center gap-2 rounded-full bg-[#0C3F8E] px-5 text-sm font-semibold text-white shadow-lg shadow-[#0C3F8E]/30 transition-colors hover:bg-[#0A3478] md:hidden"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-        />
-      </svg>
-      Filter
+      <HiOutlineAdjustmentsHorizontal className="text-lg" />
+      Filters
       {filterCount > 0 && (
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#FFFFFF] px-1.5 text-xs font-bold tabular-nums text-[#0C3F8E]">
           {filterCount}
         </span>
       )}

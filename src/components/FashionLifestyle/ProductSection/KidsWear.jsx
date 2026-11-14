@@ -7,7 +7,9 @@ import PopularTypeSection from "./PopularTypeSection";
 const KidsWear = () => (
   <PopularTypeSection
     typeId={KIDS_TYPE_ID}
-    title="Kid's Wear"
+    typeSlug="kids"
+    title="Kids' wear"
+    subtitle="Comfortable picks for little ones"
     errorText="Failed to load kids products"
   />
 );

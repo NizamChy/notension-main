@@ -6,7 +6,9 @@ import NearestCenterListing from "../Layout/NearestCenterListing";
 const NearestDiagnostic = () => (
   <NearestCenterListing
     centerType="Diagnostic Centre"
-    title="Nearest Diagnostic Center"
+    title="Diagnostic centres near you"
+    back="/medical-services/diagnostic"
+    backLabel="All diagnostic centres"
   />
 );
 

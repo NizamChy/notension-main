@@ -2,14 +2,30 @@
 
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
+import { EmptyState, PAGE_CONTAINER } from "@/components/shared/UI/UI";
 import ServicesArea from "@/components/AllCareServices/ServicesArea";
 import ServicesSlider from "@/components/AllCareServices/ServicesSlider";
 import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
 import AllCareServices from "@/components/AllCareServices/AllCareServices";
 
+// Each group of services (a slice of the service list) follows its own
+// banner slider.
+const SECTIONS = [
+  ["first_slider", 0, 4, "Your Trusted Partner for Every Service"],
+  ["second_slider", 4, 16, "One Platform, Endless Solutions!"],
+  ["third_slider", 16, 20, "Learn, Grow, Succeed with Us!"],
+  ["fourth_slider", 20, 24, "Building Skills, Shaping Futures"],
+  ["fifth_slider", 24, 33, "All-in-One Service at Your Fingertips!"],
+  ["sixth_slider", 33, 39, "Expert Help, Anytime!"],
+  ["seventh_slider", 39, 45, "Connecting You to Expert Services!"],
+];
+
 const AllCareHome = () => {
   const { exploreAllCareService } = useAllCareService();
-  const { careSlider } = useSelector((state) => state.allCare);
+  const { careSlider, allServicesInfo, isLoading } = useSelector(
+    (state) => state.allCare
+  );
   const districtId = useSelector((state) => state.user.districtId);
 
   // Refetch whenever the user's district changes. Persisted data is kept on
@@ -20,105 +36,38 @@ const AllCareHome = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [districtId]);
 
+  const isEmpty = !isLoading && !(allServicesInfo?.length > 0);
+
   return (
-    <>
-      <div className="max-w-7xl mx-auto min-h-content px-4 sm:px-6 lg:px-8 py-6 md:py-10 flex flex-col gap-8 md:gap-12">
-        <AllCareServices />
+    <div
+      className={`${PAGE_CONTAINER} min-h-content flex flex-col gap-10 py-5 md:gap-14 md:py-8`}
+    >
+      <AllCareServices />
 
-        <ServicesSlider slider={careSlider[0]?.first_slider} />
-
-        <ServicesArea
-          sliceEnd={4}
-          sliceStart={0}
-          imageWidth={600}
-          imageHeight={300}
-          bgClassName="bg-[#FEEFEA]"
-          imageKey="service_banner_app"
-          title="Your Trusted Partner for Every Service"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-        />
-
-        <ServicesSlider slider={careSlider[0]?.second_slider} />
-
-        <ServicesArea
-          sliceEnd={16}
-          sliceStart={4}
-          imageWidth={300}
-          imageHeight={300}
-          bgClassName="bg-[#FFF3FF]"
-          imageKey="service_banner_app"
-          title="One Platform, Endless Solutions!"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-          // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
-        />
-
-        <ServicesSlider slider={careSlider[0]?.third_slider} />
-
-        <ServicesArea
-          sliceEnd={20}
-          sliceStart={16}
-          imageWidth={300}
-          imageHeight={300}
-          bgClassName="bg-[#F2FCE4]"
-          imageKey="service_banner_app"
-          title="Learn, Grow, Succeed with Us!"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-        />
-
-        <ServicesSlider slider={careSlider[0]?.fourth_slider} />
-
-        <ServicesArea
-          sliceEnd={24}
-          sliceStart={20}
-          imageWidth={300}
-          imageHeight={300}
-          bgClassName="bg-[#FFFCEB]"
-          imageKey="service_banner_app"
-          title="Building Skills, Shaping Futures"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-        />
-
-        <ServicesSlider slider={careSlider[0]?.fifth_slider} />
-
-        <ServicesArea
-          sliceEnd={33}
-          sliceStart={24}
-          imageWidth={300}
-          imageHeight={300}
-          bgClassName="bg-[#DEF9EC]"
-          imageKey="service_banner_app"
-          title="All-in-One Service at Your Fingertips!"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-          // gridClassName="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 md:gap-5"
-        />
-
-        <ServicesSlider slider={careSlider[0]?.sixth_slider} />
-
-        <ServicesArea
-          sliceEnd={39}
-          sliceStart={33}
-          imageWidth={300}
-          imageHeight={300}
-          bgClassName="bg-[#FEEFEA]"
-          imageKey="service_banner_app"
-          title="Expert Help, Anytime!"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-        />
-
-        <ServicesSlider slider={careSlider[0]?.seventh_slider} />
-
-        <ServicesArea
-          sliceEnd={45}
-          sliceStart={39}
-          imageWidth={300}
-          imageHeight={300}
-          bgClassName="bg-[#FFF5E1D9]"
-          imageKey="service_banner_app"
-          title="Connecting You to Expert Services!"
-          gridClassName="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
-        />
+      <div
+        id="all-care-services"
+        className="flex scroll-mt-24 flex-col gap-10 md:gap-14"
+      >
+        {isEmpty ? (
+          <EmptyState
+            icon={<HiOutlineWrenchScrewdriver />}
+            title="No services in your area yet"
+            text="We're adding new providers every week. Try another location or check back soon."
+          />
+        ) : (
+          SECTIONS.map(([sliderKey, start, end, title]) => (
+            <React.Fragment key={sliderKey}>
+              <ServicesSlider slider={careSlider?.[0]?.[sliderKey]} />
+              <ServicesArea
+                sliceStart={start}
+                sliceEnd={end}
+                title={title}
+              />
+            </React.Fragment>
+          ))
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

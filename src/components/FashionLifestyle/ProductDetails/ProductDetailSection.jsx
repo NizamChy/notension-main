@@ -10,22 +10,50 @@ import ImageGallery from "./ImageGallery";
 import { useEffect, useState } from "react";
 import { slugify } from "../utils/slugify";
 import ProductDetails from "./ProductDetails";
-import Loader from "../shared/Loader/Loader";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
-import { MdLocationOn } from "react-icons/md";
-import { FaShoppingCart } from "react-icons/fa";
+import { HiCheck, HiMinus, HiPlus } from "react-icons/hi";
+import { HiOutlineMapPin, HiOutlineShoppingBag } from "react-icons/hi2";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "../shared/Cart/CartDrawer";
 import { useDispatch, useSelector } from "react-redux";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import { FASHION_CONTAINER } from "../shared/FashionSection";
+import {
+  CARD,
+  EmptyState,
+  PRIMARY_BUTTON,
+  SECONDARY_BUTTON,
+  Skeleton,
+} from "@/components/shared/UI/UI";
+
+const OptionLabel = ({ title, value }) => (
+  <p className="mb-2.5 text-sm font-semibold text-gray-900">
+    {title}
+    {value && <span className="ml-1.5 font-normal text-gray-500">{value}</span>}
+  </p>
+);
+
+const DetailSkeleton = () => (
+  <div className={`${FASHION_CONTAINER} py-6 md:py-10`} aria-hidden>
+    <div className="grid gap-6 md:grid-cols-2 lg:gap-12">
+      <Skeleton className="aspect-[3/4] !rounded-2xl" />
+      <div className="space-y-4">
+        <Skeleton className="h-3 w-24 !rounded-full" />
+        <Skeleton className="h-8 w-3/4 !rounded-full" />
+        <Skeleton className="h-7 w-40 !rounded-full" />
+        <Skeleton className="mt-8 h-11 w-2/3 !rounded-full" />
+        <Skeleton className="h-12 w-full !rounded-full" />
+      </div>
+    </div>
+  </div>
+);
 
 const ProductDetailSection = () => {
   const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
-  // const [selectedColor, setSelectedColor] = useState(null);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -49,9 +77,6 @@ const ProductDetailSection = () => {
   const product = hasReduxProduct ? currentProductDetails : fetchedProduct;
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
-
-  // const detailImages = [product?.web_image, ...product?.detail_product_image];
-  // const [selectedImage, setSelectedImage] = useState(product?.web_image);
 
   const [selectedImage, setSelectedImage] = useState(
     product?.images_by_color?.[0] || product?.web_image
@@ -79,17 +104,16 @@ const ProductDetailSection = () => {
     }
   };
 
+  const hasSizes =
+    product?.sizes !== "null" &&
+    product?.sizes !== "" &&
+    product?.sizes !== "undefined" &&
+    sizesArray?.length > 0;
+
   // Buy Now = same validation + add to cart, then straight to checkout
   // instead of opening the cart drawer.
   const handleAddToCart = ({ buyNow = false } = {}) => {
-
-    if (
-      product?.sizes !== "null" &&
-      product?.sizes !== "" &&
-      product?.sizes !== "undefined" &&
-      sizesArray?.length > 0 &&
-      !selectedSize
-    ) {
+    if (hasSizes && !selectedSize) {
       toast.dismiss();
       toast("Please select a size!", {
         icon: "ℹ️",
@@ -166,7 +190,7 @@ const ProductDetailSection = () => {
       })
     );
     toast.dismiss();
-    toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
+    toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
       style: {
         border: "1px solid #FC8F1E",
       },
@@ -178,15 +202,35 @@ const ProductDetailSection = () => {
     });
   };
 
-  if (!product && isFetching) return <Loader />;
+  if (!product && isFetching) return <DetailSkeleton />;
 
   if (!product?._id) {
     return (
-      <p className="container mx-auto px-4 py-16 text-center text-gray-600">
-        Product not found.
-      </p>
+      <div className={`${FASHION_CONTAINER} min-h-content py-10 md:py-16`}>
+        <EmptyState
+          icon={<HiOutlineShoppingBag />}
+          title="Product not found"
+          text="It may have been removed or the link is incorrect."
+          action={
+            <Link href="/fashion-lifestyle" className={PRIMARY_BUTTON}>
+              Continue shopping
+            </Link>
+          }
+        />
+      </div>
     );
   }
+
+  const isFavourite = !!favouriteFashionItems?.find(
+    (item) => item?._id === product?._id
+  );
+  const variants = product?.images_by_color || [];
+  const variantIndex = variants.indexOf(selectedImage);
+  const variantName =
+    variantIndex !== -1 && colorsArray?.length === variants.length
+      ? colorsArray[variantIndex]?.trim()
+      : null;
+  const store = product?.store_info;
 
   return (
     <>
@@ -197,285 +241,201 @@ const ProductDetailSection = () => {
         <meta name="description" content={product?.description} />
       </Head>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-        <div className="flex flex-col md:flex-row gap-6 lg:gap-10">
-          <div className="md:w-1/2 lg:w-[45%] md:flex-shrink-0">
-            {/* <ImageGallery product={product} /> */}
-
+      <div className={`${FASHION_CONTAINER} py-4 md:py-10`}>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-12">
+          <div className="md:sticky md:top-28 md:self-start">
             <ImageGallery product={product} selectedImage={selectedImage} />
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0">
             <ProductInfo product={product} />
 
-            {/* Select Product Image Section */}
-            {product?.images_by_color?.length > 0 && (
-              <div className="my-4">
-                <h3 className="text-lg font-semibold mb-2">Select Variant</h3>
+            <div className="mt-6 space-y-6 border-t border-gray-200 pt-6">
+              {/* Colour variants */}
+              {variants.length > 0 && (
+                <div>
+                  <OptionLabel title="Colour" value={variantName} />
 
-                <div className="flex gap-3 flex-wrap">
-                  {product?.images_by_color?.map((img, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(img)}
-                      className={`relative border-2 rounded-md overflow-hidden ${
-                        selectedImage === img
-                          ? "border-indigo-500"
-                          : "border-gray-200"
-                      }`}
-                    >
-                      <img
-                        src={`${FASHION_IMAGE_URL}/${img}`}
-                        alt={`Product image ${index + 1}`}
-                        className="w-16 h-16 object-cover"
-                      />
-
-                      {/* ✔ Corner checkmark (bottom-right) */}
-                      {selectedImage === img && (
-                        <div className="absolute bottom-1 right-1 bg-indigo-500 text-white rounded-full p-1 shadow-md">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-3 h-3"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* {detailImages?.length > 0 && (
-              <div className="my-4">
-                <h3 className="text-lg font-semibold mb-2">Select Image</h3>
-
-                <div className="flex gap-3 flex-wrap">
-                  {detailImages.map((img, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(img)}
-                      className={`border-2 rounded-md overflow-hidden ${
-                        selectedImage === img
-                          ? "border-indigo-500"
-                          : "border-gray-200"
-                      }`}
-                    >
-                      <img
-                        src={`${FASHION_IMAGE_URL}/${img}`}
-                        alt={`Product image ${index + 1}`}
-                        className="w-16 h-16 object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )} */}
-
-            {/* {product?.colors !== "null" &&
-              product?.colors !== "" &&
-              product?.colors !== "undefined" &&
-              product?.colors?.length > 0 && (
-                <div className="my-3">
-                  <h3 className="text-lg font-semibold mb-2">Color</h3>
-                  <div className="flex gap-2">
-                    {colorsArray?.map((color) => (
-                      <button
-                        key={color}
-                        onClick={() => setSelectedColor(color)}
-                        className={`w-10 h-10 rounded-full border-2 ${
-                          selectedColor === color
-                            ? "border-indigo-500"
-                            : "border-gray-200"
-                        }`}
-                        style={{ backgroundColor: color }}
-                        aria-label={`Select ${color} color`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )} */}
-
-            {product?.sizes !== "null" &&
-              product?.sizes !== "" &&
-              product?.sizes !== "undefined" &&
-              sizesArray?.length > 0 && (
-                <div className="my-3">
-                  <h3 className="text-lg font-semibold mb-2">Size</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {sizesArray?.map((size) => (
-                      <button
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`min-w-[2.75rem] h-9 px-3 text-sm font-medium border rounded-md transition-colors ${
-                          selectedSize === size
-                            ? "bg-black text-white border-black"
-                            : "border-gray-300 hover:border-gray-400"
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
+                  <div className="flex flex-wrap gap-2.5">
+                    {variants.map((img, index) => {
+                      const active = selectedImage === img;
+                      const name = colorsArray?.[index]?.trim();
+                      return (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => setSelectedImage(img)}
+                          aria-pressed={active}
+                          aria-label={
+                            name ? `Colour ${name}` : `Variant ${index + 1}`
+                          }
+                          className={`relative h-[72px] w-14 overflow-hidden rounded-xl border-2 bg-gray-100 transition-colors ${
+                            active
+                              ? "border-[#0C3F8E] dark:border-[#7FB2FF]"
+                              : "border-gray-200 hover:border-gray-400"
+                          }`}
+                        >
+                          <Image
+                            src={`${FASHION_IMAGE_URL}/${img}`}
+                            alt=""
+                            fill
+                            sizes="56px"
+                            className="object-cover"
+                          />
+                          {active && (
+                            <span className="absolute bottom-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#0C3F8E] text-[10px] text-white">
+                              <HiCheck />
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
 
-            <div className="my-3">
-              <h3 className="text-lg font-semibold mb-2">Quantity</h3>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center">
+              {/* Sizes */}
+              {hasSizes && (
+                <div>
+                  <OptionLabel
+                    title="Size"
+                    value={selectedSize || "Select a size"}
+                  />
+                  <div className="flex flex-wrap gap-2">
+                    {sizesArray?.map((size) => {
+                      const active = selectedSize === size;
+                      return (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => setSelectedSize(size)}
+                          aria-pressed={active}
+                          className={`h-11 min-w-12 rounded-full border px-4 text-sm font-medium transition-colors ${
+                            active
+                              ? "border-[#0C3F8E] bg-[#0C3F8E] text-white"
+                              : "border-gray-200 text-gray-800 hover:border-gray-400"
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Quantity */}
+              <div>
+                <OptionLabel title="Quantity" />
+                <div className="inline-flex h-11 items-center rounded-full border border-gray-200">
                   <button
+                    type="button"
+                    aria-label="Decrease quantity"
+                    disabled={quantity <= 1}
                     onClick={() => handleQuantityChange("decrease")}
-                    className="w-9 h-9 border border-gray-300 rounded-l-md hover:bg-gray-100"
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-gray-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-300 disabled:hover:bg-transparent"
                   >
-                    -
+                    <HiMinus />
                   </button>
-                  <span className="min-w-[3rem] h-9 px-3 flex items-center justify-center border-t border-b border-gray-300">
+                  <span
+                    aria-live="polite"
+                    className="min-w-10 text-center text-sm font-semibold tabular-nums text-gray-900"
+                  >
                     {quantity}
                   </span>
                   <button
+                    type="button"
+                    aria-label="Increase quantity"
                     onClick={() => handleQuantityChange("increase")}
-                    className="w-9 h-9 border border-gray-300 rounded-r-md hover:bg-gray-100"
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-gray-700 transition-colors hover:bg-gray-100"
                   >
-                    +
+                    <HiPlus />
                   </button>
                 </div>
-
-                <button
-                  onClick={(e) => toggleWishlist(e, product?._id, product)}
-                  className={`h-9 rounded-md flex justify-center items-center gap-1.5 px-3 border border-gray-300 hover:bg-gray-100 ${
-                    favouriteFashionItems?.find(
-                      (item) => item?._id === product?._id
-                    )
-                      ? "text-red-500 bg-white/90"
-                      : "text-gray-400 bg-white/70 hover:text-red-500"
-                  }`}
-                >
-                  <FiHeart
-                    className={`text-lg ${
-                      favouriteFashionItems?.find(
-                        (item) => item?._id === product?._id
-                      )
-                        ? "fill-current"
-                        : ""
-                    }`}
-                  />
-                  <span className="text-deepGray text-xs sm:text-sm md:text-base">
-                    {favouriteFashionItems?.find(
-                      (item) => item?._id === product?._id
-                    )
-                      ? "Added to Wishlist"
-                      : "Add to Wishlist"}
-                  </span>
-                </button>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
+            {/* Actions: sticky at the bottom of the screen on mobile */}
+            <div className="z-10 mt-6 flex gap-2 max-md:sticky max-md:bottom-0 max-md:-mx-4 max-md:border-t max-md:border-gray-200 max-md:bg-white max-md:px-4 max-md:py-3 sm:gap-3">
               <button
                 type="button"
                 onClick={() => handleAddToCart()}
-                className="flex items-center justify-center flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`${PRIMARY_BUTTON} h-12 flex-1 !px-3 sm:!px-5`}
               >
-                <FaShoppingCart /> Add to Cart
+                <HiOutlineShoppingBag className="text-lg" />
+                Add to bag
               </button>
 
               <button
                 type="button"
                 onClick={() => handleAddToCart({ buyNow: true })}
-                className="flex items-center justify-center flex-1 bg-primary hover:bg-primary/95 text-white py-3 px-6 rounded-md font-medium transition-colors"
+                className="inline-flex h-12 flex-1 items-center justify-center rounded-full bg-[#EB5C2F] px-3 text-sm sm:px-5 font-semibold text-white shadow-sm shadow-[#EB5C2F]/20 transition-colors hover:bg-[#D9481C]"
               >
-                Buy Now
+                Buy now
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => toggleWishlist(e, product?._id, product)}
+                aria-pressed={isFavourite}
+                aria-label={
+                  isFavourite ? "Remove from wishlist" : "Add to wishlist"
+                }
+                className={`${SECONDARY_BUTTON} h-12 w-12 shrink-0 !px-0 ${
+                  isFavourite ? "text-[#D92D20]" : ""
+                }`}
+              >
+                <FiHeart
+                  className={`text-lg ${isFavourite ? "fill-current" : ""}`}
+                />
               </button>
             </div>
+
+            {/* Sold by */}
+            {!pathname?.includes("shop") && store?._id && (
+              <div className={`${CARD} mt-6 flex items-center gap-3 p-4`}>
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-gray-200 bg-gray-100">
+                  <Image
+                    src={
+                      store?.shop_logo || store?.shop_banner_app
+                        ? `${FASHION_IMAGE_URL}/${
+                            store?.shop_logo || store?.shop_banner_app
+                          }`
+                        : "/png/dummyImage.png"
+                    }
+                    alt=""
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs text-gray-500">Sold by</p>
+                  <p className="truncate text-sm font-semibold text-gray-900">
+                    {store?.shop_name}
+                  </p>
+                  {store?.shop_address && (
+                    <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-gray-500">
+                      <HiOutlineMapPin className="shrink-0" />
+                      <span className="truncate">{store.shop_address}</span>
+                    </p>
+                  )}
+                </div>
+                <Link
+                  href={`/fashion-lifestyle/shop/${slugify(store?.shop_name)}_${
+                    store?._id
+                  }`}
+                  className={`${SECONDARY_BUTTON} h-10 shrink-0 !px-4`}
+                >
+                  Visit store
+                </Link>
+              </div>
+            )}
 
             <ProductDetails product={product} />
           </div>
         </div>
       </div>
-
-      {!pathname?.includes("shop") && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
-          <div className="relative w-full h-56 md:h-[320px] overflow-hidden rounded-xl shadow-md">
-            <Image
-              src={
-                product?.store_info?.shop_banner_app
-                  ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_app}`
-                  : "/png/dummyImage.png"
-              }
-              alt="Shopping store banner"
-              fill
-              // Banner art and tagline sit on the right; crop from the left.
-              className="object-cover object-right block md:hidden"
-              priority
-            />
-
-            <Image
-              src={
-                product?.store_info?.shop_banner_web
-                  ? `${FASHION_IMAGE_URL}/${product?.store_info?.shop_banner_web}`
-                  : "/png/dummyImage.png"
-              }
-              alt="Shopping store banner"
-              fill
-              className="object-cover object-right hidden md:block"
-              priority
-            />
-
-            <div
-              className="relative z-10 flex flex-col items-start justify-center h-full px-5 md:px-8
-                       text-deepGray w-3/4 md:w-2/3 lg:w-1/2 bg-gradient-to-br from-white to-white/20 md:to-white/30
-                       clip-diagonal"
-            >
-              <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3 line-clamp-2">
-                {product?.store_info?.shop_name}
-              </h1>
-
-              <p className="text-sm md:text-lg font-semibold mb-4 md:mb-6 max-w-lg flex gap-1 items-start">
-                <span>
-                  <MdLocationOn className="lg:text-xl mt-1" />
-                </span>
-                <span className="line-clamp-3 md:line-clamp-none">
-                  {product?.store_info?.shop_address}
-                </span>
-              </p>
-
-              <Link
-                href={`/fashion-lifestyle/shop/${slugify(
-                  product?.store_info?.shop_name
-                )}_${product?.store_info?._id}`}
-              >
-                <button className="inline-flex items-center px-5 md:px-6 py-2 md:py-2.5 border border-gray-400 text-sm md:text-base font-medium rounded-lg text-gray-900 bg-white hover:bg-gray-50 hover:border-gray-600 transition-colors">
-                  Visit Store
-                  <svg
-                    className="ml-2 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>

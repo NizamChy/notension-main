@@ -1,18 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import Title from "../CategorySection/Title";
 import { slugify } from "../utils/slugify";
-import CategoryCard from "../shared/Card/CategoryCard";
+import FashionSection from "../shared/FashionSection";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
+import CategoryCard, {
+  CATEGORY_GRID_CLASS,
+} from "../shared/Card/CategoryCard";
 
 const CategoryItems = ({
   typeId,
   title = "Category",
-  bgColor = "bg-white",
-  exploreTitle = "Browse All Items",
-  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6",
+  subtitle,
+  bgColor = "",
+  exploreTitle = "View all",
+  gridClass = CATEGORY_GRID_CLASS,
 }) => {
   const { useCategoryById, allType } = useCategoryItem();
   const { data: categories, isLoading, isError } = useCategoryById(typeId);
@@ -24,56 +27,47 @@ const CategoryItems = ({
     ? `/fashion-lifestyle/type/${slugify(typeName)}_${typeId}`
     : "/fashion-lifestyle";
 
-  if (isLoading) return <CategorySkeleton gridClass={gridClass} />;
-  if (isError) return <div>Error loading categories</div>;
+  if (isLoading)
+    return <CategorySkeleton gridClass={gridClass} className={bgColor} />;
+  if (isError)
+    return (
+      <FashionSection className={bgColor}>
+        <Title title={title} />
+        <p className="py-6 text-center text-sm text-[#D92D20]">
+          Error loading categories
+        </p>
+      </FashionSection>
+    );
   if (!categories || categories?.length < 1) return null;
 
+  // Few categories: use fewer, larger columns on desktop.
   if (categories?.length < 5) {
-    gridClass = "grid grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6";
+    gridClass =
+      "grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4 sm:gap-x-4 lg:gap-x-6 lg:gap-y-7";
   } else if (categories?.length === 5) {
-    gridClass = "grid grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6";
+    gridClass =
+      "grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-5 sm:gap-x-4 lg:gap-x-6 lg:gap-y-7";
   }
 
   return (
-    <section className={`py-6 md:py-10 px-4 sm:px-6 lg:px-8 ${bgColor}`}>
-      <div className="max-w-7xl mx-auto">
-        <Title title={title} />
+    <FashionSection className={bgColor}>
+      <Title
+        title={title}
+        subtitle={subtitle}
+        href={exploreHref}
+        linkLabel={exploreTitle}
+      />
 
-        <div className={`${gridClass}`}>
-          {categories?.map((category) => (
-            <CategoryCard
-              key={category?._id?.toString()}
-              category={category}
-              typeName={title}
-            />
-          ))}
-        </div>
-
-        <div className="mt-8 md:mt-10 text-center">
-          <Link
-            href={exploreHref}
-            className="inline-flex items-center px-6 py-2.5 border border-gray-300 text-sm md:text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
-          >
-            {exploreTitle}
-            <svg
-              className="ml-2 w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
-        </div>
+      <div className={gridClass}>
+        {categories?.map((category) => (
+          <CategoryCard
+            key={category?._id?.toString()}
+            category={category}
+            typeName={typeName}
+          />
+        ))}
       </div>
-    </section>
+    </FashionSection>
   );
 };
 

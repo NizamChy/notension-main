@@ -48,16 +48,20 @@ const CommonModal = ({ isOpen, onClose, children, className = "" }) => {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`relative w-[87%] md:w-full max-w-md bg-white p-3 md:p-6 rounded-lg shadow-lg transition-transform duration-300 ${
+          role="dialog"
+          aria-modal="true"
+          className={`relative w-[90%] md:w-full max-w-md bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-2xl shadow-gray-900/20 transition-transform duration-300 ${
             isOpen ? "scale-100 opacity-100" : "scale-110 opacity-0"
           } ${className}`}
         >
           <button
+            type="button"
             onClick={onClose}
-            className="absolute -top-4 -right-4 p-2 rounded-full bg-white text-gray-500 hover:text-primaryFood"
+            aria-label="Close"
+            className="absolute -top-3 -right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow-md transition-colors hover:bg-gray-50 hover:text-gray-900"
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

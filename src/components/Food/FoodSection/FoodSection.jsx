@@ -8,8 +8,18 @@ import { useFood } from "@/hooks/fetch-data/useFood";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
+import Link from "next/link";
+import {
+  PAGE_CONTAINER,
+  SECONDARY_BUTTON,
+  SectionTitle,
+} from "@/components/shared/UI/UI";
+
+export const STORE_GRID =
+  "grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4";
 
 const FoodSection = () => {
+  const [requested, setRequested] = useState(false);
   const [catId, setCatId] = useState(null);
   const [nearestInfo, setNearestInfo] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -63,19 +73,40 @@ const FoodSection = () => {
   useEffect(() => {
     if (selectedCategory) {
       getNearestFoodStoreInfo(setNearestInfo, selectedCategory);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setRequested(true);
     }
   }, [selectedCategory]);
 
+  // Skeleton until the first request has finished, then stores or empty.
+  const loading = !requested || progressing;
+  const count = nearestInfo?.length || 0;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
-      <h1 className="text-lg md:text-2xl font-bold text-deepGray mb-4 md:mb-6">
-        Nearest Food Stores
-      </h1>
+    <div className={`${PAGE_CONTAINER} py-6 md:py-8`}>
+      <SectionTitle
+        title="Nearest restaurants"
+        subtitle={
+          loading
+            ? "Finding restaurants around you…"
+            : count > 0
+              ? `${count} ${count === 1 ? "place" : "places"} delivering to you`
+              : null
+        }
+      />
 
-      {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}
-
-      {shopCategory?.length > 0 && nearestInfo?.length > 0 && !progressing ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+      {!loading && count < 1 ? (
+        <NoStoreFound
+          title="No restaurants nearby"
+          text="We couldn't find a restaurant in this category near you. Try another category or change your delivery location."
+          action={
+            <Link href="/food" className={SECONDARY_BUTTON}>
+              Browse categories
+            </Link>
+          }
+        />
+      ) : shopCategory?.length > 0 && count > 0 && !loading ? (
+        <div className={STORE_GRID}>
           {nearestInfo.map((shop) => (
             <ShopInfoCard
               onClick={() => {
@@ -88,7 +119,7 @@ const FoodSection = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        <div className={STORE_GRID}>
           {Array.from({ length: 8 }).map((_, index) => (
             <ShopInfoCardSkeleton key={index} />
           ))}

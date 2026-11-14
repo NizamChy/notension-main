@@ -1,39 +1,13 @@
 import React from "react";
 
-const Loader = () => {
-  const items = Array.from({ length: 9 });
-
+const Loader = ({ label = "Loading" }) => {
   return (
-    <div className="flex justify-center items-center min-h-[60vh]">
-      <div className="grid grid-cols-3 grid-rows-3 w-[67.2px] h-[67.2px]">
-        {items.map((_, index) => (
-          <div
-            key={index}
-            className="bg-blue-600"
-            style={{
-              animation: `flipping-18i5bq 1.5s ${
-                index * 0.1
-              }s infinite backwards`,
-            }}
-          />
-        ))}
-        <style>
-          {`
-          @keyframes flipping-18i5bq {
-            0% {
-              transform: perspective(67.2px) rotateX(-90deg);
-            }
-            50%, 75% {
-              transform: perspective(67.2px) rotateX(0);
-            }
-            100% {
-              opacity: 0;
-              transform: perspective(67.2px) rotateX(0);
-            }
-          }
-        `}
-        </style>
-      </div>
+    <div
+      role="status"
+      className="flex min-h-[60vh] flex-col items-center justify-center gap-3"
+    >
+      <span className="h-10 w-10 animate-spin rounded-full border-[3px] border-gray-200 border-t-[#0C3F8E] dark:border-t-[#7FB2FF]" />
+      <span className="text-sm text-gray-500">{label}…</span>
     </div>
   );
 };

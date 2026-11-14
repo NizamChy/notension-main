@@ -6,7 +6,9 @@ import NearestCenterListing from "../../Layout/NearestCenterListing";
 const NearestConsultationCenter = () => (
   <NearestCenterListing
     centerType="Consultation Center"
-    title="Nearest Consultation Center Info"
+    title="Consultation centres near you"
+    back="/medical-services/doctor/consultation-center"
+    backLabel="All consultation centres"
   />
 );
 

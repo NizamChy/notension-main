@@ -1,14 +1,16 @@
 import React from "react";
+import { CARD } from "@/components/shared/UI/UI";
 
 // Same shape as ShopInfoCard.
 const ShopInfoCardSkeleton = () => {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden animate-pulse">
-      <div className="w-full aspect-[5/3] bg-gray-200" />
-      <div className="p-4 space-y-2">
-        <div className="h-5 w-3/4 bg-gray-200 rounded" />
-        <div className="h-4 w-full bg-gray-200 rounded" />
-        <div className="h-4 w-1/3 bg-gray-200 rounded" />
+    <div aria-hidden className={`animate-pulse overflow-hidden ${CARD}`}>
+      <div className="aspect-[16/9] w-full bg-gray-100" />
+      <div className="space-y-2.5 p-4">
+        <div className="h-4 w-3/4 rounded-full bg-gray-100" />
+        <div className="h-3 w-full rounded-full bg-gray-100" />
+        <div className="h-3 w-2/3 rounded-full bg-gray-100" />
+        <div className="!mt-4 h-6 w-24 rounded-full bg-gray-100" />
       </div>
     </div>
   );

@@ -2,38 +2,68 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
+import { HiOutlineFire } from "react-icons/hi2";
 import { useFood } from "@/hooks/fetch-data/useFood";
-import FoodItems from "@/components/Food/FoodItems/FoodItems";
-import MobileCategory from "@/components/Food/CategorySidebar/MobileCategory";
-import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
-import {
-  ITEM_GRID_CLASS,
-  SECTION_TITLE_CLASS,
-} from "@/components/StoreModule/storeModules";
+import { EmptyState } from "@/components/shared/UI/UI";
+import MenuSection, { MenuSkeleton } from "./MenuSection";
+import { POPULAR_SECTION } from "@/components/Food/CategorySidebar/useMenuNav";
 
+const itemCount = (n) => `${n} item${n === 1 ? "" : "s"}`;
+
+// Restaurant home: popular dishes, then the whole menu section by section.
 const FoodItemsHome = () => {
   const { progressing } = useFood();
-  const { popularItem } = useSelector((state) => state.itemsByStore);
+  const { popularItem, productInfoByShop } = useSelector(
+    (state) => state.itemsByStore
+  );
+
+  const sections = (productInfoByShop || []).filter(
+    (section) => section?.itemsInfo?.length > 0
+  );
+
+  if (progressing) {
+    return (
+      <div className="space-y-8">
+        <MenuSkeleton />
+        <MenuSkeleton />
+      </div>
+    );
+  }
+
+  if (!popularItem?.length && !sections.length) {
+    return (
+      <EmptyState
+        title="Menu coming soon"
+        text="This restaurant hasn't added any dishes yet. Please check back later."
+      />
+    );
+  }
 
   return (
-    <div className="space-y-6 md:space-y-8">
-      <MobileCategory />
-      {progressing ? (
-        <div className={ITEM_GRID_CLASS}>
-          {Array.from({ length: 4 }).map((_, index) => (
-            <FoodItemCardSkeleton key={index} />
-          ))}
-        </div>
-      ) : popularItem?.length ? (
-        <section>
-          <h2 className={SECTION_TITLE_CLASS}>Popular Items</h2>
-          <div className={ITEM_GRID_CLASS}>
-            {popularItem?.map((item) => (
-              <FoodItems key={item?._id} item={item} />
-            ))}
-          </div>
-        </section>
-      ) : null}
+    <div className="space-y-8 md:space-y-10">
+      {popularItem?.length > 0 && (
+        <MenuSection
+          sectionId={POPULAR_SECTION}
+          title={
+            <span className="inline-flex items-center gap-2">
+              <HiOutlineFire className="text-[#EB5C2F]" aria-hidden="true" />
+              Popular
+            </span>
+          }
+          subtitle="Most ordered right now"
+          items={popularItem}
+        />
+      )}
+
+      {sections.map((section) => (
+        <MenuSection
+          key={section?._id}
+          sectionId={section?._id}
+          title={section?.catagory}
+          subtitle={itemCount(section.itemsInfo.length)}
+          items={section.itemsInfo}
+        />
+      ))}
     </div>
   );
 };

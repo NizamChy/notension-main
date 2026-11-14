@@ -18,7 +18,7 @@ const CustomTypeSection = ({ moduleName, customTypeId }) => {
   );
 
   return (
-    <div className="space-y-8 md:space-y-12">
+    <div className="space-y-10 md:space-y-14">
       <CommonSlider
         moduleName={moduleName}
         slides={DashboardSlider?.[0]?.fourth_slider}

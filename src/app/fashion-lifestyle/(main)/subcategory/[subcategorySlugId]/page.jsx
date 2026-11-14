@@ -3,12 +3,7 @@ import SubCatSlider from "@/components/FashionLifestyle/Slider/SubCatSlider";
 import ProductByCategory from "@/components/FashionLifestyle/ProductsByCategory/ProductByCategory";
 
 const page = () => {
-  return (
-    <>
-      <SubCatSlider />
-      <ProductByCategory />
-    </>
-  );
+  return <ProductByCategory subCategoryNav={<SubCatSlider />} />;
 };
 
 export default page;

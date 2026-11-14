@@ -6,79 +6,77 @@ import Image from "next/image";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { GrPrevious, GrNext } from "react-icons/gr";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { SERVICE_BANNER_IMAGES } from "@/api-endpoints/api-endpoint";
 
+export const SLIDER_ARROW =
+  "absolute top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-xl text-gray-800 shadow-md shadow-gray-900/10 transition-colors hover:bg-gray-50 hover:text-[#0C3F8E] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] dark:hover:text-[#7FB2FF] md:flex";
+
+// Promotional banner carousel shown between service groups.
 const ServicesSlider = ({ slider }) => {
   // The home page renders several of these sliders, so each one binds its
   // own arrow elements instead of sharing a DOM id.
   const [prevEl, setPrevEl] = useState(null);
   const [nextEl, setNextEl] = useState(null);
 
+  if (!(slider?.length > 0)) return null;
+
   return (
-    <>
-      {slider?.length > 0 && (
-        <div>
-          <div className="relative flex justify-center items-center">
-            <button
-              type="button"
-              aria-label="Previous slide"
-              className="hidden md:block absolute top-1/2 left-0 z-10 -translate-x-1/2 -translate-y-1/2 p-2.5 bg-white rounded-full shadow-md hover:bg-gray-100 text-[#0C3F8E]"
-              ref={setPrevEl}
-            >
-              <GrPrevious />
-            </button>
+    <div className="relative">
+      <button
+        type="button"
+        aria-label="Previous banner"
+        className={`${SLIDER_ARROW} left-0 -translate-x-1/2`}
+        ref={setPrevEl}
+      >
+        <HiChevronLeft aria-hidden="true" />
+      </button>
 
-            <button
-              type="button"
-              aria-label="Next slide"
-              className="hidden md:block absolute top-1/2 right-0 z-10 translate-x-1/2 -translate-y-1/2 p-2.5 bg-white rounded-full shadow-md hover:bg-gray-100 text-[#0C3F8E]"
-              ref={setNextEl}
-            >
-              <GrNext />
-            </button>
+      <button
+        type="button"
+        aria-label="Next banner"
+        className={`${SLIDER_ARROW} right-0 translate-x-1/2`}
+        ref={setNextEl}
+      >
+        <HiChevronRight aria-hidden="true" />
+      </button>
 
-            <div className="w-full flex justify-center mx-auto items-center">
-              <Swiper
-                slidesPerView={1.15}
-                spaceBetween={12}
-                // Up to 3 slides are visible; loop mode needs at least twice
-                // that, otherwise slides end up half-shifted.
-                loop={slider?.length >= 6}
-                rewind={slider?.length < 6}
-                navigation={{ prevEl, nextEl }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 24,
-                  },
-                }}
-                modules={[Navigation]}
-                className="mx-auto w-full"
-              >
-                {slider?.map((slide) => (
-                  <SwiperSlide key={slide?._id} className="flex justify-center">
-                    <div className="w-full cursor-pointer">
-                      <Image
-                        className="rounded-lg shadow-sm w-full h-auto"
-                        src={`${SERVICE_BANNER_IMAGES}/${slide?.file_name}`}
-                        alt={slide?.file_name}
-                        width={420}
-                        height={280}
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+      <Swiper
+        slidesPerView={1.15}
+        spaceBetween={12}
+        // Up to 3 slides are visible; loop mode needs at least twice
+        // that, otherwise slides end up half-shifted.
+        loop={slider?.length >= 6}
+        rewind={slider?.length < 6}
+        navigation={{ prevEl, nextEl }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 16,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+        }}
+        modules={[Navigation]}
+        className="w-full"
+      >
+        {slider?.map((slide) => (
+          <SwiperSlide key={slide?._id}>
+            <div className="relative aspect-[2/1] w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100">
+              <Image
+                className="object-cover"
+                src={`${SERVICE_BANNER_IMAGES}/${slide?.file_name}`}
+                alt="Service offer"
+                fill
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 87vw"
+              />
             </div>
-          </div>
-        </div>
-      )}
-    </>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 

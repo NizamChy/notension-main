@@ -1,12 +1,11 @@
-import React from "react";
+"use client";
 
-// Same shape as a food category tile.
-const CategoryCardSkeleton = () => {
-  return (
-    <div className="aspect-square w-full rounded-xl bg-white border-2 border-white shadow-sm p-1.5 animate-pulse">
-      <div className="w-full h-full rounded-lg bg-gray-200" />
-    </div>
-  );
-};
+import React from "react";
+import { Skeleton } from "@/components/shared/UI/UI";
+
+// Placeholder for one menu category entry (sidebar row / tab pill).
+const CategoryCardSkeleton = ({ className = "h-10 w-full" }) => (
+  <Skeleton className={`rounded-xl ${className}`} />
+);
 
 export default CategoryCardSkeleton;

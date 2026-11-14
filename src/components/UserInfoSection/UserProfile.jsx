@@ -1,15 +1,30 @@
 "use client";
 
+import Link from "next/link";
 import { useSelector } from "react-redux";
-import { CgProfile } from "react-icons/cg";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import {
+  HiOutlineMapPin,
+  HiOutlinePhone,
+  HiOutlinePencilSquare,
+  HiOutlineDevicePhoneMobile,
+} from "react-icons/hi2";
+import { ProfileHeader, InfoRow } from "./ProfileUI";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
+import { CARD, PRIMARY_BUTTON } from "../shared/UI/UI";
 
 const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const pathname = usePathname();
   const { userInfo } = useSelector((state) => state.user);
+
+  // The fashion module has its own copy of the user pages.
+  const editHref = pathname?.startsWith("/fashion-lifestyle")
+    ? "/fashion-lifestyle/user/update-address"
+    : "/user/update-address";
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -23,29 +38,44 @@ const UserProfile = () => {
   return (
     <>
       {userInfo?._id && (
-        <div className="flex justify-center px-4 py-8 md:py-12">
-          <div className="w-full max-w-md bg-white border border-gray-100 rounded-xl shadow-sm p-6 md:p-8">
-            <div className="flex flex-col items-center text-center">
-              <CgProfile className="text-7xl md:text-8xl text-primary" />
-              <h1 className="mt-3 text-xl md:text-2xl font-semibold text-primary break-words">
-                {userInfo?.customer_name}
-              </h1>
-            </div>
+        <div className="mx-auto w-full max-w-2xl px-4 py-8 md:py-12">
+          <div className={`${CARD} overflow-hidden`}>
+            <ProfileHeader
+              name={userInfo?.customer_name}
+              phone={userInfo?.contact_no}
+              as="h1"
+            />
 
-            <dl className="mt-6 divide-y divide-gray-100 text-sm md:text-base">
-              <div className="flex justify-between gap-4 py-3">
-                <dt className="text-mediumGray shrink-0">Phone</dt>
-                <dd className="text-deepGray font-medium text-right break-words">
-                  {userInfo?.contact_no || "—"}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-4 py-3">
-                <dt className="text-mediumGray shrink-0">Address</dt>
-                <dd className="text-deepGray font-medium text-right break-words">
-                  {userInfo?.customer_address || "—"}
-                </dd>
-              </div>
-            </dl>
+            <div className="p-5 md:p-6">
+              <h2 className="text-sm font-semibold text-gray-900">
+                Contact details
+              </h2>
+              <dl className="mt-2 divide-y divide-gray-100">
+                <InfoRow
+                  icon={<HiOutlinePhone />}
+                  label="Phone"
+                  value={userInfo?.contact_no}
+                />
+                <InfoRow
+                  icon={<HiOutlineDevicePhoneMobile />}
+                  label="Alternative number"
+                  value={userInfo?.alternative_contact_no}
+                />
+                <InfoRow
+                  icon={<HiOutlineMapPin />}
+                  label="Delivery address"
+                  value={userInfo?.customer_address}
+                />
+              </dl>
+
+              <Link
+                href={editHref}
+                className={`${PRIMARY_BUTTON} mt-5 w-full sm:w-auto`}
+              >
+                <HiOutlinePencilSquare className="text-base" />
+                Edit details
+              </Link>
+            </div>
           </div>
         </div>
       )}

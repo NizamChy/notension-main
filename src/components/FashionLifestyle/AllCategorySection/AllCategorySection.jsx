@@ -2,40 +2,37 @@
 
 import React from "react";
 import CategoryItems from "./CategoryItems";
-import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import Title from "../CategorySection/Title";
+import FashionSection from "../shared/FashionSection";
+import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const AllCategorySection = () => {
   const { allType, isLoading, isError } = useCategoryItem();
 
-  if (isLoading) return <CategorySkeleton />;
+  if (isLoading) return <CategorySkeleton className="bg-gray-50" />;
 
   if (isError) {
     return (
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <Title title="Shop By Category" />
-          <div className="text-center text-red-500 py-10">
-            Failed to load categories
-          </div>
-        </div>
-      </section>
+      <FashionSection className="bg-gray-50">
+        <Title title="Shop by category" />
+        <p className="py-6 text-center text-sm text-[#D92D20]">
+          Failed to load categories
+        </p>
+      </FashionSection>
     );
   }
 
   return (
     <>
       {allType?.slice(2, allType?.length)?.map((type, index) => (
-        <div key={type?._id?.toString()}>
-          <CategoryItems
-            title={type?.type_name}
-            typeId={type?._id?.toString()}
-            exploreTitle="Browse All Items"
-            bgColor={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
-            gridClass="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6"
-          />
-        </div>
+        <CategoryItems
+          key={type?._id?.toString()}
+          title={type?.type_name}
+          typeId={type?._id?.toString()}
+          exploreTitle="View all"
+          bgColor={index % 2 === 0 ? "bg-gray-50" : ""}
+        />
       ))}
     </>
   );

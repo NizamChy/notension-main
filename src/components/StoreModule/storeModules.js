@@ -37,13 +37,22 @@ export const STORE_MODULES = {
 export const STORE_PAGE_CLASS =
   "pt-[calc(64px+1.25rem)] md:pt-[calc(64px+2rem)] lg:pt-[calc(72px+2rem)] pb-10 md:pb-14 px-4 md:px-6 lg:pl-8 lg:pr-24";
 
-// Product card grid used by every item list in the store modules.
+// Product card grid used by every item list in the store modules. On lg the
+// category sidebar takes 20% of the width, so it stays at 3 columns there.
 export const ITEM_GRID_CLASS =
-  "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5";
+  "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-4";
+
+// Shop card grid for the store lists (find / search / favourite stores).
+export const SHOP_GRID_CLASS =
+  "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5";
 
 // Section heading used above item lists.
 export const SECTION_TITLE_CLASS =
-  "text-lg md:text-2xl font-semibold text-deepGray mb-3 md:mb-5";
+  "text-lg md:text-xl font-bold tracking-tight text-gray-900 mb-4 md:mb-5";
+
+// Page frame for the store list pages (no category sidebar).
+export const STORE_LIST_PAGE_CLASS =
+  "mx-auto w-full max-w-[1312px] px-4 sm:px-6 lg:px-8 pb-12 md:pb-16";
 
 export const getStoreModule = (moduleName) => {
   const config = STORE_MODULES[moduleName];

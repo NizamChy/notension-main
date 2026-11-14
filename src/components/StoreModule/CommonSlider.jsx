@@ -20,15 +20,18 @@ const CommonSlider = ({ moduleName, slides, classNames = "" }) => {
   if (!slides?.length) return null;
 
   return (
-    <div className={`relative w-full h-full ${classNames}`}>
+    <div
+      className={`relative h-full w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm shadow-gray-900/[0.03] ${classNames}`}
+    >
       <div aria-hidden className="w-full aspect-[5/2]" />
       <Swiper
         style={{
-          "--swiper-pagination-color": "#EB5C2F",
-          "--swiper-pagination-bullet-inactive-color": "#FFF",
-          "--swiper-pagination-bullet-inactive-opacity": "1",
-          "--swiper-pagination-bullet-size": "10px",
-          "--swiper-pagination-bullet-horizontal-gap": "5px",
+          "--swiper-pagination-color": "#FFFFFF",
+          "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
+          "--swiper-pagination-bullet-inactive-opacity": "0.55",
+          "--swiper-pagination-bullet-size": "7px",
+          "--swiper-pagination-bullet-horizontal-gap": "3px",
+          "--swiper-pagination-bottom": "10px",
         }}
         slidesPerView={1}
         loop={slides.length > 2}
@@ -38,16 +41,21 @@ const CommonSlider = ({ moduleName, slides, classNames = "" }) => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper !absolute inset-0 w-full h-full rounded-2xl"
+        className="mySwiper !absolute inset-0 w-full h-full"
       >
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <SwiperSlide key={slide?._id} className="!h-full">
             <Image
               fill
               sizes="(min-width: 1024px) 60vw, 100vw"
               className="object-cover"
               src={`${sliderImageBaseUrl}/${slide?.file_name}`}
-              alt={`Slide ${slide?.file_name}`}
+              alt={`Promotional banner ${index + 1} of ${slides.length}`}
+            />
+            {/* Soft bottom fade keeps the pagination dots readable. */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/25 to-transparent"
             />
           </SwiperSlide>
         ))}

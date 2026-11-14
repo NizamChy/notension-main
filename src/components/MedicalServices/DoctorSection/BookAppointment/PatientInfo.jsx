@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { FaCalendarAlt } from "react-icons/fa";
-import Loader from "@/components/common/Loader";
+import { LuChevronRight, LuUsers } from "react-icons/lu";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
+import { SECONDARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
 import AppointmentModalDetails from "./AppointmentModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
@@ -40,58 +40,73 @@ const PatientInfo = () => {
 
   return (
     <>
-      <div>
-        <h2 className="text-lg md:text-2xl font-bold mb-3 text-primary">
-          Patient Information
-        </h2>
-
-        {progressing ? (
-          <Loader />
-        ) : (
-          <>
-            {patientInfo?.length < 1 && (
-              <p className="h-32 rounded-xl border border-dashed border-gray-300 text-sm text-mediumGray flex justify-center items-center">
-                No patient registered.
+      {progressing ? (
+        <div className="space-y-3">
+          <Skeleton className="h-[72px] w-full" />
+          <Skeleton className="h-[72px] w-full" />
+        </div>
+      ) : (
+        <>
+          {patientInfo?.length < 1 && (
+            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 px-4 py-8 text-center">
+              <LuUsers className="text-2xl text-gray-400" />
+              <p className="mt-2 text-sm font-medium text-gray-900">
+                No patient registered yet
               </p>
-            )}
+              <p className="mt-0.5 text-xs text-gray-500">
+                Register a patient below to book an appointment.
+              </p>
+            </div>
+          )}
+
+          <ul className="space-y-3">
             {[...patientInfo]
               ?.slice()
               ?.reverse()
               ?.slice(0, visibleCount)
               ?.map((patient) => (
-                <div
-                  onClick={(e) => handlePatientClick(e, patient)}
-                  key={patient?._id}
-                  className="cursor-pointer bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm hover:shadow-md hover:border-primary transition-all duration-300"
-                >
-                  <p className="text-base md:text-lg font-semibold text-primary break-words">
-                    Name: {patient?.patient_name}
-                  </p>
-                  <p className="text-gray-600">Contact: {patient?.contact}</p>
-                  <p className="text-gray-600">
-                    Date of Birth: {formatDateOfBirth(patient?.date_of_birth)}
-                  </p>
-
-                  <button className="flex justify-center items-center gap-1.5 mt-3 px-4 py-1 bg-primary text-white rounded-lg shadow-md hover:bg-[#264066] transition-colors duration-300">
-                    <span>
-                      <FaCalendarAlt className="text-sm" />
+                <li key={patient?._id}>
+                  <button
+                    type="button"
+                    onClick={(e) => handlePatientClick(e, patient)}
+                    className="group flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white p-3.5 text-left transition-colors hover:border-[#0C3F8E]/40 hover:bg-[#0C3F8E]/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
+                  >
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-base font-bold uppercase text-[#0C3F8E] dark:text-[#7FB2FF]">
+                      {patient?.patient_name?.trim()?.charAt(0) || "?"}
                     </span>
-                    <span>Book Appointment</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block break-words font-semibold text-gray-900">
+                        {patient?.patient_name}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-gray-500">
+                        <span className="tabular-nums">{patient?.contact}</span>
+                        {patient?.date_of_birth && (
+                          <>
+                            {" · "}DOB {formatDateOfBirth(patient.date_of_birth)}
+                          </>
+                        )}
+                      </span>
+                    </span>
+                    <span className="hidden shrink-0 text-sm font-semibold text-[#0C3F8E] sm:inline dark:text-[#7FB2FF]">
+                      Book
+                    </span>
+                    <LuChevronRight className="shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5" />
                   </button>
-                </div>
+                </li>
               ))}
+          </ul>
 
-            {visibleCount < patientInfo.length && (
-              <button
-                onClick={handleSeeMore}
-                className="mt-4 px-4 py-2 bg-primary text-white rounded-lg shadow-md hover:bg-[#264066] transition-colors duration-300"
-              >
-                See More
-              </button>
-            )}
-          </>
-        )}
-      </div>
+          {visibleCount < patientInfo.length && (
+            <button
+              type="button"
+              onClick={handleSeeMore}
+              className={`${SECONDARY_BUTTON} mt-4 w-full sm:w-auto`}
+            >
+              Show all {patientInfo.length} patients
+            </button>
+          )}
+        </>
+      )}
 
       {isModalOpen && selectedPatient && (
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>

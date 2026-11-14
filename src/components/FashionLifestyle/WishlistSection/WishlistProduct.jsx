@@ -3,8 +3,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import EmptyWishlist from "./EmptyWishlist";
-import Title from "../CategorySection/Title";
 import FashionSection from "../shared/FashionSection";
+import { PageHeader } from "@/components/shared/UI/UI";
 import FashionProductCard, {
   PRODUCT_GRID_CLASS,
 } from "../shared/Card/FashionProductCard";
@@ -17,9 +17,14 @@ const WishlistProduct = () => {
   if (!favouriteFashionItems || favouriteFashionItems?.length === 0)
     return <EmptyWishlist />;
 
+  const count = favouriteFashionItems.length;
+
   return (
-    <FashionSection className="min-h-content">
-      <Title title="Wishlist Items" />
+    <FashionSection className="min-h-content !pt-6 md:!pt-10">
+      <PageHeader
+        title="Wishlist"
+        subtitle={`${count} saved ${count === 1 ? "item" : "items"}`}
+      />
       <div className={PRODUCT_GRID_CLASS}>
         {favouriteFashionItems.map((product) => (
           <FashionProductCard

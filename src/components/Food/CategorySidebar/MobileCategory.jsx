@@ -1,79 +1,52 @@
 "use client";
 
-import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
-import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useMenuNav from "./useMenuNav";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
-import { useParams, usePathname, useRouter } from "next/navigation";
 
-// Food categories as a grid of equal square tiles: below lg on the store
-// page (4 → 6 columns) and, with gridClass="grid-cols-2", inside the
-// mobile category drawer.
+// Restaurant menu categories as a grid of pills below lg (4 → 6 columns) or,
+// with gridClass="grid-cols-2", inside a category drawer.
 const MobileCategory = ({ gridClass, toggleDrawer }) => {
-  const [activeCategory, setActiveCategory] = useState(null);
-
-  const router = useRouter();
-  const params = useParams();
-  const pathname = usePathname();
-
-  const { progressing } = useFood();
-  const { productCategory } = useSelector((state) => state.itemsByStore);
-
   const inDrawer = gridClass === "grid-cols-2";
 
-  const handleCategoryClick = (categoryId) => {
-    router.push(
-      `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${categoryId}`
-    );
+  const { progressing } = useFood();
+  const { items, activeId, goTo } = useMenuNav();
 
-    if (inDrawer) {
-      toggleDrawer();
-    }
+  const handleClick = (id) => {
+    goTo(id);
+    if (inDrawer) toggleDrawer?.();
   };
-
-  useEffect(() => {
-    const categoryIdFromUrl = pathname.split("/").pop();
-    if (categoryIdFromUrl) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setActiveCategory(categoryIdFromUrl);
-    }
-  }, [pathname]);
 
   return (
     <div className={inDrawer ? "block lg:hidden" : "lg:hidden"}>
       <div
-        className={`grid gap-3 ${
-          inDrawer ? "grid-cols-2 p-4" : "grid-cols-4 md:grid-cols-6"
+        className={`grid gap-2 ${
+          inDrawer ? "grid-cols-2 p-4" : "grid-cols-2 sm:grid-cols-4 md:grid-cols-6"
         }`}
       >
         {progressing
           ? Array.from({ length: 6 }).map((_, index) => (
               <CategoryCardSkeleton key={index} />
             ))
-          : productCategory?.map((category) => (
-              <button
-                type="button"
-                key={category?._id}
-                className={`aspect-square w-full p-1.5 flex items-center justify-center border-2 rounded-xl bg-white shadow-sm ${
-                  activeCategory === category?.categoryInfo?._id
-                    ? "border-primaryFood"
-                    : "border-white"
-                }`}
-                onClick={() => handleCategoryClick(category?.categoryInfo?._id)}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={
-                    category?.categoryInfo?.banner_type_1
-                      ? `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
-                      : "/png/dummyImage.png"
-                  }
-                  alt="category"
-                  className="w-full h-full rounded-lg object-contain"
-                />
-              </button>
-            ))}
+          : items.map((item) => {
+              const active = activeId === item.id;
+              return (
+                <button
+                  type="button"
+                  key={item.id}
+                  aria-current={active ? "true" : undefined}
+                  onClick={() => handleClick(item.id)}
+                  className={`min-h-10 truncate rounded-xl border px-3 py-2 text-sm font-semibold transition-colors ${
+                    active
+                      ? "border-[#0C3F8E] bg-[#0C3F8E]/10 text-[#0C3F8E] dark:border-[#7FB2FF] dark:text-[#7FB2FF]"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
       </div>
     </div>
   );

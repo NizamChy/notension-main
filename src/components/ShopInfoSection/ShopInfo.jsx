@@ -4,7 +4,12 @@ import React from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { IMAGE_URL } from "@/api-endpoints/env";
-import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import {
+  HiOutlineClock,
+  HiOutlineMapPin,
+  HiOutlinePhone,
+} from "react-icons/hi2";
+import { CARD } from "../shared/UI/UI";
 
 const STORE_STATE_KEYS = {
   food: "visitedFoodStore",
@@ -12,11 +17,16 @@ const STORE_STATE_KEYS = {
   medicine: "visitedMedicineStore",
 };
 
-const ACCENT = {
-  food: "text-primaryFood",
-  grocery: "text-primaryGrocery",
-  medicine: "text-primaryMedicine",
-};
+const InfoLine = ({ icon: Icon, children, title }) => (
+  <p className="flex min-w-0 items-center gap-2">
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-[#0C3F8E] dark:text-[#7FB2FF]">
+      <Icon className="text-sm" />
+    </span>
+    <span className="truncate" title={title}>
+      {children}
+    </span>
+  </p>
+);
 
 // The shop card on a store's home page.
 // - layout="card" (grocery / medicine): sits beside the hero slider; on md+ it
@@ -38,19 +48,23 @@ const ShopInfo = ({ moduleName = "medicine", layout = "card" }) => {
     [store?.district_area_name, store?.district_name]
       .filter(Boolean)
       .join(", ") || store?.shop_address;
+  const hours =
+    store?.opening_time && store?.closing_time
+      ? `${store.opening_time} – ${store.closing_time}`
+      : null;
   const isRow = layout === "row";
 
   return (
     <div
-      className={`h-full w-full flex gap-3 p-3 bg-white border border-gray-200 rounded-2xl shadow-sm ${
+      className={`flex h-full w-full gap-3 p-3 ${CARD} ${
         isRow ? "flex-row items-center md:gap-5" : "flex-col"
       }`}
     >
       <div
         className={`relative overflow-hidden rounded-xl bg-gray-100 ${
           isRow
-            ? "w-28 sm:w-40 md:w-48 shrink-0 aspect-[5/3]"
-            : "w-full aspect-[2/1] md:aspect-auto md:flex-1 md:min-h-24"
+            ? "aspect-[5/3] w-28 shrink-0 sm:w-40 md:w-48"
+            : "aspect-[2/1] w-full md:aspect-auto md:min-h-24 md:flex-1"
         }`}
       >
         <Image
@@ -62,34 +76,40 @@ const ShopInfo = ({ moduleName = "medicine", layout = "card" }) => {
         />
       </div>
 
-      <div className="min-w-0 flex-1 space-y-1 px-1 text-sm text-gray-600">
-        <h2
-          title={store?.shop_name}
-          className={`font-semibold text-gray-900 truncate ${
-            isRow ? "text-base md:text-xl" : "text-base lg:text-lg"
-          }`}
-        >
-          {store?.shop_name}
-        </h2>
-        {contacts && (
-          <p className="flex items-center gap-2 min-w-0">
-            <IoCallOutline
-              className={`shrink-0 text-base ${ACCENT[moduleName]}`}
-            />
-            <span className="truncate" title={contacts}>
-              {contacts}
-            </span>
-          </p>
-        )}
+      <div className="min-w-0 flex-1 space-y-1.5 px-1 pb-0.5 text-sm text-gray-600">
+        <div className="flex min-w-0 items-center gap-2">
+          <h2
+            title={store?.shop_name}
+            className={`truncate font-bold tracking-tight text-gray-900 ${
+              isRow ? "text-base md:text-xl" : "text-base lg:text-lg"
+            }`}
+          >
+            {store?.shop_name}
+          </h2>
+          <span
+            className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+              store?.is_closed
+                ? "bg-[#D92D20]/10 text-[#B42318] dark:text-[#F97066]"
+                : "bg-[#12B76A]/10 text-[#067647] dark:text-[#47CD89]"
+            }`}
+          >
+            {store?.is_closed ? "Closed" : "Open"}
+          </span>
+        </div>
         {location && (
-          <p className="flex items-center gap-2 min-w-0">
-            <IoLocationOutline
-              className={`shrink-0 text-base ${ACCENT[moduleName]}`}
-            />
-            <span className="truncate" title={location}>
-              {location}
-            </span>
-          </p>
+          <InfoLine icon={HiOutlineMapPin} title={location}>
+            {location}
+          </InfoLine>
+        )}
+        {contacts && (
+          <InfoLine icon={HiOutlinePhone} title={contacts}>
+            {contacts}
+          </InfoLine>
+        )}
+        {hours && (
+          <InfoLine icon={HiOutlineClock} title={hours}>
+            {hours}
+          </InfoLine>
         )}
       </div>
     </div>

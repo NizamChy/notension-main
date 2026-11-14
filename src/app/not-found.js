@@ -1,38 +1,31 @@
 import Link from "next/link";
-import Image from "next/image";
-import { IoIosHome } from "react-icons/io";
+import { HiOutlineHome, HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 const NotFoundPage = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen p-4">
-      <div className="relative w-full max-w-[618px]">
-        <Image
-          src="/png/not-found-page.png"
-          width={618}
-          height={618}
-          alt="not found page"
-          className="w-full rounded-lg"
-          priority
-        />
+    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 px-4 py-12">
+      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm shadow-gray-900/[0.03] md:p-10">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-3xl text-[#0C3F8E] dark:text-[#7FB2FF]">
+          <HiOutlineMagnifyingGlass aria-hidden="true" />
+        </span>
+        <p className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-[#EB5C2F]">
+          Error 404
+        </p>
+        <h1 className="mt-1.5 text-xl font-bold tracking-tight text-gray-900 md:text-2xl">
+          Page not found
+        </h1>
+        <p className="mt-2 text-sm text-gray-500 md:text-base">
+          The page you&apos;re looking for doesn&apos;t exist or has been
+          moved.
+        </p>
 
-        <div className="absolute bottom-6 md:bottom-12 lg:bottom-32 left-1/2 transform -translate-x-1/2 w-full px-4 flex justify-center">
-          <Link href="/" className="w-full max-w-40">
-            <button className="relative outline-none inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold text-primary transition-all duration-150 ease-in-out rounded hover:pl-10 hover:pr-6 bg-gray-50 group w-full">
-              <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-primary group-hover:h-full"></span>
-              <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
-                <IoIosHome />
-              </span>
-
-              <span className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
-                <IoIosHome className="text-white" />
-              </span>
-
-              <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">
-                Go HOME
-              </span>
-            </button>
-          </Link>
-        </div>
+        <Link
+          href="/"
+          className="mt-7 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#0C3F8E] px-6 text-sm font-semibold text-white shadow-sm shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] sm:w-auto"
+        >
+          <HiOutlineHome className="text-lg" aria-hidden="true" />
+          Back to home
+        </Link>
       </div>
     </div>
   );

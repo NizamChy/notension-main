@@ -1,14 +1,20 @@
 import React from "react";
+import { CARD } from "@/components/shared/UI/UI";
 
-// Placeholder with the same shape as the grocery / medicine item cards.
+// Placeholder with the same shape as StoreItemCard.
 const ItemCardSkeleton = () => {
   return (
-    <div className="w-full h-full flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden animate-pulse">
-      <div className="w-full aspect-square bg-gray-200" />
-      <div className="p-3 space-y-2">
-        <div className="h-4 w-3/4 bg-gray-200 rounded" />
-        <div className="h-4 w-1/2 bg-gray-200 rounded" />
-        <div className="h-9 w-full bg-gray-200 rounded-lg mt-3" />
+    <div
+      aria-hidden
+      className={`flex h-full w-full animate-pulse flex-col overflow-hidden ${CARD}`}
+    >
+      <div className="aspect-square w-full bg-gray-100" />
+      <div className="flex flex-1 flex-col p-3 md:p-3.5">
+        <div className="h-3.5 w-11/12 rounded-full bg-gray-100" />
+        <div className="mt-2 h-3.5 w-2/3 rounded-full bg-gray-100" />
+        <div className="mt-2 h-3 w-1/3 rounded-full bg-gray-100" />
+        <div className="mt-4 h-4 w-1/2 rounded-full bg-gray-100" />
+        <div className="mt-3 h-10 w-full rounded-full bg-gray-100" />
       </div>
     </div>
   );

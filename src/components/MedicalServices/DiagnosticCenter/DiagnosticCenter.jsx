@@ -10,6 +10,8 @@ const DiagnosticCenter = () => {
       heroHref="/medical-services/diagnostic/nearest-diagnostic-center"
       heroImage="/images/medical-services/find-near-diagnostic-center.jpg"
       heroAlt="Find nearest diagnostic center"
+      listTitle="Diagnostic centres in your district"
+      emptyTitle="No diagnostic centres found in your district"
     />
   );
 };

@@ -3,16 +3,23 @@
 import toast from "react-hot-toast";
 import OtpSection from "./OtpSection";
 import React, { useState, useSyncExternalStore } from "react";
-import { useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
 import { isDemoMode } from "@/demo/demoMode";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
 import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "@/demo/demoUser";
+import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
+import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import { SECONDARY_BUTTON } from "@/components/shared/UI/UI";
+import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
 const noopSubscribe = () => () => {};
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
+
+const ButtonSpinner = () => (
+  <span
+    aria-hidden="true"
+    className="h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent"
+  />
+);
 
 // `showHeading` is off on the /login page, which renders its own heading.
 const LoginModalDetails = ({
@@ -24,7 +31,6 @@ const LoginModalDetails = ({
   const [otpGenerated, setOtpGenerated] = useState("");
   const [contentType, setContentType] = useState("otp");
 
-  const pathname = usePathname();
   const {
     progressing,
     userInfo,
@@ -40,21 +46,6 @@ const LoginModalDetails = ({
   const handleDemoLogin = async () => {
     if (await loginAsDemoUser()) afterLogin();
   };
-
-  const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const moduleName = currentModule.toLowerCase();
-
-  let category = "";
-
-  if (pathname.includes("/grocery")) {
-    category = "grocery";
-  } else if (pathname.includes("/medicine")) {
-    category = "medicine";
-  } else if (pathname.includes("/food")) {
-    category = "food";
-  } else if (pathname.includes("/all-care-services")) {
-    category = "all-care-services";
-  }
 
   const sendSms = async () => {
     const generatedOtp = Math.floor(Math.random() * 8999 + 1000);
@@ -105,22 +96,16 @@ const LoginModalDetails = ({
     sendSms();
   };
 
-  const getPrimaryClass = () => {
-    if (moduleName === "medicine" && category === "medicine")
-      return "bg-primaryMedicine";
-    if (moduleName === "grocery" && category === "grocery")
-      return "bg-primaryGrocery";
-    if (moduleName === "food" && category === "food") return "bg-primaryFood";
-    return "bg-primary";
-  };
-
   return (
     <>
       {contentType === "otp" ? (
         <div className="w-full">
           {showHeading && (
-            <div className="pt-2 pr-6">
-              <h2 className="text-lg md:text-xl font-semibold text-deepGray">
+            <div className="pr-6 pt-1">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-xl text-[#0C3F8E] dark:text-[#7FB2FF]">
+                <HiOutlineDevicePhoneMobile />
+              </span>
+              <h2 className="mt-3 text-lg font-bold tracking-tight text-gray-900 md:text-xl">
                 Log in to NoTension
               </h2>
               <p className="mt-1 text-sm text-gray-500">
@@ -128,30 +113,18 @@ const LoginModalDetails = ({
               </p>
             </div>
           )}
-          <OtpSection setPhone={setPhone} />
-          <div className="flex justify-center">
-            <button
-              onClick={handleOtp}
-              className={`px-4 ${getPrimaryClass()} text-white font-medium rounded-md w-full`}
-              disabled={progressing}
-            >
-              {progressing ? (
-                <div className="flex justify-center items-center">
-                  <p>Sending OTP...</p>
-                  <DotLottieReact
-                    src="https://lottie.host/6958d316-ea05-4122-9dff-1d526f59b3ca/ZilAm5yZWu.lottie"
-                    loop
-                    autoplay
-                    className="size-10"
-                  />
-                </div>
-              ) : (
-                <>
-                  <p className="py-2.5">Log in with OTP</p>
-                </>
-              )}
-            </button>
-          </div>
+          <OtpSection phone={phone} setPhone={setPhone} />
+
+          <PrimaryButton onClick={handleOtp} disabled={progressing}>
+            {progressing ? (
+              <>
+                <ButtonSpinner />
+                Sending OTP...
+              </>
+            ) : (
+              "Send OTP"
+            )}
+          </PrimaryButton>
 
           {demoOn && (
             <>
@@ -164,11 +137,11 @@ const LoginModalDetails = ({
                 type="button"
                 onClick={handleDemoLogin}
                 disabled={progressing}
-                className="w-full rounded-md border border-gray-300 py-2 font-medium text-deepGray hover:bg-gray-50 disabled:opacity-60"
+                className={`${SECONDARY_BUTTON} h-12 w-full disabled:cursor-not-allowed disabled:opacity-60`}
               >
                 Log in as Demo User
               </button>
-              <p className="mt-2 text-center text-xs text-gray-400">
+              <p className="mt-2 text-center text-xs text-gray-500">
                 Demo mode: signs in as {DEMO_USER_NAME} ({DEMO_USER_CONTACT}),
                 no OTP needed
               </p>
@@ -180,7 +153,7 @@ const LoginModalDetails = ({
           <UserInfoInputs
             onClose={onClose}
             type={type}
-            getPrimaryClass={getPrimaryClass}
+            phone={phone}
             userInfo={userInfo}
             otpGenerated={otpGenerated}
             sendSms={sendSms}

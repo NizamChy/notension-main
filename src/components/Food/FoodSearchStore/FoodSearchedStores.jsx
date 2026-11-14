@@ -8,9 +8,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
+import { STORE_GRID } from "../FoodSection/FoodSection";
+import { PAGE_CONTAINER, SectionTitle } from "@/components/shared/UI/UI";
 
 const FoodSearchedStores = () => {
   const [catId, setCatId] = useState("");
+  const [requested, setRequested] = useState(false);
   const [nearestInfo, setNearestInfo] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -68,26 +71,51 @@ const FoodSearchedStores = () => {
   useEffect(() => {
     if (selectedCategory && searchText) {
       handleSearchStore(searchText, setNearestInfo, selectedCategory);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setRequested(true);
     }
   }, [searchText, selectedCategory]);
 
+  // Skeleton while a search runs (and before the first one starts).
+  const loading = progressing || (!requested && searchText?.length > 1);
+  const count = nearestInfo?.length || 0;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
-      <h4 className="text-base md:text-xl font-medium text-gray-500 mb-4 md:mb-6">
-        Store found for <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
-      </h4>
+    <div className={`${PAGE_CONTAINER} py-6 md:py-8`}>
+      <SectionTitle
+        title={
+          <>
+            Results for{" "}
+            <span className="text-[#0C3F8E] dark:text-[#7FB2FF]">
+              &ldquo;{searchText}&rdquo;
+            </span>
+          </>
+        }
+        subtitle={
+          loading
+            ? "Searching…"
+            : count > 0
+              ? `${count} ${count === 1 ? "place" : "places"} found`
+              : null
+        }
+      />
 
-      {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}
+      {!loading && count < 1 && (
+        <NoStoreFound
+          title="No matching restaurants"
+          text="Try a different dish or restaurant name, or check the spelling."
+        />
+      )}
 
-      {progressing && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+      {loading && (
+        <div className={STORE_GRID}>
           {Array.from({ length: 8 }).map((_, index) => (
             <ShopInfoCardSkeleton key={index} />
           ))}
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+      <div className={loading ? "hidden" : STORE_GRID}>
         {nearestInfo?.map((shop) => (
           <ShopInfoCard
             onClick={() => {

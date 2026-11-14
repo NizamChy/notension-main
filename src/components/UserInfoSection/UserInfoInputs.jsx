@@ -4,14 +4,22 @@ import toast from "react-hot-toast";
 import { isLengthBetween } from "@/utils/validation";
 import React, { useState } from "react";
 import RoundLoader from "../common/RoundLoader";
+import OtpInput from "../LoginSection/OtpInput";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
-import FloatingInput from "../LoginSection/FloatingInput";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { TextField } from "@/components/shared/Checkout/CheckoutUI";
+import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+
+const ButtonSpinner = () => (
+  <span
+    aria-hidden="true"
+    className="h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent"
+  />
+);
 
 const UserInfoInputs = ({
   onClose,
   type = "login",
-  getPrimaryClass,
+  phone,
   userInfo,
   otpGenerated,
   sendSms,
@@ -74,7 +82,7 @@ const UserInfoInputs = ({
     }
 
     if (otpGenerated !== otp) {
-      return toast.error("OTP টি সঠিক হয়নি!", {
+      return toast.error("OTP টি সঠিক হয়নি!", {
         style: {
           border: "1px solid #FC8F1E",
         },
@@ -96,86 +104,101 @@ const UserInfoInputs = ({
   return (
     <>
       {progressing ? (
-        <div className="flex justify-center items-center min-h-80 text-mediumGray bg-gray-100 animate-pulse rounded-md">
+        <div className="flex min-h-80 items-center justify-center rounded-2xl bg-gray-50">
           <RoundLoader />
         </div>
       ) : (
-        <>
-          <p className="text-center font-semibold text-secondary text-xl md:text-2xl mb-2">
-            Your Information
-          </p>
-          <div className="py-2.5">
-            <FloatingInput
+        <div className="space-y-5">
+          <div className="pr-6">
+            <h2 className="text-lg font-bold tracking-tight text-gray-900 md:text-xl">
+              Verify and finish
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {phone ? (
+                <>
+                  We sent a code to{" "}
+                  <span className="font-semibold tabular-nums text-gray-900">
+                    {phone}
+                  </span>
+                  .
+                </>
+              ) : (
+                "Enter the code we sent to your phone."
+              )}
+            </p>
+          </div>
+
+          <div>
+            <span className="mb-2 block text-sm font-medium text-gray-700">
+              One-time code
+            </span>
+            <OtpInput
+              value={otp}
+              onChange={setOtp}
+              length={otpGenerated?.length || 4}
+            />
+            <p className="mt-2 text-center text-sm text-gray-500">
+              Didn&apos;t get it?{" "}
+              <button
+                type="button"
+                onClick={resendOTP}
+                disabled={progressing}
+                className="inline-flex min-h-10 items-center font-semibold text-[#0C3F8E] hover:underline disabled:opacity-60 dark:text-[#7FB2FF]"
+              >
+                Resend OTP
+              </button>
+            </p>
+          </div>
+
+          <div className="space-y-4 border-t border-gray-100 pt-5">
+            <p className="text-sm font-semibold text-gray-900">
+              Your information
+            </p>
+            <TextField
               label="Name"
               id="customer_name"
+              required
+              autoComplete="name"
               value={userInfo?.customer_name || ""}
               onChange={(e) =>
                 handleDataChange(e.target.value, "customer_name")
               }
             />
-          </div>
-          <div className="py-2.5">
-            <FloatingInput
+            <TextField
               label="Address"
               id="customer_address"
-              multiline={true}
+              required
+              multiline
+              autoComplete="street-address"
               value={userInfo?.customer_address || ""}
               onChange={(e) =>
                 handleDataChange(e.target.value, "customer_address")
               }
             />
-          </div>
-          <div className="py-2.5">
-            <FloatingInput
+            <TextField
               label="Alternative number"
               id="alternative_contact_no"
+              type="tel"
+              inputMode="tel"
+              placeholder="Optional"
               value={userInfo?.alternative_contact_no || ""}
               onChange={(e) =>
                 handleDataChange(e.target.value, "alternative_contact_no")
               }
             />
           </div>
-          <div className="py-2.5">
-            <FloatingInput
-              label="Enter OTP"
-              id="otp"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              onClick={(e) => handleLogin(e)}
-              className={`mt-3 px-4 ${getPrimaryClass()} text-white font-medium rounded-md w-full`}
-              disabled={progressing}
-            >
-              {progressing ? (
-                <div className="flex justify-center items-center">
-                  <p>Please wait</p>
-                  <DotLottieReact
-                    src="https://lottie.host/6958d316-ea05-4122-9dff-1d526f59b3ca/ZilAm5yZWu.lottie"
-                    loop
-                    autoplay
-                    className="size-10"
-                  />
-                </div>
-              ) : (
-                <>
-                  <p className="py-2">LOGIN</p>
-                </>
-              )}
-            </button>
-          </div>
-          <div className="flex justify-center mt-4">
-            <button
-              onClick={resendOTP}
-              className="text-secondary underline font-medium"
-              disabled={progressing}
-            >
-              Resend OTP
-            </button>
-          </div>{" "}
-        </>
+
+          <PrimaryButton onClick={(e) => handleLogin(e)} disabled={progressing}>
+            {progressing ? (
+              <>
+                <ButtonSpinner />
+                Please wait
+              </>
+            ) : (
+              "Log in"
+            )}
+          </PrimaryButton>
+        </div>
       )}
     </>
   );

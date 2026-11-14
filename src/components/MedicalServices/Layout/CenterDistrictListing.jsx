@@ -1,12 +1,14 @@
 "use client";
 
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { LuHospital } from "react-icons/lu";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { EmptyState } from "@/components/shared/UI/UI";
 import CenterHero from "./CenterHero";
 import CenterGrid from "./CenterGrid";
-import { MedicalPageBody } from "./MedicalLayout";
+import { MedicalPageBody, MedicalSectionTitle } from "./MedicalLayout";
+import { CenterCardSkeleton, InlineSpinner, SkeletonGrid } from "./MedicalUI";
 import SearchCenter from "../SearchMedicalCenter/SearchCenter";
 
 // Shared body of the Eye care / Dental / Hospital / Diagnostic / Consultation
@@ -18,6 +20,9 @@ const CenterDistrictListing = ({
   heroImage,
   heroAlt,
   sliderNode = null,
+  listTitle = "Centres in your district",
+  listSubtitle,
+  emptyTitle = "No centres found in your district",
 }) => {
   const [pageNo, setPageNo] = useState(1);
   const [centerInfo, setCenterInfo] = useState([]);
@@ -44,26 +49,44 @@ const CenterDistrictListing = ({
         alt={heroAlt}
       />
 
-      {!allLoaded && centerInfo?.length < 1 && <Loader />}
+      <section>
+        <MedicalSectionTitle subtitle={listSubtitle}>{listTitle}</MedicalSectionTitle>
 
-      {centerInfo && centerInfo?.length > 0 ? (
-        <InfiniteScroll
-          dataLength={centerInfo?.length}
-          next={() => {
-            getCenterInfoByDistrict(
-              centerType,
-              setCenterInfo,
-              pageNo,
-              setPageNo
-            );
-          }}
-          hasMore={loadingMore}
-          loader={<Loader />}
-          style={{ overflow: "visible" }}
-        >
-          <CenterGrid centers={centerInfo} />
-        </InfiniteScroll>
-      ) : null}
+        {!allLoaded && centerInfo?.length < 1 && (
+          <SkeletonGrid
+            count={4}
+            item={CenterCardSkeleton}
+            className="xl:grid-cols-4"
+          />
+        )}
+
+        {centerInfo && centerInfo?.length > 0 ? (
+          <InfiniteScroll
+            dataLength={centerInfo?.length}
+            next={() => {
+              getCenterInfoByDistrict(
+                centerType,
+                setCenterInfo,
+                pageNo,
+                setPageNo
+              );
+            }}
+            hasMore={loadingMore}
+            loader={<InlineSpinner />}
+            style={{ overflow: "visible" }}
+          >
+            <CenterGrid centers={centerInfo} />
+          </InfiniteScroll>
+        ) : null}
+
+        {allLoaded && centerInfo?.length < 1 && (
+          <EmptyState
+            icon={<LuHospital />}
+            title={emptyTitle}
+            text="Try changing your location, or find the nearest one to you."
+          />
+        )}
+      </section>
     </MedicalPageBody>
   );
 };

@@ -1,9 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaRegAddressCard } from "react-icons/fa";
+import { LuInfo, LuUserPlus } from "react-icons/lu";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
 import toast from "react-hot-toast";
+import { TextField } from "@/components/shared/Checkout/CheckoutUI";
+import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+
+const selectClass =
+  "block h-[46px] w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-900 transition focus:border-[#0C3F8E]/50 focus:outline-none focus:ring-4 focus:ring-[#0C3F8E]/10";
 
 const RegisterPatient = ({ setShowForm = true }) => {
   const [formData, setFormData] = useState({
@@ -73,169 +78,109 @@ const RegisterPatient = ({ setShowForm = true }) => {
 
   return (
     <div>
-      <div>
-        <h2 className="text-lg md:text-2xl font-bold mb-3 text-primary">
-          Register Patient
-        </h2>
-        <p className="text-sm text-[#07074D] mb-4">
-          👉 রোগীর জন্ম তারিখ নিশ্চিত করা কেন গুরুত্বপূর্ণ? রোগীর যত্নের সাথে
-          সঠিক চিকিৎসা, ওষুধ এবং সম্ভাব্য সমস্যা এড়াতে রোগীর বয়স গুরুত্বপূর্ণ।
-          রোগীর বয়সও বহুলাংশে নির্ধারণ করতে পারে যে ধরনের মেডিকেল পরীক্ষাগুলি
-          প্রয়োজনীয় এবং ফলাফলের জন্য প্রভাব রয়েছে। বয়স্ক রোগীদের আরও গভীরভাবে
-          পরীক্ষার প্রয়োজন হতে পারে।
+      <div className="mb-5 flex gap-3 rounded-xl border border-[#0C3F8E]/15 bg-[#0C3F8E]/[0.04] p-4 text-sm leading-relaxed text-gray-700">
+        <LuInfo className="mt-0.5 shrink-0 text-base text-[#0C3F8E] dark:text-[#7FB2FF]" />
+        <p>
+          রোগীর জন্ম তারিখ নিশ্চিত করা কেন গুরুত্বপূর্ণ? রোগীর যত্নের সাথে সঠিক
+          চিকিৎসা, ওষুধ এবং সম্ভাব্য সমস্যা এড়াতে রোগীর বয়স গুরুত্বপূর্ণ। রোগীর
+          বয়সও বহুলাংশে নির্ধারণ করতে পারে যে ধরনের মেডিকেল পরীক্ষাগুলি
+          প্রয়োজনীয় এবং ফলাফলের জন্য প্রভাব রয়েছে। বয়স্ক রোগীদের আরও গভীরভাবে
+          পরীক্ষার প্রয়োজন হতে পারে।
         </p>
-        <div className="w-full bg-white p-4 md:p-6 rounded-xl border border-gray-200 shadow-sm">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-5">
-              <label
-                htmlFor="patient_name"
-                className="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Patient Name (রোগীর নাম) <span className="text-red-600">*</span>
-              </label>
-              <input
-                required
-                type="text"
-                name="patient_name"
-                id="patient_name"
-                placeholder="Patient Name"
-                value={formData.patient_name}
-                onChange={handleInputChange}
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              />
-            </div>
-
-            <div className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="contact"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Contact (মোবাইল নাম্বার){" "}
-                  <span className="text-red-600">*</span>
-                </label>
-                <input
-                  required
-                  type="text"
-                  name="contact"
-                  id="contact"
-                  placeholder="Contact"
-                  value={formData.contact}
-                  onChange={handleInputChange}
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="alternative_contact"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Alt. Contact (বিকল্প নাম্বার)
-                </label>
-                <input
-                  type="text"
-                  name="alternative_contact"
-                  id="alternative_contact"
-                  placeholder="Alternative Contact"
-                  value={formData.alternative_contact}
-                  onChange={handleInputChange}
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-            </div>
-
-            <div className="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="date_of_birth"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Date of Birth (জন্ম তারিখ)
-                </label>
-                <input
-                  type="date"
-                  name="date_of_birth"
-                  id="date_of_birth"
-                  value={formData.date_of_birth}
-                  onChange={handleInputChange}
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="gender"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Gender (লিঙ্গ)
-                </label>
-                <select
-                  name="gender"
-                  id="gender"
-                  value={formData.gender}
-                  onChange={handleInputChange}
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor="email"
-                className="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Email (ইমেইল)
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              />
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor="address"
-                className="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Address (ঠিকানা)
-              </label>
-              <textarea
-                name="address"
-                id="address"
-                placeholder="Enter your address"
-                rows="4"
-                value={formData.address}
-                onChange={handleInputChange}
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-              ></textarea>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="hover:shadow-form w-full rounded-md bg-primary hover:bg-[#264066] py-3 px-8 text-center text-base font-semibold text-white outline-none transition-all  flex justify-center items-center gap-2"
-                disabled={progressing}
-              >
-                <span>
-                  <FaRegAddressCard className="text-xl" />
-                </span>
-                <span>
-                  {progressing ? "Registering..." : "Register Patient"}
-                </span>
-              </button>
-            </div>
-          </form>
-        </div>
       </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <TextField
+          label="Patient name (রোগীর নাম)"
+          required
+          type="text"
+          name="patient_name"
+          id="patient_name"
+          placeholder="Full name"
+          autoComplete="name"
+          value={formData.patient_name}
+          onChange={handleInputChange}
+        />
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <TextField
+            label="Mobile number (মোবাইল নাম্বার)"
+            required
+            type="tel"
+            inputMode="numeric"
+            name="contact"
+            id="contact"
+            placeholder="01XXXXXXXXX"
+            autoComplete="tel"
+            value={formData.contact}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Alternative number (বিকল্প নাম্বার)"
+            type="tel"
+            inputMode="numeric"
+            name="alternative_contact"
+            id="alternative_contact"
+            placeholder="Optional"
+            value={formData.alternative_contact}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <TextField
+            label="Date of birth (জন্ম তারিখ)"
+            type="date"
+            name="date_of_birth"
+            id="date_of_birth"
+            value={formData.date_of_birth}
+            onChange={handleInputChange}
+          />
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-gray-700">
+              Gender (লিঙ্গ)
+            </span>
+            <select
+              name="gender"
+              id="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className={selectClass}
+            >
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+        </div>
+
+        <TextField
+          label="Email (ইমেইল)"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Optional"
+          autoComplete="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        />
+
+        <TextField
+          label="Address (ঠিকানা)"
+          multiline
+          name="address"
+          id="address"
+          placeholder="House, road, area"
+          value={formData.address}
+          onChange={handleInputChange}
+        />
+
+        <PrimaryButton type="submit" disabled={progressing}>
+          <LuUserPlus className="text-base" />
+          {progressing ? "Registering..." : "Register patient"}
+        </PrimaryButton>
+      </form>
     </div>
   );
 };

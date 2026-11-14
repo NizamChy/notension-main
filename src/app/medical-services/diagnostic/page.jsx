@@ -5,7 +5,12 @@ import { MedicalPageHeader } from "@/components/MedicalServices/Layout/MedicalLa
 const page = () => {
   return (
     <>
-      <MedicalPageHeader title="Find Diagnostic Center" />
+      <MedicalPageHeader
+        title="Find a diagnostic centre"
+        subtitle="Lab tests, imaging and check-ups at trusted centres near you."
+        back="/medical-services"
+        backLabel="Medical services"
+      />
       <DiagnosticCenter />
     </>
   );

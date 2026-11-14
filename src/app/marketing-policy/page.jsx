@@ -7,7 +7,7 @@ import MarketingPolicy from "@/components/Policy/MarketingPolicy";
 export const metadata = {
   title: "Marketing Policy",
   description:
-    "NoTension marketing policy.",
+    "NoTension merchant fees, current offers and partner programme benefits.",
 };
 
 const NotoSansBengali = Noto_Sans_Bengali({
@@ -19,7 +19,10 @@ const page = () => {
   return (
     <section className={NotoSansBengali.className}>
       <Navbar />
-      <MarketingPolicy />
+      {/* Offset for the fixed navbar, as in the module layouts. */}
+      <main className="pt-16 lg:pt-[72px]">
+        <MarketingPolicy />
+      </main>
       <Footer />
     </section>
   );

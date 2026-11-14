@@ -1,13 +1,11 @@
 "use client";
 
-import Loader from "@/components/common/Loader";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import MedicineItems from "../MedicineItems/MedicineItems";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
-import ItemCardSkeleton from "@/components/StoreModule/ItemCardSkeleton";
-import NoItemFound from "@/components/common/NoItemFound";
+import { PageHeader } from "@/components/shared/UI/UI";
+import { InfiniteItemGrid } from "@/components/StoreModule/ItemBrowse";
 
 const SearchedProducts = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -23,41 +21,24 @@ const SearchedProducts = () => {
 
   return (
     <div>
-      <h4 className="text-base md:text-xl font-medium text-gray-500 mb-4 md:mb-6">
-        Items found for{" "}
-        <span className="text-gray-700"> &quot;{searchText}&quot;</span>
-      </h4>
+      <PageHeader
+        title={`Results for “${searchText || ""}”`}
+        subtitle={
+          productInfo?.length > 0
+            ? `${productInfo.length}${loadingMore ? "+" : ""} medicines found in this store`
+            : null
+        }
+      />
 
-      {allLoaded && productInfo.length < 1 && <NoItemFound />}
-
-      {!allLoaded && productInfo.length < 1 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
-          {Array.from({ length: 12 }).map((_, index) => (
-            <ItemCardSkeleton moduleName="medicine" key={index} />
-          ))}
-        </div>
-      )}
-
-      <div className="relative">
-        {productInfo && productInfo.length > 0 ? (
-          <InfiniteScroll
-            dataLength={productInfo?.length}
-            next={() => {
-              handleSearch(searchText, pageNo, setPageNo);
-            }}
-            hasMore={loadingMore}
-            loader={<Loader />}
-          >
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
-              {productInfo?.map((item) => (
-                <div key={item?._id}>
-                  <MedicineItems item={item} />
-                </div>
-              ))}
-            </div>
-          </InfiniteScroll>
-        ) : null}
-      </div>
+      <InfiniteItemGrid
+        items={productInfo}
+        allLoaded={allLoaded}
+        hasMore={loadingMore}
+        onLoadMore={() => handleSearch(searchText, pageNo, setPageNo)}
+        renderItem={(item) => <MedicineItems key={item?._id} item={item} />}
+        emptyTitle="No medicines found"
+        emptyText="Check the spelling, or search by brand or generic name."
+      />
     </div>
   );
 };

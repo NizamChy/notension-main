@@ -1,29 +1,36 @@
 "use client";
 
-import Image from "next/image";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
+import { HiOutlineHeart } from "react-icons/hi2";
 import { ITEM_CARDS } from "./itemCards";
-import { ITEM_GRID_CLASS, SECTION_TITLE_CLASS } from "./storeModules";
+import { ITEM_GRID_CLASS } from "./storeModules";
+import { EmptyState, PageHeader } from "@/components/shared/UI/UI";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const FAVORITES = {
   grocery: {
     stateKey: "favouriteGroceryItems",
-    title: "Favourite Grocery Item",
+    title: "Favourite groceries",
+    noun: "groceries",
   },
-  medicine: { stateKey: "favouriteMedicineItems", title: "Favourite Medicine" },
+  medicine: {
+    stateKey: "favouriteMedicineItems",
+    title: "Favourite medicines",
+    noun: "medicines",
+  },
 };
 
 const FavoriteItems = ({ moduleName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { stateKey, title } = FAVORITES[moduleName];
+  const { stateKey, title, noun } = FAVORITES[moduleName];
   const ItemCard = ITEM_CARDS[moduleName];
 
   const { userInfo } = useSelector((state) => state.user);
   const favoriteItems = useSelector((state) => state.userChoice[stateKey]);
+  const count = favoriteItems?.length || 0;
 
   const closeModal = () => setIsModalOpen(false);
 
@@ -38,29 +45,28 @@ const FavoriteItems = ({ moduleName }) => {
     <>
       {userInfo?._id && (
         <div>
-          <h1 className={SECTION_TITLE_CLASS}>{title}</h1>
+          <PageHeader
+            title={title}
+            subtitle={
+              count > 0
+                ? `${count} saved ${count === 1 ? "item" : "items"}`
+                : `Save the ${noun} you buy often and find them here.`
+            }
+          />
 
-          <div className={ITEM_GRID_CLASS}>
-            {favoriteItems?.map((item) => (
-              <ItemCard key={item?.productId} item={item} isFavorite={true} />
-            ))}
-          </div>
-
-          {!favoriteItems?.length && (
-            <div className="min-h-[45vh] flex justify-center items-center w-full">
-              <div>
-                <Image
-                  src="/images/favorite/no-wishlist.png"
-                  alt="wishlist"
-                  height={1024}
-                  width={1024}
-                  className="object-cover w-60"
-                />
-                <p className="text-center text-deepGray font-semibold text-xl">
-                  No wishlist yet!
-                </p>
-              </div>
+          {count > 0 ? (
+            <div className={ITEM_GRID_CLASS}>
+              {favoriteItems.map((item) => (
+                <ItemCard key={item?.productId} item={item} isFavorite={true} />
+              ))}
             </div>
+          ) : (
+            <EmptyState
+              icon={<HiOutlineHeart />}
+              title="No favourites yet"
+              text="Tap the heart on any product to save it to this list."
+              className="min-h-[40vh]"
+            />
           )}
         </div>
       )}

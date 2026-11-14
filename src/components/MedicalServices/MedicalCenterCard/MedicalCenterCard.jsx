@@ -4,9 +4,15 @@ import React from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { FaLocationDot } from "react-icons/fa6";
+import { LuArrowRight, LuMapPin, LuNavigation, LuPhone } from "react-icons/lu";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
-import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
+import { Badge, CARD, CARD_HOVER } from "@/components/shared/UI/UI";
+import {
+  centerTypeLabel,
+  formatDistance,
+  MetaItem,
+  resolveHealthImage,
+} from "../Layout/MedicalUI";
 
 const MedicalCenterCard = ({ center, onClick, children }) => {
   const router = useRouter();
@@ -25,41 +31,88 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
     );
   };
 
+  const handleClick = onClick || handleMedicalCenterClick;
+  const typeLabel = centerTypeLabel(center?.center_type);
+  const distance =
+    center?.distance != null ? formatDistance(center.distance) : null;
+  const phone = center?.apointment_contact_1;
+  const logo = resolveHealthImage(center?.logo);
+
   return (
-    <div
-      onClick={onClick || handleMedicalCenterClick}
-      className="group relative h-full flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-primary transition-all duration-300 overflow-hidden cursor-pointer"
+    <article
+      role="link"
+      tabIndex={0}
+      aria-label={center?.center_name || "Medical center"}
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" && e.target === e.currentTarget) handleClick(e);
+      }}
+      className={`group relative flex h-full cursor-pointer flex-col overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
     >
-      <div className="relative w-full aspect-[2/1] bg-gray-100">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
         <Image
           src={
-            center?.medical_center_banner_app
-              ? `${HEALTH_CARE_IMAGES}/${center?.medical_center_banner_app}`
-              : "/png/dummyImage.png"
+            resolveHealthImage(center?.medical_center_banner_app) ||
+            "/png/dummyImage.png"
           }
           fill
-          sizes="(min-width: 1280px) 300px, (min-width: 640px) 50vw, 100vw"
+          sizes="(min-width: 1280px) 320px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           alt={center?.center_name || "Medical center"}
-          className="object-cover"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 dark:brightness-90"
         />
-      </div>
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="text-sm md:text-base lg:text-lg font-semibold text-[#A93356] line-clamp-1">
-          {center?.center_name}
-        </h3>
-        <p className="flex gap-1.5 items-start text-xs md:text-sm text-mediumGray">
-          <FaLocationDot className="shrink-0 text-primary mt-0.5" />
-          <span className="line-clamp-2">{center?.address}</span>
-        </p>
-
-        {center?.distance != null && (
-          <p className="mt-auto text-xs font-medium md:text-sm text-secondary">
-            Distance: {(center?.distance / 1000).toFixed(2)} km
-          </p>
+        {distance && (
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-[#FFFFFF]/95 px-2.5 py-1 text-xs font-semibold text-[#101828] shadow-sm">
+            <LuNavigation className="text-[#0C3F8E]" />
+            {distance}
+          </span>
         )}
       </div>
+
+      <div className="flex flex-1 flex-col p-4">
+        <div className="flex items-start gap-3">
+          {logo && (
+            <span className="relative -mt-9 h-12 w-12 shrink-0 overflow-hidden rounded-xl border-2 border-white bg-[#FFFFFF] shadow-sm">
+              <Image src={logo} alt="" fill sizes="48px" className="object-contain p-1" />
+            </span>
+          )}
+          <div className="min-w-0 flex-1">
+            {typeLabel && (
+              <Badge tone="navy" className="mb-1.5">
+                {typeLabel}
+              </Badge>
+            )}
+            <h3 className="line-clamp-2 text-base font-semibold leading-snug text-gray-900 transition-colors group-hover:text-[#0C3F8E] dark:group-hover:text-[#7FB2FF]">
+              {center?.center_name}
+            </h3>
+          </div>
+        </div>
+
+        <ul className="mt-2 space-y-1.5 text-sm text-gray-600">
+          {center?.address && (
+            <MetaItem icon={LuMapPin}>
+              <span className="line-clamp-2">{center.address}</span>
+            </MetaItem>
+          )}
+          {phone && (
+            <MetaItem icon={LuPhone}>
+              <a
+                href={`tel:${String(phone).replace(/[^\d+]/g, "")}`}
+                onClick={(e) => e.stopPropagation()}
+                className="tabular-nums hover:text-[#0C3F8E] hover:underline dark:hover:text-[#7FB2FF]"
+              >
+                {phone}
+              </a>
+            </MetaItem>
+          )}
+        </ul>
+
+        <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+          View details
+          <LuArrowRight className="transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
       {children}
-    </div>
+    </article>
   );
 };
 
