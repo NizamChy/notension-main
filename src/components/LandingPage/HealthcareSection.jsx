@@ -6,7 +6,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { LuCalendarCheck, LuStethoscope, LuClock } from "react-icons/lu";
 import SectionHeader from "./SectionHeader";
 import ServiceTile from "./ServiceTile";
-import useGatedNavigate from "./useGatedNavigate";
+import useGatedNavigate from "@/components/shared/LocationModal/useGatedNavigate";
 import { homeImage } from "./constants";
 
 const SERVICES = [

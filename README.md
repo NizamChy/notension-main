@@ -156,8 +156,9 @@ Known gaps and planned work, most important first.
 - **Doctor data:** a doctor with two chambers is listed twice in a department.
 - **Dark mode:** modals, dropdowns and checkout have not been fully reviewed.
   Some white-on-teal and white-on-yellow buttons have low contrast.
-- **Cleanup:** 21 unused images in `public/images/home/`, the unused
-  dotlottie package and the `OrderUI` folder.
+- **Location state:** latitude, longitude and district are stored twice in
+  the user slice (top level and in `currentUserLocation`), and `useUser.js`
+  sends latitude and longitude swapped (demo mode compensates).
 
 ### Known limitations
 

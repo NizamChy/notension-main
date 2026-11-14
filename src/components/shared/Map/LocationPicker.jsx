@@ -12,6 +12,7 @@ import {
 } from "react-icons/hi2";
 import loader from "@/utils/googleMapsLoader";
 import { handleUserReducer } from "@/redux/userReducer";
+import { toUserLocation } from "@/utils/userLocation";
 import { PRIMARY_BUTTON } from "@/components/shared/UI/UI";
 import { isDemoMode } from "@/demo/demoMode";
 import { DEMO_LOCATIONS, isDemoDistrict } from "@/demo/demoLocations";
@@ -240,18 +241,13 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
     dispatch(
       handleUserReducer({
         type: "SAVE_USER_CURRENT_LOCATION",
-        data: {
-          setCurrentLocation: false,
-          userLatitude: position.lat,
-          userLongitude: position.lng,
+        data: toUserLocation({
+          latitude: position.lat,
+          longitude: position.lng,
           districtId: district._id,
           districtName: district.district_name,
-          districtAreaId: "00",
-          districtAreaName: "",
-          districtSubAreaId: "00",
-          districtSubAreaName: "",
           address: place.subtitle || place.title,
-        },
+        }),
       }),
     );
     onConfirm?.({ changed });

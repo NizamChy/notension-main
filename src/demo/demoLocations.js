@@ -30,14 +30,4 @@ export const isDemoDistrict = (districtId) =>
   DEMO_DISTRICT_IDS.includes(districtId);
 
 // Same shape the map picker saves with SAVE_USER_CURRENT_LOCATION.
-export const toUserLocation = (location) => ({
-  setCurrentLocation: false,
-  userLatitude: location.latitude,
-  userLongitude: location.longitude,
-  districtId: location.districtId,
-  districtName: location.districtName,
-  districtAreaId: "00",
-  districtAreaName: "",
-  districtSubAreaId: "00",
-  districtSubAreaName: "",
-});
+export { toUserLocation } from "@/utils/userLocation";

@@ -12,10 +12,10 @@ import {
   SectionTitle,
   Skeleton,
 } from "@/components/shared/UI/UI";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
-import MapModal from "@/components/shared/LocationModal/MapModal";
+import useGatedNavigate from "@/components/shared/LocationModal/useGatedNavigate";
 import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
 // Two equal 5:2 sliders side by side (stacked on mobile).
@@ -31,16 +31,12 @@ const SliderPair = ({ first, second }) => {
 };
 
 const FoodCategorySection = () => {
-  const [openMapModal, setOpenMapModal] = useState(false);
-
-  const router = useRouter();
+  const pathname = usePathname();
   const { exploreFoodModule, progressing } = useFood();
-
-  const handleOpenMapModal = () => setOpenMapModal(true);
-  const handleCloseMapModal = () => setOpenMapModal(false);
+  const { requestLocation, locationModal } = useGatedNavigate();
 
   const currentUserLocation = useSelector(
-    (state) => state.user.currentUserLocation.districtName
+    (state) => state.user.currentUserLocation?.districtName
   );
 
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
@@ -53,13 +49,8 @@ const FoodCategorySection = () => {
     if (currentUserLocation) {
       exploreFoodModule();
     } else {
-      const screenWidth = window.innerWidth;
-
-      if (screenWidth < 768) {
-        router.push("/get-mobile-location");
-      } else {
-        handleOpenMapModal();
-      }
+      // No location yet: ask for one, then come back to this page.
+      requestLocation(pathname);
     }
     // Runs once on mount; the helpers are recreated on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,9 +132,7 @@ const FoodCategorySection = () => {
         </>
       )}
 
-      {openMapModal && (
-        <MapModal isOpen={openMapModal} onCloseModal={handleCloseMapModal} />
-      )}
+      {locationModal}
     </div>
   );
 };

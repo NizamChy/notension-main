@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { HiArrowRight } from "react-icons/hi";
 import SectionHeader from "./SectionHeader";
-import useGatedNavigate from "./useGatedNavigate";
+import useGatedNavigate from "@/components/shared/LocationModal/useGatedNavigate";
 import { homeImage } from "./constants";
 
 const CATEGORIES = [

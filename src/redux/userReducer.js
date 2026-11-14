@@ -5,22 +5,16 @@ const initialState = {
   userInfo: {},
   allAddress: [],
   patientInfo: [],
-  districtInfo: [],
   districtId: "00",
   foodOrderInfo: [],
   isLoggedin: false,
   userLatitude: "00",
-  setManually: false,
   userLongitude: "00",
   deliveryAddress: "",
   groceryOrderInfo: [],
   medicineOrderInfo: [],
-  deliveryLocations: [],
-  defaultUserLocation: {},
   currentUserLocation: {},
   bookedAppoinmentInfo: [],
-  setCurrentLocation: false,
-  setDefaultLocation: false,
 };
 
 const userSlice = createSlice({
@@ -31,26 +25,6 @@ const userSlice = createSlice({
       const { type, data } = payload;
 
       switch (type) {
-        case "SAVE_CURRENT_GEOLOCATION":
-          return {
-            ...state,
-            isUserLocationAvailable: true,
-            userLatitude: data.latitude,
-            userLongitude: data.longitude,
-          };
-
-        case "SAVE_DISTRICT_INFO":
-          state.districtInfo = data || [];
-          break;
-
-        case "SAVE_DEFAULT_LOCATION":
-          state.groceryOrderInfo = data;
-          break;
-
-        case "SAVE_CURRENT_LOCATION":
-          state.currentUserLocation = data;
-          break;
-
         case "SAVE_API_KEY":
           return {
             ...state,
@@ -72,17 +46,9 @@ const userSlice = createSlice({
 
         case "SAVE_USER_CURRENT_LOCATION":
           state.currentUserLocation = data;
-          state.setCurrentLocation = data?.setCurrentLocation;
           state.userLatitude = data?.userLatitude || "00";
           state.userLongitude = data?.userLongitude || "00";
           state.districtId = data?.districtId || "00";
-          break;
-
-        case "SAVE_USER_DEFAULT_LOCATION":
-          state.defaultUserLocation = data;
-          state.userLatitude = data?.userLatitude;
-          state.userLongitude = data?.userLongitude;
-          state.districtId = data?.districtId;
           break;
 
         case "SAVE_GROCERY_ORDER_INFO":
@@ -147,22 +113,6 @@ const userSlice = createSlice({
           state.bookedAppoinmentInfo = updatedAppointments;
           break;
         }
-
-        case "RESET_USER_LOCATION":
-          state.setCurrentLocation = false;
-          state.setDefaultLocation = true;
-          state.defaultUserLocation = {};
-          state.currentUserLocation = {};
-          state.userLatitude = "00";
-          state.userLongitude = "00";
-          state.districtId = "00";
-          break;
-
-        case "RESET_USER_CURRENT_LOCATION":
-          state.setCurrentLocation = true;
-          state.setDefaultLocation = false;
-          state.currentUserLocation = {};
-          break;
 
         case "RESET_USER":
           return {

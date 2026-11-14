@@ -5,7 +5,7 @@ import Link from "next/link";
 import { LuPhoneCall } from "react-icons/lu";
 import SectionHeader from "./SectionHeader";
 import ServiceTile from "./ServiceTile";
-import useGatedNavigate from "./useGatedNavigate";
+import useGatedNavigate from "@/components/shared/LocationModal/useGatedNavigate";
 import { APP_URL, HOTLINE, HOTLINE_TEL, homeImage } from "./constants";
 
 // Nurse, ambulance and blood donor requests are handled in the mobile app.
