@@ -2,9 +2,10 @@
 
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { LuStethoscope } from "react-icons/lu";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { EmptyState } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ExploreConsultationCenterInfo from "../ConsultationCenter/ExploreConsultationCenterInfo";
@@ -13,6 +14,11 @@ import {
   MedicalPageBody,
   MedicalSectionTitle,
 } from "../../Layout/MedicalLayout";
+import {
+  DoctorCardSkeleton,
+  InlineSpinner,
+  SkeletonGrid,
+} from "../../Layout/MedicalUI";
 
 const DoctorsByCenter = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -34,12 +40,21 @@ const DoctorsByCenter = () => {
       <ExploreConsultationCenterInfo />
 
       <section>
-        <MedicalSectionTitle>
-          Doctors Info
-          {currentDept?.dept_name ? ` (${currentDept.dept_name})` : ""}
+        <MedicalSectionTitle
+          subtitle={
+            doctorsInfo?.length > 0
+              ? `${doctorsInfo.length}${loadingMore && !allLoaded ? "+" : ""} doctors at this centre`
+              : null
+          }
+        >
+          {currentDept?.dept_name
+            ? `${currentDept.dept_name} specialists`
+            : "Doctors"}
         </MedicalSectionTitle>
 
-        {!allLoaded && doctorsInfo?.length < 1 && <Loader />}
+        {!allLoaded && doctorsInfo?.length < 1 && (
+          <SkeletonGrid count={3} item={DoctorCardSkeleton} />
+        )}
 
         {doctorsInfo && doctorsInfo?.length > 0 ? (
           <InfiniteScroll
@@ -54,7 +69,7 @@ const DoctorsByCenter = () => {
               );
             }}
             hasMore={loadingMore}
-            loader={<Loader />}
+            loader={<InlineSpinner />}
             style={{ overflow: "visible" }}
           >
             <MedicalCardGrid>
@@ -70,9 +85,11 @@ const DoctorsByCenter = () => {
         ) : null}
 
         {allLoaded && doctorsInfo?.length < 1 && (
-          <p className="py-16 text-center text-mediumGray">
-            No doctor found in this department.
-          </p>
+          <EmptyState
+            icon={<LuStethoscope />}
+            title="No doctor found in this department"
+            text="This centre has no doctors listed for this department yet."
+          />
         )}
       </section>
     </MedicalPageBody>

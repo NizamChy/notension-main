@@ -1,183 +1,199 @@
-import {
-  BsTwitter,
-  BsLinkedin,
-  BsFacebook,
-  BsInstagram,
-  BsTelephonePlusFill,
-} from "react-icons/bs";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { GrMail } from "react-icons/gr";
-import { IoLocation } from "react-icons/io5";
-import { FiChevronRight } from "react-icons/fi";
-import { SiAmericanexpress } from "react-icons/si";
-import { FaCcVisa, FaCcMastercard, FaCcDiscover } from "react-icons/fa";
+import { BsFacebook, BsInstagram, BsLinkedin, BsTwitterX } from "react-icons/bs";
+import { LuMail, LuMapPin, LuPhone } from "react-icons/lu";
+
+const APP_URL =
+  "https://play.google.com/store/apps/details?id=com.bitsnotension";
+const PHONE = "+88 01719662995";
+const PHONE_TEL = "+8801719662995";
+const EMAIL = "notensionxyz@gmail.com";
+
+// Add the page URLs here; an icon only shows once it has a URL.
+const SOCIAL_LINKS = [
+  { label: "Facebook", url: "", Icon: BsFacebook },
+  { label: "Instagram", url: "", Icon: BsInstagram },
+  { label: "LinkedIn", url: "", Icon: BsLinkedin },
+  { label: "X", url: "", Icon: BsTwitterX },
+].filter((s) => s.url);
+
+const COLUMNS = [
+  {
+    title: "Shop",
+    links: [
+      { label: "Grocery", href: "/grocery/home" },
+      { label: "Medicine", href: "/medicine/home" },
+      { label: "Food", href: "/food" },
+      { label: "Fashion & Lifestyle", href: "/fashion-lifestyle" },
+    ],
+  },
+  {
+    title: "Healthcare",
+    links: [
+      { label: "Find doctors", href: "/medical-services/doctor" },
+      { label: "Hospitals", href: "/medical-services/hospital" },
+      { label: "Diagnostic centers", href: "/medical-services/diagnostic" },
+      { label: "All care services", href: "/all-care-services" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Marketing policy", href: "/marketing-policy" },
+      { label: "Get the app", href: APP_URL, external: true },
+    ],
+  },
+];
+
+const PAYMENTS = [
+  { src: "/png/bkash.png", alt: "bKash" },
+  { src: "/png/nagad.png", alt: "Nagad" },
+  { src: "/png/cash-on-delivery.png", alt: "Cash on delivery" },
+];
 
 const Footer = () => {
-  const date = new Date();
-  const fullYear = date.getFullYear();
+  const year = new Date().getFullYear();
+
   return (
-    <div className="mt-12 px-4 md:px-10 max-w-screen-2xl mx-auto lg:h-footer">
-      <hr />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 mb-8">
-        {/* Section 1 */}
-        <div className="space-y-6">
-          <Image
-            src="/png/notension-logo.png"
-            alt="notension"
-            width={180}
-            height={32}
-          />
-          <p className="text-xs md:text-sm leading-6 text-gray-700">
-            NoTension is an ECommerce Online Service Provider. You can get all
-            kinds of services like Grocery Stores, Medicine, Food, and more.
-            Doctor&apos;s appointments, nurses, ambulances, & blood donors are also
-            available.
-          </p>
-          <div className="flex space-x-4 text-2xl text-gray-700">
-            <BsFacebook className="hover:text-blue-600" />
-            <BsInstagram className="hover:text-pink-500" />
-            <BsLinkedin className="hover:text-blue-700" />
-            <BsTwitter className="hover:text-blue-400" />
-          </div>
-        </div>
-
-        {/* Section 2 */}
-        <div className="text-xs md:text-base">
-          <p className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-slate-700">
-            Contact
-          </p>
-          <ul className="space-y-2 md:space-y-4 text-gray-700">
-            <li className="flex items-start">
-              <span>
-                <IoLocation className="text-xl mr-2 mt-2" />
-              </span>
-              Jobeda Villa (Behind Meghna Bank, 2nd Floor), Holding - 120,
-              Mirzarpool, Muradpur, Panchlaish, Chattogram, Bangladesh
-            </li>
-            <li className="flex items-center">
-              <BsTelephonePlusFill className="mr-2" /> +88 01719662995
-            </li>
-            <li className="flex items-center">
-              <GrMail className="mr-2" /> notensionxyz@gmail.com
-            </li>
-          </ul>
-        </div>
-
-        {/* Section 3 */}
-        <div className="text-xs md:text-base">
-          <p className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-slate-700">
-            Quick Links
-          </p>
-          <ul className="space-y-2 md:space-y-4">
-            <li>
-              <Link
-                href="/grocery/home"
-                className="flex items-center text-gray-700 hover:text-yellow-500"
-              >
-                <FiChevronRight className="mr-2" />
-                Grocery Store
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="flex items-center text-gray-700 hover:text-yellow-500"
-              >
-                <FiChevronRight className="mr-2" />
-                Doctor Registration
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="flex items-center text-gray-700 hover:text-yellow-500"
-              >
-                <FiChevronRight className="mr-2" />
-                Find Doctor
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/fashion-lifestyle"
-                className="flex items-center text-gray-700 hover:text-yellow-500"
-              >
-                <FiChevronRight className="mr-2" />
-                Clothing , Fashion and Lifestyle
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/marketing-policy"
-                className="flex items-center text-gray-700 hover:text-yellow-500"
-              >
-                <FiChevronRight className="mr-2" />
-                Marketing Policy
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Section 4 */}
-        <div>
-          <div className="bg-white p-3 lg:p-6 rounded-lg shadow-md">
-            <h2 className="text-base lg:text-xl font-medium mb-4">
-              Subscribe to our newsletter
-            </h2>
-            <div className="relative">
-              <input
-                className="w-full border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-1 focus:ring-yellow-300"
-                type="email"
-                placeholder="Email"
-              />
-              <button
-                className="bg-yellow-500 text-white font-semibold py-2 px-2 md:px-4 absolute right-0 top-0 rounded-r hover:bg-yellow-600"
-                type="submit"
-              >
-                Subscribe
-              </button>
-            </div>
-            <div className="flex justify-between items-center mt-4 space-x-2">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.bitsnotension&hl=en&gl=US"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+    <footer className="mt-12 border-t border-gray-200 bg-gray-50">
+      <div className="mx-auto max-w-[1312px] px-4 pb-8 pt-12 md:pt-16">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_2fr_1.2fr] lg:gap-12">
+          {/* Brand */}
+          <div className="max-w-sm">
+            <Image
+              src="/png/notension-logo.png"
+              alt="NoTension"
+              width={180}
+              height={32}
+              className="h-9 w-auto"
+            />
+            <p className="mt-4 text-sm leading-relaxed text-gray-600">
+              Groceries, medicine, food and fashion delivered to your door,
+              plus doctors, hospitals, nurses, ambulances and blood donors when
+              you need them.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              <Link href={APP_URL} target="_blank" prefetch={false}>
                 <Image
                   src="/png/playstore.png"
-                  width={120}
-                  height={30}
-                  alt="google-play"
+                  alt="Get it on Google Play"
+                  width={135}
+                  height={40}
+                  className="h-10 w-auto rounded-md"
                 />
-              </a>
-              <Link href="https://play.google.com/store/apps/details?id=com.bitsnotension&hl=en&gl=US">
+              </Link>
+              <Link href={APP_URL} target="_blank" prefetch={false}>
                 <Image
                   src="/png/applestore.png"
-                  alt="app-store"
-                  width={120}
-                  height={30}
+                  alt="Download on the App Store"
+                  width={135}
+                  height={40}
+                  className="h-10 w-auto rounded-md"
                 />
               </Link>
             </div>
+            {SOCIAL_LINKS.length > 0 && (
+              <div className="mt-5 flex gap-2">
+                {SOCIAL_LINKS.map(({ label, url, Icon }) => (
+                  <a
+                    key={label}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition-colors hover:border-gray-300 hover:text-gray-900"
+                  >
+                    <Icon />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Link columns */}
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+            {COLUMNS.map(({ title, links }) => (
+              <div key={title}>
+                <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+                <ul className="mt-4 space-y-3">
+                  {links.map(({ label, href, external }) => (
+                    <li key={label}>
+                      <Link
+                        href={href}
+                        {...(external
+                          ? { target: "_blank", prefetch: false }
+                          : {})}
+                        className="text-sm text-gray-600 transition-colors hover:text-[#D9481C] dark:hover:text-[#FF8A5B]"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900">Contact us</h3>
+            <ul className="mt-4 space-y-4 text-sm text-gray-600">
+              <li className="flex gap-3">
+                <LuMapPin className="mt-0.5 shrink-0 text-base text-[#EB5C2F]" />
+                <span className="leading-relaxed">
+                  Jobeda Villa (behind Meghna Bank, 2nd floor), Holding 120,
+                  Mirzarpool, Muradpur, Panchlaish, Chattogram, Bangladesh
+                </span>
+              </li>
+              <li>
+                <a
+                  href={`tel:${PHONE_TEL}`}
+                  className="flex items-center gap-3 transition-colors hover:text-gray-900"
+                >
+                  <LuPhone className="shrink-0 text-base text-[#EB5C2F]" />
+                  {PHONE}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="flex items-center gap-3 break-all transition-colors hover:text-gray-900"
+                >
+                  <LuMail className="shrink-0 text-base text-[#EB5C2F]" />
+                  {EMAIL}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-col gap-4 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-gray-500">
+            © {year} NoTension. All rights reserved.
+          </p>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-medium uppercase tracking-wider text-gray-400">
+              We accept
+            </span>
+            {PAYMENTS.map(({ src, alt }) => (
+              <span
+                key={alt}
+                className="flex h-10 items-center rounded-md border border-gray-200 bg-[#FFFFFF] px-2"
+              >
+                <Image
+                  src={src}
+                  alt={alt}
+                  width={56}
+                  height={28}
+                  className="h-7 w-auto object-contain"
+                />
+              </span>
+            ))}
           </div>
         </div>
       </div>
-
-      <hr />
-      <div className="flex flex-col md:flex-row justify-between items-center py-6 space-y-2 md:space-y-0 text-gray-700">
-        <p className="text-center md:text-start text-xs md:text-base">
-          © NoTension All rights reserved {fullYear}
-        </p>
-        <div className="flex items-center space-x-4 text-2xl">
-          <p className="text-xs md:text-base">Accept:</p>
-          <FaCcVisa />
-          <FaCcMastercard />
-          <FaCcDiscover />
-          <SiAmericanexpress />
-        </div>
-      </div>
-    </div>
+    </footer>
   );
 };
 

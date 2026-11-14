@@ -4,9 +4,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
-import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
-import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
-import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
+import StoreList from "@/components/StoreModule/StoreList";
 
 const MedicineSection = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
@@ -46,34 +44,16 @@ const MedicineSection = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
-      <h1 className="text-lg md:text-2xl font-bold text-deepGray mb-4 md:mb-6">
-        Nearest Medicine Stores
-      </h1>
-
-      {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}
-
-      {progressing && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <ShopInfoCardSkeleton key={index} />
-          ))}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-        {nearestInfo?.map((shop) => (
-          <ShopInfoCard
-            onClick={() => {
-              handleStoreClick(shop);
-            }}
-            key={shop?._id}
-            shop={shop}
-            type="medicine"
-          />
-        ))}
-      </div>
-    </div>
+    <StoreList
+      moduleName="medicine"
+      title="Pharmacies near you"
+      subtitle="Pick a pharmacy to start ordering"
+      shops={nearestInfo}
+      isLoading={progressing}
+      onShopClick={handleStoreClick}
+      emptyTitle="No pharmacies nearby"
+      emptyText="We don't have a pharmacy delivering to this area yet. Try changing your delivery location."
+    />
   );
 };
 

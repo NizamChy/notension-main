@@ -2,22 +2,28 @@
 
 import axios from "axios";
 import { lineTotal } from "@/utils/price";
-import Link from "next/link";
-import Image from "next/image";
 import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import OrderSummary from "./OrderSummary";
 import { useRouter } from "next/navigation";
-import { TiShoppingCart } from "react-icons/ti";
 import { useCart } from "../context/CartContext";
 import { PAYMENT_DATA } from "../utils/constants";
 import { useMutation } from "@tanstack/react-query";
 import { FASHION_BASE_URL } from "@/api-endpoints/env";
 import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import ExploreButton from "../shared/ExploreButton/ExploreButton";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import {
+  CheckoutEmpty,
+  CheckoutLayout,
+  CheckoutStep,
+  PaymentOptions,
+  TextField,
+} from "@/components/shared/Checkout/CheckoutUI";
+
+const FORM_ID = "fashion-checkout";
 
 const Checkout = () => {
   const [totalStores, setTotalStores] = useState(0);
@@ -169,52 +175,43 @@ const Checkout = () => {
     closeModal();
   };
 
+  const handleOrdersClick = () => {
+    router.push("/fashion-lifestyle/orders");
+    setTotalStores(0);
+    closeModal();
+  };
+
   if (cartItems?.length < 1)
     return (
       <>
-        <div className="min-h-[60vh] flex flex-col justify-center items-center">
-          <p className="text-2xl font-semibold text-primary flex flex-col gap-1 items-center justify-center">
-            <TiShoppingCart className="text-5xl text-primary" />
-            Your cart is empty!
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/"
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90"
-            >
-              Continue Shopping
-            </Link>
-          </div>
+        <div className="bg-gray-50 px-4 py-10 md:py-16">
+          <CheckoutEmpty href="/fashion-lifestyle" />
         </div>
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="flex flex-col justify-center items-center min-h-80 text-gray bg-gray-50 rounded-md">
-            {/* <div className="w-40">
-              <Image
-                className="w-full object-contain"
-                src="/images/fashion-lifestyle/success-icon.png"
-                alt="success-icon png"
-                height={160}
-                width={160}
-              />
-            </div> */}
-
+          <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl bg-white px-6 pb-6 text-center">
             <DotLottieReact
               src="https://lottie.host/7ea3cf4e-a72b-407b-8ea9-9103738dab49/nZY9k8iTb7.lottie"
               loop
               autoplay
             />
-
-            {totalStores > 1 ? (
-              <p className="pb-3 font-semibold text-2xl text-green-600">
-                Order placed for {totalStores} stores!
-              </p>
-            ) : (
-              <p className="pb-3 font-semibold text-2xl text-green-600">
-                Order placed successfully!
-              </p>
-            )}
-
-            <ExploreButton title="Go Home" onClick={handleGoHomeClick} />
+            <p className="text-xl font-semibold text-gray-900">
+              {totalStores > 1
+                ? `Orders placed with ${totalStores} shops`
+                : "Order placed successfully"}
+            </p>
+            <p className="mt-1 text-sm text-gray-500">
+              We&apos;ll let you know when it&apos;s on the way.
+            </p>
+            <div className="mt-5 flex w-full max-w-xs flex-col gap-2">
+              <PrimaryButton onClick={handleOrdersClick}>View my orders</PrimaryButton>
+              <button
+                type="button"
+                onClick={handleGoHomeClick}
+                className="h-11 rounded-full text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                Continue shopping
+              </button>
+            </div>
           </div>
         </CommonModal>
       </>
@@ -228,134 +225,70 @@ const Checkout = () => {
   const overallTotal = overallSubtotal + deliveryCharge;
 
   return (
-    <>
-      <div className="bg-gray-50 min-h-screen py-5 md:py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-5 md:mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-700">
-              Checkout
-            </h1>
-          </div>
+    <div className="bg-gray-50 px-4 py-6 sm:px-6 md:py-10 lg:px-8">
+      <CheckoutLayout
+        subtitle="Tell us where to deliver and how you'd like to pay."
+        stickyTopClass="lg:top-[136px]"
+        main={
+          <form id={FORM_ID} onSubmit={handleSubmit} className="space-y-5">
+            <CheckoutStep step={1} title="Delivery details">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <TextField
+                  label="Full name"
+                  required
+                  name="name"
+                  autoComplete="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Phone number"
+                  required
+                  type="tel"
+                  name="phone"
+                  autoComplete="tel"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Delivery address"
+                  required
+                  multiline
+                  name="address"
+                  autoComplete="street-address"
+                  placeholder="House, road, area, city"
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="sm:col-span-2"
+                />
+              </div>
+            </CheckoutStep>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-            <div className="bg-white p-5 md:p-6 rounded-lg border border-gray-100 shadow-sm">
-              <h2 className="text-lg font-medium text-gray-900 mb-6">
-                Shipping information
-              </h2>
-
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-4">
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Name <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
-                      required
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Phone <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
-                      required
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Address <span className="text-red-600">*</span>
-                    </label>
-                    <textarea
-                      rows={3}
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 appearance-none outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-6 border-t border-gray-100">
-                  <h2 className="text-lg font-medium text-gray-900 mb-4">
-                    Payment method
-                  </h2>
-
-                  <div className="space-y-2">
-                    {PAYMENT_DATA.map((option) => (
-                      <label
-                        key={option.id}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-md border cursor-pointer transition-colors ${
-                          formData.paymentOption === option.label
-                            ? "border-primary bg-primary/5"
-                            : "border-gray-200 hover:bg-gray-50"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="paymentOption"
-                          value={option.label}
-                          checked={formData.paymentOption === option.label}
-                          onChange={handleChange}
-                          className="h-4 w-4 accent-primary"
-                        />
-                        <Image
-                          src={option.icon}
-                          alt=""
-                          width={40}
-                          height={40}
-                          className="w-8 h-8 object-contain"
-                        />
-                        <span className="text-gray-800 font-medium text-sm">
-                          {option.label}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 flex justify-end">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full sm:w-auto bg-primary py-3 px-8 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white hover:bg-primary/90 disabled:bg-gray-300 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting
-                        ? "Placing Order..."
-                        : "Place Order"}
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            {/* On small screens the summary comes first, so shoppers see what
-                they are paying for before the "Place order" button. */}
-            <div className="lg:col-span-1 order-first lg:order-none">
-              <OrderSummary
-                items={cartItems}
-                subtotal={overallSubtotal}
-                deliveryCharge={deliveryCharge}
-                total={overallTotal}
-                removeFromCart={removeFromCart}
+            <CheckoutStep step={2} title="Payment method">
+              <PaymentOptions
+                name="paymentOption"
+                options={PAYMENT_DATA}
+                value={formData.paymentOption}
+                onChange={(label) =>
+                  setFormData({ ...formData, paymentOption: label })
+                }
               />
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+            </CheckoutStep>
+          </form>
+        }
+        aside={
+          <OrderSummary
+            items={cartItems}
+            subtotal={overallSubtotal}
+            deliveryCharge={deliveryCharge}
+            total={overallTotal}
+            removeFromCart={removeFromCart}
+            formId={FORM_ID}
+            isSubmitting={isSubmitting}
+          />
+        }
+      />
+    </div>
   );
 };
 

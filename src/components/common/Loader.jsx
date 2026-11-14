@@ -1,27 +1,21 @@
-"use client";
-
 import React from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
+// Full-area page loader: a navy ring with an orange arc. Fills the content
+// height so the footer does not jump while data loads.
 const Loader = () => {
   return (
-    <div className="flex justify-center items-center min-h-content">
-      <DotLottieReact
-        src="https://lottie.host/83ecd8f7-1aed-426d-895b-d2fcbdb013f1/CEgON642qn.lottie"
-        loop
-        autoplay
-        className="size-36"
-      />
+    <div
+      role="status"
+      aria-live="polite"
+      className="flex min-h-content w-full flex-col items-center justify-center gap-3"
+    >
+      <span className="relative h-11 w-11">
+        <span className="absolute inset-0 rounded-full border-4 border-gray-200" />
+        <span className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-l-[#EB5C2F] border-t-[#0C3F8E] dark:border-t-[#7FB2FF]" />
+      </span>
+      <span className="text-sm font-medium text-gray-500">Loading…</span>
     </div>
   );
 };
 
 export default Loader;
-
-// import React from "react";
-
-// export default Loader;
-
-// src="https://lottie.host/3bd94bda-7d75-45bc-9a69-79a650633702/QhJsBs2V7F.lottie"
-// src="https://lottie.host/6f5eec64-e98e-4855-9d1e-2b30d74459de/iFUyWtMItI.lottie"
-// src="https://lottie.host/a9ac8f3f-e7ee-4fe9-ab44-d81ab500a2f2/vJ1PjTzZqM.lottie"

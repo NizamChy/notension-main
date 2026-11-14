@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Title from "../CategorySection/Title";
 import FashionSection from "../shared/FashionSection";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi";
+import { SECONDARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
 import FashionProductCard, {
   PRODUCT_GRID_CLASS,
 } from "../shared/Card/FashionProductCard";
@@ -11,25 +13,25 @@ import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
 
 const PAGE_SIZE = 8;
 
-const Chevron = ({ up }) => (
-  <svg
-    className="ml-2 w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d={up ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-    />
-  </svg>
+/** "View more / View less" toggle under a product grid. */
+export const ShowMoreButton = ({ hasMore, onClick }) => (
+  <div className="mt-8 text-center md:mt-10">
+    <button type="button" onClick={onClick} className={SECONDARY_BUTTON}>
+      {hasMore ? "View more products" : "View less"}
+      {hasMore ? <HiChevronDown /> : <HiChevronUp />}
+    </button>
+  </div>
 );
 
 /** Popular products of one fashion type (Men / Women / Kids) with View More. */
-const PopularTypeSection = ({ typeId, title, errorText }) => {
+const PopularTypeSection = ({
+  typeId,
+  typeSlug,
+  title,
+  subtitle,
+  errorText,
+  className = "",
+}) => {
   const [visibleProductsCount, setVisibleProductsCount] = useState(PAGE_SIZE);
 
   const { usePopularProductsByType } = useCategoryItem();
@@ -38,8 +40,8 @@ const PopularTypeSection = ({ typeId, title, errorText }) => {
 
   if (isLoading)
     return (
-      <FashionSection>
-        <div className="h-8 lg:h-9 mb-4 md:mb-6 rounded-md bg-gray-200 animate-pulse w-1/3 lg:w-1/4" />
+      <FashionSection className={className}>
+        <Skeleton className="mb-6 h-7 w-1/2 !rounded-full sm:w-1/3 lg:w-1/4" />
         <div className={PRODUCT_GRID_CLASS}>
           {[...Array(4)].map((_, index) => (
             <ProductCardSkeleton key={index} />
@@ -50,9 +52,9 @@ const PopularTypeSection = ({ typeId, title, errorText }) => {
 
   if (isError) {
     return (
-      <FashionSection>
+      <FashionSection className={className}>
         <Title title={title} />
-        <div className="text-center text-red-500 py-10">{errorText}</div>
+        <p className="py-6 text-center text-sm text-[#D92D20]">{errorText}</p>
       </FashionSection>
     );
   }
@@ -64,8 +66,13 @@ const PopularTypeSection = ({ typeId, title, errorText }) => {
   const hasMoreProducts = reversedProducts.length > visibleProductsCount;
 
   return (
-    <FashionSection>
-      <Title title={title} />
+    <FashionSection className={className}>
+      <Title
+        title={title}
+        subtitle={subtitle}
+        href={typeSlug ? `/fashion-lifestyle/type/${typeSlug}_${typeId}` : undefined}
+        linkLabel="Shop all"
+      />
 
       <div className={PRODUCT_GRID_CLASS}>
         {displayedProducts.map((product) => (
@@ -77,19 +84,14 @@ const PopularTypeSection = ({ typeId, title, errorText }) => {
       </div>
 
       {reversedProducts.length > PAGE_SIZE && (
-        <div className="mt-8 md:mt-10 text-center">
-          <button
-            onClick={() =>
-              hasMoreProducts
-                ? setVisibleProductsCount((c) => c + PAGE_SIZE)
-                : setVisibleProductsCount(PAGE_SIZE)
-            }
-            className="inline-flex items-center px-6 py-2.5 border border-gray-300 text-sm md:text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-colors"
-          >
-            {hasMoreProducts ? "View More Products" : "View Less Products"}
-            <Chevron up={!hasMoreProducts} />
-          </button>
-        </div>
+        <ShowMoreButton
+          hasMore={hasMoreProducts}
+          onClick={() =>
+            hasMoreProducts
+              ? setVisibleProductsCount((c) => c + PAGE_SIZE)
+              : setVisibleProductsCount(PAGE_SIZE)
+          }
+        />
       )}
     </FashionSection>
   );

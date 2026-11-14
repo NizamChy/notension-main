@@ -1,9 +1,13 @@
 "use client";
 
 import Head from "next/head";
-import Link from "next/link";
 import { useParams } from "next/navigation";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { PageHeader } from "@/components/shared/UI/UI";
+import {
+  Breadcrumbs,
+  FASHION_CONTAINER,
+  unslug,
+} from "../shared/FashionSection";
 import { useStoreItems } from "../hooks/fetchData/useStoreItems";
 import FiltersSidebar from "../ProductsByCategory/FiltersSidebar";
 import FilterProducts from "../ProductsByCategory/FilterProducts";
@@ -63,7 +67,7 @@ const StoreProductsBySubCat = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-content">
       <Head>
         <title>{`${subCatSlug?.replace(/-/g, " ")} | ${shopName}`}</title>
         <meta
@@ -72,23 +76,27 @@ const StoreProductsBySubCat = () => {
         />
       </Head>
 
-      <main className="max-w-7xl mx-auto py-4 md:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
+      <main className={`${FASHION_CONTAINER} py-6 md:py-8`}>
         {/* Store links only carry the type and category ids (their slugs
             are the placeholders "type" and "category"), so the breadcrumb
             is "shop name > sub-category" and leads back to the shop. */}
-        <h1 className="text-lg md:text-2xl font-semibold text-gray-700 capitalize mb-4 md:mb-6 flex flex-wrap items-center gap-y-1">
-          <Link href={`/fashion-lifestyle/shop/${params?.shopSlugId}`}>
-            <span className="flex items-center text-gray-800 hover:text-blue-600">
-              {shopName}
-              <MdKeyboardArrowRight className="text-gray-500" />
-            </span>
-          </Link>
-          <span className="text-gray-600">
-            {subCatSlug?.replace(/-/g, " ")}
-          </span>
-        </h1>
+        <Breadcrumbs
+          items={[
+            { label: "Fashion", href: "/fashion-lifestyle" },
+            {
+              label: shopName,
+              href: `/fashion-lifestyle/shop/${params?.shopSlugId}`,
+            },
+            { label: unslug(subCatSlug) },
+          ]}
+        />
+        <PageHeader
+          title={<span className="capitalize">{unslug(subCatSlug)}</span>}
+          subtitle={<span className="capitalize">at {shopName}</span>}
+          className="!mb-6"
+        />
 
-        <div className="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
+        <div className="flex flex-col items-start gap-6 md:flex-row lg:gap-8">
           <FiltersSidebar
             priceRange={priceRange}
             inStockOnly={inStockOnly}

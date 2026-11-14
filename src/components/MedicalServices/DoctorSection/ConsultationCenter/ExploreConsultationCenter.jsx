@@ -1,13 +1,25 @@
 "use client";
 
 import { useSelector } from "react-redux";
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { Skeleton } from "@/components/shared/UI/UI";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
 import ExploreConsultationCenterInfo from "./ExploreConsultationCenterInfo";
 import VisitedDoctorDepartment from "../DoctorCategory/VisitedDoctorDepartment";
 import VisitedPopularDoctorSlider from "../PopularDoctor/VisitedPopularDoctorSlider";
 import { MedicalPageBody } from "../../Layout/MedicalLayout";
+import { DoctorCardSkeleton, SkeletonGrid } from "../../Layout/MedicalUI";
+
+const DOCTORS_HERE = {
+  title: "Doctors at this centre",
+  subtitle: "এই কেন্দ্রের বিশেষজ্ঞ ডাক্তার",
+};
+const MORE_DOCTORS = { title: "More doctors", subtitle: null };
+const DEPARTMENTS = {
+  title: "Departments at this centre",
+  subtitle: "বিভাগ অনুযায়ী ডাক্তার খুঁজুন",
+};
+const MORE_DEPARTMENTS = { title: "More departments", subtitle: null };
 
 const ExploreConsultationCenter = () => {
   const [slider, setSlider] = useState([]);
@@ -34,7 +46,13 @@ const ExploreConsultationCenter = () => {
   return (
     <div className="min-h-content">
       {progressing ? (
-        <Loader />
+        <MedicalPageBody>
+          <Skeleton className="h-[420px] w-full !rounded-2xl md:h-[260px]" />
+          <div className="space-y-4">
+            <Skeleton className="h-6 w-48" />
+            <SkeletonGrid count={3} item={DoctorCardSkeleton} />
+          </div>
+        </MedicalPageBody>
       ) : (
         <MedicalPageBody>
           <ExploreConsultationCenterInfo />
@@ -44,6 +62,7 @@ const ExploreConsultationCenter = () => {
               popularDoctors={slider}
               startValue={0}
               endValue={5}
+              {...DOCTORS_HERE}
             />
           )}
 
@@ -54,8 +73,8 @@ const ExploreConsultationCenter = () => {
               imageWidth={300}
               imageHeight={300}
               imageKey="banner_1"
-              bgClassName="bg-[#F3F7FB]"
               allDeptInfo={allDeptInfo}
+              {...DEPARTMENTS}
             />
           )}
 
@@ -64,6 +83,7 @@ const ExploreConsultationCenter = () => {
               popularDoctors={slider}
               startValue={5}
               endValue={10}
+              {...MORE_DOCTORS}
             />
           )}
 
@@ -74,8 +94,8 @@ const ExploreConsultationCenter = () => {
               imageWidth={600}
               imageHeight={300}
               imageKey="banner_2"
-              bgClassName="bg-[#DEF9EC]"
               allDeptInfo={allDeptInfo}
+              {...MORE_DEPARTMENTS}
             />
           )}
 
@@ -84,6 +104,7 @@ const ExploreConsultationCenter = () => {
               popularDoctors={slider}
               startValue={10}
               endValue={15}
+              {...MORE_DOCTORS}
             />
           )}
 
@@ -94,8 +115,8 @@ const ExploreConsultationCenter = () => {
               imageWidth={300}
               imageHeight={300}
               imageKey="banner_1"
-              bgClassName="bg-[#F2FCE4]"
               allDeptInfo={allDeptInfo}
+              {...MORE_DEPARTMENTS}
             />
           )}
 
@@ -104,6 +125,7 @@ const ExploreConsultationCenter = () => {
               popularDoctors={slider}
               startValue={15}
               endValue={20}
+              {...MORE_DOCTORS}
             />
           )}
 
@@ -114,8 +136,8 @@ const ExploreConsultationCenter = () => {
               imageWidth={600}
               imageHeight={300}
               imageKey="banner_2"
-              bgClassName="bg-[#FFF3FF]"
               allDeptInfo={allDeptInfo}
+              {...MORE_DEPARTMENTS}
             />
           )}
 
@@ -124,6 +146,7 @@ const ExploreConsultationCenter = () => {
               popularDoctors={slider}
               startValue={20}
               endValue={25}
+              {...MORE_DOCTORS}
             />
           )}
 
@@ -134,8 +157,8 @@ const ExploreConsultationCenter = () => {
               imageWidth={600}
               imageHeight={300}
               imageKey="banner_2"
-              bgClassName="bg-[#FFF3FF]"
               allDeptInfo={allDeptInfo}
+              {...MORE_DEPARTMENTS}
             />
           )}
         </MedicalPageBody>

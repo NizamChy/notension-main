@@ -1,19 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { lineTotal } from "@/utils/price";
 import { useSelector } from "react-redux";
-import { IoIosCall } from "react-icons/io";
 import { useParams } from "next/navigation";
-import Loader from "../shared/Loader/Loader";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { FaLocationDot } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
-import { IoStorefrontSharp } from "react-icons/io5";
-import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import OrderDetailsContent from "./OrderDetailsContent";
+import { FASHION_CONTAINER } from "../shared/FashionSection";
 import { useProductOrder } from "../hooks/fetchData/useProductOrder";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import {
+  CARD,
+  EmptyState,
+  PageHeader,
+  Skeleton,
+} from "@/components/shared/UI/UI";
 
 const OrderDetailsMobile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,11 +24,10 @@ const OrderDetailsMobile = () => {
 
   const { userInfo } = useSelector((state) => state.user);
   const { useAllOrderByCustomer } = useProductOrder();
-  const {
-    data: orderInfo,
-    isLoading,
-    isError,
-  } = useAllOrderByCustomer(userInfo?._id, userInfo?.custom_id);
+  const { data: orderInfo, isLoading } = useAllOrderByCustomer(
+    userInfo?._id,
+    userInfo?.custom_id
+  );
 
   const order = orderInfo && orderInfo?.find((order) => order?._id === orderId);
 
@@ -38,169 +38,44 @@ const OrderDetailsMobile = () => {
     if (!userInfo?._id) {
       openModal();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
-
-  if (isLoading) return <Loader />;
 
   return (
     <>
       {userInfo?._id && (
-        <div className="bg-[#F3F4F6] min-h-content px-4 sm:px-6 py-5 md:py-8">
-          <div className="max-w-3xl mx-auto bg-white rounded-lg border border-gray-100 shadow-sm p-4 md:p-6 space-y-1.5 text-sm">
-            <h2 className="text-lg md:text-xl font-bold mb-1 text-secondary">
-              Order Details
-            </h2>
+        <div className="min-h-content bg-gray-50">
+          <div className={`${FASHION_CONTAINER} !max-w-3xl py-6 md:py-10`}>
+            <PageHeader
+              title="Order details"
+              back="/fashion-lifestyle/orders"
+              backLabel="My orders"
+            />
 
-            <p>
-              <span className="font-medium">Order ID:</span>{" "}
-              {order?.order_id?.split("-").pop()}
-            </p>
-
-            <p className="flex items-start gap-1 text-sm md:text-base text-primary font-semibold">
-              <span>
-                <IoStorefrontSharp className="mt-1 text-primary" />
-              </span>
-              <span>{order?.merchantInfo?.shop_name}</span>
-            </p>
-
-            <p className="flex items-start gap-1 text-sm md:text-base">
-              <span>
-                <FaLocationDot className="mt-1 text-primary" />
-              </span>
-              <span>{order?.merchantInfo?.shop_address}</span>
-            </p>
-
-            <p className="flex items-start gap-1 text-sm md:text-base font-medium">
-              <span>
-                <IoIosCall className="mt-1 text-primary" />
-              </span>
-              <span>
-                {" "}
-                {order?.merchantInfo?.contact_no},{" "}
-                {order?.merchantInfo?.alternative_contact_no}
-              </span>
-            </p>
-
-            <p>
-              <span className="font-medium">Order Date:</span>{" "}
-              {new Date(order?.createdAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-            <p>
-              <span className="font-medium">Order Status:</span>
-              <span
-                className={`px-3 mx-1 py-1 rounded-full ${
-                  order?.order_status === "Pending"
-                    ? "bg-yellow-100 text-yellow-600"
-                    : "bg-green-100 text-green-600"
-                }`}
-              >
-                {order?.order_status}
-              </span>
-            </p>
-
-            <p>
-              <span className="font-medium">Paymet Method: </span>
-              <span className="text-secondary">{order?.paymet_method}</span>
-            </p>
-
-            <div className="mt-4 max-h-[40vh] overflow-y-auto">
-              <h3 className="font-bold text-secondary mb-2">Ordered Items</h3>
-              <table className="table-auto w-full border-collapse border border-gray-100">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-4 py-2 text-left">Item</th>
-                    <th className="px-4 py-2 text-center">Quantity</th>
-                    <th className="px-4 py-2 text-right">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order?.orderItems?.map((item) => (
-                    <tr key={item?._id} className="hover:bg-[#F9FAFB] text-xs">
-                      <td className="px-1 py-2 flex items-center gap-3">
-                        <Image
-                          src={
-                            item?.app_image
-                              ? `${FASHION_IMAGE_URL}/${item?.app_image}`
-                              : "/png/dummyImage.png"
-                          }
-                          alt="food image"
-                          width={40}
-                          height={40}
-                          className="rounded-lg object-cover"
-                        />
-                        <div>
-                          <p className="line-clamp-2">
-                            {item?.product_title_eng}
-                          </p>
-                          <p className="flex items-center text-primary">
-                            <TbCurrencyTaka />
-                            {item?.sale_price}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2 text-center">
-                        {item?.quantity}
-                      </td>
-                      <td className="px-4 py-2 text-right">
-                        <span className="flex justify-end items-center gap-1">
-                          <TbCurrencyTaka />
-                          {lineTotal(item).toFixed(2)}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="mt-4 pt-3 border-t border-gray-100 space-y-1">
-              <h3 className="font-bold text-secondary mb-1">Price Details</h3>
-
-              <p className="flex justify-between items-center gap-1">
-                <span className="font-medium">Subtotal:</span>{" "}
-                <span className="flex items-center">
-                  <TbCurrencyTaka />
-                  {order?.subTotal}
-                </span>
-              </p>
-
-              <p className="flex justify-between items-center gap-1">
-                <span className="font-medium">Delivery Charge:</span>{" "}
-                <span className="flex items-center">
-                  <TbCurrencyTaka />
-                  {order?.deliveryCharge}
-                </span>
-              </p>
-
-              <p className="flex justify-between items-center gap-1">
-                <span className="font-medium">Discount:</span>{" "}
-                <span className="flex items-center">
-                  <TbCurrencyTaka />
-                  {order?.less_amount}
-                </span>
-              </p>
-
-              <p className="flex items-center justify-between gap-1">
-                <span className="font-medium">Total Amount:</span>{" "}
-                <span className="flex items-center font-bold">
-                  <TbCurrencyTaka />
-                  {order?.totalAmount}
-                </span>
-              </p>
-            </div>
+            {isLoading ? (
+              <div className={`${CARD} space-y-4 p-5`} aria-hidden>
+                <Skeleton className="h-6 w-1/3 !rounded-full" />
+                <Skeleton className="h-24 w-full" />
+                <Skeleton className="h-40 w-full" />
+              </div>
+            ) : order ? (
+              <div className={`${CARD} p-4 sm:p-6`}>
+                <OrderDetailsContent order={order} />
+              </div>
+            ) : (
+              <EmptyState
+                icon={<HiOutlineShoppingBag />}
+                title="Order not found"
+                text="We couldn't find this order in your history."
+              />
+            )}
           </div>
         </div>
       )}
       {isModalOpen && (
-        <>
-          <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-            <LoginModalDetails onClose={closeModal} type="private-route" />
-          </CommonModal>
-        </>
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <LoginModalDetails onClose={closeModal} type="private-route" />
+        </CommonModal>
       )}
     </>
   );

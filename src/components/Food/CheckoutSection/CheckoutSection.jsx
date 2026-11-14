@@ -3,7 +3,7 @@
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import EmptyCart from "@/components/Cart/EmptyCart";
+import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import CheckoutCard from "@/components/common/CheckoutCard";
 import { useOrderFood } from "@/hooks/place-order/useOrderFood";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
@@ -150,19 +150,13 @@ const CheckoutSection = () => {
           setPaymentOption={setPaymentOption}
           onPlaceOrder={handleCustomerOrder}
           progressing={progressing}
-          accent={{
-            text: "text-primaryFood",
-            button: "bg-primaryFood hover:bg-red-600",
-            selected: "border-primaryFood bg-red-50/60",
-            radio: "accent-primaryFood",
-          }}
+          moduleName="food"
+          storeName={foodStoreInfo?.shop_name}
         />
       )}
 
       {userInfo?._id && foodItems?.length < 1 && (
-        <div className="min-h-[50vh] flex justify-center items-center">
-          <EmptyCart />
-        </div>
+        <CheckoutEmpty href="/food" />
       )}
 
       {isModalOpen && (

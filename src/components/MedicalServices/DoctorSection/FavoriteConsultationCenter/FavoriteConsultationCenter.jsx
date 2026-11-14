@@ -1,12 +1,17 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IoTrashOutline } from "react-icons/io5";
+import { LuBuilding2, LuTrash2 } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
+import {
+  EmptyState,
+  PageHeader,
+  PRIMARY_BUTTON,
+} from "@/components/shared/UI/UI";
 import MedicalCenterCard from "../../MedicalCenterCard/MedicalCenterCard";
 import {
   MedicalCardGrid,
@@ -57,45 +62,51 @@ const FavoriteConsultationCenter = () => {
   };
 
   return (
-    <MedicalContainer className="pt-20 md:pt-24 pb-8">
-      <div>
-        {favouriteConsultationCentre?.length > 0 && (
-          <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-4 md:mb-6 text-deepGray">
-            Favourite Consultation Center
-          </h1>
-        )}
+    <MedicalContainer className="pb-12 pt-24 md:pt-28">
+      <PageHeader
+        title="Favourite consultation centres"
+        subtitle={
+          favouriteConsultationCentre?.length > 0
+            ? `${favouriteConsultationCentre.length} saved ${favouriteConsultationCentre.length === 1 ? "centre" : "centres"}`
+            : "Centres you save appear here."
+        }
+      />
 
-        {favouriteConsultationCentre?.length < 1 && (
-          <div className="flex flex-col justify-center items-center min-h-[60vh]">
-            <Image
-              className="max-w-xl w-full h-auto"
-              src="/images/favorite/fav-consultation-not-found.jpg"
-              alt="favourite-consultation-not-found"
-              width={1867}
-              height={1179}
-            />
-          </div>
-        )}
-
-        <MedicalCardGrid className="xl:grid-cols-4">
-          {favouriteConsultationCentre?.map((center) => (
-            <MedicalCenterCard
-              key={center?.mongodbId}
-              center={center}
-              onClick={(e) => handleMedicalCenterClick(e, center)}
+      {favouriteConsultationCentre?.length < 1 && (
+        <EmptyState
+          icon={<LuBuilding2 />}
+          title="No favourite centres yet"
+          text="Open a consultation centre and tap “Add to favourites” to save it here."
+          action={
+            <Link
+              href="/medical-services/doctor/consultation-center"
+              className={PRIMARY_BUTTON}
             >
-              <button
-                type="button"
-                aria-label="Remove from favourite"
-                onClick={(e) => handleRemoveFromFavorite(e, center)}
-                className="absolute top-2 right-2 flex items-center justify-center rounded-full bg-white/90 p-1 text-primaryFood shadow-sm hover:bg-primaryBg"
-              >
-                <IoTrashOutline className="size-5" />
-              </button>
-            </MedicalCenterCard>
-          ))}
-        </MedicalCardGrid>
-      </div>
+              Browse centres
+            </Link>
+          }
+        />
+      )}
+
+      <MedicalCardGrid className="xl:grid-cols-4">
+        {favouriteConsultationCentre?.map((center) => (
+          <MedicalCenterCard
+            key={center?.mongodbId}
+            center={center}
+            onClick={(e) => handleMedicalCenterClick(e, center)}
+          >
+            <button
+              type="button"
+              aria-label={`Remove ${center?.center_name || "centre"} from favourites`}
+              title="Remove from favourites"
+              onClick={(e) => handleRemoveFromFavorite(e, center)}
+              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/95 text-[#344054] shadow-sm transition-colors hover:bg-[#FFFFFF] hover:text-[#D92D20]"
+            >
+              <LuTrash2 className="text-base" />
+            </button>
+          </MedicalCenterCard>
+        ))}
+      </MedicalCardGrid>
     </MedicalContainer>
   );
 };

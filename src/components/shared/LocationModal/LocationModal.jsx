@@ -11,7 +11,7 @@ const LocationModal = () => {
   const handleCloseMapModal = () => setOpenMapModal(false);
 
   return (
-    <div className="mx-auto hidden md:block">
+    <div className="hidden md:block">
       <LocationButton onOpenModal={handleOpenMapModal} />
 
       {openMapModal && (

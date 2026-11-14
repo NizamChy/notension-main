@@ -2,7 +2,13 @@
 
 import ProductCards from "./ProductCards";
 import React, { useState, useMemo } from "react";
+import { HiChevronDown } from "react-icons/hi";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { EmptyState, PRIMARY_BUTTON } from "@/components/shared/UI/UI";
 import ProductCardSkeleton from "../shared/SkeletonLoading/ProductCardSkeleton";
+
+const LISTING_GRID_CLASS =
+  "grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-4 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-8 xl:grid-cols-4";
 
 const FilterProducts = ({
   isError,
@@ -47,56 +53,80 @@ const FilterProducts = ({
 
   if (isError)
     return (
-      <div className="text-red-500 text-center">Error loading products!</div>
+      <div className="min-w-0 flex-1">
+        <EmptyState
+          title="Couldn't load products"
+          text="Please check your connection and try again."
+        />
+      </div>
     );
 
   return (
-    <div className="flex-1 min-w-0">
-      <div className="flex flex-wrap justify-between items-center gap-3 mb-4 md:mb-6">
-        <p className="text-sm md:text-base text-gray-600">
-          Showing {sortedProducts?.length} of{" "}
-          {totalCount ?? products?.length} products
+    <div className="w-full min-w-0 flex-1">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 md:mb-6">
+        <p className="text-sm text-gray-500" aria-live="polite">
+          {isLoading ? (
+            "Loading products…"
+          ) : (
+            <>
+              Showing{" "}
+              <span className="font-semibold tabular-nums text-gray-900">
+                {sortedProducts?.length}
+              </span>{" "}
+              of{" "}
+              <span className="tabular-nums">
+                {totalCount ?? products?.length}
+              </span>{" "}
+              products
+            </>
+          )}
         </p>
 
-        <div>
-          <label htmlFor="sort" className="mr-2 text-sm">
-            Sort by:
+        <div className="flex items-center gap-2">
+          <label htmlFor="sort" className="hidden text-sm text-gray-500 sm:block">
+            Sort by
           </label>
-          <select
-            id="sort"
-            value={sortOption}
-            onChange={handleSortChange}
-            className="border border-gray-300 bg-white rounded-lg px-2 py-2 text-sm outline-none focus:border-blue-500"
-          >
-            <option value="featured">Featured</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="rating">Customer Rating</option>
-          </select>
+          <div className="relative">
+            <select
+              id="sort"
+              value={sortOption}
+              onChange={handleSortChange}
+              aria-label="Sort products"
+              className="h-10 appearance-none rounded-full border border-gray-200 bg-white pl-4 pr-9 text-sm font-medium text-gray-800 outline-none transition-colors hover:border-gray-300 focus:border-[#0C3F8E] focus:ring-2 focus:ring-[#0C3F8E]/15"
+            >
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Customer Rating</option>
+            </select>
+            <HiChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+          </div>
         </div>
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className={LISTING_GRID_CLASS}>
           {[...Array(8)].map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
         </div>
       ) : sortedProducts.length === 0 ? (
-        <div className="text-center py-12">
-          <h3 className="text-lg font-medium mb-2">No products found</h3>
-          <p className="text-gray-600">
-            Try adjusting your filters or search for something else
-          </p>
-          <button
-            onClick={clearAllFilters}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Clear all filters
-          </button>
-        </div>
+        <EmptyState
+          icon={<HiOutlineShoppingBag />}
+          title="No products found"
+          text="Try adjusting your filters or search for something else."
+          action={
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              className={PRIMARY_BUTTON}
+            >
+              Clear all filters
+            </button>
+          }
+        />
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className={LISTING_GRID_CLASS}>
           {sortedProducts.map((product) => (
             <ProductCards key={product?._id?.toString()} product={product} />
           ))}

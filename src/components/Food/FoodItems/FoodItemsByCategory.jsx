@@ -1,14 +1,10 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import FoodItems from "@/components/Food/FoodItems/FoodItems";
-import FoodItemCardSkeleton from "@/components/Food/FoodItems/FoodItemCardSkeleton";
-import {
-  ITEM_GRID_CLASS,
-  SECTION_TITLE_CLASS,
-} from "@/components/StoreModule/storeModules";
+import MenuSection, { MenuSkeleton } from "./MenuSection";
+import { EmptyState } from "@/components/shared/UI/UI";
 
 const FoodItemsByCategory = () => {
   const [loading, setLoading] = useState(true);
@@ -41,34 +37,24 @@ const FoodItemsByCategory = () => {
     setLoading(false);
   }, [catId, productInfoByShop]);
 
-  return (
-    <div>
-      {categoryName && <h2 className={SECTION_TITLE_CLASS}>{categoryName}</h2>}
-      <div>
-        {loading ? (
-          <div className={ITEM_GRID_CLASS}>
-            {Array.from({ length: 4 }).map((_, index) => (
-              <FoodItemCardSkeleton key={index} />
-            ))}
-          </div>
-        ) : foodItems?.length > 0 ? (
-          <div className={ITEM_GRID_CLASS}>
-            {foodItems?.map((item) => (
-              <FoodItems key={item?._id} item={item} />
-            ))}
-          </div>
-        ) : (
-          categoryName && (
-            <>
-              <p className="text-center mt-20 lg:mt-44 lg:text-xl font-medium">
-                {categoryName} items not available right now!
-              </p>
-            </>
-          )
-        )}
-      </div>
-    </div>
-  );
+  if (loading) return <MenuSkeleton />;
+
+  if (foodItems?.length > 0) {
+    return (
+      <MenuSection
+        title={categoryName}
+        subtitle={`${foodItems.length} item${foodItems.length === 1 ? "" : "s"}`}
+        items={foodItems}
+      />
+    );
+  }
+
+  return categoryName ? (
+    <EmptyState
+      title={`No ${categoryName} right now`}
+      text="These dishes aren't available at the moment. Try another category."
+    />
+  ) : null;
 };
 
 export default FoodItemsByCategory;

@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { FaPhone } from "react-icons/fa6";
 import { useParams } from "next/navigation";
-import Loader from "../shared/Loader/Loader";
-import { MdLocationOn } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { HiOutlineMapPin, HiOutlinePhone } from "react-icons/hi2";
 import { useStoreItems } from "../hooks/fetchData/useStoreItems";
+import { FASHION_CONTAINER } from "../shared/FashionSection";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import { PRIMARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
+
+const imageUrl = (img) =>
+  img ? `${FASHION_IMAGE_URL}/${img}` : "/png/dummyImage.png";
 
 const StoreBanner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,109 +32,97 @@ const StoreBanner = () => {
     }
   }, [storeInfo]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className={`${FASHION_CONTAINER} pt-4 md:pt-6`} aria-hidden>
+        <Skeleton className="aspect-[2/1] w-full !rounded-2xl md:aspect-[4/1]" />
+        <div className="mt-4 flex items-center gap-4 px-2">
+          <Skeleton className="h-20 w-20 shrink-0 !rounded-2xl" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-6 w-1/2 !rounded-full" />
+            <Skeleton className="h-4 w-2/3 !rounded-full" />
+          </div>
+        </div>
+      </div>
+    );
+
+  const logo = storeInfo?.shop_logo || storeInfo?.shop_banner_app;
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-6">
-        <div className="relative w-full h-48 sm:h-56 md:h-[320px] overflow-hidden rounded-xl shadow-md">
+      <div className={`${FASHION_CONTAINER} pt-4 md:pt-6`}>
+        <div className="relative aspect-[2/1] w-full overflow-hidden rounded-2xl bg-gray-100 md:aspect-[4/1]">
           <Image
-            src={
-              storeInfo?.shop_banner_web
-                ? `${FASHION_IMAGE_URL}/${storeInfo?.shop_banner_web}`
-                : "/png/dummyImage.png"
-            }
-            alt="Shopping store banner"
+            src={imageUrl(storeInfo?.shop_banner_web)}
+            alt={`${storeInfo?.shop_name || "Store"} banner`}
             fill
-            // Banner art and tagline sit on the right; the left side is
-            // covered by the store info panel, so crop from the left.
-            className="object-cover object-right hidden md:block"
+            sizes="(min-width: 1312px) 1248px, 100vw"
+            className="hidden object-cover md:block"
             priority
           />
-
           <Image
-            src={
-              storeInfo?.shop_banner_app
-                ? `${FASHION_IMAGE_URL}/${storeInfo?.shop_banner_app}`
-                : "/png/dummyImage.png"
-            }
-            alt="Shopping store banner"
+            src={imageUrl(storeInfo?.shop_banner_app)}
+            alt={`${storeInfo?.shop_name || "Store"} banner`}
             fill
-            className="object-cover object-right block md:hidden"
+            sizes="100vw"
+            className="block object-cover md:hidden"
             priority
           />
+        </div>
 
-          <div
-            className="relative z-10 flex flex-col items-start justify-center h-full px-5 md:px-8
-             text-deepGray w-3/4 md:w-2/3 lg:w-1/2 bg-gradient-to-br from-white to-white/20 md:to-white/30
-             clip-diagonal"
-          >
-            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-2 md:mb-3 line-clamp-2">
+        <div className="relative flex flex-col gap-3 px-1 sm:flex-row sm:items-end sm:gap-5 sm:px-6">
+          <div className="relative -mt-10 h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-4 border-[color:var(--background)] bg-gray-100 shadow-md sm:-mt-12 sm:h-24 sm:w-24">
+            <Image
+              src={imageUrl(logo)}
+              alt={`${storeInfo?.shop_name || "Store"} logo`}
+              fill
+              sizes="96px"
+              className="object-cover"
+            />
+          </div>
+
+          <div className="min-w-0 flex-1 sm:pb-1">
+            <h1 className="text-xl font-bold tracking-tight text-gray-900 md:text-2xl">
               {storeInfo?.shop_name}
             </h1>
-
-            <p className="text-sm md:text-lg font-semibold max-w-lg flex gap-1.5 items-center">
-              <FaPhone className="shrink-0 text-xs md:text-sm" />
-              <span>{storeInfo?.contact_no}</span>
-            </p>
-
-            <p className="mt-1 text-sm md:text-lg font-semibold max-w-lg flex gap-1 items-start">
-              <span>
-                <MdLocationOn className="lg:text-xl mt-1" />
-              </span>
-              <span className="line-clamp-3 md:line-clamp-none">
-                {storeInfo?.shop_address}
-              </span>
-            </p>
+            <div className="mt-1.5 flex flex-col gap-1 text-sm text-gray-500 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5">
+              {storeInfo?.contact_no && (
+                <a
+                  href={`tel:${storeInfo.contact_no}`}
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-gray-900"
+                >
+                  <HiOutlinePhone className="shrink-0" />
+                  <span className="tabular-nums">{storeInfo.contact_no}</span>
+                </a>
+              )}
+              {storeInfo?.shop_address && (
+                <span className="inline-flex items-start gap-1.5">
+                  <HiOutlineMapPin className="mt-0.5 shrink-0" />
+                  <span>{storeInfo.shop_address}</span>
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="flex flex-col justify-center items-center min-h-80 text-gray bg-gray-50 rounded-md">
-          <p className="py-3 font-semibold text-2xl text-primary text-center">
-            {storeInfo?.popup_message}
-          </p>
-        </div>
-      </CommonModal> */}
-
       <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="relative w-full max-w-md mx-auto bg-white rounded-xl shadow-xl px-6 pb-6 md:px-8 md:pb-8">
-          {/* <div className="flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mx-auto mb-4">
-            <svg
-              className="w-7 h-7 text-yellow-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 100-12 6 6 0 000 12z"
-              />
-            </svg>
-          </div> */}
-
+        <div className="relative mx-auto w-full max-w-md rounded-2xl bg-white px-6 pb-6 md:px-8 md:pb-8">
           <DotLottieReact
             src="https://lottie.host/a93cc943-48e2-47b5-91bb-6c41e7a3071c/DLXos4RSOw.lottie"
             loop
             autoplay
           />
 
-          {/* <h2 className="text-xl md:text-2xl font-semibold text-yellow-500 text-center mb-2">
-            Important Notice
-          </h2> */}
-
-          <p className="text-gray-600 text-center leading-relaxed mb-6">
+          <p className="mb-6 text-center leading-relaxed text-gray-600">
             {storeInfo?.popup_message}
           </p>
 
           <div className="flex justify-center">
             <button
+              type="button"
               onClick={closeModal}
-              className="px-6 py-2.5 rounded-md bg-yellow-500 text-white font-medium
-                   hover:bg-yellow-600/90 transition-all duration-200"
+              className={`${PRIMARY_BUTTON} min-w-32`}
             >
               Got it
             </button>
@@ -143,18 +134,3 @@ const StoreBanner = () => {
 };
 
 export default StoreBanner;
-
-// "use client";
-
-// const StoreBanner = () => {
-//   const params = useParams();
-//   const storeId = params?.shopSlugId?.split("_")[1];
-
-//   const { useStoreInfo } = useStoreItems();
-//   const { data: storeInfo, isLoading } = useStoreInfo(storeId);
-
-//   if (isLoading) return <Loader />;
-
-//         {/* <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
-
-// export default StoreBanner;

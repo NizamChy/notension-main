@@ -7,7 +7,9 @@ import PopularTypeSection from "./PopularTypeSection";
 const MensWear = () => (
   <PopularTypeSection
     typeId={MEN_TYPE_ID}
-    title="Men's Wear"
+    typeSlug="men"
+    title="Men's wear"
+    subtitle="Panjabis, shirts and everyday essentials"
     errorText="Failed to load mens products"
   />
 );

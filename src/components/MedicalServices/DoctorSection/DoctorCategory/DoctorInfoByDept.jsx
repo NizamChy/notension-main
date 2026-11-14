@@ -2,9 +2,10 @@
 
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
+import { LuStethoscope } from "react-icons/lu";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { EmptyState, PageHeader } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NearestDoctorSlider from "../NearestDoctor/NearestDoctorSlider";
@@ -13,6 +14,11 @@ import {
   MedicalPageBody,
   MedicalSectionTitle,
 } from "../../Layout/MedicalLayout";
+import {
+  DoctorCardSkeleton,
+  InlineSpinner,
+  SkeletonGrid,
+} from "../../Layout/MedicalUI";
 
 const DoctorInfoByDept = () => {
   const [pageNo, setPageNo] = useState(1);
@@ -24,6 +30,7 @@ const DoctorInfoByDept = () => {
   const { currentDept } = useSelector((state) => state.doctorInfo);
 
   const deptId = params?.deptId || null;
+  const deptName = currentDept?.dept_name;
 
   useEffect(() => {
     getDoctorsInfoByDistrict(deptId, setDoctorsInfo, pageNo, setPageNo);
@@ -31,15 +38,34 @@ const DoctorInfoByDept = () => {
 
   return (
     <MedicalPageBody>
+      <PageHeader
+        className="!mb-0"
+        back="/medical-services/doctor"
+        backLabel="All departments"
+        title={deptName ? `${deptName} specialists` : "Specialists"}
+        subtitle={
+          currentDept?.dept_name_bn
+            ? `${currentDept.dept_name_bn} বিশেষজ্ঞ ডাক্তার`
+            : "Doctors in your district, ready to book."
+        }
+      />
+
       <NearestDoctorSlider hideWhenEmpty wide />
 
       <section>
-        <MedicalSectionTitle>
-          Doctors Info
-          {currentDept?.dept_name ? ` (${currentDept.dept_name})` : ""}
+        <MedicalSectionTitle
+          subtitle={
+            doctorsInfo?.length > 0
+              ? `${doctorsInfo.length}${loadingMore && !allLoaded ? "+" : ""} doctors found`
+              : null
+          }
+        >
+          Doctors{deptName ? ` in ${deptName}` : ""}
         </MedicalSectionTitle>
 
-        {!allLoaded && doctorsInfo?.length < 1 && <Loader />}
+        {!allLoaded && doctorsInfo?.length < 1 && (
+          <SkeletonGrid count={6} item={DoctorCardSkeleton} />
+        )}
 
         {doctorsInfo && doctorsInfo?.length > 0 ? (
           <InfiniteScroll
@@ -53,7 +79,7 @@ const DoctorInfoByDept = () => {
               );
             }}
             hasMore={loadingMore}
-            loader={<Loader />}
+            loader={<InlineSpinner />}
             style={{ overflow: "visible" }}
           >
             <MedicalCardGrid>
@@ -65,9 +91,11 @@ const DoctorInfoByDept = () => {
         ) : null}
 
         {allLoaded && doctorsInfo?.length < 1 && (
-          <p className="py-16 text-center text-mediumGray">
-            No doctor found in this department.
-          </p>
+          <EmptyState
+            icon={<LuStethoscope />}
+            title="No doctor found in this department"
+            text="Try another department or look for doctors near you."
+          />
         )}
       </section>
     </MedicalPageBody>

@@ -1,4 +1,4 @@
-import Navbar from "@/components/Food/Navbar/Navbar";
+import Navbar from "@/components/shared/Navbar/Navbar";
 
 export const metadata = {
   title: "Food",
@@ -10,7 +10,7 @@ export default function FoodLayout({ children }) {
   return (
     <>
       <Navbar />
-      <div className="pt-16">{children}</div>
+      <div className="pt-16 lg:pt-[72px]">{children}</div>
     </>
   );
 }

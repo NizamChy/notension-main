@@ -1,25 +1,24 @@
 import React from "react";
-import BottomSection from "./BottomSection";
-import SecondSection from "./SecondSection";
-import MiddleSection from "./MiddleSection";
-import TopLeftSection from "./TopLeftSection";
-import TopRightSection from "./TopRightSection";
-import FavoriteSection from "../FavoriteSection/FavoriteSection";
+import HeroSection from "./HeroSection";
+import QuickAccess from "./QuickAccess";
+import ShopCategories from "./ShopCategories";
+import HealthcareSection from "./HealthcareSection";
+import CareSection from "./CareSection";
+import HowItWorks from "./HowItWorks";
+import AppDownload from "./AppDownload";
 
 const LandingPage = () => {
   return (
-    <div className="w-full max-w-[1312px] mx-auto px-3 md:px-4 pb-8 md:pb-10 overflow-hidden flex flex-col gap-3 md:gap-4">
-      <FavoriteSection />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
-        <TopLeftSection />
-        <TopRightSection />
+    <div className="mx-auto flex w-full max-w-[1312px] flex-col gap-12 px-4 pb-14 pt-4 md:gap-20 md:pb-20 md:pt-6">
+      <div className="flex flex-col gap-4">
+        <HeroSection />
+        <QuickAccess />
       </div>
-
-      <SecondSection />
-
-      <MiddleSection />
-
-      <BottomSection />
+      <ShopCategories />
+      <HealthcareSection />
+      <CareSection />
+      <HowItWorks />
+      <AppDownload />
     </div>
   );
 };

@@ -3,10 +3,8 @@
 import toast from "react-hot-toast";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import StoreList from "./StoreList";
 import { getStoreModule, toSlug } from "./storeModules";
-import ShopInfoCard from "../ShopInfoSection/ShopInfoCard";
-import NoStoreFound from "../ShopInfoSection/NoStoreFound";
-import ShopInfoCardSkeleton from "../ShopInfoSection/ShopInfoCardSkeleton";
 
 const SearchedStores = ({ moduleName }) => {
   const [nearestInfo, setNearestInfo] = useState([]);
@@ -44,33 +42,16 @@ const SearchedStores = ({ moduleName }) => {
   }, [searchText]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
-      <h4 className="text-base md:text-xl font-medium text-gray-500 mb-4 md:mb-6">
-        Store found for{" "}
-        <span className="text-gray-700">&ldquo;{searchText}&rdquo;</span>
-      </h4>
-
-      {!progressing && nearestInfo?.length < 1 && <NoStoreFound />}
-
-      {progressing && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <ShopInfoCardSkeleton key={index} />
-          ))}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-        {nearestInfo?.map((shop) => (
-          <ShopInfoCard
-            onClick={() => handleStoreClick(shop)}
-            key={shop?._id}
-            shop={shop}
-            type={moduleName}
-          />
-        ))}
-      </div>
-    </div>
+    <StoreList
+      moduleName={moduleName}
+      title={searchText ? `Stores matching “${searchText}”` : "Search stores"}
+      subtitle={searchText ? null : "Type a store name in the search bar above."}
+      shops={nearestInfo}
+      isLoading={progressing}
+      onShopClick={handleStoreClick}
+      emptyTitle="No matching stores"
+      emptyText="Check the spelling or try a shorter store name."
+    />
   );
 };
 

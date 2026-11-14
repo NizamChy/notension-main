@@ -62,13 +62,13 @@ const StoreSidebarItems = ({ onClose }) => {
   if (!storeNavItems || storeNavItems?.length === 0) return null;
 
   return (
-    <div className="bg-white max-h-[90vh] overflow-y-auto">
-      <div className="p-4 border-b">
-        <ul className="space-y-4">
+    <div>
+      <div className="border-b border-gray-100 pb-3">
+        <ul className="space-y-0.5">
           {storeNavItems?.slice(0, 7)?.map((navItem) => (
             <li key={navItem?.type_name}>
               <button
-                className="flex items-center text-start justify-between w-full font-medium hover:text-blue-600 transition-colors duration-200"
+                className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-start text-[15px] font-semibold text-gray-900 transition-colors hover:bg-gray-50"
                 onClick={() =>
                   setActiveMenu(
                     activeMenu === navItem?.type_name
@@ -92,16 +92,16 @@ const StoreSidebarItems = ({ onClose }) => {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="pl-4 mt-2 space-y-3 border-s">
+                <div className="mb-2 ml-4 space-y-0.5 border-l border-gray-200 pl-2">
                   {navItem?.categories?.map((cat) => (
-                    <div key={cat?.name} className="mb-4">
+                    <div key={cat?.name}>
                       <button
                         onClick={() =>
                           setActiveCatMenu(
                             activeCatMenu === cat?.name ? null : cat?.name
                           )
                         }
-                        className="font-medium mb-2 flex items-center justify-between w-full text-gray-800 hover:text-blue-600 transition-colors duration-200"
+                        className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-start text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
                       >
                         {cat?.name}
                         <BsChevronDown
@@ -118,7 +118,7 @@ const StoreSidebarItems = ({ onClose }) => {
                             : "max-h-0 opacity-0"
                         }`}
                       >
-                        <ul className="pl-2 space-y-2 border-s">
+                        <ul className="mb-1 ml-3 space-y-0.5 border-l border-gray-100 pl-2">
                           {cat?.subcategories?.map((subcat) => (
                             <li key={subcat?.id}>
                               <Link
@@ -128,7 +128,7 @@ const StoreSidebarItems = ({ onClose }) => {
                                   cat?.category_id
                                 }_${slugify(subcat?.name)}_${subcat?.id}`}
                                 onClick={() => onClose()}
-                                className="text-gray-600 hover:text-blue-600 text-sm transition-colors duration-200 block py-1"
+                                className="block rounded-lg px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 hover:text-[#D9481C] dark:hover:text-[#FF8A5B]"
                               >
                                 {subcat?.name}
                               </Link>
@@ -144,12 +144,12 @@ const StoreSidebarItems = ({ onClose }) => {
           ))}
         </ul>
       </div>
-      <div className="p-4">
-        <div className="flex flex-col space-y-4">
+      <div className="pt-3">
+        <div className="flex flex-col space-y-0.5">
           <Link href="/fashion-lifestyle/user/profile">
             <button
               onClick={() => onClose()}
-              className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
             >
               <BsPerson className="text-lg" />
               <span>Account</span>
@@ -159,7 +159,7 @@ const StoreSidebarItems = ({ onClose }) => {
           <Link href="/fashion-lifestyle/wishlist">
             <button
               onClick={() => onClose()}
-              className="flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
             >
               <IoMdHeartEmpty className="text-lg" />
               <span>Wishlist</span>

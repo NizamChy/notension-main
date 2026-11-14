@@ -2,9 +2,10 @@
 
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { TbCurrencyTaka } from "react-icons/tb";
 import { CART_MODULES } from "./cartModules";
+import { PriceRow, formatTaka } from "../shared/CartUI/CartUI";
 
+// Subtotal, delivery, discount and total for the cart drawer.
 // Render with key={moduleName} (see CartItems).
 const CartSummary = ({ moduleName }) => {
   const { totalKey, useOrder } = CART_MODULES[moduleName];
@@ -18,40 +19,14 @@ const CartSummary = ({ moduleName }) => {
   }, [total]);
 
   return (
-    <>
-      <p className="mt-1 flex justify-between text-sm text-gray-600">
-        <span>Delivery Charge</span>
-        <span className="flex items-center">
-          <span>
-            <TbCurrencyTaka />
-          </span>
-          {shippingCharge || 0}
-        </span>
-      </p>
-
+    <div className="space-y-2">
+      <PriceRow label="Subtotal" value={formatTaka(total)} />
+      <PriceRow label="Delivery charge" value={formatTaka(shippingCharge)} />
       {discount > 0 && (
-        <p className="mt-1 flex justify-between text-sm text-gray-600">
-          <span>Discount</span>
-          <span className="flex items-center">
-            <span>
-              <TbCurrencyTaka />
-            </span>
-            {discount || 0}
-          </span>
-        </p>
+        <PriceRow label="Discount" value={`− ${formatTaka(discount)}`} />
       )}
-
-      <p className="mt-2 pt-2 border-t border-dashed flex justify-between text-base">
-        <span className="font-semibold">Total Amount</span>
-        <span className="font-semibold flex items-center">
-          <span>
-            <TbCurrencyTaka />
-          </span>
-
-          {grandTotal || 0}
-        </span>
-      </p>
-    </>
+      <PriceRow label="Total" value={formatTaka(grandTotal)} strong />
+    </div>
   );
 };
 

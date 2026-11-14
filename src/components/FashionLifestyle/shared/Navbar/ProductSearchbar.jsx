@@ -1,70 +1,55 @@
 "use client";
 
 import React, { useState } from "react";
-import { IoSearch } from "react-icons/io5";
+import { HiChevronDown } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import SearchInput from "@/components/shared/Search/SearchInput";
 import navItems from "../../../../../public/data/navItems.json";
 
-const ProductSearchbar = () => {
+const TYPES = navItems.slice(0, 7);
+
+// Fashion product search: pick a product type, then search inside it.
+// `onSubmitted` runs after a search starts (the navbar closes its panel).
+const ProductSearchbar = ({ autoFocus = false, onSubmitted }) => {
   const [searchText, setSearchText] = useState("");
+  const [selectedType, setSelectedType] = useState(TYPES[0]?.type_id || "");
   const router = useRouter();
 
-  const firstRowItems = navItems.slice(0, 7);
-
-  const [selectedType, setSelectedType] = useState(
-    firstRowItems[0]?.type_id || ""
-  );
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-
-    if (selectedType && searchText.trim().length > 2) {
-      router.push(
-        `/fashion-lifestyle/search-product?query=${searchText}&type_id=${selectedType}`
-      );
-    }
+  const handleSearch = (query) => {
+    if (!selectedType || query.length <= 2) return;
+    router.push(
+      `/fashion-lifestyle/search-product?query=${encodeURIComponent(query)}&type_id=${selectedType}`,
+    );
+    onSubmitted?.();
   };
 
+  const typeSelect = (
+    <span className="relative flex h-full shrink-0 items-center border-r border-gray-200">
+      <select
+        aria-label="Product type"
+        value={selectedType}
+        onChange={(e) => setSelectedType(e.target.value)}
+        className="h-full max-w-[6.5rem] cursor-pointer appearance-none truncate rounded-l-full bg-transparent pl-4 pr-7 text-sm font-medium text-gray-700 focus:outline-none sm:max-w-none"
+      >
+        {TYPES.map((item) => (
+          <option key={item?.type_id} value={item?.type_id}>
+            {item?.type_name}
+          </option>
+        ))}
+      </select>
+      <HiChevronDown className="pointer-events-none absolute right-3 text-gray-400" />
+    </span>
+  );
+
   return (
-    <div className="flex justify-center items-center px-4">
-      <div className="w-full max-w-xl">
-        <form
-          onSubmit={handleSearchSubmit}
-          className="flex items-center bg-white shadow-md rounded-full overflow-hidden border border-gray-300"
-        >
-          {/* Dropdown */}
-          <select
-            className="bg-transparent px-4 py-2 text-gray-700 text-sm focus:outline-none cursor-pointer border-r border-gray-300"
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-          >
-            {firstRowItems?.map((item) => (
-              <option key={item?.type_id} value={item?.type_id}>
-                {item?.type_name}
-              </option>
-            ))}
-          </select>
-
-          {/* Search Input */}
-          <input
-            type="search"
-            className="flex-1 px-4 py-2 bg-transparent text-gray-700 text-sm focus:outline-none"
-            placeholder="Search products..."
-            autoComplete="off"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-
-          {/* Search Button */}
-          <button
-            type="submit"
-            className="me-1.5 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-all"
-          >
-            <IoSearch className="text-lg" />
-          </button>
-        </form>
-      </div>
-    </div>
+    <SearchInput
+      leading={typeSelect}
+      value={searchText}
+      onChange={setSearchText}
+      onSubmit={handleSearch}
+      autoFocus={autoFocus}
+      placeholder="Search products"
+    />
   );
 };
 

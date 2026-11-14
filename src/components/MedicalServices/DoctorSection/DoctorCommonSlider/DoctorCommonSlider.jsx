@@ -20,15 +20,15 @@ const DoctorCommonSlider = ({ slider, className = "", wide = false }) => {
     <div
       className={`relative w-full aspect-[2/1] ${
         wide ? "md:aspect-[3/1]" : ""
-      } rounded-xl overflow-hidden bg-gray-100 ${className}`}
+      } overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 ${className}`}
     >
       {slider?.length > 0 ? (
         <Swiper
           style={{
             "--swiper-pagination-color": "#EB5C2F",
-            "--swiper-pagination-bullet-size": "10px",
+            "--swiper-pagination-bullet-size": "8px",
             "--swiper-pagination-bullet-horizontal-gap": "5px",
-            "--swiper-pagination-bullet-inactive-opacity": "1",
+            "--swiper-pagination-bullet-inactive-opacity": "0.7",
             "--swiper-pagination-bullet-inactive-color": "#FFF",
           }}
           slidesPerView={1}

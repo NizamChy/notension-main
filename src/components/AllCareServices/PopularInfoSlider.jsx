@@ -2,87 +2,76 @@
 
 import "swiper/css";
 import React, { useState } from "react";
-import Image from "next/image";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { GrPrevious, GrNext } from "react-icons/gr";
-import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { SectionTitle } from "@/components/shared/UI/UI";
+import NearestInfoCard from "./NearestInfoCard";
+import { SLIDER_ARROW } from "./ServicesSlider";
 
+// Top-rated providers in the district, as a swipeable row of cards.
 const PopularInfoSlider = ({ slider }) => {
   // Each slider binds its own arrow elements (no shared DOM ids).
   const [prevEl, setPrevEl] = useState(null);
   const [nextEl, setNextEl] = useState(null);
 
+  if (!(slider?.length > 0)) return null;
+
   return (
-    <>
-      {slider?.length > 0 && (
-        <div>
-          <h2 className="text-lg md:text-2xl font-semibold mb-3 md:mb-5 text-[#0C3F8E]">
-            Popular Information
-          </h2>
+    <section>
+      <SectionTitle
+        title="Popular providers"
+        subtitle="Top-rated by customers in your area"
+      />
 
-          <div className="relative flex justify-center items-center">
-            <button
-              type="button"
-              aria-label="Previous slide"
-              className="hidden md:block absolute top-1/2 left-0 z-10 -translate-x-1/2 -translate-y-1/2 p-2.5 bg-white rounded-full shadow-md hover:bg-gray-100 text-[#0C3F8E]"
-              ref={setPrevEl}
-            >
-              <GrPrevious />
-            </button>
+      <div className="relative">
+        <button
+          type="button"
+          aria-label="Previous providers"
+          className={`${SLIDER_ARROW} left-0 -translate-x-1/2`}
+          ref={setPrevEl}
+        >
+          <HiChevronLeft aria-hidden="true" />
+        </button>
 
-            <button
-              type="button"
-              aria-label="Next slide"
-              className="hidden md:block absolute top-1/2 right-0 z-10 translate-x-1/2 -translate-y-1/2 p-2.5 bg-white rounded-full shadow-md hover:bg-gray-100 text-[#0C3F8E]"
-              ref={setNextEl}
-            >
-              <GrNext />
-            </button>
+        <button
+          type="button"
+          aria-label="Next providers"
+          className={`${SLIDER_ARROW} right-0 translate-x-1/2`}
+          ref={setNextEl}
+        >
+          <HiChevronRight aria-hidden="true" />
+        </button>
 
-            <div className="w-full flex justify-center mx-auto items-center">
-              <Swiper
-                slidesPerView={1.15}
-                spaceBetween={12}
-                loop={slider?.length >= 6}
-                rewind={slider?.length < 6}
-                navigation={{ prevEl, nextEl }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                  },
-                  1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 24,
-                  },
-                }}
-                modules={[Navigation]}
-                className="mx-auto w-full"
-              >
-                {slider?.map((slide) => (
-                  <SwiperSlide
-                    key={slide?._id}
-                    className="flex justify-center items-center"
-                  >
-                    <div className="w-full aspect-[2/1] overflow-hidden rounded-lg bg-gray-50 cursor-pointer">
-                      <Image
-                        className="w-full h-full object-cover"
-                        src={`${SERVICE_PROVIDER_IMAGES}/${slide?.provider_banner_app}`}
-                        alt={slide?.provider_name}
-                        width={455}
-                        height={228}
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+        <Swiper
+          slidesPerView={1.15}
+          spaceBetween={12}
+          loop={slider?.length >= 6}
+          rewind={slider?.length < 6}
+          navigation={{ prevEl, nextEl }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 16,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+          }}
+          modules={[Navigation]}
+          // Bottom padding keeps the cards' hover shadow from being clipped.
+          className="w-full !pb-2"
+        >
+          {slider?.map((provider) => (
+            <SwiperSlide key={provider?._id} className="!h-auto pt-1">
+              <NearestInfoCard provider={provider} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </section>
   );
 };
 

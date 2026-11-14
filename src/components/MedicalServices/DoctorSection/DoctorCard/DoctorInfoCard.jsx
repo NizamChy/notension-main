@@ -37,14 +37,20 @@ const DoctorInfoCard = ({ doctor, isVisited = false }) => {
     );
   };
 
+  const info = doctor?.doctorInfo;
+
   return (
     <DoctorCardView
       onClick={(e) => handleDoctorClick(e, doctor)}
-      name={doctor?.doctorInfo?.doctor_name}
-      gender={doctor?.doctorInfo?.gender}
-      speciality={doctor?.doctorInfo?.speciality}
-      qualifications={doctor?.doctorInfo?.qualifications}
-      footer={isVisited ? null : doctor?.consultationCenterInfo?.center_name}
+      info={info}
+      name={info?.doctor_name}
+      speciality={info?.speciality}
+      qualifications={info?.qualifications}
+      experience={info?.experience_years}
+      rating={info?.rating}
+      fee={doctor?.consultation_fee ?? info?.consultation_fee}
+      center={isVisited ? null : doctor?.consultationCenterInfo?.center_name}
+      distance={doctor?.distance}
     />
   );
 };

@@ -1,7 +1,9 @@
 "use client";
 
 import Title from "../CategorySection/Title";
+import FashionSection from "../shared/FashionSection";
 import SubCategoryCard from "../shared/Card/SubCategoryCard";
+import { CATEGORY_GRID_CLASS } from "../shared/Card/CategoryCard";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
 import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
@@ -9,37 +11,45 @@ const SubCategoryItems = ({
   cat,
   catId,
   title = "Category",
-  bgColor = "bg-white",
-  gridClass = "grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6",
+  href,
+  bgColor = "",
+  gridClass = CATEGORY_GRID_CLASS,
 }) => {
   const { useSubCategoryById } = useCategoryItem();
   const { data: subCategories, isLoading, isError } = useSubCategoryById(catId);
 
-  if (isLoading)
+  if (isLoading) return <CategorySkeleton className={bgColor} />;
+  if (isError)
     return (
-      <CategorySkeleton gridClass="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6" />
+      <FashionSection className={bgColor}>
+        <Title title={title} />
+        <p className="py-6 text-center text-sm text-[#D92D20]">
+          Error loading sub categories
+        </p>
+      </FashionSection>
     );
-  if (isError) return <div>Error loading sub categories</div>;
   if (!subCategories || subCategories?.length < 1) return null;
 
   return (
-    <section
-      className={`py-6 md:py-10 px-4 sm:px-6 lg:px-8 ${bgColor}`}
-    >
-      <div className="max-w-7xl mx-auto">
-        <Title title={title} />
+    <FashionSection className={bgColor}>
+      <Title
+        title={title}
+        subtitle={`${subCategories.length} ${
+          subCategories.length === 1 ? "style" : "styles"
+        }`}
+        href={href}
+      />
 
-        <div className={`${gridClass}`}>
-          {subCategories?.map((subCategory) => (
-            <SubCategoryCard
-              key={subCategory?._id?.toString()}
-              subCategory={subCategory}
-              cat={cat}
-            />
-          ))}
-        </div>
+      <div className={gridClass}>
+        {subCategories?.map((subCategory) => (
+          <SubCategoryCard
+            key={subCategory?._id?.toString()}
+            subCategory={subCategory}
+            cat={cat}
+          />
+        ))}
       </div>
-    </section>
+    </FashionSection>
   );
 };
 

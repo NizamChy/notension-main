@@ -5,119 +5,108 @@ import Title from "./Title";
 import Link from "next/link";
 import Image from "next/image";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 import { slugify } from "../utils/slugify";
+import { HiArrowRight } from "react-icons/hi";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { GrNext, GrPrevious } from "react-icons/gr";
+import { Skeleton } from "@/components/shared/UI/UI";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
+import FashionSection, { SliderNav } from "../shared/FashionSection";
 import { useCategoryItem } from "../hooks/fetchData/useCategoryItem";
-import CategorySkeleton from "../shared/SkeletonLoading/CategorySkeleton";
 
 const AllTypesSlider = () => {
   const { allType, isLoading, isError } = useCategoryItem();
 
-  if (isLoading) return <CategorySkeleton />;
+  if (isLoading)
+    return (
+      <FashionSection className="bg-gray-50">
+        <Skeleton className="mb-6 h-7 w-1/2 !rounded-full sm:w-1/3 lg:w-1/4" />
+        <div className="flex gap-4 overflow-hidden lg:gap-6" aria-hidden>
+          {[...Array(5)].map((_, i) => (
+            <Skeleton
+              key={i}
+              className="aspect-[3/4] w-[45%] shrink-0 !rounded-2xl sm:w-[30%] lg:w-[19%]"
+            />
+          ))}
+        </div>
+      </FashionSection>
+    );
 
   if (isError) {
     return (
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <Title title="Shop By Category" />
-          <div className="text-center text-red-500 py-10">
-            Failed to load categories
-          </div>
-        </div>
-      </section>
+      <FashionSection className="bg-gray-50">
+        <Title title="Shop by collection" />
+        <p className="py-6 text-center text-sm text-[#D92D20]">
+          Failed to load categories
+        </p>
+      </FashionSection>
     );
   }
 
+  if (!allType || allType?.length === 0) return null;
+
   return (
-    <section className="py-6 md:py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div
-        style={{
-          "--swiper-navigation-size": "24px",
-          "--swiper-pagination-bullet-size": "10px",
-          "--swiper-pagination-bullet-inactive-opacity": "0.5",
-          "--swiper-pagination-bullet-horizontal-gap": "6px",
+    <FashionSection className="bg-gray-50">
+      <Title
+        title="Shop by collection"
+        action={
+          <SliderNav
+            prevClass="custom-swiper-button-prev-cat2"
+            nextClass="custom-swiper-button-next-cat2"
+            label="collections"
+          />
+        }
+      />
+
+      <Swiper
+        modules={[Navigation, Autoplay]}
+        spaceBetween={12}
+        slidesPerView={2.2}
+        navigation={{
+          nextEl: ".custom-swiper-button-next-cat2",
+          prevEl: ".custom-swiper-button-prev-cat2",
         }}
-        className="max-w-7xl mx-auto"
+        autoplay={{ delay: 3500, pauseOnMouseEnter: true }}
+        loop={allType.length > 5}
+        breakpoints={{
+          640: { slidesPerView: 3.3, spaceBetween: 16 },
+          1024: { slidesPerView: 5, spaceBetween: 24 },
+        }}
       >
-        <Title title="Shop By Category" />
-
-        <div className="relative">
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={12}
-            slidesPerView={3}
-            navigation={{
-              nextEl: ".custom-swiper-button-next-cat2",
-              prevEl: ".custom-swiper-button-prev-cat2",
-            }}
-            pagination={{
-              clickable: true,
-              el: ".custom-swiper-pagination",
-              bulletClass: "custom-swiper-pagination-bullet",
-              bulletActiveClass: "custom-swiper-pagination-bullet-active",
-            }}
-            autoplay={{ delay: 2000 }}
-            loop={true}
-            breakpoints={{
-              640: { slidesPerView: 4, spaceBetween: 16 },
-              1024: { slidesPerView: 6, spaceBetween: 24 },
-            }}
-          >
-            {allType?.map((type) => (
-              <SwiperSlide
-                key={type?._id?.toString()}
-                className="group relative rounded-lg transition-shadow duration-300"
-              >
-                <Link
-                  href={`/fashion-lifestyle/type/${slugify(type?.type_name)}_${
-                    type?._id
-                  }`}
-                  className="block"
-                  aria-label={`Browse ${type?.type_name} category`}
-                >
-                  <div className="aspect-square rounded-lg overflow-hidden bg-white">
-                    <Image
-                      src={
-                        type?.type_img
-                          ? `${FASHION_IMAGE_URL}/${type?.type_img}`
-                          : "/png/dummyImage.png"
-                      }
-                      alt={type?.type_name}
-                      width={400}
-                      height={400}
-                      className="w-full h-full object-cover rounded-lg"
-                      priority={false}
-                    />
-                  </div>
-
-                  <h3 className="mt-2 text-xs sm:text-sm lg:text-base text-center font-semibold text-gray-800 leading-snug line-clamp-2 group-hover:underline">
-                    {type?.type_name}
-                  </h3>
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          <button
-            aria-label="Next category"
-            className="custom-swiper-button-next-cat2 absolute top-[40%] right-0 translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
-          >
-            <GrNext />
-          </button>
-
-          <button
-            aria-label="Previous category"
-            className="custom-swiper-button-prev-cat2 absolute top-[40%] left-0 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-black hidden md:flex items-center justify-center shadow-sm cursor-pointer text-[var(--swiper-navigation-size)] font-bold hover:bg-white transition-colors"
-          >
-            <GrPrevious />
-          </button>
-        </div>
-      </div>
-    </section>
+        {allType?.map((type) => (
+          <SwiperSlide key={type?._id?.toString()}>
+            <Link
+              href={`/fashion-lifestyle/type/${slugify(type?.type_name)}_${
+                type?._id
+              }`}
+              aria-label={`Browse ${type?.type_name}`}
+              className="group relative block aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100"
+            >
+              <Image
+                src={
+                  type?.type_img
+                    ? `${FASHION_IMAGE_URL}/${type?.type_img}`
+                    : "/png/dummyImage.png"
+                }
+                alt={type?.type_name || "Collection"}
+                fill
+                sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 45vw"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent px-3 pb-3 pt-12 sm:px-4 sm:pb-4">
+                <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[#FFFFFF] sm:text-base">
+                  {type?.type_name}
+                </h3>
+                <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-[#FFFFFF]/80">
+                  Explore
+                  <HiArrowRight className="transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </FashionSection>
   );
 };
 

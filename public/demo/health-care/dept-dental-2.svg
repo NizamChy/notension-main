@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><rect width="600" height="300" rx="16" fill="#0C3F8E"/><circle cx="540" cy="45" r="105" fill="#fff" opacity=".18"/><circle cx="132" cy="150" r="85.5" fill="#fff" opacity=".85"/><path d="M92.1 110.1q39.9 -17.099999999999998 79.8 0q11.4 45.6 -11.4 91.2q-11.4 -34.199999999999996 -28.5 -34.199999999999996q-17.099999999999998 0 -28.5 34.199999999999996q-22.8 -45.6 -11.4 -91.2z" fill="#0C3F8E"/><text x="240" y="144" font-family="Arial,Helvetica,sans-serif" font-size="33" font-weight="700" fill="#fff" text-anchor="start">Dental</text><text x="240" y="183.6" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#fff" opacity=".9" text-anchor="start">Find a specialist</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#0E7490"/></linearGradient></defs>
+<rect width="600" height="300" fill="url(#g)"/>
+<circle cx="570" cy="20" r="126" fill="#fff" opacity=".10"/>
+<circle cx="18" cy="290" r="84.00000000000001" fill="#fff" opacity=".08"/>
+<circle cx="150" cy="150" r="84" fill="#fff" opacity=".22"/><circle cx="150" cy="150" r="74" fill="#fff"/>
+<g transform="translate(104.12 104.12) scale(1.9116666666666668)" color="#0E7490"><path d="M15 7c-6 0-9 4-9 10 0 6 3 9 4 16 1 7 2 9 4.5 9 3.5 0 3-11 7-11h5c4 0 3.5 11 7 11 2.5 0 3.5-2 4.5-9 1-7 4-10 4-16 0-6-3-10-9-10-3.5 0-5.5 2-9 2s-5.5-2-9-2z" fill="currentColor"/></g>
+<text x="270" y="134" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="34" font-weight="700" fill="#fff">Dental</text>
+<text x="270" y="172" font-family="'Nirmala UI','Noto Sans Bengali','Bangla Sangam MN',Vrinda,sans-serif" font-size="21" font-weight="600" fill="#fff" fill-opacity=".9">দন্ত</text>
+<text x="270" y="208" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="17" fill="#fff" fill-opacity=".85">Teeth &amp; gum care</text></svg>

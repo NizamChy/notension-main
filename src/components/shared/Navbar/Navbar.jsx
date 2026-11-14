@@ -1,198 +1,263 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { BiLogOut } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { useParams, usePathname } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
-import { usePathname } from "next/navigation";
 import { FaUserDoctor } from "react-icons/fa6";
-import { IoLocationOutline } from "react-icons/io5";
-import { useEffect, useRef, useState } from "react";
+import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { IoLocationOutline, IoSearch } from "react-icons/io5";
+import AccountMenu from "./AccountMenu";
+import { NAV_ICON_BUTTON } from "./navStyles";
 import LoginButton from "../NavbarLogin/LoginButton";
-import { useUser } from "@/hooks/fetch-data/useUser";
 import LocationModal from "../LocationModal/LocationModal";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import SearchBar from "@/components/StoreModule/SearchBar";
+import ProductSearchbar from "@/components/FashionLifestyle/shared/Navbar/ProductSearchbar";
 
-const Navbar = () => {
-  const [dropDownState, setDropDownState] = useState(false);
+// Main sections. `match` is the path prefix that marks the link active.
+const NAV_LINKS = [
+  { label: "Grocery", href: "/grocery/home", match: "/grocery" },
+  { label: "Medicine", href: "/medicine/home", match: "/medicine" },
+  { label: "Food", href: "/food", match: "/food" },
+  { label: "Fashion", href: "/fashion-lifestyle", match: "/fashion-lifestyle" },
+  { label: "Doctors", href: "/medical-services/doctor", match: "/medical-services" },
+  { label: "Care services", href: "/all-care-services", match: "/all-care-services" },
+];
 
+// Search boxes the navbar can open. `close` hides the panel after a search.
+const SEARCHES = {
+  grocery: (close) => (
+    <SearchBar moduleName="grocery" autoFocus onSubmitted={close} />
+  ),
+  medicine: (close) => (
+    <SearchBar moduleName="medicine" autoFocus onSubmitted={close} />
+  ),
+  fashion: (close) => <ProductSearchbar autoFocus onSubmitted={close} />,
+};
+
+const FASHION_ACCOUNT_ITEMS = [
+  { href: "/fashion-lifestyle/orders", label: "My orders", Icon: BsCartCheck },
+  { href: "/fashion-lifestyle/wishlist", label: "Wishlist", Icon: IoMdHeartEmpty },
+  { href: "/fashion-lifestyle/user/profile", label: "Profile", Icon: CgProfile },
+  {
+    href: "/fashion-lifestyle/user/update-address",
+    label: "Update address",
+    Icon: IoLocationOutline,
+  },
+];
+
+// The site-wide top bar.
+// - `search`: "grocery" | "medicine" | "fashion" adds a search button that
+//   opens the search box in place of the bar
+// - `leading`: control before the logo (e.g. a category drawer button)
+// - `actions`: extra buttons before the account menu (e.g. shopping bag)
+const Navbar = ({ search, leading, actions }) => {
   const pathname = usePathname();
-  const dropDownMenuRef = useRef();
-
-  const { handleUserLogout } = useUser();
-
+  const params = useParams();
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  let category = "";
-
-  if (pathname.includes("/grocery")) {
-    category = "grocery";
-  } else if (pathname.includes("/medicine")) {
-    category = "medicine";
-  } else if (pathname.includes("/food")) {
-    category = "food";
-  } else if (pathname.includes("/all-care-services")) {
-    category = "all-care-services";
-  }
-
-  const handleLogout = () => {
-    handleUserLogout();
+  // Panels remember the path they were opened on, so they close by
+  // themselves after navigating.
+  const [menuOpenOn, setMenuOpenOn] = useState(null);
+  const [searchOpenOn, setSearchOpenOn] = useState(null);
+  const menuOpen = menuOpenOn === pathname;
+  const searchOpen = Boolean(search) && searchOpenOn === pathname;
+  const closeSearch = () => setSearchOpenOn(null);
+  const openSearch = () => {
+    setMenuOpenOn(null);
+    setSearchOpenOn(pathname);
   };
 
   useEffect(() => {
-    const closeDropDown = (e) => {
-      if (
-        dropDownMenuRef.current &&
-        !dropDownMenuRef.current.contains(e.target)
-      ) {
-        setDropDownState(false);
+    if (!searchOpen) return;
+    const onKey = (e) => e.key === "Escape" && setSearchOpenOn(null);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [searchOpen]);
+
+  // Account menu links depend on the section. Order history and wishlists
+  // live inside each store, so those links only show there.
+  let accountItems;
+  if (pathname.startsWith("/fashion-lifestyle")) {
+    accountItems = FASHION_ACCOUNT_ITEMS;
+  } else {
+    let storeBase = "";
+    let hasWishlist = false;
+    if (params?.storeId && params?.customStoreId) {
+      const store = `${params.store}/${params.storeId}/${params.customStoreId}`;
+      if (pathname.startsWith("/food/store/")) {
+        storeBase = `/food/store/${store}`;
+      } else if (pathname.startsWith("/grocery/") || pathname.startsWith("/medicine/")) {
+        storeBase = `/${pathname.split("/")[1]}/${store}`;
+        hasWishlist = true;
       }
-    };
-    document.addEventListener("mousedown", closeDropDown);
-    return () => {
-      document.removeEventListener("mousedown", closeDropDown);
-    };
-  }, []);
+    }
+
+    accountItems = [
+      storeBase && {
+        href: `${storeBase}/orders`,
+        label: "My orders",
+        Icon: BsCartCheck,
+      },
+      hasWishlist && {
+        href: `${storeBase}/favorite-items`,
+        label: "Wishlist",
+        Icon: IoMdHeartEmpty,
+      },
+      !storeBase && {
+        href: "/medical-services/doctor/booked-appointment",
+        label: "Booked appointments",
+        Icon: FaUserDoctor,
+      },
+      { href: "/user/profile", label: "Profile", Icon: CgProfile },
+      {
+        href: "/user/update-address",
+        label: "Update address",
+        Icon: IoLocationOutline,
+      },
+    ].filter(Boolean);
+  }
+
+  const isActive = (match) => pathname.startsWith(match);
 
   return (
-    <nav className="flex items-center justify-between px-2 lg:px-10 py-2 md:py-3 fixed w-full bg-white z-20 border">
-      <Link href="/">
-        <div className="w-32 lg:w-56 lg:h-10 mx-auto lg:mx-0">
-          <Image
-            width={224}
-            height={40}
-            src="/png/notension-logo.png"
-            alt="notension"
-            className="object-contain w-full"
-          />
+    <nav className="fixed inset-x-0 top-0 z-30 border-b border-gray-200">
+      {/* The blur sits on its own layer: backdrop-filter on <nav> itself
+          would trap fixed children (cart, drawers, map modal) inside the
+          bar instead of the viewport. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-white/90 backdrop-blur-md"
+      />
+      {searchOpen ? (
+        <div className="mx-auto flex h-16 max-w-[1312px] items-center gap-2 px-4 lg:h-[72px] lg:gap-4">
+          <div className="mx-auto w-full min-w-0 max-w-2xl">
+            {SEARCHES[search](closeSearch)}
+          </div>
+          <button
+            type="button"
+            onClick={closeSearch}
+            aria-label="Close search"
+            className={`${NAV_ICON_BUTTON} -mr-2 text-xl`}
+          >
+            <HiX />
+          </button>
         </div>
-      </Link>
+      ) : (
+        <div className="mx-auto flex h-16 max-w-[1312px] items-center gap-1 px-4 sm:gap-3 lg:h-[72px] lg:gap-6">
+          {leading}
 
-      <LocationModal />
+          <Link href="/" aria-label="NoTension home" className="shrink-0">
+            <Image
+              width={224}
+              height={40}
+              priority
+              src="/png/notension-logo.png"
+              alt="NoTension"
+              className="h-6 w-auto sm:h-7 lg:h-9"
+            />
+          </Link>
 
-      <div className="flex items-center gap-2 md:gap-3">
-        <ThemeToggle />
-
-        {!userInfo?._id && <LoginButton />}
-
-        {userInfo?._id && (
-          <div className="flex items-center justify-between gap-4 text-slate-900 lg:gap-6">
-            <div className="relative" ref={dropDownMenuRef}>
-              <button
-                onClick={() => setDropDownState(!dropDownState)}
-                className="relative flex items-center gap-1 py-2 hover:underline text-secondary"
-              >
-                <p className="font-semibold flex items-center gap-2">
-                  <CgProfile className="text-2xl" />
-                  <span className="hidden md:block">
-                    {userInfo?.customer_name}
-                  </span>
-                </p>
-                <svg
-                  className={`${
-                    dropDownState ? "" : "rotate-180"
-                  } hidden md:block`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+          {/* Section links, large screens */}
+          <ul className="hidden items-center gap-1 xl:flex">
+            {NAV_LINKS.map(({ label, href, match }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className={`rounded-lg px-3 py-2 text-[15px] font-medium transition-colors ${
+                    isActive(match)
+                      ? "bg-[#EB5C2F]/10 text-[#D9481C] dark:text-[#FF8A5B]"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  }`}
                 >
-                  <path d="m18 15-6-6-6 6" />
-                </svg>
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="ml-auto flex items-center gap-1 sm:gap-1.5">
+            {/* With extra buttons the section links need the room, so the
+                location pill waits for wider screens. */}
+            <div
+              className={`mr-1 hidden ${
+                search || actions ? "2xl:block" : "lg:block"
+              }`}
+            >
+              <LocationModal />
+            </div>
+
+            {search && (
+              <button
+                type="button"
+                onClick={openSearch}
+                aria-label="Search"
+                className={`${NAV_ICON_BUTTON} text-xl`}
+              >
+                <IoSearch />
               </button>
-              {dropDownState && (
-                <ul className="absolute text-deepGray right-0 top-10 z-10 space-y-2 rounded-lg bg-gray-50 p-2 min-w-48">
-                  <li className="md:hidden block px-3 hover:underline">
-                    <p className="flex items-center text-sm text-secondary ps-1">
-                      {userInfo?.customer_name}
-                    </p>
-                  </li>
+            )}
 
-                  {category && (
-                    <li className="px-3 hover:underline">
-                      <Link
-                        href={`/${category}/store/orders`}
-                        className="flex items-center gap-1"
-                      >
-                        <span>
-                          <BsCartCheck className="text-primary" />
-                        </span>
-                        My Orders
-                      </Link>
-                    </li>
-                  )}
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
 
-                  {userInfo?._id &&
-                    category !== "food" &&
-                    category !== "grocery" &&
-                    category !== "medicine" &&
-                    category !== "all-care-services" && (
-                      <li className="px-3 hover:underline">
-                        <Link
-                          href="/medical-services/doctor/booked-appointment"
-                          className="flex items-center gap-1 text-nowrap"
-                        >
-                          <span>
-                            <FaUserDoctor className="text-primaryMedicine" />
-                          </span>
-                          Booked Appointment
-                        </Link>
-                      </li>
-                    )}
+            {actions}
 
-                  {userInfo?._id && (
-                    <>
-                      <li className="px-3 hover:underline">
-                        <Link
-                          href="/user/profile"
-                          className="flex items-center gap-1"
-                        >
-                          <span>
-                            <CgProfile className="text-primaryGrocery" />
-                          </span>
-                          Profile
-                        </Link>
-                      </li>
-
-                      <li className="px-3 hover:underline">
-                        <Link
-                          href="/user/update-address"
-                          className="flex items-center gap-1"
-                        >
-                          <span>
-                            <IoLocationOutline className="text-primary" />
-                          </span>
-                          Update Address
-                        </Link>
-                      </li>
-                    </>
-                  )}
-
-                  <li className="px-3 hover:underline">
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center gap-1"
-                    >
-                      <span>
-                        <BiLogOut className="text-primaryFood" />
-                      </span>
-                      Logout
-                    </button>
-                  </li>
-                </ul>
+            <div className="ml-1">
+              {userInfo?._id ? (
+                <AccountMenu items={accountItems} />
+              ) : (
+                <LoginButton compact />
               )}
             </div>
+
+            {/* Section menu toggle, below xl */}
+            <button
+              type="button"
+              onClick={() => setMenuOpenOn(menuOpen ? null : pathname)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className={`${NAV_ICON_BUTTON} -mr-2 text-xl xl:hidden`}
+            >
+              {menuOpen ? <HiX /> : <HiMenuAlt3 />}
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {menuOpen && !searchOpen && (
+        <div className="border-t border-gray-200 bg-white xl:hidden">
+          <div className="mx-auto max-w-[1312px] px-4 py-3">
+            <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3">
+              {NAV_LINKS.map(({ label, href, match }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className={`block rounded-lg px-3 py-2.5 text-sm font-medium ${
+                      isActive(match)
+                        ? "bg-[#EB5C2F]/10 text-[#D9481C] dark:text-[#FF8A5B]"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {/* Theme toggle lives here on phones to save space in the bar */}
+            <div className="mt-2 flex items-center justify-between border-t border-gray-100 px-3 pt-3 sm:hidden">
+              <span className="text-sm font-medium text-gray-700">Theme</span>
+              <ThemeToggle />
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

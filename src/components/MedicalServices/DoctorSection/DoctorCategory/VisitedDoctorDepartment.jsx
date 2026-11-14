@@ -12,7 +12,8 @@ const VisitedDoctorDepartment = ({
   imageWidth = 300,
   imageHeight = 300,
   imageKey = "banner_1",
-  bgClassName = "bg-[#F3F7FB]",
+  title,
+  subtitle,
   allDeptInfo,
 }) => {
   const router = useRouter();
@@ -46,7 +47,8 @@ const VisitedDoctorDepartment = ({
       onSelect={handleDeptClick}
       imageWidth={imageWidth}
       imageHeight={imageHeight}
-      bgClassName={bgClassName}
+      title={title}
+      subtitle={subtitle}
     />
   );
 };

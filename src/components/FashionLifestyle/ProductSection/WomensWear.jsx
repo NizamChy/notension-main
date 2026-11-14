@@ -7,8 +7,11 @@ import PopularTypeSection from "./PopularTypeSection";
 const WomensWear = () => (
   <PopularTypeSection
     typeId={WOMEN_TYPE_ID}
-    title="Women's Fashion Collection"
+    typeSlug="women"
+    title="Women's collection"
+    subtitle="Sarees, salwar kameez, kurtis and more"
     errorText="Failed to load womens products"
+    className="bg-gray-50"
   />
 );
 

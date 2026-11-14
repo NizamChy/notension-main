@@ -7,12 +7,11 @@ export default function FoodCategoryLayout({ children }) {
   return (
     <>
       <LocationMobile />
-      <SelectedCategory />
-      <div className="mx-4 sm:mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 my-5">
+      <SelectedCategory>
         <FoodStoreSearchBar />
-      </div>
+      </SelectedCategory>
 
-      {children}
+      <div className="bg-gray-50">{children}</div>
       <Footer />
     </>
   );

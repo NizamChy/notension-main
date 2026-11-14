@@ -19,8 +19,8 @@ import { DEMO_LOCATIONS } from "../demoLocations";
 
 const [DHAKA, CHITTAGONG] = DEMO_LOCATIONS;
 
-const BANNER = (name) => `all-care/banners/${name}.svg`;
-const PROVIDER_BANNER = (key) => `all-care/providers/${key}.svg`;
+const BANNER = (name) => `all-care/banners/${name}.webp`;
+const PROVIDER_BANNER = (key) => `all-care/providers/${key}.webp`;
 const PROVIDER_LOGO = (key) => `all-care/logos/${key}.svg`;
 
 // ---------------------------------------------------------------------------

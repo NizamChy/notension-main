@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><rect width="600" height="300" rx="16" fill="#C0392B"/><circle cx="540" cy="45" r="105" fill="#fff" opacity=".18"/><circle cx="132" cy="150" r="85.5" fill="#fff" opacity=".85"/><path d="M118.32 98.69999999999999h27.36v39.9l34.199999999999996 57h-95.75999999999999l34.199999999999996 -57z" fill="#C0392B"/><text x="240" y="144" font-family="Arial,Helvetica,sans-serif" font-size="33" font-weight="700" fill="#fff" text-anchor="start">Nephrology</text><text x="240" y="183.6" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#fff" opacity=".9" text-anchor="start">Find a specialist</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FB7185"/><stop offset="1" stop-color="#9F1239"/></linearGradient></defs>
+<rect width="600" height="300" fill="url(#g)"/>
+<circle cx="570" cy="20" r="126" fill="#fff" opacity=".10"/>
+<circle cx="18" cy="290" r="84.00000000000001" fill="#fff" opacity=".08"/>
+<circle cx="150" cy="150" r="84" fill="#fff" opacity=".22"/><circle cx="150" cy="150" r="74" fill="#fff"/>
+<g transform="translate(104.12 104.12) scale(1.9116666666666668)" color="#9F1239"><g transform="translate(-2 0)"><path d="M19 7c-8 0-13 8-13 17s5 17 13 17c5 0 7-4 5-8-2-3-2-7 0-10 3-5 1-16-5-16z" fill="currentColor"/></g><g transform="translate(50 0) scale(-1 1)"><path d="M19 7c-8 0-13 8-13 17s5 17 13 17c5 0 7-4 5-8-2-3-2-7 0-10 3-5 1-16-5-16z" fill="currentColor"/></g></g>
+<text x="270" y="134" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="34" font-weight="700" fill="#fff">Nephrology</text>
+<text x="270" y="172" font-family="'Nirmala UI','Noto Sans Bengali','Bangla Sangam MN',Vrinda,sans-serif" font-size="21" font-weight="600" fill="#fff" fill-opacity=".9">কিডনি রোগ</text>
+<text x="270" y="208" font-family="'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="17" fill="#fff" fill-opacity=".85">Kidney care &amp; dialysis</text></svg>

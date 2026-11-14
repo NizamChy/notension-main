@@ -2,31 +2,10 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaHeart } from "react-icons/fa";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-
-// Accent classes per module, kept as full strings for the Tailwind scanner.
-const THEMES = {
-  food: {
-    text: "text-primaryFood",
-    bg: "bg-primaryFood",
-    hoverBg: "hover:bg-red-600",
-    ring: "focus-visible:ring-red-300",
-  },
-  grocery: {
-    text: "text-primaryGrocery",
-    bg: "bg-primaryGrocery",
-    hoverBg: "hover:bg-blue-600",
-    ring: "focus-visible:ring-blue-300",
-  },
-  medicine: {
-    text: "text-primaryMedicine",
-    bg: "bg-primaryMedicine",
-    hoverBg: "hover:bg-secondaryMedicine",
-    ring: "focus-visible:ring-green-300",
-  },
-};
+import { HiMinus, HiPlus } from "react-icons/hi";
+import { HiHeart, HiOutlineHeart } from "react-icons/hi2";
+import { CARD, CARD_HOVER } from "@/components/shared/UI/UI";
+import { formatTaka } from "@/components/shared/CartUI/CartUI";
 
 const stop = (handler) => (event) => {
   event.preventDefault();
@@ -34,11 +13,14 @@ const stop = (handler) => (event) => {
   handler?.(event);
 };
 
+const hasValue = (value) => value != null && value !== "";
+
 // Presentational product card shared by the food, grocery and medicine lists.
 // It fills its grid cell (h-full): square image, title clamped to two lines,
 // one-line subtitle, then the price row and button pinned to the bottom
 // (mt-auto) — so all cards in a grid row are the same height and their
-// prices / buttons line up.
+// prices / buttons line up. `moduleName` only picks the image fit: food
+// photos fill the box, packshots (grocery / medicine) sit on a light base.
 const StoreItemCard = ({
   moduleName,
   imageSrc,
@@ -57,34 +39,39 @@ const StoreItemCard = ({
   onDecrement,
 }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const theme = THEMES[moduleName];
+  const isPhoto = moduleName === "food";
+  const showMrp = hasValue(mrp) && Number(salePrice) < Number(mrp);
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={title ? `View ${title}` : "View product"}
       onClick={onClick}
-      className="group h-full flex flex-col cursor-pointer bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+      onKeyDown={(event) => {
+        if (event.target === event.currentTarget && event.key === "Enter") onClick?.(event);
+      }}
+      className={`group flex h-full cursor-pointer flex-col overflow-hidden ${CARD} ${CARD_HOVER} focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
     >
-      <div className="relative w-full aspect-square bg-gray-50 overflow-hidden">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#F6F7F9]">
         {isImageLoading && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+          <div className="absolute inset-0 animate-pulse bg-[#ECEEF2]" />
         )}
 
         <Image
           fill
-          sizes="(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 50vw"
-          src={imageSrc}
+          sizes="(min-width: 1536px) 18vw, (min-width: 1280px) 20vw, (min-width: 768px) 30vw, 50vw"
+          src={imageSrc || "/png/dummyImage.png"}
           alt={title || "Product image"}
-          className={`object-cover transition-transform duration-300 group-hover:scale-105 ${
-            isImageLoading ? "opacity-0" : "opacity-100"
-          }`}
+          className={`transition duration-300 group-hover:scale-[1.04] ${
+            isPhoto ? "object-cover" : "object-contain p-3 md:p-4"
+          } ${isImageLoading ? "opacity-0" : "opacity-100"}`}
           onLoad={() => setIsImageLoading(false)}
           onError={() => setIsImageLoading(false)}
         />
 
         {discountLabel && (
-          <span
-            className={`absolute top-2 left-2 ${theme.bg} text-white text-[11px] md:text-xs font-semibold px-2 py-0.5 rounded-md`}
-          >
+          <span className="absolute left-2 top-2 rounded-full bg-[#EB5C2F] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-sm md:left-3 md:top-3">
             {discountLabel}
           </span>
         )}
@@ -93,42 +80,41 @@ const StoreItemCard = ({
           <button
             type="button"
             aria-label={isFavorite ? "Remove from favourites" : "Add to favourites"}
+            aria-pressed={!!isFavorite}
             onClick={stop(onFavoriteToggle)}
-            className={`absolute top-2 right-2 size-8 rounded-full bg-white/90 shadow-sm flex items-center justify-center ${theme.text} hover:bg-white`}
+            className={`absolute right-1.5 top-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-sm ring-1 ring-black/5 transition-colors hover:bg-[#FFFFFF] md:right-2 md:top-2 ${
+              isFavorite ? "text-[#D92D20]" : "text-[#475467] hover:text-[#D92D20]"
+            }`}
           >
             {isFavorite ? (
-              <FaHeart className="text-base" />
+              <HiHeart className="text-lg" />
             ) : (
-              <MdOutlineFavoriteBorder className="text-lg" />
+              <HiOutlineHeart className="text-lg" />
             )}
           </button>
         )}
       </div>
 
-      <div className="flex flex-col flex-1 p-2.5 md:p-3">
+      <div className="flex flex-1 flex-col p-3 md:p-3.5">
         <h3
           title={title}
-          className="text-sm md:text-[15px] font-semibold leading-snug text-deepGray line-clamp-2"
+          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-5 text-gray-900"
         >
           {title}
         </h3>
-        <p className="mt-0.5 text-xs md:text-sm text-mediumGray truncate min-h-[1.25rem]">
+        <p className="mt-0.5 min-h-[1rem] truncate text-xs text-gray-500">
           {subtitle}
         </p>
 
-        <div className="mt-auto pt-2 flex items-center flex-wrap gap-x-2 min-h-[1.75rem]">
-          {salePrice != null && salePrice !== "" && (
-            <span
-              className={`flex items-center text-base md:text-lg font-semibold ${theme.text}`}
-            >
-              <TbCurrencyTaka className="text-lg md:text-xl" />
-              {salePrice}
+        <div className="mt-auto flex min-h-[1.75rem] flex-wrap items-baseline gap-x-1.5 pt-2.5">
+          {hasValue(salePrice) && (
+            <span className="text-base font-bold tabular-nums text-gray-900">
+              {formatTaka(salePrice)}
             </span>
           )}
-          {Number(salePrice) < Number(mrp) && (
-            <span className="flex items-center text-xs md:text-sm text-lightGray line-through">
-              <TbCurrencyTaka />
-              {mrp}
+          {showMrp && (
+            <span className="text-xs tabular-nums text-gray-400 line-through">
+              {formatTaka(mrp)}
             </span>
           )}
         </div>
@@ -139,30 +125,35 @@ const StoreItemCard = ({
               <button
                 type="button"
                 onClick={stop(onAddToCart)}
-                className={`w-full h-9 md:h-10 ${theme.bg} ${theme.hoverBg} text-white font-medium rounded-lg text-xs md:text-sm focus:outline-none focus-visible:ring-4 ${theme.ring} transition-colors duration-200`}
+                aria-label={title ? `Add ${title} to cart` : "Add to cart"}
+                className="flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-[#0C3F8E]/[0.08] text-sm font-semibold text-[#0C3F8E] transition-colors hover:bg-[#0C3F8E] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40 dark:bg-[#7FB2FF]/10 dark:text-[#7FB2FF] dark:hover:bg-[#0C3F8E] dark:hover:text-white"
               >
-                Add to cart
+                <HiPlus className="text-base" />
+                Add
               </button>
             ) : (
-              <div
-                className={`w-full h-9 md:h-10 ${theme.bg} rounded-lg flex items-center justify-between text-white`}
-              >
+              <div className="flex h-10 w-full items-center justify-between rounded-full bg-[#0C3F8E] text-white shadow-sm shadow-[#0C3F8E]/20">
                 <button
                   type="button"
                   aria-label="Decrease quantity"
                   onClick={stop(onDecrement)}
-                  className={`h-full px-4 rounded-lg text-xl font-medium ${theme.hoverBg}`}
+                  className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-[#FFFFFF]/15"
                 >
-                  -
+                  <HiMinus />
                 </button>
-                <span className="font-semibold text-base">{quantity}</span>
+                <span
+                  aria-live="polite"
+                  className="text-sm font-semibold tabular-nums"
+                >
+                  {quantity}
+                </span>
                 <button
                   type="button"
                   aria-label="Increase quantity"
                   onClick={stop(onIncrement)}
-                  className={`h-full px-4 rounded-lg text-xl font-medium ${theme.hoverBg}`}
+                  className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-[#FFFFFF]/15"
                 >
-                  +
+                  <HiPlus />
                 </button>
               </div>
             )}

@@ -1,58 +1,59 @@
 "use client";
 
 import React from "react";
-import Loader from "../common/Loader";
 import ServiceCard from "./ServiceCard";
 import { useSelector } from "react-redux";
+import { Skeleton } from "@/components/shared/UI/UI";
 
+const GRID =
+  "grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6 lg:gap-5";
+
+// One titled group of service tiles: a slice of the district's service list.
 const ServicesArea = ({
   sliceEnd = 4,
   sliceStart = 0,
-  imageWidth = 600,
-  imageHeight = 300,
-  bgClassName = "bg-[#F3F7FB]",
-  imageKey = "service_banner_app",
   title = "Your Trusted Partner for Every Service",
-  gridClassName = "grid grid-cols-2 xl:grid-cols-4 gap-2 md:gap-5 justify-center items-center",
 }) => {
   const { allServicesInfo, isLoading } = useSelector((state) => state.allCare);
 
-  return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          {allServicesInfo?.length > sliceStart ? (
-            <div>
-              <div
-                className={`p-4 md:p-8 lg:p-10 ${bgClassName} rounded-xl`}
-              >
-                <div>
-                  <h2 className="text-lg md:text-2xl font-semibold mb-4 md:mb-6 text-[#0C3F8E] text-center">
-                    {title}
-                  </h2>
-
-                  <div className={gridClassName}>
-                    {allServicesInfo
-                      ?.slice(sliceStart, sliceEnd)
-                      ?.map((service) => (
-                        <ServiceCard
-                          key={service?._id}
-                          service={service}
-                          imageKey={imageKey}
-                          imageWidth={imageWidth}
-                          imageHeight={imageHeight}
-                        />
-                      ))}
-                  </div>
-                </div>
-              </div>
+  // While loading, only the first group shows placeholders.
+  if (isLoading) {
+    if (sliceStart > 0) return null;
+    return (
+      <section aria-busy="true">
+        <Skeleton className="mb-5 h-7 w-64 max-w-full" />
+        <div className={GRID}>
+          {Array.from({ length: 12 }).map((_, index) => (
+            <div key={index}>
+              <Skeleton className="aspect-square w-full rounded-2xl" />
+              <Skeleton className="mx-auto mt-2 h-3.5 w-3/4" />
             </div>
-          ) : null}
-        </>
-      )}
-    </>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  const services = allServicesInfo?.slice(sliceStart, sliceEnd) || [];
+  if (!services.length) return null;
+
+  return (
+    <section>
+      <div className="mb-4 flex items-end justify-between gap-3 md:mb-6">
+        <h2 className="text-lg font-bold tracking-tight text-gray-900 md:text-2xl">
+          {title}
+        </h2>
+        <span className="shrink-0 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+          {services.length} {services.length === 1 ? "service" : "services"}
+        </span>
+      </div>
+
+      <div className={GRID}>
+        {services.map((service) => (
+          <ServiceCard key={service?._id} service={service} />
+        ))}
+      </div>
+    </section>
   );
 };
 

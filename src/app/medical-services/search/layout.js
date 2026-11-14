@@ -15,7 +15,7 @@ export default function SearchCenterLayout({ children }) {
       <Navbar />
       <div className="min-h-content pt-16 md:pt-20">
         <LocationMobile />
-        <div className="max-w-xl mx-auto px-4 pt-6 md:pt-8">
+        <div className="max-w-2xl mx-auto px-4 pt-6 md:pt-8">
           <MedicalCenterSearchbar />
         </div>
         {children}

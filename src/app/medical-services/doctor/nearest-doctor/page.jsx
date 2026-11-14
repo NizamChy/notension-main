@@ -9,7 +9,12 @@ import {
 const page = () => {
   return (
     <>
-      <MedicalPageHeader title="Nearest Doctor Info" />
+      <MedicalPageHeader
+        title="Doctors near you"
+        subtitle="Specialists with chambers closest to your current location."
+        back="/medical-services/doctor"
+        backLabel="Find a doctor"
+      />
 
       <MedicalPageBody>
         <NearestDoctorSlider wide />

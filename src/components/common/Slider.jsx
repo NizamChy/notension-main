@@ -17,7 +17,7 @@ const Slider = ({ slides, classNames = "" }) => {
 
   return (
     <div
-      className={`relative w-full aspect-[5/2] overflow-hidden rounded-2xl ${classNames}`}
+      className={`relative w-full aspect-[5/2] overflow-hidden rounded-2xl bg-gray-100 ${classNames}`}
     >
       <Swiper
         style={{

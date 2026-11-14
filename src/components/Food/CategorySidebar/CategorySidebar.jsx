@@ -1,83 +1,67 @@
 "use client";
 
-import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
-import { useSelector } from "react-redux";
-import React, { useState, useEffect } from "react";
-import { useFood } from "@/hooks/fetch-data/useFood";
+import React from "react";
+import useMenuNav from "./useMenuNav";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
-import { useRouter, usePathname, useParams } from "next/navigation";
+import { CARD } from "@/components/shared/UI/UI";
 
-const CategorySidebar = ({ scrollToFoodItems, setIsScroll }) => {
-  const [activeCategory, setActiveCategory] = useState(null);
-
-  const router = useRouter();
-  const params = useParams();
-  const pathname = usePathname();
-
-  const { progressing } = useFood();
-  const { productCategory } = useSelector((state) => state.itemsByStore);
-
-  const handleCategoryClick = (categoryId) => {
-    setActiveCategory(categoryId);
-    setIsScroll(true);
-
-    router.push(
-      `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}/${categoryId}`
-    );
-  };
-
-  useEffect(() => {
-    const categoryIdFromUrl = pathname.split("/").pop();
-    if (categoryIdFromUrl) {
-      setActiveCategory(categoryIdFromUrl);
-    }
-  }, [pathname]);
-
-  useEffect(() => {
-    if (activeCategory) {
-      scrollToFoodItems();
-    }
-  }, [activeCategory, scrollToFoodItems]);
+// Restaurant menu categories on lg+: a sticky list beside the menu.
+// `setIsScroll` tells the store layout to bring the menu into view after
+// opening another category page.
+const CategorySidebar = ({ setIsScroll, loading = false }) => {
+  const { items, activeId, goTo } = useMenuNav({
+    onNavigate: () => setIsScroll?.(true),
+  });
 
   return (
-    <>
-      {/* Sits under the fixed food navbar (65px) and scrolls on its own. */}
-      <aside className="hidden lg:flex flex-col h-full pt-[65px] border-e border-gray-200 bg-[#F3F4F6]">
-        <div className="flex-1 overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-5 xl:p-6">
-          <div className="grid grid-cols-2 gap-3 xl:gap-4">
-            {progressing
-              ? Array.from({ length: 6 }).map((_, index) => (
-                  <CategoryCardSkeleton key={index} />
-                ))
-              : productCategory.map((category) => (
+    <aside className="hidden lg:block">
+      <nav
+        aria-label="Menu categories"
+        className={`${CARD} sticky top-[88px] max-h-[calc(100vh-112px)] overflow-y-auto p-2 [scrollbar-width:thin]`}
+      >
+        <p className="px-3 pb-2 pt-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+          Menu
+        </p>
+        {loading ? (
+          <div className="space-y-1.5 p-1">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <CategoryCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : (
+          <ul className="space-y-0.5">
+            {items.map((item) => {
+              const active = activeId === item.id;
+              return (
+                <li key={item.id}>
                   <button
                     type="button"
-                    key={category?._id}
-                    className={`aspect-square w-full p-1.5 flex items-center justify-center border-2 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow ${
-                      activeCategory === category.categoryInfo._id
-                        ? "border-primaryFood"
-                        : "border-white"
+                    aria-current={active ? "true" : undefined}
+                    onClick={() => goTo(item.id)}
+                    className={`flex min-h-10 w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-sm transition-colors ${
+                      active
+                        ? "bg-[#0C3F8E]/10 font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]"
+                        : "font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     }`}
-                    onClick={() =>
-                      handleCategoryClick(category.categoryInfo._id)
-                    }
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={
-                        category?.categoryInfo?.banner_type_1
-                          ? `${FOOD_SLIDER_TYPE_SUBTYPE_IMAGES}/${category?.categoryInfo?.banner_type_1}`
-                          : "/png/dummyImage.png"
-                      }
-                      alt="category image"
-                      className="w-full h-full rounded-lg object-contain"
-                    />
+                    <span className="min-w-0 truncate">{item.name}</span>
+                    {item.count > 0 && (
+                      <span
+                        className={`shrink-0 text-xs tabular-nums ${
+                          active ? "" : "text-gray-400"
+                        }`}
+                      >
+                        {item.count}
+                      </span>
+                    )}
                   </button>
-                ))}
-          </div>
-        </div>
-      </aside>
-    </>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </nav>
+    </aside>
   );
 };
 

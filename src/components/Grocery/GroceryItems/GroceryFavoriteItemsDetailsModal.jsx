@@ -1,14 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
-import { TbCurrencyTaka } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { HiOutlineCube } from "react-icons/hi2";
+import { EmptyState } from "@/components/shared/UI/UI";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import ProductQuickView from "@/components/StoreModule/ProductQuickView";
+import ProductDetailsView, {
+  discountLabelOf,
+} from "@/components/StoreModule/ProductDetailsView";
 import GroceryItemDetailsSkeleton from "./GroceryItemDetailsSkeleton";
 
 const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
@@ -87,146 +88,46 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   }, [itemDetails, handleAddToFavorite, handleRemoveFromFavorite]);
 
   return (
-    <CommonModal
-      isOpen={isOpen}
-      onClose={onClose}
-      className="max-w-screen-md m-4"
-    >
+    <ProductQuickView isOpen={isOpen} onClose={onClose}>
       {visible ? (
-        <div className="min-h-[30vh] flex justify-center items-center">
-          <GroceryItemDetailsSkeleton />
-        </div>
+        <GroceryItemDetailsSkeleton />
+      ) : message ? (
+        <EmptyState
+          icon={<HiOutlineCube />}
+          title="Not available"
+          text={message}
+          className="min-h-[30vh] !border-0"
+        />
       ) : (
-        <>
-          {!message ? (
-            <div className="space-y-3">
-              <h2 className="text-lg md:text-xl font-bold mb-4 text-secondary">
-                Product Details
-              </h2>
-
-              <div className="md:flex">
-                <div className=" md:w-1/3">
-                  <Image
-                    src={
-                      itemDetails?.app_image
-                        ? `${GROCERY_ITEMS_IMAGES}/${itemDetails?.app_image}`
-                        : "/png/dummyImage.png"
-                    }
-                    alt={itemDetails?.product_title_eng || "Product image"}
-                    width={240}
-                    height={240}
-                    className="w-full md:w-64"
-                  />
-                </div>
-
-                <div className="space-y-1 md:w-2/3 p-4 relative">
-                  <div className="flex justify-between">
-                    <h5 className="text-sm md:text-xl font-semibold text-deepGray line-clamp-2 overflow-hidden">
-                      {itemDetails?.product_title_eng}
-                    </h5>
-
-                    {itemDetails?.less > 0 && (
-                      <p className="absolute -top-4 right-0 text-sm text-white bg-primaryGrocery px-4 py-0.5 rounded-tl-lg rounded-br-lg">
-                        {itemDetails?.less}
-                        {itemDetails?.less_type === "Percent" ? "%" : "৳"} OFF
-                      </p>
-                    )}
-
-                    <p className="text-sm text-mediumGray">
-                      {itemDetails?.strength}
-                    </p>
-                  </div>
-                  <p className="text-base text-blue-600">
-                    {itemDetails?.generic_name}
-                  </p>
-                  <p className="text-base text-secondary">
-                    {itemDetails?.company_name}
-                  </p>
-                  <p className="text-sm text-mediumGray font-medium">
-                    {itemDetails?.pack_size}
-                  </p>
-
-                  <div className="flex gap-5">
-                    <p className="text-sm md:text-lg font-medium flex items-center text-primaryGrocery">
-                      <TbCurrencyTaka className="md:text-2xl" />
-                      {itemDetails?.sale_price}
-                    </p>
-
-                    {itemDetails?.sale_price < itemDetails?.max_retail_price ? (
-                      <>
-                        <p className="text-sm md:text-base flex items-center text-lightGray line-through">
-                          <TbCurrencyTaka className="md:text-lg" />
-                          {itemDetails?.max_retail_price}
-                        </p>
-                      </>
-                    ) : null}
-                  </div>
-
-                  <div className="flex w-full justify-center gap-5 items-center pt-2">
-                    <div className="w-2/3 md:w-1/2">
-                      {currentQuantity === 0 ? (
-                        <button
-                          onClick={handleAddToCart}
-                          className="w-full py-2 px-4 bg-primaryGrocery text-white font-medium rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
-                        >
-                          Add to cart
-                        </button>
-                      ) : (
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                          }}
-                          className="w-full bg-primaryGrocery rounded-lg flex items-center justify-between"
-                        >
-                          <button
-                            onClick={(e) =>
-                              handleDecrement(e, itemDetails?._id)
-                            }
-                            className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
-                          >
-                            -
-                          </button>
-                          <span className="font-medium text-lg text-white">
-                            {currentQuantity}
-                          </span>
-                          <button
-                            onClick={(e) =>
-                              handleIncrement(e, itemDetails?._id)
-                            }
-                            className="py-1 px-4 text-white font-medium rounded-lg text-xl hover:bg-blue-600 focus:outline-none transition-colors duration-200"
-                          >
-                            +
-                          </button>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="w-1/3 md:w-1/2">
-                      {!isFavoriteAdded && (
-                        <button onClick={handleAddToFavorite}>
-                          <MdOutlineFavoriteBorder className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
-                        </button>
-                      )}
-
-                      {isFavoriteAdded && (
-                        <button onClick={handleRemoveFromFavorite}>
-                          <FaHeart className="size-7 p-1 text-xl text-primaryGrocery rounded-full" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <p className="min-h-[30vh] text-center flex justify-center items-center text-xl font-medium">
-              {message}
-            </p>
-          )}
-        </>
+        <ProductDetailsView
+          variant="modal"
+          imageSrc={
+            itemDetails?.app_image
+              ? `${GROCERY_ITEMS_IMAGES}/${itemDetails?.app_image}`
+              : "/png/dummyImage.png"
+          }
+          title={itemDetails?.product_title_eng}
+          altTitle={itemDetails?.product_title_beng}
+          chips={[itemDetails?.pack_size]}
+          discountLabel={discountLabelOf(itemDetails)}
+          salePrice={itemDetails?.sale_price}
+          mrp={itemDetails?.max_retail_price}
+          savings={
+            itemDetails?.less > 0
+              ? itemDetails?.max_retail_price - itemDetails?.sale_price
+              : 0
+          }
+          quantity={currentQuantity}
+          onAddToCart={handleAddToCart}
+          onIncrement={(e) => handleIncrement(e, itemDetails?._id)}
+          onDecrement={(e) => handleDecrement(e, itemDetails?._id)}
+          isFavorite={!!isFavoriteAdded}
+          onFavoriteToggle={
+            isFavoriteAdded ? handleRemoveFromFavorite : handleAddToFavorite
+          }
+        />
       )}
-    </CommonModal>
+    </ProductQuickView>
   );
 };
 

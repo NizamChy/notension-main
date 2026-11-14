@@ -5,14 +5,17 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSyncExternalStore } from "react";
+import { HiArrowRight } from "react-icons/hi";
 import { Pagination, Autoplay } from "swiper/modules";
 import { DEMO_MODE_DEFAULT, isDemoMode } from "@/demo/demoMode";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { FASHION_CAROUSEL_SLIDES } from "../utils/constants";
+import { FASHION_CONTAINER } from "../shared/FashionSection";
 
 // Demo mode serves the banner through the fashion image base URL
-// (/demo-images/fashion/fashion/x.svg -> public/demo/fashion/x.svg). Outside
+// (/demo-images/fashion/fashion/x.webp -> public/demo/fashion/x.webp). Outside
 // demo mode FASHION_IMAGE_URL is the remote CDN, so use the local file
 // directly (or the slide's local photo when it has one).
 const slideImage = (slide, demo) => {
@@ -33,58 +36,56 @@ const FashionCarousel = () => {
   );
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 md:pt-6">
+    <div className={`${FASHION_CONTAINER} pt-4 md:pt-6`}>
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={0}
         slidesPerView={1}
         pagination={{
           clickable: true,
-          bulletClass: "swiper-pagination-bullet !bg-gray-100 !opacity-100",
-          bulletActiveClass: "swiper-pagination-bullet-active !bg-gray-600",
+          bulletClass:
+            "swiper-pagination-bullet !h-1.5 !w-1.5 !rounded-full !bg-[#FFFFFF]/60 !opacity-100 !transition-all",
+          bulletActiveClass:
+            "swiper-pagination-bullet-active !w-6 !bg-[#FFFFFF]",
         }}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
         }}
         loop={true}
-        className="w-full h-full rounded-xl overflow-hidden"
+        className="w-full overflow-hidden rounded-2xl bg-gray-100"
       >
-        {FASHION_CAROUSEL_SLIDES?.map((slide) => (
+        {FASHION_CAROUSEL_SLIDES?.map((slide, index) => (
           <SwiperSlide key={slide?.id} className="w-full">
-            <div className="relative w-full h-[200px] sm:h-[300px] md:h-[380px] lg:h-[480px]">
-              <img
+            <div className="relative h-[220px] w-full sm:h-[300px] md:h-[380px] lg:h-[460px]">
+              <Image
                 src={slideImage(slide, demo)}
-                alt={slide?.title}
-                className="w-full h-full object-cover"
+                alt={slide?.title || "Fashion banner"}
+                fill
+                sizes="(min-width: 1312px) 1248px, 100vw"
+                preload={index === 0}
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <div className="text-center px-4 max-w-3xl">
-                  <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1.5 sm:mb-3">
+
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/0 sm:from-black/60 sm:via-black/25" />
+
+              <div className="absolute inset-0 flex items-center">
+                <div className="max-w-[85%] px-6 sm:max-w-md sm:px-10 lg:max-w-xl lg:px-16">
+                  {slide?.subtitle && (
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FFFFFF]/80 sm:text-xs">
+                      {slide.subtitle}
+                    </p>
+                  )}
+                  <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-[#FFFFFF] sm:text-4xl lg:text-5xl">
                     {slide?.title}
                   </h2>
-                  <p className="text-sm sm:text-lg md:text-xl text-white mb-3 sm:mb-6">
-                    {slide?.subtitle}
-                  </p>
 
                   <Link
                     href={slide?.href || "/fashion-lifestyle"}
-                    className="inline-flex items-center px-4 sm:px-6 py-1.5 sm:py-2.5 border border-gray-300 text-sm sm:text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-100 hover:border-gray-400 transition-colors">
+                    className="group mt-4 inline-flex h-10 items-center gap-2 rounded-full bg-[#FFFFFF] px-5 text-sm font-semibold text-[#111827] shadow-sm transition-colors hover:bg-[#F3F4F6] sm:mt-6 sm:h-11 sm:px-6"
+                  >
                     {slide?.cta}
-                    <svg
-                      className="ml-2 w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <HiArrowRight className="transition-transform group-hover:translate-x-0.5" />
                   </Link>
                 </div>
               </div>

@@ -10,6 +10,8 @@ const EyeCareCenter = () => {
       heroHref="/medical-services/eye-care-center/nearest-eye-care-center"
       heroImage="/images/medical-services/find-near-eye-care-center.jpg"
       heroAlt="Find nearest eye care center"
+      listTitle="Eye care in your district"
+      emptyTitle="No eye care centres found in your district"
     />
   );
 };

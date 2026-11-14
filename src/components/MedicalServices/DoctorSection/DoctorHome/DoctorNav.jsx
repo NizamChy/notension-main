@@ -25,7 +25,8 @@ const DoctorNav = () => {
         <Link
           key={tile.href}
           href={tile.href}
-          className="group relative block aspect-square md:aspect-auto md:h-full rounded-xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow"
+          aria-label={tile.alt}
+          className="group relative block aspect-square overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm shadow-gray-900/[0.03] transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gray-900/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] md:aspect-auto md:h-full"
         >
           {slider[index]?.file_name && (
             <Image

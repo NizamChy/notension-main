@@ -1,19 +1,43 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import { TbCurrencyTaka } from "react-icons/tb";
+import { HiChevronLeft } from "react-icons/hi";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { getApiClient } from "@/lib/apiClient";
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { FOOD_URL } from "@/api-endpoints/env";
+import DishCartControl from "./DishCartControl";
+import { discountLabelOf, dishImageOf } from "./dishUtils";
 import useFoodItems from "@/hooks/fetch-data/useFoodItems";
+import { formatTaka, PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import {
+  Badge,
+  CARD,
+  EmptyState,
+  Skeleton,
+  SECONDARY_BUTTON,
+} from "@/components/shared/UI/UI";
 import {
   EXPLORE_FOOD_STORE,
   FOOD_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+
+const DetailsSkeleton = () => (
+  <div className={`${CARD} overflow-hidden md:grid md:grid-cols-2`}>
+    <Skeleton className="aspect-[4/3] w-full rounded-none" />
+    <div className="space-y-3 p-5 sm:p-6 lg:p-8">
+      <Skeleton className="h-3 w-24" />
+      <Skeleton className="h-7 w-3/4" />
+      <Skeleton className="h-4 w-1/2" />
+      <Skeleton className="h-8 w-28" />
+      <Skeleton className="mt-6 h-12 w-full rounded-full" />
+    </div>
+  </div>
+);
 
 const FoodItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +50,9 @@ const FoodItemDetails = () => {
   const productId = params?.productId;
 
   const { currentItemDetails } = useSelector((state) => state.userChoice);
+  const storeName = useSelector(
+    (state) => state.dashboard.visitedFoodStore?.shop_name
+  );
 
   // Redux has the item when it was opened from a list. A direct link (or a
   // reload with cleared state) looks it up in the store's menu instead (the
@@ -112,175 +139,155 @@ const FoodItemDetails = () => {
     setCurrentQuantity(itemQty);
   }, [item, incrementQty, decrementQty]);
 
-  if (!item && isFetching) return <Loader />;
+  const menuPath = `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
-  if (!item && notFound) {
+  const backLink = (
+    <Link
+      href={menuPath}
+      className="mb-4 inline-flex min-h-10 items-center gap-1 text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
+    >
+      <HiChevronLeft className="text-lg" />
+      Back to menu
+    </Link>
+  );
+
+  if (!item && isFetching) {
     return (
-      <p className="max-w-6xl mx-auto px-4 py-16 text-center text-gray-600">
-        Product not found.
-      </p>
+      <div className="mx-auto max-w-5xl">
+        {backLink}
+        <DetailsSkeleton />
+      </div>
     );
   }
 
+  if (!item && notFound) {
+    return (
+      <div className="mx-auto max-w-5xl">
+        <EmptyState
+          title="Dish not found"
+          text="This dish may have been removed from the menu."
+          action={
+            <Link href={menuPath} className={SECONDARY_BUTTON}>
+              Back to menu
+            </Link>
+          }
+        />
+      </div>
+    );
+  }
+
+  if (!item) return null;
+
+  const name = item?.product_title_eng || "Dish";
+  const discount = discountLabelOf(item);
+  const hasMrp = item?.sale_price < item?.max_retail_price;
+
   return (
-    <>
-      {item && (
-        <div className="max-w-6xl">
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <h2 className="text-lg md:text-2xl font-bold text-gray-800 px-4 md:px-6 pt-4 md:pt-6">
-              Product Details
-            </h2>
+    <div className="mx-auto max-w-5xl">
+      {backLink}
 
-            <div className="md:flex p-4 md:p-6">
-              {/* Product Image Section */}
-              <div className="md:w-2/5 lg:w-1/3 flex flex-col items-center">
-                <div className="relative w-full max-w-sm aspect-square bg-gray-50 rounded-xl overflow-hidden mb-4">
-                  <Image
-                    src={
-                      item?.app_image
-                        ? `${FOOD_ITEMS_IMAGES}/${item?.app_image}`
-                        : "/png/dummyImage.png"
-                    }
-                    alt={item?.product_title_eng || "Product image"}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover"
-                    priority
-                  />
+      <article className={`${CARD} overflow-hidden md:grid md:grid-cols-2`}>
+        <div className="relative aspect-[4/3] w-full bg-gray-100 md:aspect-auto md:min-h-[380px]">
+          <Image
+            src={dishImageOf(item, FOOD_ITEMS_IMAGES)}
+            alt={name}
+            fill
+            preload
+            sizes="(min-width: 1024px) 512px, (min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
+          {discount && (
+            <span className="absolute left-4 top-4 rounded-full bg-[#EB5C2F] px-3 py-1 text-xs font-semibold text-white shadow-sm">
+              {discount}
+            </span>
+          )}
+        </div>
 
-                  {item?.less > 0 && (
-                    <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-                      {item?.less}
-                      {item?.less_type === "Percent" ? "%" : "৳"} OFF
-                    </div>
-                  )}
-                </div>
-              </div>
+        <div className="flex flex-col p-5 sm:p-6 lg:p-8">
+          {storeName && (
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#EB5C2F]">
+              {storeName}
+            </p>
+          )}
+          <h1 className="mt-1 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl">
+            {name}
+          </h1>
+          {item?.product_title_beng && (
+            <p className="mt-1 text-base text-gray-500">
+              {item.product_title_beng}
+            </p>
+          )}
 
-              {/* Product Info Section */}
-              <div className="md:w-3/5 lg:w-2/3 md:pl-8">
-                <div className="border-b border-gray-200 pb-4 mb-4">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-1">
-                    {item?.product_title_eng}
-                  </h1>
-                  <p className="text-gray-600 text-sm mb-2">
-                    {item?.product_title_beng}
-                  </p>
-                  <p className="text-gray-500 text-sm">{item?.pack_size}</p>
-                </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {/* {item?.is_available ? ( */}
+            {item ? (
+              <Badge tone="green">Available</Badge>
+            ) : (
+              <Badge tone="red">Not available</Badge>
+            )}
+            {item?.pack_size && <Badge>{item.pack_size}</Badge>}
+            {item?.unit_symbol && <Badge>Unit: {item.unit_symbol}</Badge>}
+          </div>
 
-                {/* Price Section */}
-                <div className="mb-6">
-                  <div className="flex items-center mb-2">
-                    <span className="text-2xl font-bold text-gray-900 flex items-center">
-                      <TbCurrencyTaka className="mr-1" />
-                      {item?.sale_price}
+          <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="text-3xl font-bold tabular-nums text-gray-900">
+              {formatTaka(item?.sale_price)}
+            </span>
+            {hasMrp && (
+              <span className="text-base tabular-nums text-gray-400 line-through">
+                {formatTaka(item?.max_retail_price)}
+              </span>
+            )}
+          </div>
+          {item?.less > 0 && hasMrp && (
+            <p className="mt-1 text-sm font-medium text-[#067647] dark:text-[#47CD89]">
+              You save{" "}
+              <span className="tabular-nums">
+                {formatTaka(item?.max_retail_price - item?.sale_price)}
+              </span>
+            </p>
+          )}
+
+          <div className="mt-6 border-t border-gray-200 pt-5 md:mt-auto">
+            {currentQuantity === 0 ? (
+              <PrimaryButton onClick={handleAddToCart} disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                    Adding…
+                  </>
+                ) : (
+                  <>
+                    <HiOutlineShoppingBag className="text-lg" />
+                    Add to cart
+                    <span className="tabular-nums opacity-80">
+                      · {formatTaka(item?.sale_price)}
                     </span>
-                    {item?.sale_price < item?.max_retail_price && (
-                      <span className="ml-3 text-gray-500 line-through flex items-center">
-                        <TbCurrencyTaka className="mr-1" />
-                        {item?.max_retail_price}
-                      </span>
-                    )}
-                  </div>
-                  {item?.less > 0 && (
-                    <p className="text-green-600 text-sm">
-                      You save <TbCurrencyTaka className="inline" />
-                      {item?.max_retail_price - item?.sale_price}
-                    </p>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex items-center space-x-4 mb-6">
-                  {currentQuantity === 0 ? (
-                    <button
-                      onClick={handleAddToCart}
-                      disabled={isLoading}
-                      className={`flex-1 py-3 px-6 rounded-lg font-medium text-white ${
-                        isLoading
-                          ? "bg-blue-400"
-                          : "bg-blue-600 hover:bg-blue-700"
-                      } transition-colors duration-200 flex items-center justify-center`}
-                    >
-                      {isLoading ? (
-                        <>
-                          <svg
-                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Adding...
-                        </>
-                      ) : (
-                        "Add to Cart"
-                      )}
-                    </button>
-                  ) : (
-                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                      <button
-                        onClick={(e) => handleDecrement(e, item._id)}
-                        disabled={isLoading}
-                        className="py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-lg transition-colors duration-200"
-                      >
-                        -
-                      </button>
-                      <span className="py-2 px-6 bg-white text-gray-800 font-medium text-center">
-                        {currentQuantity}
-                      </span>
-                      <button
-                        onClick={(e) => handleIncrement(e, item._id)}
-                        disabled={isLoading}
-                        className="py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-lg transition-colors duration-200"
-                      >
-                        +
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Additional Product Info */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900 mb-2">
-                    Product Information
-                  </h3>
-                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-                    <div>
-                      <span className="font-medium">Availability:</span>{" "}
-                      {/* {item?.is_available ? ( */}
-                      {item ? (
-                        <span className="text-green-600">Available</span>
-                      ) : (
-                        <span className="text-red-600">Not Available</span>
-                      )}
-                    </div>
-                    <div>
-                      <span className="font-medium">Unit:</span>{" "}
-                      {item?.unit_symbol}
-                    </div>
-                  </div>
+                  </>
+                )}
+              </PrimaryButton>
+            ) : (
+              <div className="flex items-center gap-3">
+                <DishCartControl
+                  variant="inline"
+                  name={name}
+                  disabled={isLoading}
+                  quantity={currentQuantity}
+                  onIncrement={(e) => handleIncrement(e, item._id)}
+                  onDecrement={(e) => handleDecrement(e, item._id)}
+                />
+                <div className="ml-auto text-right">
+                  <p className="text-xs text-gray-500">In your cart</p>
+                  <p className="text-lg font-semibold tabular-nums text-gray-900">
+                    {formatTaka((item?.sale_price || 0) * currentQuantity)}
+                  </p>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-      )}
-    </>
+      </article>
+    </div>
   );
 };
 

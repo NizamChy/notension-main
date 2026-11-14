@@ -5,13 +5,15 @@ import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import GroceryItems from "../GroceryItems/GroceryItems";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ItemCardSkeleton from "@/components/StoreModule/ItemCardSkeleton";
 import NoConnection from "@/components/NoConnection/NoConnection";
 import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
 import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
-import NoItemFound from "@/components/common/NoItemFound";
+import { PageHeader } from "@/components/shared/UI/UI";
+import {
+  InfiniteItemGrid,
+  TypeBreadcrumb,
+} from "@/components/StoreModule/ItemBrowse";
 
 const SubTypeSection = () => {
   const [id, setId] = useState("");
@@ -33,11 +35,6 @@ const SubTypeSection = () => {
   const typeInfo = useSelector((state) => state.dashboard.typeInfo);
 
   useEffect(() => {
-    // const currentUrl = window.location.href;
-    // const pathSegments = currentUrl.split("/");
-    // const subTypeId = pathSegments[pathSegments.length - 1];
-    // const urlOption = pathSegments[pathSegments.length - 2];
-
     const [slug, subTypeId] = subTypeSlugId.split("_");
 
     if (subTypeId) {
@@ -99,79 +96,28 @@ const SubTypeSection = () => {
     <>
       {selectedSubType && id && (
         <div>
-          {selectedSubType && (
-            <>
-              <nav className="flex mb-4 md:mb-6" aria-label="Breadcrumb">
-                <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                  <li
-                    onClick={handleType}
-                    className="inline-flex items-center cursor-pointer"
-                  >
-                    <p className="inline-flex items-center text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600">
-                      {typeName}
-                    </p>
-                  </li>
-                  <li>
-                    <div className="flex items-center">
-                      <svg
-                        className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="m1 9 4-4-4-4"
-                        />
-                      </svg>
-                      <p className="ms-1 text-sm md:text-lg font-semibold text-deepGray md:ms-2">
-                        {selectedSubType?.sub_type_name}
-                      </p>
-                    </div>
-                  </li>
-                </ol>
-              </nav>
-            </>
-          )}
+          <TypeBreadcrumb
+            typeName={typeName}
+            subTypeName={selectedSubType?.sub_type_name}
+            onTypeClick={handleType}
+          />
+          <PageHeader
+            title={selectedSubType?.sub_type_name}
+            subtitle={
+              productInfo?.length > 0
+                ? `${productInfo.length}${loadingMore ? "+" : ""} products`
+                : null
+            }
+          />
 
-          {!allLoaded && productInfo.length < 1 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
-              {Array.from({ length: 12 }).map((_, index) => (
-                <ItemCardSkeleton moduleName="grocery" key={index} />
-              ))}
-            </div>
-          )}
-
-          <div className="relative">
-            {productInfo && productInfo.length > 0 ? (
-              <InfiniteScroll
-                dataLength={productInfo?.length}
-                next={() => {
-                  getItemsOnPress(option, id, pageNo, setPageNo);
-                }}
-                hasMore={loadingMore}
-                loader={
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
-                    {Array.from({ length: 6 }).map((_, index) => (
-                      <ItemCardSkeleton moduleName="grocery" key={index} />
-                    ))}
-                  </div>
-                }
-              >
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-5">
-                  {productInfo?.map((item) => (
-                    <GroceryItems key={item?._id} item={item} />
-                  ))}
-                </div>
-              </InfiniteScroll>
-            ) : null}
-          </div>
-
-          {allLoaded && productInfo?.length < 1 && <NoItemFound />}
+          <InfiniteItemGrid
+            items={productInfo}
+            allLoaded={allLoaded}
+            hasMore={loadingMore}
+            onLoadMore={() => getItemsOnPress(option, id, pageNo, setPageNo)}
+            renderItem={(item) => <GroceryItems key={item?._id} item={item} />}
+            emptyText="This category has no products in stock right now."
+          />
         </div>
       )}
     </>

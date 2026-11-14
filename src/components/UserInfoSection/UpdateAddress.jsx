@@ -3,13 +3,19 @@
 import toast from "react-hot-toast";
 import { isLengthBetween } from "@/utils/validation";
 import { useSelector } from "react-redux";
-import { CgProfile } from "react-icons/cg";
 import React, { useEffect, useState } from "react";
+import {
+  HiOutlineMapPin,
+  HiOutlinePhone,
+  HiOutlineDevicePhoneMobile,
+} from "react-icons/hi2";
 import { useUser } from "@/hooks/fetch-data/useUser";
+import { ProfileHeader, InfoRow } from "./ProfileUI";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
-import FloatingInput from "../LoginSection/FloatingInput";
 import CommonModal from "../shared/CommonModal/CommonModal";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { CARD, PageHeader } from "../shared/UI/UI";
+import { TextField } from "../shared/Checkout/CheckoutUI";
+import { PrimaryButton } from "../shared/CartUI/CartUI";
 
 const UpdateAddress = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,93 +72,100 @@ const UpdateAddress = () => {
   return (
     <>
       {savedUserInfo?._id && (
-        <div className="max-w-4xl mx-auto px-4 py-8 md:py-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-          <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-6 md:p-8">
-            <div className="flex flex-col items-center text-center">
-              <CgProfile className="text-7xl md:text-8xl text-primary" />
-              <p className="mt-3 text-lg md:text-xl font-semibold text-primary break-words">
-                {savedUserInfo?.customer_name}
+        <div className="mx-auto w-full max-w-5xl px-4 py-8 md:py-12">
+          <PageHeader
+            title="Update address"
+            subtitle="Keep your name, delivery address and backup number up to date."
+          />
+
+          <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-6">
+            {/* Current details */}
+            <div className={`${CARD} overflow-hidden`}>
+              <ProfileHeader
+                name={savedUserInfo?.customer_name}
+                phone={savedUserInfo?.contact_no}
+              />
+              <dl className="mt-2 divide-y divide-gray-100 px-5 pb-3 md:px-6">
+                <InfoRow
+                  icon={<HiOutlinePhone />}
+                  label="Phone"
+                  value={savedUserInfo?.contact_no}
+                />
+                <InfoRow
+                  icon={<HiOutlineDevicePhoneMobile />}
+                  label="Alternative number"
+                  value={savedUserInfo?.alternative_contact_no}
+                />
+                <InfoRow
+                  icon={<HiOutlineMapPin />}
+                  label="Delivery address"
+                  value={savedUserInfo?.customer_address}
+                />
+              </dl>
+            </div>
+
+            {/* Edit form */}
+            <section className={`${CARD} p-5 md:p-6`}>
+              <h2 className="text-base font-semibold text-gray-900">
+                Edit details
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Orders will be delivered to this address.
               </p>
-            </div>
 
-            <dl className="mt-6 divide-y divide-gray-100 text-sm md:text-base">
-              <div className="flex justify-between gap-4 py-3">
-                <dt className="text-mediumGray shrink-0">Phone</dt>
-                <dd className="text-deepGray font-medium text-right break-words">
-                  {savedUserInfo?.contact_no || "—"}
-                </dd>
+              <div className="mt-5 space-y-4">
+                <TextField
+                  label="Name"
+                  id="customer_name"
+                  required
+                  autoComplete="name"
+                  value={userInfo?.customer_name || ""}
+                  onChange={(e) =>
+                    handleDataChange(e.target.value, "customer_name")
+                  }
+                />
+                <TextField
+                  label="Address"
+                  id="customer_address"
+                  required
+                  multiline
+                  autoComplete="street-address"
+                  value={userInfo?.customer_address || ""}
+                  onChange={(e) =>
+                    handleDataChange(e.target.value, "customer_address")
+                  }
+                />
+                <TextField
+                  label="Alternative number"
+                  id="alternative_contact_no"
+                  type="tel"
+                  inputMode="tel"
+                  placeholder="Optional"
+                  value={userInfo?.alternative_contact_no || ""}
+                  onChange={(e) =>
+                    handleDataChange(e.target.value, "alternative_contact_no")
+                  }
+                />
               </div>
-              <div className="flex justify-between gap-4 py-3">
-                <dt className="text-mediumGray shrink-0">Address</dt>
-                <dd className="text-deepGray font-medium text-right break-words">
-                  {savedUserInfo?.customer_address || "—"}
-                </dd>
-              </div>
-            </dl>
-          </div>
 
-          <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-6 md:p-8">
-            <h1 className="font-semibold text-secondary text-xl md:text-2xl mb-2">
-              Update Address
-            </h1>
-
-            <div className="py-3">
-              <FloatingInput
-                label="Name"
-                id="customer_name"
-                value={userInfo?.customer_name || ""}
-                onChange={(e) =>
-                  handleDataChange(e.target.value, "customer_name")
-                }
-              />
-            </div>
-
-            <div className="py-3">
-              <FloatingInput
-                label="Address"
-                id="customer_address"
-                multiline={true}
-                value={userInfo?.customer_address || ""}
-                onChange={(e) =>
-                  handleDataChange(e.target.value, "customer_address")
-                }
-              />
-            </div>
-
-            <div className="py-3">
-              <FloatingInput
-                label="Alternative number"
-                id="alternative_contact_no"
-                value={userInfo?.alternative_contact_no || ""}
-                onChange={(e) =>
-                  handleDataChange(e.target.value, "alternative_contact_no")
-                }
-              />
-            </div>
-
-            <div className="flex justify-center">
-              <button
+              <PrimaryButton
                 onClick={(e) => handleUpdateUser(e)}
-                className="mt-3 px-4 bg-primary hover:bg-primary/95 text-white font-medium rounded-md w-full"
                 disabled={progressing}
+                className="mt-6"
               >
                 {progressing ? (
-                  <div className="flex justify-center items-center">
-                    <p>Please wait</p>
-                    <DotLottieReact
-                      src="https://lottie.host/6958d316-ea05-4122-9dff-1d526f59b3ca/ZilAm5yZWu.lottie"
-                      loop
-                      autoplay
-                      className="size-10"
-                    />
-                  </div>
-                ) : (
                   <>
-                    <p className="py-2">Save</p>
+                    <span
+                      aria-hidden="true"
+                      className="h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent"
+                    />
+                    Please wait
                   </>
+                ) : (
+                  "Save changes"
                 )}
-              </button>
-            </div>
+              </PrimaryButton>
+            </section>
           </div>
         </div>
       )}

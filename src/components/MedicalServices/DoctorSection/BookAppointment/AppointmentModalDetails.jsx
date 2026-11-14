@@ -1,13 +1,27 @@
 "use client";
 
 import toast from "react-hot-toast";
-import { WiTime4 } from "react-icons/wi";
 import { useSelector } from "react-redux";
-import { LuHospital } from "react-icons/lu";
-import { FaCalendarAlt } from "react-icons/fa";
+import {
+  LuBuilding2,
+  LuCalendarCheck,
+  LuCalendarDays,
+  LuCheck,
+  LuClock,
+  LuUserRound,
+} from "react-icons/lu";
 import React, { useEffect, useState } from "react";
 import { useAppointment } from "@/hooks/fetch-data/useAppointment";
 import { toLocalYMD } from "@/utils/date";
+import { Badge } from "@/components/shared/UI/UI";
+import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import { DoctorAvatar } from "../../Layout/MedicalUI";
+
+const SLOT_KEYS = [
+  ["morning", "Morning"],
+  ["afternoon", "Afternoon"],
+  ["evening", "Evening"],
+];
 
 const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
   const [timeSlot, setTimeSlot] = useState("");
@@ -196,131 +210,149 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     onClose();
   };
 
+  const info = currentDoctor?.doctorInfo;
+  const bookingDay =
+    Available_Booking_Day !== ""
+      ? currentDoctor?.chamber_schedule?.find(
+          (day) => day?.day_name === Available_Booking_Day
+        )
+      : null;
+  const slots = bookingDay
+    ? SLOT_KEYS.filter(
+        ([key]) =>
+          bookingDay?.[key]?.start &&
+          bookingDay?.[key]?.start?.slice(0, 5) !== "00:00"
+      ).map(([key, label]) => ({
+        label,
+        value: `${bookingDay?.[key]?.start} - ${bookingDay?.[key]?.end}`,
+      }))
+    : [];
+
   return (
-    <>
-      <div className="rounded-lg p-2 md:p-4 md:my-5 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <p className="mb-1">তারিখ: {currentDate}</p>
+    <div className="max-h-[78vh] overflow-y-auto px-1">
+      <h2 className="pr-6 text-lg font-bold tracking-tight text-gray-900">
+        Confirm appointment
+      </h2>
+      <p className="mt-0.5 text-xs text-gray-500">
+        তারিখ: {currentDate} · Serial booking{" "}
+        {currentDoctor?.appointment_scheduling?.start_time} -{" "}
+        {currentDoctor?.appointment_scheduling?.end_time}
+      </p>
 
-        <p className="mb-2">
-          সিরিয়াল নেওয়ার সময়:{" "}
-          {currentDoctor?.appointment_scheduling?.start_time} -{" "}
-          {currentDoctor?.appointment_scheduling?.end_time}
-        </p>
-
-        <p className="text-base font-semibold text-primary">
-          রোগীর নাম: {selectedPatient?.patient_name}
-        </p>
-        <p className="text-deepGray">
-          মোবাইল নাম্বার: {selectedPatient?.contact}
-        </p>
-
-        <div className="border border-primary p-4 mt-3 rounded-lg">
-          <h3 className="text-sm md:text-base font-semibold text-[#A93356]">
-            {currentDoctor?.doctorInfo?.doctor_name}
-          </h3>
-
-          <div className="mt-1 mb-2">
-            <p className="text-xs md:text-sm line-clamp-4 text-mediumGray">
-              {currentDoctor?.doctorInfo?.qualifications}
+      {/* Doctor */}
+      <div className="mt-4 flex items-start gap-3 rounded-xl border border-gray-200 p-3.5">
+        <DoctorAvatar info={info} className="h-12 w-12 rounded-full" sizes="48px" />
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold text-gray-900">{info?.doctor_name}</p>
+          {info?.qualifications && (
+            <p className="mt-0.5 line-clamp-2 text-xs text-gray-500">
+              {info.qualifications}
             </p>
-          </div>
-
-          <div className="bg-[#F78F1E] mt-3 py-1 w-full">
-            <p className="line-clamp-1 w-full text-white font-semibold text-sm md:text-base px-3">
-              {currentDoctor?.doctorInfo?.speciality}
+          )}
+          {info?.speciality && (
+            <Badge tone="navy" className="mt-1.5 max-w-full">
+              <span className="truncate">{info.speciality}</span>
+            </Badge>
+          )}
+          {currentDoctor?.consultationCenterInfo?.center_name && (
+            <p className="mt-2 flex items-start gap-1.5 text-xs text-gray-600">
+              <LuBuilding2 className="mt-0.5 shrink-0 text-gray-400" />
+              {currentDoctor.consultationCenterInfo.center_name}
             </p>
-          </div>
-
-          <div className="w-full mt-2">
-            <p className="font-semibold text-primary flex items-center gap-1">
-              <span>
-                <LuHospital className="text-secondaryMedicine" />
-              </span>
-              <span>পরামর্শ কেন্দ্র:</span>
-            </p>
-
-            <p className="text-[#599E66] text-base md:text-lg font-semibold">
-              {currentDoctor?.consultationCenterInfo?.center_name}
-            </p>
-          </div>
-
-          <div className="mt-2">
-            <p className="font-semibold text-primary flex gap-1 items-center">
-              <span>
-                <WiTime4 className="text-lg text-secondaryMedicine" />
-              </span>
-              <span>পরামর্শের সময়:</span>
-            </p>
-
-            {currentDoctor?.chamber_schedule?.map((day, i) => (
-              <div className="mt-1" key={i}>
-                {Available_Booking_Day !== "" &&
-                  day?.day_name === Available_Booking_Day && (
-                    <div>
-                      <label className="block text-[#A93356] font-semibold">
-                        {formatDate(appointment_date)} - {day?.day_name} {""}(
-                        {weekday_bangla[weekday.indexOf(day?.day_name)]})
-                      </label>
-                      <div className="mt-2">
-                        {day?.morning?.start?.slice(0, 5) !== "00:00" && (
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="radio-buttons-group"
-                              value={`${day?.morning?.start} - ${day?.morning?.end}`}
-                              onChange={(e) => setTimeSlot(e.target.value)}
-                              className="form-radio"
-                            />
-                            <span className="ml-2">{`${day?.morning?.start} - ${day?.morning?.end}`}</span>
-                          </label>
-                        )}
-                        {day?.afternoon?.start?.slice(0, 5) !== "00:00" && (
-                          <label className="flex items-center cursor-pointer">
-                            <input
-                              type="radio"
-                              name="radio-buttons-group"
-                              value={`${day?.afternoon?.start} - ${day?.afternoon?.end}`}
-                              onChange={(e) => setTimeSlot(e.target.value)}
-                              className="form-radio"
-                            />
-                            <span className="ml-2">{`${day?.afternoon?.start} - ${day?.afternoon?.end}`}</span>
-                          </label>
-                        )}
-                        {day?.evening?.start?.slice(0, 5) !== "00:00" && (
-                          <label className="flex items-center cursor-pointer">
-                            <input
-                              type="radio"
-                              name="radio-buttons-group"
-                              value={`${day?.evening?.start} - ${day?.evening?.end}`}
-                              onChange={(e) => setTimeSlot(e.target.value)}
-                              className="form-radio"
-                            />
-                            <span className="ml-2">{`${day?.evening?.start} - ${day?.evening?.end}`}</span>
-                          </label>
-                        )}
-                      </div>
-                    </div>
-                  )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <button
-            onClick={(e) => handleBookAppointment(e)}
-            type="button"
-            className="w-full flex justify-center items-center gap-1.5 bg-primary hover:bg-[#264066] text-white py-2 rounded-md"
-            disabled={progressing}
-          >
-            <span>
-              <FaCalendarAlt className="text-sm" />
-            </span>
-            <span>{progressing ? "Booking..." : "Book Appointment"}</span>
-          </button>
+          )}
         </div>
       </div>
-    </>
+
+      {/* Patient */}
+      <div className="mt-3 flex items-center gap-3 rounded-xl bg-gray-50 px-3.5 py-3">
+        <LuUserRound className="shrink-0 text-lg text-gray-400" />
+        <div className="min-w-0 text-sm">
+          <p className="font-semibold text-gray-900">
+            {selectedPatient?.patient_name}
+          </p>
+          <p className="text-xs tabular-nums text-gray-500">
+            {selectedPatient?.contact}
+          </p>
+        </div>
+      </div>
+
+      {/* Date and time */}
+      <div className="mt-5">
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-900">
+          <LuCalendarDays className="text-[#0C3F8E] dark:text-[#7FB2FF]" />
+          Date
+        </p>
+        {bookingDay ? (
+          <p className="mt-2 inline-flex h-10 items-center rounded-full border border-[#0C3F8E] bg-[#0C3F8E]/[0.06] px-4 text-sm font-semibold text-[#0C3F8E] dark:border-[#7FB2FF] dark:text-[#7FB2FF]">
+            {formatDate(appointment_date)} · {bookingDay?.day_name} (
+            {weekday_bangla[weekday.indexOf(bookingDay?.day_name)]})
+          </p>
+        ) : (
+          <p className="mt-2 rounded-xl bg-gray-50 px-4 py-3 text-sm text-gray-600">
+            No bookable day is open for this chamber right now.
+          </p>
+        )}
+
+        {slots.length > 0 && (
+          <>
+            <p className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-gray-900">
+              <LuClock className="text-[#0C3F8E] dark:text-[#7FB2FF]" />
+              Time slot <span className="font-normal text-gray-500">(পরামর্শের সময়)</span>
+            </p>
+            <div role="radiogroup" className="mt-2 grid gap-2 sm:grid-cols-2">
+              {slots.map((slot) => {
+                const checked = timeSlot === slot.value;
+                return (
+                  <label
+                    key={slot.value}
+                    className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-colors ${
+                      checked
+                        ? "border-[#0C3F8E] bg-[#0C3F8E]/[0.05] ring-1 ring-[#0C3F8E] dark:border-[#7FB2FF] dark:ring-[#7FB2FF]"
+                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="radio-buttons-group"
+                      value={slot.value}
+                      checked={checked}
+                      onChange={(e) => setTimeSlot(e.target.value)}
+                      className="sr-only"
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs text-gray-500">
+                        {slot.label}
+                      </span>
+                      <span className="block text-sm font-semibold tabular-nums text-gray-900">
+                        {slot.value}
+                      </span>
+                    </span>
+                    <span
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
+                        checked
+                          ? "border-[#0C3F8E] bg-[#0C3F8E] text-white dark:border-[#7FB2FF] dark:bg-[#7FB2FF]"
+                          : "border-gray-300"
+                      }`}
+                    >
+                      {checked && <LuCheck className="text-xs" />}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </div>
+
+      <PrimaryButton
+        onClick={(e) => handleBookAppointment(e)}
+        disabled={progressing}
+        className="mt-6"
+      >
+        <LuCalendarCheck className="text-base" />
+        {progressing ? "Booking..." : "Book appointment"}
+      </PrimaryButton>
+    </div>
   );
 };
 
