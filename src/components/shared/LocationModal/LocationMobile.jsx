@@ -4,19 +4,21 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiChevronRight } from "react-icons/hi";
+import { preloadGoogleMaps } from "@/utils/googleMapsLoader";
 
 // Phone-only location bar shown under the navbar.
 const LocationMobile = () => {
   const router = useRouter();
 
   const districtName = useSelector(
-    (state) => state.user.currentUserLocation.districtName
+    (state) => state.user.currentUserLocation?.districtName
   );
 
   return (
     <button
       type="button"
       onClick={() => router.push("/get-mobile-location")}
+      onTouchStart={preloadGoogleMaps}
       className="flex w-full items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-left text-sm md:hidden"
     >
       <FaLocationDot className="shrink-0 text-[#EB5C2F]" />

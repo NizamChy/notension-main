@@ -83,7 +83,7 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_FASHION_BASE_URL` | Fashion & Lifestyle service |
 | `NEXT_PUBLIC_IMAGE_URL` | Base URL for store and item images |
 | `NEXT_PUBLIC_FASHION_IMAGE_URL` | Base URL for fashion images |
-| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API key |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps key with Maps JavaScript API, Geocoding API and Places API enabled |
 | `NEXT_PUBLIC_SMS_KEY` | SMS gateway key for sending OTPs |
 
 Never commit `.env.local` or real keys.
@@ -92,6 +92,12 @@ Never commit `.env.local` or real keys.
 > browser code and visible to anyone. Restrict the Google Maps key to your
 > domains in Google Cloud. The SMS key should move to a server-side route
 > (without the `NEXT_PUBLIC_` prefix) so it is not exposed.
+
+The location picker (`src/components/shared/Map/LocationPicker.jsx`) is
+built to stay inside Google Maps' free monthly usage: the Maps script loads
+only when the picker opens, one map is created per opening, and the address
+under the pin is looked up only after the map stops moving, with results
+cached per ~10 m.
 
 ## Demo mode
 

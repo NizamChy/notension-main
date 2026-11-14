@@ -1,12 +1,7 @@
-import React from "react";
-import MapMobile from "@/components/shared/Map/MapMobile";
+import LocationPage from "@/components/shared/Map/LocationPage";
 
-const page = () => {
-  return (
-    <div className="mt-4 block md:hidden">
-      <MapMobile />
-    </div>
-  );
-};
+export const metadata = { title: "Delivery location" };
+
+const page = () => <LocationPage />;
 
 export default page;
