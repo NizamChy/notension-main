@@ -125,8 +125,8 @@ export const DEMO_MEDICINE_STORES = [
 
 // ------------------------------------------------------- types/subtypes
 
-// Order matters: CategorySidebar shows /images/medicine/type/type{index+1}.webp
-// for each type, so the list lines up with those 10 pictures.
+// The store sidebar picks each type's icon from its name
+// (StoreModule/categoryIcons.js).
 export const DEMO_MEDICINE_TYPES = [
   { n: 1, name: "Medicines", statusType: "General" },
   {
