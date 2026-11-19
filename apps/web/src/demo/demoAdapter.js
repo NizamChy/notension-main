@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import {
   FOOD_URL,
   USER_URL,
@@ -105,9 +105,22 @@ export const demoResponse = (status, body) => ({ [STATUS]: status, body });
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Services that already run on the new API (apps/api) skip demo data and go
+// to the network, e.g. NEXT_PUBLIC_LIVE_SERVICES=GROCERY with
+// NEXT_PUBLIC_GROCERY_URL pointing at the API. Modules move over one by one.
+const LIVE_SERVICES = new Set(
+  (process.env.NEXT_PUBLIC_LIVE_SERVICES || "")
+    .split(",")
+    .map((s) => s.trim().toUpperCase())
+    .filter(Boolean),
+);
+const networkAdapter = axios.getAdapter(["fetch", "xhr", "http"]);
+
 export const demoAdapter = async (config) => {
   const method = (config.method || "get").toUpperCase();
   const { service, path, query } = resolveRequest(config);
+
+  if (LIVE_SERVICES.has(service)) return networkAdapter(config);
 
   let status = 404;
   let body = { success: false, message: "Not available in demo mode" };
