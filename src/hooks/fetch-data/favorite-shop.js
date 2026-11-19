@@ -82,7 +82,7 @@ export const useFavouriteStore = () => {
         if (favouriteList > 9) {
           isAllowed = false;
 
-          alert(
+          toast.error(
             "Hold on! You can add up to ten (10) Store to your Favorites list!"
           );
         }
@@ -90,7 +90,7 @@ export const useFavouriteStore = () => {
         favouriteList = favouriteMedicineStore.length;
         if (favouriteList > 9) {
           isAllowed = false;
-          alert(
+          toast.error(
             "Hold on! You can add up to ten (10) Store to your Favorites list!"
           );
         }
@@ -98,7 +98,7 @@ export const useFavouriteStore = () => {
         favouriteList = favouriteFoodShop.length;
         if (favouriteList > 29) {
           isAllowed = false;
-          alert(
+          toast.error(
             "Hold on! You can add up to thirty (30) Store to your Favorites list!"
           );
         }

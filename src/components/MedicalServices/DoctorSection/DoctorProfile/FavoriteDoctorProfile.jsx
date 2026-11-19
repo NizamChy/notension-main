@@ -9,9 +9,11 @@ import { handleDoctorReducer } from "@/redux/doctorReducer";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import DoctorProfileView from "./DoctorProfileView";
+import DoctorNotFound from "./DoctorNotFound";
 
 const FavoriteDoctorProfile = () => {
-  const [profileInfo, setProfileInfo] = useState([]);
+  // null until the profile request has finished.
+  const [profileInfo, setProfileInfo] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { getProfileOfDoctor, progressing } = useDoctor();
@@ -52,8 +54,10 @@ const FavoriteDoctorProfile = () => {
 
   return (
     <>
-      {progressing ? (
+      {progressing || !profileInfo ? (
         <Loader />
+      ) : !profileInfo[0]?.doctorInfo ? (
+        <DoctorNotFound />
       ) : (
         <DoctorProfileView
           doctorInfo={profileInfo[0]?.doctorInfo}

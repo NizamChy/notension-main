@@ -148,10 +148,11 @@ export const useCenter = () => {
       },
     })
       .then((res) => {
-        setExploreInfo(res?.data?.result);
+        setExploreInfo(res?.data?.result || {});
         setProgressing(false);
       })
-      .catch((error) => {
+      .catch(() => {
+        setExploreInfo({});
         setProgressing(false);
       });
   };

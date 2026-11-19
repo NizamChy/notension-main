@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Cart from "@/components/Cart/Cart";
+import StoreUnavailable from "@/components/ShopInfoSection/StoreUnavailable";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
@@ -13,7 +14,7 @@ import CategorySidebar from "@/components/Grocery/GroceryCategorySection/Categor
 
 export default function GroceryStoreLayout({ children }) {
   const params = useParams();
-  const { exploreStore, progressing } = useGroceryShop();
+  const { exploreStore, progressing, storeStatus } = useGroceryShop();
 
   useEffect(() => {
     if (params?.storeId && params?.customStoreId) {
@@ -46,7 +47,13 @@ export default function GroceryStoreLayout({ children }) {
               <Loader />
             </div>
           ) : (
-            <div className={`min-h-content ${STORE_PAGE_CLASS}`}>{children}</div>
+            <div className={`min-h-content ${STORE_PAGE_CLASS}`}>
+              {storeStatus ? (
+                <StoreUnavailable moduleName="grocery" status={storeStatus} />
+              ) : (
+                children
+              )}
+            </div>
           )}
 
           <Footer />
