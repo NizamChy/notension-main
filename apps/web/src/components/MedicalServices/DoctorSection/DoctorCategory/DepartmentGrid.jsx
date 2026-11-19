@@ -36,7 +36,7 @@ const DepartmentGrid = ({
               onClick={(e) => onSelect(e, item)}
               aria-label={`${name} doctors`}
               title={name}
-              className="group relative w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm shadow-gray-900/[0.03] transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-lg hover:shadow-gray-900/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] focus-visible:ring-offset-2"
+              className="group relative w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-xs shadow-gray-900/3 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-lg hover:shadow-gray-900/5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] focus-visible:ring-offset-2"
               style={{ aspectRatio: `${imageWidth} / ${imageHeight}` }}
             >
               <Image

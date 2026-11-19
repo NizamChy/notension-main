@@ -30,7 +30,7 @@ const HowItWorks = () => (
       {STEPS.map(({ Icon, title, text }, i) => (
         <li key={title} className="relative">
           <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-xl text-[#0C3F8E] shadow-sm ring-1 ring-gray-200 dark:text-[#7FB2FF]">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-xl text-primary shadow-xs ring-1 ring-gray-200 dark:text-[#7FB2FF]">
               <Icon />
             </span>
             <span className="text-sm font-semibold text-gray-400">

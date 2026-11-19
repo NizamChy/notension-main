@@ -107,7 +107,7 @@ const AppointmentHome = () => {
             ) : (
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <p className="flex items-start gap-2 text-sm text-gray-600">
-                  <LuInfo className="mt-0.5 shrink-0 text-[#0C3F8E] dark:text-[#7FB2FF]" />
+                  <LuInfo className="mt-0.5 shrink-0 text-primary dark:text-[#7FB2FF]" />
                   <span>
                     লিস্টে রোগীর নাম না পেলে রোগীর নিবন্ধন করুন। Not in the list?
                     Register the patient first.

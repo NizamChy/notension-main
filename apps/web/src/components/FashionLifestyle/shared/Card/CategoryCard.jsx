@@ -16,7 +16,7 @@ export const CategoryTile = ({ href, image, name, ariaLabel }) => (
   <Link
     href={href}
     aria-label={ariaLabel}
-    className="group block rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E] focus-visible:ring-offset-2"
+    className="group block rounded-2xl outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E] focus-visible:ring-offset-2"
   >
     <div className="relative aspect-square overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 transition-colors group-hover:border-gray-300">
       <Image
@@ -27,7 +27,7 @@ export const CategoryTile = ({ href, image, name, ariaLabel }) => (
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
     </div>
-    <h3 className="mt-2.5 line-clamp-2 text-center text-xs font-semibold leading-snug text-gray-800 transition-colors group-hover:text-[#0C3F8E] sm:text-sm dark:group-hover:text-[#7FB2FF]">
+    <h3 className="mt-2.5 line-clamp-2 text-center text-xs font-semibold leading-snug text-gray-800 transition-colors group-hover:text-primary sm:text-sm/5 dark:group-hover:text-[#7FB2FF]">
       {name}
     </h3>
   </Link>
@@ -38,9 +38,9 @@ export const CategoryBubble = ({ href, image, name, ariaLabel }) => (
   <Link
     href={href}
     aria-label={ariaLabel}
-    className="group flex flex-col items-center rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]"
+    className="group flex flex-col items-center rounded-2xl outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]"
   >
-    <div className="relative aspect-square w-full max-w-[150px] overflow-hidden rounded-full border border-gray-200 bg-gray-100 ring-2 ring-transparent ring-offset-2 ring-offset-[color:var(--background)] transition group-hover:ring-[#0C3F8E] dark:group-hover:ring-[#7FB2FF]">
+    <div className="relative aspect-square w-full max-w-[150px] overflow-hidden rounded-full border border-gray-200 bg-gray-100 ring-2 ring-transparent ring-offset-2 ring-offset-(--background) transition group-hover:ring-[#0C3F8E] dark:group-hover:ring-[#7FB2FF]">
       <Image
         src={image ? `${FASHION_IMAGE_URL}/${image}` : "/png/dummyImage.png"}
         alt={name || "Category"}
@@ -49,7 +49,7 @@ export const CategoryBubble = ({ href, image, name, ariaLabel }) => (
         className="object-cover transition-transform duration-500 group-hover:scale-105"
       />
     </div>
-    <h3 className="mt-2.5 line-clamp-2 text-center text-xs font-semibold leading-snug text-gray-800 transition-colors group-hover:text-[#0C3F8E] sm:text-sm dark:group-hover:text-[#7FB2FF]">
+    <h3 className="mt-2.5 line-clamp-2 text-center text-xs font-semibold leading-snug text-gray-800 transition-colors group-hover:text-primary sm:text-sm/5 dark:group-hover:text-[#7FB2FF]">
       {name}
     </h3>
   </Link>

@@ -22,7 +22,7 @@ const CategoryBannerCarousel = () => {
   return (
     <section
       aria-label="Offers"
-      className="relative aspect-[1388/400] w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm shadow-gray-900/[0.03]"
+      className="relative aspect-1388/400 w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-xs shadow-gray-900/3"
     >
       <Swiper
         style={{
@@ -41,10 +41,10 @@ const CategoryBannerCarousel = () => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper !absolute inset-0 h-full w-full"
+        className="mySwiper absolute! inset-0 h-full w-full"
       >
         {images.map((slide, index) => (
-          <SwiperSlide key={slide} className="!h-full">
+          <SwiperSlide key={slide} className="h-full!">
             <Image
               fill
               preload={index === 0}

@@ -123,7 +123,7 @@ const StoreCategorySidebar = ({ moduleName }) => (
     <p className="px-5 pb-1 pt-5 text-xs font-semibold uppercase tracking-wider text-gray-400">
       Categories
     </p>
-    <nav className="flex-1 overflow-y-auto px-3 pb-4 [scrollbar-width:none] xl:px-4 [&::-webkit-scrollbar]:hidden">
+    <nav className="flex-1 overflow-y-auto px-3 pb-4 scrollbar-none xl:px-4 [&::-webkit-scrollbar]:hidden">
       <StoreCategoryList moduleName={moduleName} />
     </nav>
   </aside>

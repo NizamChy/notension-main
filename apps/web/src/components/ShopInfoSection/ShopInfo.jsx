@@ -19,7 +19,7 @@ const STORE_STATE_KEYS = {
 
 const InfoLine = ({ icon: Icon, children, title }) => (
   <p className="flex min-w-0 items-center gap-2">
-    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-[#0C3F8E] dark:text-[#7FB2FF]">
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-[#7FB2FF]">
       <Icon className="text-sm" />
     </span>
     <span className="truncate" title={title}>
@@ -63,8 +63,8 @@ const ShopInfo = ({ moduleName = "medicine", layout = "card" }) => {
       <div
         className={`relative overflow-hidden rounded-xl bg-gray-100 ${
           isRow
-            ? "aspect-[5/3] w-28 shrink-0 sm:w-40 md:w-48"
-            : "aspect-[2/1] w-full md:aspect-auto md:min-h-24 md:flex-1"
+            ? "aspect-5/3 w-28 shrink-0 sm:w-40 md:w-48"
+            : "aspect-2/1 w-full md:aspect-auto md:min-h-24 md:flex-1"
         }`}
       >
         <Image

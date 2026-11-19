@@ -47,9 +47,9 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
       onKeyDown={(e) => {
         if (e.key === "Enter" && e.target === e.currentTarget) handleClick(e);
       }}
-      className={`group relative flex h-full cursor-pointer flex-col overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
+      className={`group relative flex h-full cursor-pointer flex-col overflow-hidden focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
+      <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
         <Image
           src={
             resolveHealthImage(center?.medical_center_banner_app) ||
@@ -61,8 +61,8 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
           className="object-cover transition-transform duration-500 group-hover:scale-105 dark:brightness-90"
         />
         {distance && (
-          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-[#FFFFFF]/95 px-2.5 py-1 text-xs font-semibold text-[#101828] shadow-sm">
-            <LuNavigation className="text-[#0C3F8E]" />
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-[#FFFFFF]/95 px-2.5 py-1 text-xs font-semibold text-[#101828] shadow-xs">
+            <LuNavigation className="text-primary" />
             {distance}
           </span>
         )}
@@ -71,7 +71,7 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-start gap-3">
           {logo && (
-            <span className="relative -mt-9 h-12 w-12 shrink-0 overflow-hidden rounded-xl border-2 border-white bg-[#FFFFFF] shadow-sm">
+            <span className="relative -mt-9 h-12 w-12 shrink-0 overflow-hidden rounded-xl border-2 border-white bg-[#FFFFFF] shadow-xs">
               <Image src={logo} alt="" fill sizes="48px" className="object-contain p-1" />
             </span>
           )}
@@ -81,7 +81,7 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
                 {typeLabel}
               </Badge>
             )}
-            <h3 className="line-clamp-2 text-base font-semibold leading-snug text-gray-900 transition-colors group-hover:text-[#0C3F8E] dark:group-hover:text-[#7FB2FF]">
+            <h3 className="line-clamp-2 text-base font-semibold leading-snug text-gray-900 transition-colors group-hover:text-primary dark:group-hover:text-[#7FB2FF]">
               {center?.center_name}
             </h3>
           </div>
@@ -98,7 +98,7 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
               <a
                 href={`tel:${String(phone).replace(/[^\d+]/g, "")}`}
                 onClick={(e) => e.stopPropagation()}
-                className="tabular-nums hover:text-[#0C3F8E] hover:underline dark:hover:text-[#7FB2FF]"
+                className="tabular-nums hover:text-primary hover:underline dark:hover:text-[#7FB2FF]"
               >
                 {phone}
               </a>
@@ -106,7 +106,7 @@ const MedicalCenterCard = ({ center, onClick, children }) => {
           )}
         </ul>
 
-        <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+        <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-primary dark:text-[#7FB2FF]">
           View details
           <LuArrowRight className="transition-transform group-hover:translate-x-0.5" />
         </span>

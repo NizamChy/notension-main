@@ -49,7 +49,7 @@ const DoctorInfoByDept = () => {
   return (
     <MedicalPageBody>
       <PageHeader
-        className="!mb-0"
+        className="mb-0!"
         back="/medical-services/doctor"
         backLabel="All departments"
         title={deptName ? `${deptName} specialists` : "Specialists"}

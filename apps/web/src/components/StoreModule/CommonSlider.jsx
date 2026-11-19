@@ -21,9 +21,9 @@ const CommonSlider = ({ moduleName, slides, classNames = "" }) => {
 
   return (
     <div
-      className={`relative h-full w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm shadow-gray-900/[0.03] ${classNames}`}
+      className={`relative h-full w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-xs shadow-gray-900/3 ${classNames}`}
     >
-      <div aria-hidden className="w-full aspect-[5/2]" />
+      <div aria-hidden className="w-full aspect-5/2" />
       <Swiper
         style={{
           "--swiper-pagination-color": "#FFFFFF",
@@ -41,10 +41,10 @@ const CommonSlider = ({ moduleName, slides, classNames = "" }) => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper !absolute inset-0 w-full h-full"
+        className="mySwiper absolute! inset-0 w-full h-full"
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={slide?._id} className="!h-full">
+          <SwiperSlide key={slide?._id} className="h-full!">
             <Image
               fill
               sizes="(min-width: 1024px) 60vw, 100vw"
@@ -55,7 +55,7 @@ const CommonSlider = ({ moduleName, slides, classNames = "" }) => {
             {/* Soft bottom fade keeps the pagination dots readable. */}
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/25 to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/25 to-transparent"
             />
           </SwiperSlide>
         ))}

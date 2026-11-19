@@ -65,7 +65,7 @@ const FoodSearchedStores = () => {
         title={
           <>
             Results for{" "}
-            <span className="text-[#0C3F8E] dark:text-[#7FB2FF]">
+            <span className="text-primary dark:text-[#7FB2FF]">
               &ldquo;{searchText}&rdquo;
             </span>
           </>

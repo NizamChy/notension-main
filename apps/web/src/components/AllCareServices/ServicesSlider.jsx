@@ -10,7 +10,7 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { SERVICE_BANNER_IMAGES } from "@/api-endpoints/api-endpoint";
 
 export const SLIDER_ARROW =
-  "absolute top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-xl text-gray-800 shadow-md shadow-gray-900/10 transition-colors hover:bg-gray-50 hover:text-[#0C3F8E] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] dark:hover:text-[#7FB2FF] md:flex";
+  "absolute top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-xl text-gray-800 shadow-md shadow-gray-900/10 transition-colors hover:bg-gray-50 hover:text-primary focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] dark:hover:text-[#7FB2FF] md:flex";
 
 // Promotional banner carousel shown between service groups.
 const ServicesSlider = ({ slider }) => {
@@ -64,7 +64,7 @@ const ServicesSlider = ({ slider }) => {
       >
         {slider?.map((slide) => (
           <SwiperSlide key={slide?._id}>
-            <div className="relative aspect-[2/1] w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100">
+            <div className="relative aspect-2/1 w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100">
               <Image
                 className="object-cover"
                 src={`${SERVICE_BANNER_IMAGES}/${slide?.file_name}`}

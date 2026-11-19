@@ -102,7 +102,7 @@ const FashionProductCard = ({
   const tag = product?.new
     ? { label: "New", cls: "bg-[#FFFFFF] text-gray-900" }
     : product?.bestseller
-      ? { label: "Bestseller", cls: "bg-[#0C3F8E] text-white" }
+      ? { label: "Bestseller", cls: "bg-primary text-white" }
       : product?.featured
         ? { label: "Featured", cls: "bg-[#FFFFFF] text-gray-900" }
         : null;
@@ -111,9 +111,9 @@ const FashionProductCard = ({
     <Link
       href={productHref}
       onClick={handleProductClick}
-      className={`group flex h-full flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E] focus-visible:ring-offset-2 ${className}`}
+      className={`group flex h-full flex-col rounded-2xl outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E] focus-visible:ring-offset-2 ${className}`}
     >
-      <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100">
+      <div className="relative aspect-3/4 overflow-hidden rounded-2xl bg-gray-100">
         <Image
           src={
             product?.web_image
@@ -129,13 +129,13 @@ const FashionProductCard = ({
         {(tag || hasDiscount) && (
           <div className="absolute left-2 top-2 z-10 flex flex-col items-start gap-1 sm:left-3 sm:top-3">
             {hasDiscount && (
-              <span className="rounded-full bg-[#EB5C2F] px-2 py-0.5 text-[11px] font-semibold tabular-nums text-white shadow-sm">
+              <span className="rounded-full bg-[#EB5C2F] px-2 py-0.5 text-[11px] font-semibold tabular-nums text-white shadow-xs">
                 -{discount}%
               </span>
             )}
             {tag && (
               <span
-                className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide shadow-sm ${tag.cls}`}
+                className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide shadow-xs ${tag.cls}`}
               >
                 {tag.label}
               </span>
@@ -149,7 +149,7 @@ const FashionProductCard = ({
             aria-label={isFavourite ? "Remove from wishlist" : "Add to wishlist"}
             aria-pressed={isFavourite}
             onClick={toggleWishlist}
-            className={`absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-sm backdrop-blur transition-colors sm:right-3 sm:top-3 ${
+            className={`absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-xs backdrop-blur-sm transition-colors sm:right-3 sm:top-3 ${
               isFavourite
                 ? "text-[#D92D20]"
                 : "text-[#374151] hover:bg-[#FFFFFF] hover:text-[#D92D20]"
@@ -168,7 +168,7 @@ const FashionProductCard = ({
             {secondary}
           </p>
         ) : null}
-        <h3 className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-gray-900 group-hover:underline group-hover:decoration-gray-400 group-hover:underline-offset-2">
+        <h3 className="mt-1 line-clamp-2 min-h-10 text-sm font-medium leading-snug text-gray-900 group-hover:underline group-hover:decoration-gray-400 group-hover:underline-offset-2">
           {product?.product_title_eng}
         </h3>
 

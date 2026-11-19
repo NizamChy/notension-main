@@ -88,7 +88,7 @@ const StoreProductsBySubCat = () => {
         <PageHeader
           title={<span className="capitalize">{unslug(subCatSlug)}</span>}
           subtitle={<span className="capitalize">at {shopName}</span>}
-          className="!mb-6"
+          className="mb-6!"
         />
 
         <div className="flex flex-col items-start gap-6 md:flex-row lg:gap-8">

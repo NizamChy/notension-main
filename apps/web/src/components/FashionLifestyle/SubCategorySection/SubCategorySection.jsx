@@ -53,7 +53,7 @@ const SubCategorySection = ({
   if (isLoading) return <CategorySkeleton gridClass={gridClass} />;
 
   return (
-    <FashionSection className={`min-h-content !pt-6 md:!pt-8 ${bgColor}`}>
+    <FashionSection className={`min-h-content pt-6! md:pt-8! ${bgColor}`}>
       {header}
 
       {isError ? (

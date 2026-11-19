@@ -68,7 +68,7 @@ const CategoryByStoreSlider = () => {
           640: { slidesPerView: 5.3, spaceBetween: 16 },
           1024: { slidesPerView: 7, spaceBetween: 24 },
         }}
-        className="!py-1"
+        className="py-1!"
       >
         {allSubCategoriesByStore?.map((category) => (
           <SwiperSlide key={category?._id.toString()}>

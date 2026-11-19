@@ -96,7 +96,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
           icon={<HiOutlineCube />}
           title="Not available"
           text={message}
-          className="min-h-[30vh] !border-0"
+          className="min-h-[30vh] border-0!"
         />
       ) : (
         <ProductDetailsView

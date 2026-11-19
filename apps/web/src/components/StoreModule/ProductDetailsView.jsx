@@ -95,7 +95,7 @@ const ProductDetailsView = ({
             onError={() => setIsImageLoading(false)}
           />
           {discountLabel && (
-            <span className="absolute left-3 top-3 rounded-full bg-[#EB5C2F] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm">
+            <span className="absolute left-3 top-3 rounded-full bg-[#EB5C2F] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-xs">
               {discountLabel}
             </span>
           )}
@@ -126,7 +126,7 @@ const ProductDetailsView = ({
 
         <TitleTag
           className={`font-bold tracking-tight text-gray-900 ${
-            isModal ? "pr-6 text-lg leading-snug md:text-xl" : "text-xl leading-tight md:text-3xl"
+            isModal ? "pr-6 text-lg leading-snug md:text-xl/7" : "text-xl leading-tight md:text-3xl/9"
           }`}
         >
           {title}
@@ -135,7 +135,7 @@ const ProductDetailsView = ({
           <p className="mt-1 text-sm text-gray-500">{altTitle}</p>
         )}
         {highlight && (
-          <p className="mt-2 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+          <p className="mt-2 text-sm font-semibold text-primary dark:text-[#7FB2FF]">
             {highlight}
           </p>
         )}
@@ -196,13 +196,13 @@ const ProductDetailsView = ({
               type="button"
               onClick={onAddToCart}
               disabled={isBusy}
-              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#0C3F8E] px-6 text-sm font-semibold text-white shadow-sm shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] disabled:cursor-wait disabled:opacity-70 sm:max-w-xs"
+              className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-white shadow-xs shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] disabled:cursor-wait disabled:opacity-70 sm:max-w-xs"
             >
               {isBusy ? <Spinner /> : <HiOutlineShoppingBag className="text-lg" />}
               {isBusy ? "Adding…" : "Add to cart"}
             </button>
           ) : (
-            <div className="flex h-12 flex-1 items-center justify-between rounded-full bg-[#0C3F8E] p-1 text-white shadow-sm shadow-[#0C3F8E]/20 sm:max-w-xs">
+            <div className="flex h-12 flex-1 items-center justify-between rounded-full bg-primary p-1 text-white shadow-xs shadow-[#0C3F8E]/20 sm:max-w-xs">
               <button
                 type="button"
                 aria-label="Decrease quantity"
@@ -270,19 +270,19 @@ export const ProductDetailsSkeleton = ({ variant = "page" }) => {
         isModal ? "sm:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] sm:gap-6" : "md:grid-cols-2 md:gap-10"
       }`}
     >
-      <Skeleton className={`aspect-square w-full !rounded-2xl ${isModal ? "mx-auto max-w-[18rem] sm:max-w-none" : ""}`} />
+      <Skeleton className={`aspect-square w-full rounded-2xl! ${isModal ? "mx-auto max-w-[18rem] sm:max-w-none" : ""}`} />
       <div className="space-y-3">
-        <Skeleton className="h-5 w-24 !rounded-full" />
+        <Skeleton className="h-5 w-24 rounded-full!" />
         <Skeleton className="h-7 w-4/5" />
         <Skeleton className="h-4 w-1/2" />
         <div className="flex gap-2 pt-1">
-          <Skeleton className="h-6 w-16 !rounded-full" />
-          <Skeleton className="h-6 w-20 !rounded-full" />
+          <Skeleton className="h-6 w-16 rounded-full!" />
+          <Skeleton className="h-6 w-20 rounded-full!" />
         </div>
-        <Skeleton className="!mt-6 h-8 w-32" />
+        <Skeleton className="mt-6! h-8 w-32" />
         <div className="flex gap-3 pt-2">
-          <Skeleton className="h-12 flex-1 !rounded-full sm:max-w-xs" />
-          <Skeleton className="h-12 w-12 !rounded-full" />
+          <Skeleton className="h-12 flex-1 rounded-full! sm:max-w-xs" />
+          <Skeleton className="h-12 w-12 rounded-full!" />
         </div>
       </div>
     </div>

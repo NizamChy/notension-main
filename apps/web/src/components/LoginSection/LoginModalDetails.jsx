@@ -103,7 +103,7 @@ const LoginModalDetails = ({
         <div className="w-full">
           {showHeading && (
             <div className="pr-6 pt-1">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-xl text-[#0C3F8E] dark:text-[#7FB2FF]">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-xl text-primary dark:text-[#7FB2FF]">
                 <HiOutlineDevicePhoneMobile />
               </span>
               <h2 className="mt-3 text-lg font-bold tracking-tight text-gray-900 md:text-xl">

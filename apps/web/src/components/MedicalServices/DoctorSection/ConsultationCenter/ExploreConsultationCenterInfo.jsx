@@ -38,7 +38,7 @@ const ExploreConsultationCenterInfo = () => {
     <>
     <div className={`${CARD} overflow-hidden`}>
       <div className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-        <div className="relative aspect-[16/9] bg-gray-100 md:aspect-auto md:min-h-[260px]">
+        <div className="relative aspect-video bg-gray-100 md:aspect-auto md:min-h-[260px]">
           <Image
             src={
               resolveHealthImage(currentCenter?.medical_center_banner_app) ||
@@ -68,7 +68,7 @@ const ExploreConsultationCenterInfo = () => {
           </h1>
 
           {currentCenter?.address && (
-            <p className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-gray-600 md:text-base">
+            <p className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-gray-600 md:text-base/6">
               <LuMapPin className="mt-0.5 shrink-0 text-base text-gray-400 md:mt-1" />
               <span className="line-clamp-3">{currentCenter.address}</span>
             </p>
@@ -84,7 +84,7 @@ const ExploreConsultationCenterInfo = () => {
                   <a
                     key={contact}
                     href={`tel:${String(contact).replace(/[^\d+]/g, "")}`}
-                    className="inline-flex h-10 items-center gap-2 rounded-full border border-gray-200 bg-white px-4 text-sm font-medium tabular-nums text-gray-800 transition-colors hover:border-[#0C3F8E]/40 hover:text-[#0C3F8E] dark:hover:text-[#7FB2FF]"
+                    className="inline-flex h-10 items-center gap-2 rounded-full border border-gray-200 bg-white px-4 text-sm font-medium tabular-nums text-gray-800 transition-colors hover:border-primary/40 hover:text-primary dark:hover:text-[#7FB2FF]"
                   >
                     <LuPhone className="text-[#12B76A]" />
                     {contact}

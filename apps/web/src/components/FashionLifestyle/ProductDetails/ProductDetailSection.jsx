@@ -37,13 +37,13 @@ const OptionLabel = ({ title, value }) => (
 const DetailSkeleton = () => (
   <div className={`${FASHION_CONTAINER} py-6 md:py-10`} aria-hidden>
     <div className="grid gap-6 md:grid-cols-2 lg:gap-12">
-      <Skeleton className="aspect-[3/4] !rounded-2xl" />
+      <Skeleton className="aspect-3/4 rounded-2xl!" />
       <div className="space-y-4">
-        <Skeleton className="h-3 w-24 !rounded-full" />
-        <Skeleton className="h-8 w-3/4 !rounded-full" />
-        <Skeleton className="h-7 w-40 !rounded-full" />
-        <Skeleton className="mt-8 h-11 w-2/3 !rounded-full" />
-        <Skeleton className="h-12 w-full !rounded-full" />
+        <Skeleton className="h-3 w-24 rounded-full!" />
+        <Skeleton className="h-8 w-3/4 rounded-full!" />
+        <Skeleton className="h-7 w-40 rounded-full!" />
+        <Skeleton className="mt-8 h-11 w-2/3 rounded-full!" />
+        <Skeleton className="h-12 w-full rounded-full!" />
       </div>
     </div>
   </div>
@@ -268,7 +268,7 @@ const ProductDetailSection = () => {
                           }
                           className={`relative h-[72px] w-14 overflow-hidden rounded-xl border-2 bg-gray-100 transition-colors ${
                             active
-                              ? "border-[#0C3F8E] dark:border-[#7FB2FF]"
+                              ? "border-primary dark:border-[#7FB2FF]"
                               : "border-gray-200 hover:border-gray-400"
                           }`}
                         >
@@ -280,7 +280,7 @@ const ProductDetailSection = () => {
                             className="object-cover"
                           />
                           {active && (
-                            <span className="absolute bottom-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#0C3F8E] text-[10px] text-white">
+                            <span className="absolute bottom-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-white">
                               <HiCheck />
                             </span>
                           )}
@@ -309,7 +309,7 @@ const ProductDetailSection = () => {
                           aria-pressed={active}
                           className={`h-11 min-w-12 rounded-full border px-4 text-sm font-medium transition-colors ${
                             active
-                              ? "border-[#0C3F8E] bg-[#0C3F8E] text-white"
+                              ? "border-primary bg-primary text-white"
                               : "border-gray-200 text-gray-800 hover:border-gray-400"
                           }`}
                         >
@@ -357,7 +357,7 @@ const ProductDetailSection = () => {
               <button
                 type="button"
                 onClick={() => handleAddToCart()}
-                className={`${PRIMARY_BUTTON} h-12 flex-1 !px-3 sm:!px-5`}
+                className={`${PRIMARY_BUTTON} h-12 flex-1 px-3! sm:px-5!`}
               >
                 <HiOutlineShoppingBag className="text-lg" />
                 Add to bag
@@ -366,7 +366,7 @@ const ProductDetailSection = () => {
               <button
                 type="button"
                 onClick={() => handleAddToCart({ buyNow: true })}
-                className="inline-flex h-12 flex-1 items-center justify-center rounded-full bg-[#EB5C2F] px-3 text-sm sm:px-5 font-semibold text-white shadow-sm shadow-[#EB5C2F]/20 transition-colors hover:bg-[#D9481C]"
+                className="inline-flex h-12 flex-1 items-center justify-center rounded-full bg-[#EB5C2F] px-3 text-sm sm:px-5 font-semibold text-white shadow-xs shadow-[#EB5C2F]/20 transition-colors hover:bg-[#D9481C]"
               >
                 Buy now
               </button>
@@ -378,7 +378,7 @@ const ProductDetailSection = () => {
                 aria-label={
                   isFavourite ? "Remove from wishlist" : "Add to wishlist"
                 }
-                className={`${SECONDARY_BUTTON} h-12 w-12 shrink-0 !px-0 ${
+                className={`${SECONDARY_BUTTON} h-12 w-12 shrink-0 px-0! ${
                   isFavourite ? "text-[#D92D20]" : ""
                 }`}
               >
@@ -422,7 +422,7 @@ const ProductDetailSection = () => {
                   href={`/fashion-lifestyle/shop/${slugify(store?.shop_name)}_${
                     store?._id
                   }`}
-                  className={`${SECONDARY_BUTTON} h-10 shrink-0 !px-4`}
+                  className={`${SECONDARY_BUTTON} h-10 shrink-0 px-4!`}
                 >
                   Visit store
                 </Link>

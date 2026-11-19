@@ -7,7 +7,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
     <CommonModal
       isOpen={isOpen}
       onClose={onClose}
-      className="m-4 max-w-screen-md"
+      className="m-4 max-w-(--breakpoint-md)"
     >
       <div className="max-h-[80vh] overflow-y-auto pr-1">
         <OrderDetailsContent order={order} />

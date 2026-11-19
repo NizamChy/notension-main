@@ -16,7 +16,7 @@ const FashionSection = ({ children, className = "", innerClassName = "" }) => {
 
 /** Round prev/next buttons for Swiper rails (Swiper finds them by class). */
 const NAV_BUTTON =
-  "flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-lg text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 [&.swiper-button-disabled]:cursor-not-allowed [&.swiper-button-disabled]:opacity-40";
+  "flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-lg text-gray-700 shadow-xs transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 [&.swiper-button-disabled]:cursor-not-allowed [&.swiper-button-disabled]:opacity-40";
 
 export const SliderNav = ({ prevClass, nextClass, label = "items" }) => (
   <div className="hidden shrink-0 items-center gap-2 md:flex">

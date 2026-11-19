@@ -24,11 +24,11 @@ const CategorySlider = ({ onNavigate, className = "" }) => {
   return (
     <nav
       aria-label="Menu categories"
-      className={`sticky top-16 z-20 -mx-4 border-b border-gray-200 bg-white/95 backdrop-blur sm:-mx-6 lg:hidden ${className}`}
+      className={`sticky top-16 z-20 -mx-4 border-b border-gray-200 bg-white/95 backdrop-blur-sm sm:-mx-6 lg:hidden ${className}`}
     >
       <div
         ref={scrollerRef}
-        className="flex gap-2 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:px-6 [&::-webkit-scrollbar]:hidden"
+        className="flex gap-2 overflow-x-auto px-4 py-2.5 scrollbar-none sm:px-6 [&::-webkit-scrollbar]:hidden"
       >
         {items.map((item) => {
           const active = activeId === item.id;
@@ -40,7 +40,7 @@ const CategorySlider = ({ onNavigate, className = "" }) => {
               onClick={() => goTo(item.id)}
               className={`inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition-colors ${
                 active
-                  ? "bg-[#0C3F8E] text-white shadow-sm shadow-[#0C3F8E]/20"
+                  ? "bg-primary text-white shadow-xs shadow-[#0C3F8E]/20"
                   : "border border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:text-gray-900"
               }`}
             >

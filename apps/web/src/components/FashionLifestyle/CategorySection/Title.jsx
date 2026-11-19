@@ -32,7 +32,7 @@ const Title = ({
           {href && (
             <Link
               href={href}
-              className="group inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]"
+              className="group inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-primary dark:text-[#7FB2FF]"
             >
               {linkLabel}
               <HiArrowRight className="transition-transform group-hover:translate-x-0.5" />

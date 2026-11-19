@@ -47,7 +47,7 @@ const DoctorCardView = ({
         />
 
         <div className={`min-w-0 flex-1 ${action ? "pr-10" : ""}`}>
-          <h3 className="line-clamp-1 text-base font-semibold text-gray-900 transition-colors group-hover:text-[#0C3F8E] dark:group-hover:text-[#7FB2FF]">
+          <h3 className="line-clamp-1 text-base font-semibold text-gray-900 transition-colors group-hover:text-primary dark:group-hover:text-[#7FB2FF]">
             {name}
           </h3>
           {qualifications && (
@@ -104,7 +104,7 @@ const DoctorCardView = ({
           )}
           <button
             type="button"
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E] px-4 text-sm font-semibold text-white shadow-sm shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] focus-visible:ring-offset-2"
+            className="inline-flex h-10 shrink-0 items-center justify-center rounded-full bg-primary px-4 text-sm font-semibold text-white shadow-xs shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] focus-visible:ring-offset-2"
           >
             {ctaLabel}
           </button>

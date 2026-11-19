@@ -76,7 +76,7 @@ const ProductByCategory = ({ subCategoryNav = null }) => {
         />
         <PageHeader
           title={<span className="capitalize">{unslug(subCatSlug)}</span>}
-          className="!mb-5"
+          className="mb-5!"
         />
 
         {subCategoryNav && <div className="mb-6 md:mb-8">{subCategoryNav}</div>}

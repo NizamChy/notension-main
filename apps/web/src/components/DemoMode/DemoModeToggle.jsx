@@ -85,13 +85,13 @@ const DemoModeToggle = () => {
               aria-label="Demo mode"
               disabled={isSwitching}
               onClick={handleToggle}
-              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] focus-visible:ring-offset-2 disabled:opacity-60 ${
-                demoOn ? "bg-[#0C3F8E]" : "bg-gray-300"
+              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] focus-visible:ring-offset-2 disabled:opacity-60 ${
+                demoOn ? "bg-primary" : "bg-gray-300"
               }`}
             >
               <span
                 className={`absolute top-0.5 h-5 w-5 rounded-full bg-[#FFFFFF] shadow transition-all ${
-                  demoOn ? "left-[1.375rem]" : "left-0.5"
+                  demoOn ? "left-5.5" : "left-0.5"
                 }`}
               />
             </button>
@@ -113,7 +113,7 @@ const DemoModeToggle = () => {
                       onClick={() => handleLocation(location)}
                       className={`flex min-h-10 items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-sm transition-colors ${
                         selected
-                          ? "bg-[#0C3F8E]/10 font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]"
+                          ? "bg-primary/10 font-semibold text-primary dark:text-[#7FB2FF]"
                           : "text-gray-700 hover:bg-gray-100"
                       }`}
                     >
@@ -133,7 +133,7 @@ const DemoModeToggle = () => {
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
         aria-label={`Demo mode: ${demoOn ? "On" : "Off"}`}
-        className="flex h-10 items-center gap-1.5 rounded-full border border-gray-200 bg-white/95 px-3.5 text-xs font-semibold text-gray-800 shadow-lg shadow-gray-900/10 backdrop-blur transition-shadow hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] md:gap-2 md:px-4 md:text-sm"
+        className="flex h-10 items-center gap-1.5 rounded-full border border-gray-200 bg-white/95 px-3.5 text-xs font-semibold text-gray-800 shadow-lg shadow-gray-900/10 backdrop-blur-sm transition-shadow hover:shadow-xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] md:gap-2 md:px-4 md:text-sm"
       >
         <span
           className={`h-2 w-2 md:h-2.5 md:w-2.5 rounded-full ${

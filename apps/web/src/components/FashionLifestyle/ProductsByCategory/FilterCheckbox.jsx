@@ -14,7 +14,7 @@ const FilterCheckbox = ({ label, checked, onChange, disabled, swatch }) => {
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className="h-4 w-4 shrink-0 cursor-pointer rounded border-gray-300 accent-[#0C3F8E] disabled:cursor-not-allowed"
+        className="h-4 w-4 shrink-0 cursor-pointer rounded-sm border-gray-300 accent-primary disabled:cursor-not-allowed"
       />
       {swatch && (
         <span

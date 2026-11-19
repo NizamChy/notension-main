@@ -141,7 +141,7 @@ export const PrimaryButton = ({ children, className = "", ...props }) => (
   <button
     type="button"
     {...props}
-    className={`flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#0C3F8E] px-6 text-sm font-semibold text-white shadow-sm shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none ${className}`}
+    className={`flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-white shadow-xs shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none ${className}`}
   >
     {children}
   </button>

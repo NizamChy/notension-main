@@ -44,9 +44,9 @@ const FashionCarousel = () => {
         pagination={{
           clickable: true,
           bulletClass:
-            "swiper-pagination-bullet !h-1.5 !w-1.5 !rounded-full !bg-[#FFFFFF]/60 !opacity-100 !transition-all",
+            "swiper-pagination-bullet h-1.5! w-1.5! rounded-full! bg-[#FFFFFF]/60! opacity-100! transition-all!",
           bulletActiveClass:
-            "swiper-pagination-bullet-active !w-6 !bg-[#FFFFFF]",
+            "swiper-pagination-bullet-active w-6! bg-[#FFFFFF]!",
         }}
         autoplay={{
           delay: 5000,
@@ -67,7 +67,7 @@ const FashionCarousel = () => {
                 className="object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/0 sm:from-black/60 sm:via-black/25" />
+              <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/35 to-black/0 sm:from-black/60 sm:via-black/25" />
 
               <div className="absolute inset-0 flex items-center">
                 <div className="max-w-[85%] px-6 sm:max-w-md sm:px-10 lg:max-w-xl lg:px-16">
@@ -76,13 +76,13 @@ const FashionCarousel = () => {
                       {slide.subtitle}
                     </p>
                   )}
-                  <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-[#FFFFFF] sm:text-4xl lg:text-5xl">
+                  <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-[#FFFFFF] sm:text-4xl/10 lg:text-5xl/none">
                     {slide?.title}
                   </h2>
 
                   <Link
                     href={slide?.href || "/fashion-lifestyle"}
-                    className="group mt-4 inline-flex h-10 items-center gap-2 rounded-full bg-[#FFFFFF] px-5 text-sm font-semibold text-[#111827] shadow-sm transition-colors hover:bg-[#F3F4F6] sm:mt-6 sm:h-11 sm:px-6"
+                    className="group mt-4 inline-flex h-10 items-center gap-2 rounded-full bg-[#FFFFFF] px-5 text-sm font-semibold text-[#111827] shadow-xs transition-colors hover:bg-[#F3F4F6] sm:mt-6 sm:h-11 sm:px-6"
                   >
                     {slide?.cta}
                     <HiArrowRight className="transition-transform group-hover:translate-x-0.5" />

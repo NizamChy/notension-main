@@ -26,7 +26,7 @@ const DishCartControl = ({
         onClick={onAdd}
         disabled={disabled}
         aria-label={`Add ${name} to cart`}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-[#FFFFFF] text-[#0C3F8E] shadow-md shadow-gray-900/10 transition hover:scale-105 hover:bg-[#0C3F8E] hover:text-white disabled:opacity-60"
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-[#FFFFFF] text-primary shadow-md shadow-gray-900/10 transition hover:scale-105 hover:bg-primary hover:text-white disabled:opacity-60"
       >
         <HiPlus className="text-lg" />
       </button>
@@ -39,7 +39,7 @@ const DishCartControl = ({
         e.preventDefault();
         e.stopPropagation();
       }}
-      className={`inline-flex items-center rounded-full bg-[#0C3F8E] text-white shadow-md shadow-[#0C3F8E]/25 ${
+      className={`inline-flex items-center rounded-full bg-primary text-white shadow-md shadow-[#0C3F8E]/25 ${
         overlay ? "h-10" : "h-12"
       }`}
     >

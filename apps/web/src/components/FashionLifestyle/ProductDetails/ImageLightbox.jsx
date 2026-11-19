@@ -199,7 +199,7 @@ const ImageLightbox = ({ images, index, onIndexChange, onClose, alt }) => {
       role="dialog"
       aria-modal="true"
       aria-label="Product images"
-      className="fixed inset-0 z-[100] flex flex-col bg-black/95 text-[#FFFFFF]"
+      className="fixed inset-0 z-100 flex flex-col bg-black/95 text-[#FFFFFF]"
     >
       {/* Top bar */}
       <div className="flex items-center justify-between gap-2 px-3 py-2 sm:px-5 sm:py-3">
@@ -282,7 +282,7 @@ const ImageLightbox = ({ images, index, onIndexChange, onClose, alt }) => {
               type="button"
               onClick={() => go(-1)}
               aria-label="Previous image"
-              className="absolute left-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl backdrop-blur transition hover:bg-white/20 sm:flex"
+              className="absolute left-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl backdrop-blur-sm transition hover:bg-white/20 sm:flex"
             >
               <FiChevronLeft />
             </button>
@@ -290,7 +290,7 @@ const ImageLightbox = ({ images, index, onIndexChange, onClose, alt }) => {
               type="button"
               onClick={() => go(1)}
               aria-label="Next image"
-              className="absolute right-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl backdrop-blur transition hover:bg-white/20 sm:flex"
+              className="absolute right-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl backdrop-blur-sm transition hover:bg-white/20 sm:flex"
             >
               <FiChevronRight />
             </button>
@@ -300,7 +300,7 @@ const ImageLightbox = ({ images, index, onIndexChange, onClose, alt }) => {
 
       {/* Thumbnails */}
       {count > 1 && (
-        <div className="flex justify-center gap-2 overflow-x-auto px-3 py-3 [scrollbar-width:none]">
+        <div className="flex justify-center gap-2 overflow-x-auto px-3 py-3 scrollbar-none">
           {images.map((src, i) => (
             <button
               key={src}

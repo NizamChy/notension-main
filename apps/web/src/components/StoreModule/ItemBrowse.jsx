@@ -17,7 +17,7 @@ export const TypeBreadcrumb = ({ typeName, subTypeName, onTypeClick }) => (
         <button
           type="button"
           onClick={onTypeClick}
-          className="inline-flex min-h-8 items-center font-medium text-gray-500 transition-colors hover:text-[#0C3F8E] dark:hover:text-[#7FB2FF]"
+          className="inline-flex min-h-8 items-center font-medium text-gray-500 transition-colors hover:text-primary dark:hover:text-[#7FB2FF]"
         >
           {typeName}
         </button>

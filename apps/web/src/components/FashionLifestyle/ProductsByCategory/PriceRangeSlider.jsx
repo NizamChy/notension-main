@@ -3,7 +3,7 @@
 import React from "react";
 
 const THUMB =
-  "[&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#0C3F8E] [&::-webkit-slider-thumb]:bg-[#FFFFFF] [&::-webkit-slider-thumb]:shadow [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-[#0C3F8E] [&::-moz-range-thumb]:bg-[#FFFFFF]";
+  "[&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:bg-[#FFFFFF] [&::-webkit-slider-thumb]:shadow-sm [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:bg-[#FFFFFF]";
 
 const taka = (n) => `৳${(Number(n) || 0).toLocaleString("en-US")}`;
 
@@ -40,7 +40,7 @@ const PriceRangeSlider = ({ priceRange, handlePriceChange }) => {
         <div className="absolute inset-x-0 top-[14px] h-1 rounded-full bg-gray-200" />
 
         <div
-          className="absolute top-[14px] h-1 rounded-full bg-[#0C3F8E] dark:bg-[#7FB2FF]"
+          className="absolute top-[14px] h-1 rounded-full bg-primary dark:bg-[#7FB2FF]"
           style={{
             left: `${leftPercent}%`,
             width: `${widthPercent}%`,

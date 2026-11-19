@@ -49,7 +49,7 @@ const Drawer = ({
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-[60] ${isOpen ? "" : "pointer-events-none"}`}
+      className={`fixed inset-0 z-60 ${isOpen ? "" : "pointer-events-none"}`}
       aria-hidden={!isOpen}
     >
       <div

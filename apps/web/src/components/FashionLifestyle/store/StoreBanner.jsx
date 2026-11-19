@@ -35,12 +35,12 @@ const StoreBanner = () => {
   if (isLoading)
     return (
       <div className={`${FASHION_CONTAINER} pt-4 md:pt-6`} aria-hidden>
-        <Skeleton className="aspect-[2/1] w-full !rounded-2xl md:aspect-[4/1]" />
+        <Skeleton className="aspect-2/1 w-full rounded-2xl! md:aspect-4/1" />
         <div className="mt-4 flex items-center gap-4 px-2">
-          <Skeleton className="h-20 w-20 shrink-0 !rounded-2xl" />
+          <Skeleton className="h-20 w-20 shrink-0 rounded-2xl!" />
           <div className="flex-1 space-y-2">
-            <Skeleton className="h-6 w-1/2 !rounded-full" />
-            <Skeleton className="h-4 w-2/3 !rounded-full" />
+            <Skeleton className="h-6 w-1/2 rounded-full!" />
+            <Skeleton className="h-4 w-2/3 rounded-full!" />
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@ const StoreBanner = () => {
   return (
     <>
       <div className={`${FASHION_CONTAINER} pt-4 md:pt-6`}>
-        <div className="relative aspect-[2/1] w-full overflow-hidden rounded-2xl bg-gray-100 md:aspect-[4/1]">
+        <div className="relative aspect-2/1 w-full overflow-hidden rounded-2xl bg-gray-100 md:aspect-4/1">
           <Image
             src={imageUrl(storeInfo?.shop_banner_web)}
             alt={`${storeInfo?.shop_name || "Store"} banner`}
@@ -71,7 +71,7 @@ const StoreBanner = () => {
         </div>
 
         <div className="relative flex flex-col gap-3 px-1 sm:flex-row sm:items-end sm:gap-5 sm:px-6">
-          <div className="relative -mt-10 h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-4 border-[color:var(--background)] bg-gray-100 shadow-md sm:-mt-12 sm:h-24 sm:w-24">
+          <div className="relative -mt-10 h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-4 border-(--background) bg-gray-100 shadow-md sm:-mt-12 sm:h-24 sm:w-24">
             <Image
               src={imageUrl(logo)}
               alt={`${storeInfo?.shop_name || "Store"} logo`}

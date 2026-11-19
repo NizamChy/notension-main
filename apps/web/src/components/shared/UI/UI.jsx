@@ -11,13 +11,13 @@ import { HiOutlineInbox } from "react-icons/hi2";
 // dark mode (see globals.css); use bg-[#FFFFFF] to keep something white.
 
 export const CARD =
-  "rounded-2xl border border-gray-200 bg-white shadow-sm shadow-gray-900/[0.03]";
+  "rounded-2xl border border-gray-200 bg-white shadow-xs shadow-gray-900/3";
 export const CARD_HOVER =
   "transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-lg hover:shadow-gray-900/5";
 export const LINK_TEXT =
-  "font-semibold text-[#0C3F8E] hover:underline dark:text-[#7FB2FF]";
+  "font-semibold text-primary hover:underline dark:text-[#7FB2FF]";
 export const PRIMARY_BUTTON =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#0C3F8E] px-5 text-sm font-semibold text-white shadow-sm shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none";
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-white shadow-xs shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none";
 export const SECONDARY_BUTTON =
   "inline-flex h-11 items-center justify-center gap-2 rounded-full border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-800 transition-colors hover:border-gray-300 hover:bg-gray-50";
 
@@ -56,7 +56,7 @@ export const SectionTitle = ({ title, subtitle, href, linkLabel = "See all", act
       (href && (
         <Link
           href={href}
-          className="group inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]"
+          className="group inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-primary dark:text-[#7FB2FF]"
         >
           {linkLabel}
           <HiArrowRight className="transition-transform group-hover:translate-x-0.5" />
@@ -86,7 +86,7 @@ export const EmptyState = ({
 
 const BADGE_TONES = {
   gray: "bg-gray-100 text-gray-700",
-  navy: "bg-[#0C3F8E]/10 text-[#0C3F8E] dark:text-[#7FB2FF]",
+  navy: "bg-primary/10 text-primary dark:text-[#7FB2FF]",
   green: "bg-[#12B76A]/10 text-[#067647] dark:text-[#47CD89]",
   amber: "bg-[#F79009]/10 text-[#B54708] dark:text-[#FDB022]",
   red: "bg-[#D92D20]/10 text-[#B42318] dark:text-[#F97066]",

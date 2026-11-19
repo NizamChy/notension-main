@@ -16,7 +16,7 @@ import CommonModal from "../shared/CommonModal/CommonModal";
 import { useFavouriteStore } from "@/hooks/fetch-data/favorite-shop";
 
 const CORNER_BUTTON =
-  "absolute right-2.5 top-2.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-sm ring-1 ring-black/5 transition-colors hover:bg-[#FFFFFF]";
+  "absolute right-2.5 top-2.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-xs ring-1 ring-black/5 transition-colors hover:bg-[#FFFFFF]";
 
 const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,9 +66,9 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
         onKeyDown={(event) => {
           if (event.target === event.currentTarget && event.key === "Enter") onClick?.(event);
         }}
-        className={`group flex h-full cursor-pointer flex-col overflow-hidden ${CARD} ${CARD_HOVER} focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
+        className={`group flex h-full cursor-pointer flex-col overflow-hidden ${CARD} ${CARD_HOVER} focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
       >
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
+        <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
           {isImageLoading && (
             <div className="absolute inset-0 animate-pulse bg-gray-100" />
           )}
@@ -80,7 +80,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
             alt={`${shop?.shop_name || "Store"} banner`}
             className={`object-cover transition duration-500 group-hover:scale-[1.04] ${
               isImageLoading ? "opacity-0" : "opacity-100"
-            } ${isClosed ? "grayscale-[60%]" : ""}`}
+            } ${isClosed ? "grayscale-60" : ""}`}
             onLoad={() => setIsImageLoading(false)}
             onError={() => setIsImageLoading(false)}
           />
@@ -125,7 +125,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           {(isClosed || shop?.delivery_notice) && (
             <div className="absolute left-2.5 right-14 top-2.5 flex flex-col items-start gap-1.5">
               {isClosed && (
-                <span className="rounded-full bg-[#D92D20] px-2.5 py-0.5 text-xs font-semibold text-white shadow-sm">
+                <span className="rounded-full bg-[#D92D20] px-2.5 py-0.5 text-xs font-semibold text-white shadow-xs">
                   Closed now
                 </span>
               )}
@@ -133,7 +133,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
               {shop?.delivery_notice && (
                 <span
                   title={shop?.delivery_notice}
-                  className="max-w-full truncate rounded-full bg-[#FEF0C7] px-2.5 py-0.5 text-xs font-semibold text-[#93370D] shadow-sm"
+                  className="max-w-full truncate rounded-full bg-[#FEF0C7] px-2.5 py-0.5 text-xs font-semibold text-[#93370D] shadow-xs"
                 >
                   {shop?.delivery_notice}
                 </span>
@@ -149,7 +149,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
           >
             {shop?.shop_name}
           </h2>
-          <p className="mt-1.5 flex min-h-[2.5rem] gap-1.5 text-sm leading-5 text-gray-500">
+          <p className="mt-1.5 flex min-h-10 gap-1.5 text-sm leading-5 text-gray-500">
             <HiOutlineMapPin className="mt-0.5 shrink-0 text-base text-gray-400" />
             <span title={shop?.shop_address} className="line-clamp-2">
               {shop?.shop_address}
@@ -158,7 +158,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
 
           {shop?.distance != null && (
             <div className="mt-auto pt-3">
-              <span className="inline-flex items-center rounded-full bg-[#0C3F8E]/10 px-2.5 py-0.5 text-xs font-semibold tabular-nums text-[#0C3F8E] dark:text-[#7FB2FF]">
+              <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold tabular-nums text-primary dark:text-[#7FB2FF]">
                 {(shop?.distance / 1000).toFixed(2)} km away
               </span>
             </div>

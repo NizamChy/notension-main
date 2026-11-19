@@ -16,19 +16,19 @@ const HIGHLIGHTS = [
 // All Care landing hero.
 const AllCareServices = () => {
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-gray-200 bg-white bg-gradient-to-br from-[#0C3F8E]/[0.07] via-transparent to-[#EB5C2F]/[0.07]">
+    <section className="relative overflow-hidden rounded-3xl border border-gray-200 bg-white bg-linear-to-br from-[#0C3F8E]/[0.07] via-transparent to-[#EB5C2F]/[0.07]">
       <div className="grid items-center gap-8 p-5 sm:p-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:p-12">
         <div className="text-center lg:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#EB5C2F] md:text-sm">
             NoTension All Care
           </p>
-          <h1 className="mt-2 text-[28px] font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+          <h1 className="mt-2 text-[28px] font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl/10 lg:text-5xl/none">
             Trusted experts for every job,{" "}
-            <span className="text-[#0C3F8E] dark:text-[#7FB2FF]">
+            <span className="text-primary dark:text-[#7FB2FF]">
               right in your area
             </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-gray-500 md:text-base lg:mx-0 lg:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-gray-500 md:text-base/6 lg:mx-0 lg:text-lg/7">
             Find top-rated electricians, tutors, cleaners, movers and more.
             Compare reviews, check service hours and contact providers with
             confidence, all in one place.
@@ -37,7 +37,7 @@ const AllCareServices = () => {
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <a
               href="#all-care-services"
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#0C3F8E] px-6 text-sm font-semibold text-white shadow-sm shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] sm:w-auto"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-white shadow-xs shadow-[#0C3F8E]/20 transition-colors hover:bg-[#0A3478] sm:w-auto"
             >
               Browse services
               <HiArrowRight aria-hidden="true" />

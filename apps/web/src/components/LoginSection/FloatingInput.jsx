@@ -25,9 +25,9 @@ const FloatingInput = ({
       : filled;
   const raised = isFocused || hasValue;
 
-  const fieldClass = `block w-full appearance-none rounded-xl border bg-white px-4 pb-2 pt-6 text-gray-900 outline-none transition ${
+  const fieldClass = `block w-full appearance-none rounded-xl border bg-white px-4 pb-2 pt-6 text-gray-900 outline-hidden transition ${
     isFocused
-      ? "border-[#0C3F8E]/60 ring-4 ring-[#0C3F8E]/10 dark:border-[#7FB2FF]/60 dark:ring-[#7FB2FF]/10"
+      ? "border-primary/60 ring-4 ring-[#0C3F8E]/10 dark:border-[#7FB2FF]/60 dark:ring-[#7FB2FF]/10"
       : "border-gray-200 hover:border-gray-300"
   } ${size} ${className}`;
 
@@ -67,7 +67,7 @@ const FloatingInput = ({
         className={`pointer-events-none absolute left-4 transition-all ${
           raised
             ? `top-2 text-xs font-medium ${
-                isFocused ? "text-[#0C3F8E] dark:text-[#7FB2FF]" : "text-gray-500"
+                isFocused ? "text-primary dark:text-[#7FB2FF]" : "text-gray-500"
               }`
             : `top-4 ${size} text-gray-400`
         }`}

@@ -35,7 +35,7 @@ const GoTop = () => {
           type="button"
           aria-label="Back to top"
           onClick={scrollToTop}
-          className="fixed bottom-6 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-lg text-gray-800 shadow-lg shadow-gray-900/10 transition-colors hover:border-[#0C3F8E] hover:bg-[#0C3F8E] hover:text-white sm:right-6 lg:bottom-8 lg:right-8"
+          className="fixed bottom-6 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-lg text-gray-800 shadow-lg shadow-gray-900/10 transition-colors hover:border-primary hover:bg-primary hover:text-white sm:right-6 lg:bottom-8 lg:right-8"
         >
           <HiArrowUp />
         </button>

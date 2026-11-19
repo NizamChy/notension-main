@@ -4,7 +4,7 @@ import { MdWifiOff } from "react-icons/md";
 const NoConnection = () => {
   return (
     <div className="flex min-h-content w-full items-center justify-center px-4 py-12">
-      <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-200 bg-white px-6 py-12 text-center shadow-sm shadow-gray-900/[0.03]">
+      <div className="flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-200 bg-white px-6 py-12 text-center shadow-xs shadow-gray-900/3">
         <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F79009]/10 text-3xl text-[#F79009]">
           <MdWifiOff aria-hidden="true" />
         </span>

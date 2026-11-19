@@ -62,10 +62,10 @@ const PopularInfoSlider = ({ slider }) => {
           }}
           modules={[Navigation]}
           // Bottom padding keeps the cards' hover shadow from being clipped.
-          className="w-full !pb-2"
+          className="w-full pb-2!"
         >
           {slider?.map((provider) => (
-            <SwiperSlide key={provider?._id} className="!h-auto pt-1">
+            <SwiperSlide key={provider?._id} className="h-auto! pt-1">
               <NearestInfoCard provider={provider} />
             </SwiperSlide>
           ))}

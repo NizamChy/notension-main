@@ -100,7 +100,7 @@ const FiltersSidebar = ({
       {/* Desktop Sidebar */}
       <aside
         aria-label="Product filters"
-        className="hidden w-full flex-shrink-0 self-stretch md:block md:w-60 lg:w-64"
+        className="hidden w-full shrink-0 self-stretch md:block md:w-60 lg:w-64"
       >
         <div
           className={`${CARD} sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto px-5 py-4`}
@@ -153,7 +153,7 @@ const FilterHeader = ({ count, clearAllFilters }) => (
     <h2 className="text-base font-semibold text-gray-900">
       Filters
       {count > 0 && (
-        <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#0C3F8E] px-1.5 text-xs font-bold tabular-nums text-white">
+        <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs font-bold tabular-nums text-white">
           {count}
         </span>
       )}
@@ -162,7 +162,7 @@ const FilterHeader = ({ count, clearAllFilters }) => (
     <button
       type="button"
       onClick={clearAllFilters}
-      className="min-h-9 text-sm font-semibold text-[#0C3F8E] hover:underline dark:text-[#7FB2FF]"
+      className="min-h-9 text-sm font-semibold text-primary hover:underline dark:text-[#7FB2FF]"
     >
       Clear all
     </button>
@@ -279,7 +279,7 @@ const FilterContent = ({
                   onClick={() => toggleFilter("size", size.value)}
                   className={`h-10 min-w-12 rounded-full border px-3 text-sm font-medium transition-colors ${
                     active
-                      ? "border-[#0C3F8E] bg-[#0C3F8E] text-white"
+                      ? "border-primary bg-primary text-white"
                       : "border-gray-200 text-gray-700 hover:border-gray-400"
                   }`}
                 >

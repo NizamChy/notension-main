@@ -76,7 +76,7 @@ const Cart = () => {
         type="button"
         onClick={() => setIsOpen(true)}
         aria-label={`Open cart, ${count} ${count === 1 ? "item" : "items"}`}
-        className={`fixed bottom-4 right-4 z-40 items-center overflow-hidden rounded-full bg-[#0C3F8E] text-white shadow-lg shadow-[#0C3F8E]/30 transition-transform hover:-translate-y-0.5 lg:bottom-auto lg:right-0 lg:top-1/2 lg:w-[76px] lg:-translate-y-1/2 lg:flex-col lg:rounded-none lg:rounded-s-2xl lg:hover:-translate-y-1/2 ${
+        className={`fixed bottom-4 right-4 z-40 items-center overflow-hidden rounded-full bg-primary text-white shadow-lg shadow-[#0C3F8E]/30 transition-transform hover:-translate-y-0.5 lg:bottom-auto lg:right-0 lg:top-1/2 lg:w-[76px] lg:-translate-y-1/2 lg:flex-col lg:rounded-none lg:rounded-s-2xl lg:hover:-translate-y-1/2 ${
           onCheckout ? "hidden" : "flex"
         }`}
       >
@@ -111,7 +111,7 @@ const Cart = () => {
         }
         headerExtra={
           fromOtherStore ? (
-            <p className="border-b border-[#2E6FD8]/20 bg-[#EEF4FF] px-5 py-2.5 text-xs font-medium text-[#0C3F8E] dark:bg-[#2E6FD8]/10 dark:text-[#9DC1FF]">
+            <p className="border-b border-[#2E6FD8]/20 bg-[#EEF4FF] px-5 py-2.5 text-xs font-medium text-primary dark:bg-[#2E6FD8]/10 dark:text-[#9DC1FF]">
               These items are from {cartStore.shop_name || "another store"}.{" "}
               {cartStorePath && (
                 <Link

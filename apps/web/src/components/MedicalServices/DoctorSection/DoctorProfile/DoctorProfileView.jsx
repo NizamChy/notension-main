@@ -44,7 +44,7 @@ const ChamberCard = ({ profile, canBook, onBook }) => {
   return (
     <article className={`${CARD} p-5 md:p-6`}>
       <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0C3F8E]/10 text-lg text-[#0C3F8E] dark:text-[#7FB2FF]">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg text-primary dark:text-[#7FB2FF]">
           <LuBuilding2 />
         </span>
         <div className="min-w-0 flex-1">
@@ -79,7 +79,7 @@ const ChamberCard = ({ profile, canBook, onBook }) => {
               <li
                 key={day?.day_name}
                 title={day?.is_closed ? `${day?.day_name}: closed` : day?.day_name}
-                className={`inline-flex h-9 min-w-[3rem] items-center justify-center rounded-full border px-3 text-xs font-semibold ${
+                className={`inline-flex h-9 min-w-12 items-center justify-center rounded-full border px-3 text-xs font-semibold ${
                   day?.is_closed
                     ? "border-gray-200 bg-gray-50 text-gray-400 line-through"
                     : "border-[#12B76A]/30 bg-[#12B76A]/10 text-[#067647] dark:text-[#47CD89]"
@@ -103,7 +103,7 @@ const ChamberCard = ({ profile, canBook, onBook }) => {
                 key={timeSlot}
                 className="inline-flex min-h-9 items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm text-gray-700"
               >
-                <LuClock className="shrink-0 text-[#0C3F8E] dark:text-[#7FB2FF]" />
+                <LuClock className="shrink-0 text-primary dark:text-[#7FB2FF]" />
                 {timeSlot}
               </li>
             ))}
@@ -142,7 +142,7 @@ const ChamberCard = ({ profile, canBook, onBook }) => {
               <a
                 key={contact}
                 href={`tel:${String(contact).replace(/[^\d+]/g, "")}`}
-                className="inline-flex h-10 items-center gap-2 rounded-full border border-gray-200 bg-white px-4 text-sm font-medium tabular-nums text-gray-800 transition-colors hover:border-[#0C3F8E]/40 hover:text-[#0C3F8E] dark:hover:text-[#7FB2FF]"
+                className="inline-flex h-10 items-center gap-2 rounded-full border border-gray-200 bg-white px-4 text-sm font-medium tabular-nums text-gray-800 transition-colors hover:border-primary/40 hover:text-primary dark:hover:text-[#7FB2FF]"
               >
                 <LuPhone className="text-[#12B76A]" />
                 {contact}
@@ -251,7 +251,7 @@ const DoctorProfileView = ({
                   {doctorInfo?.doctor_name}
                 </h1>
                 {doctorInfo?.qualifications && (
-                  <p className="mt-1 text-sm leading-relaxed text-gray-600 md:text-base">
+                  <p className="mt-1 text-sm leading-relaxed text-gray-600 md:text-base/6">
                     {doctorInfo.qualifications}
                   </p>
                 )}
@@ -299,7 +299,7 @@ const DoctorProfileView = ({
                 About
               </h2>
               {doctorInfo?.about && (
-                <p className="mt-2 text-sm leading-relaxed text-gray-600 md:text-base">
+                <p className="mt-2 text-sm leading-relaxed text-gray-600 md:text-base/6">
                   {doctorInfo.about}
                 </p>
               )}

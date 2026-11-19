@@ -13,7 +13,7 @@ const FEATURES = [
 const AppDownload = () => (
   <section
     id="get-app"
-    className="scroll-mt-28 relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#EB5C2F] to-[#F5873F] px-6 py-10 text-white md:px-12 md:py-12">
+    className="scroll-mt-28 relative overflow-hidden rounded-3xl bg-linear-to-r from-[#EB5C2F] to-[#F5873F] px-6 py-10 text-white md:px-12 md:py-12">
     <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-white/10" />
     <div className="pointer-events-none absolute -bottom-28 right-40 h-60 w-60 rounded-full bg-white/10" />
 

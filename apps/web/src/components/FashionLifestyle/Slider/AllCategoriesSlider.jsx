@@ -16,13 +16,13 @@ export const CategoryRailSkeleton = ({ title }) => (
     {title ? (
       <Title title={title} />
     ) : (
-      <Skeleton className="mb-6 h-7 w-1/3 !rounded-full lg:w-1/5" />
+      <Skeleton className="mb-6 h-7 w-1/3 rounded-full! lg:w-1/5" />
     )}
     <div className="flex gap-4 overflow-hidden lg:gap-6" aria-hidden>
       {[...Array(7)].map((_, i) => (
         <div key={i} className="w-[26%] shrink-0 sm:w-[18%] lg:w-[14%]">
-          <Skeleton className="aspect-square !rounded-full" />
-          <Skeleton className="mx-auto mt-3 h-3 w-2/3 !rounded-full" />
+          <Skeleton className="aspect-square rounded-full!" />
+          <Skeleton className="mx-auto mt-3 h-3 w-2/3 rounded-full!" />
         </div>
       ))}
     </div>
@@ -73,7 +73,7 @@ const AllCategoriesSlider = () => {
           640: { slidesPerView: 5.3, spaceBetween: 16 },
           1024: { slidesPerView: 7, spaceBetween: 24 },
         }}
-        className="!py-1"
+        className="py-1!"
       >
         {allCategory?.map((category) => (
           <SwiperSlide key={category?._id.toString()}>

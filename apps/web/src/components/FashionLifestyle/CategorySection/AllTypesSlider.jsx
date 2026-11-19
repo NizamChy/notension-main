@@ -20,12 +20,12 @@ const AllTypesSlider = () => {
   if (isLoading)
     return (
       <FashionSection className="bg-gray-50">
-        <Skeleton className="mb-6 h-7 w-1/2 !rounded-full sm:w-1/3 lg:w-1/4" />
+        <Skeleton className="mb-6 h-7 w-1/2 rounded-full! sm:w-1/3 lg:w-1/4" />
         <div className="flex gap-4 overflow-hidden lg:gap-6" aria-hidden>
           {[...Array(5)].map((_, i) => (
             <Skeleton
               key={i}
-              className="aspect-[3/4] w-[45%] shrink-0 !rounded-2xl sm:w-[30%] lg:w-[19%]"
+              className="aspect-3/4 w-[45%] shrink-0 rounded-2xl! sm:w-[30%] lg:w-[19%]"
             />
           ))}
         </div>
@@ -80,7 +80,7 @@ const AllTypesSlider = () => {
                 type?._id
               }`}
               aria-label={`Browse ${type?.type_name}`}
-              className="group relative block aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100"
+              className="group relative block aspect-3/4 overflow-hidden rounded-2xl bg-gray-100"
             >
               <Image
                 src={
@@ -93,8 +93,8 @@ const AllTypesSlider = () => {
                 sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 45vw"
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent px-3 pb-3 pt-12 sm:px-4 sm:pb-4">
-                <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[#FFFFFF] sm:text-base">
+              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 via-black/30 to-transparent px-3 pb-3 pt-12 sm:px-4 sm:pb-4">
+                <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[#FFFFFF] sm:text-base/6">
                   {type?.type_name}
                 </h3>
                 <span className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-[#FFFFFF]/80">

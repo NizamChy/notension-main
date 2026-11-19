@@ -21,7 +21,7 @@ const LoginButton = ({ compact = false }) => {
         onClick={handleLogin}
         type="button"
         aria-label="Log in"
-        className={`flex items-center gap-1.5 rounded-full bg-[#0C3F8E] py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0A3478] ${
+        className={`flex items-center gap-1.5 rounded-full bg-primary py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0A3478] ${
           compact ? "px-2 sm:px-4" : "px-4"
         }`}
       >

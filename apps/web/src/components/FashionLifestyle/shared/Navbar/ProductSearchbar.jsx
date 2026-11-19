@@ -29,7 +29,7 @@ const ProductSearchbar = ({ autoFocus = false, onSubmitted }) => {
         aria-label="Product type"
         value={selectedType}
         onChange={(e) => setSelectedType(e.target.value)}
-        className="h-full max-w-[6.5rem] cursor-pointer appearance-none truncate rounded-l-full bg-transparent pl-4 pr-7 text-sm font-medium text-gray-700 focus:outline-none sm:max-w-none"
+        className="h-full max-w-26 cursor-pointer appearance-none truncate rounded-l-full bg-transparent pl-4 pr-7 text-sm font-medium text-gray-700 focus:outline-hidden sm:max-w-none"
       >
         {TYPES.map((item) => (
           <option key={item?.type_id} value={item?.type_id}>

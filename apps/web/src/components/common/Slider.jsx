@@ -17,7 +17,7 @@ const Slider = ({ slides, classNames = "" }) => {
 
   return (
     <div
-      className={`relative w-full aspect-[5/2] overflow-hidden rounded-2xl bg-gray-100 ${classNames}`}
+      className={`relative w-full aspect-5/2 overflow-hidden rounded-2xl bg-gray-100 ${classNames}`}
     >
       <Swiper
         style={{
@@ -37,12 +37,12 @@ const Slider = ({ slides, classNames = "" }) => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper !absolute inset-0 w-full h-full rounded-2xl"
+        className="mySwiper absolute! inset-0 w-full h-full rounded-2xl"
       >
         {slides.map((slide) => (
           <SwiperSlide
             key={slide._id}
-            className="!h-full relative overflow-hidden"
+            className="h-full! relative overflow-hidden"
           >
             <Image
               fill

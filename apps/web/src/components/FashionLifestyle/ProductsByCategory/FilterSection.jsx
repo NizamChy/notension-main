@@ -24,10 +24,10 @@ const FilterSection = ({ title, children, isOpen, onClick }) => {
       <div
         id={panelId}
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-[28rem] pb-4 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-112 pb-4 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="max-h-[26rem] overflow-y-auto">{children}</div>
+        <div className="max-h-104 overflow-y-auto">{children}</div>
       </div>
     </div>
   );

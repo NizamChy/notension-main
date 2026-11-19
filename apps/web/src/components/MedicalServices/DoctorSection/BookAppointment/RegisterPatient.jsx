@@ -8,7 +8,7 @@ import { TextField } from "@/components/shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
 
 const selectClass =
-  "block h-[46px] w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-900 transition focus:border-[#0C3F8E]/50 focus:outline-none focus:ring-4 focus:ring-[#0C3F8E]/10";
+  "block h-[46px] w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-900 transition focus:border-primary/50 focus:outline-hidden focus:ring-4 focus:ring-[#0C3F8E]/10";
 
 const RegisterPatient = ({ setShowForm = true }) => {
   const [formData, setFormData] = useState({
@@ -78,8 +78,8 @@ const RegisterPatient = ({ setShowForm = true }) => {
 
   return (
     <div>
-      <div className="mb-5 flex gap-3 rounded-xl border border-[#0C3F8E]/15 bg-[#0C3F8E]/[0.04] p-4 text-sm leading-relaxed text-gray-700">
-        <LuInfo className="mt-0.5 shrink-0 text-base text-[#0C3F8E] dark:text-[#7FB2FF]" />
+      <div className="mb-5 flex gap-3 rounded-xl border border-primary/15 bg-primary/4 p-4 text-sm leading-relaxed text-gray-700">
+        <LuInfo className="mt-0.5 shrink-0 text-base text-primary dark:text-[#7FB2FF]" />
         <p>
           রোগীর জন্ম তারিখ নিশ্চিত করা কেন গুরুত্বপূর্ণ? রোগীর যত্নের সাথে সঠিক
           চিকিৎসা, ওষুধ এবং সম্ভাব্য সমস্যা এড়াতে রোগীর বয়স গুরুত্বপূর্ণ। রোগীর

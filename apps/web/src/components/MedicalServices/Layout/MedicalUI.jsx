@@ -53,7 +53,7 @@ export const DoctorAvatar = ({
   priority = false,
 }) => (
   <span
-    className={`relative block shrink-0 overflow-hidden bg-[#EAF1FB] ring-1 ring-gray-200 dark:bg-[#0C3F8E]/20 ${className}`}
+    className={`relative block shrink-0 overflow-hidden bg-[#EAF1FB] ring-1 ring-gray-200 dark:bg-primary/20 ${className}`}
   >
     <Image
       src={doctorPhoto(info)}
@@ -103,7 +103,7 @@ export const InlineSpinner = ({ label = "Loading more" }) => (
     role="status"
     className="flex items-center justify-center gap-2 py-6 text-sm text-gray-500"
   >
-    <LuLoaderCircle className="animate-spin text-lg text-[#0C3F8E] dark:text-[#7FB2FF]" />
+    <LuLoaderCircle className="animate-spin text-lg text-primary dark:text-[#7FB2FF]" />
     {label}
   </div>
 );
@@ -111,24 +111,24 @@ export const InlineSpinner = ({ label = "Loading more" }) => (
 export const DoctorCardSkeleton = () => (
   <div className={`${CARD} p-4 sm:p-5`}>
     <div className="flex items-start gap-4">
-      <Skeleton className="h-16 w-16 shrink-0 !rounded-full" />
+      <Skeleton className="h-16 w-16 shrink-0 rounded-full!" />
       <div className="flex-1 space-y-2">
         <Skeleton className="h-4 w-3/4" />
         <Skeleton className="h-3 w-full" />
-        <Skeleton className="h-5 w-24 !rounded-full" />
+        <Skeleton className="h-5 w-24 rounded-full!" />
       </div>
     </div>
     <Skeleton className="mt-5 h-3 w-2/3" />
     <div className="mt-5 flex items-center justify-between border-t border-dashed border-gray-200 pt-4">
       <Skeleton className="h-8 w-20" />
-      <Skeleton className="h-10 w-32 !rounded-full" />
+      <Skeleton className="h-10 w-32 rounded-full!" />
     </div>
   </div>
 );
 
 export const CenterCardSkeleton = () => (
   <div className={`${CARD} overflow-hidden`}>
-    <Skeleton className="aspect-[16/9] w-full !rounded-none" />
+    <Skeleton className="aspect-video w-full rounded-none!" />
     <div className="space-y-2 p-4">
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-3 w-full" />

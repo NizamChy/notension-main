@@ -74,7 +74,7 @@ const ExploreConsultationCenter = () => {
     <div className="min-h-content">
       {loading ? (
         <MedicalPageBody>
-          <Skeleton className="h-[420px] w-full !rounded-2xl md:h-[260px]" />
+          <Skeleton className="h-[420px] w-full rounded-2xl! md:h-[260px]" />
           <div className="space-y-4">
             <Skeleton className="h-6 w-48" />
             <SkeletonGrid count={3} item={DoctorCardSkeleton} />

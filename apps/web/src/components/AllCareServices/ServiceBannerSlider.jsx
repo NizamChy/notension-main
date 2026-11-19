@@ -14,7 +14,7 @@ const ServiceBannerSlider = ({ slider }) => {
   if (!(slider?.length > 0)) return null;
 
   return (
-    <div className="relative aspect-[2/1] w-full overflow-hidden rounded-2xl bg-gray-100">
+    <div className="relative aspect-2/1 w-full overflow-hidden rounded-2xl bg-gray-100">
       <Swiper
         style={{
           "--swiper-pagination-color": "#EB5C2F",
@@ -31,10 +31,10 @@ const ServiceBannerSlider = ({ slider }) => {
         keyboard={{ enabled: true }}
         pagination={{ clickable: true }}
         modules={[Keyboard, Pagination, Autoplay]}
-        className="mySwiper !absolute inset-0 h-full w-full"
+        className="mySwiper absolute! inset-0 h-full w-full"
       >
         {slider?.map((image, index) => (
-          <SwiperSlide key={index} className="relative !h-full">
+          <SwiperSlide key={index} className="relative h-full!">
             <Image
               className="object-cover"
               src={`${SERVICE_BANNER_IMAGES}/${image}`}

@@ -50,7 +50,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
     <CommonModal
       isOpen={isOpen}
       onClose={onClose}
-      className="max-w-lg !rounded-2xl !p-0"
+      className="max-w-lg rounded-2xl! p-0!"
     >
       {/* -z-10: CommonModal's panel is a stacking context (it is scaled),
           so this stays above the panel background but under its close
@@ -62,7 +62,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
         className="relative -z-10 flex max-h-[85vh] flex-col overflow-hidden rounded-2xl"
       >
         <div className="overflow-y-auto">
-          <div className="relative aspect-[4/3] w-full bg-gray-100">
+          <div className="relative aspect-4/3 w-full bg-gray-100">
             <Image
               fill
               sizes="(min-width: 640px) 512px, 90vw"
@@ -75,7 +75,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
               className="object-cover"
             />
             {discount && (
-              <span className="absolute left-3 top-3 rounded-full bg-[#EB5C2F] px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+              <span className="absolute left-3 top-3 rounded-full bg-[#EB5C2F] px-2.5 py-1 text-xs font-semibold text-white shadow-xs">
                 {discount}
               </span>
             )}

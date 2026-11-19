@@ -9,7 +9,7 @@ const RoundLoader = () => {
     return (
       <div
         key={index}
-        className="absolute w-[50%] h-[140%] bg-[#0C3F8E] dark:bg-[#7FB2FF]"
+        className="absolute w-[50%] h-[140%] bg-primary dark:bg-[#7FB2FF]"
         style={{
           "--delay": delay,
           "--rotation": rotation,

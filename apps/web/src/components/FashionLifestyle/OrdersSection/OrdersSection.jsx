@@ -71,9 +71,9 @@ const OrdersSection = () => {
               <div className="grid gap-4 lg:grid-cols-2" aria-hidden>
                 {[...Array(4)].map((_, i) => (
                   <div key={i} className={`${CARD} space-y-3 p-5`}>
-                    <Skeleton className="h-5 w-1/3 !rounded-full" />
-                    <Skeleton className="h-4 w-2/3 !rounded-full" />
-                    <Skeleton className="h-4 w-1/2 !rounded-full" />
+                    <Skeleton className="h-5 w-1/3 rounded-full!" />
+                    <Skeleton className="h-4 w-2/3 rounded-full!" />
+                    <Skeleton className="h-4 w-1/2 rounded-full!" />
                   </div>
                 ))}
               </div>
@@ -116,7 +116,7 @@ const OrdersSection = () => {
                             {formatTaka(order?.totalAmount)}
                           </p>
                         </div>
-                        <span className="inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+                        <span className="inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-primary dark:text-[#7FB2FF]">
                           View details
                           <HiChevronRight />
                         </span>

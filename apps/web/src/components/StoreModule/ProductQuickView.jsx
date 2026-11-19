@@ -9,7 +9,7 @@ const ProductQuickView = ({ isOpen, onClose, children }) => (
   <CommonModal
     isOpen={isOpen}
     onClose={onClose}
-    className="!w-[calc(100%-2rem)] !max-w-3xl !rounded-2xl !p-0"
+    className="w-[calc(100%-2rem)]! max-w-3xl! rounded-2xl! p-0!"
   >
     <div className="max-h-[85vh] overflow-y-auto overscroll-contain p-4 sm:p-6">
       {children}

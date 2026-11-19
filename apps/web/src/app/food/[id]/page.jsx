@@ -15,7 +15,7 @@ const page = async ({ params }) => {
       <div className="mx-auto w-full max-w-[1312px] px-4 py-6 sm:px-6 md:py-8 lg:px-8">
         <Link
           href={`/food/${catId}/find-store`}
-          className="group relative flex flex-col gap-5 overflow-hidden rounded-2xl bg-[#0C3F8E] p-6 text-white shadow-lg shadow-[#0C3F8E]/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:flex-row sm:items-center sm:p-8"
+          className="group relative flex flex-col gap-5 overflow-hidden rounded-2xl bg-primary p-6 text-white shadow-lg shadow-[#0C3F8E]/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:flex-row sm:items-center sm:p-8"
         >
           <span
             aria-hidden="true"
@@ -40,7 +40,7 @@ const page = async ({ params }) => {
             </p>
           </div>
 
-          <span className="relative inline-flex h-11 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-[#FFFFFF] px-5 text-sm font-semibold text-[#0C3F8E] shadow-sm sm:self-auto">
+          <span className="relative inline-flex h-11 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-[#FFFFFF] px-5 text-sm font-semibold text-primary shadow-xs sm:self-auto">
             Find nearby stores
             <HiArrowRight className="transition-transform group-hover:translate-x-0.5" />
           </span>

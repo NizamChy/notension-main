@@ -47,7 +47,7 @@ const QuickAccess = () => (
         <li key={item.name} className="snap-start shrink-0 lg:shrink">
           <Link
             href={item.link}
-            className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 py-2 pl-2 pr-3 transition hover:border-[#EB5C2F]/40 hover:bg-white hover:shadow-sm"
+            className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 py-2 pl-2 pr-3 transition hover:border-[#EB5C2F]/40 hover:bg-white hover:shadow-xs"
           >
             <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-lg bg-gray-200">
               <Image

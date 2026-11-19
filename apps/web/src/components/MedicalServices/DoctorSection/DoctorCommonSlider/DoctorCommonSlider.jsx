@@ -18,8 +18,8 @@ import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 const DoctorCommonSlider = ({ slider, className = "", wide = false }) => {
   return (
     <div
-      className={`relative w-full aspect-[2/1] ${
-        wide ? "md:aspect-[3/1]" : ""
+      className={`relative w-full aspect-2/1 ${
+        wide ? "md:aspect-3/1" : ""
       } overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 ${className}`}
     >
       {slider?.length > 0 ? (
@@ -39,7 +39,7 @@ const DoctorCommonSlider = ({ slider, className = "", wide = false }) => {
           keyboard={{ enabled: true }}
           pagination={{ clickable: true }}
           modules={[Keyboard, Pagination, Autoplay]}
-          className="!absolute inset-0 w-full h-full"
+          className="absolute! inset-0 w-full h-full"
         >
           {slider.map((image) => (
             <SwiperSlide

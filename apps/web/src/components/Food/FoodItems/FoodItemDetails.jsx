@@ -28,7 +28,7 @@ import {
 
 const DetailsSkeleton = () => (
   <div className={`${CARD} overflow-hidden md:grid md:grid-cols-2`}>
-    <Skeleton className="aspect-[4/3] w-full rounded-none" />
+    <Skeleton className="aspect-4/3 w-full rounded-none" />
     <div className="space-y-3 p-5 sm:p-6 lg:p-8">
       <Skeleton className="h-3 w-24" />
       <Skeleton className="h-7 w-3/4" />
@@ -187,7 +187,7 @@ const FoodItemDetails = () => {
       {backLink}
 
       <article className={`${CARD} overflow-hidden md:grid md:grid-cols-2`}>
-        <div className="relative aspect-[4/3] w-full bg-gray-100 md:aspect-auto md:min-h-[380px]">
+        <div className="relative aspect-4/3 w-full bg-gray-100 md:aspect-auto md:min-h-[380px]">
           <Image
             src={dishImageOf(item, FOOD_ITEMS_IMAGES)}
             alt={name}
@@ -197,7 +197,7 @@ const FoodItemDetails = () => {
             className="object-cover"
           />
           {discount && (
-            <span className="absolute left-4 top-4 rounded-full bg-[#EB5C2F] px-3 py-1 text-xs font-semibold text-white shadow-sm">
+            <span className="absolute left-4 top-4 rounded-full bg-[#EB5C2F] px-3 py-1 text-xs font-semibold text-white shadow-xs">
               {discount}
             </span>
           )}
@@ -209,7 +209,7 @@ const FoodItemDetails = () => {
               {storeName}
             </p>
           )}
-          <h1 className="mt-1 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl">
+          <h1 className="mt-1 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl/9">
             {name}
           </h1>
           {item?.product_title_beng && (

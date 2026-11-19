@@ -39,9 +39,9 @@ const NearestInfoCard = ({ provider }) => {
     <button
       type="button"
       onClick={handleProviderClick}
-      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white text-left shadow-sm shadow-gray-900/[0.03] transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-lg hover:shadow-gray-900/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white text-left shadow-xs shadow-gray-900/3 transition duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-lg hover:shadow-gray-900/5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
     >
-      <span className="relative block aspect-[2/1] w-full overflow-hidden bg-gray-100">
+      <span className="relative block aspect-2/1 w-full overflow-hidden bg-gray-100">
         {provider?.provider_banner_app && (
           <Image
             src={`${SERVICE_PROVIDER_IMAGES}/${provider.provider_banner_app}`}
@@ -65,7 +65,7 @@ const NearestInfoCard = ({ provider }) => {
                 className="object-contain p-1"
               />
             ) : (
-              <MdStorefront aria-hidden="true" className="text-2xl text-[#0C3F8E]/60" />
+              <MdStorefront aria-hidden="true" className="text-2xl text-primary/60" />
             )}
           </span>
 
@@ -82,7 +82,7 @@ const NearestInfoCard = ({ provider }) => {
           )}
         </span>
 
-        <span className="mt-3 line-clamp-1 text-base font-semibold text-gray-900 transition-colors group-hover:text-[#0C3F8E] dark:group-hover:text-[#7FB2FF]">
+        <span className="mt-3 line-clamp-1 text-base font-semibold text-gray-900 transition-colors group-hover:text-primary dark:group-hover:text-[#7FB2FF]">
           {provider?.provider_name}
         </span>
 
@@ -95,13 +95,13 @@ const NearestInfoCard = ({ provider }) => {
 
         <span className="mt-auto flex items-center justify-between gap-2 pt-4">
           {provider?.distance != null ? (
-            <span className="rounded-full bg-[#0C3F8E]/10 px-2.5 py-0.5 text-xs font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+            <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary dark:text-[#7FB2FF]">
               {(provider.distance / 1000).toFixed(2)} km away
             </span>
           ) : (
             <span />
           )}
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+          <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary dark:text-[#7FB2FF]">
             View details
             <HiArrowRight aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
           </span>

@@ -39,7 +39,7 @@ const OrderDetailsMobile = () => {
     <>
       {userInfo?._id && (
         <div className="min-h-content bg-gray-50">
-          <div className={`${FASHION_CONTAINER} !max-w-3xl py-6 md:py-10`}>
+          <div className={`${FASHION_CONTAINER} max-w-3xl! py-6 md:py-10`}>
             <PageHeader
               title="Order details"
               back="/fashion-lifestyle/orders"
@@ -48,7 +48,7 @@ const OrderDetailsMobile = () => {
 
             {isLoading ? (
               <div className={`${CARD} space-y-4 p-5`} aria-hidden>
-                <Skeleton className="h-6 w-1/3 !rounded-full" />
+                <Skeleton className="h-6 w-1/3 rounded-full!" />
                 <Skeleton className="h-24 w-full" />
                 <Skeleton className="h-40 w-full" />
               </div>

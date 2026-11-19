@@ -269,7 +269,7 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
 
         {/* Search */}
         <div className="absolute inset-x-3 top-3 z-10 sm:inset-x-4 sm:top-4">
-          <label className="flex h-12 items-center gap-2 rounded-2xl border border-gray-200 bg-white pl-4 pr-1.5 shadow-lg shadow-gray-900/10 focus-within:border-[#0C3F8E] focus-within:ring-2 focus-within:ring-[#0C3F8E]/15">
+          <label className="flex h-12 items-center gap-2 rounded-2xl border border-gray-200 bg-white pl-4 pr-1.5 shadow-lg shadow-gray-900/10 focus-within:border-primary focus-within:ring-2 focus-within:ring-[#0C3F8E]/15">
             <HiMagnifyingGlass className="shrink-0 text-lg text-gray-400" />
             <input
               ref={inputRef}
@@ -280,7 +280,7 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
               aria-label="Search for an address"
               disabled={status === "error"}
               autoComplete="off"
-              className="h-full min-w-0 flex-1 bg-transparent text-[15px] text-gray-900 outline-none placeholder:text-gray-400"
+              className="h-full min-w-0 flex-1 bg-transparent text-[15px] text-gray-900 outline-hidden placeholder:text-gray-400"
             />
             {query && (
               <button
@@ -332,10 +332,10 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
             disabled={locating}
             aria-label="Use my current location"
             title="Use my current location"
-            className="absolute bottom-6 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-[#0C3F8E] shadow-lg shadow-gray-900/10 transition-colors hover:bg-gray-50 disabled:opacity-70 sm:right-4"
+            className="absolute bottom-6 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-primary shadow-lg shadow-gray-900/10 transition-colors hover:bg-gray-50 disabled:opacity-70 sm:right-4"
           >
             {locating ? (
-              <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#0C3F8E]/25 border-t-[#0C3F8E]" />
+              <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary/25 border-t-primary" />
             ) : (
               <MdMyLocation className="text-xl" />
             )}
@@ -346,7 +346,7 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
         {status === "loading" && (
           <div className="absolute inset-0 z-20 flex items-center justify-center bg-gray-100">
             <div className="flex flex-col items-center gap-3 text-sm text-gray-500">
-              <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-gray-300 border-t-[#0C3F8E]" />
+              <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-gray-300 border-t-primary" />
               Loading map…
             </div>
           </div>
@@ -362,7 +362,7 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
               <button
                 type="button"
                 onClick={() => window.location.reload()}
-                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0C3F8E] hover:underline"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
               >
                 <HiArrowPath /> Try again
               </button>
@@ -384,8 +384,8 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
           <div className="min-w-0 flex-1" aria-live="polite">
             {busy && !place ? (
               <div className="space-y-2 pt-1">
-                <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
-                <div className="h-3 w-full animate-pulse rounded bg-gray-100" />
+                <div className="h-4 w-2/3 animate-pulse rounded-sm bg-gray-200" />
+                <div className="h-3 w-full animate-pulse rounded-sm bg-gray-100" />
               </div>
             ) : place ? (
               <div className={`transition-opacity ${busy ? "opacity-50" : "opacity-100"}`}>
@@ -405,7 +405,7 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
             )}
           </div>
           {district && !busy && (
-            <span className="mt-1 shrink-0 rounded-full bg-[#0C3F8E]/10 px-2.5 py-1 text-xs font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]">
+            <span className="mt-1 shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary dark:text-[#7FB2FF]">
               {districtLabel(district).split("(")[0].trim()}
             </span>
           )}

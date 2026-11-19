@@ -25,7 +25,7 @@ const ProductSlider = () => {
   if (isLoading)
     return (
       <FashionSection>
-        <Skeleton className="mb-6 h-7 w-1/2 !rounded-full sm:w-1/3 lg:w-1/4" />
+        <Skeleton className="mb-6 h-7 w-1/2 rounded-full! sm:w-1/3 lg:w-1/4" />
         <div className={PRODUCT_GRID_CLASS}>
           {[...Array(4)].map((_, index) => (
             <ProductCardSkeleton key={index} />
@@ -75,7 +75,7 @@ const ProductSlider = () => {
         }}
       >
         {productInfo?.map((product) => (
-          <SwiperSlide key={product?._id?.toString()} className="!h-auto">
+          <SwiperSlide key={product?._id?.toString()} className="h-auto!">
             <FashionProductCard product={product} />
           </SwiperSlide>
         ))}

@@ -30,7 +30,7 @@ const SearchInput = ({
     <form
       role="search"
       onSubmit={handleSubmit}
-      className={`group flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm shadow-gray-900/5 transition focus-within:border-[#0C3F8E]/40 focus-within:ring-4 focus-within:ring-[#0C3F8E]/10 dark:focus-within:border-[#7FB2FF]/50 dark:focus-within:ring-[#7FB2FF]/10 ${
+      className={`group flex w-full items-center rounded-full border border-gray-200 bg-white shadow-xs shadow-gray-900/5 transition focus-within:border-primary/40 focus-within:ring-4 focus-within:ring-[#0C3F8E]/10 dark:focus-within:border-[#7FB2FF]/50 dark:focus-within:ring-[#7FB2FF]/10 ${
         large ? "h-[52px]" : "h-11"
       } ${className}`}
     >
@@ -52,7 +52,7 @@ const SearchInput = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`h-full min-w-0 flex-1 bg-transparent px-3 text-gray-900 placeholder:text-gray-400 focus:outline-none [&::-webkit-search-cancel-button]:hidden ${
+        className={`h-full min-w-0 flex-1 bg-transparent px-3 text-gray-900 placeholder:text-gray-400 focus:outline-hidden [&::-webkit-search-cancel-button]:hidden ${
           large ? "text-base" : "text-sm"
         }`}
       />
@@ -71,7 +71,7 @@ const SearchInput = ({
       <button
         type="submit"
         aria-label="Search"
-        className={`mr-1 flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#0C3F8E] font-semibold text-white transition-colors hover:bg-[#0A3478] ${
+        className={`mr-1 flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary font-semibold text-white transition-colors hover:bg-[#0A3478] ${
           large ? "h-10 px-3 text-sm sm:px-5" : "h-9 px-3 text-sm sm:px-4"
         }`}
       >

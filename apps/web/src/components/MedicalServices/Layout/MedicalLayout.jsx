@@ -35,7 +35,7 @@ export const MedicalPageHeader = ({
         {title}
       </h1>
       {subtitle && (
-        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-gray-500 md:text-base">
+        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-gray-500 md:text-base/6">
           {subtitle}
         </p>
       )}

@@ -20,7 +20,7 @@ const WishlistProduct = () => {
   const count = favouriteFashionItems.length;
 
   return (
-    <FashionSection className="min-h-content !pt-6 md:!pt-10">
+    <FashionSection className="min-h-content pt-6! md:pt-10!">
       <PageHeader
         title="Wishlist"
         subtitle={`${count} saved ${count === 1 ? "item" : "items"}`}

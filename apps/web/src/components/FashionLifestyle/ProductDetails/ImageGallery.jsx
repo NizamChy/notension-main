@@ -66,7 +66,7 @@ const ImageGallery = ({ product, selectedImage }) => {
         role="button"
         tabIndex={0}
         aria-label="Open image viewer"
-        className="relative aspect-[3/4] flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]"
+        className="relative aspect-3/4 flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-gray-100 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]"
         onPointerMove={handleMove}
         onPointerLeave={handleLeave}
         onClick={openLightbox}
@@ -106,7 +106,7 @@ const ImageGallery = ({ product, selectedImage }) => {
         </span>
 
         {discount > 0 && (
-          <span className="absolute left-3 top-3 rounded-full bg-[#EB5C2F] px-2.5 py-1 text-xs font-semibold tabular-nums text-white shadow-sm">
+          <span className="absolute left-3 top-3 rounded-full bg-[#EB5C2F] px-2.5 py-1 text-xs font-semibold tabular-nums text-white shadow-xs">
             -{discount}%
           </span>
         )}
@@ -123,7 +123,7 @@ const ImageGallery = ({ product, selectedImage }) => {
         <div
           role="tablist"
           aria-label="Product images"
-          className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] lg:max-h-[640px] lg:w-20 lg:flex-col lg:overflow-y-auto lg:overflow-x-visible lg:pb-0 [&::-webkit-scrollbar]:hidden"
+          className="flex gap-2 overflow-x-auto pb-1 scrollbar-none lg:max-h-[640px] lg:w-20 lg:flex-col lg:overflow-y-auto lg:overflow-x-visible lg:pb-0 [&::-webkit-scrollbar]:hidden"
         >
           {detailImages.map((img, index) => {
             const active = currentImageIndex === index;
@@ -135,9 +135,9 @@ const ImageGallery = ({ product, selectedImage }) => {
                 aria-selected={active}
                 aria-label={`Show image ${index + 1}`}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`relative aspect-[3/4] w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-gray-100 transition-colors lg:w-full ${
+                className={`relative aspect-3/4 w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-gray-100 transition-colors lg:w-full ${
                   active
-                    ? "border-[#0C3F8E] dark:border-[#7FB2FF]"
+                    ? "border-primary dark:border-[#7FB2FF]"
                     : "border-transparent hover:border-gray-300"
                 }`}
               >

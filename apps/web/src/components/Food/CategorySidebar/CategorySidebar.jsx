@@ -17,7 +17,7 @@ const CategorySidebar = ({ setIsScroll, loading = false }) => {
     <aside className="hidden lg:block">
       <nav
         aria-label="Menu categories"
-        className={`${CARD} sticky top-[88px] max-h-[calc(100vh-112px)] overflow-y-auto p-2 [scrollbar-width:thin]`}
+        className={`${CARD} sticky top-[88px] max-h-[calc(100vh-112px)] overflow-y-auto p-2 scrollbar-thin`}
       >
         <p className="px-3 pb-2 pt-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
           Menu
@@ -40,7 +40,7 @@ const CategorySidebar = ({ setIsScroll, loading = false }) => {
                     onClick={() => goTo(item.id)}
                     className={`flex min-h-10 w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-sm transition-colors ${
                       active
-                        ? "bg-[#0C3F8E]/10 font-semibold text-[#0C3F8E] dark:text-[#7FB2FF]"
+                        ? "bg-primary/10 font-semibold text-primary dark:text-[#7FB2FF]"
                         : "font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     }`}
                   >

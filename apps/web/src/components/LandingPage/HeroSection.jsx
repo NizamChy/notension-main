@@ -28,26 +28,26 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#071B3D] via-[#0C3F8E] to-[#0E4FA8] text-white">
+    <section className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#071B3D] via-[#0C3F8E] to-[#0E4FA8] text-white">
       {/* Soft glows give the flat gradient some depth */}
       <div className="pointer-events-none absolute -top-32 -right-24 h-96 w-96 rounded-full bg-[#EB5C2F]/25 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-[#41B3A2]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-primaryMedicine/20 blur-3xl" />
 
       <div className="relative grid items-center gap-10 px-6 py-10 sm:px-10 md:py-14 lg:grid-cols-[1.1fr_1fr] lg:px-14 lg:py-16">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs md:text-sm font-medium backdrop-blur">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs md:text-sm font-medium backdrop-blur-sm">
             <FaLocationDot className="text-[#FF8A5B]" />
             {districtName
               ? `Now serving ${districtName}`
               : "Serving cities across Bangladesh"}
           </span>
 
-          <h1 className="mt-5 text-[32px] leading-[1.15] sm:text-5xl lg:text-[56px] lg:leading-[1.08] font-bold tracking-tight">
+          <h1 className="mt-5 text-[32px] leading-[1.15] sm:text-5xl/none lg:text-[56px] lg:leading-[1.08] font-bold tracking-tight">
             Everyday essentials &amp; healthcare,{" "}
             <span className="text-[#FF8A5B]">without the tension.</span>
           </h1>
 
-          <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-white/75">
+          <p className="mt-5 max-w-xl text-base md:text-lg/7 leading-relaxed text-white/75">
             Order groceries, medicine and food, shop fashion, book doctors and
             find hospitals, nurses or an ambulance near you, all from one
             place.
@@ -90,7 +90,7 @@ const HeroSection = () => {
             {HERO_TILES.map(({ name, label }, i) => (
               <div
                 key={name}
-                className={`relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lg shadow-black/20 ring-1 ring-white/10 ${
+                className={`relative aspect-4/3 overflow-hidden rounded-2xl shadow-lg shadow-black/20 ring-1 ring-white/10 ${
                   i % 2 ? "translate-y-6" : ""
                 }`}
               >
@@ -104,7 +104,7 @@ const HeroSection = () => {
                 />
                 {/* Explicit colors: the homeImages are light in both
                     themes, so this label must not follow dark mode. */}
-                <span className="absolute bottom-2.5 left-2.5 rounded-full bg-[#FFFFFFEB] px-2.5 py-1 text-xs font-semibold text-[#1E2A3B] shadow-sm">
+                <span className="absolute bottom-2.5 left-2.5 rounded-full bg-[#FFFFFFEB] px-2.5 py-1 text-xs font-semibold text-[#1E2A3B] shadow-xs">
                   {label}
                 </span>
               </div>

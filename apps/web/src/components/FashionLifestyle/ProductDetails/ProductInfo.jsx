@@ -56,7 +56,7 @@ const ProductInfo = ({ product }) => {
               {product.brand_info.brand_name}
             </p>
           )}
-          <h1 className="mt-1.5 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl">
+          <h1 className="mt-1.5 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl/9">
             {product?.product_title_eng}
           </h1>
         </div>

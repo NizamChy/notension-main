@@ -73,7 +73,7 @@ export const OrderCard = ({ order, onView, href }) => {
       </div>
 
       <div className="mt-4 flex items-center gap-3 rounded-xl bg-gray-50 p-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-lg text-[#0C3F8E] dark:text-[#7FB2FF]">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-lg text-primary dark:text-[#7FB2FF]">
           <HiOutlineBuildingStorefront />
         </span>
         <div className="min-w-0">
@@ -230,7 +230,7 @@ export const OrderProgress = ({ status }) => {
               />
             )}
             <span
-              className={`relative z-[1] flex h-7 w-7 items-center justify-center rounded-full border-2 text-xs font-bold ${
+              className={`relative z-1 flex h-7 w-7 items-center justify-center rounded-full border-2 text-xs font-bold ${
                 done
                   ? "border-[#12B76A] bg-[#12B76A] text-white"
                   : "border-gray-200 bg-white text-gray-400"
@@ -254,14 +254,14 @@ export const OrderProgress = ({ status }) => {
 
 const DetailBlock = ({ icon, title, children }) => (
   <div className="flex gap-3 rounded-xl border border-gray-100 bg-gray-50/60 p-3.5">
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-base text-[#0C3F8E] dark:text-[#7FB2FF]">
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-base text-primary dark:text-[#7FB2FF]">
       {icon}
     </span>
     <div className="min-w-0 text-sm">
       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
         {title}
       </p>
-      <div className="mt-0.5 break-words text-gray-900">{children}</div>
+      <div className="mt-0.5 wrap-break-word text-gray-900">{children}</div>
     </div>
   </div>
 );

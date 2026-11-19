@@ -75,13 +75,13 @@ const PatientInfo = () => {
                   <button
                     type="button"
                     onClick={(e) => handlePatientClick(e, patient)}
-                    className="group flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white p-3.5 text-left transition-colors hover:border-[#0C3F8E]/40 hover:bg-[#0C3F8E]/[0.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
+                    className="group flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white p-3.5 text-left transition-colors hover:border-primary/40 hover:bg-primary/3 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
                   >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-base font-bold uppercase text-[#0C3F8E] dark:text-[#7FB2FF]">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-base font-bold uppercase text-primary dark:text-[#7FB2FF]">
                       {patient?.patient_name?.trim()?.charAt(0) || "?"}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block break-words font-semibold text-gray-900">
+                      <span className="block wrap-break-word font-semibold text-gray-900">
                         {patient?.patient_name}
                       </span>
                       <span className="mt-0.5 block text-xs text-gray-500">
@@ -93,7 +93,7 @@ const PatientInfo = () => {
                         )}
                       </span>
                     </span>
-                    <span className="hidden shrink-0 text-sm font-semibold text-[#0C3F8E] sm:inline dark:text-[#7FB2FF]">
+                    <span className="hidden shrink-0 text-sm font-semibold text-primary sm:inline dark:text-[#7FB2FF]">
                       Book
                     </span>
                     <LuChevronRight className="shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5" />

@@ -13,7 +13,7 @@ const SectionHeader = ({ eyebrow, title, description, action }) => (
         {title}
       </h2>
       {description && (
-        <p className="mt-2 text-sm md:text-base text-gray-500 leading-relaxed">
+        <p className="mt-2 text-sm md:text-base/6 text-gray-500 leading-relaxed">
           {description}
         </p>
       )}

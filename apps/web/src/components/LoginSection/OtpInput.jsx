@@ -87,7 +87,7 @@ const OtpInput = ({ value = "", onChange, length = 4, idPrefix = "otp" }) => {
           onKeyDown={(e) => handleKeyDown(index, e)}
           onPaste={handlePaste}
           onFocus={(e) => e.target.select()}
-          className={`h-14 w-12 rounded-xl border bg-white text-center text-xl font-semibold tabular-nums text-gray-900 outline-none transition focus:border-[#0C3F8E]/60 focus:ring-4 focus:ring-[#0C3F8E]/10 dark:focus:border-[#7FB2FF]/60 sm:w-14 ${
+          className={`h-14 w-12 rounded-xl border bg-white text-center text-xl font-semibold tabular-nums text-gray-900 outline-hidden transition focus:border-primary/60 focus:ring-4 focus:ring-[#0C3F8E]/10 dark:focus:border-[#7FB2FF]/60 sm:w-14 ${
             digit ? "border-gray-300" : "border-gray-200"
           }`}
         />

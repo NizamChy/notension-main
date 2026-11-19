@@ -109,7 +109,7 @@ const FoodItems = ({ item }) => {
             handleProductClick(e);
           }
         }}
-        className={`${CARD} ${CARD_HOVER} group flex h-full cursor-pointer gap-3 p-3 outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40 sm:gap-4 sm:p-4`}
+        className={`${CARD} ${CARD_HOVER} group flex h-full cursor-pointer gap-3 p-3 outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40 sm:gap-4 sm:p-4`}
       >
         <div className="flex min-w-0 flex-1 flex-col">
           <h3 className="line-clamp-2 text-[15px] font-semibold leading-snug text-gray-900">

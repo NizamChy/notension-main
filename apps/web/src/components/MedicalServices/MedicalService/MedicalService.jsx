@@ -26,7 +26,7 @@ const SERVICES = [
     title: "Find a doctor",
     text: "Specialists by department, with online serial booking.",
     icon: LuStethoscope,
-    tint: "bg-[#0C3F8E]/10 text-[#0C3F8E] dark:text-[#7FB2FF]",
+    tint: "bg-primary/10 text-primary dark:text-[#7FB2FF]",
   },
   {
     href: "/medical-services/doctor/consultation-center",
@@ -54,7 +54,7 @@ const SERVICES = [
     title: "Eye care",
     text: "Eye specialists, vision tests and treatment.",
     icon: LuEye,
-    tint: "bg-[#0C3F8E]/10 text-[#0C3F8E] dark:text-[#7FB2FF]",
+    tint: "bg-primary/10 text-primary dark:text-[#7FB2FF]",
   },
   {
     href: "/medical-services/dental-care-center",
@@ -111,11 +111,11 @@ const MedicalService = () => {
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
               Trusted care, close to home
             </h1>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-gray-500 md:text-base">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-gray-500 md:text-base/6">
               Find doctors, hospitals and diagnostic centres near you, and book
               your serial online in a few taps.
             </p>
-            <SearchCenter className="mt-6 !mx-0" />
+            <SearchCenter className="mt-6 mx-0!" />
             <p className="mt-4 flex items-center gap-1.5 text-xs font-medium text-gray-500">
               <LuShieldCheck className="text-base text-[#12B76A]" />
               Verified doctors and registered centres
@@ -136,7 +136,7 @@ const MedicalService = () => {
               <Link
                 key={href}
                 href={href}
-                className={`group flex items-center gap-4 p-4 md:p-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
+                className={`group flex items-center gap-4 p-4 md:p-5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
               >
                 <span
                   className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-xl ${tint}`}
@@ -151,7 +151,7 @@ const MedicalService = () => {
                     {text}
                   </span>
                 </span>
-                <LuArrowRight className="shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-[#0C3F8E] dark:group-hover:text-[#7FB2FF]" />
+                <LuArrowRight className="shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-primary dark:group-hover:text-[#7FB2FF]" />
               </Link>
             ))}
           </div>
@@ -165,9 +165,9 @@ const MedicalService = () => {
               <Link
                 key={href}
                 href={href}
-                className={`group flex min-h-14 items-center gap-3 px-4 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
+                className={`group flex min-h-14 items-center gap-3 px-4 py-3 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F] ${CARD} ${CARD_HOVER}`}
               >
-                <Icon className="shrink-0 text-lg text-[#0C3F8E] dark:text-[#7FB2FF]" />
+                <Icon className="shrink-0 text-lg text-primary dark:text-[#7FB2FF]" />
                 <span className="flex-1 text-sm font-semibold text-gray-900">
                   {title}
                 </span>

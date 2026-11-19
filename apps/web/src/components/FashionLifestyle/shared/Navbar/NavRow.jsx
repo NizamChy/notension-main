@@ -93,7 +93,7 @@ const NavRow = ({
                       <>
                         <h3 className="font-bold text-base mb-3">Featured</h3>
                         <div className="group">
-                          <div className="aspect-[3/4] relative overflow-hidden rounded-lg mb-2">
+                          <div className="aspect-3/4 relative overflow-hidden rounded-lg mb-2">
                             {hoveredCategory?.category_img && (
                               <Image
                                 src={`${FASHION_IMAGE_URL}/${hoveredCategory?.category_img}`}
@@ -111,7 +111,7 @@ const NavRow = ({
                         <>
                           <h3 className="font-bold text-base mb-3">Featured</h3>
                           <div className="group">
-                            <div className="aspect-[3/4] relative overflow-hidden rounded-lg mb-2">
+                            <div className="aspect-3/4 relative overflow-hidden rounded-lg mb-2">
                               <Image
                                 src={`${FASHION_IMAGE_URL}/${navItem?.featured?.image}`}
                                 alt={navItem?.featured?.title}

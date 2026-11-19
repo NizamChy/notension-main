@@ -42,11 +42,11 @@ export const CheckoutLayout = ({
 
 // Numbered card for one checkout step.
 export const CheckoutStep = ({ step, title, action, children }) => (
-  <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm shadow-gray-900/[0.03] md:p-6">
+  <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xs shadow-gray-900/3 md:p-6">
     <div className="mb-4 flex items-center justify-between gap-3">
       <h2 className="flex items-center gap-3 text-base font-semibold text-gray-900">
         {step && (
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0C3F8E] text-xs font-bold text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
             {step}
           </span>
         )}
@@ -61,7 +61,7 @@ export const CheckoutStep = ({ step, title, action, children }) => (
 export const StepLink = ({ href, children }) => (
   <Link
     href={href}
-    className="text-sm font-medium text-[#0C3F8E] hover:underline dark:text-[#7FB2FF]"
+    className="text-sm font-medium text-primary hover:underline dark:text-[#7FB2FF]"
   >
     {children}
   </Link>
@@ -77,7 +77,7 @@ export const PaymentOptions = ({ options, value, onChange, name = "payment" }) =
           key={option.id}
           className={`relative flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-colors ${
             checked
-              ? "border-[#0C3F8E] bg-[#0C3F8E]/[0.04] ring-1 ring-[#0C3F8E] dark:border-[#7FB2FF] dark:ring-[#7FB2FF]"
+              ? "border-primary bg-primary/4 ring-1 ring-[#0C3F8E] dark:border-[#7FB2FF] dark:ring-[#7FB2FF]"
               : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
           }`}
         >
@@ -104,7 +104,7 @@ export const PaymentOptions = ({ options, value, onChange, name = "payment" }) =
           <span
             className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
               checked
-                ? "border-[#0C3F8E] bg-[#0C3F8E] text-white dark:border-[#7FB2FF] dark:bg-[#7FB2FF]"
+                ? "border-primary bg-primary text-white dark:border-[#7FB2FF] dark:bg-[#7FB2FF]"
                 : "border-gray-300"
             }`}
           >
@@ -117,7 +117,7 @@ export const PaymentOptions = ({ options, value, onChange, name = "payment" }) =
 );
 
 const fieldClass =
-  "block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 transition focus:border-[#0C3F8E]/50 focus:outline-none focus:ring-4 focus:ring-[#0C3F8E]/10";
+  "block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 transition focus:border-primary/50 focus:outline-hidden focus:ring-4 focus:ring-[#0C3F8E]/10";
 
 export const TextField = ({ label, required, multiline, className = "", ...props }) => (
   <label className={`block ${className}`}>
@@ -135,7 +135,7 @@ export const TextField = ({ label, required, multiline, className = "", ...props
 
 // Right-hand summary card: items, price rows and the place-order button.
 export const SummaryCard = ({ title = "Order summary", meta, children, footer }) => (
-  <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm shadow-gray-900/[0.03]">
+  <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xs shadow-gray-900/3">
     <div className="flex items-baseline justify-between gap-3 border-b border-gray-100 px-5 py-4">
       <h2 className="text-base font-semibold text-gray-900">{title}</h2>
       {meta && <span className="text-sm text-gray-500">{meta}</span>}
@@ -156,7 +156,7 @@ export const SummaryItem = ({ image, title, meta, quantity, total, onRemove }) =
         sizes="56px"
         className="object-cover"
       />
-      <span className="absolute -right-0 -top-0 flex h-5 min-w-5 items-center justify-center rounded-bl-lg bg-[#101828]/80 px-1 text-[10px] font-semibold text-white">
+      <span className="absolute right-0 top-0 flex h-5 min-w-5 items-center justify-center rounded-bl-lg bg-[#101828]/80 px-1 text-[10px] font-semibold text-white">
         {quantity}
       </span>
     </span>
@@ -190,7 +190,7 @@ export const CheckoutEmpty = ({ href, label = "Continue shopping" }) => (
       action={
         <Link
           href={href}
-          className="inline-flex rounded-full bg-[#0C3F8E] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0A3478]"
+          className="inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0A3478]"
         >
           {label}
         </Link>

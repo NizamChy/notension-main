@@ -52,12 +52,12 @@ const CardTitle = ({ children }) => (
 
 const InfoRow = ({ icon: Icon, label, children }) => (
   <div className="flex items-start gap-3">
-    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0C3F8E]/10 text-lg text-[#0C3F8E] dark:text-[#7FB2FF]">
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg text-primary dark:text-[#7FB2FF]">
       <Icon aria-hidden="true" />
     </span>
     <div className="min-w-0">
       <p className="text-xs font-medium text-gray-500">{label}</p>
-      <div className="mt-0.5 break-words text-sm font-semibold text-gray-900">
+      <div className="mt-0.5 wrap-break-word text-sm font-semibold text-gray-900">
         {children}
       </div>
     </div>
@@ -162,7 +162,7 @@ const ServiceProviderDetails = () => {
       {/* Banner images often carry their own text, so the name and address
           sit under the banner instead of on top of it. */}
       <section className={`${CARD} overflow-hidden`}>
-        <div className="relative aspect-[2/1] max-h-80 w-full bg-gray-100 sm:aspect-[5/2] lg:aspect-[3/1]">
+        <div className="relative aspect-2/1 max-h-80 w-full bg-gray-100 sm:aspect-5/2 lg:aspect-3/1">
           {banner && (
             <Image
               src={`${SERVICE_PROVIDER_IMAGES}/${banner}`}
@@ -188,7 +188,7 @@ const ServiceProviderDetails = () => {
                     className="object-contain p-1.5"
                   />
                 ) : (
-                  <MdStorefront aria-hidden="true" className="text-4xl text-[#0C3F8E]/60" />
+                  <MdStorefront aria-hidden="true" className="text-4xl text-primary/60" />
                 )}
               </span>
 
@@ -254,7 +254,7 @@ const ServiceProviderDetails = () => {
           <section className={`${CARD} p-5 md:p-6`}>
             <CardTitle>পরিষেবার বিবরণ</CardTitle>
             {details ? (
-              <p className="whitespace-pre-line break-words text-sm leading-relaxed text-gray-700 md:text-base">
+              <p className="whitespace-pre-line wrap-break-word text-sm leading-relaxed text-gray-700 md:text-base/6">
                 {details}
               </p>
             ) : (
@@ -377,7 +377,7 @@ const ServiceProviderDetails = () => {
 
       {/* Call to action */}
       {phone && (
-        <section className="mt-6 overflow-hidden rounded-2xl bg-[#0C3F8E] p-5 text-white md:mt-8 md:p-7">
+        <section className="mt-6 overflow-hidden rounded-2xl bg-primary p-5 text-white md:mt-8 md:p-7">
           <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
             <div>
               <h3 className="text-lg font-bold md:text-xl">আজই সেবা নিন!</h3>
@@ -387,7 +387,7 @@ const ServiceProviderDetails = () => {
             </div>
             <a
               href={`tel:${phone}`}
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#EB5C2F] px-6 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[#D44E24] md:w-auto"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#EB5C2F] px-6 text-base font-semibold text-white shadow-xs transition-colors hover:bg-[#D44E24] md:w-auto"
             >
               <HiOutlinePhone aria-hidden="true" className="text-lg" />
               {phone}

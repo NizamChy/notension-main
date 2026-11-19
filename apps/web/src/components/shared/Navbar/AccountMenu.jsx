@@ -40,7 +40,7 @@ const AccountMenu = ({ items }) => {
         aria-haspopup="menu"
         className="flex items-center gap-2 rounded-full border border-gray-200 p-1 transition-colors hover:bg-gray-50 md:pr-3"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0C3F8E] text-sm font-semibold uppercase text-white">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-semibold uppercase text-white">
           {userName.charAt(0)}
         </span>
         <span className="hidden max-w-[120px] truncate text-sm font-medium text-gray-800 md:block">

@@ -26,7 +26,7 @@ const SubtypeTile = ({ name, src, onClick }) => {
       type="button"
       onClick={onClick}
       title={name}
-      className={`group flex w-full flex-col overflow-hidden p-2 text-left ${CARD} ${CARD_HOVER} focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
+      className={`group flex w-full flex-col overflow-hidden p-2 text-left ${CARD} ${CARD_HOVER} focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
     >
       <span className="relative block aspect-square w-full overflow-hidden rounded-xl bg-[#F6F7F9]">
         {isImageLoading && (
@@ -44,7 +44,7 @@ const SubtypeTile = ({ name, src, onClick }) => {
           onError={() => setIsImageLoading(false)}
         />
       </span>
-      <span className="mt-2 line-clamp-2 min-h-[2rem] px-0.5 text-center text-xs font-semibold leading-4 text-gray-800 md:text-sm md:leading-5 md:min-h-[2.5rem]">
+      <span className="mt-2 line-clamp-2 min-h-8 px-0.5 text-center text-xs font-semibold leading-4 text-gray-800 md:text-sm md:leading-5 md:min-h-10">
         {name}
       </span>
     </button>

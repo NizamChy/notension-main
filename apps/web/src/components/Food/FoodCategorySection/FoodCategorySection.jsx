@@ -64,12 +64,12 @@ const FoodCategorySection = () => {
             <div className={`${PAGE_CONTAINER} space-y-8 py-6 md:space-y-12 md:py-10`}>
               <Skeleton className="h-16 w-72 max-w-full" />
               <div className="grid gap-4 md:grid-cols-2 md:gap-6">
-                <Skeleton className="aspect-[5/2] w-full rounded-2xl" />
-                <Skeleton className="hidden aspect-[5/2] w-full rounded-2xl md:block" />
+                <Skeleton className="aspect-5/2 w-full rounded-2xl" />
+                <Skeleton className="hidden aspect-5/2 w-full rounded-2xl md:block" />
               </div>
               <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 lg:gap-5">
                 {Array.from({ length: 8 }).map((_, index) => (
-                  <Skeleton key={index} className="aspect-[5/4] w-full rounded-2xl" />
+                  <Skeleton key={index} className="aspect-5/4 w-full rounded-2xl" />
                 ))}
               </div>
             </div>
@@ -105,7 +105,7 @@ const FoodCategorySection = () => {
                         href={`/food/${category?._id}`}
                         className={`${CARD} ${CARD_HOVER} group block overflow-hidden`}
                       >
-                        <div className="relative aspect-[5/3] overflow-hidden bg-gray-100">
+                        <div className="relative aspect-5/3 overflow-hidden bg-gray-100">
                           <Image
                             fill
                             sizes="(min-width: 1024px) 25vw, 50vw"

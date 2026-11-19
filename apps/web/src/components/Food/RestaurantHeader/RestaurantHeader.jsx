@@ -32,7 +32,7 @@ const InfoChip = ({ icon, children }) => (
 
 export const RestaurantHeaderSkeleton = () => (
   <div className={`${CARD} overflow-hidden`}>
-    <Skeleton className="aspect-[16/9] w-full rounded-none sm:aspect-[21/9] lg:aspect-[3/1]" />
+    <Skeleton className="aspect-video w-full rounded-none sm:aspect-21/9 lg:aspect-3/1" />
     <div className="px-4 pb-5 sm:px-6">
       <Skeleton className="-mt-10 h-20 w-20 rounded-2xl border-4 border-white sm:h-24 sm:w-24" />
       <Skeleton className="mt-4 h-7 w-56" />
@@ -104,7 +104,7 @@ const RestaurantHeader = ({ compact = false }) => {
       className={`${CARD} overflow-hidden`}
     >
       {!compact && (
-        <div className="relative aspect-[16/9] w-full bg-gray-100 sm:aspect-[21/9] lg:aspect-[3/1]">
+        <div className="relative aspect-video w-full bg-gray-100 sm:aspect-21/9 lg:aspect-3/1">
           {bannerSrc && (
             <Image
               fill
@@ -115,9 +115,9 @@ const RestaurantHeader = ({ compact = false }) => {
               className="object-cover"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/10" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/0 to-black/10" />
           <span
-            className={`absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-[#FFFFFF] px-3 py-1 text-xs font-semibold shadow-sm sm:left-4 sm:top-4 ${
+            className={`absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-[#FFFFFF] px-3 py-1 text-xs font-semibold shadow-xs sm:left-4 sm:top-4 ${
               isClosed ? "text-[#B42318]" : "text-[#067647]"
             }`}
           >
@@ -156,7 +156,7 @@ const RestaurantHeader = ({ compact = false }) => {
           </div>
 
           <div className={`min-w-0 flex-1 ${compact ? "" : "pt-3"}`}>
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 sm:text-2xl lg:text-3xl">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 sm:text-2xl/8 lg:text-3xl/9">
               <Link href={homePath} className="hover:underline">
                 {store?.shop_name}
               </Link>
@@ -229,7 +229,7 @@ const RestaurantHeader = ({ compact = false }) => {
                     {index > 0 && <span className="text-gray-300">/</span>}
                     <a
                       href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                      className="font-medium text-gray-700 hover:text-[#0C3F8E] hover:underline dark:hover:text-[#7FB2FF]"
+                      className="font-medium text-gray-700 hover:text-primary hover:underline dark:hover:text-[#7FB2FF]"
                     >
                       {phone}
                     </a>

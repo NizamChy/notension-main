@@ -31,7 +31,7 @@ const ProviderSkeletons = () => (
         key={index}
         className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
       >
-        <Skeleton className="aspect-[2/1] w-full rounded-none" />
+        <Skeleton className="aspect-2/1 w-full rounded-none" />
         <div className="space-y-2.5 p-4">
           <Skeleton className="h-5 w-2/3" />
           <Skeleton className="h-4 w-full" />
@@ -117,7 +117,7 @@ const ExploreService = () => {
             {icon ? (
               <Image src={icon} alt="" fill sizes="64px" className="object-contain p-0.5" />
             ) : (
-              <MdHomeRepairService aria-hidden="true" className="text-2xl text-[#0C3F8E]/60" />
+              <MdHomeRepairService aria-hidden="true" className="text-2xl text-primary/60" />
             )}
           </span>
           <div className="min-w-0">

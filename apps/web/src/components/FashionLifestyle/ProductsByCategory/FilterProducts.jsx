@@ -92,7 +92,7 @@ const FilterProducts = ({
               value={sortOption}
               onChange={handleSortChange}
               aria-label="Sort products"
-              className="h-10 appearance-none rounded-full border border-gray-200 bg-white pl-4 pr-9 text-sm font-medium text-gray-800 outline-none transition-colors hover:border-gray-300 focus:border-[#0C3F8E] focus:ring-2 focus:ring-[#0C3F8E]/15"
+              className="h-10 appearance-none rounded-full border border-gray-200 bg-white pl-4 pr-9 text-sm font-medium text-gray-800 outline-hidden transition-colors hover:border-gray-300 focus:border-primary focus:ring-2 focus:ring-[#0C3F8E]/15"
             >
               <option value="featured">Featured</option>
               <option value="price-low">Price: Low to High</option>

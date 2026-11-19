@@ -52,7 +52,7 @@ const SECTION = "scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-5 md
 const H2 = "text-xl font-bold tracking-tight text-gray-900 md:text-2xl";
 const H3 = "mt-8 text-base font-bold text-gray-900 md:text-lg";
 const NUMBER =
-  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0C3F8E]/10 text-xs font-bold text-[#0C3F8E] dark:text-[#7FB2FF]";
+  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary dark:text-[#7FB2FF]";
 
 const MarketingPolicy = () => {
   return (
@@ -65,7 +65,7 @@ const MarketingPolicy = () => {
           <h1 className="mt-1.5 text-2xl font-bold tracking-tight text-gray-900 md:text-4xl">
             Marketing &amp; Partner Policy
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-gray-500 md:text-base">
+          <p className="mt-2 text-sm leading-relaxed text-gray-500 md:text-base/6">
             Merchant fees, current offers and the benefits of joining NoTension
             as a branding / promotional partner.
           </p>
@@ -76,7 +76,7 @@ const MarketingPolicy = () => {
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    className="inline-flex min-h-10 items-center rounded-full border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:text-[#0C3F8E] dark:hover:text-[#7FB2FF]"
+                    className="inline-flex min-h-10 items-center rounded-full border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:text-primary dark:hover:text-[#7FB2FF]"
                   >
                     {label}
                   </a>
@@ -100,7 +100,7 @@ const MarketingPolicy = () => {
                   key={item}
                   className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
                 >
-                  <p className="text-sm font-medium leading-relaxed text-gray-800 md:text-base">
+                  <p className="text-sm font-medium leading-relaxed text-gray-800 md:text-base/6">
                     {item}
                   </p>
                   <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
@@ -122,7 +122,7 @@ const MarketingPolicy = () => {
           {/* Partner policy: benefits */}
           <section id="partner-policy" className={SECTION}>
             <h2 className={H2}>Partner Policy</h2>
-            <p className="mt-3 text-sm leading-relaxed text-gray-700 md:text-base">
+            <p className="mt-3 text-sm leading-relaxed text-gray-700 md:text-base/6">
               আমাদের সাথে প্লাটফর্ম ব্র্যান্ডিং/প্রমোশনাল পার্টনার হিসেবে যুক্ত
               হয়ে আপনার লাইফের নতুন একটি অধ্যায় তৈরি করুন।
             </p>
@@ -132,7 +132,7 @@ const MarketingPolicy = () => {
               {BENEFITS.map(([no, text]) => (
                 <li key={no} className="flex gap-3">
                   <span className={NUMBER}>{no}</span>
-                  <p className="pt-0.5 text-sm leading-relaxed text-gray-700 md:text-base">
+                  <p className="pt-0.5 text-sm leading-relaxed text-gray-700 md:text-base/6">
                     {text}
                   </p>
                 </li>
@@ -157,7 +157,7 @@ const MarketingPolicy = () => {
                         {scope}
                       </p>
                     )}
-                    <p className="text-sm leading-relaxed text-gray-700 md:text-base">
+                    <p className="text-sm leading-relaxed text-gray-700 md:text-base/6">
                       {text}
                     </p>
                   </div>
@@ -165,7 +165,7 @@ const MarketingPolicy = () => {
               ))}
             </ol>
 
-            <div className="mt-6 rounded-xl border border-[#F79009]/30 bg-[#F79009]/10 px-4 py-3 text-sm leading-relaxed text-gray-800 md:text-base">
+            <div className="mt-6 rounded-xl border border-[#F79009]/30 bg-[#F79009]/10 px-4 py-3 text-sm leading-relaxed text-gray-800 md:text-base/6">
               জেনারেল অ্যাফিলিয়েট মার্কেটিং পার্টনার হিসেবে জয়েনিং ফী{" "}
               <strong className="font-bold text-gray-900">2999 টাকা</strong> যা
               100% ক্যাশব্যাক (শর্ত প্রযোজ্য)।
@@ -179,7 +179,7 @@ const MarketingPolicy = () => {
               {CASHBACK_RULES.map((rule) => (
                 <li
                   key={rule}
-                  className="flex gap-3 text-sm leading-relaxed text-gray-700 md:text-base"
+                  className="flex gap-3 text-sm leading-relaxed text-gray-700 md:text-base/6"
                 >
                   <span
                     aria-hidden="true"
@@ -193,13 +193,13 @@ const MarketingPolicy = () => {
             <ol className="mt-6 space-y-4">
               <li className="flex gap-3">
                 <span className={NUMBER}>১২</span>
-                <p className="pt-0.5 text-sm leading-relaxed text-gray-700 md:text-base">
+                <p className="pt-0.5 text-sm leading-relaxed text-gray-700 md:text-base/6">
                   সুতরাং, যে কোন ভাবে আপনার ৩০ পয়েন্ট হলেই ২৯৯৯ টাকা ফেরত পাবেন।
                 </p>
               </li>
               <li className="flex gap-3">
                 <span className={NUMBER}>১৩</span>
-                <p className="pt-0.5 text-sm leading-relaxed text-gray-700 md:text-base">
+                <p className="pt-0.5 text-sm leading-relaxed text-gray-700 md:text-base/6">
                   এই 30 পয়েন্ট ফিলআপ করতে গিয়ে, রেজিষ্ট্রেশন এবং জয়েনিং থেকে
                   আপনার ইনকাম হবে ১৫ হাজার টাকা।
                 </p>

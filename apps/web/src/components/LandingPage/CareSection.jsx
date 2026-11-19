@@ -62,8 +62,8 @@ const CareSection = () => {
       </div>
 
       {/* Emergency hotline */}
-      <div className="mt-5 flex flex-col items-start gap-4 rounded-2xl border border-[#F40035]/15 bg-[#FFF1F2] p-5 sm:flex-row sm:items-center md:p-6 dark:border-[#F40035]/25 dark:bg-[#2a181c]">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F40035] text-xl text-white">
+      <div className="mt-5 flex flex-col items-start gap-4 rounded-2xl border border-primaryFood/15 bg-[#FFF1F2] p-5 sm:flex-row sm:items-center md:p-6 dark:border-primaryFood/25 dark:bg-[#2a181c]">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primaryFood text-xl text-white">
           <LuPhoneCall />
         </span>
         <div className="flex-1">
@@ -77,7 +77,7 @@ const CareSection = () => {
         </div>
         <a
           href={`tel:${HOTLINE_TEL}`}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#F40035] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4002e] sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primaryFood px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4002e] sm:w-auto"
         >
           <LuPhoneCall /> {HOTLINE}
         </a>

@@ -67,7 +67,7 @@ const formatDate = (date) => {
 const DateCard = ({ date }) => {
   const { day, month } = formatDate(date);
   return (
-    <div className="flex h-16 w-14 shrink-0 flex-col items-center justify-center rounded-xl bg-[#0C3F8E]/10 text-[#0C3F8E] dark:text-[#7FB2FF]">
+    <div className="flex h-16 w-14 shrink-0 flex-col items-center justify-center rounded-xl bg-primary/10 text-primary dark:text-[#7FB2FF]">
       <span className="text-xl font-bold leading-none tabular-nums">
         {Number.isNaN(day) ? "--" : day}
       </span>

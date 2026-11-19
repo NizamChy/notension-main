@@ -279,11 +279,11 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
       {/* Date and time */}
       <div className="mt-5">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-900">
-          <LuCalendarDays className="text-[#0C3F8E] dark:text-[#7FB2FF]" />
+          <LuCalendarDays className="text-primary dark:text-[#7FB2FF]" />
           Date
         </p>
         {bookingDay ? (
-          <p className="mt-2 inline-flex h-10 items-center rounded-full border border-[#0C3F8E] bg-[#0C3F8E]/[0.06] px-4 text-sm font-semibold text-[#0C3F8E] dark:border-[#7FB2FF] dark:text-[#7FB2FF]">
+          <p className="mt-2 inline-flex h-10 items-center rounded-full border border-primary bg-primary/6 px-4 text-sm font-semibold text-primary dark:border-[#7FB2FF] dark:text-[#7FB2FF]">
             {formatDate(appointment_date)} · {bookingDay?.day_name} (
             {weekday_bangla[weekday.indexOf(bookingDay?.day_name)]})
           </p>
@@ -296,7 +296,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
         {slots.length > 0 && (
           <>
             <p className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-gray-900">
-              <LuClock className="text-[#0C3F8E] dark:text-[#7FB2FF]" />
+              <LuClock className="text-primary dark:text-[#7FB2FF]" />
               Time slot <span className="font-normal text-gray-500">(পরামর্শের সময়)</span>
             </p>
             <div role="radiogroup" className="mt-2 grid gap-2 sm:grid-cols-2">
@@ -307,7 +307,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
                     key={slot.value}
                     className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-colors ${
                       checked
-                        ? "border-[#0C3F8E] bg-[#0C3F8E]/[0.05] ring-1 ring-[#0C3F8E] dark:border-[#7FB2FF] dark:ring-[#7FB2FF]"
+                        ? "border-primary bg-primary/5 ring-1 ring-[#0C3F8E] dark:border-[#7FB2FF] dark:ring-[#7FB2FF]"
                         : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                     }`}
                   >
@@ -330,7 +330,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
                     <span
                       className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
                         checked
-                          ? "border-[#0C3F8E] bg-[#0C3F8E] text-white dark:border-[#7FB2FF] dark:bg-[#7FB2FF]"
+                          ? "border-primary bg-primary text-white dark:border-[#7FB2FF] dark:bg-[#7FB2FF]"
                           : "border-gray-300"
                       }`}
                     >

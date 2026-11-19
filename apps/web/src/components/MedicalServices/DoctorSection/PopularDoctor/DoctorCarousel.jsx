@@ -10,7 +10,7 @@ import PopularDoctorSliderCard from "./PopularDoctorSliderCard";
 import { MedicalSectionTitle } from "../../Layout/MedicalLayout";
 
 const arrowClass =
-  "flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 [&.swiper-button-lock]:!hidden";
+  "flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 [&.swiper-button-lock]:hidden!";
 
 // Horizontal list of doctor cards with per-instance arrows in the section
 // header. The Swiper is a plain full-width block (not a shrink-wrapped flex
@@ -72,10 +72,10 @@ const DoctorCarousel = ({
           1280: { slidesPerView: 3, spaceBetween: 20 },
         }}
         modules={[Navigation]}
-        className="w-full !px-0.5 !py-1"
+        className="w-full px-0.5! py-1!"
       >
         {doctors.map((doctor) => (
-          <SwiperSlide key={doctor?._id} className="!h-auto">
+          <SwiperSlide key={doctor?._id} className="h-auto!">
             <PopularDoctorSliderCard doctor={doctor} isVisited={isVisited} />
           </SwiperSlide>
         ))}

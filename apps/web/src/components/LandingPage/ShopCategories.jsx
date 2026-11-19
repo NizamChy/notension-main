@@ -22,7 +22,7 @@ const CATEGORIES = [
     cta: "Order medicine",
     path: "/medicine/home",
     image: homeImage("medicine"),
-    accent: "text-[#0D7C66]",
+    accent: "text-secondaryMedicine",
   },
   {
     title: "Food",
@@ -59,9 +59,9 @@ const ShopCategories = () => {
             key={c.title}
             type="button"
             onClick={() => navigate(c.path)}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-900/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-900/5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#EB5C2F]"
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden">
+            <div className="relative aspect-4/3 w-full overflow-hidden">
               <Image
                 src={c.image}
                 alt=""
@@ -71,10 +71,10 @@ const ShopCategories = () => {
               />
             </div>
             <div className="flex flex-1 flex-col p-3.5 sm:p-5">
-              <h3 className="text-base sm:text-lg font-semibold leading-snug text-gray-900">
+              <h3 className="text-base sm:text-lg/7 font-semibold leading-snug text-gray-900">
                 {c.title}
               </h3>
-              <p className="mt-1 flex-1 text-xs sm:text-sm leading-relaxed text-gray-500">
+              <p className="mt-1 flex-1 text-xs sm:text-sm/5 leading-relaxed text-gray-500">
                 {c.description}
               </p>
               <span

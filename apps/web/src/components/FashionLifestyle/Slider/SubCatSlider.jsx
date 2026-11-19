@@ -26,7 +26,7 @@ const SubCatSlider = () => {
     return (
       <div className="flex gap-2 overflow-hidden" aria-hidden>
         {[...Array(6)].map((_, i) => (
-          <Skeleton key={i} className="h-11 w-32 shrink-0 !rounded-full" />
+          <Skeleton key={i} className="h-11 w-32 shrink-0 rounded-full!" />
         ))}
       </div>
     );
@@ -38,7 +38,7 @@ const SubCatSlider = () => {
 
   return (
     <nav aria-label="Sub categories" className="-mx-4 sm:mx-0">
-      <ul className="flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
+      <ul className="flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-none sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
         {subCategories.map((category) => {
           const active = category?._id === subCatId;
           return (
@@ -50,7 +50,7 @@ const SubCatSlider = () => {
                 aria-current={active ? "page" : undefined}
                 className={`inline-flex h-11 items-center gap-2 rounded-full border py-1 pl-1 pr-4 text-sm font-medium transition-colors ${
                   active
-                    ? "border-[#0C3F8E] bg-[#0C3F8E] text-white"
+                    ? "border-primary bg-primary text-white"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:text-gray-900"
                 }`}
               >

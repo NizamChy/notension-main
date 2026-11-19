@@ -42,7 +42,7 @@ const TypeDetails = () => {
               }`
             : undefined
         }
-        className="!mb-0"
+        className="mb-0!"
       />
     </div>
   );

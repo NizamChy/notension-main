@@ -52,7 +52,7 @@ const StoreItemCard = ({
       onKeyDown={(event) => {
         if (event.target === event.currentTarget && event.key === "Enter") onClick?.(event);
       }}
-      className={`group flex h-full cursor-pointer flex-col overflow-hidden ${CARD} ${CARD_HOVER} focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
+      className={`group flex h-full cursor-pointer flex-col overflow-hidden ${CARD} ${CARD_HOVER} focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40`}
     >
       <div className="relative aspect-square w-full overflow-hidden bg-[#F6F7F9]">
         {isImageLoading && (
@@ -72,7 +72,7 @@ const StoreItemCard = ({
         />
 
         {discountLabel && (
-          <span className="absolute left-2 top-2 rounded-full bg-[#EB5C2F] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-sm md:left-3 md:top-3">
+          <span className="absolute left-2 top-2 rounded-full bg-[#EB5C2F] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-xs md:left-3 md:top-3">
             {discountLabel}
           </span>
         )}
@@ -83,7 +83,7 @@ const StoreItemCard = ({
             aria-label={isFavorite ? "Remove from favourites" : "Add to favourites"}
             aria-pressed={!!isFavorite}
             onClick={stop(onFavoriteToggle)}
-            className={`absolute right-1.5 top-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-sm ring-1 ring-black/5 transition-colors hover:bg-[#FFFFFF] md:right-2 md:top-2 ${
+            className={`absolute right-1.5 top-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/90 shadow-xs ring-1 ring-black/5 transition-colors hover:bg-[#FFFFFF] md:right-2 md:top-2 ${
               isFavorite ? "text-[#D92D20]" : "text-[#475467] hover:text-[#D92D20]"
             }`}
           >
@@ -99,15 +99,15 @@ const StoreItemCard = ({
       <div className="flex flex-1 flex-col p-3 md:p-3.5">
         <h3
           title={title}
-          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-5 text-gray-900"
+          className="line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-gray-900"
         >
           {title}
         </h3>
-        <p className="mt-0.5 min-h-[1rem] truncate text-xs text-gray-500">
+        <p className="mt-0.5 min-h-4 truncate text-xs text-gray-500">
           {subtitle}
         </p>
 
-        <div className="mt-auto flex min-h-[1.75rem] flex-wrap items-baseline gap-x-1.5 pt-2.5">
+        <div className="mt-auto flex min-h-7 flex-wrap items-baseline gap-x-1.5 pt-2.5">
           {hasValue(salePrice) && (
             <span className="text-base font-bold tabular-nums text-gray-900">
               {formatTaka(salePrice)}
@@ -131,13 +131,13 @@ const StoreItemCard = ({
                 type="button"
                 onClick={stop(onAddToCart)}
                 aria-label={title ? `Add ${title} to cart` : "Add to cart"}
-                className="flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-[#0C3F8E]/[0.08] text-sm font-semibold text-[#0C3F8E] transition-colors hover:bg-[#0C3F8E] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40 dark:bg-[#7FB2FF]/10 dark:text-[#7FB2FF] dark:hover:bg-[#0C3F8E] dark:hover:text-white"
+                className="flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-primary/8 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0C3F8E]/40 dark:bg-[#7FB2FF]/10 dark:text-[#7FB2FF] dark:hover:bg-primary dark:hover:text-white"
               >
                 <HiPlus className="text-base" />
                 Add
               </button>
             ) : (
-              <div className="flex h-10 w-full items-center justify-between rounded-full bg-[#0C3F8E] text-white shadow-sm shadow-[#0C3F8E]/20">
+              <div className="flex h-10 w-full items-center justify-between rounded-full bg-primary text-white shadow-xs shadow-[#0C3F8E]/20">
                 <button
                   type="button"
                   aria-label="Decrease quantity"

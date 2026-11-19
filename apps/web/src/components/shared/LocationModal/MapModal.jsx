@@ -61,7 +61,7 @@ const MapModal = ({ isOpen, onCloseModal, onConfirmed }) => {
         aria-labelledby="location-dialog-title"
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className={`flex max-h-[100dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl shadow-gray-950/30 outline-none transition-transform duration-300 ease-out sm:max-h-[calc(100dvh-2rem)] sm:max-w-2xl sm:rounded-3xl ${
+        className={`flex max-h-dvh w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl shadow-gray-950/30 outline-hidden transition-transform duration-300 ease-out sm:max-h-[calc(100dvh-2rem)] sm:max-w-2xl sm:rounded-3xl ${
           shown ? "translate-y-0 sm:scale-100" : "translate-y-6 sm:translate-y-0 sm:scale-[0.97]"
         }`}
       >

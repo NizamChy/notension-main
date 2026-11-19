@@ -100,7 +100,7 @@ const FavoriteConsultationCenter = () => {
               aria-label={`Remove ${center?.center_name || "centre"} from favourites`}
               title="Remove from favourites"
               onClick={(e) => handleRemoveFromFavorite(e, center)}
-              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/95 text-[#344054] shadow-sm transition-colors hover:bg-[#FFFFFF] hover:text-[#D92D20]"
+              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFFFF]/95 text-[#344054] shadow-xs transition-colors hover:bg-[#FFFFFF] hover:text-[#D92D20]"
             >
               <LuTrash2 className="text-base" />
             </button>

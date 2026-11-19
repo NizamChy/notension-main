@@ -144,7 +144,7 @@ const UserInfoInputs = ({
                 type="button"
                 onClick={resendOTP}
                 disabled={progressing}
-                className="inline-flex min-h-10 items-center font-semibold text-[#0C3F8E] hover:underline disabled:opacity-60 dark:text-[#7FB2FF]"
+                className="inline-flex min-h-10 items-center font-semibold text-primary hover:underline disabled:opacity-60 dark:text-[#7FB2FF]"
               >
                 Resend OTP
               </button>
