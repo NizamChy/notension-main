@@ -5,7 +5,7 @@ a customer order groceries, medicine and food from nearby stores, shop for
 fashion and lifestyle products, find doctors and medical centres, and book
 local service providers. Content is filtered by the customer's district.
 
-The app is a Next.js frontend. It talks to several separate backend services
+The app is a Next.js frontend in a monorepo. It talks to several separate backend services
 over HTTP and ships with a **demo mode** that answers every request from
 built-in sample data, so it runs without any backend.
 
@@ -25,8 +25,12 @@ built-in sample data, so it runs without any backend.
 
 ## Tech stack
 
+- Monorepo: npm workspaces and [Turborepo](https://turborepo.com)
 - [Next.js 16](https://nextjs.org) (App Router) and React 19
-- Tailwind CSS 3
+- TypeScript 7 (existing code is JavaScript and moves over gradually)
+- Tailwind CSS 4
+- Zod for shared, validated business rules (`packages/shared`)
+- Vitest for unit tests, Playwright for smoke tests
 - Redux Toolkit with `redux-persist` for cart, user and module state
 - TanStack Query and Axios for data fetching
 - Swiper for sliders, `react-icons`, `react-hot-toast`
@@ -57,10 +61,16 @@ User**. No OTP is needed.
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run build` | Create a production build |
-| `npm run start` | Serve the production build |
+| `npm run dev` | Start the web app's development server |
+| `npm run build` | Build every package |
 | `npm run lint` | Run ESLint |
+| `npm run typecheck` | Type-check every package |
+| `npm run test` | Run the unit tests (Vitest) |
+| `npm run e2e` | Run the smoke tests (Playwright, uses the installed Chrome) |
+
+Run these from the repository root. Turborepo runs each task in every
+workspace that has it and caches the results. GitHub Actions runs lint,
+typecheck, tests, build and the smoke tests on every pull request.
 
 ## Configuration
 
@@ -68,7 +78,7 @@ The real backends are configured with environment variables. Copy the example
 file and fill in the values:
 
 ```bash
-cp .env.example .env.local
+cp apps/web/.env.example apps/web/.env.local
 ```
 
 | Variable | Purpose |
@@ -129,10 +139,10 @@ How it works:
   `src/app/layout.js` sets it before the first paint, so the page doesn't
   flash light. The button is `src/components/shared/ThemeToggle`.
 - The `gray` and `slate` scales and `deepGray` / `mediumGray` / `lightGray`
-  read CSS variables (`tailwind.config.mjs`, `src/app/globals.css`), so they
+  read CSS variables (the `@theme` block in `src/app/globals.css`), so they
   flip in dark mode without `dark:` classes.
 - `bg-white`, light tinted backgrounds (`bg-[#FFF1EA]` and so on) and dark
-  brand text (`text-primary`, `text-secondary`) get dark values at the end of
+  brand text (`text-primary`, `text-secondary`) get dark values in the `@layer utilities` block of
   `globals.css`. When you add a new light background or dark text color that
   isn't on the gray scale, add its dark value there or use a `dark:` class.
 
@@ -178,31 +188,35 @@ Known gaps and planned work, most important first.
 ## Project structure
 
 ```
-public/
-  demo/              Demo images, one folder per module
-  images/, png/, svg/ Static assets
-src/
-  app/               Routes (App Router), one folder per module
-  components/        UI components, grouped by module
-    common/          Shared building blocks (sliders, checkout card, ...)
-    shared/          Site-wide navbar, footer, modals
-    StoreModule/     Shared store layout for grocery and medicine
-  api-endpoints/     Backend base URLs (env.js) and endpoint paths
-  demo/              Demo mode: adapter, sample data, locations, demo user
-  hooks/             Data-fetching and order hooks
-  lib/apiClient.js   Axios client per backend (routes through demo mode)
-  redux/             Store, slices and persistence
-  utils/             Helpers (prices, dates, validation, Google Maps loader)
+apps/
+  web/                 Next.js frontend
+    public/demo/       Demo images, one folder per module
+    src/
+      app/             Routes (App Router), one folder per module
+      components/      UI components, grouped by module
+      api-endpoints/   Backend base URLs (env.js) and endpoint paths
+      demo/            Demo mode: adapter, sample data, locations, demo user
+      hooks/           Data-fetching and order hooks
+      lib/apiClient.js Axios client per backend (routes through demo mode)
+      redux/           Store, slices and persistence
+      utils/           Helpers (dates, validation, Google Maps loader)
+    e2e/               Playwright smoke tests
+packages/
+  shared/              Code shared by frontend and backend: pricing rules
+                       (Zod), slugs. The future API contract lives here.
+turbo.json             Task pipeline
 ```
 
 ## Deployment
 
 The app is deployed on [Vercel](https://vercel.com). Every pull request gets a
-preview deployment, and merging to `main` deploys to production. Set the
-environment variables above in the Vercel project settings.
+preview deployment, and merging to `main` deploys to production. The Vercel project's Root
+Directory is `apps/web`. Set the environment variables above in the Vercel
+project settings.
 
 ## Contributing
 
 1. Create a branch from `main` (for example `fix/cart-total`).
-2. Make your change and run `npm run lint` and `npm run build`.
+2. Make your change and run `npm run lint`, `npm run typecheck`,
+   `npm run test` and `npm run build`.
 3. Open a pull request to `main` and check the Vercel preview.
