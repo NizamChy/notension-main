@@ -5,7 +5,7 @@ a customer order groceries, medicine and food from nearby stores, shop for
 fashion and lifestyle products, find doctors and medical centres, and book
 local service providers. Content is filtered by the customer's district.
 
-The app is a Next.js frontend in a monorepo. It talks to several separate backend services
+The app is a Next.js frontend and a new TypeScript API in one monorepo. The frontend talks to several separate backend services
 over HTTP and ships with a **demo mode** that answers every request from
 built-in sample data, so it runs without any backend.
 
@@ -109,12 +109,21 @@ only when the picker opens, one map is created per opening, and the address
 under the pin is looked up only after the map stops moving, with results
 cached per ~10 m.
 
+## Backend
+
+The new API lives in [`apps/api`](apps/api/README.md). It answers the same
+requests as the old backends, module by module, and runs locally with no
+database setup (embedded Postgres). Grocery is the first module on it. To try
+it, start the API and set `NEXT_PUBLIC_LIVE_SERVICES=GROCERY` and
+`NEXT_PUBLIC_GROCERY_URL=http://localhost:4000` in `apps/web/.env.local`.
+
 ## Demo mode
 
 Demo mode lets the app run without the backends:
 
 - Every API request is answered by `src/demo/demoAdapter.js` from the routes
-  in `src/demo/modules/`. No request reaches a real backend.
+  in `src/demo/modules/`. Only services listed in `NEXT_PUBLIC_LIVE_SERVICES`
+  reach the network (see [Backend](#backend)).
 - Images are served from `public/demo/` through a rewrite in
   `next.config.mjs`.
 - Sample data exists for Dhaka (default) and Chittagong.
@@ -201,9 +210,12 @@ apps/
       redux/           Store, slices and persistence
       utils/           Helpers (dates, validation, Google Maps loader)
     e2e/               Playwright smoke tests
+  api/                 Backend: Hono, Zod, Drizzle, Postgres + PostGIS
+                       (see apps/api/README.md)
 packages/
   shared/              Code shared by frontend and backend: pricing rules
-                       (Zod), slugs. The future API contract lives here.
+                       (Zod), slugs, and the API contract
+                       (contract/) both apps build against.
 turbo.json             Task pipeline
 ```
 
