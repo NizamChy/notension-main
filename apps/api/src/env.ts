@@ -7,7 +7,7 @@ const schema = z.object({
   PGLITE_DIR: z.string().default("./.pglite"),
   PORT: z.coerce.number().int().positive().default(4000),
   // Comma-separated origins allowed to call the API from a browser.
-  CORS_ORIGINS: z.string().default("http://localhost:3000"),
+  CORS_ORIGINS: z.string().default("http://localhost:3000,https://notension-main.vercel.app"),
 });
 
 export const env = schema.parse(process.env);

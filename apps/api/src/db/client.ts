@@ -1,17 +1,14 @@
-import { PGlite } from "@electric-sql/pglite";
-import { postgis } from "@electric-sql/pglite-postgis";
-import { drizzle as drizzlePglite } from "drizzle-orm/pglite";
-import { migrate as migratePglite } from "drizzle-orm/pglite/migrator";
-import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
-import { migrate as migratePg } from "drizzle-orm/node-postgres/migrator";
 import { sql } from "drizzle-orm";
+import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import * as schema from "./schema";
 
 export type Db = ReturnType<typeof drizzlePg<typeof schema>>;
 
-const MIGRATIONS = fileURLToPath(new URL("../../drizzle", import.meta.url));
+// Resolved when migrating (from src/), not at import: the serverless bundle
+// never migrates; the build step does.
+const migrationsFolder = () => fileURLToPath(new URL("../../drizzle", import.meta.url));
 
 export type DbHandle = { db: Db; migrate: () => Promise<void>; close: () => Promise<void> };
 
@@ -24,13 +21,21 @@ export async function createDb(opts: { url?: string; dataDir?: string }): Promis
     return {
       db,
       migrate: async () => {
+        const { migrate } = await import("drizzle-orm/node-postgres/migrator");
         await db.execute(sql`CREATE EXTENSION IF NOT EXISTS postgis`);
-        await migratePg(db, { migrationsFolder: MIGRATIONS });
+        await migrate(db, { migrationsFolder: migrationsFolder() });
       },
       close: () => pool.end(),
     };
   }
 
+  // Loaded only here, so production (Postgres) never loads the WebAssembly build.
+  const [{ PGlite }, { postgis }, { drizzle: drizzlePglite }, { migrate: migratePglite }] = await Promise.all([
+    import("@electric-sql/pglite"),
+    import("@electric-sql/pglite-postgis"),
+    import("drizzle-orm/pglite"),
+    import("drizzle-orm/pglite/migrator"),
+  ]);
   const client = await PGlite.create({ dataDir: opts.dataDir, extensions: { postgis } });
   const db = drizzlePglite(client, { schema });
   return {
@@ -39,7 +44,7 @@ export async function createDb(opts: { url?: string; dataDir?: string }): Promis
     db: db as unknown as Db,
     migrate: async () => {
       await client.exec("CREATE EXTENSION IF NOT EXISTS postgis");
-      await migratePglite(db, { migrationsFolder: MIGRATIONS });
+      await migratePglite(db, { migrationsFolder: migrationsFolder() });
     },
     close: () => client.close(),
   };

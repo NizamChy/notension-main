@@ -10,7 +10,9 @@
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx --tsconfig tsconfig.json src/db/migrate.ts",
-    "db:seed": "tsx --tsconfig tsconfig.json src/seed/run.ts"
+    "db:seed": "tsx --tsconfig tsconfig.json src/seed/run.ts",
+    "build": "esbuild src/vercel.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/vercel.js --external:pg --external:hono --external:drizzle-orm --external:zod --external:@hono/* --external:@electric-sql/*",
+    "vercel-build": "npm run db:seed && npm run build"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.17",
@@ -29,6 +31,7 @@
     "drizzle-kit": "^0.31.11",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.1"
+    "vitest": "^5.1.1",
+    "esbuild": "^0.28.2"
   }
 }
