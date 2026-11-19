@@ -66,7 +66,7 @@ export const useFavouriteList = () => {
         if (favouriteList > 24) {
           isAllowed = false;
 
-          alert(
+          toast.error(
             "Hold on!, You can add up to twenty five (25) Center to your Favorites list !!"
           );
         }
@@ -86,7 +86,7 @@ export const useFavouriteList = () => {
         if (favouriteList > 24) {
           isAllowed = false;
 
-          alert(
+          toast.error(
             "Hold on!, You can add up to twenty five (25) Doctors to your Favorites list !!"
           );
         }

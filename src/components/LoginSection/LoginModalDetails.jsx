@@ -25,6 +25,7 @@ const ButtonSpinner = () => (
 const LoginModalDetails = ({
   onClose = () => {},
   type = "login",
+  redirectTo,
   showHeading = true,
 }) => {
   const [phone, setPhone] = useState("");
@@ -40,7 +41,7 @@ const LoginModalDetails = ({
     loginAsDemoUser,
   } = useUser();
 
-  const afterLogin = useAfterLogin(type, onClose);
+  const afterLogin = useAfterLogin(type, onClose, redirectTo);
   const demoOn = useSyncExternalStore(noopSubscribe, isDemoMode, () => false);
 
   const handleDemoLogin = async () => {
@@ -153,6 +154,7 @@ const LoginModalDetails = ({
           <UserInfoInputs
             onClose={onClose}
             type={type}
+            redirectTo={redirectTo}
             phone={phone}
             userInfo={userInfo}
             otpGenerated={otpGenerated}

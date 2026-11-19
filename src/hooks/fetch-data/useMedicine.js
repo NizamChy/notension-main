@@ -21,6 +21,8 @@ export const useMedicine = () => {
   const [productInfo, setProductInfo] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
   const [progressing, setProgressing] = useState(false);
+  // "missing" | "closed" after exploreStore, null when the store is open.
+  const [storeStatus, setStoreStatus] = useState(null);
   const [itemNotfound, setItemNotfound] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -116,6 +118,7 @@ export const useMedicine = () => {
 
   const exploreStore = (data) => {
     resetReducer();
+    setStoreStatus(null);
     setProgressing(true);
     Axios.get(EXPLORE_MEDICINE_STORE, {
       params: {
@@ -125,11 +128,13 @@ export const useMedicine = () => {
     })
       .then((res) => {
         if (
-          res?.data?.result?.ShopDetails[0]?.is_closed ||
-          !res?.data?.result?.ShopDetails[0]?.is_active ||
-          res?.data?.result?.ShopDetails[0]?.is_banned
+          res?.data?.result?.ShopDetails?.[0]?.is_closed ||
+          !res?.data?.result?.ShopDetails?.[0]?.is_active ||
+          res?.data?.result?.ShopDetails?.[0]?.is_banned
         ) {
-          alert("Sorry we're closed! See you tomorrow!");
+          setStoreStatus(
+            res?.data?.result?.ShopDetails?.[0]?._id ? "closed" : "missing",
+          );
         } else {
           dispatch(
             handleDashboardReducer({
@@ -265,6 +270,7 @@ export const useMedicine = () => {
     loadingMore,
     productInfo,
     progressing,
+    storeStatus,
     allLoaded,
     message,
     setMessage,

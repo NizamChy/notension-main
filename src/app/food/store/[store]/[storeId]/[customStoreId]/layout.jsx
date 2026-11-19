@@ -1,6 +1,7 @@
 "use client";
 
 import Cart from "@/components/Cart/Cart";
+import StoreUnavailable from "@/components/ShopInfoSection/StoreUnavailable";
 import { useEffect, useRef, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
 import Footer from "@/components/shared/Footer/Footer";
@@ -24,7 +25,7 @@ export default function FoodLayout({ children }) {
   const pathname = usePathname();
   const foodItemsRef = useRef(null);
 
-  const { exploreStore, progressing } = useFood();
+  const { exploreStore, progressing, storeStatus } = useFood();
 
   const scrollToFoodItems = () => {
     if (isScroll) {
@@ -90,6 +91,8 @@ export default function FoodLayout({ children }) {
                 <MenuSkeleton count={6} />
               </div>
             </div>
+          ) : storeStatus ? (
+            <StoreUnavailable moduleName="food" status={storeStatus} />
           ) : (
             <>
               {showStoreChrome && (

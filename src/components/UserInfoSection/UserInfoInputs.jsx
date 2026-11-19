@@ -19,6 +19,7 @@ const ButtonSpinner = () => (
 const UserInfoInputs = ({
   onClose,
   type = "login",
+  redirectTo,
   phone,
   userInfo,
   otpGenerated,
@@ -29,7 +30,7 @@ const UserInfoInputs = ({
 }) => {
   const [otp, setOtp] = useState("");
 
-  const afterLogin = useAfterLogin(type, onClose);
+  const afterLogin = useAfterLogin(type, onClose, redirectTo);
 
   const resendOTP = () => {
     sendSms();

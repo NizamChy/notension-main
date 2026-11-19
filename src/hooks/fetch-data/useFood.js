@@ -13,6 +13,8 @@ import { handleDashboardReducer } from "@/redux/dashboardReducer";
 
 export const useFood = () => {
   const [progressing, setProgressing] = useState(false);
+  // "missing" | "closed" after exploreStore, null when the store is open.
+  const [storeStatus, setStoreStatus] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -105,6 +107,7 @@ export const useFood = () => {
   const exploreStore = (data) => {
     resetFoodStore();
 
+    setStoreStatus(null);
     setProgressing(true);
     Axios.get(EXPLORE_FOOD_STORE, {
       params: {
@@ -115,11 +118,13 @@ export const useFood = () => {
       .then((res) => {
 
         if (
-          res?.data?.result?.shopDetails[0]?.is_closed ||
-          !res?.data?.result?.shopDetails[0]?.is_active ||
-          res?.data?.result?.shopDetails[0]?.is_banned
+          res?.data?.result?.shopDetails?.[0]?.is_closed ||
+          !res?.data?.result?.shopDetails?.[0]?.is_active ||
+          res?.data?.result?.shopDetails?.[0]?.is_banned
         ) {
-          alert("Sorry we're closed !!", "See you tomorrow !!");
+          setStoreStatus(
+            res?.data?.result?.shopDetails?.[0]?._id ? "closed" : "missing",
+          );
         } else {
 
           dispatch(
@@ -159,6 +164,7 @@ export const useFood = () => {
 
   return {
     progressing,
+    storeStatus,
     exploreStore,
     setProgressing,
     exploreFoodModule,

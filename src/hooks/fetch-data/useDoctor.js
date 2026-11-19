@@ -168,10 +168,11 @@ export const useDoctor = () => {
       },
     })
       .then((res) => {
-        setProfileInfo(res?.data?.result);
+        setProfileInfo(res?.data?.result || []);
         setProgressing(false);
       })
-      .catch((error) => {
+      .catch(() => {
+        setProfileInfo([]);
         setProgressing(false);
       });
   };

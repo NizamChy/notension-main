@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Cart from "@/components/Cart/Cart";
+import StoreUnavailable from "@/components/ShopInfoSection/StoreUnavailable";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
@@ -13,7 +14,7 @@ import CategorySidebar from "@/components/Medicine/MedicineCategorySection/Categ
 
 export default function MedicineStoreLayout({ children }) {
   const params = useParams();
-  const { exploreStore, progressing } = useMedicine();
+  const { exploreStore, progressing, storeStatus } = useMedicine();
 
   useEffect(() => {
     if (params?.storeId && params?.customStoreId) {
@@ -46,7 +47,13 @@ export default function MedicineStoreLayout({ children }) {
               <Loader />
             </div>
           ) : (
-            <div className={`min-h-content ${STORE_PAGE_CLASS}`}>{children}</div>
+            <div className={`min-h-content ${STORE_PAGE_CLASS}`}>
+              {storeStatus ? (
+                <StoreUnavailable moduleName="medicine" status={storeStatus} />
+              ) : (
+                children
+              )}
+            </div>
           )}
           <Footer />
         </div>
