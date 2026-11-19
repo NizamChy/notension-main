@@ -71,18 +71,17 @@ author, licence and the demo files made from it.
 | [A home made plate of mutton biryani served with chicken kassa cooked in the bengali style.jpg](https://commons.wikimedia.org/wiki/File:A_home_made_plate_of_mutton_biryani_served_with_chicken_kassa_cooked_in_the_bengali_style.jpg) | Subhrajyoti07 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-chicken-biryani.webp` |
 | [Cultivated hamburger, 2013.jpg](https://commons.wikimedia.org/wiki/File:Cultivated_hamburger,_2013.jpg) | Mosa Meat | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | `food/item-chicken-burger.webp`, `food/pcat-burger.webp` |
 | [Chicken Curry 5.jpg](https://commons.wikimedia.org/wiki/File:Chicken_Curry_5.jpg) | Gaurav Dhwaj Khadka | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-chili-onion.webp` |
-| [Indian cuisine-Panipuri-03.jpg](https://commons.wikimedia.org/wiki/File:Indian_cuisine-Panipuri-03.jpg) | Ramakrishna Reddy y | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | `food/item-chotpoti.webp`, `food/item-fuchka.webp` |
 | [Chow Mein 1.jpg](https://commons.wikimedia.org/wiki/File:Chow_Mein_1.jpg) | Gaurav Dhwaj Khadka | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-chowmein.webp`, `food/offer-cod.webp` |
 | [Iced coffee (Eiskaffee).jpg](https://commons.wikimedia.org/wiki/File:Iced_coffee_(Eiskaffee).jpg) | Anke Klitzing | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-cold-coffee.webp`, `food/item-cold-coffee-bj.webp` |
 | [Phirni at Cool Point, Chandni Chawk.jpg](https://commons.wikimedia.org/wiki/File:Phirni_at_Cool_Point,_Chandni_Chawk.jpg) | Anwesha394 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-firni.webp` |
 | [Burger King BK Big Fish sandwich.jpg](https://commons.wikimedia.org/wiki/File:Burger_King_BK_Big_Fish_sandwich.jpg) | theimpulsivebuy | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | `food/item-fish-burger.webp` |
 | [Pineapple fried rice at Banana Leaf in Milpitas, California.jpg](https://commons.wikimedia.org/wiki/File:Pineapple_fried_rice_at_Banana_Leaf_in_Milpitas,_California.jpg) | Grendelkhan | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-fried-rice.webp` |
-| [Cajun fries from Popeyes Louisiana Kitchen, Stratford, Ontario, 2025-08-04.jpg](https://commons.wikimedia.org/wiki/File:Cajun_fries_from_Popeyes_Louisiana_Kitchen,_Stratford,_Ontario,_2025-08-04.jpg) | Chris Woodrich | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-fries.webp` |
+| [Indian cuisine-Panipuri-03.jpg](https://commons.wikimedia.org/wiki/File:Indian_cuisine-Panipuri-03.jpg) | Ramakrishna Reddy y | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | `food/item-fuchka.webp` |
 | [Belgian Chocolate Fudge Cake - Caffè Nero 2025-09-05.jpg](https://commons.wikimedia.org/wiki/File:Belgian_Chocolate_Fudge_Cake_-_Caff%C3%A8_Nero_2025-09-05.jpg) | Andy Li | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `food/item-fudge-cake.webp` |
 | [Garlic bread baguettes 2.jpg](https://commons.wikimedia.org/wiki/File:Garlic_bread_baguettes_2.jpg) | Infrogmation | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-garlic-bread.webp` |
 | [Thai Green Curry with Rice.jpg](https://commons.wikimedia.org/wiki/File:Thai_Green_Curry_with_Rice.jpg) | Kenamparo | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-green-curry.webp` |
 | [Chicken Hyderabadi Biryani.JPG](https://commons.wikimedia.org/wiki/File:Chicken_Hyderabadi_Biryani.JPG) | Dheerajk88 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-kacchi.webp`, `food/offer-delivery.webp` |
-| [Kala bhuna 2.jpg](https://commons.wikimedia.org/wiki/File:Kala_bhuna_2.jpg) | Dolon Prova | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-kala-bhuna.webp`, `food/item-rezala.webp` |
+| [Kala bhuna 2.jpg](https://commons.wikimedia.org/wiki/File:Kala_bhuna_2.jpg) | Dolon Prova | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-kala-bhuna.webp` |
 | [Eq it-na pizza-margherita sep2005 sml.jpg](https://commons.wikimedia.org/wiki/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg) | Valerio Capello at English Wikipedia | [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) | `food/item-kalabhuna-pizza.webp` |
 | [Matcha tea latte with rosetta latte art.jpg](https://commons.wikimedia.org/wiki/File:Matcha_tea_latte_with_rosetta_latte_art.jpg) | Irvan Ary Maulana | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-latte.webp` |
 | [Mint lemonade (Homemade).jpg](https://commons.wikimedia.org/wiki/File:Mint_lemonade_(Homemade).jpg) | Sadiikul | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `food/item-lemonade.webp` |
@@ -133,14 +132,11 @@ author, licence and the demo files made from it.
 | [Rice grains (IRRI).jpg](https://commons.wikimedia.org/wiki/File:Rice_grains_(IRRI).jpg) | IRRI Images | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | `grocery/chinigura-rice.webp` |
 | [Potato-Chips.jpg](https://commons.wikimedia.org/wiki/File:Potato-Chips.jpg) | Evan-Amos | Public domain | `grocery/chips.webp` |
 | [Roasted coffee beans.jpg](https://commons.wikimedia.org/wiki/File:Roasted_coffee_beans.jpg) | MarkSweep | Public domain | `grocery/coffee.webp` |
-| [Koala (soft drink from Czechia).jpg](https://commons.wikimedia.org/wiki/File:Koala_(soft_drink_from_Czechia).jpg) | Андрей Романенко | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/cola.webp` |
 | [Laundry detergent pods.jpg](https://commons.wikimedia.org/wiki/File:Laundry_detergent_pods.jpg) | ajcespedes | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `grocery/detergent.webp` |
 | [Afwasmiddel Una Aldi.JPG](https://commons.wikimedia.org/wiki/File:Afwasmiddel_Una_Aldi.JPG) | Onderwijsgek | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `grocery/dishwash.webp` |
-| [Chicken Egg without Eggshell 5859.jpg](https://commons.wikimedia.org/wiki/File:Chicken_Egg_without_Eggshell_5859.jpg) | Biswarup Ganguly | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | `grocery/duck-eggs.webp` |
 | [Solanum melongena 24 08 2012 (1).JPG](https://commons.wikimedia.org/wiki/File:Solanum_melongena_24_08_2012_(1).JPG) | Joydeep | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `grocery/eggplant.webp` |
 | [Mopping the floor in traditional way.jpg](https://commons.wikimedia.org/wiki/File:Mopping_the_floor_in_traditional_way.jpg) | Beendy234 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/floor-cleaner.webp` |
 | [Garlic bulbs and cloves.jpg](https://commons.wikimedia.org/wiki/File:Garlic_bulbs_and_cloves.jpg) | Ivar Leidus | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/garlic.webp` |
-| [Mustard Oil & Seeds - Kolkata 2003-10-31 00537.JPG](https://commons.wikimedia.org/wiki/File:Mustard_Oil_%26_Seeds_-_Kolkata_2003-10-31_00537.JPG) | Biswarup Ganguly | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | `grocery/ghee.webp`, `grocery/mustard-oil.webp` |
 | [2018-07-16 Green apples on tree.jpg](https://commons.wikimedia.org/wiki/File:2018-07-16_Green_apples_on_tree.jpg) | Maksym Kozlenko | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/green-apple.webp` |
 | [VitorJubini MercadoDaVilaRubim Vitoria ES (39182859020) (square crop).jpg](https://commons.wikimedia.org/wiki/File:VitorJubini_MercadoDaVilaRubim_Vitoria_ES_(39182859020)_(square_crop).jpg) | MTur Destinos | Public domain | `grocery/green-chilli.webp` |
 | [GUAVA FRUIT.jpg](https://commons.wikimedia.org/wiki/File:GUAVA_FRUIT.jpg) | GTSPACE | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/guava.webp` |
@@ -152,17 +148,16 @@ author, licence and the demo files made from it.
 | [Glass of Milk (33657535532).jpg](https://commons.wikimedia.org/wiki/File:Glass_of_Milk_(33657535532).jpg) | NIAID | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | `grocery/milk.webp`, `grocery/sub-milk.webp`, `grocery/uht-milk.webp` |
 | [Plain white rice-min-min.jpg](https://commons.wikimedia.org/wiki/File:Plain_white_rice-min-min.jpg) | Sum overseas | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/miniket-rice.webp` |
 | [Moong Dal.jpg](https://commons.wikimedia.org/wiki/File:Moong_Dal.jpg) | Sudeshna Banerjee | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `grocery/moong-dal.webp` |
+| [Mustard Oil & Seeds - Kolkata 2003-10-31 00537.JPG](https://commons.wikimedia.org/wiki/File:Mustard_Oil_%26_Seeds_-_Kolkata_2003-10-31_00537.JPG) | Biswarup Ganguly | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | `grocery/mustard-oil.webp` |
 | [Mushqbudji rice grains close-up.jpg](https://commons.wikimedia.org/wiki/File:Mushqbudji_rice_grains_close-up.jpg) | Zahoor Ahmad Reshi | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `grocery/nazirshail-rice.webp` |
 | [Multi-flavor vegetable instant noodles.jpg](https://commons.wikimedia.org/wiki/File:Multi-flavor_vegetable_instant_noodles.jpg) | Fumikas Sagisavas | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `grocery/noodles.webp`, `grocery/sub-noodles.webp` |
 | [Red Onion on White.JPG](https://commons.wikimedia.org/wiki/File:Red_Onion_on_White.JPG) | Colin | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `grocery/onion.webp` |
-| [Onions and potatoes.jpg](https://commons.wikimedia.org/wiki/File:Onions_and_potatoes.jpg) | Daniel Paullll | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/potato.webp`, `grocery/sub-onion-potato.webp` |
 | [Vegetables at vegetable market, Havelock Island, Andamans.jpg](https://commons.wikimedia.org/wiki/File:Vegetables_at_vegetable_market,_Havelock_Island,_Andamans.jpg) | Vyacheslav Argenberg | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | `grocery/slider-free-delivery.webp`, `grocery/store-mohakhali-krishi-bazar.webp` |
 | [Fruits and Vegetables in Boquete, Panama.jpg](https://commons.wikimedia.org/wiki/File:Fruits_and_Vegetables_in_Boquete,_Panama.jpg) | FranHogan | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/slider-fresh-vegetables.webp` |
 | [Fruit Stall in Barcelona Market.jpg](https://commons.wikimedia.org/wiki/File:Fruit_Stall_in_Barcelona_Market.jpg) | By en:User:Daderot. | [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) | `grocery/slider-fruits-festival.webp` |
 | [Variety of car cleaning and care products in hardware store in Germany.jpg](https://commons.wikimedia.org/wiki/File:Variety_of_car_cleaning_and_care_products_in_hardware_store_in_Germany.jpg) | Pittigrilli | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `grocery/slider-household-deals.webp` |
 | [Fresh produce shelves in L Intermarche supermarket in Quebec City.jpg](https://commons.wikimedia.org/wiki/File:Fresh_produce_shelves_in_L_Intermarche_supermarket_in_Quebec_City.jpg) | Wilfredor | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/slider-monthly-bazar.webp`, `grocery/store-gulshan-fresh-mart.webp` |
 | [Aisle in L Intermarche supermarket in Quebec City.jpg](https://commons.wikimedia.org/wiki/File:Aisle_in_L_Intermarche_supermarket_in_Quebec_City.jpg) | Wilfredor | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/slider-special-offer.webp`, `grocery/store-dhanmondi-super-shop.webp` |
-| [Vegetable oil products on sale.jpg](https://commons.wikimedia.org/wiki/File:Vegetable_oil_products_on_sale.jpg) | Lord Ajax 001 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/soybean-oil-2l.webp`, `grocery/soybean-oil-5l.webp`, `grocery/sub-soybean-oil.webp` |
 | [A grocery store bus in western Finland (interior 1).jpg](https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_1).jpg) | Veikk0.ma | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/store-agrabad-family-store.webp`, `grocery/store-gec-circle-grocers.webp` |
 | [Grocery store shelves of junk food.jpg](https://commons.wikimedia.org/wiki/File:Grocery_store_shelves_of_junk_food.jpg) | Cory Doctorow | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | `grocery/store-banani-daily-bazar.webp` |
 | [Gurabija (гурабија,Qurabiya; Cuisine of Serbia).jpg](https://commons.wikimedia.org/wiki/File:Gurabija_(%D0%B3%D1%83%D1%80%D0%B0%D0%B1%D0%B8%D1%98%D0%B0,Qurabiya;_Cuisine_of_Serbia).jpg) | Petar Milošević | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/sub-biscuits.webp` |
@@ -174,7 +169,6 @@ author, licence and the demo files made from it.
 | [Juice bar selling oranges, red apples and other fruits, Clarke Quay MRT station, Singapore.jpg](https://commons.wikimedia.org/wiki/File:Juice_bar_selling_oranges,_red_apples_and_other_fruits,_Clarke_Quay_MRT_station,_Singapore.jpg) | Basile Morin | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/sub-imported-fruits.webp` |
 | [2021-07-24 repaired laundry basket 01.jpg](https://commons.wikimedia.org/wiki/File:2021-07-24_repaired_laundry_basket_01.jpg) | Bärbel Miemietz | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/sub-laundry.webp` |
 | [3 types of lentil.jpg](https://commons.wikimedia.org/wiki/File:3_types_of_lentil.jpg) | User:Justinc | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | `grocery/sub-lentils.webp` |
-| [Dune Aura Mustard oil bottle picture.jpg](https://commons.wikimedia.org/wiki/File:Dune_Aura_Mustard_oil_bottle_picture.jpg) | Dunesaura | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | `grocery/sub-mustard-oil.webp` |
 | [Green rice sheaves planted in a paddy field with long shadows at golden hour in Don Det Laos.jpg](https://commons.wikimedia.org/wiki/File:Green_rice_sheaves_planted_in_a_paddy_field_with_long_shadows_at_golden_hour_in_Don_Det_Laos.jpg) | Basile Morin | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/sub-rice.webp` |
 | [ARS tropical fruit no labels.jpg](https://commons.wikimedia.org/wiki/File:ARS_tropical_fruit_no_labels.jpg) | Penny Greb | Public domain | `grocery/sub-seasonal-fruits.webp` |
 | [Tea-coffee and Green tea sets.jpg](https://commons.wikimedia.org/wiki/File:Tea-coffee_and_Green_tea_sets.jpg) | Yoshi Canopus | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `grocery/sub-tea-coffee.webp` |
@@ -233,9 +227,7 @@ author, licence and the demo files made from it.
 | [2023 Gold-Vit.jpg](https://commons.wikimedia.org/wiki/File:2023_Gold-Vit.jpg) | Jacek Halicki | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/banner-vitamins.webp` |
 | [ASCOMES Vitamin C Tablet.jpg](https://commons.wikimedia.org/wiki/File:ASCOMES_Vitamin_C_Tablet.jpg) | Abdsomod | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `medicine/ceevit-250mg.webp` |
 | [Advil tablets on a white background.jpg](https://commons.wikimedia.org/wiki/File:Advil_tablets_on_a_white_background.jpg) | Curpharar | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/comet-500.webp` |
-| [Elastic strip bandage (transparent background).png](https://commons.wikimedia.org/wiki/File:Elastic_strip_bandage_(transparent_background).png) | Original public domain image: Raysonho @ Open Grid Scheduler / Grid EngineImage poorly layered onto background: MatthewH | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `medicine/crepe-bandage-4-inch.webp` |
-| [Pexels-pixabay-433624.jpg](https://commons.wikimedia.org/wiki/File:Pexels-pixabay-433624.jpg) | congerdesign | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `medicine/dettol-hand-wash.webp`, `medicine/hexisol-hand-rub.webp`, `medicine/meril-baby-lotion.webp` |
-| [Medical mercury thermometer with velvet-lined cardboard box - focus stack (2020-05-25).jpg](https://commons.wikimedia.org/wiki/File:Medical_mercury_thermometer_with_velvet-lined_cardboard_box_-_focus_stack_(2020-05-25).jpg) | Franz van Duns | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/digital-thermometer.webp` |
+| [Pexels-pixabay-433624.jpg](https://commons.wikimedia.org/wiki/File:Pexels-pixabay-433624.jpg) | congerdesign | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `medicine/dettol-hand-wash.webp`, `medicine/hexisol-hand-rub.webp` |
 | [Cough medicine in a medicine measure cup.jpg](https://commons.wikimedia.org/wiki/File:Cough_medicine_in_a_medicine_measure_cup.jpg) | Redvelvetcake5 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/entacyd-plus-suspension.webp`, `medicine/tusca-plus-syrup.webp` |
 | [Polish Neurotop Retard (carbamazepine) tablets, 600 mg.jpg](https://commons.wikimedia.org/wiki/File:Polish_Neurotop_Retard_(carbamazepine)_tablets,_600_mg.jpg) | Żółwiciel | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `medicine/fexo-120.webp` |
 | [New Reference Material Can Improve testing of Multivitamin Tablets (5880985736).jpg](https://commons.wikimedia.org/wiki/File:New_Reference_Material_Can_Improve_testing_of_Multivitamin_Tablets_(5880985736).jpg) | National Institute of Standards and Technology | Public domain | `medicine/filwel-gold.webp` |
@@ -243,7 +235,6 @@ author, licence and the demo files made from it.
 | [2012-11-30 - Nasenstrip gsk - 0766.jpg](https://commons.wikimedia.org/wiki/File:2012-11-30_-_Nasenstrip_gsk_-_0766.jpg) | Sven Teschke, Büdingen | [CC BY-SA 3.0 de](https://creativecommons.org/licenses/by-sa/3.0/de/deed.en) | `medicine/hansaplast-strips.webp` |
 | [2023 Krople do oczu Zuma Noka 0,4%.jpg](https://commons.wikimedia.org/wiki/File:2023_Krople_do_oczu_Zuma_Noka_0,4%25.jpg) | Jacek Halicki | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/lubricant-eye-drops.webp` |
 | [Toothpasteonbrush.jpg](https://commons.wikimedia.org/wiki/File:Toothpasteonbrush.jpg) | Thegreenj | [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/) | `medicine/mediplus-ds-toothpaste.webp`, `medicine/subtype-9.webp` |
-| [Baby wipes.jpg](https://commons.wikimedia.org/wiki/File:Baby_wipes.jpg) | Headlock0225 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | `medicine/meril-baby-powder.webp`, `medicine/subtype-18.webp`, `medicine/supermom-baby-diaper-m.webp`, `medicine/supermom-baby-wipes.webp` |
 | [Aleppo soap 01.jpg](https://commons.wikimedia.org/wiki/File:Aleppo_soap_01.jpg) | Bernard Gagnon | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `medicine/meril-baby-soap.webp` |
 | [Pile of round aciclovir tablets.jpg](https://commons.wikimedia.org/wiki/File:Pile_of_round_aciclovir_tablets.jpg) | Sage Ross | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `medicine/napa-500mg.webp` |
 | [Medication Paracetamol.JPG](https://commons.wikimedia.org/wiki/File:Medication_Paracetamol.JPG) | Mk2010 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `medicine/napa-extend-665mg.webp` |
@@ -266,6 +257,7 @@ author, licence and the demo files made from it.
 | [Hotel Baron thermometer.jpg](https://commons.wikimedia.org/wiki/File:Hotel_Baron_thermometer.jpg) | Bernard Gagnon | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | `medicine/subtype-13.webp` |
 | [2017 Sfigmomanometr elektroniczny.jpg](https://commons.wikimedia.org/wiki/File:2017_Sfigmomanometr_elektroniczny.jpg) | Jacek Halicki | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/subtype-15.webp` |
 | [Cream in round container.jpg](https://commons.wikimedia.org/wiki/File:Cream_in_round_container.jpg) | stux | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | `medicine/subtype-16.webp`, `medicine/vaseline-intensive-care-lotion.webp` |
+| [Baby wipes.jpg](https://commons.wikimedia.org/wiki/File:Baby_wipes.jpg) | Headlock0225 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | `medicine/subtype-18.webp`, `medicine/supermom-baby-diaper-m.webp`, `medicine/supermom-baby-wipes.webp` |
 | [A person having two capsules at home.jpg](https://commons.wikimedia.org/wiki/File:A_person_having_two_capsules_at_home.jpg) | Curpharar | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | `medicine/subtype-2.webp` |
 | [Inhaler - 3230581981.jpg](https://commons.wikimedia.org/wiki/File:Inhaler_-_3230581981.jpg) | penreyes | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | `medicine/subtype-20.webp` |
 | [Hospital Pharmacy.JPG](https://commons.wikimedia.org/wiki/File:Hospital_Pharmacy.JPG) | User:Mattes | Public domain | `medicine/subtype-21.webp` |
@@ -278,7 +270,7 @@ author, licence and the demo files made from it.
 
 ## Pixabay
 
-Most fashion & lifestyle photos (`fashion/`) come from [Pixabay](https://pixabay.com/)
+Most fashion & lifestyle photos (`fashion/`) and a few grocery, food and medicine photos come from [Pixabay](https://pixabay.com/)
 under the [Pixabay Content License](https://pixabay.com/service/license-summary/).
 
 | Source photo | Author | Used for |
@@ -428,6 +420,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [wallet, coins, magnifying glass](https://pixabay.com/photos/wallet-coins-magnifying-glass-2292428/) | stevepb | `fashion/genuine-leather-wallet-black.webp`, `fashion/genuine-leather-wallet-brown.webp`, `fashion/genuine-leather-wallet.webp` |
 | [girl, siblings, walking](https://pixabay.com/photos/girl-siblings-walking-child-little-807503/) | Bessi | `fashion/girls-jeans-trousers-capris.webp` |
 | [baby, blanket, bed](https://pixabay.com/photos/baby-blanket-bed-prank-smile-game-4001099/) | Shimex | `fashion/girls-nightwear-loungewear.webp` |
+| [little girl, small model, beauty](https://pixabay.com/photos/little-girl-small-model-beauty-695625/) | shengpan | `fashion/girls-school-shoes.webp` |
 | [cosmetics, powder, cosmetic brush](https://pixabay.com/photos/cosmetics-powder-cosmetic-brush-1543271/) | summa | `fashion/glow-compact-and-pressed-powder.webp` |
 | [eye shadows, cosmetics, makeup](https://pixabay.com/photos/eye-shadows-cosmetics-makeup-powder-6198839/) | Ri_Ya | `fashion/glow-eye-shadow.webp` |
 | [eyelash, make-up, woman](https://pixabay.com/photos/eyelash-make-up-woman-metal-2359654/) | Engin_Akyurt | `fashion/glow-eyelash-curlers.webp` |
@@ -478,6 +471,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [baby, girl, child](https://pixabay.com/photos/baby-girl-child-cute-baby-girl-2047595/) | TerriC | `fashion/kids-newborn-essentials.webp` |
 | [rc 1 8, off road, buggy](https://pixabay.com/photos/rc-1-8-off-road-buggy-rc-hobby-5288137/) | Bicouli | `fashion/kids-remote-control-toys.webp` |
 | [konik, horse, poles](https://pixabay.com/photos/konik-horse-poles-wood-wooden-toy-1469124/) | MirelaSchenk | `fashion/kids-rocker-toys.webp` |
+| [school, education, learning](https://pixabay.com/photos/school-education-learning-converse-909381/) | WOKANDAPIX | `fashion/kids-school-shoes.webp` |
 | [boy, nature, child](https://pixabay.com/photos/boy-child-kid-happy-family-cute-1942147/) | DayronV | `fashion/kids-striped-t-shirt-green.webp`, `fashion/kids-striped-t-shirt-navy.webp`, `fashion/kids-striped-t-shirt.webp` |
 | [tricycle, kids, vintage](https://pixabay.com/photos/tricycle-kids-vintage-bike-2800438/) | mycol | `fashion/kids-tricycle-with-basket.webp` |
 | [girl, suitcase, vacation](https://pixabay.com/photos/girl-suitcase-vacation-glasses-3384841/) | ua_Bob_Dmyt_ua | `fashion/kids-watches-sunglasses.webp` |
@@ -541,6 +535,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [glasses, t-shirt, man](https://pixabay.com/photos/glasses-t-shirt-man-mens-fashion-3592607/) | Hifen | `fashion/slim-fit-shorts.webp` |
 | [cloths, hd wallpaper, mac wallpaper](https://pixabay.com/photos/cloths-material-woven-multicoloured-2296963/) | anncapictures | `fashion/soft-blankets-quilts-duvets.webp` |
 | [highlighted light, female portrait, blonde hair](https://pixabay.com/photos/highlighted-light-female-portrait-10529756/) | HPphotoretouch | `fashion/soft-blouse.webp` |
+| [fashion, boots, shoes](https://pixabay.com/photos/fashion-boots-shoes-footwear-5515135/) | gershoots | `fashion/kids-school-shoes-2.webp`, `fashion/soft-boots.webp` |
 | [yoga, fitness, exercise](https://pixabay.com/photos/yoga-fitness-exercise-health-body-3053487/) | lograstudio | `fashion/soft-bra.webp` |
 | [baby, cloth, clothing](https://pixabay.com/photos/baby-cloth-clothing-color-colorful-19260/) | PublicDomainPictures | `fashion/soft-care-baby-diapers.webp` |
 | [clothesline, summer, nighties](https://pixabay.com/photos/clothesline-summer-nighties-clean-804811/) | JillWellington | `fashion/soft-nightdress.webp` |
@@ -573,13 +568,14 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [shoe, display, purple](https://pixabay.com/photos/shoe-display-purple-sequins-15971/) | PublicDomainPictures | `fashion/sub-foot-wear-kids-boy-footwear-flats.webp` |
 | [beach, sand, sea](https://pixabay.com/photos/beach-sand-sea-sandy-beach-3369140/) | stux | `fashion/lightweight-flip-flops.webp`, `fashion/sub-foot-wear-kids-boy-footwear-flipflops.webp` |
 | [shoe, nature, rosy](https://pixabay.com/photos/shoe-rosy-colour-footwear-fashion-3731119/) | JosepMonter | `fashion/sparkle-sandals.webp`, `fashion/sub-foot-wear-kids-boy-footwear-sandals.webp` |
-| [fashion, boots, shoes](https://pixabay.com/photos/fashion-boots-shoes-footwear-5515135/) | gershoots | `fashion/girls-school-shoes.webp`, `fashion/soft-boots.webp`, `fashion/sub-foot-wear-kids-boy-footwear-school-shoes.webp` |
 | [running shoes, run, sports](https://pixabay.com/photos/running-shoes-run-sports-running-1428048/) | anncapictures | `fashion/sub-foot-wear-kids-boy-footwear-sports-shoes.webp` |
 | [fashion, foot, isolated](https://pixabay.com/photos/fashion-foot-isolated-leather-2203/) | PublicDomainPictures | `fashion/sub-foot-wear-kids-girl-footwear-flats.webp` |
 | [shoes, heels, woman](https://pixabay.com/photos/shoes-heels-woman-female-fashion-2538424/) | eloigomez_ | `fashion/sub-foot-wear-kids-girl-footwear-heels.webp` |
+| [necktie, leather shoes, fashion](https://pixabay.com/photos/necktie-leather-shoes-fashion-style-1284463/) | Pexels | `fashion/sub-foot-wear-kids-girl-footwear-school-shoes.webp` |
 | [work boots, footwear, protection](https://pixabay.com/photos/work-boots-footwear-protection-889816/) | stevepb | `fashion/sub-foot-wear-men-footwear-boots.webp` |
 | [running, woman, race](https://pixabay.com/photos/running-woman-race-athlete-sport-4782722/) | Fotorech | `fashion/sub-foot-wear-men-footwear-canvas.webp` |
 | [amazing, cool backgrounds, andaman sea](https://pixabay.com/photos/amazing-andaman-sea-background-bay-2412612/) | nutraveller | `fashion/sparkle-flipflops.webp`, `fashion/sub-foot-wear-men-footwear-flip-flops.webp` |
+| [oxford shoes, leather, shoes](https://pixabay.com/photos/oxford-shoes-leather-shoes-6078993/) | tylermike525 | `fashion/girls-school-shoes-2.webp`, `fashion/sub-foot-wear-kids-boy-footwear-school-shoes.webp`, `fashion/sub-foot-wear-men-footwear-formal-shoes.webp` |
 | [sandals, footwear, keen](https://pixabay.com/photos/sandals-footwear-keen-hipster-1407733/) | WOKANDAPIX | `fashion/sub-foot-wear-men-footwear-sandals-floaters.webp` |
 | [sports shoes, shoes, running](https://pixabay.com/photos/sports-shoes-shoes-running-sneakers-4510638/) | matthiasboeckel | `fashion/sub-foot-wear-men-footwear-sports-shoes.webp` |
 | [shoes, pair of shoes, parquet floor](https://pixabay.com/photos/shoes-pair-of-shoes-parquet-floor-429944/) | Hermann | `fashion/classic-ballet-flat.webp`, `fashion/sub-foot-wear-women-footwear-ballet-flat.webp` |
@@ -769,7 +765,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [shoes, couple, road](https://pixabay.com/photos/shoes-couple-road-footwear-9138796/) | Jupilu | `fashion/cat-foot-wear-women-footwear.webp`, `fashion/classic-casual-shoes.webp`, `fashion/classic-socks.webp`, `fashion/sub-kids-world-boy-footwear-casual-shoes.webp` |
 | [flip flops, summer, sand](https://pixabay.com/photos/flip-flops-summer-sand-beach-8026749/) | 28366294 | `fashion/junior-flipflops.webp`, `fashion/sub-foot-wear-kids-girl-footwear-flipflops.webp`, `fashion/sub-kids-world-boy-footwear-flipflops.webp` |
 | [shoes, leather shoes, women's shoes](https://pixabay.com/photos/shoes-leather-shoes-womens-shoes-357897/) | Hans | `fashion/junior-sandals.webp`, `fashion/leather-kolhapuri-sandals.webp`, `fashion/sub-foot-wear-kids-girl-footwear-sandals.webp`, `fashion/sub-kids-world-boy-footwear-sandals.webp` |
-| [oxford shoes, leather, shoes](https://pixabay.com/photos/oxford-shoes-leather-shoes-6078993/) | tylermike525 | `fashion/kids-school-shoes-2.webp`, `fashion/sub-foot-wear-kids-girl-footwear-school-shoes.webp`, `fashion/sub-foot-wear-men-footwear-formal-shoes.webp`, `fashion/sub-kids-world-boy-footwear-school-shoes.webp` |
+| [children's shoes, board, pencils](https://pixabay.com/photos/childrens-shoes-board-pencils-1035488/) | sonja_paetow | `fashion/sub-kids-world-boy-footwear-school-shoes.webp` |
 | [read, socks, coffee](https://pixabay.com/photos/read-socks-coffee-morning-woman-3644847/) | FotoRieth | `fashion/boys-socks.webp`, `fashion/glitter-socks.webp`, `fashion/sub-foot-wear-kids-girl-footwear-socks.webp`, `fashion/sub-foot-wear-men-footwear-socks.webp`, `fashion/sub-kids-world-boy-footwear-socks.webp` |
 | [running shoe, shoe, brooks](https://pixabay.com/photos/running-shoe-shoe-brooks-371624/) | stux | `fashion/sub-foot-wear-kids-girl-footwear-sports-shoes.webp`, `fashion/sub-kids-world-boy-footwear-sports-shoes.webp` |
 | [baby, cute, portrait](https://pixabay.com/photos/baby-cute-portrait-young-people-3036913/) | Sunriseforever | `fashion/sub-kids-world-boys-clothing-clothing-sets.webp` |
@@ -800,7 +796,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [shoes, colorful, stones](https://pixabay.com/photos/shoes-colorful-stones-rainbow-1480663/) | chezbeate | `fashion/comfy-flipflops.webp`, `fashion/glitter-flipflops.webp`, `fashion/sub-kids-world-girls-footwear-flipflops.webp` |
 | [child, girl, tie shoes](https://pixabay.com/photos/child-girl-tie-shoes-shoelaces-4818426/) | congerdesign | `fashion/kids-heels.webp`, `fashion/sub-kids-world-girls-footwear-heels.webp` |
 | [sandals, shoes, flip-flop](https://pixabay.com/photos/sandals-shoes-flip-flop-thongs-623652/) | sandid | `fashion/comfy-sandals.webp`, `fashion/glitter-sandals.webp`, `fashion/sub-kids-world-girls-footwear-sandals.webp` |
-| [necktie, leather shoes, fashion](https://pixabay.com/photos/necktie-leather-shoes-fashion-style-1284463/) | Pexels | `fashion/girls-school-shoes-2.webp`, `fashion/kids-school-shoes.webp`, `fashion/sub-kids-world-girls-footwear-school-shoes.webp` |
+| [child, girls school, children](https://pixabay.com/photos/child-girls-school-children-school-7217095/) | Liliya_Arslanova | `fashion/sub-kids-world-girls-footwear-school-shoes.webp` |
 | [sock, stocking, leg](https://pixabay.com/photos/sock-stocking-leg-funny-woman-8490788/) | Photology91 | `fashion/boys-socks-2.webp`, `fashion/sub-foot-wear-kids-boy-footwear-socks.webp`, `fashion/sub-kids-world-girls-footwear-socks.webp` |
 | [running shoe, shoe, brooks](https://pixabay.com/photos/running-shoe-shoe-brooks-371625/) | stux | `fashion/comfort-sports-shoes.webp`, `fashion/sub-kids-world-girls-footwear-sports-shoes.webp` |
 | [kid, food, fruit](https://pixabay.com/photos/kid-food-fruit-baby-bottle-4893504/) | DesignDrawArtes | `fashion/sub-kids-world-kids-accessories-baby-food.webp` |
@@ -946,3 +942,18 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [woman, beauty, fashion](https://pixabay.com/photos/woman-beauty-fashion-portrait-6676901/) | Katya_Ershova | `fashion/warm-mid-length-windproof-winter-coat.webp` |
 | [shower, bathroom, toilets](https://pixabay.com/photos/shower-bathroom-toilets-apartment-2094713/) | jarmoluk | `fashion/waterproof-shower-curtains.webp` |
 | [bath, black and white, house](https://pixabay.com/photos/bath-black-and-white-house-white-172094/) | zena3546 | `fashion/waterproof-towel-holders.webp` |
+| [chana masala, chole masala, channay](https://pixabay.com/photos/chana-masala-chole-masala-channay-1271639/) | marekonline | `food/item-chotpoti.webp` |
+| [french fries, potatoes, food](https://pixabay.com/photos/french-fries-potatoes-food-fryed-87385/) | byrev | `food/item-fries.webp` |
+| [korma, indian food, indian kitchen](https://pixabay.com/photos/korma-indian-food-indian-kitchen-3856046/) | ArtificialOG | `food/item-rezala.webp` |
+| [soft drink, soda, ice](https://pixabay.com/photos/soft-drink-soda-ice-glass-cold-4280835/) | Lernestorod | `grocery/cola.webp` |
+| [eggs, nest, mallard](https://pixabay.com/photos/eggs-nest-mallard-nature-waterfowl-6468991/) | gayleenfroese2 | `grocery/duck-eggs.webp` |
+| [kovilpatti murukku kadai, indian sweets, mysore pak](https://pixabay.com/photos/kovilpatti-murukku-kadai-9862081/) | Kovilpattimurukkukadai | `grocery/ghee.webp` |
+| [potatoes, vegetables, nature](https://pixabay.com/photos/potatoes-vegetables-nature-fresh-4331742/) | stanbalik | `grocery/potato.webp` |
+| [olive oil, greek, oil](https://pixabay.com/photos/olive-oil-greek-oil-olive-bottle-356102/) | margenauer | `grocery/soybean-oil-2l.webp`, `grocery/sub-soybean-oil.webp` |
+| [oil, olive oil, food](https://pixabay.com/photos/oil-olive-oil-food-tomato-kitchen-3112195/) | RitaE | `grocery/soybean-oil-5l.webp` |
+| [glass, bottle, flower background](https://pixabay.com/photos/glass-bottle-oil-wellness-flowers-4108085/) | silviarita | `grocery/sub-mustard-oil.webp` |
+| [vegetables, carrots, garlic](https://pixabay.com/photos/vegetables-carrots-garlic-celery-1212845/) | LubosHouska | `grocery/sub-onion-potato.webp` |
+| [bandage, gauze, cure](https://pixabay.com/photos/bandage-gauze-cure-2671513/) | HeungSoon | `medicine/crepe-bandage-4-inch.webp` |
+| [thermometer, medicine, pills](https://pixabay.com/photos/thermometer-medicine-pills-cold-6554397/) | subarasikiai | `medicine/digital-thermometer.webp` |
+| [self care, morning, routine](https://pixabay.com/photos/self-care-morning-routine-activity-6886590/) | IqbalStock | `medicine/meril-baby-lotion.webp` |
+| [food, meal, wallpaper hd](https://pixabay.com/photos/food-meal-flour-foodie-dough-3242590/) | MapleHorizons | `medicine/meril-baby-powder.webp` |
