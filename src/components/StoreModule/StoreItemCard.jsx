@@ -34,6 +34,7 @@ const StoreItemCard = ({
   onFavoriteToggle,
   showCartControls = true,
   quantity = 0,
+  isAvailable = true,
   onAddToCart,
   onIncrement,
   onDecrement,
@@ -121,7 +122,11 @@ const StoreItemCard = ({
 
         {showCartControls && (
           <div className="mt-2.5" onClick={stop()}>
-            {quantity === 0 ? (
+            {quantity === 0 && !isAvailable ? (
+              <span className="flex h-10 w-full items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-500">
+                Out of stock
+              </span>
+            ) : quantity === 0 ? (
               <button
                 type="button"
                 onClick={stop(onAddToCart)}

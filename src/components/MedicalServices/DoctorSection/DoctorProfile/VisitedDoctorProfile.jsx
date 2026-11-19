@@ -13,8 +13,8 @@ import DoctorProfileView from "./DoctorProfileView";
 
 const VisitedDoctorProfile = () => {
   const [profileInfo, setProfileInfo] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+  // What the login modal was opened for: "appointment" or "favourite".
+  const [loginType, setLoginType] = useState(null);
 
   const { getProfileOfDoctor, progressing } = useDoctor();
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
@@ -28,15 +28,16 @@ const VisitedDoctorProfile = () => {
   const centerId = params?.id || null;
   const doctorId = params?.doctorId || null;
 
-  let isExists = null;
-  let merchantType = 4;
+  const merchantType = 4;
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const isModalOpen = !!loginType;
+  const closeModal = () => setLoginType(null);
 
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!userInfo?._id) return setLoginType("favourite");
 
     addToFavouriteList(visitedDoctor?.doctorInfo, merchantType);
   };
@@ -50,7 +51,7 @@ const VisitedDoctorProfile = () => {
     );
 
     if (!userInfo?._id) {
-      return openModal();
+      return setLoginType("appointment");
     } else {
       router.push("/medical-services/doctor/book-appointment");
     }
@@ -63,19 +64,14 @@ const VisitedDoctorProfile = () => {
         )
       : profileInfo[0];
 
-  useEffect(() => {
-    getProfileOfDoctor(doctorId, setProfileInfo);
-  }, []);
+  const isFavoriteAdded =
+    !!visitedDoctor &&
+    isAddedToFavouriteList(visitedDoctor?.doctorInfo?._id, merchantType);
 
   useEffect(() => {
-    if (visitedDoctor) {
-      isExists = isAddedToFavouriteList(
-        visitedDoctor?.doctorInfo?._id,
-        merchantType
-      );
-      setIsFavoriteAdded(isExists);
-    }
-  }, [visitedDoctor, handleAddToFavorite]);
+    getProfileOfDoctor(doctorId, setProfileInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the page remounts for another doctor
+  }, []);
 
   if (progressing) return <Loader />;
   if (!visitedDoctor) return null;
@@ -94,7 +90,7 @@ const VisitedDoctorProfile = () => {
 
       {isModalOpen && (
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-          <LoginModalDetails onClose={closeModal} type="appointment" />
+          <LoginModalDetails onClose={closeModal} type={loginType} />
         </CommonModal>
       )}
     </>

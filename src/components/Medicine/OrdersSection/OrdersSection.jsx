@@ -11,7 +11,7 @@ import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 
 const OrdersSection = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loginDismissed, setLoginDismissed] = useState(false);
 
   const params = useParams();
 
@@ -21,17 +21,14 @@ const OrdersSection = () => {
     (state) => state.user.medicineOrderInfo
   );
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
 
+  // Load the account's orders once someone is signed in (also right after
+  // signing in through the modal on this page).
   useEffect(() => {
-    if (!userInfo?._id) {
-      openModal();
-    }
-  }, []);
-
-  useEffect(() => {
-    getOrderInfo();
+    if (userInfo?._id) getOrderInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- getOrderInfo is recreated every render
   }, [userInfo?._id]);
 
   return (

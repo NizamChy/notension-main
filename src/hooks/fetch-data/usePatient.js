@@ -89,8 +89,11 @@ export const usePatient = () => {
 
   };
 
+  // Loads the account's patients. The list already in the store (persisted)
+  // stays until the server answers with its own, so the demo backend, which
+  // forgets patients on reload, doesn't wipe them.
   const getPatientInfo = () => {
-    savePatientInfo("save_all", []);
+    if (!userInfo?._id) return;
     setProgressing(true);
     Axios.get(GET_PATIENTS, {
       params: {

@@ -25,24 +25,23 @@ const userSlice = createSlice({
       const { type, data } = payload;
 
       switch (type) {
-        case "SAVE_API_KEY":
-          return {
-            ...state,
-            existing_outlet_id: data.existing_outlet_id,
-            outlet_id: data.outlet_id,
-            outlet_name: data.outlet_name,
-            outlet_address: data.outlet_address,
-          };
-
         case "SAVE_LOGGEDIN_INFO":
           state.isLoggedin = true;
           state.userInfo = data;
           break;
 
+        // Drop everything that belongs to the account (addresses, patients,
+        // orders, appointments) so the next person on this device can't see
+        // it. The chosen location stays.
         case "LOGOUT_USER":
-          state.isLoggedin = false;
-          state.userInfo = data;
-          break;
+          return {
+            ...initialState,
+            districtId: state.districtId,
+            userLatitude: state.userLatitude,
+            userLongitude: state.userLongitude,
+            deliveryAddress: state.deliveryAddress,
+            currentUserLocation: state.currentUserLocation,
+          };
 
         case "SAVE_USER_CURRENT_LOCATION":
           state.currentUserLocation = data;
@@ -113,11 +112,6 @@ const userSlice = createSlice({
           state.bookedAppoinmentInfo = updatedAppointments;
           break;
         }
-
-        case "RESET_USER":
-          return {
-            ...initialState,
-          };
 
         default:
           break;

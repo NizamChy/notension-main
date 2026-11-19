@@ -60,10 +60,4 @@ export const getStoreModule = (moduleName) => {
   return config;
 };
 
-// "Fresh Mart & Co." -> "fresh-mart-co" (keeps Bengali letters).
-export const toSlug = (text) =>
-  text
-    ?.trim()
-    .toLowerCase()
-    .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-    .replace(/\s+/g, "-");
+export { toSlug } from "@/utils/slug";

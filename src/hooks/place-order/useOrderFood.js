@@ -10,15 +10,13 @@ import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
 import { handleUserReducer } from "@/redux/userReducer";
+import { orderTotals } from "@/utils/price";
 
 const Axios = getApiClient(FOOD_URL);
 
 export const useOrderFood = () => {
-  const [discount, setDiscount] = useState(0);
-  const [grandTotal, setGrandTotal] = useState(0);
   const [progressing, setProgressing] = useState(false);
   const orderInFlight = useRef(false);
-  const [shippingCharge, setShippingCharge] = useState(0);
 
   const params = useParams();
   const router = useRouter();
@@ -29,46 +27,11 @@ export const useOrderFood = () => {
   const { foodStoreInfo, totalAmountFood } = useSelector((state) => state.cart);
 
   const totalPrice = totalAmountFood;
-  const minOrderAmount = foodStoreInfo?.min_purchage_amount || 0;
-  const deliveryCharge = foodStoreInfo?.max_delivery_charge || 0;
-  const minDeliveryCharge = foodStoreInfo?.min_delivery_charge || 0;
-  const less = foodStoreInfo?.less || 0;
-  const less_type = foodStoreInfo?.less_type || "Percent";
-  const maximum_less = foodStoreInfo?.maximum_less || 0;
-  const minimum_order_for_less = foodStoreInfo?.minimum_order_for_less || 0;
 
-  const getGrandTotalFood = () => {
-    let shippingCost = deliveryCharge;
-    if (parseFloat(totalPrice) >= parseFloat(minOrderAmount)) {
-      shippingCost = minDeliveryCharge;
-    }
-    let total = 0;
-    let Discount = 0;
-    if (
-      parseFloat(less) > 0 &&
-      parseFloat(maximum_less) > 0 &&
-      parseFloat(totalPrice) >= parseFloat(minimum_order_for_less)
-    ) {
-      if (less_type === "Percent") {
-        Discount = ((parseFloat(less) / 100) * parseFloat(totalPrice)).toFixed(
-          2
-        );
-        if (parseFloat(Discount) > parseFloat(maximum_less)) {
-          Discount = parseFloat(maximum_less).toFixed(2);
-        }
-      } else {
-        Discount = less;
-      }
-    }
-    setShippingCharge(shippingCost);
-    setDiscount(Discount);
-    total = (
-      parseFloat(totalPrice) +
-      parseFloat(shippingCost) -
-      parseFloat(Discount)
-    ).toFixed(2);
-    setGrandTotal(total);
-  };
+  const { shippingCharge, discount, grandTotal } = orderTotals(
+    foodStoreInfo,
+    totalPrice,
+  );
 
   const placeOrder = (itemOrderObj) => {
     // Ignore repeat clicks while an order request is still in flight.
@@ -141,7 +104,6 @@ export const useOrderFood = () => {
     grandTotal,
     progressing,
     shippingCharge,
-    getGrandTotalFood,
     setProgressing,
     getOrderInfo,
     placeOrder,

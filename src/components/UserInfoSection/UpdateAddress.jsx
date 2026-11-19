@@ -3,7 +3,7 @@
 import toast from "react-hot-toast";
 import { isLengthBetween } from "@/utils/validation";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   HiOutlineMapPin,
   HiOutlinePhone,
@@ -17,9 +17,9 @@ import { CARD, PageHeader } from "../shared/UI/UI";
 import { TextField } from "../shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "../shared/CartUI/CartUI";
 
-const UpdateAddress = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+// The form; rendered only for a signed-in user and keyed by the account, so
+// useUser() starts from that account's saved details.
+const UpdateAddressForm = () => {
   const { progressing, userInfo, handleDataChange, registerUser } = useUser();
   const { userInfo: savedUserInfo } = useSelector((state) => state.user);
 
@@ -59,15 +59,6 @@ const UpdateAddress = () => {
     const success_message = "আপনার তথ্য আপডেট করা হয়েছে";
     registerUser(success_message);
   };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  useEffect(() => {
-    if (!savedUserInfo?._id) {
-      openModal();
-    }
-  }, []);
 
   return (
     <>
@@ -170,14 +161,23 @@ const UpdateAddress = () => {
         </div>
       )}
 
-      {isModalOpen && (
-        <>
-          <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-            <LoginModalDetails onClose={closeModal} type="private-route" />
-          </CommonModal>
-        </>
-      )}
     </>
+  );
+};
+
+const UpdateAddress = () => {
+  const { userInfo } = useSelector((state) => state.user);
+  const [loginDismissed, setLoginDismissed] = useState(false);
+
+  if (userInfo?._id) return <UpdateAddressForm key={userInfo._id} />;
+
+  return (
+    <CommonModal isOpen={!loginDismissed} onClose={() => setLoginDismissed(true)}>
+      <LoginModalDetails
+        onClose={() => setLoginDismissed(true)}
+        type="private-route"
+      />
+    </CommonModal>
   );
 };
 

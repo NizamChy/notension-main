@@ -28,14 +28,6 @@ const userChoiceSlice = createSlice({
       const { type, data } = payload;
 
       switch (type) {
-        case "SAVE_DEFAULT_STORE":
-          state.defaultGroceryStore = data;
-          break;
-
-        case "SAVE_CURRENT_MERCHANT":
-          state.defaultMedicineStore = data;
-          break;
-
         case "ADD_TO_FAVOURITE_MERCHANT_LIST": {
           const { merchantType, storeInfo, favouriteList } = data;
 
@@ -164,9 +156,16 @@ const userChoiceSlice = createSlice({
           break;
         }
 
-        case "RESET_USER_CHOICE":
+        // On logout: forget the account's favourites, keep the stores the
+        // visitor is browsing.
+        case "CLEAR_FAVOURITES":
           return {
             ...initialState,
+            currentFoodShop: state.currentFoodShop,
+            currentGroceryStore: state.currentGroceryStore,
+            currentMedicineStore: state.currentMedicineStore,
+            defaultGroceryStore: state.defaultGroceryStore,
+            defaultMedicineStore: state.defaultMedicineStore,
           };
 
         case "SAVE_CURRENT_ITEM_DETAILS":

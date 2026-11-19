@@ -14,6 +14,7 @@ import {
   InfiniteItemGrid,
   TypeBreadcrumb,
 } from "@/components/StoreModule/ItemBrowse";
+import { toSlug } from "@/utils/slug";
 
 const SubTypeSection = () => {
   const [id, setId] = useState("");
@@ -70,11 +71,7 @@ const SubTypeSection = () => {
 
   const handleType = () => {
     if (typeName && typeId) {
-      const formattedTypeName = typeName
-        ?.trim()
-        .toLowerCase()
-        .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-        .replace(/\s+/g, "-");
+      const formattedTypeName = toSlug(typeName);
 
       const typeSlugId = `${formattedTypeName}_${typeId}`;
 

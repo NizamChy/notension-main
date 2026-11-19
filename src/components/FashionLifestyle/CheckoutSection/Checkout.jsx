@@ -8,12 +8,13 @@ import { useSelector } from "react-redux";
 import OrderSummary from "./OrderSummary";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
-import { PAYMENT_DATA } from "../utils/constants";
+import { PAYMENT_DATA } from "@/components/shared/Checkout/paymentOptions";
 import { useMutation } from "@tanstack/react-query";
 import { FASHION_BASE_URL } from "@/api-endpoints/env";
 import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
 import {
   CheckoutEmpty,
@@ -123,7 +124,7 @@ const Checkout = () => {
           product_title_eng: item?.product_title_eng,
           product_title_beng: item?.product_title_beng,
           product_size: item?.selectedSize,
-          // product_color: item?.selectedColor,
+          product_color: item?.selectedColor || "",
           purchase_price: item?.sale_price,
           max_retail_price: item?.max_retail_price,
           sale_price: item?.sale_price,
@@ -292,4 +293,40 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+// Orders need an account, and the bag lives in localStorage: wait for it to
+// load (so an empty bag doesn't flash), then ask guests to sign in. Keyed by
+// user so the form picks up the account's name / phone / address after login.
+const CheckoutGate = () => {
+  const { userInfo } = useSelector((state) => state.user);
+  const { isInitialized } = useCart();
+  const [loginOpen, setLoginOpen] = useState(true);
+
+  if (!isInitialized) return <div className="min-h-[60vh] bg-gray-50" />;
+
+  if (!userInfo?._id)
+    return (
+      <div className="bg-gray-50 px-4 py-10 md:py-16">
+        <div className="mx-auto flex min-h-[40vh] max-w-md flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-gray-200 bg-white p-6 text-center">
+          <p className="text-base font-semibold text-gray-900">
+            Sign in to place your order
+          </p>
+          <p className="text-sm text-gray-500">
+            Your bag is saved. Sign in and you can check out right away.
+          </p>
+          <PrimaryButton className="max-w-xs" onClick={() => setLoginOpen(true)}>
+            Sign in
+          </PrimaryButton>
+        </div>
+        <CommonModal isOpen={loginOpen} onClose={() => setLoginOpen(false)}>
+          <LoginModalDetails
+            onClose={() => setLoginOpen(false)}
+            type="private-route"
+          />
+        </CommonModal>
+      </div>
+    );
+
+  return <Checkout key={userInfo._id} />;
+};
+
+export default CheckoutGate;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   HiOutlineMapPin,
   HiOutlinePhone,
@@ -16,7 +16,7 @@ import CommonModal from "../shared/CommonModal/CommonModal";
 import { CARD, PRIMARY_BUTTON } from "../shared/UI/UI";
 
 const UserProfile = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loginDismissed, setLoginDismissed] = useState(false);
 
   const pathname = usePathname();
   const { userInfo } = useSelector((state) => state.user);
@@ -26,14 +26,9 @@ const UserProfile = () => {
     ? "/fashion-lifestyle/user/update-address"
     : "/user/update-address";
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  useEffect(() => {
-    if (!userInfo?._id) {
-      openModal();
-    }
-  }, []);
+  // Logged-out visitors get the login modal until they sign in or close it.
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
 
   return (
     <>

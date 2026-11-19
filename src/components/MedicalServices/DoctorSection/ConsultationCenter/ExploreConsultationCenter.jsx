@@ -52,7 +52,9 @@ const ExploreConsultationCenter = () => {
   useEffect(() => {
     if (progressing) return;
     const info = exploreInfo?.centerInfo;
-    if (info?._id === centerId && currentCenter?._id !== centerId) {
+    // Always store the full record: the favourites page saves only a stub
+    // (no contacts, generic type) before navigating here.
+    if (info?._id === centerId) {
       dispatch(handleDoctorReducer({ type: "SAVE_CENTER_INFO", data: info }));
     }
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -126,9 +128,9 @@ const ExploreConsultationCenter = () => {
             />
           )}
 
-          {allDeptInfo?.length > 15 && (
+          {allDeptInfo?.length > 16 && (
             <VisitedDoctorDepartment
-              sliceStart={15}
+              sliceStart={16}
               sliceEnd={21}
               imageWidth={300}
               imageHeight={300}

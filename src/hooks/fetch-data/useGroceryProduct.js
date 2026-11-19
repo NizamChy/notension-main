@@ -4,12 +4,14 @@ import {
   GROCERY_ITEMS_BY_SUBTYPE,
   GROCERY_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { GROCERY_URL } from "@/api-endpoints/env";
 
 export const useGroceryProduct = () => {
   const [allLoaded, setAllLoaded] = useState(false);
+  // Only the newest search may update the list (responses can arrive out of order).
+  const searchSeq = useRef(0);
   const [productInfo, setProductInfo] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
   const [progressing, setProgressing] = useState(false);
@@ -38,12 +40,13 @@ export const useGroceryProduct = () => {
 
   const handleSearch = (searchText, pageNo, setPageNo) => {
     if (searchText?.length === 0) return;
-    setLoadingMore(true);
     if (searchText?.length > 1) {
+      setLoadingMore(true);
       if (pageNo === 1) {
         resetLoadingStatus();
       }
 
+      const seq = ++searchSeq.current;
       Axios.get(SEARCH_GROCERY_ITEMS, {
         params: {
           search: searchText,
@@ -55,6 +58,7 @@ export const useGroceryProduct = () => {
         },
       })
         .then((res) => {
+          if (seq !== searchSeq.current) return;
           setPageNo(pageNo + 1);
           if (res?.data?.result.length > 0) {
             saveItemsToReducer(res?.data?.result);
@@ -69,7 +73,8 @@ export const useGroceryProduct = () => {
             setLoadingMore(false);
           }
         })
-        .catch((error) => {
+        .catch(() => {
+          if (seq !== searchSeq.current) return;
           setAllLoaded(true);
           setLoadingMore(false);
         });
@@ -132,26 +137,6 @@ export const useGroceryProduct = () => {
       });
   };
 
-  const reloadCustomTypeData = (options, setPageNo) => {
-    setTimeout(() => {
-      if (options.customType === "64f5a306baa57a4707524d6e") {
-        // this is "64f5a306baa57a4707524d6e" Offer Items ID
-
-        if (specialOfferItem.length < 24) {
-          setAllLoaded(true);
-        }
-        saveItemsToReducer(specialOfferItem);
-      } else {
-        if (dealOfTheDay.length < 24) {
-          setAllLoaded(true);
-        }
-        saveItemsToReducer(dealOfTheDay);
-      }
-      setLoadingMore(false);
-      setPageNo(2);
-    }, 500);
-  };
-
   const resetLoadingStatus = (status = false) => {
     saveItemsToReducer([]);
     setShowActivityIndicator(true);
@@ -171,6 +156,5 @@ export const useGroceryProduct = () => {
     setLoadingMore,
     getItemsOnPress,
     resetLoadingStatus,
-    reloadCustomTypeData,
   };
 };

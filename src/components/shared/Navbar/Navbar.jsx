@@ -156,7 +156,7 @@ const Navbar = ({ search, leading, actions }) => {
             <Image
               width={224}
               height={40}
-              priority
+              preload
               src="/png/notension-logo.png"
               alt="NoTension"
               className="h-6 w-auto sm:h-7 lg:h-9"

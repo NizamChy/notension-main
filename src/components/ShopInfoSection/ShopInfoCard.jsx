@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IMAGE_URL } from "@/api-endpoints/env";
 import {
   HiHeart,
@@ -21,15 +21,15 @@ const CORNER_BUTTON =
 const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { addToFavouriteList, isAddedToFavouriteList, removeFromfavoriteList } =
     useFavouriteStore();
 
   const { userInfo } = useSelector((state) => state.user);
 
-  let merchantType = 0;
-  let isExists = null;
+  // 0 = grocery, 1 = medicine, 2 = food (the backend's merchant types).
+  const merchantType = type === "grocery" ? 0 : type === "medicine" ? 1 : 2;
+  const isFavoriteAdded = isAddedToFavouriteList(shop?._id, merchantType);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -51,19 +51,6 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
 
     removeFromfavoriteList(shop, merchantType);
   };
-
-  useEffect(() => {
-    if (type === "grocery") {
-      merchantType = 0;
-    } else if (type === "medicine") {
-      merchantType = 1;
-    } else {
-      merchantType = 2;
-    }
-
-    isExists = isAddedToFavouriteList(shop?._id, merchantType);
-    setIsFavoriteAdded(isExists);
-  }, [shop, handleAddToFavorite, handleRemoveFromFavorite]);
 
   const isClosed = !!shop?.is_closed;
 

@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import StoreItemCard from "@/components/StoreModule/StoreItemCard";
+import { discountLabelOf } from "@/components/StoreModule/ProductDetailsView";
 import ItemDetailsModal from "./ItemDetailsModal";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,8 +17,6 @@ import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 const MedicineItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [currentQuantity, setCurrentQuantity] = useState(0);
-  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const params = useParams();
   const prevUrlRef = useRef(null);
@@ -35,8 +34,10 @@ const MedicineItems = ({ item, isFavorite = false }) => {
 
   const { userInfo } = useSelector((state) => state.user);
 
-  let merchantType = 1;
-  let isExists = null;
+  const merchantType = 1;
+  // Read straight from the store each render, so the card never lags.
+  const currentQuantity = getCurrentQty(item);
+  const isFavoriteAdded = isAddedToFavouriteItems(item?.medStoreProductInfo, merchantType);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -107,31 +108,20 @@ const MedicineItems = ({ item, isFavorite = false }) => {
   };
 
   useEffect(() => {
-    const itemQty = getCurrentQty(item);
-    setCurrentQuantity(itemQty);
-  }, [item, incrementQty, decrementQty]);
-
-  useEffect(() => {
-    isExists = isAddedToFavouriteItems(item?.medStoreProductInfo, merchantType);
-
-    setIsFavoriteAdded(isExists);
-  }, [item, handleAddToFavorite, handleRemoveFromFavorite]);
-
-  useEffect(() => {
     const basePath = `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
-    if (selectedItem && item?._id) {
+    if (selectedItem && item?._id && !isFavorite) {
       if (!prevUrlRef.current) {
         prevUrlRef.current = window.location.href;
       }
 
       const newUrl = `${basePath}/product/${item._id}`;
       if (!window.location.pathname.endsWith(`/${item._id}`)) {
-        window.history.pushState({}, "", newUrl);
+        window.history.replaceState({}, "", newUrl);
       }
     } else {
       if (prevUrlRef.current) {
-        window.history.pushState({}, "", prevUrlRef.current);
+        window.history.replaceState({}, "", prevUrlRef.current);
         prevUrlRef.current = null;
 
         dispatch(
@@ -142,7 +132,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
         );
       }
     }
-  }, [selectedItem, item?._id, params]);
+  }, [selectedItem, item?._id, params, isFavorite, dispatch]);
 
   return (
     <>
@@ -157,11 +147,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
         subtitle={item?.strength || item?.pack_size}
         salePrice={item?.sale_price}
         mrp={item?.max_retail_price}
-        discountLabel={
-          item?.less > 0
-            ? `${item?.less}${item?.less_type === "Percent" ? "%" : "৳"} OFF`
-            : null
-        }
+        discountLabel={discountLabelOf(item)}
         isFavorite={isFavorite || !!isFavoriteAdded}
         onClick={handleProductClick}
         onFavoriteToggle={
@@ -171,6 +157,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
         }
         showCartControls={!isFavorite}
         quantity={currentQuantity}
+        isAvailable={item?.is_available !== false}
         onAddToCart={handleAddToCart}
         onIncrement={(e) => handleIncrement(e, item._id)}
         onDecrement={(e) => handleDecrement(e, item._id)}

@@ -42,7 +42,7 @@ export const useFood = () => {
     resetReducer();
     setProgressing(true);
 
-    Axios.get(EXPLORE_FOOD_MODULE, {
+    return Axios.get(EXPLORE_FOOD_MODULE, {
       params: {
         district_id: districtId,
       },
@@ -83,7 +83,7 @@ export const useFood = () => {
   };
 
   const handleSearchStore = (searchText, setNearestInfo, data) => {
-    if (searchText.length > 1) {
+    if (searchText?.length > 1) {
       setProgressing(true);
       Axios.get(SEARCH_FOOD_STORE, {
         params: {

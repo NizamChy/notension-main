@@ -13,7 +13,7 @@ import {
 } from "@/components/Grocery/OrdersSection/OrderUI";
 
 const OrderDetailsMobile = ({ orderId }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loginDismissed, setLoginDismissed] = useState(false);
   const [requested, setRequested] = useState(false);
 
   const params = useParams();
@@ -26,22 +26,19 @@ const OrderDetailsMobile = ({ orderId }) => {
   const order = medicineOrderInfo?.find((order) => order?._id === orderId);
   const backHref = `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}/orders`;
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  useEffect(() => {
-    if (!userInfo?._id) {
-      openModal();
-    }
-  }, [orderId]);
+  // Logged-out visitors get the login modal until they sign in or close it.
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
 
   // The order list is in Redux when the user came from Order History. A
   // direct link (or a reload with cleared state) fetches it again.
   useEffect(() => {
     if (userInfo?._id && !order) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- marks the fetch as started
       setRequested(true);
       getOrderInfo();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- refetch only for another order / account
   }, [orderId, userInfo?._id]);
 
   if (userInfo?._id && !order && (progressing || !requested)) {

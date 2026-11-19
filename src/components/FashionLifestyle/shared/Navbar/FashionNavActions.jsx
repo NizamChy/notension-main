@@ -19,7 +19,7 @@ const CountBadge = ({ count }) =>
 // Wishlist and shopping bag buttons for the fashion section.
 const FashionNavActions = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartItems } = useCart();
+  const { getCartCount } = useCart();
   const favouriteFashionItems = useSelector(
     (state) => state.userChoice.favouriteFashionItems,
   );
@@ -42,7 +42,7 @@ const FashionNavActions = () => {
         className={`${NAV_ICON_BUTTON} text-[22px]`}
       >
         <LiaShoppingBagSolid />
-        <CountBadge count={cartItems?.length} />
+        <CountBadge count={getCartCount()} />
       </button>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />

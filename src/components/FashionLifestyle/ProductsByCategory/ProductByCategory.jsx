@@ -1,6 +1,5 @@
 "use client";
 
-import Head from "next/head";
 import { useParams } from "next/navigation";
 import FiltersSidebar from "./FiltersSidebar";
 import FilterProducts from "./FilterProducts";
@@ -56,13 +55,9 @@ const ProductByCategory = ({ subCategoryNav = null }) => {
 
   return (
     <div className="min-h-content">
-      <Head>
-        <title>{typeSlug} | Fashion Store</title>
-        <meta
-          name="description"
-          content={`Browse our ${typeSlug} collection`}
-        />
-      </Head>
+      {typeSlug && (
+        <title>{`${String(typeSlug).replace(/-/g, " ")} | NoTension Fashion`}</title>
+      )}
 
       <main className={`${FASHION_CONTAINER} py-6 md:py-8`}>
         <Breadcrumbs

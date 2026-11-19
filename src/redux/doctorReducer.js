@@ -8,32 +8,34 @@ const appendData = (stateArray, newData) => {
   return stateArray;
 };
 
+const initialState = {
+  allDeptInfo: [],
+  currentDept: {},
+  isLoading: true,
+  currentCenter: {},
+  currentDoctor: {},
+  doctorsByDept: [],
+  nearestDoctors: [],
+  popularDoctors: [],
+  findDoctorBanner: [],
+  nearestHospitalInfo: [],
+  topHospitalInCountry: [],
+  nearestDoctorsSlider: [],
+  hospitalInfoByDistrict: [],
+  nearestDiagnosticCenter: [],
+  consultationCenterBanner: [],
+  popularHospitalByDistrict: [],
+  deptInfoByConsultationCenter: [],
+  consultationCenterByDistrict: [],
+  nearestConsultationCenterInfo: [],
+  diagnosticCenterInfoByDistrict: [],
+  doctorsByConsultationCenterByDept: [],
+};
+
 const doctorSlice = createSlice({
   name: "doctorInfo",
 
-  initialState: {
-    allDeptInfo: [],
-    currentDept: {},
-    isLoading: true,
-    currentCenter: {},
-    currentDoctor: {},
-    doctorsByDept: [],
-    nearestDoctors: [],
-    popularDoctors: [],
-    findDoctorBanner: [],
-    nearestHospitalInfo: [],
-    topHospitalInCountry: [],
-    nearestDoctorsSlider: [],
-    hospitalInfoByDistrict: [],
-    nearestDiagnosticCenter: [],
-    consultationCenterBanner: [],
-    popularHospitalByDistrict: [],
-    deptInfoByConsultationCenter: [],
-    consultationCenterByDistrict: [],
-    nearestConsultationCenterInfo: [],
-    diagnosticCenterInfoByDistrict: [],
-    doctorsByConsultationCenterByDept: [],
-  },
+  initialState,
 
   reducers: {
     handleDoctorReducer: (state, { payload }) => {

@@ -58,7 +58,7 @@ const StoreBanner = () => {
             fill
             sizes="(min-width: 1312px) 1248px, 100vw"
             className="hidden object-cover md:block"
-            priority
+            loading="eager"
           />
           <Image
             src={imageUrl(storeInfo?.shop_banner_app)}
@@ -66,7 +66,7 @@ const StoreBanner = () => {
             fill
             sizes="100vw"
             className="block object-cover md:hidden"
-            priority
+            loading="eager"
           />
         </div>
 

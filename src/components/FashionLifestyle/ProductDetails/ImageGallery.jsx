@@ -81,7 +81,7 @@ const ImageGallery = ({ product, selectedImage }) => {
           src={imageUrl(detailImages[currentImageIndex])}
           alt={product?.product_title_eng || "Product"}
           fill
-          priority
+          preload
           quality={90}
           sizes="(min-width: 1024px) 90vw, 100vw"
           className="object-cover transition-transform duration-200 ease-out"

@@ -69,18 +69,3 @@ export const FILTER_OPTIONS = {
   segments: ["Men", "Women", "Kids", "Eid-Ul-Adha Collection"],
 };
 
-export const PAYMENT_DATA = [
-  {
-    id: "cash_on_delivery",
-    label: "Cash on Delivery",
-    icon: "/images/logo/cod-logo.png",
-  },
-  {
-    id: "credit-debit-card",
-    label: "Credit/Debit Card",
-    icon: "/images/logo/credit-debit-logo.png",
-  },
-  { id: "bkash", label: "bKash", icon: "/images/logo/bkash-logo.png" },
-  { id: "mcash", label: "mCash", icon: "/images/logo/mcash-logo.webp" },
-  { id: "nagad", label: "Nagad", icon: "/images/logo/nagad-logo.webp" },
-];

@@ -2,32 +2,32 @@
 
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LuHeart, LuMapPin, LuPhone } from "react-icons/lu";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 import { Badge, CARD } from "@/components/shared/UI/UI";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { centerTypeLabel, resolveHealthImage } from "../../Layout/MedicalUI";
 
 const ExploreConsultationCenterInfo = () => {
-  const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
   const { currentCenter } = useSelector((state) => state.doctorInfo);
+  const userInfo = useSelector((state) => state.user.userInfo);
 
-  let merchantType = 3;
-  let isExists = null;
+  const merchantType = 3;
+  const isFavoriteAdded = isAddedToFavouriteList(currentCenter?._id, merchantType);
 
   const handleAddToFavorite = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
+    if (!userInfo?._id) return setIsLoginOpen(true);
+
     addToFavouriteList(currentCenter, merchantType);
   };
-
-  useEffect(() => {
-    isExists = isAddedToFavouriteList(currentCenter?._id, merchantType);
-    setIsFavoriteAdded(isExists);
-  }, [currentCenter, handleAddToFavorite]);
 
   const contacts = [1, 2, 3]
     .map((index) => currentCenter?.[`apointment_contact_${index}`])
@@ -35,6 +35,7 @@ const ExploreConsultationCenterInfo = () => {
   const typeLabel = centerTypeLabel(currentCenter?.center_type);
 
   return (
+    <>
     <div className={`${CARD} overflow-hidden`}>
       <div className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <div className="relative aspect-[16/9] bg-gray-100 md:aspect-auto md:min-h-[260px]">
@@ -45,7 +46,7 @@ const ExploreConsultationCenterInfo = () => {
             }
             alt={currentCenter?.center_name || "Consultation center"}
             fill
-            priority
+            preload
             sizes="(min-width: 1280px) 560px, (min-width: 768px) 45vw, 100vw"
             className="object-cover dark:brightness-90"
           />
@@ -108,6 +109,11 @@ const ExploreConsultationCenterInfo = () => {
         </div>
       </div>
     </div>
+
+    <CommonModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
+      <LoginModalDetails onClose={() => setIsLoginOpen(false)} type="favourite" />
+    </CommonModal>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import RoundLoader from "@/utils/round-loader";
+import RoundLoader from "@/components/shared/RoundLoader/RoundLoader";
 
 const Loading = () => {
   return (

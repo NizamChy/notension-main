@@ -240,7 +240,7 @@ const DoctorProfileView = ({
                 info={doctorInfo}
                 className="h-28 w-28 rounded-2xl md:h-32 md:w-32"
                 sizes="128px"
-                priority
+                preload
               />
 
               <div className={`min-w-0 flex-1 ${favorite ? "sm:pr-12" : ""}`}>

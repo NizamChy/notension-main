@@ -1,10 +1,11 @@
 "use client";
 
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
+import { useFoodCategory } from "@/hooks/fetch-data/useFoodCategory";
+import { toSlug } from "@/utils/slug";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
@@ -20,14 +21,11 @@ export const STORE_GRID =
 
 const FoodSection = () => {
   const [requested, setRequested] = useState(false);
-  const [catId, setCatId] = useState(null);
   const [nearestInfo, setNearestInfo] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const router = useRouter();
   const { getNearestFoodStoreInfo, progressing } = useFood();
-
-  const shopCategory = useSelector((state) => state.dashboard.shopCategory);
+  const { category: selectedCategory, ready } = useFoodCategory();
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
@@ -44,31 +42,10 @@ const FoodSection = () => {
         },
       });
 
-    const formattedShopName = shop?.shop_name
-      ?.trim()
-      .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-      .replace(/\s+/g, "-");
-
     router.push(
-      `/food/store/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
+      `/food/store/${toSlug(shop?.shop_name)}/${shop?._id}/${shop?.custom_store_id}`
     );
   };
-
-  useEffect(() => {
-    const currentUrl = window.location.href;
-    const pathSegments = currentUrl.split("/");
-    const categoryId = pathSegments[pathSegments.length - 2];
-
-    setCatId(categoryId);
-  }, []);
-
-  useEffect(() => {
-    if (catId && shopCategory) {
-      const category = shopCategory?.find((item) => item._id === catId);
-      setSelectedCategory(category);
-    }
-  }, [catId, shopCategory]);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -76,10 +53,13 @@ const FoodSection = () => {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setRequested(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once per category
   }, [selectedCategory]);
 
   // Skeleton until the first request has finished, then stores or empty.
-  const loading = !requested || progressing;
+  // An unknown category (list loaded, id not in it) goes straight to empty.
+  const unknownCategory = ready && !selectedCategory;
+  const loading = (!requested && !unknownCategory) || progressing;
   const count = nearestInfo?.length || 0;
 
   return (
@@ -105,7 +85,7 @@ const FoodSection = () => {
             </Link>
           }
         />
-      ) : shopCategory?.length > 0 && count > 0 && !loading ? (
+      ) : !loading ? (
         <div className={STORE_GRID}>
           {nearestInfo.map((shop) => (
             <ShopInfoCard

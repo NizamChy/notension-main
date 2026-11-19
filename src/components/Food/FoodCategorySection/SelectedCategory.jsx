@@ -3,36 +3,21 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { HiChevronLeft } from "react-icons/hi";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useParams } from "next/navigation";
 import { PAGE_CONTAINER } from "@/components/shared/UI/UI";
 
 // Header band of a food store category (/food/[id]/...): back link, the
 // category name and, as children, the store search bar.
+// The page below loads the category list when it's missing (useFoodCategory);
+// this header only reads it, so a direct visit makes one request, not two.
 const SelectedCategory = ({ children }) => {
-  const [catId, setCatId] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const { id: catId } = useParams();
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
+  const selectedCategory = shopCategory?.find((item) => item?._id === catId);
   const location = useSelector(
     (state) => state.user.currentUserLocation?.districtName
   );
-
-  useEffect(() => {
-    const currentUrl = new URL(window.location.href);
-    const pathSegments = currentUrl.pathname.split("/");
-    const categoryId = pathSegments.find((segment) =>
-      /^[a-f0-9]{24}$/.test(segment)
-    );
-
-    setCatId(categoryId);
-  }, []);
-
-  useEffect(() => {
-    if (catId && shopCategory) {
-      const category = shopCategory?.find((item) => item._id === catId);
-      setSelectedCategory(category);
-    }
-  }, [catId, shopCategory]);
 
   return (
     <div className="border-b border-gray-200 bg-white">

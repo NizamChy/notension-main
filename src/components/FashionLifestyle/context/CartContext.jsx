@@ -32,7 +32,8 @@ export const CartProvider = ({ children }) => {
     product,
     quantity = 1,
     selectedSize = null,
-    selectedImage = null
+    selectedImage = null,
+    selectedColor = null
   ) => {
     setCartItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex(
@@ -57,6 +58,7 @@ export const CartProvider = ({ children }) => {
             quantity,
             selectedSize,
             selectedImage,
+            selectedColor,
             addedAt: new Date().toISOString(),
           },
         ];

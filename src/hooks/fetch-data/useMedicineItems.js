@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
-import { requestStoreSwitch } from "@/components/Cart/storeSwitch";
+import { requestStoreSwitch } from "@/components/Cart/StoreSwitch";
 
 const useMedicineItems = () => {
   const dispatch = useDispatch();

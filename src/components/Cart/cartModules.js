@@ -20,10 +20,7 @@ export const CART_MODULES = {
     imageBaseUrl: FOOD_ITEMS_IMAGES,
     titleField: "product_title_eng",
     useItems: useFoodItems,
-    useOrder: () => {
-      const { getGrandTotalFood, ...rest } = useOrderFood();
-      return { ...rest, getGrandTotal: getGrandTotalFood };
-    },
+    useOrder: useOrderFood,
   },
   grocery: {
     itemsKey: "groceryItems",
@@ -33,10 +30,7 @@ export const CART_MODULES = {
     imageBaseUrl: GROCERY_ITEMS_IMAGES,
     titleField: "product_title_eng",
     useItems: useGroceryItems,
-    useOrder: () => {
-      const { getGrandTotalGrocery, ...rest } = useOrderGrocery();
-      return { ...rest, getGrandTotal: getGrandTotalGrocery };
-    },
+    useOrder: useOrderGrocery,
   },
   medicine: {
     itemsKey: "medicineItems",
@@ -46,9 +40,6 @@ export const CART_MODULES = {
     imageBaseUrl: MEDICINE_ITEMS_IMAGES,
     titleField: "item_title_eng",
     useItems: useMedicineItems,
-    useOrder: () => {
-      const { getGrandTotalMedicine, ...rest } = useOrderMedicine();
-      return { ...rest, getGrandTotal: getGrandTotalMedicine };
-    },
+    useOrder: useOrderMedicine,
   },
 };

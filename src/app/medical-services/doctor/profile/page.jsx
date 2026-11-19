@@ -1,12 +1,7 @@
-import React from "react";
-import DoctorProfile from "@/components/MedicalServices/DoctorSection/DoctorProfile/DoctorProfile";
+import { redirect } from "next/navigation";
 
-const page = () => {
-  return (
-    <>
-      <DoctorProfile />
-    </>
-  );
-};
-
-export default page;
+// Doctor profiles live at /medical-services/doctor/profile/[id]; the bare
+// path has no doctor to show, so send old links to the doctor home.
+export default function Page() {
+  redirect("/medical-services/doctor");
+}

@@ -1,0 +1,82 @@
+.root {
+  width: 180px;
+  height: 180px;
+  display: inline-block;
+}
+
+.box {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  position: absolute;
+  border: 12px solid transparent;
+  animation: spin-cw 3s ease-in-out infinite;
+}
+
+.ring:nth-child(1) {
+  border-bottom-color: #1e145e;
+}
+
+.ring:nth-child(2) {
+  animation-name: spin-ccw;
+  border-right-color: #71e12b;
+}
+
+.ring:nth-child(3) {
+  border-top-color: #ee9019;
+}
+
+.ring:nth-child(4) {
+  animation-name: spin-ccw;
+  border-left-color: #e474cc;
+}
+
+/* Dark mode: the logo is a JPG on a white background with navy lettering.
+   Invert + hue-rotate (same as the navbar logo) turns the white black and
+   the navy light blue while the orange stays orange; "lighten" then lets
+   the black background show the page color through. The navy ring gets a
+   lighter blue so it doesn't vanish. */
+:global(.dark) .logo {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2);
+  mix-blend-mode: lighten;
+}
+
+:global(.dark) .ring:nth-child(1) {
+  border-bottom-color: #7fb2ff;
+}
+
+/* One full turn in the first quarter, back in the second, then a pause. */
+@keyframes spin-cw {
+  0% {
+    transform: rotateZ(0);
+  }
+  25% {
+    transform: rotateZ(360deg);
+  }
+  50%,
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+@keyframes spin-ccw {
+  0% {
+    transform: rotateZ(0);
+  }
+  25% {
+    transform: rotateZ(-360deg);
+  }
+  50%,
+  100% {
+    transform: rotateZ(0);
+  }
+}

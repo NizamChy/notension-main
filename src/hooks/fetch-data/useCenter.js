@@ -120,7 +120,7 @@ export const useCenter = () => {
   };
 
   const searchConsultationCenter = (centerType, searchText, setCenterInfo) => {
-    if (searchText.length > 1) {
+    if (searchText?.length > 1) {
       setProgressing(true);
       const props = {
         centerType: centerType,
