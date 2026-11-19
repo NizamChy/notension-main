@@ -169,9 +169,20 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-gray-500">
-            © {year} NoTension. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-1 text-sm text-gray-500">
+            <p>© {year} NoTension. All rights reserved.</p>
+            <p>
+              Designed &amp; developed by{" "}
+              <a
+                href="https://nizam-chy.web.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-gray-700 underline-offset-4 transition-colors hover:text-[#EB5C2F] hover:underline"
+              >
+                Nizam Chowdhury
+              </a>
+            </p>
+          </div>
           <div className="flex items-center gap-3">
             <span className="text-xs font-medium uppercase tracking-wider text-gray-400">
               We accept
