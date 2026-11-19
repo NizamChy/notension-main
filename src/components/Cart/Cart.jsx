@@ -52,15 +52,17 @@ const Cart = () => {
     hasItems && cartStore?._id && cartStore._id !== visitedStore?._id;
   const store = cartStore?._id ? cartStore : visitedStore;
 
+  // Checkout of the store the cart belongs to (falls back to the open store).
+  const current = `${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+  const checkoutPath = `${
+    cartStorePath ||
+    (moduleName === "food" ? `/food/store/${current}` : `/${moduleName}/${current}`)
+  }/checkout`;
+
   const handleCheckout = () => {
     setIsOpen(false);
     if (!userInfo?._id) return setIsModalOpen(true);
-
-    const current = `${params?.store}/${params?.storeId}/${params?.customStoreId}`;
-    const base =
-      cartStorePath ||
-      (moduleName === "food" ? `/food/store/${current}` : `/${moduleName}/${current}`);
-    router.push(`${base}/checkout`);
+    router.push(checkoutPath);
   };
 
   const onCheckout = pathname?.endsWith("/checkout");
@@ -160,7 +162,11 @@ const Cart = () => {
       <StoreSwitchModal />
 
       <CommonModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <LoginModalDetails onClose={() => setIsModalOpen(false)} type="cart" />
+        <LoginModalDetails
+          onClose={() => setIsModalOpen(false)}
+          type="cart"
+          redirectTo={checkoutPath}
+        />
       </CommonModal>
     </>
   );

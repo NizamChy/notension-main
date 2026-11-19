@@ -4,7 +4,9 @@ import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "@/components/shared/UI/UI";
+import Link from "next/link";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
+import { EmptyState, SECONDARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
 import { useCenter } from "@/hooks/fetch-data/useCenter";
 import ExploreConsultationCenterInfo from "./ExploreConsultationCenterInfo";
 import VisitedDoctorDepartment from "../DoctorCategory/VisitedDoctorDepartment";
@@ -63,15 +65,37 @@ const ExploreConsultationCenter = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exploreInfo]);
 
+  // exploreInfo is null until the request finishes. A centre id the API
+  // doesn't know must not fall back to the centre saved from an earlier visit.
+  const loading = progressing || exploreInfo === null;
+  const notFound = !loading && exploreInfo?.centerInfo?._id !== centerId;
+
   return (
     <div className="min-h-content">
-      {progressing ? (
+      {loading ? (
         <MedicalPageBody>
           <Skeleton className="h-[420px] w-full !rounded-2xl md:h-[260px]" />
           <div className="space-y-4">
             <Skeleton className="h-6 w-48" />
             <SkeletonGrid count={3} item={DoctorCardSkeleton} />
           </div>
+        </MedicalPageBody>
+      ) : notFound ? (
+        <MedicalPageBody>
+          <EmptyState
+            icon={<HiOutlineBuildingOffice2 />}
+            title="Centre not found"
+            text="This link doesn't match a hospital or consultation centre. It may have moved or been removed."
+            action={
+              <Link
+                href="/medical-services/doctor/consultation-center"
+                className={SECONDARY_BUTTON}
+              >
+                Browse centres
+              </Link>
+            }
+            className="min-h-[40vh]"
+          />
         </MedicalPageBody>
       ) : (
         <MedicalPageBody>

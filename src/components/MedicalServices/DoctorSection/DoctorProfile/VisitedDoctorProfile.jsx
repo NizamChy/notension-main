@@ -10,9 +10,11 @@ import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import DoctorProfileView from "./DoctorProfileView";
+import DoctorNotFound from "./DoctorNotFound";
 
 const VisitedDoctorProfile = () => {
-  const [profileInfo, setProfileInfo] = useState([]);
+  // null until the profile request has finished.
+  const [profileInfo, setProfileInfo] = useState(null);
   // What the login modal was opened for: "appointment" or "favourite".
   const [loginType, setLoginType] = useState(null);
 
@@ -62,7 +64,7 @@ const VisitedDoctorProfile = () => {
       ? profileInfo?.find(
           (profile) => profile?.consultationCenterInfo?._id === centerId
         )
-      : profileInfo[0];
+      : profileInfo?.[0];
 
   const isFavoriteAdded =
     !!visitedDoctor &&
@@ -73,8 +75,8 @@ const VisitedDoctorProfile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- the page remounts for another doctor
   }, []);
 
-  if (progressing) return <Loader />;
-  if (!visitedDoctor) return null;
+  if (progressing || !profileInfo) return <Loader />;
+  if (!visitedDoctor?.doctorInfo) return <DoctorNotFound />;
 
   return (
     <>

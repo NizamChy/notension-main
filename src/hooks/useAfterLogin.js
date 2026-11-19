@@ -15,8 +15,9 @@ const ROUTE_BY_TYPE = {
 };
 
 // Where to go after a successful login, based on what opened the login
-// (`type`). Shared by OTP login and demo-user login.
-export const useAfterLogin = (type = "login", onClose = () => {}) => {
+// (`type`), or `redirectTo` when the caller knows the exact page. Shared by
+// OTP login and demo-user login.
+export const useAfterLogin = (type = "login", onClose = () => {}, redirectTo) => {
   const router = useRouter();
   const params = useParams();
 
@@ -25,6 +26,11 @@ export const useAfterLogin = (type = "login", onClose = () => {}) => {
 
   return () => {
     onClose();
+
+    if (redirectTo) {
+      router.push(redirectTo);
+      return;
+    }
 
     if (type === "cart") {
       const storePath = `${params?.store}/${params?.storeId}/${params?.customStoreId}/checkout`;

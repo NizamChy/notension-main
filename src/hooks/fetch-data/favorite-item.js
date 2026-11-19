@@ -87,7 +87,7 @@ export const useFavouriteItem = () => {
         manageFavouriteStoreItems(FAVORITE_PRODUCT_ADD, favouriteInfo, "add");
       } else {
         if (favouriteItems > 99) {
-          alert(
+          toast.error(
             "Hold on! You can add up to hundred (100) Items to your Favorites list!"
           );
         } else {
