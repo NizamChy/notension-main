@@ -82,12 +82,13 @@ const OrderSummary = ({
                   <SummaryItem
                     key={`${item?._id}-${item?.selectedSize}-${index}`}
                     image={
-                      item?.web_image
-                        ? `${FASHION_IMAGE_URL}/${item.web_image}`
+                      item?.selectedImage || item?.web_image
+                        ? `${FASHION_IMAGE_URL}/${item.selectedImage || item.web_image}`
                         : null
                     }
                     title={item?.product_title_eng}
                     meta={[
+                      item?.selectedColor,
                       item?.selectedSize && `Size ${item.selectedSize}`,
                       `${formatTaka(item?.sale_price)} each`,
                     ]

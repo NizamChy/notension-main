@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import StoreList from "@/components/StoreModule/StoreList";
+import { toSlug } from "@/utils/slug";
 
 const MedicineSection = () => {
   const [nearestInfo, setNearestInfo] = useState([]);
@@ -28,11 +29,7 @@ const MedicineSection = () => {
         },
       });
 
-    const formattedShopName = shop.shop_name
-      ?.trim()
-      .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-      .replace(/\s+/g, "-");
+    const formattedShopName = toSlug(shop.shop_name);
 
     router.push(
       `/medicine/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`

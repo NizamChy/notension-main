@@ -98,7 +98,7 @@ const HeroSection = () => {
                   src={homeImage(name)}
                   alt=""
                   fill
-                  priority
+                  preload
                   sizes="(min-width: 1024px) 280px, 45vw"
                   className="object-cover"
                 />

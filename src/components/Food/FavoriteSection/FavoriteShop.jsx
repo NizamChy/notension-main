@@ -4,6 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import FavoriteStores from "@/components/FavoriteSection/FavoriteStores";
+import { toSlug } from "@/utils/slug";
 
 const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const router = useRouter();
@@ -15,11 +16,7 @@ const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;
 
-    const formattedShopName = shop.shop_name
-      ?.trim()
-      .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-      .replace(/\s+/g, "-");
+    const formattedShopName = toSlug(shop.shop_name);
 
     router.push(
       `/food/store/${formattedShopName}/${shop?.storeId}/${shop?.custom_store_id}`

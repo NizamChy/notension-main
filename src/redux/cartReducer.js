@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { lineTotal } from "@/utils/price";
 
+// A cart line can grow until the store's per-order limit (0 = no limit).
+const belowLimit = (item) => !item.max_allowed || item.quantity < item.max_allowed;
+
 const cartReducer = createSlice({
   name: "cart",
 
@@ -49,7 +52,7 @@ const cartReducer = createSlice({
             (item) => item._id === data._id
           );
           if (existingItem) {
-            existingItem.quantity += 1;
+            if (belowLimit(existingItem)) existingItem.quantity += 1;
           } else {
             state.foodItems.push({ ...data, quantity: 1 });
           }
@@ -64,7 +67,7 @@ const cartReducer = createSlice({
             (item) => item._id === data._id
           );
           if (existingItem) {
-            existingItem.quantity += 1;
+            if (belowLimit(existingItem)) existingItem.quantity += 1;
           } else {
             state.groceryItems.push({ ...data, quantity: 1 });
           }
@@ -79,7 +82,7 @@ const cartReducer = createSlice({
             (item) => item._id === data._id
           );
           if (existingItem) {
-            existingItem.quantity += 1;
+            if (belowLimit(existingItem)) existingItem.quantity += 1;
           } else {
             state.medicineItems.push({ ...data, quantity: 1 });
           }
@@ -109,13 +112,13 @@ const cartReducer = createSlice({
 
         case "INCREMENT_QUANTITY_FOOD": {
           const item = state.foodItems.find((item) => item._id === data._id);
-          if (item) item.quantity += 1;
+          if (item && belowLimit(item)) item.quantity += 1;
           break;
         }
 
         case "INCREMENT_QUANTITY_GROCERY": {
           const item = state.groceryItems.find((item) => item._id === data._id);
-          if (item) item.quantity += 1;
+          if (item && belowLimit(item)) item.quantity += 1;
           break;
         }
 
@@ -123,7 +126,7 @@ const cartReducer = createSlice({
           const item = state.medicineItems.find(
             (item) => item._id === data._id
           );
-          if (item) item.quantity += 1;
+          if (item && belowLimit(item)) item.quantity += 1;
           break;
         }
 

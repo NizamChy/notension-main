@@ -1,6 +1,5 @@
 "use client";
 
-import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -130,7 +129,7 @@ const ProductDetailSection = () => {
       return;
     }
 
-    addToCart(product, quantity, selectedSize, selectedImage);
+    addToCart(product, quantity, selectedSize, selectedImage, variantName);
 
     if (buyNow) {
       toast.dismiss();
@@ -234,12 +233,10 @@ const ProductDetailSection = () => {
 
   return (
     <>
-      <Head>
-        <title>
-          {product?.name} | {product?.brand} - Fashion Store
-        </title>
-        <meta name="description" content={product?.description} />
-      </Head>
+      {/* React 19 hoists <title> into the document head. */}
+      {product?.product_title_eng && (
+        <title>{`${product.product_title_eng} | NoTension Fashion`}</title>
+      )}
 
       <div className={`${FASHION_CONTAINER} py-4 md:py-10`}>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-12">

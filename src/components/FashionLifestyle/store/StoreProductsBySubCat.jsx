@@ -1,6 +1,5 @@
 "use client";
 
-import Head from "next/head";
 import { useParams } from "next/navigation";
 import { PageHeader } from "@/components/shared/UI/UI";
 import {
@@ -68,13 +67,9 @@ const StoreProductsBySubCat = () => {
 
   return (
     <div className="min-h-content">
-      <Head>
-        <title>{`${subCatSlug?.replace(/-/g, " ")} | ${shopName}`}</title>
-        <meta
-          name="description"
-          content={`Browse ${subCatSlug?.replace(/-/g, " ")} at ${shopName}`}
-        />
-      </Head>
+      {subCatSlug && (
+        <title>{`${subCatSlug.replace(/-/g, " ")} | ${shopName || "NoTension Fashion"}`}</title>
+      )}
 
       <main className={`${FASHION_CONTAINER} py-6 md:py-8`}>
         {/* Store links only carry the type and category ids (their slugs

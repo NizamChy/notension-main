@@ -2,33 +2,21 @@
 
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import CheckoutCard from "@/components/common/CheckoutCard";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
-import { PAYMENT_DATA } from "@/components/FashionLifestyle/utils/constants";
+import { PAYMENT_DATA } from "@/components/shared/Checkout/paymentOptions";
+import { orderTotals } from "@/utils/price";
 
 const CheckoutSection = () => {
-  const paymentData = [
-    {
-      id: "cash_on_delivery",
-      label: "Cash on Delivery",
-      icon: "/png/cash-on-delivery.png",
-    },
-    { id: "nagad", label: "Nagad", icon: "/png/nagad.png" },
-    { id: "mobile_banking", label: "Mobile Banking", icon: "/png/bkash.png" },
-  ];
-
-  const [images, setImages] = useState([]);
   const [remarks, setRemarks] = useState("");
-  const [discount, setDiscount] = useState(0);
-  const [grandTotal, setGrandTotal] = useState(0);
-  const [shippingCharge, setShippingCharge] = useState(0);
-  const [paymentOption, setPaymentOption] = useState(paymentData[0].label);
+  const [paymentOption, setPaymentOption] = useState(PAYMENT_DATA[0].label);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Logged-out visitors get the login modal until they sign in or close it.
+  const [loginDismissed, setLoginDismissed] = useState(false);
 
   const { progressing, placeOrder } = useOrderMedicine();
   const { userLatitude, userLongitude, userInfo } = useSelector(
@@ -41,54 +29,19 @@ const CheckoutSection = () => {
     (state) => state.cart
   );
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
 
   const totalPrice = totalAmountMedicine;
 
-  const less = medicineStoreInfo?.less || 0;
-  const maximum_less = medicineStoreInfo?.maximum_less || 0;
-  const less_type = medicineStoreInfo?.less_type || "Percent";
-  const minOrderAmount = medicineStoreInfo?.min_purchage_amount || 0;
-  const deliveryCharge = medicineStoreInfo?.max_delivery_charge || 0;
-  const minDeliveryCharge = medicineStoreInfo?.min_delivery_charge || 0;
-  const minimum_order_for_less = medicineStoreInfo?.minimum_order_for_less || 0;
 
-  const getGrandTotal = () => {
-    let shippingCost = deliveryCharge;
-    if (parseFloat(totalPrice) >= parseFloat(minOrderAmount)) {
-      shippingCost = minDeliveryCharge;
-    }
-    let total = 0;
-    let Discount = 0;
-    if (
-      parseFloat(less) > 0 &&
-      parseFloat(maximum_less) > 0 &&
-      parseFloat(totalPrice) >= parseFloat(minimum_order_for_less)
-    ) {
-      if (less_type === "Percent") {
-        Discount = ((parseFloat(less) / 100) * parseFloat(totalPrice)).toFixed(
-          2
-        );
-        if (parseFloat(Discount) > parseFloat(maximum_less)) {
-          Discount = parseFloat(maximum_less).toFixed(2);
-        }
-      } else {
-        Discount = less;
-      }
-    }
-    setShippingCharge(shippingCost);
-    setDiscount(Discount);
-    total = (
-      parseFloat(totalPrice) +
-      parseFloat(shippingCost) -
-      parseFloat(Discount)
-    ).toFixed(2);
-    setGrandTotal(total);
-  };
+  const { shippingCharge, discount, grandTotal } = orderTotals(
+    medicineStoreInfo,
+    totalPrice,
+  );
 
   const handleCustomerOrder = () => {
-    if (medicineItems.length > 0 || images?.length > 0) {
+    if (medicineItems.length > 0) {
       const itemOrderObj = {
         customer_id: userInfo?._id,
         custom_customer_id: userInfo?.custom_id,
@@ -130,16 +83,6 @@ const CheckoutSection = () => {
       toast.error("Cart is empty.");
     }
   };
-
-  useEffect(() => {
-    getGrandTotal();
-  }, [totalPrice]);
-
-  useEffect(() => {
-    if (!userInfo?._id) {
-      openModal();
-    }
-  }, []);
 
   return (
     <>

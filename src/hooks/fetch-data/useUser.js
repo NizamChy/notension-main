@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
+import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { toUserLocation } from "@/utils/userLocation";
 import { isDemoMode } from "@/demo/demoMode";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
@@ -195,7 +196,8 @@ export const useUser = () => {
   const handleUserLogout = () => {
     Cookies.remove("user_info");
 
-    dispatch(handleUserReducer({ type: "LOGOUT_USER", data: {} }));
+    dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
+    dispatch(handleUserChoiceReducer({ type: "CLEAR_FAVOURITES" }));
 
     persistor.purge().then(() => {
       router.push("/");

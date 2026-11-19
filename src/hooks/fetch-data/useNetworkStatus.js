@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-const useNetworkStatus = () => {
-  const [isOnline, setOnline] = useState(true);
-
-  const updateNetworkStatus = () => {
-    setOnline(navigator.onLine);
+const subscribe = (onChange) => {
+  window.addEventListener("online", onChange);
+  window.addEventListener("offline", onChange);
+  return () => {
+    window.removeEventListener("online", onChange);
+    window.removeEventListener("offline", onChange);
   };
+};
 
-  useEffect(() => {
-    window.addEventListener("load", updateNetworkStatus);
-    window.addEventListener("online", updateNetworkStatus);
-    window.addEventListener("offline", updateNetworkStatus);
-
-    return () => {
-      window.removeEventListener("load", updateNetworkStatus);
-      window.removeEventListener("online", updateNetworkStatus);
-      window.removeEventListener("offline", updateNetworkStatus);
-    };
-  }, [navigator.onLine]);
+// Online / offline status of the browser. The server always reports online.
+const useNetworkStatus = () => {
+  const isOnline = useSyncExternalStore(
+    subscribe,
+    () => navigator.onLine,
+    () => true,
+  );
 
   return { isOnline };
 };

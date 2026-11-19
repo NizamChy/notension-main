@@ -31,7 +31,7 @@ const page = () => {
             src="/png/notension-logo.png"
             alt="notension"
             className="h-auto w-full object-contain"
-            priority
+            preload
           />
         </Link>
 

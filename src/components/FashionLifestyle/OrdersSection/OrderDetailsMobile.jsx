@@ -17,7 +17,7 @@ import {
 } from "@/components/shared/UI/UI";
 
 const OrderDetailsMobile = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loginDismissed, setLoginDismissed] = useState(false);
 
   const params = useParams();
   const orderId = params?.orderId;
@@ -31,15 +31,9 @@ const OrderDetailsMobile = () => {
 
   const order = orderInfo && orderInfo?.find((order) => order?._id === orderId);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  useEffect(() => {
-    if (!userInfo?._id) {
-      openModal();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderId]);
+  // Logged-out visitors get the login modal until they sign in or close it.
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
 
   return (
     <>

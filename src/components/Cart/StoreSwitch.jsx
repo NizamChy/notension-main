@@ -3,6 +3,7 @@
 import React, { useSyncExternalStore } from "react";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import { PrimaryButton } from "../shared/CartUI/CartUI";
+import { toSlug } from "@/utils/slug";
 
 // A cart holds items from one store. Adding an item from another store asks
 // first (instead of silently emptying the cart): the item hooks call
@@ -30,12 +31,7 @@ const subscribe = (listener) => {
 // URL of a store's page, built the same way as the store lists build it.
 export const storePath = (moduleName, store) => {
   if (!store?._id || !store?.custom_store_id) return null;
-  const slug = (store.shop_name || "store")
-    .trim()
-    .toLowerCase()
-    .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-    .replace(/\s+/g, "-");
-  const path = `${slug}/${store._id}/${store.custom_store_id}`;
+  const path = `${toSlug(store.shop_name || "store")}/${store._id}/${store.custom_store_id}`;
   return moduleName === "food" ? `/food/store/${path}` : `/${moduleName}/${path}`;
 };
 

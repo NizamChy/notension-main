@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LuChevronRight, LuUsers } from "react-icons/lu";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
@@ -13,8 +13,14 @@ const PatientInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const { progressing } = usePatient();
-  const { patientInfo } = useSelector((state) => state.user);
+  const { progressing, getPatientInfo } = usePatient();
+  const { patientInfo, userInfo } = useSelector((state) => state.user);
+
+  // Load the account's saved patients.
+  useEffect(() => {
+    getPatientInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per account
+  }, [userInfo?._id]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

@@ -60,7 +60,7 @@ export const DoctorAvatar = ({
       alt={name || info?.doctor_name || "Doctor"}
       fill
       sizes={sizes}
-      priority={priority}
+      preload={priority}
       className="object-cover object-top"
     />
   </span>

@@ -7,7 +7,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import CartItems from "./CartItems";
-import { StoreSwitchModal, storePath } from "./storeSwitch";
+import { StoreSwitchModal, storePath } from "./StoreSwitch";
 import CartSummary from "./CartSummary";
 import { CART_MODULES } from "./cartModules";
 import Drawer from "../shared/Drawer/Drawer";

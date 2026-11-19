@@ -1,9 +1,10 @@
 "use client";
 
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useFood } from "@/hooks/fetch-data/useFood";
+import { useFoodCategory } from "@/hooks/fetch-data/useFoodCategory";
+import { toSlug } from "@/utils/slug";
 import { useRouter, useSearchParams } from "next/navigation";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
@@ -12,10 +13,9 @@ import { STORE_GRID } from "../FoodSection/FoodSection";
 import { PAGE_CONTAINER, SectionTitle } from "@/components/shared/UI/UI";
 
 const FoodSearchedStores = () => {
-  const [catId, setCatId] = useState("");
   const [requested, setRequested] = useState(false);
   const [nearestInfo, setNearestInfo] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const { category: selectedCategory, ready } = useFoodCategory();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -38,35 +38,10 @@ const FoodSearchedStores = () => {
         },
       });
 
-    const formattedShopName = shop?.shop_name
-      ?.trim()
-      .toLowerCase()
-      .replace(/[^\p{Script=Bengali}a-z0-9 ]/gu, "")
-      .replace(/\s+/g, "-");
-
     router.push(
-      `/food/store/${formattedShopName}/${shop?._id}/${shop?.custom_store_id}`
+      `/food/store/${toSlug(shop?.shop_name)}/${shop?._id}/${shop?.custom_store_id}`
     );
   };
-
-  useEffect(() => {
-    const currentUrl = new URL(window.location.href);
-    const pathSegments = currentUrl.pathname.split("/");
-    const categoryId = pathSegments.find((segment) =>
-      /^[a-f0-9]{24}$/.test(segment)
-    );
-
-    setCatId(categoryId);
-  }, []);
-
-  const shopCategory = useSelector((state) => state.dashboard.shopCategory);
-
-  useEffect(() => {
-    if (catId && shopCategory) {
-      const category = shopCategory?.find((item) => item?._id === catId);
-      setSelectedCategory(category);
-    }
-  }, [catId, shopCategory]);
 
   useEffect(() => {
     if (selectedCategory && searchText) {
@@ -74,10 +49,14 @@ const FoodSearchedStores = () => {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setRequested(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- search once per query / category
   }, [searchText, selectedCategory]);
 
-  // Skeleton while a search runs (and before the first one starts).
-  const loading = progressing || (!requested && searchText?.length > 1);
+  // Skeleton while a search runs (and before the first one starts). An
+  // unknown category (list loaded, id not in it) goes straight to empty.
+  const unknownCategory = ready && !selectedCategory;
+  const loading =
+    progressing || (!requested && !unknownCategory && searchText?.length > 1);
   const count = nearestInfo?.length || 0;
 
   return (

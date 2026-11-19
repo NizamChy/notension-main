@@ -2,8 +2,8 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ReduxProvider from "@/redux/ReduxProvider";
 import { LocationBoundary } from "@/components/shared/Map/locationRefresh";
-import { Hind_Siliguri, Poppins } from "next/font/google";
-import QueryProvider from "@/components/FashionLifestyle/Provider/QueryProvider";
+import { Hind_Siliguri } from "next/font/google";
+import QueryProvider from "@/components/shared/Providers/QueryProvider";
 
 // const poppins = Poppins({
 //   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],

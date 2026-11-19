@@ -183,7 +183,15 @@ const ProductDetailsView = ({
 
         {/* Actions */}
         <div className="mt-5 flex items-center gap-3">
-          {quantity === 0 ? (
+          {quantity === 0 && isAvailable === false ? (
+            <button
+              type="button"
+              disabled
+              className="flex h-12 flex-1 cursor-not-allowed items-center justify-center rounded-full bg-gray-200 px-6 text-sm font-semibold text-gray-500 sm:max-w-xs"
+            >
+              Out of stock
+            </button>
+          ) : quantity === 0 ? (
             <button
               type="button"
               onClick={onAddToCart}

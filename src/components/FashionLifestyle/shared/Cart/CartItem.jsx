@@ -25,9 +25,17 @@ const CartItem = () => {
       {cartItems?.map((item) => (
         <CartLine
           key={`${item?._id}-${item?.selectedSize}-${item?.selectedImage}`}
-          image={item?.web_image ? `${FASHION_IMAGE_URL}/${item.web_image}` : null}
+          image={
+            item?.selectedImage || item?.web_image
+              ? `${FASHION_IMAGE_URL}/${item.selectedImage || item.web_image}`
+              : null
+          }
           title={item?.product_title_eng}
-          meta={item?.selectedSize ? `Size: ${item.selectedSize}` : null}
+          meta={
+            [item?.selectedColor, item?.selectedSize && `Size: ${item.selectedSize}`]
+              .filter(Boolean)
+              .join(" · ") || null
+          }
           unitPrice={item?.sale_price}
           quantity={item?.quantity}
           lineTotal={lineTotal(item)}

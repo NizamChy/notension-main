@@ -1,5 +1,5 @@
 import { getApiClient } from "@/lib/apiClient";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   SEARCH_MEDICINE_ITEMS,
   SEARCH_MEDICINE_STORE,
@@ -15,6 +15,8 @@ import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 
 export const useMedicine = () => {
   const [message, setMessage] = useState("");
+  // Only the newest search may update the list (responses can arrive out of order).
+  const searchSeq = useRef(0);
   const [allLoaded, setAllLoaded] = useState(false);
   const [productInfo, setProductInfo] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
@@ -91,7 +93,7 @@ export const useMedicine = () => {
   };
 
   const handleSearchStore = (searchText, setNearestInfo) => {
-    if (searchText.length > 1) {
+    if (searchText?.length > 1) {
       setProgressing(true);
       Axios.get(SEARCH_MEDICINE_STORE, {
         params: {
@@ -160,6 +162,7 @@ export const useMedicine = () => {
         resetLoadingStatus();
       }
 
+      const seq = ++searchSeq.current;
       Axios.get(SEARCH_MEDICINE_ITEMS, {
         params: {
           search: searchText,
@@ -169,6 +172,7 @@ export const useMedicine = () => {
         },
       })
         .then((res) => {
+          if (seq !== searchSeq.current) return;
           setPageNo(pageNo + 1);
           if (res?.data?.result.length > 0) {
             saveItemsToReducer(res?.data?.result);
@@ -183,7 +187,8 @@ export const useMedicine = () => {
             setLoadingMore(false);
           }
         })
-        .catch((error) => {
+        .catch(() => {
+          if (seq !== searchSeq.current) return;
           setAllLoaded(true);
           setLoadingMore(false);
         });
@@ -244,20 +249,6 @@ export const useMedicine = () => {
       });
   };
 
-  const reloadCustomTypeData = (options, setPageNo) => {
-    setTimeout(() => {
-      if (options.customType === "65128cbd20db0921f13b40b3") {
-        // this is "64f5a306baa57a4707524d6e" Offer Items ID
-        if (specialOfferItem.length < 24) {
-          setAllLoaded(true);
-        }
-        saveItemsToReducer(specialOfferItem);
-      }
-      setLoadingMore(false);
-      setPageNo(2);
-    }, 500);
-  };
-
   const resetLoadingStatus = (status = false) => {
     saveItemsToReducer([]);
     setShowActivityIndicator(true);
@@ -288,7 +279,6 @@ export const useMedicine = () => {
     saveItemsToReducer,
     resetLoadingStatus,
     setShowErrorMessage,
-    reloadCustomTypeData,
     setShowSuccessMessage,
     getNearestMedicineStoreInfo,
   };

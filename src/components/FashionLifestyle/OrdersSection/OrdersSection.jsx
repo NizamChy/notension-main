@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { HiChevronRight } from "react-icons/hi";
 import { formatTaka } from "@/components/shared/CartUI/CartUI";
@@ -27,7 +27,7 @@ import {
 } from "@/components/shared/UI/UI";
 
 const OrdersSection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loginDismissed, setLoginDismissed] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const router = useRouter();
@@ -39,15 +39,8 @@ const OrdersSection = () => {
     userInfo?.custom_id
   );
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  useEffect(() => {
-    if (!userInfo?._id) {
-      openModal();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
 
   // Desktop opens a modal; mobile goes to the order page.
   const viewOrder = (order) => {

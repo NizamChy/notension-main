@@ -47,6 +47,7 @@ const FavoriteDoctorProfile = () => {
 
   useEffect(() => {
     getProfileOfDoctor(doctorId, setProfileInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the page remounts for another doctor
   }, []);
 
   return (
@@ -57,7 +58,9 @@ const FavoriteDoctorProfile = () => {
         <DoctorProfileView
           doctorInfo={profileInfo[0]?.doctorInfo}
           chambers={profileInfo}
-          canBook={(profile) => !!profile?.book_an_appointment}
+          canBook={(profile) =>
+            !!profile?.book_an_appointment && !profile?.is_chamber_off
+          }
           onBook={handleBookAppointment}
         />
       )}
