@@ -50,9 +50,9 @@ module's images in its own folder (`public/demo/<module>/`).
 
 Demo images are freely licensed photos (CC0, public domain, CC BY, CC BY-SA)
 from Wikimedia Commons, saved as small `.webp` files (quality ~64, at most
-1400px wide). Most fashion photos (`public/demo/fashion/`, 560x560) come from
-Pixabay under the Pixabay Content License instead; the fashion carousel and
-shop banners are still Commons photos. Every photo is credited in `public/demo/CREDITS.md`; add a line
+1400px wide). Most fashion photos (`public/demo/fashion/`, 560x560) and a few
+grocery, food and medicine photos come from Pixabay under the Pixabay Content
+License instead; the fashion carousel and shop banners are still Commons photos. Every photo is credited in `public/demo/CREDITS.md`; add a line
 there when you add one. Don't use photos of identifiable people or real brands
 as stand-ins for fictional shops, doctors or products. Exception: fashion
 photos may show models wearing the item (clothes are hard to show otherwise),

@@ -95,7 +95,7 @@ export const PaymentOptions = ({ options, value, onChange, name = "payment" }) =
               alt=""
               width={40}
               height={28}
-              className="h-7 w-auto object-contain"
+              className="h-auto max-h-7 w-auto max-w-full object-contain"
             />
           </span>
           <span className="flex-1 text-sm font-medium text-gray-900">

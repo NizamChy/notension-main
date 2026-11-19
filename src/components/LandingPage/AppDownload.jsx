@@ -40,20 +40,20 @@ const AppDownload = () => (
       <div className="flex flex-wrap gap-3">
         <Link href={APP_URL} target="_blank" prefetch={false}>
           <Image
-            src="/png/playstore.png"
+            src="/svg/google-play-badge.svg"
             alt="Get it on Google Play"
-            width={170}
+            width={176}
             height={52}
-            className="h-[52px] w-auto rounded-lg transition hover:opacity-90"
+            className="h-[52px] w-auto transition hover:opacity-90"
           />
         </Link>
         <Link href={APP_URL} target="_blank" prefetch={false}>
           <Image
-            src="/png/applestore.png"
+            src="/svg/app-store-badge.svg"
             alt="Download on the App Store"
-            width={170}
+            width={176}
             height={52}
-            className="h-[52px] w-auto rounded-lg transition hover:opacity-90"
+            className="h-[52px] w-auto transition hover:opacity-90"
           />
         </Link>
       </div>

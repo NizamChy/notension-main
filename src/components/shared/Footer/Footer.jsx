@@ -49,7 +49,7 @@ const COLUMNS = [
 const PAYMENTS = [
   { src: "/png/bkash.png", alt: "bKash" },
   { src: "/png/nagad.png", alt: "Nagad" },
-  { src: "/png/cash-on-delivery.png", alt: "Cash on delivery" },
+  { src: "/svg/cash-on-delivery.svg", alt: "Cash on delivery" },
 ];
 
 const Footer = () => {
@@ -76,20 +76,20 @@ const Footer = () => {
             <div className="mt-5 flex flex-wrap gap-2.5">
               <Link href={APP_URL} target="_blank" prefetch={false}>
                 <Image
-                  src="/png/playstore.png"
+                  src="/svg/google-play-badge.svg"
                   alt="Get it on Google Play"
                   width={135}
                   height={40}
-                  className="h-10 w-auto rounded-md"
+                  className="h-10 w-auto"
                 />
               </Link>
               <Link href={APP_URL} target="_blank" prefetch={false}>
                 <Image
-                  src="/png/applestore.png"
+                  src="/svg/app-store-badge.svg"
                   alt="Download on the App Store"
                   width={135}
                   height={40}
-                  className="h-10 w-auto rounded-md"
+                  className="h-10 w-auto"
                 />
               </Link>
             </div>
