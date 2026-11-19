@@ -10,6 +10,7 @@ import {
   ALL_CARE_SERVICE_URL,
 } from "@/api-endpoints/env";
 import { DEMO_ROUTES } from "./routes";
+import { isLiveRequest } from "@/api-endpoints/live";
 
 // An axios adapter that answers requests from the demo routes instead of the
 // network. Every route belongs to one backend ("service"), matched by the
@@ -120,7 +121,8 @@ export const demoAdapter = async (config) => {
   const method = (config.method || "get").toUpperCase();
   const { service, path, query } = resolveRequest(config);
 
-  if (LIVE_SERVICES.has(service)) return networkAdapter(config);
+  // Endpoints already on the new API go to the network (see live.js).
+  if (isLiveRequest(service, path)) return networkAdapter(config);
 
   let status = 404;
   let body = { success: false, message: "Not available in demo mode" };

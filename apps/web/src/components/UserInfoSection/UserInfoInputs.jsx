@@ -27,8 +27,15 @@ const UserInfoInputs = ({
   progressing,
   handleDataChange,
   registerUser,
+  // Live login (new API): the code is checked on the server first; only new
+  // accounts then fill in name and address.
+  verifyOtp,
 }) => {
   const [otp, setOtp] = useState("");
+  const live = Boolean(verifyOtp);
+  const [stage, setStage] = useState(live ? "code" : "all");
+  const showCode = stage !== "profile";
+  const showProfile = stage !== "code";
 
   const afterLogin = useAfterLogin(type, onClose, redirectTo);
 
@@ -36,9 +43,26 @@ const UserInfoInputs = ({
     sendSms();
   };
 
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (otp.length < 6) {
+      return toast("অনুগ্রহ করে ৬ সংখ্যার OTP প্রদান করুন!", {
+        style: { border: "1px solid #FC8F1E" },
+        icon: "ℹ️",
+      });
+    }
+    const { ok, isNew } = await verifyOtp(phone, otp);
+    if (!ok) return;
+    if (isNew) setStage("profile");
+    else afterLogin();
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (stage === "code") return handleVerify(e);
 
     if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
       return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৫০ অক্ষরের হতে পারে!", {
@@ -69,7 +93,7 @@ const UserInfoInputs = ({
       );
     }
 
-    if (otp.length < 1) {
+    if (!live && otp.length < 1) {
       return toast("অনুগ্রহ করে OTP প্রদান করুন!", {
         style: {
           border: "1px solid #FC8F1E",
@@ -82,7 +106,7 @@ const UserInfoInputs = ({
       });
     }
 
-    if (otpGenerated !== otp) {
+    if (!live && otpGenerated !== otp) {
       return toast.error("OTP টি সঠিক হয়নি!", {
         style: {
           border: "1px solid #FC8F1E",
@@ -112,10 +136,12 @@ const UserInfoInputs = ({
         <div className="space-y-5">
           <div className="pr-6">
             <h2 className="text-lg font-bold tracking-tight text-gray-900 md:text-xl">
-              Verify and finish
+              {stage === "profile" ? "Tell us about you" : "Verify and finish"}
             </h2>
             <p className="mt-1 text-sm text-gray-500">
-              {phone ? (
+              {stage === "profile" ? (
+                "Your number is verified. Add your name and delivery address."
+              ) : phone ? (
                 <>
                   We sent a code to{" "}
                   <span className="font-semibold tabular-nums text-gray-900">
@@ -129,6 +155,7 @@ const UserInfoInputs = ({
             </p>
           </div>
 
+          {showCode && (
           <div>
             <span className="mb-2 block text-sm font-medium text-gray-700">
               One-time code
@@ -136,7 +163,7 @@ const UserInfoInputs = ({
             <OtpInput
               value={otp}
               onChange={setOtp}
-              length={otpGenerated?.length || 4}
+              length={live ? 6 : otpGenerated?.length || 4}
             />
             <p className="mt-2 text-center text-sm text-gray-500">
               Didn&apos;t get it?{" "}
@@ -150,7 +177,9 @@ const UserInfoInputs = ({
               </button>
             </p>
           </div>
+          )}
 
+          {showProfile && (
           <div className="space-y-4 border-t border-gray-100 pt-5">
             <p className="text-sm font-semibold text-gray-900">
               Your information
@@ -188,6 +217,7 @@ const UserInfoInputs = ({
               }
             />
           </div>
+          )}
 
           <PrimaryButton onClick={(e) => handleLogin(e)} disabled={progressing}>
             {progressing ? (
@@ -195,6 +225,10 @@ const UserInfoInputs = ({
                 <ButtonSpinner />
                 Please wait
               </>
+            ) : stage === "code" ? (
+              "Verify"
+            ) : stage === "profile" ? (
+              "Save and continue"
             ) : (
               "Log in"
             )}

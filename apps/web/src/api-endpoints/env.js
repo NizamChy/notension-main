@@ -1,10 +1,17 @@
 import { isDemoMode } from "@/demo/demoMode";
+import { isLiveService, proxyBase } from "./live";
 
 // Backend base URLs come from .env.local. Without them (a fresh clone, or a
 // deploy with no env vars) each service gets a placeholder base, so demo mode,
 // which matches requests by base URL, still answers every request. Real
 // requests to a placeholder simply fail (.invalid never resolves).
-const base = (value, service) => value || `https://${service}.demo.invalid`;
+//
+// Services on the new API (NEXT_PUBLIC_LIVE_SERVICES, see live.js) ignore
+// their old backend URL and go through this app's /api-proxy/<service>.
+const base = (value, service) =>
+  isLiveService(service.toUpperCase())
+    ? proxyBase(service)
+    : value || `https://${service}.demo.invalid`;
 
 export const ALL_CARE_SERVICE_URL = base(
   process.env.NEXT_PUBLIC_ALL_CARE_SERVICE_URL,

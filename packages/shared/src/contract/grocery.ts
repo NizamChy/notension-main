@@ -133,3 +133,86 @@ export const storeRefInput = z.object({
 
 export const ok = <T extends z.ZodType>(result: T) =>
   z.object({ success: z.literal(true), result, message: z.string().optional() });
+
+// ------------------------------------------------------------------ orders
+
+// What the checkout sends (as the JSON string `orderObj`). Only the store,
+// the item ids with quantities, payment method, note and delivery details are
+// used: the API prices the order itself from the store's current prices.
+export const placeOrderInput = z.object({
+  merchant_id: z.string().min(1),
+  orderItems: z
+    .array(z.object({ _id: z.string().min(1), quantity: z.coerce.number().int().positive() }).passthrough())
+    .min(1, "Cart is empty")
+    .max(200),
+  paymet_method: z.string().trim().min(1).max(50).catch("Cash on Delivery"),
+  shortNote: z.string().max(500).optional().catch(""),
+  customerInfo: z
+    .object({
+      customer_name: z.string().max(100).optional().catch(undefined),
+      customer_address: z.string().max(300).optional().catch(undefined),
+      contact_no: z.string().max(20).optional().catch(undefined),
+      alternative_contact_no: z.string().max(20).optional().catch(undefined),
+      latitude: z.coerce.number().finite().optional().catch(undefined),
+      longitude: z.coerce.number().finite().optional().catch(undefined),
+    })
+    .partial()
+    .optional()
+    .catch(undefined),
+});
+export type PlaceOrderInput = z.infer<typeof placeOrderInput>;
+
+export const orderItem = z.object({
+  _id: z.string(),
+  productInfoTable: z.string().nullable(),
+  product_title_eng: z.string(),
+  product_title_beng: z.string().nullable(),
+  pack_size: z.string().nullable(),
+  purchase_price: z.number(),
+  max_retail_price: z.number(),
+  sale_price: z.number(),
+  unit_symbol: z.string().nullable(),
+  max_allowed: z.number(),
+  quantity: z.number(),
+  delivered_qty: z.number(),
+  inc_qty: z.number(),
+  app_image: z.string().nullable(),
+});
+
+export const order = z.object({
+  _id: z.string(),
+  order_id: z.string(),
+  order_status: z.string(),
+  customer_id: z.string(),
+  custom_customer_id: z.string(),
+  customerInfo: z.object({
+    customer_name: z.string(),
+    customer_address: z.string(),
+    contact_no: z.string(),
+    alternative_contact_no: z.string(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+  }),
+  merchant_id: z.string(),
+  custom_merchant_id: z.string(),
+  merchantInfo: z.object({
+    shop_name: z.string(),
+    shop_address: z.string(),
+    contact_no: z.string(),
+    alternative_contact_no: z.string(),
+  }),
+  order_list_image: z.array(z.string()),
+  orderItems: z.array(orderItem),
+  subTotal: z.number(),
+  less_amount: z.number(),
+  vatAmount: z.number(),
+  deliveryCharge: z.number(),
+  totalAmount: z.number(),
+  paymet_method: z.string(),
+  shortNote: z.string(),
+  customer_rating: z.number(),
+  customer_review: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export type Order = z.infer<typeof order>;

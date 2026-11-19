@@ -11,7 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx --tsconfig tsconfig.json src/db/migrate.ts",
     "db:seed": "tsx --tsconfig tsconfig.json src/seed/run.ts",
-    "build": "esbuild src/vercel.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/vercel.js --external:pg --external:hono --external:drizzle-orm --external:zod --external:@hono/* --external:@electric-sql/*",
+    "build": "esbuild src/vercel.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/vercel.js --external:pg --external:hono --external:drizzle-orm --external:zod --external:@hono/* --external:@electric-sql/* --external:better-auth --external:@better-auth/*",
     "vercel-build": "npm run db:seed && npm run build"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@hono/node-server": "^2.1.9",
     "@hono/zod-validator": "^0.9.1",
     "@notension/shared": "*",
+    "better-auth": "^1.7.26",
     "drizzle-orm": "^0.45.4",
     "hono": "^4.13.19",
     "pg": "^8.23.1",
@@ -29,9 +30,9 @@
     "@types/node": "^26.6.6",
     "@types/pg": "^8.23.1",
     "drizzle-kit": "^0.31.11",
+    "esbuild": "^0.28.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.1",
-    "esbuild": "^0.28.2"
+    "vitest": "^5.1.1"
   }
 }
