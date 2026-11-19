@@ -8,6 +8,10 @@ export const GET_DISTRICT_SUB_AREA_INFO =
   "/public-api/v1/admin/all-districtsubarea/:id";
 export const USER_REGISTRATION = "/api/v1/customer/register";
 export const OTP_FOR_REGISTRATION = "/api/v1/customer/send-otp";
+// New API only (apps/api), see src/api-endpoints/live.js.
+export const VERIFY_OTP = "/api/v1/customer/verify-otp";
+export const DEMO_LOGIN = "/api/v1/customer/demo-login";
+export const CUSTOMER_LOGOUT = "/api/v1/customer/logout";
 export const GET_BANKING_OUTLET = "/public-api/v1/admin/nearest-banking-outlet";
 
 // FAVORITE

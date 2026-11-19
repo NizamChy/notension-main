@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import OtpSection from "./OtpSection";
 import React, { useState, useSyncExternalStore } from "react";
 import { isDemoMode } from "@/demo/demoMode";
-import { useUser } from "@/hooks/fetch-data/useUser";
+import { isLiveLogin, useUser } from "@/hooks/fetch-data/useUser";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
 import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "@/demo/demoUser";
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
@@ -39,6 +39,7 @@ const LoginModalDetails = ({
     getOtp,
     registerUser,
     loginAsDemoUser,
+    verifyOtp,
   } = useUser();
 
   const afterLogin = useAfterLogin(type, onClose, redirectTo);
@@ -49,8 +50,6 @@ const LoginModalDetails = ({
   };
 
   const sendSms = async () => {
-    const generatedOtp = Math.floor(Math.random() * 8999 + 1000);
-
     let cleanedPhone = phone
       ?.toString()
       .trim()
@@ -58,6 +57,13 @@ const LoginModalDetails = ({
       .replace(/[-]/g, "")
       .replace(/^\+?88/, "");
 
+    // Live login: the API makes, sends and checks the code.
+    if (isLiveLogin()) {
+      if (await getOtp({ contact_no: cleanedPhone })) setContentType("userInfo");
+      return;
+    }
+
+    const generatedOtp = Math.floor(Math.random() * 8999 + 1000);
     const sent = await getOtp({
       contact_no: cleanedPhone,
       otp: generatedOtp,
@@ -162,6 +168,7 @@ const LoginModalDetails = ({
             progressing={progressing}
             handleDataChange={handleDataChange}
             registerUser={registerUser}
+            verifyOtp={isLiveLogin() ? verifyOtp : undefined}
           />
         </div>
       )}

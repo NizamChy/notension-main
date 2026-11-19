@@ -7,6 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { z } from "zod";
 import { DEMO_ROUTES } from "@/demo/routes";
 import { createApp } from "../src/app";
+import { testApp } from "./helpers";
 import { createDb, type DbHandle } from "../src/db/client";
 import { seedDemo } from "../src/seed/demo";
 
@@ -24,7 +25,7 @@ beforeAll(async () => {
   handle = await createDb({}); // in-memory PGlite + PostGIS
   await handle.migrate();
   await seedDemo(handle.db);
-  app = createApp(handle.db);
+  app = testApp(handle.db);
 });
 afterAll(() => handle?.close());
 
