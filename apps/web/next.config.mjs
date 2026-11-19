@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  // Workspace package shipped as TypeScript source.
+  transpilePackages: ["@notension/shared"],
   images: {
     remotePatterns: [
       {
