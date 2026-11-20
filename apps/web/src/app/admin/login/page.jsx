@@ -24,6 +24,12 @@ export default function AdminLoginPage() {
             See every demo account
           </Link>
           .
+          <br />
+          How does it all work?{" "}
+          <Link href="/guide" className="font-medium text-primary hover:underline">
+            Read the project guide
+          </Link>
+          .
         </>
       }
     >

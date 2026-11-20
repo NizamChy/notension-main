@@ -95,21 +95,21 @@
       "phone": "01700000012",
       "name": "Demo Rider",
       "role": "rider",
-      "can": "Delivery rider: assigned orders (rider panel coming)."
+      "can": "Delivery rider: assigned orders, On the way / Delivered, cash to collect."
     },
     {
       "phone": "01700000013",
       "name": "Demo Doctor",
       "role": "doctor",
       "doctorId": "6650d0000000000000000001",
-      "can": "Dr. Ahsan Habib's profile, chambers and appointments (doctor panel coming)."
+      "can": "Dr. Ahsan Habib's profile, chambers and appointments."
     },
     {
       "phone": "01700000014",
       "name": "Demo Service Provider",
       "role": "service_provider",
       "providerId": "6a2c40000000000000000001",
-      "can": "PowerFix Electric & Plumbing's All Care listing and bookings (provider panel coming)."
+      "can": "PowerFix Electric & Plumbing's All Care listing: details, and live or hidden."
     }
   ]
 }

@@ -8,7 +8,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   HiOutlineArrowRightOnRectangle,
+  HiOutlineArrowTopRightOnSquare,
   HiOutlineBars3,
+  HiOutlineBookOpen,
   HiOutlineBuildingStorefront,
   HiOutlineCircleStack,
   HiOutlineClipboardDocumentList,
@@ -18,6 +20,7 @@ import {
   HiOutlineUsers,
   HiOutlineXMark,
 } from "react-icons/hi2";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
 import { serviceNav } from "./ServiceNav";
 import { adminApi } from "./api";
 import { permsOf } from "./perms";
@@ -96,6 +99,7 @@ export default function AdminShell({ children }) {
     { href: "/admin/users", label: "Users & roles", icon: HiOutlineUsers, show: perms.seeUsers },
     { href: "/admin/data", label: "Data", icon: HiOutlineCircleStack, show: perms.isSuper },
     { href: "/admin/account", label: "Account", icon: HiOutlineUserCircle, show: true },
+    { href: "/admin/guide", label: "Guide", icon: HiOutlineBookOpen, show: true },
   ].filter((n) => n.show);
 
   const isActive = (n) => {
@@ -124,7 +128,7 @@ export default function AdminShell({ children }) {
           <HiOutlineXMark className="text-xl" />
         </button>
       </div>
-      <nav className="flex-1 space-y-0.5 px-2">
+      <nav className="min-h-0 flex-1 space-y-0.5 overflow-y-auto px-2">
         {nav.map((n) => (
           <Link
             key={n.label}
@@ -140,6 +144,17 @@ export default function AdminShell({ children }) {
           </Link>
         ))}
       </nav>
+      <div className="mx-2 mb-2 flex items-center gap-1 border-t border-gray-200 pt-2">
+        <Link
+          href="/"
+          onClick={() => setMenuOpen(false)}
+          className="flex min-h-11 flex-1 items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 lg:min-h-0"
+        >
+          <HiOutlineArrowTopRightOnSquare className="text-lg" />
+          Home page
+        </Link>
+        <ThemeToggle />
+      </div>
       <div className="border-t border-gray-200 p-4">
         <p className="truncate text-sm font-semibold text-gray-900">{me.name || "Staff"}</p>
         <p className="text-xs text-gray-500">{me.phone}</p>
@@ -166,9 +181,18 @@ export default function AdminShell({ children }) {
           <button type="button" onClick={() => setMenuOpen(true)} aria-label="Open menu" className="-ml-2 rounded-lg p-2.5 text-gray-700 hover:bg-gray-100">
             <HiOutlineBars3 className="text-2xl" />
           </button>
-          <span className="font-bold text-primary">
+          <span className="flex-1 font-bold text-primary">
             NoTension <span className="font-medium text-gray-500">Admin</span>
           </span>
+          <Link
+            href="/"
+            aria-label="Home page"
+            title="Home page"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          >
+            <HiOutlineHome className="text-xl" />
+          </Link>
+          <ThemeToggle className="-mr-1" />
         </header>
         {menuOpen ? (
           <div className="fixed inset-0 z-40 lg:hidden">
