@@ -1,9 +1,5 @@
-// Imports the web app's food demo data (apps/web/src/demo/modules/food.js),
+// Imports the web app's food demo data (apps/web/src/demo/modules/food/data.js),
 // keeping its ids so links and stored carts keep working.
-//
-// food.js and the demo routes index import each other; loading the index
-// first lets food.js finish before the index reads its routes.
-import "@/demo/routes";
 import { DEMO_LOCATIONS } from "@/demo/demoLocations";
 import {
   DEMO_FOOD_ITEMS,
@@ -11,7 +7,7 @@ import {
   DEMO_FOOD_SLIDERS,
   DEMO_FOOD_STORE_CATEGORIES,
   DEMO_FOOD_STORES,
-} from "@/demo/modules/food";
+} from "@/demo/modules/food/data";
 import { count, eq } from "drizzle-orm";
 import type { Db } from "../db/client";
 import {
