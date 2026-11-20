@@ -106,15 +106,7 @@ export const demoResponse = (status, body) => ({ [STATUS]: status, body });
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Services that already run on the new API (apps/api) skip demo data and go
-// to the network, e.g. NEXT_PUBLIC_LIVE_SERVICES=GROCERY with
-// NEXT_PUBLIC_GROCERY_URL pointing at the API. Modules move over one by one.
-const LIVE_SERVICES = new Set(
-  (process.env.NEXT_PUBLIC_LIVE_SERVICES || "")
-    .split(",")
-    .map((s) => s.trim().toUpperCase())
-    .filter(Boolean),
-);
+// Services on the new API (see live.js) skip demo data and go to the network.
 const networkAdapter = axios.getAdapter(["fetch", "xhr", "http"]);
 
 export const demoAdapter = async (config) => {
