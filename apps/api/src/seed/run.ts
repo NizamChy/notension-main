@@ -4,6 +4,7 @@ import { count } from "drizzle-orm";
 import { createDb } from "../db/client";
 import { stores } from "../db/schema";
 import { env } from "../env";
+import { hasAllCareData, seedAllCare } from "./allcare";
 import { seedDemo } from "./demo";
 
 const handle = await createDb({ url: env.DATABASE_URL, dataDir: env.PGLITE_DIR });
@@ -14,5 +15,11 @@ if (row && row.n > 0) {
 } else {
   await seedDemo(handle.db);
   console.log("demo data seeded");
+}
+if (await hasAllCareData(handle.db)) {
+  console.log("all care data present, seed skipped");
+} else {
+  await seedAllCare(handle.db);
+  console.log("all care demo data seeded");
 }
 await handle.close();

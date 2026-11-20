@@ -1,3 +1,5 @@
 export * from "./catalog";
 export * from "./auth";
 export * from "./commerce";
+export * from "./allcare";
+export * from "./favourites";
