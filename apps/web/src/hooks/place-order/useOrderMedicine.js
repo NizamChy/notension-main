@@ -1,6 +1,6 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import {
   MEDICINE_ORDER_INFO,
   MEDICINE_PLACE_ORDER,
@@ -49,15 +49,7 @@ export const useOrderMedicine = () => {
       })
       .then((res) => {
         if (res.data.success) {
-          toast.success("Order has been placed!", {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-          });
+          notify.success("Order placed successfully");
 
           dispatch(
             handleCartAction({
@@ -69,7 +61,7 @@ export const useOrderMedicine = () => {
             `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`
           );
         } else {
-          toast.error("Failed to place order.");
+          notify.error("We couldn't place your order. Please try again.");
         }
 
         setProgressing(false);
@@ -77,7 +69,7 @@ export const useOrderMedicine = () => {
       .catch((error) => {
         setProgressing(false);
 
-        toast.error("Failed to place order.");
+        notify.error("We couldn't place your order. Please try again.");
       });
   };
 

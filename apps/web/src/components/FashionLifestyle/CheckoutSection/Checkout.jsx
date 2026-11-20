@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { lineTotal } from "@/utils/price";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import OrderSummary from "./OrderSummary";
@@ -82,7 +82,7 @@ const Checkout = () => {
     if (isSubmitting) return;
 
     if (!formData?.name || !formData?.phone || !formData?.address) {
-      return toast.error("Please fill all required fields");
+      return notify.warning("Please fill in all required fields.");
     }
 
     setIsSubmitting(true);
@@ -159,9 +159,7 @@ const Checkout = () => {
     setIsSubmitting(false);
 
     if (failedStores.length) {
-      toast.error(
-        `Failed to place order for ${failedStores.join(", ")}. Please try again.`
-      );
+      notify.error(`We couldn't place your order with ${failedStores.join(", ")}. Please try again.`);
       return;
     }
 

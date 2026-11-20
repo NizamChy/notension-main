@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
@@ -80,7 +80,7 @@ const CheckoutSection = () => {
 
       placeOrder(formData);
     } else {
-      toast.error("Cart is empty.");
+      notify.warning("Your cart is empty.");
     }
   };
 

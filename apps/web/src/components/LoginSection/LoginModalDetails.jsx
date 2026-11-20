@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import OtpSection from "./OtpSection";
 import React, { useState, useSyncExternalStore } from "react";
 import { isDemoMode } from "@/demo/demoMode";
@@ -77,27 +77,9 @@ const LoginModalDetails = ({
 
   const handleOtp = () => {
     if (phone?.length < 1) {
-      return toast("মোবাইল নম্বর প্রদান করা আবশ্যক।", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Please enter your mobile number.");
     } else if (phone?.length < 11) {
-      return toast("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Please enter a valid 11-digit mobile number.");
     }
 
     sendSms();

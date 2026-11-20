@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { getApiClient } from "@/lib/apiClient";
@@ -90,7 +90,7 @@ const MedicineItemDetails = () => {
     try {
       await addToCart(item);
     } catch (error) {
-      toast.error("Failed to add to cart");
+      notify.error("Couldn't add to cart. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -101,16 +101,7 @@ const MedicineItemDetails = () => {
     event.stopPropagation();
 
     if (!loggedinUserInfo?._id) {
-      return toast("Please Login first!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.info("Please log in to save favourites.");
     }
 
     setIsLoading(true);
@@ -118,7 +109,7 @@ const MedicineItemDetails = () => {
       await addToFavouriteItems(item, merchantType);
       setIsFavoriteAdded(true);
     } catch (error) {
-      toast.error("Failed to add to favorites");
+      notify.error("Couldn't add to favourites. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -141,7 +132,7 @@ const MedicineItemDetails = () => {
       await removeFromfavoriteItems(favouriteInfo, merchantType);
       setIsFavoriteAdded(false);
     } catch (error) {
-      toast.error("Failed to remove from favorites");
+      notify.error("Couldn't remove from favourites. Please try again.");
     } finally {
       setIsLoading(false);
     }

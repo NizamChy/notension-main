@@ -1,6 +1,6 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import {
   FAVORITE_STORE_ADD,
   FAVORITE_STORE_PUSH,
@@ -82,25 +82,19 @@ export const useFavouriteStore = () => {
         if (favouriteList > 9) {
           isAllowed = false;
 
-          toast.error(
-            "Hold on! You can add up to ten (10) Store to your Favorites list!"
-          );
+          notify.warning("You can save up to 10 stores in favourites.");
         }
       } else if (merchantType === 1) {
         favouriteList = favouriteMedicineStore.length;
         if (favouriteList > 9) {
           isAllowed = false;
-          toast.error(
-            "Hold on! You can add up to ten (10) Store to your Favorites list!"
-          );
+          notify.warning("You can save up to 10 stores in favourites.");
         }
       } else {
         favouriteList = favouriteFoodShop.length;
         if (favouriteList > 29) {
           isAllowed = false;
-          toast.error(
-            "Hold on! You can add up to thirty (30) Store to your Favorites list!"
-          );
+          notify.warning("You can save up to 30 stores in favourites.");
         }
       }
 
@@ -167,15 +161,7 @@ export const useFavouriteStore = () => {
         data: Info,
       })
     );
-    toast.success("💖 Added to your Favorites list!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Added to favourites");
   };
 
   const removeFromReducer = (Info) => {
@@ -186,16 +172,7 @@ export const useFavouriteStore = () => {
       })
     );
 
-    toast("Removed from your Favorites list!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      icon: "🗑️",
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Removed from favourites");
   };
 
   const resetReducer = (module) => {

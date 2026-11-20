@@ -5,7 +5,7 @@ import {
   REMOVE_FROM_FAVOURITE,
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
@@ -66,9 +66,7 @@ export const useFavouriteList = () => {
         if (favouriteList > 24) {
           isAllowed = false;
 
-          toast.error(
-            "Hold on!, You can add up to twenty five (25) Center to your Favorites list !!"
-          );
+          notify.warning("You can save up to 25 centres in favourites.");
         }
       } else if (merchantType === 4) {
         favouriteInfo = {
@@ -86,9 +84,7 @@ export const useFavouriteList = () => {
         if (favouriteList > 24) {
           isAllowed = false;
 
-          toast.error(
-            "Hold on!, You can add up to twenty five (25) Doctors to your Favorites list !!"
-          );
+          notify.warning("You can save up to 25 doctors in favourites.");
         }
       }
 
@@ -148,15 +144,7 @@ export const useFavouriteList = () => {
       })
     );
 
-    toast.success("💖 Added to your Favorites list!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Added to favourites");
   };
 
   const removeFromReducer = (Info) => {
@@ -167,16 +155,7 @@ export const useFavouriteList = () => {
       })
     );
 
-    toast("Removed from your Favorites!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      icon: "🗑️",
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Removed from favourites");
   };
 
   const setCurrentModule = () => {

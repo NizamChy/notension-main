@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import {
   LuBuilding2,
@@ -149,16 +149,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
     e.stopPropagation();
 
     if (!timeSlot) {
-      toast("Please select a time slot!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      notify.warning("Please select a time slot.");
       return;
     }
 
@@ -169,19 +160,7 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
         currentDoctor?.appointment_scheduling?.end_time
       )
     ) {
-      toast(
-        `Appointment time ${currentDoctor?.appointment_scheduling?.start_time} -${currentDoctor?.appointment_scheduling?.end_time} `,
-        {
-          style: {
-            border: "1px solid #FC8F1E",
-          },
-          icon: "ℹ️",
-          iconTheme: {
-            primary: "#FC8F1E",
-            secondary: "#FFFAEE",
-          },
-        }
-      );
+      notify.warning(`Please choose a time between ${currentDoctor?.appointment_scheduling?.start_time} and ${currentDoctor?.appointment_scheduling?.end_time}.`);
       return;
     }
 

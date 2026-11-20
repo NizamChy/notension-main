@@ -1,6 +1,6 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
-import toast from "react-hot-toast";
+import notify, { GENERIC_ERROR, friendlyMessage } from "@/utils/notify";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -51,17 +51,9 @@ export const useAppointment = () => {
         if (response?.data?.success) {
           setShowSuccessMessage(true);
 
-          toast.success(`${response?.data?.message}`, {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-
-            duration: 4000,
-          });
+          notify.success(
+            friendlyMessage(response?.data?.message, "Appointment booked")
+          );
 
           saveAppoinmentInfo("add", {
             ...response?.data?.result,
@@ -72,16 +64,12 @@ export const useAppointment = () => {
         } else {
           setShowErrorMessage(true);
 
-          toast(`${response?.data?.message}`, {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            icon: "ℹ️",
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-          });
+          notify.info(
+            friendlyMessage(
+              response?.data?.message,
+              "We couldn't book this appointment. Please try another time slot."
+            )
+          );
         }
         setIsAppointmentBooked(response?.data?.isBooked);
         setMessage(response?.data?.message);
@@ -91,7 +79,7 @@ export const useAppointment = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        toast.error("কিছু একটা ভুল হয়েছে! পরে আবার চেষ্টা করুন!");
+        notify.error(GENERIC_ERROR);
         return false;
       });
 

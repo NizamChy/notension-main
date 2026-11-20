@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { lineTotal } from "@/utils/price";
 import { useCart } from "../../context/CartContext";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
@@ -13,8 +13,7 @@ const CartItem = () => {
 
   const handleRemove = (item) => {
     removeFromCart(item?._id, item?.selectedSize, item?.selectedImage);
-    toast.dismiss();
-    toast.success("Item removed from cart");
+    notify.success("Removed from cart");
   };
 
   const changeQuantity = (item, quantity) =>

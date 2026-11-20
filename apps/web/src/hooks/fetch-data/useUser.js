@@ -1,7 +1,7 @@
 import { getApiClient } from "@/lib/apiClient";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import notify, { errorMessage } from "@/utils/notify";
 import {
   USER_REGISTRATION,
   OTP_FOR_REGISTRATION,
@@ -76,20 +76,15 @@ export const useUser = () => {
         .then((res) => {
           if (res?.data?.demo_otp) {
             // No SMS provider configured yet: the API returns the code.
-            toast(`Demo: no SMS is sent. Your OTP is ${res.data.demo_otp}`, {
-              id: "demo-otp",
-              icon: "🔑",
-              duration: 20000,
-            });
+            notify.otp(res.data.demo_otp);
           } else {
-            toast.success("OTP sent to your phone!");
+            notify.success("Verification code sent to your phone");
           }
           return true;
         })
         .catch((error) => {
-          toast.error(
-            error?.response?.data?.message ||
-              "Something went wrong. Please Try Again!"
+          notify.error(
+            errorMessage(error, "We couldn't send the code. Please try again.")
           );
           return false;
         })
@@ -125,7 +120,10 @@ export const useUser = () => {
           }
         }
 
-        toast.success("OTP sent to your phone!");
+        // Demo mode shows the code itself (demo/modules/user.js).
+        if (!isDemoMode()) {
+          notify.success("Verification code sent to your phone");
+        }
         setProgressing(false);
         return true;
       })
@@ -133,7 +131,7 @@ export const useUser = () => {
       .catch((error) => {
         setProgressing(false);
 
-        toast.error("Something went wrong. Please Try Again!");
+        notify.error("We couldn't send the code. Please try again.");
         return false;
       });
   };
@@ -167,16 +165,8 @@ export const useUser = () => {
       .then((res) => {
         saveLoggedInUserInfo(res?.data?.result);
 
-        if (res?.data?.success) {
-          toast.success(`${success_message}`, {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-          });
+        if (res?.data?.success && success_message) {
+          notify.success(success_message);
         }
         setProgressing(false);
         return Boolean(res?.data?.success);
@@ -200,12 +190,17 @@ export const useUser = () => {
         const isNew = Boolean(res.data.is_new);
         if (!isNew) {
           saveLoggedInUserInfo(user);
-          toast.success("Login successful");
+          notify.success("Logged in successfully");
         }
         return { ok: true, isNew };
       })
       .catch((error) => {
-        toast.error(error?.response?.data?.message || "OTP টি সঠিক হয়নি!");
+        notify.error(
+          errorMessage(
+            error,
+            "The verification code is incorrect. Please try again."
+          )
+        );
         return { ok: false, isNew: false };
       })
       .finally(() => setProgressing(false));
@@ -226,11 +221,11 @@ export const useUser = () => {
         if (!user?._id) throw new Error("Demo user not found");
 
         saveLoggedInUserInfo(user);
-        toast.success(`Logged in as ${user.customer_name}`);
+        notify.success(`Logged in as ${user.customer_name || "demo user"}`);
         return true;
       })
       .catch(() => {
-        toast.error("Demo login failed. Please try again!");
+        notify.error("Demo login failed. Please try again.");
         return false;
       })
       .finally(() => setProgressing(false));
