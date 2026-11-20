@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
+import AppToaster from "@/components/shared/Toast/AppToaster";
 import ReduxProvider from "@/redux/ReduxProvider";
 import { LocationBoundary } from "@/components/shared/Map/locationRefresh";
 import { Hind_Siliguri } from "next/font/google";
@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
       <body className={hindSiliguri.className}>
         <ReduxProvider>
           <QueryProvider>
-            <Toaster />
+            <AppToaster />
             <LocationBoundary>{children}</LocationBoundary>
           </QueryProvider>
         </ReduxProvider>

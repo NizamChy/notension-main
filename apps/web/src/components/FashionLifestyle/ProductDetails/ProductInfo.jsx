@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { FiShare2 } from "react-icons/fi";
 import { Badge } from "@/components/shared/UI/UI";
 import { formatTaka } from "@/components/shared/CartUI/CartUI";
@@ -40,8 +40,7 @@ const ProductInfo = ({ product }) => {
         return;
       }
       await navigator.clipboard.writeText(url);
-      toast.dismiss();
-      toast.success("Link copied");
+      notify.success("Link copied");
     } catch {
       // User closed the share sheet or clipboard is blocked.
     }

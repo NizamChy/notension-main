@@ -1,7 +1,7 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
-import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import notify, { errorMessage } from "@/utils/notify";
 import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
@@ -46,15 +46,7 @@ export const useOrderFood = () => {
       })
       .then((res) => {
         if (res.data.success) {
-          toast.success("Order has been placed!", {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-          });
+          notify.success("Order placed successfully");
 
           dispatch(
             handleCartAction({
@@ -66,7 +58,7 @@ export const useOrderFood = () => {
             `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
           );
         } else {
-          toast.error("Failed to place order.");
+          notify.error("We couldn't place your order. Please try again.");
         }
         setProgressing(false);
       })
@@ -78,10 +70,10 @@ export const useOrderFood = () => {
         if (error?.response?.status === 401) {
           Cookies.remove("user_info");
           dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
-          toast.error("Please log in again to place the order.");
+          notify.error("Your session has expired. Please log in again to place your order.");
           return;
         }
-        toast.error(error?.response?.data?.message || "Failed to place order.");
+        notify.error(errorMessage(error, "We couldn't place your order. Please try again."));
       });
   };
 

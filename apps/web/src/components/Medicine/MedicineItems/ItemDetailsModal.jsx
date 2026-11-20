@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
@@ -40,16 +40,7 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
     event.stopPropagation();
 
     if (!userInfo?._id) {
-      return toast("Login to add favourite!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.info("Please log in to save favourites.");
     }
 
     addToFavouriteItems(item, merchantType);

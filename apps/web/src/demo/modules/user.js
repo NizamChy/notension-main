@@ -6,7 +6,7 @@
 // mode, so the send-otp handler shows that OTP in a toast.
 //
 // ALL_DISTRICTS has no routes: nothing in the app sends requests to it.
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import {
   USER_REGISTRATION,
   OTP_FOR_REGISTRATION,
@@ -75,11 +75,7 @@ const sendOtp = ({ body }) => {
   if (!isBdMobile(contactNo)) return fail("Invalid mobile number");
 
   if (typeof window !== "undefined" && body?.otp) {
-    toast(`Demo mode: no SMS is sent. Your OTP is ${body.otp}`, {
-      id: "demo-otp",
-      icon: "🔑",
-      duration: 20000,
-    });
+    notify.otp(body.otp);
   }
 
   const user = findUser({ contact_no: contactNo });

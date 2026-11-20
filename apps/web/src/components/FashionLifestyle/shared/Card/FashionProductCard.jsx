@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { FiHeart } from "react-icons/fi";
 import { slugify } from "../../utils/slugify";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,11 +78,7 @@ const FashionProductCard = ({
           data: { merchantType: 3, productId: product?._id },
         })
       );
-      toast.dismiss();
-      toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
-        style: { border: "1px solid #FC8F1E" },
-        icon: "🗑️",
-      });
+      notify.success("Removed from favourites");
     } else {
       dispatch(
         handleUserChoiceReducer({
@@ -90,11 +86,7 @@ const FashionProductCard = ({
           data: { merchantType: 3, itemInfo: [product] },
         })
       );
-      toast.dismiss();
-      toast.success("💖 পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!", {
-        style: { border: "1px solid #FC8F1E" },
-        iconTheme: { primary: "#FC8F1E", secondary: "#FFFAEE" },
-      });
+      notify.success("Added to favourites");
     }
   };
 

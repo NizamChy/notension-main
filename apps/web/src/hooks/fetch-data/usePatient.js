@@ -1,6 +1,6 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
-import toast from "react-hot-toast";
+import notify, { friendlyMessage } from "@/utils/notify";
 import {
   GET_PATIENTS,
   MANAGE_PATIENT,
@@ -37,15 +37,9 @@ export const usePatient = () => {
       })
       .then((response) => {
         if (response?.data?.success) {
-          toast.success(`${response?.data?.message}`, {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-          });
+          notify.success(
+            friendlyMessage(response?.data?.message, "Patient added")
+          );
         }
 
         savePatientInfo("add", response?.data?.result);

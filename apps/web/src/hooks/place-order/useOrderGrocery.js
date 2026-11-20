@@ -4,7 +4,7 @@ import {
   GROCERY_ORDER_INFO,
   GROCERY_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
-import toast from "react-hot-toast";
+import notify, { errorMessage } from "@/utils/notify";
 import Cookies from "js-cookie";
 import { GROCERY_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,15 +50,7 @@ export const useOrderGrocery = () => {
       })
       .then((res) => {
         if (res.data.success) {
-          toast.success("Order has been placed!", {
-            style: {
-              border: "1px solid #FC8F1E",
-            },
-            iconTheme: {
-              primary: "#FC8F1E",
-              secondary: "#FFFAEE",
-            },
-          });
+          notify.success("Order placed successfully");
 
           dispatch(
             handleCartAction({
@@ -70,7 +62,7 @@ export const useOrderGrocery = () => {
             `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`
           );
         } else {
-          toast.error("Failed to place order.");
+          notify.error("We couldn't place your order. Please try again.");
         }
 
         setProgressing(false);
@@ -83,10 +75,14 @@ export const useOrderGrocery = () => {
         if (error?.response?.status === 401) {
           Cookies.remove("user_info");
           dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
-          toast.error("Please log in again to place the order.");
+          notify.error(
+            "Your session has expired. Please log in again to place your order."
+          );
           return;
         }
-        toast.error(error?.response?.data?.message || "Failed to place order.");
+        notify.error(
+          errorMessage(error, "We couldn't place your order. Please try again.")
+        );
       });
   };
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import ProductInfo from "./ProductInfo";
 import { FiHeart } from "react-icons/fi";
 import ImageGallery from "./ImageGallery";
@@ -113,38 +113,19 @@ const ProductDetailSection = () => {
   // instead of opening the cart drawer.
   const handleAddToCart = ({ buyNow = false } = {}) => {
     if (hasSizes && !selectedSize) {
-      toast.dismiss();
-      toast("Please select a size!", {
-        icon: "ℹ️",
-        style: {
-          border: "1px solid #2C3E50",
-          padding: "10px",
-          color: "#2C3E50",
-        },
-        iconTheme: {
-          primary: "#713200",
-          secondary: "#FFFAEE",
-        },
-      });
+      notify.warning("Please select a size.");
       return;
     }
 
     addToCart(product, quantity, selectedSize, selectedImage, variantName);
 
     if (buyNow) {
-      toast.dismiss();
+      notify.dismiss();
       router.push("/fashion-lifestyle/checkout");
       return;
     }
 
-    toast.dismiss();
-    toast.success(`${product?.product_title_eng} added to cart!`, {
-      style: {
-        border: "1px solid #2C3E50",
-        padding: "10px",
-        color: "#2C3E50",
-      },
-    });
+    notify.success("Added to cart");
     toggleCart();
   };
 
@@ -169,16 +150,7 @@ const ProductDetailSection = () => {
         data: itemInfo,
       })
     );
-    toast.dismiss();
-    toast.success("💖 পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Added to favourites");
   };
 
   const removeFromReducer = (Info) => {
@@ -188,17 +160,7 @@ const ProductDetailSection = () => {
         data: Info,
       })
     );
-    toast.dismiss();
-    toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      icon: "🗑️",
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Removed from favourites");
   };
 
   if (!product && isFetching) return <DetailSkeleton />;
