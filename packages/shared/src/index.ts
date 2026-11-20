@@ -4,3 +4,5 @@ export * as grocery from "./contract/grocery";
 export * as customer from "./contract/customer";
 export * as medicine from "./contract/medicine";
 export * as food from "./contract/food";
+export * as allCare from "./contract/allCare";
+export * as favourites from "./contract/favourites";

@@ -16,8 +16,17 @@ export const isLiveService = (service) => LIVE_SERVICES.has(service);
 
 // Services only partly on the API: the paths it serves. Others: all paths.
 const LIVE_PATHS = {
-  // Login and profile; favourites are still demo data.
-  USER: /^\/api\/v1\/customer\/(send-otp|verify-otp|demo-login|register|me|logout)$/,
+  // Login, profile and favourites (stores, items, centres/doctors).
+  USER: new RegExp(
+    "^/api/v1/customer/(" +
+      [
+        "send-otp|verify-otp|demo-login|register|me|logout",
+        "add-favourite-store|push-store|remove-store|get-favourite-store-info",
+        "add-favourite-item|push-item|remove-item|get-favourite-item-info",
+        "add-to-favourite-list|push-to-favourite-list|remove-from-favourite-list|get-favourite-list",
+      ].join("|") +
+      ")$",
+  ),
 };
 
 export const isLiveRequest = (service, path) =>
