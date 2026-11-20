@@ -5,7 +5,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createDb, type DbHandle } from "../src/db/client";
 import { account, careProviders, doctors, orders, storeItems, user, userRole } from "../src/db/schema";
 import { BACKUP_TABLES } from "../src/modules/admin/data";
-import { setPassword } from "../src/modules/admin/staff";
+import { checkSetupToken, setPassword } from "../src/modules/admin/staff";
 import { seedAll } from "../src/seed/all";
 import { ensureDemoAccounts } from "../src/seed/demo-accounts";
 import { createAuth } from "../src/auth/auth";
@@ -14,6 +14,8 @@ import { client, testApp } from "./helpers";
 const STORE = "6650a00100000000000000a1";
 const OWNER = "01811111111"; // stands in for a SUPER_ADMIN_PHONES number
 const OWNER_PW = "owner password 123";
+const NEWBIE = "01822222222"; // a SUPER_ADMIN_PHONES number that hasn't set a password yet
+let newbieLink = "";
 const CUSTOMER = "01877777777";
 const demo = (role: string) => DEMO_ACCOUNTS.find((a) => a.role === role)!;
 
@@ -25,10 +27,13 @@ beforeAll(async () => {
   handle = await createDb({});
   await handle.migrate();
   const links: string[] = [];
-  await seedAll(handle.db, { superAdminPhones: OWNER, webUrl: "http://web.test", log: (l) => links.push(l) });
-  app = testApp(handle.db, { protectedPhones: [OWNER] });
+  await seedAll(handle.db, { superAdminPhones: `${OWNER},${NEWBIE}`, webUrl: "http://web.test", log: (l) => links.push(l) });
+  app = testApp(handle.db, { protectedPhones: [OWNER, NEWBIE] });
   // The owner sets a password through the deploy-log setup link.
-  const link = links.find((l) => l.includes("/admin/setup?token="))!.match(/http\S+/)![0];
+  const linkOf = (phone: string) =>
+    links.find((l) => l.includes(phone) && l.includes("/admin/setup?token="))!.match(/http\S+/)![0];
+  const link = linkOf(OWNER);
+  newbieLink = linkOf(NEWBIE);
   const res = await client(app).request("POST", "/api/v1/admin/setup", {
     token: new URL(link).searchParams.get("token"),
     password: OWNER_PW,
@@ -226,5 +231,11 @@ describe("backup, reset, restore", () => {
     const res = await owner.request("POST", "/api/v1/admin/restore", backup);
     expect(res.status).toBe(200);
     expect((await login(OWNER, OWNER_PW)).res.status).toBe(200);
+  });
+
+  it("keeps the deploy-log setup link of a super admin without a password", async () => {
+    // Reset and restore have run above; the newbie's link must still work.
+    const token = new URL(newbieLink).searchParams.get("token")!;
+    expect(await checkSetupToken(handle.db, token)).toBe(await userIdOf(NEWBIE));
   });
 });

@@ -140,20 +140,25 @@ export const backupSchema = z.object({
 });
 export type Backup = z.infer<typeof backupSchema>;
 
-type Kept = { users: Row[]; accounts: Row[]; callerSession: Row | null };
+type Kept = { users: Row[]; accounts: Row[]; setupTokens: Row[]; callerSession: Row | null };
 
-// What survives a restore / reset: protected super admins and the caller's
-// session.
+// What survives a restore / reset: protected super admins (with an unused
+// password setup link, so the link from the deploy log keeps working) and the
+// caller's session.
 async function snapshotKept(db: Db, protectedPhones: string[], callerSessionId: string | null): Promise<Kept> {
   const cols = await columnsOf(db);
   const list = protectedPhones.map((p) => `'${p.replace(/'/g, "''")}'`).join(", ");
   const users = protectedPhones.length ? await readTable(db, "user", cols.get("user")!, `where phone_number in (${list})`) : [];
   const ids = users.map((u) => `'${String(u.id).replace(/'/g, "''")}'`).join(", ");
   const accounts = users.length ? await readTable(db, "account", cols.get("account")!, `where user_id in (${ids})`) : [];
+  const setupIdentifiers = users.map((u) => `'staff-setup:${String(u.id).replace(/'/g, "''")}'`).join(", ");
+  const setupTokens = users.length
+    ? await readTable(db, "verification", cols.get("verification")!, `where identifier in (${setupIdentifiers})`)
+    : [];
   const callerSession = callerSessionId
     ? ((await readTable(db, "session", cols.get("session")!, `where id = '${callerSessionId.replace(/'/g, "''")}'`))[0] ?? null)
     : null;
-  return { users, accounts, callerSession };
+  return { users, accounts, setupTokens, callerSession };
 }
 
 async function truncateAll(db: Db) {
@@ -185,6 +190,15 @@ async function restoreKept(db: Db, kept: Kept) {
     await db.execute(sql`insert into user_role (id, user_id, role) values (${objectId()}, ${id}, 'customer') on conflict do nothing`);
     await db.execute(sql`insert into user_role (id, user_id, role) values (${objectId()}, ${id}, 'super_admin') on conflict do nothing`);
     await db.execute(sql`insert into customer (user_id) values (${id}) on conflict do nothing`);
+    await db.execute(sql`delete from verification where identifier = ${`staff-setup:${id}`}`);
+    await insertRows(
+      db,
+      "verification",
+      cols.get("verification")!,
+      kept.setupTokens
+        .filter((v) => v.identifier === `staff-setup:${String(u.id)}`)
+        .map((v) => ({ ...v, id: objectId(), identifier: `staff-setup:${id}` })),
+    );
   }
 }
 
@@ -256,7 +270,9 @@ export async function resetToDefault(db: Db, opts: DataOptions) {
     await truncateAll(tx);
     await syncSequences(tx); // codes start over, as on a fresh database
     await restoreKept(tx, kept);
-    await seedAll(tx, { superAdminPhones: opts.protectedPhones, webUrl: opts.webUrl, log: opts.log ?? (() => {}) });
+    // No new setup links: nobody would see them, and they'd void the one in
+    // the deploy log.
+    await seedAll(tx, { superAdminPhones: opts.protectedPhones, webUrl: opts.webUrl, setupLinks: false, log: opts.log ?? (() => {}) });
     await syncSequences(tx);
     const keptSession = await restoreCallerSession(tx, kept);
     return { counts: await countRows(tx), signedIn: keptSession };

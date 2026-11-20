@@ -22,13 +22,13 @@ export const parseSuperAdminPhones = (phonesCsv: string) => [
   ),
 ];
 
-export async function bootstrapSuperAdmins(db: Db, phonesCsv: string | string[], webUrl: string, log = console.log) {
+export async function bootstrapSuperAdmins(db: Db, phonesCsv: string | string[], webUrl: string, log = console.log, setupLinks = true) {
   const phones = Array.isArray(phonesCsv) ? phonesCsv : parseSuperAdminPhones(phonesCsv);
   const links: Record<string, string> = {};
   for (const phone of phones) {
     const u = await ensureUser(db, phone, "Super Admin");
     if (await grantRole(db, u.id, "super_admin", null, null)) log(`super_admin granted to ${phone}`);
-    if (!(await hasPassword(db, u.id))) {
+    if (setupLinks && !(await hasPassword(db, u.id))) {
       links[phone] = await createSetupLink(db, u.id, webUrl);
       log(`Super admin ${phone}: set a password at ${links[phone]} (valid 7 days)`);
     }

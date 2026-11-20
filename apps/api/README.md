@@ -192,8 +192,8 @@ The admin panel's **Data** page uses:
 | Path | |
 | --- | --- |
 | `GET /api/v1/admin/backup` | Downloads `{ format: "notension-backup", version: 1, createdAt, tables: { name: rows } }`: every app table except `session`, `verification` and `app_secret`. `account` (password hashes) only for non-demo users |
-| `POST /api/v1/admin/restore` | Body: that JSON. Validated, then replaces all data in one transaction, in foreign-key order. Protected super admins keep their user row, password and role even if the file lacks or changes them; demo accounts are re-applied; every session except the caller's ends |
-| `POST /api/v1/admin/reset` `{confirm: "RESET"}` | Deletes all app data and runs `seedAll` (src/seed/all.ts), as on a fresh deploy. Keeps protected super admins (account, password, `super_admin`) and the caller's session if their account is kept |
+| `POST /api/v1/admin/restore` | Body: that JSON. Validated, then replaces all data in one transaction, in foreign-key order. Protected super admins keep their user row, password, role and unused setup link even if the file lacks or changes them; demo accounts are re-applied; every session except the caller's ends |
+| `POST /api/v1/admin/reset` `{confirm: "RESET"}` | Deletes all app data and runs `seedAll` (src/seed/all.ts), as on a fresh deploy. Keeps protected super admins (account, password, `super_admin`, unused setup link; no new link is issued) and the caller's session if their account is kept |
 
 Both run inside the function's time limit (`maxDuration: 60` in
 `vercel.json`); on PGlite a reset takes about 0.6 s in memory and a fresh
