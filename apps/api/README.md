@@ -99,6 +99,12 @@ npm run db:migrate -w api
   code, address, location), `order` + `order_item` (GRO-YYYYMMDD-NNNN codes;
   each line keeps a copy of the product as sold). Order amounts are always
   computed by the API from current store prices, never taken from the browser.
+- **Food** (`food.ts`): restaurant categories, `food_store` (logo, rating,
+  delivery time, VAT, categories of a food `store`), menu categories,
+  `food_item` (dish fields of a `store_item`), `food_item_option`
+  (variations: pick exactly one, its price replaces the dish price; add-ons:
+  each adds its price), the options chosen on an order line, and sliders per
+  district. Food orders use `order`/`order_item` with FOOD-YYYYMMDD-NNNN codes.
 - IDs are 24-character hex strings, the format the web app's URLs and saved
   carts already use.
 
@@ -114,5 +120,20 @@ in-memory PGlite database, so they need nothing installed.
 | Module | Endpoints |
 | --- | --- |
 | Grocery | Stores (nearest, search, explore), items (search, by subtype, by custom type, details), orders (place, my orders) |
-| Customers | Phone login, profile, logout, demo login |
-| Favourites, medicine, food, fashion, health care, all care, admin panel | Not yet: still answered by demo mode |
+| Medicine | Stores (nearest, both paths; search, explore), items (search, by subtype, by custom type, details), orders (place, my orders). Seeded by `src/seed/medicine.ts` when no medicine store exists |
+| Food | Module page (categories, sliders), stores (nearest, search, explore with menu), orders (place with variations/add-ons, my orders) |
+| Fashion | Types, brands, categories, sub-categories, products (men/women/kids, filters), stores, orders (place with size/colour, my orders) |
+| Health care | Medical/ambulance providers, doctors (by department, centre, nearest, profile), consultation centres, patients, appointment booking (server-checked slots and serials) |
+| All care | Services and care providers (with distance) |
+| Customers | Phone login, profile, logout, demo login, favourites (stores, items, lists) |
+| Admin panel | `/api/v1/admin`: staff login (phone + password), setup links, dashboard stats, stores, store items, products, orders and status, users and roles. Merchants only see their own stores |
+
+### Staff and super admins
+
+Staff (every role except `customer`) never sign in with an OTP. They sign in at
+`/admin/login` with their phone number and a password. A new staff member gets a
+one-time setup link (valid 7 days) and chooses their own password there.
+
+Numbers in `SUPER_ADMIN_PHONES` become `super_admin` on every deploy. If such an
+account has no password yet, the deploy log prints its setup link, and only the
+Vercel project's members can read that log.

@@ -6,6 +6,13 @@ import { sessionLoader, type AuthEnv } from "./auth/middleware";
 import type { Db } from "./db/client";
 import { adminRoutes } from "./modules/admin/routes";
 import { customerRoutes } from "./modules/customer/customer";
+import { medicineRoutes } from "./modules/medicine";
+import { foodRoutes } from "./modules/food/food";
+import { foodOrderRoutes } from "./modules/food/food-orders";
+import { allCareRoutes } from "./modules/allcare/allcare";
+import { favouritesRoutes } from "./modules/favourites/favourites";
+import { fashionRoutes } from "./modules/fashion";
+import { healthCareRoutes } from "./modules/healthCare/healthCare";
 import { groceryRoutes } from "./modules/store/grocery";
 import { groceryOrderRoutes } from "./modules/store/grocery-orders";
 
@@ -30,6 +37,13 @@ export function createApp(db: Db, opts: AppOptions) {
   app.route("/", adminRoutes(db, opts.auth));
   app.route("/", groceryRoutes(db));
   app.route("/", groceryOrderRoutes(db));
+  app.route("/", medicineRoutes(db));
+  app.route("/", foodRoutes(db));
+  app.route("/", foodOrderRoutes(db));
+  app.route("/", allCareRoutes(db));
+  app.route("/", favouritesRoutes(db));
+  app.route("/", fashionRoutes(db));
+  app.route("/", healthCareRoutes(db));
   app.route(
     "/",
     customerRoutes(db, opts.auth, { demoLogin: opts.demoLogin ?? false, smsEnabled: opts.smsEnabled ?? false }),
