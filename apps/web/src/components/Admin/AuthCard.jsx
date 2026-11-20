@@ -1,10 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
 
-// Centered card for the sign-in and setup pages.
+// Centered card for the sign-in and setup pages, with a way back to the
+// home page and the light / dark switch on top.
 export default function AuthCard({ title, subtitle, children, footer }) {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-10">
+    <div className="relative flex min-h-screen items-center justify-center px-4 py-16">
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between px-3 py-3 md:px-5">
+        <Link
+          href="/"
+          className="inline-flex min-h-10 items-center gap-1.5 rounded-lg px-3 text-sm font-medium text-gray-700 hover:bg-gray-100"
+        >
+          <HiOutlineArrowLeft /> Home page
+        </Link>
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-[400px]">
         <Link href="/" aria-label="NoTension home" className="mx-auto mb-6 block w-40">
           <Image width={224} height={40} src="/png/notension-logo.png" alt="notension" className="h-auto w-full object-contain" />
