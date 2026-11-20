@@ -37,12 +37,13 @@ if (await hasAllCareData(handle.db)) {
   await seedAllCare(handle.db);
   console.log("all care demo data seeded");
 }
-await bootstrapSuperAdmins(handle.db, env.SUPER_ADMIN_PHONES, webUrl());
 if (!(await hasFashionData(handle.db))) {
   await seedFashion(handle.db);
   console.log("fashion demo data seeded");
+}
 if (!(await hasHealthCareData(handle.db))) {
   await seedHealthCare(handle.db);
   console.log("health care demo data seeded");
 }
+await bootstrapSuperAdmins(handle.db, env.SUPER_ADMIN_PHONES, webUrl());
 await handle.close();
