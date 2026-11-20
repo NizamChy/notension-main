@@ -218,7 +218,9 @@ export const patients = pgTable(
   (t) => [index("patient_owner_idx").on(t.ownerId, t.createdAt)],
 );
 
-export const APPOINTMENT_STATUSES = ["Booked", "Visited", "Cancelled"] as const;
+// "Visited" is what the doctor panel calls "Completed". "No-show": the
+// patient didn't come (set by the doctor).
+export const APPOINTMENT_STATUSES = ["Booked", "Visited", "Cancelled", "No-show"] as const;
 
 // A serial with a doctor at a chamber for one date and time slot. Serial
 // numbers count per chamber, date and slot.

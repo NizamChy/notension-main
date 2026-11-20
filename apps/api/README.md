@@ -127,6 +127,7 @@ in-memory PGlite database, so they need nothing installed.
 | All care | Services and care providers (with distance) |
 | Customers | Phone login, profile, logout, demo login, favourites (stores, items, lists) |
 | Admin panel | `/api/v1/admin`: staff login (phone + password), setup links, dashboard stats, stores, store items, products, orders and status, users and roles. Merchants only see their own stores |
+| Service panels | `/api/v1/admin` (`src/modules/admin/service-panels.ts`): riders, doctors and All Care providers, each seeing only their own work. See below |
 
 ### Staff and super admins
 
@@ -137,3 +138,21 @@ one-time setup link (valid 7 days) and chooses their own password there.
 Numbers in `SUPER_ADMIN_PHONES` become `super_admin` on every deploy. If such an
 account has no password yet, the deploy log prints its setup link, and only the
 Vercel project's members can read that log.
+
+### Riders, doctors and service providers
+
+These roles sign in like other staff (phone + password) and get their own panel.
+
+| Path | Who | |
+| --- | --- | --- |
+| `GET /riders` | admin, support, store owner/manager | Riders to pick from, with open deliveries |
+| `PATCH /orders/:id/rider` `{riderId \| null}` | admin, support, that store's owner/manager | Assign or remove the rider (`order.rider_id`, `assigned_at`) while the order is open |
+| `GET /rider/orders?view=active\|done` | rider | Own deliveries: store and customer contacts, items, `cashToCollect` for cash orders |
+| `PATCH /rider/orders/:id/status` `{status}` | rider | Own order only: Processing → On the way → Delivered |
+| `GET /doctors?q&userId`, `PATCH /doctors/:id/user` `{userId \| null}` | admin | Link a doctor profile (`doctor.user_id`) to a user with the `doctor` role |
+| `GET /care-providers?q&userId`, `PATCH /care-providers/:id/user` | admin | Link an All Care provider (`care_provider.user_id`) to a `service_provider` |
+| `GET /doctor/profile`, `PATCH /doctor/profile` | doctor | Own profile and chambers; edits speciality, designation, qualifications, experience, fees |
+| `PATCH /doctor/chambers/:id` `{bookingOpen, consultationFee, followUpFee}` | doctor | Own chambers only |
+| `GET /doctor/appointments?date` | doctor | Own serials for one date, or today and later |
+| `PATCH /doctor/appointments/:id` `{status}` | doctor | `Visited` (completed), `No-show` or `Cancelled`; own appointments only |
+| `GET /provider/listings`, `PATCH /provider/listings/:id` | service provider | Own listing(s): contact, address, hours, details, active/inactive |

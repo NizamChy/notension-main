@@ -21,6 +21,11 @@ export function permsOf(me) {
   const canStore = (storeId, globalRoles, storeRoles) => hasGlobal(globalRoles) || atStore(storeId, storeRoles);
   const isAdmin = hasGlobal(["admin"]);
   const isMerchant = stores.size > 0;
+  // Service roles: their own panels (super_admin doesn't count here).
+  const isRider = global.has("rider");
+  const isDoctor = global.has("doctor");
+  const isProvider = global.has("service_provider");
+  const seesDashboard = isMerchant || PLATFORM_ROLES.some((r) => global.has(r));
 
   return {
     userId: me?.id,
@@ -37,6 +42,21 @@ export function permsOf(me) {
     seeAllStores: hasGlobal(["admin", "support", "finance", "content_manager"]),
     seeProducts: hasGlobal(["admin", "content_manager", "support"]),
     seeUsers: hasGlobal(["admin", "support"]),
+    seeDashboard: seesDashboard,
+    isRider,
+    isDoctor,
+    isProvider,
+    // Where "/admin" leads: the dashboard, or a service panel for people
+    // who only hold a service role.
+    home: seesDashboard
+      ? "/admin"
+      : isRider
+        ? "/admin/deliveries"
+        : isDoctor
+          ? "/admin/doctor/appointments"
+          : isProvider
+            ? "/admin/my-service"
+            : "/admin",
 
     // Actions
     canCreateStore: isAdmin,
@@ -48,6 +68,9 @@ export function permsOf(me) {
     itemEdit: (storeId) =>
       canStore(storeId, ["admin"], MERCHANT_EDIT) ? "full" : atStore(storeId, ["merchant_staff"]) ? "stock" : null,
     moveOrder: (storeId) => canStore(storeId, ["admin", "support"], STORE_ROLES),
+    assignRider: (storeId) => canStore(storeId, ["admin", "support"], MERCHANT_EDIT),
+    // Linking doctor / provider profiles to accounts (Users & roles).
+    linkProfiles: isAdmin,
     // Which roles this person may grant or remove (see canManageRole in the API).
     manageRole: (role, storeId) => {
       if (isSuper) return true;

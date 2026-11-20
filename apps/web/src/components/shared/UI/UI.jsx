@@ -104,8 +104,8 @@ export const Badge = ({ tone = "gray", children, className = "" }) => (
 // Maps an order / appointment status string to a badge tone.
 export const statusTone = (status = "") => {
   const s = String(status).toLowerCase();
-  if (/(deliver|complete|confirm|accept|success|paid|done)/.test(s)) return "green";
-  if (/(cancel|reject|fail|declin)/.test(s)) return "red";
+  if (/(deliver|complete|confirm|accept|success|paid|done|visited)/.test(s)) return "green";
+  if (/(cancel|reject|fail|declin|no-show)/.test(s)) return "red";
   if (/(pending|wait|placed|new|request)/.test(s)) return "amber";
   if (/(process|ship|way|picked|prepar|ready)/.test(s)) return "navy";
   return "gray";

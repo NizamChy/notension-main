@@ -5,6 +5,7 @@ import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-quer
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, formatDate, roleLabel, titleCase } from "@/components/Admin/api";
 import { grantableRoles, STORE_ROLES } from "@/components/Admin/perms";
+import ProfileLinks from "@/components/Admin/ProfileLinks";
 import {
   Badge,
   Button,
@@ -244,6 +245,7 @@ function UserCard({ u, onChanged }) {
           ),
         )}
       </div>
+      <ProfileLinks user={u} />
       <div className="mt-2">
         <ErrorBox error={error} />
         <Notice>{notice}</Notice>

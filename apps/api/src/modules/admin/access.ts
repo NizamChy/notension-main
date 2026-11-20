@@ -8,7 +8,11 @@
 //   merchant_owner      own store: settings, items, prices, orders, its staff
 //   merchant_manager    own store: settings, items, prices, orders
 //   merchant_staff      own store: stock/availability, order status
-//   rider / doctor / service_provider: their own panels (not in this API yet)
+//   rider               own deliveries: assigned orders, On the way / Delivered
+//   doctor              own doctor profile, chambers and appointments
+//   service_provider    own All Care provider listing(s)
+// The service roles are staff (phone + password sign-in) but see nothing of
+// stores or other people's work; see service-panels.ts.
 import type { Context } from "hono";
 import { and, eq, ne } from "drizzle-orm";
 import type { AuthEnv } from "../../auth/middleware";
@@ -58,6 +62,11 @@ export const MERCHANT_ALL = ["merchant_owner", "merchant_manager", "merchant_sta
 export const MERCHANT_EDIT = ["merchant_owner", "merchant_manager"] as const satisfies readonly Role[];
 
 export const PLATFORM_ROLES = ["super_admin", "admin", "support", "finance", "content_manager"] as const satisfies readonly Role[];
+export const SERVICE_ROLES = ["rider", "doctor", "service_provider"] as const satisfies readonly Role[];
+
+// Holds this service role itself (super_admin does not count: these panels
+// show the person's own work).
+export const hasOwnRole = (a: Access, role: (typeof SERVICE_ROLES)[number]) => a.global.has(role);
 
 // Which roles `a` may grant or remove. Platform roles: super_admin only.
 // Service roles and store roles: admins. Store staff: that store's owner.

@@ -17,6 +17,7 @@ import {
   HiOutlineUsers,
   HiOutlineXMark,
 } from "react-icons/hi2";
+import { serviceNav } from "./ServiceNav";
 import { adminApi } from "./api";
 import { permsOf } from "./perms";
 import { Button, cx, ErrorBox, Loading, RoleBadge } from "./ui";
@@ -58,6 +59,11 @@ export default function AdminShell({ children }) {
   const perms = useMemo(() => permsOf(me), [me]);
   const ctx = useMemo(() => ({ me, perms }), [me, perms]);
 
+  // Riders, doctors and providers land on their own panel.
+  useEffect(() => {
+    if (me && pathname === "/admin" && perms.home !== "/admin") router.replace(perms.home);
+  }, [me, pathname, perms.home, router]);
+
   if (meQuery.isPending || signedOut) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -75,7 +81,8 @@ export default function AdminShell({ children }) {
 
   const storeList = [...perms.stores.values()];
   const nav = [
-    { href: "/admin", label: "Dashboard", icon: HiOutlineHome, show: true },
+    { href: "/admin", label: "Dashboard", icon: HiOutlineHome, show: perms.seeDashboard },
+    ...serviceNav(perms),
     { href: "/admin/orders", label: "Orders", icon: HiOutlineClipboardDocumentList, show: perms.seeOrders },
     {
       href: !perms.seeAllStores && storeList.length === 1 ? `/admin/stores/${storeList[0].id}` : "/admin/stores",

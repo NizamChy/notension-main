@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, formatDate, packLabel, taka, titleCase } from "@/components/Admin/api";
 import { Button, Card, ConfirmButton, ErrorBox, Loading, Notice, PageHeader, StatusBadge, Table, Td } from "@/components/Admin/ui";
+import RiderAssign from "@/components/Admin/RiderAssign";
 
 const Row = ({ label, children }) => (
   <div className="flex justify-between gap-4 py-1 text-sm">
@@ -118,6 +119,7 @@ export default function OrderDetailPage() {
         </Card>
 
         <div className="space-y-4">
+          <RiderAssign key={`${o.id}-${o.riderId || ""}`} order={o} />
           <Card>
             <h2 className="mb-2 font-semibold text-gray-900">Delivery</h2>
             <p className="text-sm font-medium text-gray-900">{d.name}</p>

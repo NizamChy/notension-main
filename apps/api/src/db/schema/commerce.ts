@@ -75,6 +75,9 @@ export const orders = pgTable(
     delivery: jsonb("delivery").$type<DeliveryInfo>().notNull(),
     rating: integer("rating").notNull().default(0),
     review: text("review").notNull().default(""),
+    // The delivery rider (a user with the `rider` role), once assigned.
+    riderId: text("rider_id").references(() => user.id, { onDelete: "set null" }),
+    assignedAt: timestamp("assigned_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
@@ -84,6 +87,7 @@ export const orders = pgTable(
   (t) => [
     index("order_customer_idx").on(t.customerId, t.createdAt),
     index("order_store_idx").on(t.storeId, t.createdAt),
+    index("order_rider_idx").on(t.riderId, t.createdAt),
   ],
 );
 
