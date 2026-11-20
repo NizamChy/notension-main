@@ -5,7 +5,6 @@ import type { Auth } from "./auth/auth";
 import { sessionLoader, type AuthEnv } from "./auth/middleware";
 import type { Db } from "./db/client";
 import { adminRoutes } from "./modules/admin/routes";
-import { setupLinkStats } from "./modules/admin/staff";
 import { customerRoutes } from "./modules/customer/customer";
 import { medicineRoutes } from "./modules/medicine";
 import { foodRoutes } from "./modules/food/food";
@@ -32,7 +31,7 @@ export function createApp(db: Db, opts: AppOptions) {
   if (opts.log) app.use(logger());
   app.use("*", cors({ origin: opts.corsOrigins ?? [], credentials: true }));
 
-  app.get("/health", async (c) => c.json({ ok: true, setupLinks: await setupLinkStats(db) }));
+  app.get("/health", (c) => c.json({ ok: true }));
   // Better Auth's own endpoints (sign-in, session, sign-out, ...).
   app.on(["GET", "POST"], "/api/auth/*", (c) => opts.auth.auth.handler(c.req.raw));
 
