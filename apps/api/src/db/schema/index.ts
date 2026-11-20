@@ -5,3 +5,4 @@ export * from "./food";
 export * from "./allcare";
 export * from "./favourites";
 export * from "./fashion";
+export * from "./health";

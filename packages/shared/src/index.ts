@@ -7,3 +7,4 @@ export * as food from "./contract/food";
 export * as allCare from "./contract/allCare";
 export * as favourites from "./contract/favourites";
 export * as fashion from "./contract/fashion";
+export * as healthCare from "./contract/healthCare";

@@ -12,6 +12,7 @@ import { foodOrderRoutes } from "./modules/food/food-orders";
 import { allCareRoutes } from "./modules/allcare/allcare";
 import { favouritesRoutes } from "./modules/favourites/favourites";
 import { fashionRoutes } from "./modules/fashion";
+import { healthCareRoutes } from "./modules/healthCare/healthCare";
 import { groceryRoutes } from "./modules/store/grocery";
 import { groceryOrderRoutes } from "./modules/store/grocery-orders";
 
@@ -42,6 +43,7 @@ export function createApp(db: Db, opts: AppOptions) {
   app.route("/", allCareRoutes(db));
   app.route("/", favouritesRoutes(db));
   app.route("/", fashionRoutes(db));
+  app.route("/", healthCareRoutes(db));
   app.route(
     "/",
     customerRoutes(db, opts.auth, { demoLogin: opts.demoLogin ?? false, smsEnabled: opts.smsEnabled ?? false }),
