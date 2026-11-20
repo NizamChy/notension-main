@@ -65,18 +65,20 @@ describe("super admin bootstrap", () => {
     expect(links[SUPER]).toMatch(/^http:\/\/web\.test\/admin\/setup\?token=[0-9a-f]{24}\.[\w-]+$/);
     expect(lines.join("\n")).toContain(links[SUPER]);
 
-    // A second run replaces the link (the old one stops working).
-    const again = await bootstrapSuperAdmins(handle.db, SUPER, "http://web.test", () => {});
-    expect((await setUp(links[SUPER]!)).res.status).toBe(400);
+    // Vercel runs the seed twice per deploy: the second run keeps the first
+    // link (the one the log viewer shows) instead of replacing it.
+    const againLines: string[] = [];
+    expect(await bootstrapSuperAdmins(handle.db, SUPER, "http://web.test", (l) => againLines.push(l))).toEqual({});
+    expect(againLines.join("\n")).toContain("still valid");
 
-    const { c, res } = await setUp(again[SUPER]!, "short");
+    const { c, res } = await setUp(links[SUPER]!, "short");
     expect(res.status).toBe(400);
-    const ok = await setUp(again[SUPER]!);
+    const ok = await setUp(links[SUPER]!);
     expect(ok.res.status).toBe(200);
     expect(ok.res.body.result.roles.map((r: { role: string }) => r.role)).toEqual(["super_admin"]);
     expect((await ok.c.request("GET", "/api/v1/admin/me")).status).toBe(200);
     // Used once only.
-    expect((await setUp(again[SUPER]!)).res.status).toBe(400);
+    expect((await setUp(links[SUPER]!)).res.status).toBe(400);
     void c;
 
     // With a password set, later deploys print nothing.

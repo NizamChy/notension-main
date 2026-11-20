@@ -9,9 +9,7 @@ import { isDemoAccountPhone } from "@notension/shared";
 import { DEMO_PHONE } from "../auth/auth";
 import { normalizeBdPhone } from "../auth/sms";
 import type { Db } from "../db/client";
-import { eq } from "drizzle-orm";
-import { user } from "../db/schema";
-import { checkSetupToken, createSetupLink, setupLinkStats, ensureUser, grantRole, hasPassword } from "../modules/admin/staff";
+import { createSetupLink, ensureUser, grantRole, hasPassword, setupLinkIssuedWithin } from "../modules/admin/staff";
 
 // "01811111111, +8801922222222" -> ["01811111111", "01922222222"]. The demo
 // numbers never count.
@@ -24,20 +22,25 @@ export const parseSuperAdminPhones = (phonesCsv: string) => [
   ),
 ];
 
+// A setup link younger than this is reused rather than replaced.
+const RECENT_MS = 15 * 60 * 1000;
+
 export async function bootstrapSuperAdmins(db: Db, phonesCsv: string | string[], webUrl: string, log = console.log, setupLinks = true) {
   const phones = Array.isArray(phonesCsv) ? phonesCsv : parseSuperAdminPhones(phonesCsv);
   const links: Record<string, string> = {};
   for (const phone of phones) {
     const u = await ensureUser(db, phone, "Super Admin");
     if (await grantRole(db, u.id, "super_admin", null, null)) log(`super_admin granted to ${phone}`);
-    if (setupLinks && !(await hasPassword(db, u.id))) {
-      links[phone] = await createSetupLink(db, u.id, webUrl);
-      log(`Super admin ${phone}: set a password at ${links[phone]} (valid 7 days)`);
-      // Reads the link back, so a link that will not work shows up in the log.
-      const token = new URL(links[phone]).searchParams.get("token") ?? "";
-      const users = await db.select({ id: user.id }).from(user).where(eq(user.phoneNumber, phone));
-      log(`  link check: ${(await checkSetupToken(db, token)) === u.id ? "ok" : "FAILED"} (accounts with this phone: ${users.length}; ${JSON.stringify(await setupLinkStats(db))})`);
+    if (!setupLinks || (await hasPassword(db, u.id))) continue;
+    // Vercel runs the seed twice per deploy (the function builder runs the
+    // vercel-build script too). A second link would void the first, which is
+    // the one the log viewer shows, so a fresh link is kept.
+    if (await setupLinkIssuedWithin(db, u.id, RECENT_MS)) {
+      log(`Super admin ${phone}: the setup link printed earlier in this log is still valid`);
+      continue;
     }
+    links[phone] = await createSetupLink(db, u.id, webUrl);
+    log(`Super admin ${phone}: set a password at ${links[phone]} (valid 7 days)`);
   }
   return links;
 }
