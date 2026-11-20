@@ -1,18 +1,27 @@
-// Services that already run on the new API (apps/api). Set with
-// NEXT_PUBLIC_LIVE_SERVICES=GROCERY,USER. A live service is reached through
-// this app's /api-proxy rewrite (next.config.mjs), so its session cookie is
-// first-party, unless NEXT_PUBLIC_<SERVICE>_URL points elsewhere.
+// Services that run on the new API (apps/api). A live service is reached
+// through this app's /api-proxy rewrite (next.config.mjs), so its session
+// cookie is first-party.
 //
-// Demo mode keeps answering everything else, including the parts of a live
-// service the API doesn't have yet (LIVE_PATHS).
-export const LIVE_SERVICES = new Set(
-  (process.env.NEXT_PUBLIC_LIVE_SERVICES || "")
+// Every service the API implements is live. NEXT_PUBLIC_LIVE_SERVICES can add
+// more; NEXT_PUBLIC_DEMO_ONLY_SERVICES (e.g. "FOOD,FASHION") sends some back
+// to demo data. Demo mode keeps answering everything else, including the parts
+// of a live service the API doesn't have yet (LIVE_PATHS).
+const API_SERVICES = ["GROCERY", "USER", "MEDICINE", "FOOD", "FASHION", "HEALTH_CARE", "ALL_CARE"];
+
+const serviceList = (value) =>
+  (value || "")
     .split(",")
-    .map((s) => s.trim().toUpperCase())
-    .filter(Boolean),
+    .map((s) => s.trim().toUpperCase().replace(/-/g, "_"))
+    .filter(Boolean);
+
+const demoOnly = new Set(serviceList(process.env.NEXT_PUBLIC_DEMO_ONLY_SERVICES));
+
+export const LIVE_SERVICES = new Set(
+  [...API_SERVICES, ...serviceList(process.env.NEXT_PUBLIC_LIVE_SERVICES)].filter((s) => !demoOnly.has(s)),
 );
 
-export const isLiveService = (service) => LIVE_SERVICES.has(service);
+// Accepts "HEALTH_CARE" or "health-care".
+export const isLiveService = (service) => LIVE_SERVICES.has(service.toUpperCase().replace(/-/g, "_"));
 
 // Services only partly on the API: the paths it serves. Others: all paths.
 const LIVE_PATHS = {
