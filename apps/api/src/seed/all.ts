@@ -19,6 +19,8 @@ export type SeedOptions = {
   superAdminPhones: string | string[];
   // For password setup links printed to the log.
   webUrl: string;
+  // false: don't issue setup links (Reset to default keeps the existing one).
+  setupLinks?: boolean;
   log?: (line: string) => void;
 };
 
@@ -46,6 +48,6 @@ export async function seedAll(db: Db, opts: SeedOptions) {
       log(`${name} demo data seeded`);
     }
   }
-  await bootstrapSuperAdmins(db, opts.superAdminPhones, opts.webUrl, log);
+  await bootstrapSuperAdmins(db, opts.superAdminPhones, opts.webUrl, log, opts.setupLinks ?? true);
   await ensureDemoAccounts(db, log);
 }
