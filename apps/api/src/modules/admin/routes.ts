@@ -36,9 +36,18 @@ import {
   MERCHANT_ALL,
   MERCHANT_EDIT,
   visibleStores,
+  type AdminContext,
   type AdminEnv,
 } from "./access";
+import { isDemoAccountPhone } from "@notension/shared";
+import { backupSchema, createBackup, resetToDefault, restoreBackup } from "./data";
 import { checkSetupToken, consumeSetupToken, createSetupLink, ensureUser, grantRole, hasPassword, searchPattern, setPassword } from "./staff";
+
+export type AdminOptions = {
+  // SUPER_ADMIN_PHONES, parsed. Only the account itself may block it, remove
+  // its roles or issue it a setup link; reset and restore keep it.
+  protectedPhones?: string[];
+};
 
 const P = "/api/v1/admin";
 const MODULES = ["grocery", "medicine", "food", "fashion"] as const;
@@ -100,8 +109,23 @@ async function meResult(db: Db, userId: string) {
   return { ...u, roles };
 }
 
-export const adminRoutes = (db: Db, authSetup: Auth) => {
+export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) => {
   const { auth } = authSetup;
+  const protectedPhones = opts.protectedPhones ?? [];
+
+  const phoneOf = async (userId: string) =>
+    (await db.select({ phone: user.phoneNumber }).from(user).where(eq(user.id, userId)))[0]?.phone ?? null;
+  const isProtected = (phone: string | null) => !!phone && protectedPhones.includes(phone);
+  // A protected super admin, acted on by someone else.
+  const guarded = async (targetId: string, callerId: string) => targetId !== callerId && isProtected(await phoneOf(targetId));
+  const protectedMsg = (c: AdminContext) =>
+    c.json({ success: false, message: "This super admin account is protected. Only its owner can change it." }, 403);
+  // Setup links: never for demo accounts, and for a protected super admin only
+  // when they ask for their own.
+  const mayGetSetupLink = async (targetId: string, callerId: string) => {
+    const phone = await phoneOf(targetId);
+    return !isDemoAccountPhone(phone) && !(targetId !== callerId && isProtected(phone));
+  };
 
   const app = new Hono<AdminEnv>();
 
@@ -183,6 +207,9 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
       const a = c.get("access");
       const body = c.req.valid("json");
       const [u] = await db.select({ phone: user.phoneNumber }).from(user).where(eq(user.id, a.userId));
+      if (isDemoAccountPhone(u?.phone)) {
+        return c.json({ success: false, message: "Demo accounts can't change the password" }, 403);
+      }
       try {
         await auth.api.signInPhoneNumber({ body: { phoneNumber: u!.phone!, password: body.current } });
       } catch {
@@ -370,7 +397,9 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
       if (owner) {
         const u = await ensureUser(db, owner, "Store owner");
         await grantRole(db, u.id, "merchant_owner", created!.id, a.userId);
-        if (!(await hasPassword(db, u.id))) setupLink = await createSetupLink(db, u.id, webUrlOf(c));
+        if (!(await hasPassword(db, u.id)) && (await mayGetSetupLink(u.id, a.userId))) {
+          setupLink = await createSetupLink(db, u.id, webUrlOf(c));
+        }
       }
       return c.json({ success: true, result: { ...created, setupLink } });
     },
@@ -668,7 +697,12 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
         : [];
       return c.json({
         success: true,
-        result: rows.map((r) => ({ ...r, roles: roles.filter((x) => x.userId === r.id) })),
+        result: rows.map((r) => ({
+          ...r,
+          isDemo: isDemoAccountPhone(r.phone),
+          isProtected: isProtected(r.phone),
+          roles: roles.filter((x) => x.userId === r.id),
+        })),
         total: total?.n ?? 0,
         pageSize: PAGE,
       });
@@ -700,7 +734,8 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
       const u = await ensureUser(db, phone, body.name || "");
       if (body.name && !u.name) await db.update(user).set({ name: body.name }).where(eq(user.id, u.id));
       const added = await grantRole(db, u.id, body.role, storeId, a.userId);
-      const setupLink = (await hasPassword(db, u.id)) ? null : await createSetupLink(db, u.id, webUrlOf(c));
+      const setupLink =
+        (await hasPassword(db, u.id)) || !(await mayGetSetupLink(u.id, a.userId)) ? null : await createSetupLink(db, u.id, webUrlOf(c));
       return c.json({ success: true, message: added ? "Role added" : "They already have this role", result: { userId: u.id, setupLink } });
     },
   );
@@ -710,6 +745,7 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
     const [row] = await db.select().from(userRole).where(eq(userRole.id, c.req.param("id")));
     if (!row || row.role === "customer") return c.json({ success: false, message: "Role not found" }, 404);
     if (!canManageRole(a, row.role, row.storeId)) return forbidden(c);
+    if (await guarded(row.userId, a.userId)) return protectedMsg(c);
     if (row.role === "super_admin") {
       const [others] = await db.select({ n: count() }).from(userRole).where(eq(userRole.role, "super_admin"));
       if ((others?.n ?? 0) <= 1) return c.json({ success: false, message: "The last super admin can't be removed" }, 409);
@@ -725,6 +761,10 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
     const roles = await db.select().from(userRole).where(and(eq(userRole.userId, id), ne(userRole.role, "customer")));
     if (!roles.length) return c.json({ success: false, message: "Only staff accounts have passwords" }, 400);
     if (!roles.every((r) => canManageRole(a, r.role, r.storeId))) return forbidden(c);
+    if (isDemoAccountPhone(await phoneOf(id))) {
+      return c.json({ success: false, message: "Demo accounts keep the demo password; they don't get setup links" }, 403);
+    }
+    if (await guarded(id, a.userId)) return protectedMsg(c);
     return c.json({ success: true, result: { setupLink: await createSetupLink(db, id, webUrlOf(c)) } });
   });
 
@@ -735,9 +775,56 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
     if (id === a.userId) return c.json({ success: false, message: "You can't block yourself" }, 400);
     const target = await loadAccess(db, id);
     if (target.isSuper && !a.isSuper) return forbidden(c);
+    if (await guarded(id, a.userId)) return protectedMsg(c);
     await db.update(user).set({ banned: c.req.valid("json").banned }).where(eq(user.id, id));
     if (c.req.valid("json").banned) await db.delete(session).where(eq(session.userId, id));
     return c.json({ success: true, message: "Saved" });
+  });
+
+  // ----------------------------------------- backup / restore / reset (super)
+
+  const dataOptions = (c: AdminContext) => ({
+    protectedPhones,
+    callerSessionId: c.get("session")?.id ?? null,
+    webUrl: webUrlOf(c),
+    log: () => {},
+  });
+
+  app.get(`${P}/backup`, async (c) => {
+    if (!c.get("access").isSuper) return forbidden(c);
+    const backup = await createBackup(db);
+    const stamp = backup.createdAt.slice(0, 16).replace(/[-:]/g, "").replace("T", "-");
+    c.header("Content-Disposition", `attachment; filename="notension-backup-${stamp}.json"`);
+    c.header("Cache-Control", "no-store");
+    return c.json(backup);
+  });
+
+  app.post(`${P}/restore`, async (c) => {
+    if (!c.get("access").isSuper) return forbidden(c);
+    let body: unknown;
+    try {
+      body = await c.req.json();
+    } catch {
+      return c.json({ success: false, message: "The file is not valid JSON" }, 400);
+    }
+    const parsed = backupSchema.safeParse(body);
+    if (!parsed.success) return c.json({ success: false, message: parsed.error.issues[0]?.message ?? "Not a valid backup" }, 400);
+    const started = Date.now();
+    try {
+      const result = await restoreBackup(db, parsed.data, dataOptions(c));
+      return c.json({ success: true, message: "Backup restored", result: { ...result, ms: Date.now() - started } });
+    } catch (err) {
+      console.error("restore failed", err);
+      return c.json({ success: false, message: "The backup couldn't be restored; nothing was changed" }, 400);
+    }
+  });
+
+  app.post(`${P}/reset`, zValidator("json", z.object({ confirm: z.string() })), async (c) => {
+    if (!c.get("access").isSuper) return forbidden(c);
+    if (c.req.valid("json").confirm !== "RESET") return c.json({ success: false, message: 'Type RESET to confirm' }, 400);
+    const started = Date.now();
+    const result = await resetToDefault(db, dataOptions(c));
+    return c.json({ success: true, message: "Data reset to default", result: { ...result, ms: Date.now() - started } });
   });
 
   return app;

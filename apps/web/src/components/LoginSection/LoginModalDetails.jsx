@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import notify from "@/utils/notify";
 import OtpSection from "./OtpSection";
 import React, { useState, useSyncExternalStore } from "react";
@@ -133,6 +134,15 @@ const LoginModalDetails = ({
               <p className="mt-2 text-center text-xs text-gray-500">
                 Demo mode: signs in as {DEMO_USER_NAME} ({DEMO_USER_CONTACT}),
                 no OTP needed
+              </p>
+              <p className="mt-1 text-center text-xs">
+                <Link
+                  href="/demo-accounts"
+                  onClick={() => onClose()}
+                  className="font-medium text-primary hover:underline"
+                >
+                  Demo accounts for every role (admin, store, rider…)
+                </Link>
               </p>
             </>
           )}

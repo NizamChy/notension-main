@@ -143,7 +143,10 @@ function UserCard({ u, onChanged }) {
   const [link, setLink] = useState(null);
   const staffRoles = u.roles.filter((r) => r.role !== "customer");
   const isSelf = u.id === perms.userId;
-  const canLink = staffRoles.length > 0 && staffRoles.every((r) => perms.manageRole(r.role, r.storeId));
+  // Demo accounts keep the demo password; protected super admins are
+  // changed only by themselves (the API enforces both).
+  const locked = u.isProtected && !isSelf;
+  const canLink = !u.isDemo && !locked && staffRoles.length > 0 && staffRoles.every((r) => perms.manageRole(r.role, r.storeId));
 
   const run = async (key, fn) => {
     setBusy(key);
@@ -170,6 +173,8 @@ function UserCard({ u, onChanged }) {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {u.isDemo ? <Badge tone="amber">Demo</Badge> : null}
+          {u.isProtected ? <Badge tone="purple">Protected</Badge> : null}
           {u.banned ? <Badge tone="red">Blocked</Badge> : null}
           {canLink ? (
             <Button
@@ -186,7 +191,7 @@ function UserCard({ u, onChanged }) {
               New setup link
             </Button>
           ) : null}
-          {perms.canBlock && !isSelf ? (
+          {perms.canBlock && !isSelf && !locked ? (
             u.banned ? (
               <Button
                 size="sm"
@@ -225,7 +230,7 @@ function UserCard({ u, onChanged }) {
           ) : (
             <span key={r.id} className="inline-flex items-center gap-1">
               <RoleBadge role={r} />
-              {perms.manageRole(r.role, r.storeId) ? (
+              {perms.manageRole(r.role, r.storeId) && !locked ? (
                 <ConfirmButton
                   label="×"
                   question={`Remove ${roleLabel(r.role).toLowerCase()}?`}

@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import type { Db } from "../db/client";
 import { appSecrets } from "../db/schema";
 import type { Env } from "../env";
+import { parseSuperAdminPhones } from "../seed/bootstrap-admins";
 import { createAuth } from "./auth";
 import { bulkSmsBd } from "./sms";
 
@@ -31,5 +32,11 @@ export async function authFromEnv(db: Db, env: Env) {
     trustedOrigins: corsOrigins,
     sms,
   });
-  return { auth, corsOrigins, smsEnabled: !!sms, demoLogin: env.DEMO_LOGIN };
+  return {
+    auth,
+    corsOrigins,
+    smsEnabled: !!sms,
+    demoLogin: env.DEMO_LOGIN,
+    protectedPhones: parseSuperAdminPhones(env.SUPER_ADMIN_PHONES),
+  };
 }
