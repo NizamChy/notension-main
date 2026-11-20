@@ -89,8 +89,9 @@ const OrderDetailsContent = ({ order }) => {
           Items ({order?.orderItems?.length || 0})
         </SectionHeading>
         <ul className="divide-y divide-gray-100 rounded-xl border border-gray-200">
-          {order?.orderItems?.map((item) => (
-            <li key={item?._id} className="flex items-center gap-3 p-3">
+          {order?.orderItems?.map((item, index) => (
+            // One product can be ordered in several sizes / colours.
+            <li key={`${item?._id}-${index}`} className="flex items-center gap-3 p-3">
               <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                 <Image
                   src={
@@ -110,7 +111,8 @@ const OrderDetailsContent = ({ order }) => {
                 </p>
                 <p className="mt-0.5 text-xs tabular-nums text-gray-500">
                   {formatTaka(item?.sale_price)} × {item?.quantity}
-                  {item?.selectedSize ? ` · Size ${item.selectedSize}` : ""}
+                  {item?.product_color ? ` · ${item.product_color}` : ""}
+                  {item?.product_size ? ` · Size ${item.product_size}` : ""}
                 </p>
               </div>
               <span className="shrink-0 font-semibold tabular-nums text-gray-900">

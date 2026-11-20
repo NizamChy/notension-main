@@ -9,6 +9,7 @@ import { hasAllCareData, seedAllCare } from "./allcare";
 import { seedDemo } from "./demo";
 import { hasMedicineData, seedMedicine } from "./medicine";
 import { hasFoodData, seedFood } from "./food";
+import { hasFashionData, seedFashion } from "./fashion";
 
 const handle = await createDb({ url: env.DATABASE_URL, dataDir: env.PGLITE_DIR });
 await handle.migrate();
@@ -36,4 +37,8 @@ if (await hasAllCareData(handle.db)) {
   console.log("all care demo data seeded");
 }
 await bootstrapSuperAdmins(handle.db, env.SUPER_ADMIN_PHONES, webUrl());
+if (!(await hasFashionData(handle.db))) {
+  await seedFashion(handle.db);
+  console.log("fashion demo data seeded");
+}
 await handle.close();
