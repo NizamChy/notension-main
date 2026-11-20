@@ -3,3 +3,4 @@ export * from "./slug";
 export * as grocery from "./contract/grocery";
 export * as customer from "./contract/customer";
 export * as medicine from "./contract/medicine";
+export * as food from "./contract/food";

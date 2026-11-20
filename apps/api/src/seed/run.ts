@@ -7,6 +7,7 @@ import { env, webUrl } from "../env";
 import { bootstrapSuperAdmins } from "./bootstrap-admins";
 import { seedDemo } from "./demo";
 import { hasMedicineData, seedMedicine } from "./medicine";
+import { hasFoodData, seedFood } from "./food";
 
 const handle = await createDb({ url: env.DATABASE_URL, dataDir: env.PGLITE_DIR });
 await handle.migrate();
@@ -22,4 +23,10 @@ if (!(await hasMedicineData(handle.db))) {
   console.log("medicine demo data seeded");
 }
 await bootstrapSuperAdmins(handle.db, env.SUPER_ADMIN_PHONES, webUrl());
+if (await hasFoodData(handle.db)) {
+  console.log("food data present, food seed skipped");
+} else {
+  await seedFood(handle.db);
+  console.log("food demo data seeded");
+}
 await handle.close();
