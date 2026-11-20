@@ -9,7 +9,6 @@ export function testApp(db: Db, overrides: Partial<AuthConfig> & { demoLogin?: b
     baseURL: "http://localhost:4000",
     trustedOrigins: ["http://localhost:3000"],
     sms: null,
-    superAdminPhones: [],
     ...authOverrides,
   });
   return createApp(db, { auth, smsEnabled: !!authOverrides.sms, demoLogin });
