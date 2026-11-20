@@ -2,10 +2,11 @@
 // phone-number plugin. Sessions are cookies; the web app reaches the API
 // through its own /api-proxy rewrite, so they are first-party cookies there.
 //
-// Roles: every new user is a `customer`. Phones listed in SUPER_ADMIN_PHONES
-// become `super_admin` on sign-in, but only when codes go out by SMS: without
-// an SMS provider the code is returned in the response (demo behaviour), and
-// anyone could then sign in as any number.
+// Roles: every new user is a `customer`. Staff (any other role) sign in with
+// phone + password (src/modules/admin/staff-auth.ts); without an SMS provider
+// the OTP is returned in the response (demo behaviour), so it is never issued
+// for staff accounts. Super admins come from SUPER_ADMIN_PHONES at deploy time
+// (src/seed/bootstrap-admins.ts).
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { APIError } from "better-auth/api";
@@ -22,7 +23,6 @@ export type AuthConfig = {
   trustedOrigins: string[];
   // null: no SMS provider, codes come back in the send-otp response.
   sms: SmsSender | null;
-  superAdminPhones: string[];
 };
 
 // The shared demo account ("Login as Demo User").
@@ -102,13 +102,6 @@ export function createAuth(db: Db, config: AuthConfig) {
             const [u] = await db.select({ banned: user.banned }).from(user).where(eq(user.id, s.userId));
             if (u?.banned) return false;
           },
-          after: async (s) => {
-            if (!config.sms || !config.superAdminPhones.length) return;
-            const [u] = await db.select({ phone: user.phoneNumber }).from(user).where(eq(user.id, s.userId));
-            if (u?.phone && u.phone !== DEMO_PHONE && config.superAdminPhones.includes(u.phone)) {
-              await db.insert(userRole).values({ userId: s.userId, role: "super_admin" }).onConflictDoNothing();
-            }
-          },
         },
       },
     },
@@ -123,7 +116,10 @@ export function createAuth(db: Db, config: AuthConfig) {
     return code;
   };
 
-  return { auth, issueOtp };
+  // Better Auth's password hashing (scrypt), for staff passwords.
+  const hashPassword = async (password: string) => (await auth.$context).password.hash(password);
+
+  return { auth, issueOtp, hashPassword };
 }
 
 export type Auth = ReturnType<typeof createAuth>;

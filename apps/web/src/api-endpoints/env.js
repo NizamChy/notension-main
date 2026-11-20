@@ -1,5 +1,5 @@
 import { isDemoMode } from "@/demo/demoMode";
-import { isLiveService, proxyBase } from "./live";
+import { isLiveService, LIVE_SERVICES, proxyBase } from "./live";
 
 // Backend base URLs come from .env.local. Without them (a fresh clone, or a
 // deploy with no env vars) each service gets a placeholder base, so demo mode,
@@ -20,7 +20,9 @@ export const ALL_CARE_SERVICE_URL = base(
 export const FOOD_URL = base(process.env.NEXT_PUBLIC_FOOD_URL, "food");
 export const USER_URL = base(process.env.NEXT_PUBLIC_USER_URL, "user");
 // Demo mode serves images from public/demo/ (see next.config.mjs rewrites).
-export const IMAGE_URL = isDemoMode()
+// The new API's data uses the same image files, so live services do too.
+const localImages = isDemoMode() || LIVE_SERVICES.size > 0;
+export const IMAGE_URL = localImages
   ? "/demo-images"
   : process.env.NEXT_PUBLIC_IMAGE_URL;
 export const GROCERY_URL = base(process.env.NEXT_PUBLIC_GROCERY_URL, "grocery");
@@ -40,6 +42,6 @@ export const FASHION_BASE_URL = base(
   process.env.NEXT_PUBLIC_FASHION_BASE_URL,
   "fashion",
 );
-export const FASHION_IMAGE_URL = isDemoMode()
+export const FASHION_IMAGE_URL = localImages
   ? "/demo-images/fashion"
   : process.env.NEXT_PUBLIC_FASHION_IMAGE_URL;

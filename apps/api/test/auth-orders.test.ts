@@ -126,26 +126,17 @@ describe("phone sign-in", () => {
   });
 });
 
-describe("super admin bootstrap", () => {
-  it("grants super_admin to listed phones only when SMS is on", async () => {
+describe("sms delivery", () => {
+  it("sends the code by SMS and does not echo it", async () => {
     const sent: string[] = [];
     const sms = async (_phone: string, message: string) => void sent.push(message);
-    const smsApp = testApp(handle.db, { sms, superAdminPhones: ["01766666666"] });
-    const c = client(smsApp);
+    const c = client(testApp(handle.db, { sms }));
     const res = await c.request("POST", "/api/v1/customer/send-otp", { contact_no: "01766666666" });
     expect(res.body.otp_delivery).toBe("sms");
     expect(res.body.demo_otp).toBeUndefined();
     const code = sent.at(-1)!.match(/\d{6}/)![0];
     const verified = await c.request("POST", "/api/v1/customer/verify-otp", { contact_no: "01766666666", otp: code });
-    expect(verified.body.result.roles.sort()).toEqual(["customer", "super_admin"]);
-  });
-
-  it("does not grant it without SMS", async () => {
-    const plain = testApp(handle.db, { superAdminPhones: ["01777777777"] });
-    const c = client(plain);
-    const sent = await c.request("POST", "/api/v1/customer/send-otp", { contact_no: "01777777777" });
-    const res = await c.request("POST", "/api/v1/customer/verify-otp", { contact_no: "01777777777", otp: sent.body.demo_otp });
-    expect(res.body.result.roles).toEqual(["customer"]);
+    expect(verified.body.result.roles).toEqual(["customer"]);
   });
 });
 
@@ -156,7 +147,6 @@ describe("requireRole", () => {
       baseURL: "http://localhost:4000",
       trustedOrigins: [],
       sms: null,
-      superAdminPhones: [],
     });
     return new Hono<AuthEnv>()
       .use(sessionLoader(auth))

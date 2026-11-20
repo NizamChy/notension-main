@@ -3,7 +3,8 @@
 import { count } from "drizzle-orm";
 import { createDb } from "../db/client";
 import { stores } from "../db/schema";
-import { env } from "../env";
+import { env, webUrl } from "../env";
+import { bootstrapSuperAdmins } from "./bootstrap-admins";
 import { seedDemo } from "./demo";
 
 const handle = await createDb({ url: env.DATABASE_URL, dataDir: env.PGLITE_DIR });
@@ -15,4 +16,5 @@ if (row && row.n > 0) {
   await seedDemo(handle.db);
   console.log("demo data seeded");
 }
+await bootstrapSuperAdmins(handle.db, env.SUPER_ADMIN_PHONES, webUrl());
 await handle.close();

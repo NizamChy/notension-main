@@ -4,6 +4,7 @@ import { logger } from "hono/logger";
 import type { Auth } from "./auth/auth";
 import { sessionLoader, type AuthEnv } from "./auth/middleware";
 import type { Db } from "./db/client";
+import { adminRoutes } from "./modules/admin/routes";
 import { customerRoutes } from "./modules/customer/customer";
 import { groceryRoutes } from "./modules/store/grocery";
 import { groceryOrderRoutes } from "./modules/store/grocery-orders";
@@ -26,6 +27,7 @@ export function createApp(db: Db, opts: AppOptions) {
   app.on(["GET", "POST"], "/api/auth/*", (c) => opts.auth.auth.handler(c.req.raw));
 
   app.use("*", sessionLoader(opts.auth));
+  app.route("/", adminRoutes(db, opts.auth));
   app.route("/", groceryRoutes(db));
   app.route("/", groceryOrderRoutes(db));
   app.route(

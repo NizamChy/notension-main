@@ -5,7 +5,7 @@ import type { Db } from "../db/client";
 import { appSecrets } from "../db/schema";
 import type { Env } from "../env";
 import { createAuth } from "./auth";
-import { bulkSmsBd, normalizeBdPhone } from "./sms";
+import { bulkSmsBd } from "./sms";
 
 // BETTER_AUTH_SECRET if set, otherwise one generated once and kept in the
 // database, so sessions survive restarts and serverless cold starts.
@@ -30,9 +30,6 @@ export async function authFromEnv(db: Db, env: Env) {
     baseURL,
     trustedOrigins: corsOrigins,
     sms,
-    superAdminPhones: env.SUPER_ADMIN_PHONES.split(",")
-      .map(normalizeBdPhone)
-      .filter((p): p is string => !!p),
   });
   return { auth, corsOrigins, smsEnabled: !!sms, demoLogin: env.DEMO_LOGIN };
 }
