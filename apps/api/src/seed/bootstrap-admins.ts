@@ -9,7 +9,9 @@ import { isDemoAccountPhone } from "@notension/shared";
 import { DEMO_PHONE } from "../auth/auth";
 import { normalizeBdPhone } from "../auth/sms";
 import type { Db } from "../db/client";
-import { createSetupLink, ensureUser, grantRole, hasPassword } from "../modules/admin/staff";
+import { eq } from "drizzle-orm";
+import { user } from "../db/schema";
+import { checkSetupToken, createSetupLink, ensureUser, grantRole, hasPassword } from "../modules/admin/staff";
 
 // "01811111111, +8801922222222" -> ["01811111111", "01922222222"]. The demo
 // numbers never count.
@@ -31,6 +33,10 @@ export async function bootstrapSuperAdmins(db: Db, phonesCsv: string | string[],
     if (setupLinks && !(await hasPassword(db, u.id))) {
       links[phone] = await createSetupLink(db, u.id, webUrl);
       log(`Super admin ${phone}: set a password at ${links[phone]} (valid 7 days)`);
+      // Reads the link back, so a link that will not work shows up in the log.
+      const token = new URL(links[phone]).searchParams.get("token") ?? "";
+      const users = await db.select({ id: user.id }).from(user).where(eq(user.phoneNumber, phone));
+      log(`  link check: ${(await checkSetupToken(db, token)) === u.id ? "ok" : "FAILED"} (accounts with this phone: ${users.length})`);
     }
   }
   return links;
