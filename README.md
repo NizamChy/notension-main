@@ -113,9 +113,13 @@ cached per ~10 m.
 
 The new API lives in [`apps/api`](apps/api/README.md). It answers the same
 requests as the old backends, module by module, and runs locally with no
-database setup (embedded Postgres). Grocery is the first module on it. To try
-it, start the API and set `NEXT_PUBLIC_LIVE_SERVICES=GROCERY` and
-`NEXT_PUBLIC_GROCERY_URL=http://localhost:4000` in `apps/web/.env.local`.
+database setup (embedded Postgres). Grocery (stores, items, orders) and
+customer login (phone OTP) run on it. Services listed in
+`NEXT_PUBLIC_LIVE_SERVICES` (production: `GROCERY,USER`) are called through
+the web app's `/api-proxy/<service>` rewrite, which points at
+`http://localhost:4000` in development and `https://notension-api.vercel.app`
+in production. To try it locally, start the API (`npm run dev -w api`) and set
+`NEXT_PUBLIC_LIVE_SERVICES=GROCERY,USER` in `apps/web/.env.local`.
 
 ## Demo mode
 
