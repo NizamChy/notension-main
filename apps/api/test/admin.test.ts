@@ -165,6 +165,15 @@ describe("roles and merchant scope", () => {
     expect((await c.request("PATCH", `/api/v1/admin/stores/${STORE}`, { isBanned: false })).status).toBe(400);
     expect((await c.request("PATCH", `/api/v1/admin/stores/${OTHER_STORE}`, { isClosed: true })).status).toBe(403);
 
+    // Hours: 24-hour or AM/PM in, stored as the customer pages show them.
+    expect((await c.request("PATCH", `/api/v1/admin/stores/${STORE}`, { opensAt: "8:05 am", closesAt: "21:30" })).status).toBe(200);
+    const saved = await c.request("GET", `/api/v1/admin/stores/${STORE}`);
+    expect(saved.body.result).toMatchObject({ opensAt: "08:05 AM", closesAt: "09:30 PM" });
+    expect((await c.request("PATCH", `/api/v1/admin/stores/${STORE}`, { opensAt: "25:00" })).status).toBe(400);
+    expect((await c.request("PATCH", `/api/v1/admin/stores/${STORE}`, { opensAt: "13:00 PM" })).status).toBe(400);
+    const districts = await c.request("GET", "/api/v1/admin/districts");
+    expect(districts.body.result.length).toBeGreaterThan(0);
+
     const items = await c.request("GET", `/api/v1/admin/stores/${STORE}/items`);
     const item = items.body.result[0];
     expect((await c.request("PATCH", `/api/v1/admin/items/${item.id}`, { salePrice: 99, stockQty: 5 })).status).toBe(200);

@@ -22,8 +22,8 @@ export const MERCHANT_FIELDS = [
   { key: "isClosed", label: "Closed right now (not taking orders)", kind: "bool" },
   { key: "phone", label: "Phone", kind: "text" },
   { key: "altPhone", label: "Other phone", kind: "text" },
-  { key: "opensAt", label: "Opens at", kind: "time", hint: "24-hour, e.g. 09:00. Empty = not set." },
-  { key: "closesAt", label: "Closes at", kind: "time", hint: "24-hour, e.g. 22:30. Empty = not set." },
+  { key: "opensAt", label: "Opens at", kind: "time", hint: "e.g. 09:00 AM (or 09:00). Leave empty if not set." },
+  { key: "closesAt", label: "Closes at", kind: "time", hint: "e.g. 10:30 PM (or 22:30). Leave empty if not set." },
   { key: "deliveryNotice", label: "Delivery notice", kind: "text", wide: true, hint: "Shown to customers on the store page." },
   { key: "minOrder", label: "Minimum order (৳)", kind: "money" },
   { key: "minDeliveryCharge", label: "Minimum delivery charge (৳)", kind: "money" },
@@ -74,22 +74,13 @@ export function changedFields(fields, form, store) {
   return out;
 }
 
-// The API has no district list yet, so the picker offers the districts
-// existing stores are in (plus the current one).
+// Every district, for the store's district picker.
 export function useKnownDistricts(enabled) {
   return useQuery({
-    queryKey: ["admin", "known-districts"],
+    queryKey: ["admin", "districts"],
     enabled,
-    staleTime: 10 * 60_000,
-    queryFn: async () => {
-      const seen = new Map();
-      for (let page = 1; page <= 8; page++) {
-        const res = await adminApi("/stores", { query: { page } });
-        for (const s of res.result) if (s.districtId && !seen.has(s.districtId)) seen.set(s.districtId, s.districtName || s.districtId);
-        if (page * (res.pageSize || 25) >= res.total) break;
-      }
-      return [...seen].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
-    },
+    staleTime: 60 * 60_000,
+    queryFn: async () => (await adminApi("/districts")).result.map((d) => ({ id: d.id, name: d.name })),
   });
 }
 
@@ -131,7 +122,7 @@ export function StoreFields({ fields, form, setForm, districts, current }) {
                 type={f.kind === "money" || f.kind === "number" ? "number" : "text"}
                 step={f.kind === "number" ? "any" : f.kind === "money" ? "0.01" : undefined}
                 min={f.kind === "money" ? 0 : undefined}
-                placeholder={f.kind === "time" ? "HH:MM" : undefined}
+                placeholder={f.kind === "time" ? "09:00 AM" : undefined}
                 required={f.required}
                 inputMode={f.kind === "money" || f.kind === "number" ? "decimal" : undefined}
               />

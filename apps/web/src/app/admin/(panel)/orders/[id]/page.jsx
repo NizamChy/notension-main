@@ -108,6 +108,7 @@ export default function OrderDetailPage() {
           <div className="mt-4 ml-auto max-w-xs border-t border-gray-200 pt-3">
             <Row label="Subtotal">{taka(o.subtotal)}</Row>
             {o.discount ? <Row label="Discount">−{taka(o.discount)}</Row> : null}
+            {o.vat ? <Row label="VAT">{taka(o.vat)}</Row> : null}
             <Row label="Delivery">{taka(o.deliveryCharge)}</Row>
             <div className="mt-1 flex justify-between border-t border-gray-200 pt-2 font-semibold">
               <span>Total</span>

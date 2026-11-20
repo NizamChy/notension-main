@@ -63,6 +63,7 @@ const orderSummary = {
   total: orders.total,
   subtotal: orders.subtotal,
   deliveryCharge: orders.deliveryCharge,
+  vat: orders.vat,
   discount: orders.discount,
   paymentMethod: orders.paymentMethod,
   note: orders.note,
@@ -239,6 +240,11 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
 
   // ---------------------------------------------------------------- stores
 
+  app.get(`${P}/districts`, async (c) => {
+    const rows = await db.select({ id: districts.id, name: districts.name, nameBn: districts.nameBn }).from(districts).orderBy(asc(districts.name));
+    return c.json({ success: true, result: rows });
+  });
+
   app.get(
     `${P}/stores`,
     zValidator("query", z.object({ module: z.enum(MODULES).optional(), q: z.string().optional(), page })),
@@ -283,7 +289,25 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
   });
 
   const money = z.coerce.number().min(0).max(1_000_000);
-  const time = z.string().regex(/^\d{2}:\d{2}$/).nullable();
+  // Hours are stored the way the customer pages show them ("08:00 AM").
+  // Accepts that form or 24-hour "20:30".
+  const time = z
+    .string()
+    .trim()
+    .transform((s, ctx) => {
+      const m = s.match(/^(\d{1,2}):(\d{2})(?:\s*([AaPp])[Mm])?$/);
+      let h = m ? Number(m[1]) : NaN;
+      const min = m ? Number(m[2]) : NaN;
+      const ampm = m?.[3]?.toUpperCase();
+      if (!m || min > 59 || (ampm ? h < 1 || h > 12 : h > 23)) {
+        ctx.addIssue({ code: "custom", message: "Use a time like 09:00 AM or 21:30" });
+        return z.NEVER;
+      }
+      if (ampm) h = (h % 12) + (ampm === "P" ? 12 : 0);
+      const h12 = h % 12 || 12;
+      return `${String(h12).padStart(2, "0")}:${String(min).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+    })
+    .nullable();
   // Fields merchants may change on their own store.
   const merchantStoreFields = z.object({
     isClosed: z.boolean(),
