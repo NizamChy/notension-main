@@ -1,15 +1,17 @@
 # Demo mode
 
-Demo mode is on by default. The "Demo mode" button on the home page turns it
-off or on and switches between the locations that have demo data. While it is
-on:
+The site uses the API. Demo mode is the fallback for when the API is down
+(`backendStatus.js`): `demoAdapter.js` then answers from the routes in
+`modules/*.js` and a banner tells the visitor. The home page's Demo mode button shows the
+server status and lets a visitor choose sample data by hand
+(`isSampleDataForced`).
 
-- every API request is answered by `demoAdapter.js` from the routes in
-  `modules/*.js`. No request reaches a real backend.
-- image base URLs (`IMAGE_URL`, `FASHION_IMAGE_URL` in
-  `src/api-endpoints/env.js`) point at `/demo-images/...`, which
+- Image base URLs (`IMAGE_URL`, `FASHION_IMAGE_URL` in
+  `src/api-endpoints/env.js`) always point at `/demo-images/...`, which
   `next.config.mjs` rewrites to `public/demo/`.
-- the default location is `DEFAULT_DEMO_LOCATION` (Dhaka).
+- A first visit starts at `DEFAULT_DEMO_LOCATION` (Dhaka).
+- The API's seed (`apps/api/src/seed`) loads `modules/*/data.js`, so the
+  fallback shows the same stores and products as a fresh database.
 
 ## Adding demo data for a backend
 

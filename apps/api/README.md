@@ -160,7 +160,8 @@ These roles sign in like other staff (phone + password) and get their own panel.
 
 One public sign-in per role, listed once in
 `packages/shared/src/demo-accounts.json` (shown on `/admin/login`,
-`/demo-accounts` and in `apps/web/public/demo-accounts.pdf`). Every deploy
+`/demo-accounts` and in `apps/web/public/demo-accounts.pdf`, which super
+admins download from the admin Data page). Every deploy
 (`src/seed/demo-accounts.ts`, via `seedAll`) creates any that are missing,
 re-grants their roles, unblocks them and resets the password to `Demo@1234`.
 

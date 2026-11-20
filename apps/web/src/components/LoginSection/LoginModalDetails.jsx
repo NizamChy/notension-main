@@ -3,8 +3,7 @@
 import Link from "next/link";
 import notify from "@/utils/notify";
 import OtpSection from "./OtpSection";
-import React, { useState, useSyncExternalStore } from "react";
-import { isDemoMode } from "@/demo/demoMode";
+import React, { useState } from "react";
 import { isLiveLogin, useUser } from "@/hooks/fetch-data/useUser";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
 import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "@/demo/demoUser";
@@ -12,8 +11,6 @@ import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
 import { SECONDARY_BUTTON } from "@/components/shared/UI/UI";
 import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
-
-const noopSubscribe = () => () => {};
 
 const ButtonSpinner = () => (
   <span
@@ -44,7 +41,6 @@ const LoginModalDetails = ({
   } = useUser();
 
   const afterLogin = useAfterLogin(type, onClose, redirectTo);
-  const demoOn = useSyncExternalStore(noopSubscribe, isDemoMode, () => false);
 
   const handleDemoLogin = async () => {
     if (await loginAsDemoUser()) afterLogin();
@@ -116,36 +112,39 @@ const LoginModalDetails = ({
             )}
           </PrimaryButton>
 
-          {demoOn && (
-            <>
-              <div className="my-4 flex items-center gap-3 text-xs text-gray-400">
-                <span className="h-px flex-1 bg-gray-200" />
-                or
-                <span className="h-px flex-1 bg-gray-200" />
-              </div>
-              <button
-                type="button"
-                onClick={handleDemoLogin}
-                disabled={progressing}
-                className={`${SECONDARY_BUTTON} h-12 w-full disabled:cursor-not-allowed disabled:opacity-60`}
-              >
-                Log in as Demo User
-              </button>
-              <p className="mt-2 text-center text-xs text-gray-500">
-                Demo mode: signs in as {DEMO_USER_NAME} ({DEMO_USER_CONTACT}),
-                no OTP needed
-              </p>
-              <p className="mt-1 text-center text-xs">
-                <Link
-                  href="/demo-accounts"
-                  onClick={() => onClose()}
-                  className="font-medium text-primary hover:underline"
-                >
-                  Demo accounts for every role (admin, store, rider…)
-                </Link>
-              </p>
-            </>
-          )}
+          <div className="my-4 flex items-center gap-3 text-xs text-gray-400">
+            <span className="h-px flex-1 bg-gray-200" />
+            or
+            <span className="h-px flex-1 bg-gray-200" />
+          </div>
+          <button
+            type="button"
+            onClick={handleDemoLogin}
+            disabled={progressing}
+            className={`${SECONDARY_BUTTON} h-12 w-full disabled:cursor-not-allowed disabled:opacity-60`}
+          >
+            Log in as Demo User
+          </button>
+          <p className="mt-2 text-center text-xs text-gray-500">
+            Signs in as {DEMO_USER_NAME} ({DEMO_USER_CONTACT}), no OTP
+            needed
+          </p>
+          <Link
+            href="/admin/login"
+            onClick={() => onClose()}
+            className={`${SECONDARY_BUTTON} mt-3 h-12 w-full`}
+          >
+            Log in as Admin
+          </Link>
+          <p className="mt-3 text-center text-xs">
+            <Link
+              href="/demo-accounts"
+              onClick={() => onClose()}
+              className="font-medium text-primary hover:underline"
+            >
+              Demo accounts for every role (admin, store, rider…)
+            </Link>
+          </p>
         </div>
       ) : (
         <div className="w-full">

@@ -42,6 +42,8 @@ const COLUMNS = [
     links: [
       { label: "Marketing policy", href: "/marketing-policy" },
       { label: "Get the app", href: APP_URL, external: true },
+      { label: "Demo accounts", href: "/demo-accounts" },
+      { label: "Admin login", href: "/admin/login" },
     ],
   },
 ];

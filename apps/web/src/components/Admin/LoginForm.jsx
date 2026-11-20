@@ -80,7 +80,7 @@ export default function LoginForm() {
             Demo accounts
           </h2>
           <Link href="/demo-accounts" className="text-xs font-medium text-primary hover:underline">
-            Full list and PDF
+            Full list
           </Link>
         </div>
         <p className="mt-1 text-xs text-gray-500">

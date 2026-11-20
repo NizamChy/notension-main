@@ -6,35 +6,17 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSyncExternalStore } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { Pagination, Autoplay } from "swiper/modules";
-import { DEMO_MODE_DEFAULT, isDemoMode } from "@/demo/demoMode";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { FASHION_CAROUSEL_SLIDES } from "../utils/constants";
 import { FASHION_CONTAINER } from "../shared/FashionSection";
 
-// Demo mode serves the banner through the fashion image base URL
-// (/demo-images/fashion/fashion/x.webp -> public/demo/fashion/x.webp). Outside
-// demo mode FASHION_IMAGE_URL is the remote CDN, so use the local file
-// directly (or the slide's local photo when it has one).
-const slideImage = (slide, demo) => {
-  if (demo) return `${FASHION_IMAGE_URL}/fashion/${slide.image}`;
-  return slide.liveImage || `/demo/fashion/${slide.image}`;
-};
-
-// Demo mode only changes via a full page reload, so nothing to subscribe to.
-const noopSubscribe = () => () => {};
+// Banners go through the fashion image base URL
+// (/demo-images/fashion/fashion/x.webp -> public/demo/fashion/x.webp).
+const slideImage = (slide) => `${FASHION_IMAGE_URL}/fashion/${slide.image}`;
 
 const FashionCarousel = () => {
-  // isDemoMode() reads localStorage; the server snapshot keeps SSR and
-  // hydration identical, then the client value takes over.
-  const demo = useSyncExternalStore(
-    noopSubscribe,
-    isDemoMode,
-    () => DEMO_MODE_DEFAULT
-  );
-
   return (
     <div className={`${FASHION_CONTAINER} pt-4 md:pt-6`}>
       <Swiper
@@ -59,7 +41,7 @@ const FashionCarousel = () => {
           <SwiperSlide key={slide?.id} className="w-full">
             <div className="relative h-[220px] w-full sm:h-[300px] md:h-[380px] lg:h-[460px]">
               <Image
-                src={slideImage(slide, demo)}
+                src={slideImage(slide)}
                 alt={slide?.title || "Fashion banner"}
                 fill
                 sizes="(min-width: 1312px) 1248px, 100vw"

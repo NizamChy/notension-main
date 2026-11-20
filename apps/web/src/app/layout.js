@@ -4,6 +4,7 @@ import ReduxProvider from "@/redux/ReduxProvider";
 import { LocationBoundary } from "@/components/shared/Map/locationRefresh";
 import { Hind_Siliguri } from "next/font/google";
 import QueryProvider from "@/components/shared/Providers/QueryProvider";
+import BackendStatusBanner from "@/components/shared/BackendStatus/BackendStatusBanner";
 
 // const poppins = Poppins({
 //   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
           <QueryProvider>
             <AppToaster />
             <LocationBoundary>{children}</LocationBoundary>
+            <BackendStatusBanner />
           </QueryProvider>
         </ReduxProvider>
       </body>

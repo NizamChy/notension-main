@@ -3,8 +3,7 @@ export const WOMEN_TYPE_ID = "6880c244098c458993b32677";
 export const KIDS_TYPE_ID = "6880c24c098c458993b32679";
 
 // Carousel banners are local files only (no third-party image hosts).
-// `image` is a demo photo in public/demo/fashion/; `liveImage` is an optional
-// local photo used instead when demo mode is off.
+// `image` is a photo in public/demo/fashion/.
 export const FASHION_CAROUSEL_SLIDES = [
   {
     id: 1,
@@ -13,7 +12,6 @@ export const FASHION_CAROUSEL_SLIDES = [
     cta: "View All",
     href: `/fashion-lifestyle/type/men_${MEN_TYPE_ID}`,
     image: "carousel-panjabi.webp",
-    liveImage: "/images/home/fashion-lifestyle-banner.jpeg",
   },
   {
     id: 2,

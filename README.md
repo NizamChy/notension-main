@@ -5,9 +5,9 @@ a customer order groceries, medicine and food from nearby stores, shop for
 fashion and lifestyle products, find doctors and medical centres, and book
 local service providers. Content is filtered by the customer's district.
 
-The app is a Next.js frontend and a new TypeScript API in one monorepo. The frontend talks to several separate backend services
-over HTTP and ships with a **demo mode** that answers every request from
-built-in sample data, so it runs without any backend.
+The app is a Next.js frontend and a new TypeScript API in one monorepo. The frontend gets its data from the API, and falls
+back to built-in sample data (**demo mode**) whenever the API can't be
+reached, so it still works without a backend.
 
 ## Modules
 
@@ -51,11 +51,13 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>. Demo mode is on by default, so the app works
-right away with sample data for Dhaka and Chittagong.
+Open <http://localhost:3000>. Without the API running (`npm run dev -w api`)
+the app switches to sample data for Dhaka and Chittagong on its own.
 
-To sign in during a demo, open the login form and choose **Log in as Demo
-User**. No OTP is needed.
+To sign in quickly, open the login form and choose **Log in as Demo User**
+(needs the API). No OTP is needed. **Log in as Admin** below it opens
+`/admin/login`. Demo sign-ins for every staff role are on `/demo-accounts`;
+the footer links to both.
 
 ### Scripts
 
@@ -113,32 +115,40 @@ cached per ~10 m.
 
 The new API lives in [`apps/api`](apps/api/README.md). It answers the same
 requests as the old backends, module by module, and runs locally with no
-database setup (embedded Postgres). Grocery (stores, items, orders) and
-customer login (phone OTP) run on it. Services listed in
-`NEXT_PUBLIC_LIVE_SERVICES` (production: `GROCERY,USER`) are called through
-the web app's `/api-proxy/<service>` rewrite, which points at
-`http://localhost:4000` in development and `https://notension-api.vercel.app`
-in production. To try it locally, start the API (`npm run dev -w api`) and set
-`NEXT_PUBLIC_LIVE_SERVICES=GROCERY,USER` in `apps/web/.env.local`.
+database setup (embedded Postgres). Every module runs on it (list in
+`apps/web/src/api-endpoints/live.js`), called through the web app's
+`/api-proxy/<service>` rewrite, which points at `http://localhost:4000` in
+development and `https://notension-api.vercel.app` in production.
 
 ## Demo mode
 
-Demo mode lets the app run without the backends:
+Demo mode turns itself on when the API is down, and can be chosen by hand:
 
-- Every API request is answered by `src/demo/demoAdapter.js` from the routes
-  in `src/demo/modules/`. Only services listed in `NEXT_PUBLIC_LIVE_SERVICES`
-  reach the network (see [Backend](#backend)).
-- Images are served from `public/demo/` through a rewrite in
-  `next.config.mjs`.
-- Sample data exists for Dhaka (default) and Chittagong.
-- Orders, bookings and favourites made in demo mode live in memory and are
-  lost on reload.
+- Every request goes to the API first. When the API can't be reached (the
+  health check on page load fails, or a request gets no answer or a server
+  error), `src/demo/demoAdapter.js` answers from the routes in
+  `src/demo/modules/` instead. Orders and other writes fall back only when
+  they surely never reached the API, so nothing is placed twice.
+- A banner says the site is showing sample data. The API is checked again
+  every minute; once it answers, the banner offers a reload.
+- Sign-in and favourites wait for the API (they need the real account). The
+  admin panel never shows sample data.
+- Orders and bookings made on sample data live in memory and are lost on
+  reload.
+- Images are always served from `public/demo/` through a rewrite in
+  `next.config.mjs`. Data exists for Dhaka (default) and Chittagong.
 
-Use the **Demo mode** button on the home page to switch it off or on. The
-choice is saved per browser. With demo mode off, the app uses the backend URLs
-from your environment variables.
+- The **Live / Demo mode** button on the home page shows whether the server
+  is connected, and its switch shows sample data even while the API works
+  (saved per browser; switching clears the cart and sign-in and reloads).
+  With it on, **Log in as Demo User** uses the demo sign-in.
 
-To add or change demo data, see [`src/demo/README.md`](src/demo/README.md).
+State: `apps/web/src/demo/backendStatus.js`. Banner:
+`apps/web/src/components/shared/BackendStatus/BackendStatusBanner.jsx`.
+
+To add or change demo data, see
+[`apps/web/src/demo/README.md`](apps/web/src/demo/README.md). The API's seed
+loads the same data into the database.
 
 ## Dark mode
 

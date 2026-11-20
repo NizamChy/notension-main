@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HiOutlineArrowDownTray, HiOutlineArrowRight } from "react-icons/hi2";
+import { HiOutlineArrowRight } from "react-icons/hi2";
 import { DEMO_ACCOUNTS, DEMO_CUSTOMER, DEMO_PASSWORD } from "@notension/shared";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
@@ -35,13 +35,6 @@ export default function DemoAccountsPage() {
             >
               Staff login <HiOutlineArrowRight />
             </Link>
-            <a
-              href="/demo-accounts.pdf"
-              download
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-sm font-medium text-gray-800 hover:bg-gray-50"
-            >
-              <HiOutlineArrowDownTray /> Download PDF
-            </a>
           </div>
 
           <div className="mt-6 rounded-xl border border-gray-200 bg-white p-4 md:p-5">

@@ -72,8 +72,29 @@ export default function DataPage() {
         <BackupCard />
         <RestoreCard onDone={afterChange} />
         <ResetCard onDone={afterChange} className="lg:col-span-2" />
+        <DemoAccountsCard />
       </div>
     </>
+  );
+}
+
+// The printable list of demo logins, for handing to testers.
+function DemoAccountsCard() {
+  return (
+    <Card className="lg:col-span-2">
+      <h2 className="font-semibold text-gray-900">Demo accounts PDF</h2>
+      <p className="mt-1 text-sm text-gray-600">
+        Every demo login (customer, staff, store, rider, doctor, service provider) with its phone number and password,
+        ready to print or share with testers.
+      </p>
+      <a
+        href="/demo-accounts.pdf"
+        download
+        className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-sm font-medium text-gray-800 hover:bg-gray-50"
+      >
+        <HiOutlineArrowDownTray /> Download PDF
+      </a>
+    </Card>
   );
 }
 
