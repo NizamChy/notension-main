@@ -2,8 +2,8 @@ import { createApp } from "../src/app";
 import { createAuth, type AuthConfig } from "../src/auth/auth";
 import type { Db } from "../src/db/client";
 
-export function testApp(db: Db, overrides: Partial<AuthConfig> & { demoLogin?: boolean } = {}) {
-  const { demoLogin = true, ...authOverrides } = overrides;
+export function testApp(db: Db, overrides: Partial<AuthConfig> & { demoLogin?: boolean; protectedPhones?: string[] } = {}) {
+  const { demoLogin = true, protectedPhones = [], ...authOverrides } = overrides;
   const auth = createAuth(db, {
     secret: "test-secret-test-secret-test-secret-1234",
     baseURL: "http://localhost:4000",
@@ -11,7 +11,7 @@ export function testApp(db: Db, overrides: Partial<AuthConfig> & { demoLogin?: b
     sms: null,
     ...authOverrides,
   });
-  return createApp(db, { auth, smsEnabled: !!authOverrides.sms, demoLogin });
+  return createApp(db, { auth, smsEnabled: !!authOverrides.sms, demoLogin, protectedPhones });
 }
 
 // A tiny cookie jar for app.request().

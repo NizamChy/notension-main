@@ -10,6 +10,7 @@ import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineBars3,
   HiOutlineBuildingStorefront,
+  HiOutlineCircleStack,
   HiOutlineClipboardDocumentList,
   HiOutlineCube,
   HiOutlineHome,
@@ -93,6 +94,7 @@ export default function AdminShell({ children }) {
     },
     { href: "/admin/products", label: "Products", icon: HiOutlineCube, show: perms.seeProducts },
     { href: "/admin/users", label: "Users & roles", icon: HiOutlineUsers, show: perms.seeUsers },
+    { href: "/admin/data", label: "Data", icon: HiOutlineCircleStack, show: perms.isSuper },
     { href: "/admin/account", label: "Account", icon: HiOutlineUserCircle, show: true },
   ].filter((n) => n.show);
 
@@ -118,7 +120,7 @@ export default function AdminShell({ children }) {
         <Link href="/admin" className="text-lg font-bold text-primary" onClick={() => setMenuOpen(false)}>
           NoTension <span className="font-medium text-gray-500">Admin</span>
         </Link>
-        <button type="button" className="rounded p-1 text-gray-600 lg:hidden" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+        <button type="button" className="rounded-lg p-2.5 text-gray-600 hover:bg-gray-100 lg:hidden" onClick={() => setMenuOpen(false)} aria-label="Close menu">
           <HiOutlineXMark className="text-xl" />
         </button>
       </div>
@@ -129,7 +131,7 @@ export default function AdminShell({ children }) {
             href={n.href}
             onClick={() => setMenuOpen(false)}
             className={cx(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium",
+              "flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium lg:min-h-0",
               isActive(n) ? "bg-primary text-white" : "text-gray-700 hover:bg-gray-100",
             )}
           >
@@ -161,7 +163,7 @@ export default function AdminShell({ children }) {
 
         {/* Phone: top bar + drawer */}
         <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 lg:hidden">
-          <button type="button" onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded p-1 text-gray-700">
+          <button type="button" onClick={() => setMenuOpen(true)} aria-label="Open menu" className="-ml-2 rounded-lg p-2.5 text-gray-700 hover:bg-gray-100">
             <HiOutlineBars3 className="text-2xl" />
           </button>
           <span className="font-bold text-primary">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { Button, Card, ErrorBox, Field, Input, Notice, PageHeader, RoleBadge } from "@/components/Admin/ui";
 import { adminApi } from "@/components/Admin/api";
+import { isDemoAccountPhone } from "@notension/shared";
 
 export default function AccountPage() {
   const { me } = useAdmin();
@@ -45,6 +46,9 @@ export default function AccountPage() {
         </Card>
         <Card>
           <h2 className="mb-3 font-semibold text-gray-900">Change password</h2>
+          {isDemoAccountPhone(me.phone) ? (
+            <Notice tone="warning">This is a public demo account. Its password stays the demo password and can&apos;t be changed.</Notice>
+          ) : (
           <form onSubmit={submit} className="space-y-3">
             <ErrorBox error={error} />
             <Notice>{notice}</Notice>
@@ -62,6 +66,7 @@ export default function AccountPage() {
               Change password
             </Button>
           </form>
+          )}
         </Card>
       </div>
     </>

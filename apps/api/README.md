@@ -25,19 +25,14 @@ PostGIS extension is created on first migration.
 
 ### Pointing the web app at it
 
-Demo mode stays on; listed services skip demo data and call the API
-through the web app's `/api-proxy/<service>/*` rewrite (so the login cookie
-is first-party). In development the proxy targets `http://localhost:4000`,
-in production `https://notension-api.vercel.app` (override with
-`API_PROXY_TARGET`).
+Every service the API implements is live (`API_SERVICES` in
+`apps/web/src/api-endpoints/live.js`): the web app calls it through its
+`/api-proxy/<service>/*` rewrite (so the login cookie is first-party). In
+development the proxy targets `http://localhost:4000`, in production
+`https://notension-api.vercel.app` (override with `API_PROXY_TARGET`).
 
-```bash
-# apps/web/.env.local
-NEXT_PUBLIC_LIVE_SERVICES=GROCERY,USER
-```
-
-`USER` moves only login and profile to the API; favourites stay on demo data
-(`apps/web/src/api-endpoints/live.js`).
+To keep a service on demo data, list it in
+`NEXT_PUBLIC_DEMO_ONLY_SERVICES` (for example `FOOD,FASHION`).
 
 ## Environment
 
@@ -50,7 +45,7 @@ NEXT_PUBLIC_LIVE_SERVICES=GROCERY,USER
 | `BETTER_AUTH_SECRET` | (generated, kept in `app_secret`) | Session signing secret, 32+ characters |
 | `BETTER_AUTH_URL` | Vercel production URL or `http://localhost:PORT` | The API's public URL |
 | `SMS_API_KEY`, `SMS_SENDER_ID` | (none) | [BulkSMSBD](https://bulksmsbd.net) credentials. Without them no SMS is sent and the OTP comes back in the send-otp response (demo behaviour) |
-| `SUPER_ADMIN_PHONES` | (none) | Comma-separated numbers that become `super_admin` on sign-in. Only honoured when SMS is configured |
+| `SUPER_ADMIN_PHONES` | (none) | Comma-separated numbers made `super_admin` on every deploy, and protected (see below) |
 | `DEMO_LOGIN` | `true` | The "Log in as Demo User" shortcut (01700000000, no SMS) |
 
 ## Login and roles
@@ -139,6 +134,10 @@ Numbers in `SUPER_ADMIN_PHONES` become `super_admin` on every deploy. If such an
 account has no password yet, the deploy log prints its setup link, and only the
 Vercel project's members can read that log.
 
+These accounts are **protected**: only the same person can block them, remove
+their roles or issue them a setup link (everyone else gets 403), and Reset /
+Restore keep them, their passwords and their `super_admin` role.
+
 ### Riders, doctors and service providers
 
 These roles sign in like other staff (phone + password) and get their own panel.
@@ -156,3 +155,47 @@ These roles sign in like other staff (phone + password) and get their own panel.
 | `GET /doctor/appointments?date` | doctor | Own serials for one date, or today and later |
 | `PATCH /doctor/appointments/:id` `{status}` | doctor | `Visited` (completed), `No-show` or `Cancelled`; own appointments only |
 | `GET /provider/listings`, `PATCH /provider/listings/:id` | service provider | Own listing(s): contact, address, hours, details, active/inactive |
+
+### Demo accounts
+
+One public sign-in per role, listed once in
+`packages/shared/src/demo-accounts.json` (shown on `/admin/login`,
+`/demo-accounts` and in `apps/web/public/demo-accounts.pdf`). Every deploy
+(`src/seed/demo-accounts.ts`, via `seedAll`) creates any that are missing,
+re-grants their roles, unblocks them and resets the password to `Demo@1234`.
+
+| Phone | Role |
+| --- | --- |
+| 01700000001 | super_admin |
+| 01700000002 | admin |
+| 01700000003 | support |
+| 01700000004 | finance |
+| 01700000005 | content_manager |
+| 01700000006 … 09 | merchant_owner (grocery, medicine, food, fashion store) |
+| 01700000010 | merchant_manager (grocery) |
+| 01700000011 | merchant_staff (grocery) |
+| 01700000012 | rider |
+| 01700000013 | doctor (linked to doctor `6650d…01`) |
+| 01700000014 | service_provider (linked to care provider `6a2c4…01`) |
+| 01700000000 | the demo customer ("Log in as Demo User", no password) |
+
+Demo accounts can't change their password (`POST /password` → 403) and never
+get setup links. The demo numbers never count as `SUPER_ADMIN_PHONES`.
+
+Regenerate the PDF after changing the list:
+`node apps/web/scripts/demo-accounts-pdf.mjs` (needs Chrome or Edge).
+
+### Backup, restore and reset (super admins)
+
+The admin panel's **Data** page uses:
+
+| Path | |
+| --- | --- |
+| `GET /api/v1/admin/backup` | Downloads `{ format: "notension-backup", version: 1, createdAt, tables: { name: rows } }`: every app table except `session`, `verification` and `app_secret`. `account` (password hashes) only for non-demo users |
+| `POST /api/v1/admin/restore` | Body: that JSON. Validated, then replaces all data in one transaction, in foreign-key order. Protected super admins keep their user row, password and role even if the file lacks or changes them; demo accounts are re-applied; every session except the caller's ends |
+| `POST /api/v1/admin/reset` `{confirm: "RESET"}` | Deletes all app data and runs `seedAll` (src/seed/all.ts), as on a fresh deploy. Keeps protected super admins (account, password, `super_admin`) and the caller's session if their account is kept |
+
+Both run inside the function's time limit (`maxDuration: 60` in
+`vercel.json`); on PGlite a reset takes about 0.6 s in memory and a fresh
+deploy seed a few seconds. Vercel caps request bodies at 4.5 MB, which the
+demo data's backup is well under.

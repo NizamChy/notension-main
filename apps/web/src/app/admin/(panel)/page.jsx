@@ -30,7 +30,7 @@ function Bars({ rows, label, href }) {
       {rows.map((r) => (
         <li key={r.key}>
           <div className="mb-1 flex items-center justify-between gap-2 text-sm">
-            <Link href={href(r)} className="hover:underline">
+            <Link href={href(r)} className="-my-1.5 py-1.5 hover:underline md:my-0 md:py-0">
               {label(r)}
             </Link>
             <span className="text-gray-600">

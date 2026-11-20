@@ -18,6 +18,12 @@ export default function AdminLoginPage() {
           .
           <br />
           New staff: open the setup link you were sent to choose your password.
+          <br />
+          Trying the demo?{" "}
+          <Link href="/demo-accounts" className="font-medium text-primary hover:underline">
+            See every demo account
+          </Link>
+          .
         </>
       }
     >

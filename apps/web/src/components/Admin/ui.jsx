@@ -22,7 +22,8 @@ export function Button({ variant = "primary", size = "md", className, loading, c
       disabled={props.disabled || loading}
       className={cx(
         "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-colors disabled:cursor-not-allowed",
-        size === "sm" ? "px-2.5 py-1 text-xs" : "px-4 py-2 text-sm",
+        // Phones get finger-sized targets; desktop keeps the compact size.
+        size === "sm" ? "min-h-9 px-3 py-1.5 text-xs md:min-h-0 md:px-2.5 md:py-1" : "min-h-10 px-4 py-2 text-sm",
         BTN[variant],
         className,
       )}
@@ -67,7 +68,7 @@ export function Field({ label, hint, children, className }) {
 
 export function Checkbox({ label, checked, onChange, disabled }) {
   return (
-    <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-800">
+    <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 text-sm text-gray-800 md:min-h-0">
       <input
         type="checkbox"
         className="h-4 w-4 accent-[#0c3f8e]"
@@ -81,7 +82,9 @@ export function Checkbox({ label, checked, onChange, disabled }) {
 }
 
 export const Card = ({ className, children }) => (
-  <div className={cx("rounded-xl border border-gray-200 bg-white p-4 md:p-5", className)}>{children}</div>
+  // min-w-0: inside a grid, a wide table scrolls within the card instead of
+  // stretching the page on phones.
+  <div className={cx("min-w-0 rounded-xl border border-gray-200 bg-white p-4 md:p-5", className)}>{children}</div>
 );
 
 export function PageHeader({ title, subtitle, actions, back }) {
@@ -89,7 +92,7 @@ export function PageHeader({ title, subtitle, actions, back }) {
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
         {back ? (
-          <Link href={back.href} className="mb-1 inline-block text-sm text-primary hover:underline">
+          <Link href={back.href} className="mb-1 inline-block py-1.5 text-sm text-primary hover:underline md:py-0">
             ← {back.label}
           </Link>
         ) : null}
