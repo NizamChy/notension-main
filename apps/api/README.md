@@ -114,5 +114,6 @@ in-memory PGlite database, so they need nothing installed.
 | Module | Endpoints |
 | --- | --- |
 | Grocery | Stores (nearest, search, explore), items (search, by subtype, by custom type, details), orders (place, my orders) |
+| Medicine | Stores (nearest, both paths; search, explore), items (search, by subtype, by custom type, details), orders (place, my orders). Seeded by `src/seed/medicine.ts` when no medicine store exists |
 | Customers | Phone login, profile, logout, demo login |
-| Favourites, medicine, food, fashion, health care, all care, admin panel | Not yet: still answered by demo mode |
+| Favourites, food, fashion, health care, all care, admin panel | Not yet: still answered by demo mode |
