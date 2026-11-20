@@ -1,0 +1,115 @@
+{
+  "password": "Demo@1234",
+  "customer": {
+    "phone": "01700000000",
+    "name": "Demo User",
+    "role": "customer",
+    "can": "Shops on the main site: orders, favourites, doctor appointments. Use the \"Log in as Demo User\" button; no password or OTP."
+  },
+  "accounts": [
+    {
+      "phone": "01700000001",
+      "name": "Demo Super Admin",
+      "role": "super_admin",
+      "can": "Everything, including admins' roles, backups and reset to default."
+    },
+    {
+      "phone": "01700000002",
+      "name": "Demo Admin",
+      "role": "admin",
+      "can": "Runs the platform: stores, products, orders, users and store roles."
+    },
+    {
+      "phone": "01700000003",
+      "name": "Demo Support",
+      "role": "support",
+      "can": "Reads users, stores and orders; moves orders along."
+    },
+    {
+      "phone": "01700000004",
+      "name": "Demo Finance",
+      "role": "finance",
+      "can": "Reads orders, revenue and stores."
+    },
+    {
+      "phone": "01700000005",
+      "name": "Demo Content Manager",
+      "role": "content_manager",
+      "can": "Edits the product catalogue."
+    },
+    {
+      "phone": "01700000006",
+      "name": "Demo Grocery Owner",
+      "role": "merchant_owner",
+      "storeId": "6650a00100000000000000a1",
+      "storeName": "Gulshan Fresh Mart",
+      "module": "grocery",
+      "can": "Own grocery store: settings, items, prices, orders and its staff."
+    },
+    {
+      "phone": "01700000007",
+      "name": "Demo Pharmacy Owner",
+      "role": "merchant_owner",
+      "storeId": "66a100000000000000000001",
+      "storeName": "Gulshan Care Pharmacy",
+      "module": "medicine",
+      "can": "Own pharmacy: settings, items, prices, orders and its staff."
+    },
+    {
+      "phone": "01700000008",
+      "name": "Demo Restaurant Owner",
+      "role": "merchant_owner",
+      "storeId": "66f00d200000000000000001",
+      "storeName": "Kacchi Ghor",
+      "module": "food",
+      "can": "Own restaurant: settings, menu items, prices, orders and its staff."
+    },
+    {
+      "phone": "01700000009",
+      "name": "Demo Fashion Owner",
+      "role": "merchant_owner",
+      "storeId": "66f5703e0000000000000001",
+      "storeName": "Dhaka Fashion House",
+      "module": "fashion",
+      "can": "Own fashion shop: settings, items, prices, orders and its staff."
+    },
+    {
+      "phone": "01700000010",
+      "name": "Demo Grocery Manager",
+      "role": "merchant_manager",
+      "storeId": "6650a00100000000000000a1",
+      "storeName": "Gulshan Fresh Mart",
+      "module": "grocery",
+      "can": "Runs the grocery store day to day: settings, items, prices, orders."
+    },
+    {
+      "phone": "01700000011",
+      "name": "Demo Grocery Staff",
+      "role": "merchant_staff",
+      "storeId": "6650a00100000000000000a1",
+      "storeName": "Gulshan Fresh Mart",
+      "module": "grocery",
+      "can": "Grocery store floor: stock, availability and order status."
+    },
+    {
+      "phone": "01700000012",
+      "name": "Demo Rider",
+      "role": "rider",
+      "can": "Delivery rider: assigned orders (rider panel coming)."
+    },
+    {
+      "phone": "01700000013",
+      "name": "Demo Doctor",
+      "role": "doctor",
+      "doctorId": "6650d0000000000000000001",
+      "can": "Dr. Ahsan Habib's profile, chambers and appointments (doctor panel coming)."
+    },
+    {
+      "phone": "01700000014",
+      "name": "Demo Service Provider",
+      "role": "service_provider",
+      "providerId": "6a2c40000000000000000001",
+      "can": "PowerFix Electric & Plumbing's All Care listing and bookings (provider panel coming)."
+    }
+  ]
+}

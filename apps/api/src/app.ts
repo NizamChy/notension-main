@@ -22,6 +22,8 @@ export type AppOptions = {
   log?: boolean;
   smsEnabled?: boolean;
   demoLogin?: boolean;
+  // SUPER_ADMIN_PHONES, parsed (protected accounts, see modules/admin).
+  protectedPhones?: string[];
 };
 
 export function createApp(db: Db, opts: AppOptions) {
@@ -34,7 +36,7 @@ export function createApp(db: Db, opts: AppOptions) {
   app.on(["GET", "POST"], "/api/auth/*", (c) => opts.auth.auth.handler(c.req.raw));
 
   app.use("*", sessionLoader(opts.auth));
-  app.route("/", adminRoutes(db, opts.auth));
+  app.route("/", adminRoutes(db, opts.auth, { protectedPhones: opts.protectedPhones ?? [] }));
   app.route("/", groceryRoutes(db));
   app.route("/", groceryOrderRoutes(db));
   app.route("/", medicineRoutes(db));
