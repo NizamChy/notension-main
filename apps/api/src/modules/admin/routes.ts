@@ -38,6 +38,7 @@ import {
   visibleStores,
   type AdminEnv,
 } from "./access";
+import { servicePanelRoutes } from "./service-panels";
 import { checkSetupToken, consumeSetupToken, createSetupLink, ensureUser, grantRole, hasPassword, searchPattern, setPassword } from "./staff";
 
 const P = "/api/v1/admin";
@@ -75,6 +76,8 @@ const orderSummary = {
   customerId: orders.customerId,
   customerName: user.name,
   customerPhone: user.phoneNumber,
+  riderId: orders.riderId,
+  assignedAt: orders.assignedAt,
 };
 
 // Order status can only move forward; anything not delivered can be cancelled.
@@ -614,9 +617,12 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
     if (!canStore(c.get("access"), row.storeId, ORDER_VIEW, MERCHANT_ALL)) return forbidden(c);
     const lines = await db.select().from(orderItems).where(eq(orderItems.orderId, row.id)).orderBy(asc(orderItems.position));
     const [cust] = await db.select({ code: customers.code }).from(customers).where(eq(customers.userId, row.customerId));
+    const [rider] = row.riderId
+      ? await db.select({ id: user.id, name: user.name, phone: user.phoneNumber }).from(user).where(eq(user.id, row.riderId))
+      : [];
     return c.json({
       success: true,
-      result: { ...row, customerCode: cust?.code ?? "", items: lines, nextStatuses: NEXT_STATUS[row.status] ?? [] },
+      result: { ...row, customerCode: cust?.code ?? "", rider: rider ?? null, items: lines, nextStatuses: NEXT_STATUS[row.status] ?? [] },
     });
   });
 
@@ -739,6 +745,9 @@ export const adminRoutes = (db: Db, authSetup: Auth) => {
     if (c.req.valid("json").banned) await db.delete(session).where(eq(session.userId, id));
     return c.json({ success: true, message: "Saved" });
   });
+
+  // Riders, doctors and service providers (and the admin links to them).
+  servicePanelRoutes(app, db);
 
   return app;
 };
