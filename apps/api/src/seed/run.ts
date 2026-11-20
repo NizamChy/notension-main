@@ -6,6 +6,7 @@ import { stores } from "../db/schema";
 import { env, webUrl } from "../env";
 import { bootstrapSuperAdmins } from "./bootstrap-admins";
 import { seedDemo } from "./demo";
+import { hasMedicineData, seedMedicine } from "./medicine";
 
 const handle = await createDb({ url: env.DATABASE_URL, dataDir: env.PGLITE_DIR });
 await handle.migrate();
@@ -15,6 +16,10 @@ if (row && row.n > 0) {
 } else {
   await seedDemo(handle.db);
   console.log("demo data seeded");
+}
+if (!(await hasMedicineData(handle.db))) {
+  await seedMedicine(handle.db);
+  console.log("medicine demo data seeded");
 }
 await bootstrapSuperAdmins(handle.db, env.SUPER_ADMIN_PHONES, webUrl());
 await handle.close();
