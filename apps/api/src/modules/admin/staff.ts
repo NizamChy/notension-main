@@ -6,7 +6,7 @@
 // opens it and chooses a password; after that they sign in with phone +
 // password at /admin/login.
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
-import { and, eq, gt, ne } from "drizzle-orm";
+import { and, eq, gt, like, ne, sql } from "drizzle-orm";
 import type { Auth } from "../../auth/auth";
 import type { Db } from "../../db/client";
 import { objectId } from "../../db/ids";
@@ -54,6 +54,16 @@ export async function checkSetupToken(db: Db, token: string) {
 
 export const consumeSetupToken = (db: Db, userId: string) =>
   db.delete(verification).where(eq(verification.identifier, setupIdentifier(userId)));
+
+// Unused staff setup links: how many, and when the newest expires (no ids or
+// tokens). Shown by /health and the deploy log to compare the two.
+export async function setupLinkStats(db: Db) {
+  const [row] = await db
+    .select({ pending: sql<number>`count(*)::int`, newest: sql<string | null>`max(${verification.expiresAt})::text` })
+    .from(verification)
+    .where(and(like(verification.identifier, "staff-setup:%"), gt(verification.expiresAt, new Date())));
+  return { pending: Number(row?.pending ?? 0), newest: row?.newest ?? null };
+}
 
 export async function hasPassword(db: Db, userId: string) {
   const [row] = await db
