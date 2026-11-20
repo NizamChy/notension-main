@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import StoreList from "@/components/StoreModule/StoreList";
@@ -17,16 +17,7 @@ const GrocerySection = () => {
     if (!shop || !shop?.shop_name) return;
 
     if (shop?.is_closed)
-      return toast("Sorry we're closed!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.info("This store is closed right now. Please check back later.");
 
     const formattedShopName = toSlug(shop?.shop_name);
 

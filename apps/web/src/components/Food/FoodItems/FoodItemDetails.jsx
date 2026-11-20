@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
@@ -106,7 +106,7 @@ const FoodItemDetails = () => {
     try {
       await addToCart(item);
     } catch (error) {
-      toast.error("Failed to add to cart");
+      notify.error("Couldn't add to cart. Please try again.");
     } finally {
       setIsLoading(false);
     }

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { LuInfo, LuUserPlus } from "react-icons/lu";
 import { usePatient } from "@/hooks/fetch-data/usePatient";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { TextField } from "@/components/shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
 
@@ -35,27 +35,9 @@ const RegisterPatient = ({ setShowForm = true }) => {
     e.preventDefault();
 
     if (formData?.patient_name?.length < 3) {
-      return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৯৯ অক্ষরের হতে পারে!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Name must be between 3 and 99 characters.");
     } else if (formData?.contact?.length < 11) {
-      return toast("মোবাইল নম্বরটি অবশ্যই সঠিক ১১টি ডিজিট হতে হবে!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Please enter a valid 11-digit mobile number.");
     }
 
     const registered = await registerPatient(formData);

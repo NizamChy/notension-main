@@ -1,6 +1,6 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import {
   GROCERY_ITEM_DETAILS,
   FAVORITE_PRODUCT_ADD,
@@ -87,9 +87,7 @@ export const useFavouriteItem = () => {
         manageFavouriteStoreItems(FAVORITE_PRODUCT_ADD, favouriteInfo, "add");
       } else {
         if (favouriteItems > 99) {
-          toast.error(
-            "Hold on! You can add up to hundred (100) Items to your Favorites list!"
-          );
+          notify.warning("You can save up to 100 items in favourites.");
         } else {
           manageFavouriteStoreItems(
             FAVORITE_PRODUCT_PUSH,
@@ -152,15 +150,7 @@ export const useFavouriteItem = () => {
         data: Info,
       })
     );
-    toast.success("💖 পণ্যটি আপনার ফেভারিট লিস্টের অন্তর্ভূক্ত করা হল!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Added to favourites");
   };
 
   const removeFromReducer = (Info) => {
@@ -170,16 +160,7 @@ export const useFavouriteItem = () => {
         data: Info,
       })
     );
-    toast("পণ্যটি আপনার ফেভারিট লিস্ট থেকে বাদ দেওয়া হল!", {
-      style: {
-        border: "1px solid #FC8F1E",
-      },
-      icon: "🗑️",
-      iconTheme: {
-        primary: "#FC8F1E",
-        secondary: "#FFFAEE",
-      },
-    });
+    notify.success("Removed from favourites");
   };
 
   const AxiosGrocery = getApiClient(GROCERY_URL);

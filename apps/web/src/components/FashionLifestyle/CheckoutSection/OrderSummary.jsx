@@ -1,5 +1,5 @@
 import React from "react";
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { FaShop } from "react-icons/fa6";
 import { lineTotal } from "@/utils/price";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
@@ -25,8 +25,7 @@ const OrderSummary = ({
 }) => {
   const handleRemoveItem = (productId, selectedSize, selectedImage) => {
     removeFromCart(productId, selectedSize, selectedImage);
-    toast.dismiss();
-    toast.success("Item removed from bag");
+    notify.success("Removed from bag");
   };
 
   const groupedItems = items.reduce((groups, item) => {

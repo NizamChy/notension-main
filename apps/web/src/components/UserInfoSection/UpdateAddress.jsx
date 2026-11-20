@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { isLengthBetween } from "@/utils/validation";
 import { useSelector } from "react-redux";
 import React, { useState } from "react";
@@ -28,35 +28,14 @@ const UpdateAddressForm = () => {
     e.stopPropagation();
 
     if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
-      return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৫০ অক্ষরের হতে পারে!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Name must be between 3 and 50 characters.");
     }
 
     if (!isLengthBetween(userInfo?.customer_address, 5, 200)) {
-      return toast(
-        "ঠিকানা কমপক্ষে ৫ অক্ষরের এবং সর্বোচ্চ ২০০ অক্ষরের মধ্যে হতে হবে!",
-        {
-          style: {
-            border: "1px solid #FC8F1E",
-          },
-          icon: "ℹ️",
-          iconTheme: {
-            primary: "#FC8F1E",
-            secondary: "#FFFAEE",
-          },
-        }
-      );
+      return notify.warning("Address must be between 5 and 200 characters.");
     }
 
-    const success_message = "আপনার তথ্য আপডেট করা হয়েছে";
+    const success_message = "Your details have been updated";
     registerUser(success_message);
   };
 

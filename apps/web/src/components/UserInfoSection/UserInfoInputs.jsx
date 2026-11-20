@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import notify from "@/utils/notify";
 import { isLengthBetween } from "@/utils/validation";
 import React, { useState } from "react";
 import RoundLoader from "../common/RoundLoader";
@@ -47,10 +47,7 @@ const UserInfoInputs = ({
     e.preventDefault();
     e.stopPropagation();
     if (otp.length < 6) {
-      return toast("অনুগ্রহ করে ৬ সংখ্যার OTP প্রদান করুন!", {
-        style: { border: "1px solid #FC8F1E" },
-        icon: "ℹ️",
-      });
+      return notify.warning("Please enter the 6-digit verification code.");
     }
     const { ok, isNew } = await verifyOtp(phone, otp);
     if (!ok) return;
@@ -65,61 +62,22 @@ const UserInfoInputs = ({
     if (stage === "code") return handleVerify(e);
 
     if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
-      return toast("নাম কমপক্ষে ৩ অক্ষরের এবং সর্বাধিক ৫০ অক্ষরের হতে পারে!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Name must be between 3 and 50 characters.");
     }
 
     if (!isLengthBetween(userInfo?.customer_address, 5, 200)) {
-      return toast(
-        "ঠিকানা কমপক্ষে ৫ অক্ষরের এবং সর্বোচ্চ ২০০ অক্ষরের মধ্যে হতে হবে!",
-        {
-          style: {
-            border: "1px solid #FC8F1E",
-          },
-          icon: "ℹ️",
-          iconTheme: {
-            primary: "#FC8F1E",
-            secondary: "#FFFAEE",
-          },
-        }
-      );
+      return notify.warning("Address must be between 5 and 200 characters.");
     }
 
     if (!live && otp.length < 1) {
-      return toast("অনুগ্রহ করে OTP প্রদান করুন!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-        icon: "ℹ️",
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.warning("Please enter the verification code.");
     }
 
     if (!live && otpGenerated !== otp) {
-      return toast.error("OTP টি সঠিক হয়নি!", {
-        style: {
-          border: "1px solid #FC8F1E",
-        },
-
-        iconTheme: {
-          primary: "#FC8F1E",
-          secondary: "#FFFAEE",
-        },
-      });
+      return notify.error("The verification code is incorrect. Please try again.");
     }
 
-    const success_message = "Login successful";
+    const success_message = "Logged in successfully";
     const loggedIn = await registerUser(success_message);
     if (!loggedIn) return;
 
