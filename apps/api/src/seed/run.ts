@@ -5,6 +5,7 @@ import { createDb } from "../db/client";
 import { stores } from "../db/schema";
 import { env } from "../env";
 import { seedDemo } from "./demo";
+import { hasFoodData, seedFood } from "./food";
 
 const handle = await createDb({ url: env.DATABASE_URL, dataDir: env.PGLITE_DIR });
 await handle.migrate();
@@ -14,5 +15,11 @@ if (row && row.n > 0) {
 } else {
   await seedDemo(handle.db);
   console.log("demo data seeded");
+}
+if (await hasFoodData(handle.db)) {
+  console.log("food data present, food seed skipped");
+} else {
+  await seedFood(handle.db);
+  console.log("food demo data seeded");
 }
 await handle.close();

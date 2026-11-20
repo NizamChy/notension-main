@@ -383,7 +383,7 @@ export const DEMO_FOOD_ITEMS = ITEM_ROWS.map(
 
 const slide = (n, file) => ({ _id: hexId("50", n), file_name: `food/${file}` });
 
-const DEMO_FOOD_SLIDERS = {
+export const DEMO_FOOD_SLIDERS = {
   [DHAKA.districtId]: {
     _id: hexId("51", 1),
     district_id: DHAKA.districtId,

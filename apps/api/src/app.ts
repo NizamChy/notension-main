@@ -5,6 +5,8 @@ import type { Auth } from "./auth/auth";
 import { sessionLoader, type AuthEnv } from "./auth/middleware";
 import type { Db } from "./db/client";
 import { customerRoutes } from "./modules/customer/customer";
+import { foodRoutes } from "./modules/food/food";
+import { foodOrderRoutes } from "./modules/food/food-orders";
 import { groceryRoutes } from "./modules/store/grocery";
 import { groceryOrderRoutes } from "./modules/store/grocery-orders";
 
@@ -28,6 +30,8 @@ export function createApp(db: Db, opts: AppOptions) {
   app.use("*", sessionLoader(opts.auth));
   app.route("/", groceryRoutes(db));
   app.route("/", groceryOrderRoutes(db));
+  app.route("/", foodRoutes(db));
+  app.route("/", foodOrderRoutes(db));
   app.route(
     "/",
     customerRoutes(db, opts.auth, { demoLogin: opts.demoLogin ?? false, smsEnabled: opts.smsEnabled ?? false }),

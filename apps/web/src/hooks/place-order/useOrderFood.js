@@ -1,6 +1,7 @@
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 import {
   FOOD_ORDER_INFO,
   FOOD_PLACE_ORDER,
@@ -71,7 +72,16 @@ export const useOrderFood = () => {
       })
       .catch((error) => {
         setProgressing(false);
-        toast.error("Failed to place order.");
+
+        // The new API needs a live session: an expired one logs the user out
+        // here so the checkout shows the login form again.
+        if (error?.response?.status === 401) {
+          Cookies.remove("user_info");
+          dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
+          toast.error("Please log in again to place the order.");
+          return;
+        }
+        toast.error(error?.response?.data?.message || "Failed to place order.");
       });
   };
 

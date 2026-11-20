@@ -99,6 +99,12 @@ npm run db:migrate -w api
   code, address, location), `order` + `order_item` (GRO-YYYYMMDD-NNNN codes;
   each line keeps a copy of the product as sold). Order amounts are always
   computed by the API from current store prices, never taken from the browser.
+- **Food** (`food.ts`): restaurant categories, `food_store` (logo, rating,
+  delivery time, VAT, categories of a food `store`), menu categories,
+  `food_item` (dish fields of a `store_item`), `food_item_option`
+  (variations: pick exactly one, its price replaces the dish price; add-ons:
+  each adds its price), the options chosen on an order line, and sliders per
+  district. Food orders use `order`/`order_item` with FOOD-YYYYMMDD-NNNN codes.
 - IDs are 24-character hex strings, the format the web app's URLs and saved
   carts already use.
 
@@ -114,5 +120,6 @@ in-memory PGlite database, so they need nothing installed.
 | Module | Endpoints |
 | --- | --- |
 | Grocery | Stores (nearest, search, explore), items (search, by subtype, by custom type, details), orders (place, my orders) |
+| Food | Module page (categories, sliders), stores (nearest, search, explore with menu), orders (place with variations/add-ons, my orders) |
 | Customers | Phone login, profile, logout, demo login |
-| Favourites, medicine, food, fashion, health care, all care, admin panel | Not yet: still answered by demo mode |
+| Favourites, medicine, fashion, health care, all care, admin panel | Not yet: still answered by demo mode |
