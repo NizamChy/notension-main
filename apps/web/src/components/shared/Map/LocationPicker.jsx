@@ -14,7 +14,6 @@ import loader from "@/utils/googleMapsLoader";
 import { handleUserReducer } from "@/redux/userReducer";
 import { toUserLocation } from "@/utils/userLocation";
 import { PRIMARY_BUTTON } from "@/components/shared/UI/UI";
-import { isDemoMode } from "@/demo/demoMode";
 import { DEMO_LOCATIONS, isDemoDistrict } from "@/demo/demoLocations";
 import {
   BD_BOUNDS,
@@ -255,7 +254,8 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
 
   const district = place?.district;
   const busy = dragging || resolving || status === "loading";
-  const outsideDemo = isDemoMode() && district && !isDemoDistrict(district._id);
+  // The data (API seed and demo fallback alike) covers these districts only.
+  const outsideDemo = district && !isDemoDistrict(district._id);
 
   return (
     <div className={`flex min-h-0 flex-col ${isPage ? "flex-1" : ""}`}>
@@ -418,8 +418,8 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
         )}
         {!busy && outsideDemo && (
           <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-800">
-            Demo data is only available for Dhaka and Chittagong. Other districts will show
-            empty lists.
+            Stores and services are only listed in Dhaka and Chittagong for now. Other
+            districts will show empty lists.
           </p>
         )}
         {notice && (

@@ -11,6 +11,7 @@ import {
 } from "@/api-endpoints/env";
 import { DEMO_ROUTES } from "./routes";
 import { isLiveRequest } from "@/api-endpoints/live";
+import { isBackendOffline, isSampleDataForced, markBackendOffline } from "./backendStatus";
 
 // An axios adapter that answers requests from the demo routes instead of the
 // network. Every route belongs to one backend ("service"), matched by the
@@ -106,20 +107,49 @@ export const demoResponse = (status, body) => ({ [STATUS]: status, body });
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Services on the new API (see live.js) skip demo data and go to the network.
+// Services on the new API (see live.js) go to the network.
 const networkAdapter = axios.getAdapter(["fetch", "xhr", "http"]);
+
+// Did this request fail because the API is down (rather than refusing the
+// request)? A read is retried from demo data on any server failure. A write
+// only when it surely never reached the API, so an order is never placed
+// twice.
+const isOutage = (error, method) => {
+  if (axios.isCancel(error) || error?.code === AxiosError.ERR_CANCELED) return false;
+  const status = error?.response?.status;
+  if (method === "GET") return !status || status >= 500;
+  return status ? [502, 503].includes(status) : error?.code === AxiosError.ERR_NETWORK;
+};
+
+const OFFLINE_MESSAGE = "Our server isn't responding right now. Please try again in a few minutes.";
 
 export const demoAdapter = async (config) => {
   const method = (config.method || "get").toUpperCase();
   const { service, path, query } = resolveRequest(config);
 
-  // Endpoints already on the new API go to the network (see live.js).
-  if (isLiveRequest(service, path)) return networkAdapter(config);
+  // Endpoints on the new API go to the network (see live.js). While the API
+  // is down, or the visitor chose sample data, they get demo data
+  // (src/demo/backendStatus.js).
+  const forced = isSampleDataForced();
+  let fallback = false;
+  if (isLiveRequest(service, path)) {
+    if (!forced && !isBackendOffline()) {
+      try {
+        return await networkAdapter(config);
+      } catch (error) {
+        if (!isOutage(error, method)) throw error;
+        markBackendOffline();
+      }
+    }
+    fallback = true;
+  }
 
-  let status = 404;
-  let body = { success: false, message: "Not available in demo mode" };
+  let status = fallback ? 503 : 404;
+  let body = { success: false, message: fallback ? OFFLINE_MESSAGE : "Not available in demo mode" };
 
-  const route = DEMO_ROUTES.find(
+  // During an outage, sign-in and favourites need the real account, so they
+  // wait for the API. Chosen sample data has its own demo sign-in.
+  const route = fallback && !forced && service === "USER" ? null : DEMO_ROUTES.find(
     (r) =>
       r.service === service &&
       r.method.toUpperCase() === method &&

@@ -17,14 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserReducer } from "@/redux/userReducer";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { toUserLocation } from "@/utils/userLocation";
-import { isDemoMode } from "@/demo/demoMode";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
+import { isSampleDataForced } from "@/demo/backendStatus";
 
 const Axios = getApiClient(USER_URL);
 
 // Login runs on the new API (OTP checked on the server, session cookie) when
 // USER is a live service; otherwise the old flow, answered by demo mode.
-export const isLiveLogin = () => isLiveService("USER");
+// Chosen sample data uses the demo sign-in (demo/modules/user.js).
+export const isLiveLogin = () => isLiveService("USER") && !isSampleDataForced();
 
 export const useUser = () => {
   const [progressing, setProgressing] = useState(false);
@@ -120,10 +121,8 @@ export const useUser = () => {
           }
         }
 
-        // Demo mode shows the code itself (demo/modules/user.js).
-        if (!isDemoMode()) {
-          notify.success("Verification code sent to your phone");
-        }
+        // Answered by demo data (demo/modules/user.js), which shows the code
+        // itself.
         setProgressing(false);
         return true;
       })
@@ -206,11 +205,9 @@ export const useUser = () => {
       .finally(() => setProgressing(false));
   };
 
-  // Demo mode only: sign in as the ready-made demo user without an OTP.
+  // Sign in as the ready-made demo customer without an OTP. Old flow:
   // send-otp without an `otp` just looks the account up (no SMS, no toast).
   const loginAsDemoUser = () => {
-    if (!isDemoMode()) return Promise.resolve(false);
-
     setProgressing(true);
     const request = isLiveLogin()
       ? Axios.post(DEMO_LOGIN)
@@ -224,8 +221,8 @@ export const useUser = () => {
         notify.success(`Logged in as ${user.customer_name || "demo user"}`);
         return true;
       })
-      .catch(() => {
-        notify.error("Demo login failed. Please try again.");
+      .catch((error) => {
+        notify.error(errorMessage(error, "Demo login failed. Please try again."));
         return false;
       })
       .finally(() => setProgressing(false));
