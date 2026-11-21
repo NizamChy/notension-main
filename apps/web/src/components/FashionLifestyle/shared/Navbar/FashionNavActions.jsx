@@ -38,6 +38,7 @@ const FashionNavActions = () => {
       <button
         type="button"
         onClick={() => setIsCartOpen(true)}
+        data-cart-target
         aria-label="Shopping bag"
         className={`${NAV_ICON_BUTTON} text-[22px]`}
       >

@@ -11,6 +11,7 @@ import ProductDetailsView, {
   discountLabelOf,
 } from "@/components/StoreModule/ProductDetailsView";
 import GroceryItemDetailsSkeleton from "./GroceryItemDetailsSkeleton";
+import { flyToCart } from "@/utils/flyToCart";
 
 const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -36,7 +37,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    addToCart(itemDetails);
+    if (addToCart(itemDetails)) flyToCart(event.currentTarget);
   };
 
   const handleAddToFavorite = (event) => {

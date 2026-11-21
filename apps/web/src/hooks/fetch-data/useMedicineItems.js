@@ -78,12 +78,14 @@ const useMedicineItems = () => {
           toStore: visitedMedicineStore?.shop_name,
           onConfirm: () => emptyCartItems(product),
         });
+        return false;
       } else {
         addProduct(product);
       }
     } else {
       saveStoreAndProductInfo(product);
     }
+    return true;
   };
 
   const incrementQty = (itemId) => {

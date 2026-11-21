@@ -9,6 +9,7 @@ import useFoodItems from "@/hooks/fetch-data/useFoodItems";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { formatTaka, PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import { flyToCart } from "@/utils/flyToCart";
 
 const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -20,7 +21,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    addToCart(item);
+    if (addToCart(item)) flyToCart(event.currentTarget);
   };
 
   const handleIncrement = (e, itemId) => {

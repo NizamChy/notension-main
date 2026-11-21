@@ -13,6 +13,7 @@ import FavoriteItemsDetailsModal from "./FavoriteItemsDetailsModal";
 import { MEDICINE_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import { flyToCart } from "@/utils/flyToCart";
 
 const MedicineItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +47,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    addToCart(item);
+    if (addToCart(item)) flyToCart(event.currentTarget);
   };
 
   const handleAddToFavorite = (event) => {

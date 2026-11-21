@@ -16,6 +16,7 @@ import {
   MEDICINE_ITEM_DETAILS,
   MEDICINE_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+import { flyToCart } from "@/utils/flyToCart";
 
 const MedicineItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -86,9 +87,10 @@ const MedicineItemDetails = () => {
   const handleAddToCart = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    const from = event.currentTarget;
     setIsLoading(true);
     try {
-      await addToCart(item);
+      if (await addToCart(item)) flyToCart(from);
     } catch (error) {
       notify.error("Couldn't add to cart. Please try again.");
     } finally {

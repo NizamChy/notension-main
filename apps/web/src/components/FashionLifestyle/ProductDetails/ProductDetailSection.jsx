@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import notify from "@/utils/notify";
+import { flyToCart } from "@/utils/flyToCart";
 import ProductInfo from "./ProductInfo";
 import { FiHeart } from "react-icons/fi";
 import ImageGallery from "./ImageGallery";
@@ -111,7 +112,7 @@ const ProductDetailSection = () => {
 
   // Buy Now = same validation + add to cart, then straight to checkout
   // instead of opening the cart drawer.
-  const handleAddToCart = ({ buyNow = false } = {}) => {
+  const handleAddToCart = ({ buyNow = false, from = null } = {}) => {
     if (hasSizes && !selectedSize) {
       notify.warning("Please select a size.");
       return;
@@ -126,7 +127,8 @@ const ProductDetailSection = () => {
     }
 
     notify.success("Added to cart");
-    toggleCart();
+    // Open the drawer once the photo has landed in the bag.
+    flyToCart(from).then(toggleCart);
   };
 
   const toggleWishlist = (e, productId, product) => {
@@ -318,7 +320,9 @@ const ProductDetailSection = () => {
             <div className="z-10 mt-6 flex gap-2 max-md:sticky max-md:bottom-0 max-md:-mx-4 max-md:border-t max-md:border-gray-200 max-md:bg-white max-md:px-4 max-md:py-3 sm:gap-3">
               <button
                 type="button"
-                onClick={() => handleAddToCart()}
+                onClick={(event) =>
+                  handleAddToCart({ from: event.currentTarget })
+                }
                 className={`${PRIMARY_BUTTON} h-12 flex-1 px-3! sm:px-5!`}
               >
                 <HiOutlineShoppingBag className="text-lg" />

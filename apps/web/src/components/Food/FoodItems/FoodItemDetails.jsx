@@ -25,6 +25,7 @@ import {
   EXPLORE_FOOD_STORE,
   FOOD_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+import { flyToCart } from "@/utils/flyToCart";
 
 const DetailsSkeleton = () => (
   <div className={`${CARD} overflow-hidden md:grid md:grid-cols-2`}>
@@ -102,9 +103,10 @@ const FoodItemDetails = () => {
   const handleAddToCart = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    const from = event.currentTarget;
     setIsLoading(true);
     try {
-      await addToCart(item);
+      if (await addToCart(item)) flyToCart(from);
     } catch (error) {
       notify.error("Couldn't add to cart. Please try again.");
     } finally {
