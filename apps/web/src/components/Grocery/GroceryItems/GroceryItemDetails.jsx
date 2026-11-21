@@ -16,6 +16,7 @@ import {
   GROCERY_ITEM_DETAILS,
   GROCERY_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
+import { flyToCart } from "@/utils/flyToCart";
 
 const GroceryItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -86,9 +87,10 @@ const GroceryItemDetails = () => {
   const handleAddToCart = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    const from = event.currentTarget;
     setIsLoading(true);
     try {
-      await addToCart(item);
+      if (await addToCart(item)) flyToCart(from);
       // toast.success("Added to cart successfully!");
     } catch (error) {
       notify.error("Couldn't add to cart. Please try again.");

@@ -13,6 +13,7 @@ import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
+import { flyToCart } from "@/utils/flyToCart";
 
 const GroceryItems = ({ item, isFavorite = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +47,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    addToCart(item);
+    if (addToCart(item)) flyToCart(event.currentTarget);
   };
 
   const handleAddToFavorite = (event) => {

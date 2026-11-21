@@ -10,6 +10,7 @@ import ProductQuickView from "@/components/StoreModule/ProductQuickView";
 import ProductDetailsView, {
   discountLabelOf,
 } from "@/components/StoreModule/ProductDetailsView";
+import { flyToCart } from "@/utils/flyToCart";
 
 const ItemDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -32,7 +33,7 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    addToCart(item);
+    if (addToCart(item)) flyToCart(event.currentTarget);
   };
 
   const handleAddToFavorite = (event) => {

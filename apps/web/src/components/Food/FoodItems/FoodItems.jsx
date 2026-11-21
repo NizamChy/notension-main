@@ -12,6 +12,7 @@ import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { CARD, CARD_HOVER } from "@/components/shared/UI/UI";
 import { discountLabelOf } from "./dishUtils";
+import { flyToCart } from "@/utils/flyToCart";
 
 // One dish on a restaurant menu: name, Bangla name, portion and price on the
 // left, a square photo with the add button on the right.
@@ -30,7 +31,7 @@ const FoodItems = ({ item }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    addToCart(item);
+    if (addToCart(item)) flyToCart(event.currentTarget);
   };
 
   const handleIncrement = (e, itemId) => {
