@@ -27,6 +27,11 @@ export function useGroceryStore(): GroceryStoreState {
     queryKey: queryKeys.grocery.store(ref?.storeId ?? "", ref?.customStoreId ?? ""),
     queryFn: () => exploreStore(ref!),
     enabled: !!ref,
+    // Many components read this query (item cards, sidebar, cart). Without a
+    // stale time each new mount or window focus refetched the whole explore
+    // payload; the old Redux flow fetched once per store. A store change uses
+    // a new key, so it still fetches fresh.
+    staleTime: 5 * 60_000,
   });
 
   const explore = query.data;

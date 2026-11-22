@@ -26,7 +26,8 @@ export default function GroceryStoreLayout({ children }: { children: ReactNode }
   return (
     <>
       <Cart />
-      {/* Navbar is JS, so TS reads every prop as required; no actions here. */}
+      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
+          required; no actions here. */}
       <Navbar
         search="grocery"
         leading={<StoreCategoryDrawer moduleName="grocery" />}
