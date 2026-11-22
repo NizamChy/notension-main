@@ -226,8 +226,61 @@ const placeOrder = ({ body }) => {
   orderSeq += 1;
   const now = new Date();
   const datePart = now.toISOString().slice(0, 10).replace(/-/g, "");
+  const shop = findStore(order.merchant_id);
+  // Fill in what the API adds so a placed order has the same shape as a real one.
+  const orderItems = order.orderItems.map((line) => {
+    const item = DEMO_GROCERY_ITEMS.find((i) => i._id === line._id) || {};
+    return {
+      productInfoTable: item.productInfoTable ?? null,
+      product_title_eng: item.product_title_eng ?? "",
+      product_title_beng: item.product_title_beng ?? null,
+      pack_size: item.pack_size ?? null,
+      purchase_price: item.purchase_price ?? 0,
+      max_retail_price: item.max_retail_price ?? 0,
+      sale_price: item.sale_price ?? 0,
+      unit_symbol: item.unit_symbol ?? null,
+      max_allowed: item.max_allowed ?? 0,
+      delivered_qty: 0,
+      inc_qty: 1,
+      app_image: item.app_image ?? null,
+      ...line,
+      quantity: Number(line.quantity) || 1,
+    };
+  });
+  const subTotal = orderItems.reduce((t, l) => t + l.sale_price * l.quantity, 0);
+  const deliveryCharge = shop?.min_delivery_charge ?? 0;
+  const customer = order.customerInfo || {};
   const saved = {
+    customer_id: "",
+    custom_customer_id: "",
+    shortNote: "",
     ...order,
+    customerInfo: {
+      customer_name: "",
+      customer_address: "",
+      contact_no: "",
+      alternative_contact_no: "",
+      latitude: null,
+      longitude: null,
+      ...customer,
+    },
+    custom_merchant_id: shop?.custom_store_id ?? "",
+    merchantInfo: {
+      shop_name: shop?.shop_name ?? "",
+      shop_address: shop?.shop_address ?? "",
+      contact_no: shop?.contact_no ?? "",
+      alternative_contact_no: shop?.alternative_contact_no ?? "",
+    },
+    order_list_image: [],
+    orderItems,
+    subTotal,
+    less_amount: 0,
+    vatAmount: 0,
+    deliveryCharge,
+    totalAmount: subTotal + deliveryCharge,
+    paymet_method: order.paymet_method || "Cash on Delivery",
+    customer_rating: 0,
+    customer_review: "",
     _id: `6650f2000000${(Date.now() % 0xffffffff).toString(16).padStart(8, "0")}${orderSeq
       .toString(16)
       .padStart(4, "0")}`,
