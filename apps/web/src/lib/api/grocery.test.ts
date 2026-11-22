@@ -14,6 +14,7 @@ import {
   placeOrder,
   searchStores,
   storeStatusOf,
+  type ExploreResult,
   type GroceryExplore,
   type StoreRef,
 } from "./grocery";
@@ -38,6 +39,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
 });
 
@@ -53,7 +55,7 @@ describe("grocery API on the demo adapter", () => {
     expect(nearest.length).toBeGreaterThan(0);
     expect((await searchStores(demoStore.shop_name.slice(0, 4))).length).toBeGreaterThan(0);
 
-    const explore = await exploreStore(ref);
+    const explore = (await exploreStore(ref)) as GroceryExplore;
     expect(explore.ShopDetails).toHaveLength(1);
 
     const sub = explore.ProductSubTypeByShop[0].subtypeInfo._id;
@@ -105,8 +107,35 @@ describe("grocery API on the demo adapter", () => {
   });
 });
 
+describe("exploreStore for an unavailable store", () => {
+  const answer = (result: object, success = false) => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.spyOn(getApiClient(GROCERY_URL), "get").mockResolvedValue({
+      data: { success, result },
+      headers: {},
+    });
+  };
+
+  it("resolves for a missing store in strict (live) mode", async () => {
+    answer({ ShopDetails: [] });
+    const res = await exploreStore(ref);
+    expect(storeStatusOf(res)).toBe("missing");
+  });
+
+  it("resolves for a closed store with a partial shop record", async () => {
+    answer({ ShopDetails: [{ _id: "6650a00100000000000000a1", is_closed: true }] }, true);
+    const res = await exploreStore(ref);
+    expect(storeStatusOf(res)).toBe("closed");
+  });
+
+  it("still throws for a broken answer", async () => {
+    answer({ ShopDetails: [{ _id: "x", is_active: true, is_closed: false, is_banned: false }] }, true);
+    await expect(exploreStore(ref)).rejects.toThrow();
+  });
+});
+
 describe("storeStatusOf", () => {
-  const explore = (shop: object) => ({ ShopDetails: [shop] }) as unknown as GroceryExplore;
+  const explore = (shop: object) => ({ ShopDetails: [shop] }) as unknown as ExploreResult;
   it("maps shop state to a status", () => {
     expect(
       storeStatusOf(explore({ _id: "a", is_closed: true, is_active: true, is_banned: false })),

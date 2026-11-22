@@ -382,7 +382,7 @@ export const DEMO_GROCERY_PAST_ORDERS = (() => {
       order_status: "Delivered",
       customerInfo: {
         customer_name: "Demo Customer",
-        customer_address: "House 12, Road 5, Gulshan, Dhaka",
+        customer_address: "",
         contact_no: "01700000000",
         alternative_contact_no: "",
         latitude: null,

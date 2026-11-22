@@ -12,6 +12,7 @@ import {
   SEARCH_GROCERY_STORE,
 } from "@/api-endpoints/api-endpoint";
 import { apiGet, apiPost } from "./request";
+import { exploreResponse, type UnavailableExplore } from "./schemas/groceryExplore";
 import { placeOrderResponse } from "./schemas/groceryOrder";
 
 export type GroceryStore = grocery.GroceryStore;
@@ -19,6 +20,9 @@ export type GroceryNearbyStore = z.infer<typeof grocery.groceryNearbyStore>;
 export type GroceryItem = grocery.GroceryItem;
 export type GroceryExplore = grocery.GroceryExplore;
 export type Order = grocery.Order;
+// A missing, closed, inactive or banned store answers with a partial record.
+export type UnavailableStore = UnavailableExplore["result"];
+export type ExploreResult = GroceryExplore | UnavailableStore;
 
 export type StoreRef = { storeId: string; customStoreId: string };
 export type StoreStatus = "closed" | "missing" | null;
@@ -28,7 +32,7 @@ export type ItemListQuery =
   | { kind: "custom-type"; id: string };
 
 // Same rule as the old useGroceryShop.exploreStore.
-export function storeStatusOf(explore: GroceryExplore | undefined): StoreStatus {
+export function storeStatusOf(explore: ExploreResult | undefined): StoreStatus {
   if (!explore) return null;
   const shop = explore.ShopDetails?.[0] as Partial<GroceryStore> | undefined;
   if (shop?.is_closed || !shop?.is_active || shop?.is_banned) {
@@ -66,8 +70,8 @@ export async function searchStores(text: string): Promise<GroceryStore[]> {
   return res.result;
 }
 
-export async function exploreStore(ref: StoreRef): Promise<GroceryExplore> {
-  const res = await apiGet("GROCERY", EXPLORE_GROCERY_STORE, grocery.ok(grocery.groceryExplore), {
+export async function exploreStore(ref: StoreRef): Promise<ExploreResult> {
+  const res = await apiGet("GROCERY", EXPLORE_GROCERY_STORE, exploreResponse, {
     storeId: ref.storeId,
     custom_store_id: ref.customStoreId,
   });
