@@ -1,7 +1,7 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { MdMyLocation } from "react-icons/md";
 import {
   HiMagnifyingGlass,
@@ -11,7 +11,6 @@ import {
   HiArrowPath,
 } from "react-icons/hi2";
 import loader from "@/utils/googleMapsLoader";
-import { handleUserReducer } from "@/redux/userReducer";
 import { toUserLocation } from "@/utils/userLocation";
 import { PRIMARY_BUTTON } from "@/components/shared/UI/UI";
 import { DEMO_LOCATIONS, isDemoDistrict } from "@/demo/demoLocations";
@@ -51,8 +50,7 @@ const GEO_ERRORS = {
  * onConfirm({ changed }) runs after saving; changed = new district.
  */
 const LocationPicker = ({ variant = "modal", onConfirm }) => {
-  const dispatch = useDispatch();
-  const saved = useSelector((state) => state.user.currentUserLocation);
+  const saved = useSessionStore((s) => s.currentUserLocation);
 
   const mapEl = useRef(null);
   const inputRef = useRef(null);
@@ -237,16 +235,13 @@ const LocationPicker = ({ variant = "modal", onConfirm }) => {
     if (!district || !position) return;
 
     const changed = district._id !== saved?.districtId;
-    dispatch(
-      handleUserReducer({
-        type: "SAVE_USER_CURRENT_LOCATION",
-        data: toUserLocation({
-          latitude: position.lat,
-          longitude: position.lng,
-          districtId: district._id,
-          districtName: district.district_name,
-          address: place.subtitle || place.title,
-        }),
+    useSessionStore.getState().saveLocation(
+      toUserLocation({
+        latitude: position.lat,
+        longitude: position.lng,
+        districtId: district._id,
+        districtName: district.district_name,
+        address: place.subtitle || place.title,
       }),
     );
     onConfirm?.({ changed });

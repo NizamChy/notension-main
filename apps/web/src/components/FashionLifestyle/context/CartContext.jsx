@@ -1,134 +1,56 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { lineTotal, toNumber } from "@/utils/price";
+import React, { createContext, useContext, useMemo } from "react";
+import {
+  fashionCount,
+  fashionTotal,
+  useCartStore,
+} from "@/stores/cartStore";
 
 const CartContext = createContext();
 
+// The bag lives in the shared cart store; this keeps the Fashion `useCart()`
+// API the fashion components already use.
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const cartItems = useCartStore((state) => state.fashion);
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      try {
-        setCartItems(JSON.parse(savedCart));
-      } catch (error) {
-        console.error("Error parsing cart from localStorage:", error);
-        setCartItems([]);
-      }
-    }
-    setIsInitialized(true);
-  }, []);
+  const value = useMemo(() => {
+    const store = () => useCartStore.getState();
+    return {
+      cartItems,
+      addToCart: (
+        product,
+        quantity = 1,
+        selectedSize = null,
+        selectedImage = null,
+        selectedColor = null,
+      ) =>
+        store().fashionAdd(
+          product,
+          quantity,
+          selectedSize,
+          selectedImage,
+          selectedColor,
+        ),
+      updateQuantity: (productId, newQuantity, selectedSize, selectedImage) =>
+        store().fashionUpdateQuantity(
+          productId,
+          newQuantity,
+          selectedSize,
+          selectedImage,
+        ),
+      removeFromCart: (productId, selectedSize, selectedImage) =>
+        store().fashionRemove(productId, selectedSize, selectedImage),
+      clearCart: () => store().fashionClear(),
+      getCartTotal: () => fashionTotal(cartItems),
+      getCartCount: () => fashionCount(cartItems),
+      // Reads hasHydrated() without subscribing; safe because the PersistGate
+      // awaits hydrateStores() before any child renders.
+      isInitialized: useCartStore.persist.hasHydrated(),
+    };
+  }, [cartItems]);
 
-  useEffect(() => {
-    if (isInitialized) {
-      localStorage.setItem("cart", JSON.stringify(cartItems));
-    }
-  }, [cartItems, isInitialized]);
-
-  const addToCart = (
-    product,
-    quantity = 1,
-    selectedSize = null,
-    selectedImage = null,
-    selectedColor = null
-  ) => {
-    setCartItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (item) =>
-          item?._id === product?._id &&
-          item?.selectedSize === selectedSize &&
-          item?.selectedImage === selectedImage
-      );
-
-      if (existingItemIndex >= 0) {
-        const updatedItems = [...prevItems];
-        updatedItems[existingItemIndex] = {
-          ...updatedItems[existingItemIndex],
-          quantity: updatedItems[existingItemIndex].quantity + quantity,
-        };
-        return updatedItems;
-      } else {
-        return [
-          ...prevItems,
-          {
-            ...product,
-            quantity,
-            selectedSize,
-            selectedImage,
-            selectedColor,
-            addedAt: new Date().toISOString(),
-          },
-        ];
-      }
-    });
-  };
-
-  const updateQuantity = (
-    productId,
-    newQuantity,
-    selectedSize,
-    selectedImage
-  ) => {
-    if (newQuantity < 1) return;
-
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item?._id === productId &&
-        item?.selectedSize === selectedSize &&
-        item?.selectedImage === selectedImage
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
-  };
-
-  const removeFromCart = (productId, selectedSize, selectedImage) => {
-    setCartItems((prevItems) =>
-      prevItems.filter(
-        (item) =>
-          !(
-            item?._id === productId &&
-            item?.selectedSize === selectedSize &&
-            item?.selectedImage === selectedImage
-          )
-      )
-    );
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-  };
-
-  const getCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + lineTotal(item),
-      0
-    );
-  };
-
-  const getCartCount = () => {
-    return cartItems.reduce((count, item) => count + toNumber(item?.quantity), 0);
-  };
-
-  return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        updateQuantity,
-        removeFromCart,
-        clearCart,
-        getCartTotal,
-        getCartCount,
-        isInitialized,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export const useCart = () => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
@@ -15,7 +16,7 @@ const OrdersSection = () => {
 
   const params = useParams();
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const { progressing, getOrderInfo } = useOrderMedicine();
   const medicineOrderInfo = useSelector(
     (state) => state.user.medicineOrderInfo

@@ -1,7 +1,7 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import MapModal from "./MapModal";
 
@@ -18,9 +18,7 @@ const useGatedNavigate = () => {
   const router = useRouter();
   // The page to open once a location is saved; null = dialog closed.
   const [pendingPath, setPendingPath] = useState(null);
-  const districtId = useSelector(
-    (state) => state.user.currentUserLocation?.districtId
-  );
+  const districtId = useSessionStore((s) => s.currentUserLocation?.districtId);
 
   const requestLocation = (path) => {
     if (window.innerWidth < 768) {

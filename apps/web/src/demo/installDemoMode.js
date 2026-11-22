@@ -1,8 +1,7 @@
 import axios from "axios";
-import store from "@/redux/store";
 import { demoAdapter } from "./demoAdapter";
 import { startBackendCheck } from "./backendStatus";
-import { handleUserReducer } from "@/redux/userReducer";
+import { useSessionStore } from "@/stores/sessionStore";
 import { DEFAULT_DEMO_LOCATION, toUserLocation } from "./demoLocations";
 
 // The fashion module calls the global axios instance directly, so it gets the
@@ -25,13 +24,9 @@ if (typeof window !== "undefined") {
 // Runs after redux-persist rehydrates and before the app renders: a first
 // visit starts in Dhaka, which has data in every module.
 export const applyDemoDefaults = () => {
-  const { currentUserLocation } = store.getState().user;
+  const { currentUserLocation } = useSessionStore.getState();
   if (!currentUserLocation?.districtId) {
-    store.dispatch(
-      handleUserReducer({
-        type: "SAVE_USER_CURRENT_LOCATION",
-        data: toUserLocation(DEFAULT_DEMO_LOCATION),
-      }),
-    );
+    const loc = toUserLocation(DEFAULT_DEMO_LOCATION);
+    useSessionStore.getState().saveLocation(loc);
   }
 };

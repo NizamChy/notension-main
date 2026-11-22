@@ -1,7 +1,7 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
-import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
@@ -24,7 +24,7 @@ const GroceryItemDetailsModal = ({ isOpen, onClose, item }) => {
     removeFromfavoriteItems,
   } = useFavouriteItem();
 
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+  const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
   let merchantType = 0;
   let isExists = null;

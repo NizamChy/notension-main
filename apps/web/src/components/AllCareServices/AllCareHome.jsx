@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
@@ -26,7 +27,7 @@ const AllCareHome = () => {
   const { careSlider, allServicesInfo, isLoading } = useSelector(
     (state) => state.allCare
   );
-  const districtId = useSelector((state) => state.user.districtId);
+  const districtId = useSessionStore((s) => s.districtId);
 
   // Refetch whenever the user's district changes. Persisted data is kept on
   // screen meanwhile only if it was fetched for this same district (the

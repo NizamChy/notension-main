@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { CART_MODULES } from "./cartModules";
 import { PriceRow, formatTaka } from "../shared/CartUI/CartUI";
 
 // Subtotal, delivery, discount and total for the cart drawer.
 // Render with key={moduleName} (see CartItems).
 const CartSummary = ({ moduleName }) => {
-  const { totalKey, useOrder } = CART_MODULES[moduleName];
+  const { useOrder } = CART_MODULES[moduleName];
   const { shippingCharge, discount, grandTotal } = useOrder();
 
-  const total = useSelector((state) => state.cart[totalKey]);
+  const { total } = useModuleCart(moduleName);
 
   return (
     <div className="space-y-2">

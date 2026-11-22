@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LuChevronRight, LuUsers } from "react-icons/lu";
@@ -14,7 +15,8 @@ const PatientInfo = () => {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   const { progressing, getPatientInfo } = usePatient();
-  const { patientInfo, userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
+  const { patientInfo } = useSelector((state) => state.user);
 
   // Load the account's saved patients.
   useEffect(() => {

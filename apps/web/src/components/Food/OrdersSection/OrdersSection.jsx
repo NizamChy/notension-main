@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
@@ -16,7 +17,7 @@ const OrdersSection = () => {
   const params = useParams();
 
   const { progressing, getOrderInfo } = useOrderFood();
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const foodOrderInfo = useSelector((state) => state.user.foodOrderInfo);
 
   const isModalOpen = !userInfo?._id && !loginDismissed;

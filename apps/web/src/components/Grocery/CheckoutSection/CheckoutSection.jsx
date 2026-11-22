@@ -1,7 +1,10 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
+import { useModuleCart } from "@/stores/useModuleCart";
 import React, { useState } from "react";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import CheckoutCard from "@/components/common/CheckoutCard";
@@ -19,12 +22,14 @@ const CheckoutSection = () => {
   const [loginDismissed, setLoginDismissed] = useState(false);
 
   const { progressing, placeOrder } = useOrderGrocery();
-  const { userLatitude, userLongitude, userInfo } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, userInfo } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, userInfo: s.userInfo })),
   );
-  const { groceryStoreInfo, groceryItems, totalAmountGrocery } = useSelector(
-    (state) => state.cart
-  );
+  const {
+    storeInfo: groceryStoreInfo,
+    items: groceryItems,
+    total: totalAmountGrocery,
+  } = useModuleCart("grocery");
   const { merchantId, customstore_id } = useSelector(
     (state) => state.itemsByStore
   );

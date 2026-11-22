@@ -1,9 +1,9 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiArrowRight } from "react-icons/hi";
 import { LuShieldCheck, LuTruck, LuWallet } from "react-icons/lu";
@@ -23,9 +23,7 @@ const TRUST_POINTS = [
 ];
 
 const HeroSection = () => {
-  const districtName = useSelector(
-    (state) => state.user.currentUserLocation?.districtName
-  );
+  const districtName = useSessionStore((s) => s.currentUserLocation?.districtName);
 
   return (
     <section className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#071B3D] via-[#0C3F8E] to-[#0E4FA8] text-white">

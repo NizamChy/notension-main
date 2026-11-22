@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import notify from "@/utils/notify";
@@ -26,7 +27,7 @@ export const useFavouriteItem = () => {
     (state) => state.itemsByStore
   );
 
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+  const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
   const { favouriteGroceryItems, favouriteMedicineItems } = useSelector(
     (state) => state.userChoice

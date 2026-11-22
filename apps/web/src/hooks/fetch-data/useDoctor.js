@@ -1,3 +1,5 @@
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
@@ -7,7 +9,7 @@ import {
   FIND_DOCTOR_BY_DEPT,
   FIND_DOCTOR_BY_CONSULTATION_CENTER,
 } from "@/api-endpoints/api-endpoint";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { HEALTH_CARE_URL } from "@/api-endpoints/env";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
@@ -19,8 +21,8 @@ export const useDoctor = () => {
   const [itemNotfound, setItemNotfound] = useState(false);
 
   const dispatch = useDispatch();
-  const { userLatitude, userLongitude, districtId } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, districtId } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId })),
   );
 
   const Axios = getApiClient(HEALTH_CARE_URL);

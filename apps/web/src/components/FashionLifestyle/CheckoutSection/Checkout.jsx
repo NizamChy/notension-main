@@ -1,10 +1,10 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import axios from "axios";
 import { lineTotal } from "@/utils/price";
 import notify from "@/utils/notify";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import OrderSummary from "./OrderSummary";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
@@ -30,7 +30,7 @@ const Checkout = () => {
   const [totalStores, setTotalStores] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const [formData, setFormData] = useState({
     name: userInfo?.customer_name || "",
@@ -291,11 +291,11 @@ const Checkout = () => {
   );
 };
 
-// Orders need an account, and the bag lives in localStorage: wait for it to
+// Orders need an account, and the bag lives in the Zustand cart store: wait for it to
 // load (so an empty bag doesn't flash), then ask guests to sign in. Keyed by
 // user so the form picks up the account's name / phone / address after login.
 const CheckoutGate = () => {
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const { isInitialized } = useCart();
   const [loginOpen, setLoginOpen] = useState(true);
 

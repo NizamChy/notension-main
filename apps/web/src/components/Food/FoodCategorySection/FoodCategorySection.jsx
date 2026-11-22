@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "../../common/Slider";
@@ -35,9 +36,7 @@ const FoodCategorySection = () => {
   const { exploreFoodModule, progressing } = useFood();
   const { requestLocation, locationModal } = useGatedNavigate();
 
-  const currentUserLocation = useSelector(
-    (state) => state.user.currentUserLocation?.districtName
-  );
+  const currentUserLocation = useSessionStore((s) => s.currentUserLocation?.districtName);
 
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
   const DashboardSlider = useSelector(

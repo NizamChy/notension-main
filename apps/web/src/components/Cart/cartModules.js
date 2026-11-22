@@ -13,30 +13,21 @@ import {
 // Per-module differences for the shared cart UI.
 export const CART_MODULES = {
   food: {
-    itemsKey: "foodItems",
-    totalKey: "totalAmountFood",
     visitedStoreKey: "visitedFoodStore",
-    storeInfoKey: "foodStoreInfo",
     imageBaseUrl: FOOD_ITEMS_IMAGES,
     titleField: "product_title_eng",
     useItems: useFoodItems,
     useOrder: useOrderFood,
   },
   grocery: {
-    itemsKey: "groceryItems",
-    totalKey: "totalAmountGrocery",
     visitedStoreKey: "visitedGroceryStore",
-    storeInfoKey: "groceryStoreInfo",
     imageBaseUrl: GROCERY_ITEMS_IMAGES,
     titleField: "product_title_eng",
     useItems: useGroceryItems,
     useOrder: useOrderGrocery,
   },
   medicine: {
-    itemsKey: "medicineItems",
-    totalKey: "totalAmountMedicine",
     visitedStoreKey: "visitedMedicineStore",
-    storeInfoKey: "medicineStoreInfo",
     imageBaseUrl: MEDICINE_ITEMS_IMAGES,
     titleField: "item_title_eng",
     useItems: useMedicineItems,

@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import {
@@ -7,8 +8,10 @@ import {
 import notify, { errorMessage } from "@/utils/notify";
 import Cookies from "js-cookie";
 import { GROCERY_URL } from "@/api-endpoints/env";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
+import { logout } from "@/stores/logout";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { orderTotals } from "@/utils/price";
@@ -24,11 +27,10 @@ export const useOrderGrocery = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
-  const { groceryStoreInfo, totalAmountGrocery } = useSelector(
-    (state) => state.cart
-  );
+  const { storeInfo: groceryStoreInfo, total: totalAmountGrocery, clear: clearCart } =
+    useModuleCart("grocery");
 
   const totalPrice = totalAmountGrocery;
 
@@ -52,11 +54,9 @@ export const useOrderGrocery = () => {
         if (res.data.success) {
           notify.success("Order placed successfully");
 
-          dispatch(
-            handleCartAction({
-              type: "CLEAR_CART_GROCERY",
-            })
-          );
+          clearCart();
+          // Keeps persist:root from holding an already-ordered cart if the previous build is rolled back; remove in PR 9.
+          dispatch(handleCartAction({ type: "CLEAR_CART_GROCERY" }));
 
           router.push(
             `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`
@@ -74,7 +74,7 @@ export const useOrderGrocery = () => {
         // here so the checkout shows the login form again.
         if (error?.response?.status === 401) {
           Cookies.remove("user_info");
-          dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
+          logout();
           notify.error(
             "Your session has expired. Please log in again to place your order."
           );

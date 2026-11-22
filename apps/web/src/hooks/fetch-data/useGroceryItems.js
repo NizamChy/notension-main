@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
+import { useSelector } from "react-redux";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { requestStoreSwitch } from "@/components/Cart/StoreSwitch";
 
 const useGroceryItems = () => {
-  const dispatch = useDispatch();
+  const cart = useModuleCart("grocery");
 
-  const groceryItems = useSelector((state) => state.cart.groceryItems);
+  const groceryItems = cart.items;
   const visitedGroceryStore = useSelector(
     (state) => state.dashboard.visitedGroceryStore
   );
-  const groceryStoreInfo = useSelector((state) => state.cart.groceryStoreInfo);
+  const groceryStoreInfo = cart.storeInfo;
 
   const getCurrentQty = (item) => {
     const cartItem = groceryItems?.find(
@@ -21,30 +21,16 @@ const useGroceryItems = () => {
   };
 
   const addProduct = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART_GROCERY",
-        data: product,
-      })
-    );
+    cart.add(product);
   };
 
   const saveStoreAndProductInfo = (product) => {
     addProduct(product);
-    dispatch(
-      handleCartAction({
-        type: "SAVE_GROCERY_STORE_INFO",
-        data: visitedGroceryStore,
-      })
-    );
+    cart.saveStoreInfo(visitedGroceryStore);
   };
 
   const emptyCartItems = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "CLEAR_CART_GROCERY",
-      })
-    );
+    cart.clear();
     saveStoreAndProductInfo(product);
   };
 
@@ -87,30 +73,15 @@ const useGroceryItems = () => {
   };
 
   const incrementQty = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "INCREMENT_QUANTITY_GROCERY",
-        data: { _id: itemId },
-      })
-    );
+    cart.increment(itemId);
   };
 
   const decrementQty = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "DECREMENT_QUANTITY_GROCERY",
-        data: { _id: itemId },
-      })
-    );
+    cart.decrement(itemId);
   };
 
   const removeFromCart = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "REMOVE_ITEM_GROCERY",
-        data: { _id: itemId },
-      })
-    );
+    cart.remove(itemId);
   };
 
   return {

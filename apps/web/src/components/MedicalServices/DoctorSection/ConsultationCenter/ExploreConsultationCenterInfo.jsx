@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import React, { useState } from "react";
@@ -15,7 +16,7 @@ const ExploreConsultationCenterInfo = () => {
 
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
   const { currentCenter } = useSelector((state) => state.doctorInfo);
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const merchantType = 3;
   const isFavoriteAdded = isAddedToFavouriteList(currentCenter?._id, merchantType);

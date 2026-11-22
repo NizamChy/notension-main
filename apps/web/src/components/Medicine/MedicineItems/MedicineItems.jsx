@@ -1,11 +1,12 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useParams } from "next/navigation";
 import StoreItemCard from "@/components/StoreModule/StoreItemCard";
 import { discountLabelOf } from "@/components/StoreModule/ProductDetailsView";
 import ItemDetailsModal from "./ItemDetailsModal";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
@@ -33,7 +34,7 @@ const MedicineItems = ({ item, isFavorite = false }) => {
     removeFromfavoriteItems,
   } = useFavouriteItem();
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const merchantType = 1;
   // Read straight from the store each render, so the card never lags.

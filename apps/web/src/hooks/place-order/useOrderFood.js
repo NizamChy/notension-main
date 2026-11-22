@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import Cookies from "js-cookie";
@@ -8,8 +9,10 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { FOOD_URL } from "@/api-endpoints/env";
 import { useParams, useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
+import { logout } from "@/stores/logout";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { handleUserReducer } from "@/redux/userReducer";
 import { orderTotals } from "@/utils/price";
 
@@ -23,9 +26,10 @@ export const useOrderFood = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
-  const { foodStoreInfo, totalAmountFood } = useSelector((state) => state.cart);
+  const { storeInfo: foodStoreInfo, total: totalAmountFood, clear: clearCart } =
+    useModuleCart("food");
 
   const totalPrice = totalAmountFood;
 
@@ -48,11 +52,9 @@ export const useOrderFood = () => {
         if (res.data.success) {
           notify.success("Order placed successfully");
 
-          dispatch(
-            handleCartAction({
-              type: "CLEAR_CART_FOOD",
-            })
-          );
+          clearCart();
+          // Keeps persist:root from holding an already-ordered cart if the previous build is rolled back; remove in PR 9.
+          dispatch(handleCartAction({ type: "CLEAR_CART_FOOD" }));
 
           router.push(
             `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
@@ -69,7 +71,7 @@ export const useOrderFood = () => {
         // here so the checkout shows the login form again.
         if (error?.response?.status === 401) {
           Cookies.remove("user_info");
-          dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
+          logout();
           notify.error("Your session has expired. Please log in again to place your order.");
           return;
         }

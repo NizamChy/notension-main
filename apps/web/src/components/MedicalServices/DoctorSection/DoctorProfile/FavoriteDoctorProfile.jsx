@@ -1,8 +1,9 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { useDoctor } from "@/hooks/fetch-data/useDoctor";
 import { handleDoctorReducer } from "@/redux/doctorReducer";
@@ -22,7 +23,7 @@ const FavoriteDoctorProfile = () => {
   const params = useParams();
 
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const doctorId = params?.id || null;
 

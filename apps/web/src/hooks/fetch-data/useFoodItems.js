@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
+import { useSelector } from "react-redux";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { requestStoreSwitch } from "@/components/Cart/StoreSwitch";
 
 const useFoodItems = () => {
-  const dispatch = useDispatch();
+  const cart = useModuleCart("food");
 
-  const foodItems = useSelector((state) => state.cart.foodItems);
+  const foodItems = cart.items;
   const visitedFoodStore = useSelector(
     (state) => state.dashboard.visitedFoodStore
   );
-  const foodStoreInfo = useSelector((state) => state.cart.foodStoreInfo);
+  const foodStoreInfo = cart.storeInfo;
 
   const getCurrentQty = (item) => {
     const cartItem = foodItems?.find((cartItem) => cartItem?._id === item?._id);
@@ -19,30 +19,16 @@ const useFoodItems = () => {
   };
 
   const addProduct = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART_FOOD",
-        data: product,
-      })
-    );
+    cart.add(product);
   };
 
   const saveStoreAndProductInfo = (product) => {
     addProduct(product);
-    dispatch(
-      handleCartAction({
-        type: "SAVE_FOOD_STORE_INFO",
-        data: visitedFoodStore,
-      })
-    );
+    cart.saveStoreInfo(visitedFoodStore);
   };
 
   const emptyCartItems = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "CLEAR_CART_FOOD",
-      })
-    );
+    cart.clear();
     saveStoreAndProductInfo(product);
   };
 
@@ -81,30 +67,15 @@ const useFoodItems = () => {
   };
 
   const incrementQty = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "INCREMENT_QUANTITY_FOOD",
-        data: { _id: itemId },
-      })
-    );
+    cart.increment(itemId);
   };
 
   const decrementQty = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "DECREMENT_QUANTITY_FOOD",
-        data: { _id: itemId },
-      })
-    );
+    cart.decrement(itemId);
   };
 
   const removeFromCart = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "REMOVE_ITEM_FOOD",
-        data: { _id: itemId },
-      })
-    );
+    cart.remove(itemId);
   };
 
   return {

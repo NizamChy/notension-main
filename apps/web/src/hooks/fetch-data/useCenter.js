@@ -1,3 +1,5 @@
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_CONSULTATION_CENTER,
@@ -17,8 +19,8 @@ export const useCenter = () => {
   const [itemNotfound, setItemNotfound] = useState(false);
 
   const { consultationCenterBanner } = useSelector((state) => state.doctorInfo);
-  const { userLatitude, userLongitude, districtId } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, districtId } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId })),
   );
 
   const Axios = getApiClient(HEALTH_CARE_URL);

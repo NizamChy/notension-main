@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import notify from "@/utils/notify";
@@ -6,8 +7,9 @@ import {
   MEDICINE_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import { MEDICINE_URL } from "@/api-endpoints/env";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleCartAction } from "@/redux/cartReducer";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { orderTotals } from "@/utils/price";
@@ -23,11 +25,10 @@ export const useOrderMedicine = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
-  const { medicineStoreInfo, totalAmountMedicine } = useSelector(
-    (state) => state.cart
-  );
+  const { storeInfo: medicineStoreInfo, total: totalAmountMedicine, clear: clearCart } =
+    useModuleCart("medicine");
 
   const totalPrice = totalAmountMedicine;
 
@@ -51,11 +52,9 @@ export const useOrderMedicine = () => {
         if (res.data.success) {
           notify.success("Order placed successfully");
 
-          dispatch(
-            handleCartAction({
-              type: "CLEAR_CART_MEDICINE",
-            })
-          );
+          clearCart();
+          // Keeps persist:root from holding an already-ordered cart if the previous build is rolled back; remove in PR 9.
+          dispatch(handleCartAction({ type: "CLEAR_CART_MEDICINE" }));
 
           router.push(
             `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`

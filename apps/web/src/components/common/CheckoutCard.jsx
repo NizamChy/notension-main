@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useCartStore } from "@/stores/cartStore";
 import { AiOutlinePhone } from "react-icons/ai";
 import { IoLocationOutline, IoPersonOutline } from "react-icons/io5";
 import { lineTotal } from "@/utils/price";
@@ -39,8 +39,8 @@ const CheckoutCard = ({
   progressing,
   disabled,
 }) => {
-  const { itemsKey, imageBaseUrl, titleField } = CART_MODULES[moduleName];
-  const items = useSelector((state) => state.cart[itemsKey]) || [];
+  const { imageBaseUrl, titleField } = CART_MODULES[moduleName];
+  const items = useCartStore((state) => state[moduleName].items);
   const itemCount = items.reduce((sum, item) => sum + (item?.quantity || 0), 0);
 
   const main = (
