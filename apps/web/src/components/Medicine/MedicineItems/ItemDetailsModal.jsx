@@ -2,7 +2,6 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
-import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import useMedicineItems from "@/hooks/fetch-data/useMedicineItems";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";

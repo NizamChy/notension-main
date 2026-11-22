@@ -2,7 +2,6 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";

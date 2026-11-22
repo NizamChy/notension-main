@@ -8,6 +8,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { MEDICINE_URL } from "@/api-endpoints/env";
 import { useDispatch } from "react-redux";
+import { handleCartAction } from "@/redux/cartReducer";
 import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -52,6 +53,8 @@ export const useOrderMedicine = () => {
           notify.success("Order placed successfully");
 
           clearCart();
+          // Keeps persist:root from holding an already-ordered cart if the previous build is rolled back; remove in PR 9.
+          dispatch(handleCartAction({ type: "CLEAR_CART_MEDICINE" }));
 
           router.push(
             `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`

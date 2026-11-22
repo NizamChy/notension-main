@@ -3,7 +3,6 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
 import { HiChevronDown } from "react-icons/hi";

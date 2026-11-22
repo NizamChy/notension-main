@@ -4,7 +4,6 @@ import { useSessionStore } from "@/stores/sessionStore";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 import { useParams, usePathname } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";

@@ -9,6 +9,7 @@ import notify, { errorMessage } from "@/utils/notify";
 import Cookies from "js-cookie";
 import { GROCERY_URL } from "@/api-endpoints/env";
 import { useDispatch } from "react-redux";
+import { handleCartAction } from "@/redux/cartReducer";
 import { logout } from "@/stores/logout";
 import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
@@ -54,6 +55,8 @@ export const useOrderGrocery = () => {
           notify.success("Order placed successfully");
 
           clearCart();
+          // Keeps persist:root from holding an already-ordered cart if the previous build is rolled back; remove in PR 9.
+          dispatch(handleCartAction({ type: "CLEAR_CART_GROCERY" }));
 
           router.push(
             `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`

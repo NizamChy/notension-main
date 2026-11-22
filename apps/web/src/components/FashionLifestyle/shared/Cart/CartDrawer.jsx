@@ -3,7 +3,6 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import CartItem from "./CartItem";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { HiArrowRight } from "react-icons/hi";
 import { useCart } from "../../context/CartContext";

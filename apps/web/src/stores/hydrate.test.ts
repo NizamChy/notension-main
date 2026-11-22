@@ -39,6 +39,30 @@ describe("hydrateStores", () => {
     expect(useSessionStore.getState().currentUserLocation?.districtId).toBe("5");
   });
 
+  it("persists migrated legacy data under the new keys", async () => {
+    const root = JSON.stringify({
+      user: JSON.stringify({ isLoggedin: true, userInfo: { name: "Rina" }, districtId: "7" }),
+      cart: JSON.stringify({ groceryItems: [{ _id: "g", sale_price: 10, quantity: 2 }], groceryCartStartAt: 111 }),
+      _persist: JSON.stringify({ version: 1, rehydrated: true }),
+    });
+    const bag = JSON.stringify([{ _id: "f", quantity: 1, selectedSize: "M", selectedImage: "x" }]);
+    const fake = fakeStorage({ "persist:root": root, cart: bag });
+    useCartStore.persist.setOptions({ storage: legacyAwareStorage("notension-cart", 1, cartFromLegacy, fake) });
+    useSessionStore.persist.setOptions({ storage: legacyAwareStorage("notension-session", 1, sessionFromLegacy, fake) });
+
+    await hydrateStores();
+
+    const cart = JSON.parse(fake.getItem("notension-cart") ?? "null");
+    const session = JSON.parse(fake.getItem("notension-session") ?? "null");
+    expect(cart.state.grocery.items[0]._id).toBe("g");
+    expect(cart.state.grocery.startAt).toBe(111);
+    expect(cart.state.fashion[0]._id).toBe("f");
+    expect(session.state.userInfo).toEqual({ name: "Rina" });
+    expect(session.state.districtId).toBe("7");
+    expect(fake.getItem("persist:root")).toBe(root);
+    expect(fake.getItem("cart")).toBe(bag);
+  });
+
   it("resolves even if a store's rehydrate rejects", async () => {
     vi.spyOn(useCartStore.persist, "rehydrate").mockRejectedValue(new Error("boom"));
     await expect(hydrateStores()).resolves.toBeUndefined();

@@ -4,7 +4,6 @@ import { useSessionStore } from "@/stores/sessionStore";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiArrowRight } from "react-icons/hi";
 import { LuShieldCheck, LuTruck, LuWallet } from "react-icons/lu";

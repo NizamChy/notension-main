@@ -44,6 +44,8 @@ export const CartProvider = ({ children }) => {
       clearCart: () => store().fashionClear(),
       getCartTotal: () => fashionTotal(cartItems),
       getCartCount: () => fashionCount(cartItems),
+      // Reads hasHydrated() without subscribing; safe because the PersistGate
+      // awaits hydrateStores() before any child renders.
       isInitialized: useCartStore.persist.hasHydrated(),
     };
   }, [cartItems]);

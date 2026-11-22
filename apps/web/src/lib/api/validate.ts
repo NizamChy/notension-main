@@ -27,13 +27,14 @@ type Context = { source: Source; endpoint: string; mode?: "strict" | "warn" };
 
 /**
  * Checks `data` against `schema`. Strict (throws ContractError) only for real
- * API answers outside production; otherwise warns once per endpoint and
- * returns the data as-is.
+ * API answers outside production; otherwise warns once per endpoint. Always
+ * returns the original `data` (a check, not a transform); in warn mode that
+ * value is unvalidated.
  */
 export function validate<S extends z.ZodType>(schema: S, data: unknown, ctx: Context): z.infer<S> {
   const mode = ctx.mode ?? (process.env.NODE_ENV !== "production" && ctx.source === "live" ? "strict" : "warn");
   const result = schema.safeParse(data);
-  if (result.success) return result.data;
+  if (result.success) return data as z.infer<S>;
 
   if (mode === "strict") throw new ContractError(ctx.endpoint, result.error.issues);
 

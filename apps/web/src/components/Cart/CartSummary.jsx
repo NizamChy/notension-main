@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useModuleCart } from "@/stores/useModuleCart";
 import { CART_MODULES } from "./cartModules";
 import { PriceRow, formatTaka } from "../shared/CartUI/CartUI";

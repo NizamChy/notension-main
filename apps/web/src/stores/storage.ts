@@ -18,6 +18,8 @@ function createMemoryStorage(): Storage {
   };
 }
 
+// One shared instance for all stores and requests. Safe because the store keys
+// differ and the server never writes.
 const memory = createMemoryStorage();
 
 /** window.localStorage when usable, otherwise an in-memory Storage. */

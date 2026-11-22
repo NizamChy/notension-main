@@ -3,7 +3,6 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
 import { isLengthBetween } from "@/utils/validation";
-import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import {
   HiOutlineMapPin,

@@ -1,7 +1,6 @@
 "use client";
 
 import { useSessionStore } from "@/stores/sessionStore";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiChevronRight } from "react-icons/hi";

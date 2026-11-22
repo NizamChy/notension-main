@@ -1,9 +1,8 @@
 "use client";
 
 import { useSessionStore } from "@/stores/sessionStore";
-import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import OrderDetailsContent from "./OrderDetailsContent";
 import { FASHION_CONTAINER } from "../shared/FashionSection";

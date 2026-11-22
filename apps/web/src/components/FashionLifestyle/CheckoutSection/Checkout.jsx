@@ -5,7 +5,6 @@ import axios from "axios";
 import { lineTotal } from "@/utils/price";
 import notify from "@/utils/notify";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import OrderSummary from "./OrderSummary";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
@@ -292,7 +291,7 @@ const Checkout = () => {
   );
 };
 
-// Orders need an account, and the bag lives in localStorage: wait for it to
+// Orders need an account, and the bag lives in the Zustand cart store: wait for it to
 // load (so an empty bag doesn't flash), then ask guests to sign in. Keyed by
 // user so the form picks up the account's name / phone / address after login.
 const CheckoutGate = () => {

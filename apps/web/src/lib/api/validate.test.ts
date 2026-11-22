@@ -11,6 +11,11 @@ afterEach(() => {
 });
 
 describe("validate", () => {
+  it("returns the original data, keeping unknown fields", () => {
+    const out = validate(schema, { id: "a", extra: 1 }, { source: "live", endpoint: "GET /extra" });
+    expect(out).toHaveProperty("extra", 1);
+  });
+
   it("strict mode throws ContractError on a live mismatch", () => {
     try {
       validate(schema, { id: 1 }, { source: "live", endpoint: "GET /a" });

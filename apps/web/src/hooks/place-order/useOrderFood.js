@@ -10,6 +10,7 @@ import {
 import { FOOD_URL } from "@/api-endpoints/env";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { handleCartAction } from "@/redux/cartReducer";
 import { logout } from "@/stores/logout";
 import { useModuleCart } from "@/stores/useModuleCart";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -52,6 +53,8 @@ export const useOrderFood = () => {
           notify.success("Order placed successfully");
 
           clearCart();
+          // Keeps persist:root from holding an already-ordered cart if the previous build is rolled back; remove in PR 9.
+          dispatch(handleCartAction({ type: "CLEAR_CART_FOOD" }));
 
           router.push(
             `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`
