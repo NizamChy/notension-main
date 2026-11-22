@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import notify, { GENERIC_ERROR, friendlyMessage } from "@/utils/notify";
@@ -18,7 +19,8 @@ export const useAppointment = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { userInfo, patientInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
+  const { patientInfo } = useSelector((state) => state.user);
 
   const Axios = getApiClient(HEALTH_CARE_URL);
 

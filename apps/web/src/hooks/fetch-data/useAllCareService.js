@@ -1,10 +1,12 @@
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import {
   EXPLORE_CARE_PROVIDER,
   EXPLORE_ALL_CARE_SERVICE,
 } from "@/api-endpoints/api-endpoint";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { ALL_CARE_SERVICE_URL } from "@/api-endpoints/env";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
@@ -18,8 +20,8 @@ export const useAllCareService = () => {
 
   const dispatch = useDispatch();
 
-  const { userLatitude, userLongitude, districtId } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, districtId } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId })),
   );
 
   const Axios = getApiClient(ALL_CARE_SERVICE_URL);

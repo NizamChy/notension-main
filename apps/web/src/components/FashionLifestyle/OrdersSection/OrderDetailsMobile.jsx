@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -22,7 +23,7 @@ const OrderDetailsMobile = () => {
   const params = useParams();
   const orderId = params?.orderId;
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const { useAllOrderByCustomer } = useProductOrder();
   const { data: orderInfo, isLoading } = useAllOrderByCustomer(
     userInfo?._id,

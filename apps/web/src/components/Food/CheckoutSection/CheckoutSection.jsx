@@ -1,5 +1,7 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import { useModuleCart } from "@/stores/useModuleCart";
@@ -21,8 +23,8 @@ const CheckoutSection = () => {
 
   const { progressing, placeOrder } = useOrderFood();
 
-  const { userLatitude, userLongitude, userInfo } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, userInfo } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, userInfo: s.userInfo })),
   );
   const {
     storeInfo: foodStoreInfo,

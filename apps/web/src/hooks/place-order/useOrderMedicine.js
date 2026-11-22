@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import notify from "@/utils/notify";
@@ -6,7 +7,7 @@ import {
   MEDICINE_PLACE_ORDER,
 } from "@/api-endpoints/api-endpoint";
 import { MEDICINE_URL } from "@/api-endpoints/env";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -23,7 +24,7 @@ export const useOrderMedicine = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const { storeInfo: medicineStoreInfo, total: totalAmountMedicine, clear: clearCart } =
     useModuleCart("medicine");

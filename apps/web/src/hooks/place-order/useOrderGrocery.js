@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import {
@@ -7,7 +8,8 @@ import {
 import notify, { errorMessage } from "@/utils/notify";
 import Cookies from "js-cookie";
 import { GROCERY_URL } from "@/api-endpoints/env";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logout } from "@/stores/logout";
 import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
@@ -24,7 +26,7 @@ export const useOrderGrocery = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const { storeInfo: groceryStoreInfo, total: totalAmountGrocery, clear: clearCart } =
     useModuleCart("grocery");
@@ -69,7 +71,7 @@ export const useOrderGrocery = () => {
         // here so the checkout shows the login form again.
         if (error?.response?.status === 401) {
           Cookies.remove("user_info");
-          dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
+          logout();
           notify.error(
             "Your session has expired. Please log in again to place your order."
           );

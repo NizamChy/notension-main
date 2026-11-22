@@ -1,3 +1,5 @@
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import {
   SEARCH_GROCERY_STORE,
@@ -6,7 +8,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { useState } from "react";
 import { GROCERY_URL } from "@/api-endpoints/env";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleDashboardReducer } from "@/redux/dashboardReducer";
 import { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 
@@ -17,8 +19,8 @@ export const useGroceryShop = () => {
 
   const dispatch = useDispatch();
 
-  const { userLatitude, userLongitude, districtId } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, districtId } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId })),
   );
 
   const Axios = getApiClient(GROCERY_URL);

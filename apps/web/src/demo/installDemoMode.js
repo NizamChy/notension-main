@@ -1,8 +1,6 @@
 import axios from "axios";
-import store from "@/redux/store";
 import { demoAdapter } from "./demoAdapter";
 import { startBackendCheck } from "./backendStatus";
-import { handleUserReducer } from "@/redux/userReducer";
 import { useSessionStore } from "@/stores/sessionStore";
 import { DEFAULT_DEMO_LOCATION, toUserLocation } from "./demoLocations";
 
@@ -30,9 +28,5 @@ export const applyDemoDefaults = () => {
   if (!currentUserLocation?.districtId) {
     const loc = toUserLocation(DEFAULT_DEMO_LOCATION);
     useSessionStore.getState().saveLocation(loc);
-    // Redux readers still use this until they move to the session store.
-    store.dispatch(
-      handleUserReducer({ type: "SAVE_USER_CURRENT_LOCATION", data: loc }),
-    );
   }
 };

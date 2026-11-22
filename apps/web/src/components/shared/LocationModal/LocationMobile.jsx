@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaLocationDot } from "react-icons/fa6";
@@ -10,9 +11,7 @@ import { preloadGoogleMaps } from "@/utils/googleMapsLoader";
 const LocationMobile = () => {
   const router = useRouter();
 
-  const districtName = useSelector(
-    (state) => state.user.currentUserLocation?.districtName
-  );
+  const districtName = useSessionStore((s) => s.currentUserLocation?.districtName);
 
   return (
     <button

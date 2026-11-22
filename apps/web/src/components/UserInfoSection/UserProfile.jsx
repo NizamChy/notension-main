@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
@@ -19,7 +20,7 @@ const UserProfile = () => {
   const [loginDismissed, setLoginDismissed] = useState(false);
 
   const pathname = usePathname();
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   // The fashion module has its own copy of the user pages.
   const editHref = pathname?.startsWith("/fashion-lifestyle")

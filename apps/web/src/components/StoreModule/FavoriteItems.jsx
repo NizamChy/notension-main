@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi2";
@@ -28,7 +29,7 @@ const FavoriteItems = ({ moduleName }) => {
   const { stateKey, title, noun } = FAVORITES[moduleName];
   const ItemCard = ITEM_CARDS[moduleName];
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const favoriteItems = useSelector((state) => state.userChoice[stateKey]);
   const count = favoriteItems?.length || 0;
 

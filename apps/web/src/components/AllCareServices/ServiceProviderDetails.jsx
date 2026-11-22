@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../common/Loader";
@@ -77,7 +78,7 @@ const ServiceProviderDetails = () => {
   const { currentProviderDetails: reduxProvider } = useSelector(
     (state) => state.allCare
   );
-  const districtId = useSelector((state) => state.user.districtId);
+  const districtId = useSessionStore((s) => s.districtId);
 
   // Redux has the provider when it was opened from a list (and for old links
   // without an id). A direct link (or a reload with cleared state) looks it

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -25,7 +26,7 @@ const ShopInfoCard = ({ shop, onClick, type, isFavorite = false }) => {
   const { addToFavouriteList, isAddedToFavouriteList, removeFromfavoriteList } =
     useFavouriteStore();
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   // 0 = grocery, 1 = medicine, 2 = food (the backend's merchant types).
   const merchantType = type === "grocery" ? 0 : type === "medicine" ? 1 : 2;

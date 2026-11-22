@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
@@ -79,7 +80,7 @@ const GroceryItemDetails = () => {
     removeFromfavoriteItems,
   } = useFavouriteItem();
 
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+  const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
   let merchantType = 0;
   let isExists = null;

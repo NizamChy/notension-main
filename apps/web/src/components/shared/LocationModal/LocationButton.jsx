@@ -1,14 +1,13 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiChevronDown } from "react-icons/hi";
 import { preloadGoogleMaps } from "@/utils/googleMapsLoader";
 
 const LocationButton = ({ onOpenModal }) => {
-  const districtName = useSelector(
-    (state) => state.user.currentUserLocation?.districtName
-  );
+  const districtName = useSessionStore((s) => s.currentUserLocation?.districtName);
 
   return (
     <button

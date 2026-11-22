@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -63,7 +64,7 @@ const ExploreService = () => {
     servicesDistrictId,
     isLoading: servicesLoading,
   } = useSelector((state) => state.allCare);
-  const districtId = useSelector((state) => state.user.districtId);
+  const districtId = useSessionStore((s) => s.districtId);
 
   // The clicked service is saved in Redux, but on a direct link or reload it
   // can be missing or belong to another service, so fall back to looking the

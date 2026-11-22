@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -20,7 +21,7 @@ const AccountMenu = ({ items }) => {
 
   const ref = useRef();
   const { handleUserLogout } = useUser();
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const userName = userInfo?.customer_name || "Account";
 
   useEffect(() => {

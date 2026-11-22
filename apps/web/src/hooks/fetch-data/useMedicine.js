@@ -1,3 +1,5 @@
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import {
@@ -30,8 +32,8 @@ export const useMedicine = () => {
 
   const dispatch = useDispatch();
 
-  const { userLatitude, userLongitude, districtId, userInfo } = useSelector(
-    (state) => state.user
+  const { userLatitude, userLongitude, districtId, userInfo } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId, userInfo: s.userInfo })),
   );
 
   const { merchantId, customstore_id } = useSelector(

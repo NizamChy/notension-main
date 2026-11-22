@@ -1,3 +1,4 @@
+import { useSessionStore } from "@/stores/sessionStore";
 import { getApiClient } from "@/lib/apiClient";
 import {
   ADD_TO_FAVOURITE,
@@ -18,7 +19,7 @@ export const useFavouriteList = () => {
 
   const dispatch = useDispatch();
 
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+  const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
   const { favouriteConsultationCentre, favouriteDoctors } = useSelector(
     (state) => state.userChoice

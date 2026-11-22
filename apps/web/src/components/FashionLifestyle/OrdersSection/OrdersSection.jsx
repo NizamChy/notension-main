@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -32,7 +33,7 @@ const OrdersSection = () => {
 
   const router = useRouter();
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const { useAllOrderByCustomer } = useProductOrder();
   const { data: orderInfo, isLoading } = useAllOrderByCustomer(
     userInfo?._id,

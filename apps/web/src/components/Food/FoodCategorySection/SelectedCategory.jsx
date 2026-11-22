@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { HiChevronLeft } from "react-icons/hi";
@@ -15,9 +16,7 @@ const SelectedCategory = ({ children }) => {
   const { id: catId } = useParams();
   const shopCategory = useSelector((state) => state.dashboard.shopCategory);
   const selectedCategory = shopCategory?.find((item) => item?._id === catId);
-  const location = useSelector(
-    (state) => state.user.currentUserLocation?.districtName
-  );
+  const location = useSessionStore((s) => s.currentUserLocation?.districtName);
 
   return (
     <div className="border-b border-gray-200 bg-white">

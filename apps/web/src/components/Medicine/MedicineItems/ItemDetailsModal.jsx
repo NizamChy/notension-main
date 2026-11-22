@@ -1,5 +1,6 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ const ItemDetailsModal = ({ isOpen, onClose, item }) => {
     removeFromfavoriteItems,
   } = useFavouriteItem();
 
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   let merchantType = 1;
   let isExists = null;
