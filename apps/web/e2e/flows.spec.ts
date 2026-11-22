@@ -202,5 +202,5 @@ test("broken saved data does not crash", async ({ page }) => {
 
 test("first visit gets Dhaka", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByText(/Dhaka/).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: /^Delivering to Dhaka/ })).toBeVisible();
 });

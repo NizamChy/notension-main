@@ -1,7 +1,14 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 
-// A label, the input passed as children, and the error text under it.
-// Colours are the shared UI tokens (red #D92D20, gray-* flips in dark mode).
+export type FormFieldControlProps = {
+  id: string;
+  "aria-describedby"?: string;
+  "aria-invalid"?: true;
+};
+
+// A label, the input (render prop, spread the props onto it) and the error
+// text beside it. Colours are the shared UI tokens (red #D92D20, gray-* flips
+// in dark mode).
 export function FormField({
   label,
   error,
@@ -9,17 +16,25 @@ export function FormField({
 }: {
   label: string;
   error?: string;
-  children: ReactNode;
+  children: (props: FormFieldControlProps) => ReactNode;
 }) {
+  const id = useId();
+  const errorId = `${id}-error`;
   return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-gray-700">{label}</span>
-      {children}
+    <div>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-gray-700">
+        {label}
+      </label>
+      {children({
+        id,
+        "aria-describedby": error ? errorId : undefined,
+        "aria-invalid": error ? true : undefined,
+      })}
       {error && (
-        <span role="alert" className="mt-1 block text-sm text-[#D92D20]">
+        <span id={errorId} role="alert" className="mt-1 block text-sm text-[#D92D20]">
           {error}
         </span>
       )}
-    </label>
+    </div>
   );
 }

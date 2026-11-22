@@ -15,7 +15,7 @@ function PhoneForm() {
   return (
     <form onSubmit={form.handleSubmit(() => {})}>
       <FormField label="Mobile" error={form.formState.errors.phone?.message}>
-        <input {...form.register("phone")} />
+        {(props) => <input {...props} {...form.register("phone")} />}
       </FormField>
       <button type="submit">Send</button>
     </form>
@@ -29,4 +29,10 @@ test("shows the Zod message after an invalid submit", async () => {
   await waitFor(() =>
     expect(screen.getByText("Enter a valid mobile number (01XXXXXXXXX)")).toBeTruthy(),
   );
+  const input = screen.getByLabelText("Mobile");
+  expect(input.getAttribute("aria-invalid")).toBe("true");
+  expect(input.getAttribute("aria-describedby")).toBe(
+    screen.getByRole("alert").getAttribute("id"),
+  );
+  expect(input.getAttribute("aria-describedby")).toBeTruthy();
 });
