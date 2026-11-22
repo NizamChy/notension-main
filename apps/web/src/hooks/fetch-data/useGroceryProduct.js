@@ -5,7 +5,7 @@ import {
   GROCERY_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
 import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useStoreData } from "@/components/StoreModule/useStoreData";
 import { GROCERY_URL } from "@/api-endpoints/env";
 
 export const useGroceryProduct = () => {
@@ -18,9 +18,8 @@ export const useGroceryProduct = () => {
   const [itemNotfound, setItemNotfound] = useState(false);
   const [showActivityIndicator, setShowActivityIndicator] = useState(false);
 
-  const { merchantId, customstore_id } = useSelector(
-    (state) => state.itemsByStore
-  );
+  // The visited store, from the store query (not Redux).
+  const { merchantId, customstore_id } = useStoreData("grocery").storeRef;
 
   // const { specialOfferItem, dealOfTheDay } = useSelector(
   //   (state) => state.itemsByStoreReducer

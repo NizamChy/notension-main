@@ -1,39 +1,37 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import Cart from "@/components/Cart/Cart";
 import StoreUnavailable from "@/components/ShopInfoSection/StoreUnavailable";
-import { useParams } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import StoreCategoryDrawer from "@/components/StoreModule/StoreCategoryDrawer";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { STORE_PAGE_CLASS } from "@/components/StoreModule/storeModules";
 import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
+import { useGroceryStore } from "@/hooks/grocery/useGroceryStore";
+import { useStoreRef } from "@/hooks/grocery/useStoreRef";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 
-export default function GroceryStoreLayout({ children }) {
-  const params = useParams();
-  const { exploreStore, progressing, storeStatus } = useGroceryShop();
+export default function GroceryStoreLayout({ children }: { children: ReactNode }) {
+  const { isLoading, status } = useGroceryStore();
+  const ref = useStoreRef();
 
+  // As the old explore did on every store visit, open or not: the cart and
+  // the post-login redirect follow Grocery from here.
   useEffect(() => {
-    if (params?.storeId && params?.customStoreId) {
-      const shop = {
-        _id: params?.storeId,
-        custom_store_id: params?.customStoreId,
-      };
-
-      exploreStore(shop);
-    }
-    // Re-fetch when the user navigates to a different store; exploreStore is
-    // recreated on every render, so it is intentionally not a dependency.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params?.storeId, params?.customStoreId]);
+    if (ref) usePreferencesStore.getState().setCurrentModule("Grocery");
+  }, [ref]);
 
   return (
     <>
       <Cart />
-      <Navbar search="grocery" leading={<StoreCategoryDrawer moduleName="grocery" />} />
+      {/* Navbar is JS, so TS reads every prop as required; no actions here. */}
+      <Navbar
+        search="grocery"
+        leading={<StoreCategoryDrawer moduleName="grocery" />}
+        actions={undefined}
+      />
       <div className="flex justify-center">
         <div className="lg:w-[20%] hidden lg:block">
           <div className="fixed top-0 left-0 w-[20%] h-full">
@@ -42,17 +40,13 @@ export default function GroceryStoreLayout({ children }) {
         </div>
 
         <div className="w-full lg:w-[80%] ml-auto min-w-0">
-          {progressing ? (
+          {isLoading ? (
             <div className="min-h-content mx-auto flex justify-center items-center">
               <Loader />
             </div>
           ) : (
             <div className={`min-h-content ${STORE_PAGE_CLASS}`}>
-              {storeStatus ? (
-                <StoreUnavailable moduleName="grocery" status={storeStatus} />
-              ) : (
-                children
-              )}
+              {status ? <StoreUnavailable moduleName="grocery" status={status} /> : children}
             </div>
           )}
 

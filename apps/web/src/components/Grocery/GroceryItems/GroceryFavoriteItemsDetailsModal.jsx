@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineCube } from "react-icons/hi2";
 import { EmptyState } from "@/components/shared/UI/UI";
-import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
+import { useGroceryCart } from "@/hooks/grocery/useGroceryCart";
+import { useStoreData } from "@/components/StoreModule/useStoreData";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import ProductQuickView from "@/components/StoreModule/ProductQuickView";
@@ -18,7 +19,9 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
   const [isFavoriteAdded, setIsFavoriteAdded] = useState(null);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useGroceryItems();
+    useGroceryCart();
+  // The visited store, from the store query (not Redux).
+  const { storeRef } = useStoreData("grocery");
 
   const {
     message,
@@ -28,7 +31,7 @@ const GroceryFavoriteItemsDetailsModal = ({ isOpen, onClose, item }) => {
     isAddedToFavouriteItems,
     removeFromfavoriteItems,
     getGroceryProductDetails,
-  } = useFavouriteItem();
+  } = useFavouriteItem(storeRef);
 
   let merchantType = 0;
   let isExists = null;

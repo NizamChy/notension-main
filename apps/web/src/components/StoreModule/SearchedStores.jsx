@@ -1,20 +1,19 @@
 "use client";
 
 import notify from "@/utils/notify";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import StoreList from "./StoreList";
 import { getStoreModule, toSlug } from "./storeModules";
 
 const SearchedStores = ({ moduleName }) => {
-  const [nearestInfo, setNearestInfo] = useState([]);
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchText = searchParams.get("query");
 
-  const { basePath, useShop } = getStoreModule(moduleName);
-  const { handleSearchStore, progressing } = useShop();
+  const { basePath, useStores } = getStoreModule(moduleName);
+  const useSearchStores = useStores.search;
+  const { stores, isLoading } = useSearchStores(searchText ?? "");
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
@@ -27,18 +26,13 @@ const SearchedStores = ({ moduleName }) => {
     );
   };
 
-  useEffect(() => {
-    handleSearchStore(searchText, setNearestInfo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchText]);
-
   return (
     <StoreList
       moduleName={moduleName}
       title={searchText ? `Stores matching “${searchText}”` : "Search stores"}
       subtitle={searchText ? null : "Type a store name in the search bar above."}
-      shops={nearestInfo}
-      isLoading={progressing}
+      shops={stores}
+      isLoading={isLoading}
       onShopClick={handleStoreClick}
       emptyTitle="No matching stores"
       emptyText="Check the spelling or try a shorter store name."

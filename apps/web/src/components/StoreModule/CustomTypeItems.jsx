@@ -1,13 +1,12 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
 import { ITEM_CARDS } from "./itemCards";
-import ItemCardSkeleton from "./ItemCardSkeleton";
 import { ITEM_GRID_CLASS } from "./storeModules";
+import { useStoreData } from "./useStoreData";
 import { SectionTitle } from "@/components/shared/UI/UI";
 
-// Which `itemsByStore` list each custom type shows, and its heading.
+// Which store-data list each custom type shows, and its heading.
 export const CUSTOM_TYPE_SECTIONS = {
   specialOffer: {
     stateKey: "specialOfferItem",
@@ -30,21 +29,20 @@ const CustomTypeItems = ({ moduleName, section }) => {
   const { stateKey, title, subtitle } = CUSTOM_TYPE_SECTIONS[section];
   const ItemCard = ITEM_CARDS[moduleName];
 
-  const items = useSelector((state) => state.itemsByStore[stateKey]) || [];
-  const isLoading = useSelector((state) => state.itemsByStore.isLoading);
+  const items = useStoreData(moduleName)[stateKey] || [];
 
-  if (!isLoading && items.length === 0) return null;
+  // The store layout shows a Loader until the store has loaded, so the lists
+  // are final here. (The old itemsByStore.isLoading flag was never true.)
+  if (items.length === 0) return null;
 
   return (
     <section aria-label={title}>
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div className={ITEM_GRID_CLASS}>
-        {isLoading
-          ? Array.from({ length: 4 }).map((_, index) => (
-              <ItemCardSkeleton key={index} />
-            ))
-          : items.map((item) => <ItemCard key={item?._id} item={item} />)}
+        {items.map((item) => (
+          <ItemCard key={item?._id} item={item} />
+        ))}
       </div>
     </section>
   );

@@ -11,7 +11,8 @@ import ProductDetailsPage from "@/components/StoreModule/ProductDetailsPage";
 import ProductDetailsView, {
   discountLabelOf,
 } from "@/components/StoreModule/ProductDetailsView";
-import useGroceryItems from "@/hooks/fetch-data/useGroceryItems";
+import { useGroceryCart } from "@/hooks/grocery/useGroceryCart";
+import { useStoreData } from "@/components/StoreModule/useStoreData";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import {
   GROCERY_ITEM_DETAILS,
@@ -73,12 +74,14 @@ const GroceryItemDetails = () => {
   }, [productId, hasReduxItem, params?.storeId, params?.customStoreId]);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useGroceryItems();
+    useGroceryCart();
+  // The visited store, from the store query (not Redux).
+  const { storeRef } = useStoreData("grocery");
   const {
     addToFavouriteItems,
     isAddedToFavouriteItems,
     removeFromfavoriteItems,
-  } = useFavouriteItem();
+  } = useFavouriteItem(storeRef);
 
   const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 

@@ -1,14 +1,12 @@
 "use client";
 
-import { useSelector } from "react-redux";
-import Loader from "@/components/common/Loader";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import GroceryItems from "../GroceryItems/GroceryItems";
 import NoConnection from "@/components/NoConnection/NoConnection";
 import useNetworkStatus from "@/hooks/fetch-data/useNetworkStatus";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
 import { useGroceryProduct } from "@/hooks/fetch-data/useGroceryProduct";
+import { useStoreData } from "@/components/StoreModule/useStoreData";
 import { PageHeader } from "@/components/shared/UI/UI";
 import {
   InfiniteItemGrid,
@@ -27,13 +25,12 @@ const SubTypeSection = () => {
   const params = useParams();
   const router = useRouter();
 
-  const { progressing } = useGroceryShop();
   const { isOnline } = useNetworkStatus();
   const { getItemsOnPress, productInfo, loadingMore, allLoaded } =
     useGroceryProduct();
 
   const subTypeSlugId = params.subTypeSlugId;
-  const typeInfo = useSelector((state) => state.dashboard.typeInfo);
+  const { typeInfo } = useStoreData("grocery");
 
   useEffect(() => {
     const [slug, subTypeId] = subTypeSlugId.split("_");
@@ -83,10 +80,6 @@ const SubTypeSection = () => {
 
   if (!isOnline) {
     return <NoConnection />;
-  }
-
-  if (progressing) {
-    return <Loader />;
   }
 
   return (

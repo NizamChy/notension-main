@@ -3,7 +3,7 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import { useShallow } from "zustand/react/shallow";
 import notify from "@/utils/notify";
-import { useSelector } from "react-redux";
+import { useStoreData } from "@/components/StoreModule/useStoreData";
 import { useModuleCart } from "@/stores/useModuleCart";
 import React, { useState } from "react";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
@@ -30,9 +30,8 @@ const CheckoutSection = () => {
     items: groceryItems,
     total: totalAmountGrocery,
   } = useModuleCart("grocery");
-  const { merchantId, customstore_id } = useSelector(
-    (state) => state.itemsByStore
-  );
+  // The visited store, from the store query (not Redux).
+  const { merchantId, customstore_id } = useStoreData("grocery").storeRef;
 
   const isModalOpen = !userInfo?._id && !loginDismissed;
   const closeModal = () => setLoginDismissed(true);

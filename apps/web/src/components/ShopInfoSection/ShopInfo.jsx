@@ -10,11 +10,20 @@ import {
   HiOutlinePhone,
 } from "react-icons/hi2";
 import { CARD } from "../shared/UI/UI";
+import { useStoreData } from "../StoreModule/useStoreData";
 
-const STORE_STATE_KEYS = {
-  food: "visitedFoodStore",
-  grocery: "visitedGroceryStore",
-  medicine: "visitedMedicineStore",
+// The visited store per module. Food and Medicine still keep it in Redux;
+// Grocery reads the store query. moduleName is fixed per instance, so the
+// hook a ShopInfo calls never changes.
+const useFoodStore = () => useSelector((state) => state.dashboard.visitedFoodStore);
+const useGroceryStoreInfo = () => useStoreData("grocery").store;
+const useMedicineStoreInfo = () =>
+  useSelector((state) => state.dashboard.visitedMedicineStore);
+
+const VISITED_STORE_HOOKS = {
+  food: useFoodStore,
+  grocery: useGroceryStoreInfo,
+  medicine: useMedicineStoreInfo,
 };
 
 const InfoLine = ({ icon: Icon, children, title }) => (
@@ -35,9 +44,8 @@ const InfoLine = ({ icon: Icon, children, title }) => (
 // - layout="row" (food): a full-width store header — banner thumbnail on the
 //   left, details on the right.
 const ShopInfo = ({ moduleName = "medicine", layout = "card" }) => {
-  const store = useSelector(
-    (state) => state.dashboard[STORE_STATE_KEYS[moduleName]],
-  );
+  const useVisitedStore = VISITED_STORE_HOOKS[moduleName];
+  const store = useVisitedStore();
 
   if (!store?._id) return null;
 

@@ -3,7 +3,6 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import { usePreferencesStore } from "@/stores/preferencesStore";
 import React, { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { cartTotal, useCartStore } from "@/stores/cartStore";
 import { HiArrowRight } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
@@ -21,9 +20,19 @@ import { CartEmpty, PrimaryButton, formatTaka } from "../shared/CartUI/CartUI";
 // Stable empty cart so the selector does not return a new object each call.
 const NO_CART = { items: [], storeInfo: {}, startAt: 0 };
 
+// No module open (or a module without a cart): no visited store.
+const useNoStore = () => null;
+
 // Floating cart button + cart drawer for the grocery, medicine and food
-// stores.
+// stores. Each module reads its visited store with its own hook, so the cart
+// remounts when the current module changes.
 const Cart = () => {
+  const currentModule = usePreferencesStore((s) => s.currentModule);
+  const moduleName = currentModule?.toLowerCase();
+  return <ModuleCart key={moduleName} moduleName={moduleName} />;
+};
+
+const ModuleCart = ({ moduleName }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,16 +41,13 @@ const Cart = () => {
   const pathname = usePathname();
 
   const userInfo = useSessionStore((s) => s.userInfo);
-  const currentModule = usePreferencesStore((s) => s.currentModule);
-  const moduleName = currentModule?.toLowerCase();
   const config = CART_MODULES[moduleName];
 
   const cart = useCartStore((state) => (config ? state[moduleName] : NO_CART));
   const items = cart.items;
   const total = useMemo(() => cartTotal(cart), [cart]);
-  const visitedStore = useSelector((state) =>
-    config ? state.dashboard[config.visitedStoreKey] : null,
-  );
+  const useVisitedStore = config?.useVisitedStore ?? useNoStore;
+  const visitedStore = useVisitedStore();
   // The store the items were added from, which may not be the page's store.
   const cartStore = config ? cart.storeInfo : null;
 
