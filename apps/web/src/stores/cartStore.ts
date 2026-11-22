@@ -98,6 +98,18 @@ function isRecord(v: unknown): v is Record<string, unknown> {
   return !!v && typeof v === "object" && !Array.isArray(v);
 }
 
+/** Keeps only object lines with a string _id and coerces quantity to a number. */
+function cleanLines<T extends CartLine>(raw: unknown): T[] {
+  if (!Array.isArray(raw)) return [];
+  const out: T[] = [];
+  for (const line of raw) {
+    if (!isRecord(line) || typeof line._id !== "string") continue;
+    const q = toNumber(line.quantity);
+    out.push({ ...line, quantity: Number.isFinite(q) && q >= 1 ? q : 1 } as T);
+  }
+  return out;
+}
+
 function moduleFromLegacy(
   cart: Record<string, unknown>,
   prefix: CartModule,
@@ -106,7 +118,7 @@ function moduleFromLegacy(
   const storeInfo = cart[`${prefix}StoreInfo`];
   const startAt = cart[`${prefix}CartStartAt`];
   return {
-    items: Array.isArray(items) ? (items as CartLine[]) : [],
+    items: cleanLines<CartLine>(items),
     storeInfo: isRecord(storeInfo) ? storeInfo : {},
     startAt: typeof startAt === "number" ? startAt : 0,
   };
@@ -116,7 +128,7 @@ function moduleFromLegacy(
 export function cartFromLegacy(s: Pick<Storage, "getItem">): CartState | null {
   const root = readLegacyRoot(s);
   const cart = root && isRecord(root.cart) ? root.cart : {};
-  const fashion = readLegacyFashionCart(s) as FashionLine[];
+  const fashion = cleanLines<FashionLine>(readLegacyFashionCart(s));
   const state: CartState = {
     grocery: moduleFromLegacy(cart, "grocery"),
     food: moduleFromLegacy(cart, "food"),

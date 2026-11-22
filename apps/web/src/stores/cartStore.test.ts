@@ -202,6 +202,23 @@ describe("persistence and migration", () => {
     expect(s.fashion).toEqual(fashion);
   });
 
+  it("cleans odd legacy lines on migration", async () => {
+    const cart = {
+      groceryItems: [null, { _id: "x", sale_price: "50", quantity: "2" }, { price: 1 }],
+    };
+    const root = JSON.stringify({ cart: JSON.stringify(cart) });
+    const bag = [{ _id: "f", quantity: "3", selectedSize: "M", selectedImage: null }, 7];
+    await useStorage(fakeStorage({ "persist:root": root, cart: JSON.stringify(bag) }));
+    const items = get().grocery.items;
+    expect(items).toHaveLength(1);
+    expect(items[0].quantity).toBe(2);
+    expect(get().fashion).toHaveLength(1);
+    expect(get().fashion[0].quantity).toBe(3);
+    expect(cartTotal(get().grocery)).toBe(lineTotal(items[0]));
+    get().increment("grocery", "x");
+    expect(get().grocery.items[0].quantity).toBe(3);
+  });
+
   it("migrates nothing from corrupt data", async () => {
     const corrupt = { "persist:root": "{broken", cart: "{}" };
     await useStorage(fakeStorage(corrupt));
