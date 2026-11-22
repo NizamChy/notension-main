@@ -2,6 +2,7 @@
 
 import notify from "@/utils/notify";
 import { useSelector } from "react-redux";
+import { useModuleCart } from "@/stores/useModuleCart";
 import React, { useState } from "react";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import CheckoutCard from "@/components/common/CheckoutCard";
@@ -23,9 +24,11 @@ const CheckoutSection = () => {
   const { userLatitude, userLongitude, userInfo } = useSelector(
     (state) => state.user
   );
-  const { foodStoreInfo, foodItems, totalAmountFood } = useSelector(
-    (state) => state.cart
-  );
+  const {
+    storeInfo: foodStoreInfo,
+    items: foodItems,
+    total: totalAmountFood,
+  } = useModuleCart("food");
 
   const isModalOpen = !userInfo?._id && !loginDismissed;
   const closeModal = () => setLoginDismissed(true);

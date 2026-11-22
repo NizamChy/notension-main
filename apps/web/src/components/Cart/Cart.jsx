@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { cartTotal, useCartStore } from "@/stores/cartStore";
 import { HiArrowRight } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -15,8 +16,8 @@ import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import { CartEmpty, PrimaryButton, formatTaka } from "../shared/CartUI/CartUI";
 
-// Stable empty list so the selector does not return a new array each call.
-const NO_ITEMS = [];
+// Stable empty cart so the selector does not return a new object each call.
+const NO_CART = { items: [], storeInfo: {}, startAt: 0 };
 
 // Floating cart button + cart drawer for the grocery, medicine and food
 // stores.
@@ -33,17 +34,14 @@ const Cart = () => {
   const moduleName = currentModule?.toLowerCase();
   const config = CART_MODULES[moduleName];
 
-  const items = useSelector((state) =>
-    config ? state.cart[config.itemsKey] : NO_ITEMS,
-  );
-  const total = useSelector((state) => (config ? state.cart[config.totalKey] : 0));
+  const cart = useCartStore((state) => (config ? state[moduleName] : NO_CART));
+  const items = cart.items;
+  const total = useMemo(() => cartTotal(cart), [cart]);
   const visitedStore = useSelector((state) =>
     config ? state.dashboard[config.visitedStoreKey] : null,
   );
   // The store the items were added from, which may not be the page's store.
-  const cartStore = useSelector((state) =>
-    config ? state.cart[config.storeInfoKey] : null,
-  );
+  const cartStore = config ? cart.storeInfo : null;
 
   const count = items?.length || 0;
   const hasItems = count > 0;

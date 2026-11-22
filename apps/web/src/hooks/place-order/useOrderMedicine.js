@@ -7,7 +7,7 @@ import {
 } from "@/api-endpoints/api-endpoint";
 import { MEDICINE_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { orderTotals } from "@/utils/price";
@@ -25,9 +25,8 @@ export const useOrderMedicine = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  const { medicineStoreInfo, totalAmountMedicine } = useSelector(
-    (state) => state.cart
-  );
+  const { storeInfo: medicineStoreInfo, total: totalAmountMedicine, clear: clearCart } =
+    useModuleCart("medicine");
 
   const totalPrice = totalAmountMedicine;
 
@@ -51,11 +50,7 @@ export const useOrderMedicine = () => {
         if (res.data.success) {
           notify.success("Order placed successfully");
 
-          dispatch(
-            handleCartAction({
-              type: "CLEAR_CART_MEDICINE",
-            })
-          );
+          clearCart();
 
           router.push(
             `/medicine/${params?.store}/${params?.storeId}/${params?.customStoreId}`

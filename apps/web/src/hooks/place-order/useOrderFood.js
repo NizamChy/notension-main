@@ -9,7 +9,7 @@ import {
 import { FOOD_URL } from "@/api-endpoints/env";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { handleUserReducer } from "@/redux/userReducer";
 import { orderTotals } from "@/utils/price";
 
@@ -25,7 +25,8 @@ export const useOrderFood = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  const { foodStoreInfo, totalAmountFood } = useSelector((state) => state.cart);
+  const { storeInfo: foodStoreInfo, total: totalAmountFood, clear: clearCart } =
+    useModuleCart("food");
 
   const totalPrice = totalAmountFood;
 
@@ -48,11 +49,7 @@ export const useOrderFood = () => {
         if (res.data.success) {
           notify.success("Order placed successfully");
 
-          dispatch(
-            handleCartAction({
-              type: "CLEAR_CART_FOOD",
-            })
-          );
+          clearCart();
 
           router.push(
             `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useCartStore } from "@/stores/cartStore";
 import { lineTotal } from "@/utils/price";
 import { CART_MODULES } from "./cartModules";
 import { CartLine } from "../shared/CartUI/CartUI";
@@ -9,11 +9,11 @@ import { CartLine } from "../shared/CartUI/CartUI";
 // Render with key={moduleName} so the per-module hooks never change between
 // renders of the same instance.
 const CartItems = ({ moduleName }) => {
-  const { itemsKey, imageBaseUrl, titleField, useItems } =
+  const { imageBaseUrl, titleField, useItems } =
     CART_MODULES[moduleName];
   const { incrementQty, decrementQty, removeFromCart } = useItems();
 
-  const items = useSelector((state) => state.cart[itemsKey]);
+  const items = useCartStore((state) => state[moduleName].items);
 
   return (
     <ul className="divide-y divide-gray-100">

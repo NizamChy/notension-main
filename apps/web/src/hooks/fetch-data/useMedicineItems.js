@@ -1,17 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
+import { useSelector } from "react-redux";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { requestStoreSwitch } from "@/components/Cart/StoreSwitch";
 
 const useMedicineItems = () => {
-  const dispatch = useDispatch();
+  const cart = useModuleCart("medicine");
 
-  const medicineItems = useSelector((state) => state.cart.medicineItems);
+  const medicineItems = cart.items;
   const visitedMedicineStore = useSelector(
     (state) => state.dashboard.visitedMedicineStore
   );
-  const medicineStoreInfo = useSelector(
-    (state) => state.cart.medicineStoreInfo
-  );
+  const medicineStoreInfo = cart.storeInfo;
 
   const getCurrentQty = (item) => {
     const cartItem = medicineItems?.find(
@@ -23,30 +21,16 @@ const useMedicineItems = () => {
   };
 
   const addProduct = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "ADD_TO_CART_MEDICINE",
-        data: product,
-      })
-    );
+    cart.add(product);
   };
 
   const saveStoreAndProductInfo = (product) => {
     addProduct(product);
-    dispatch(
-      handleCartAction({
-        type: "SAVE_MEDICINE_STORE_INFO",
-        data: visitedMedicineStore,
-      })
-    );
+    cart.saveStoreInfo(visitedMedicineStore);
   };
 
   const emptyCartItems = (product) => {
-    dispatch(
-      handleCartAction({
-        type: "CLEAR_CART_MEDICINE",
-      })
-    );
+    cart.clear();
     saveStoreAndProductInfo(product);
   };
 
@@ -89,30 +73,15 @@ const useMedicineItems = () => {
   };
 
   const incrementQty = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "INCREMENT_QUANTITY_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+    cart.increment(itemId);
   };
 
   const decrementQty = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "DECREMENT_QUANTITY_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+    cart.decrement(itemId);
   };
 
   const removeFromCart = (itemId) => {
-    dispatch(
-      handleCartAction({
-        type: "REMOVE_ITEM_MEDICINE",
-        data: { _id: itemId },
-      })
-    );
+    cart.remove(itemId);
   };
 
   return {

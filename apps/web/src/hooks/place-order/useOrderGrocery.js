@@ -8,7 +8,7 @@ import notify, { errorMessage } from "@/utils/notify";
 import Cookies from "js-cookie";
 import { GROCERY_URL } from "@/api-endpoints/env";
 import { useDispatch, useSelector } from "react-redux";
-import { handleCartAction } from "@/redux/cartReducer";
+import { useModuleCart } from "@/stores/useModuleCart";
 import { useParams, useRouter } from "next/navigation";
 import { handleUserReducer } from "@/redux/userReducer";
 import { orderTotals } from "@/utils/price";
@@ -26,9 +26,8 @@ export const useOrderGrocery = () => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  const { groceryStoreInfo, totalAmountGrocery } = useSelector(
-    (state) => state.cart
-  );
+  const { storeInfo: groceryStoreInfo, total: totalAmountGrocery, clear: clearCart } =
+    useModuleCart("grocery");
 
   const totalPrice = totalAmountGrocery;
 
@@ -52,11 +51,7 @@ export const useOrderGrocery = () => {
         if (res.data.success) {
           notify.success("Order placed successfully");
 
-          dispatch(
-            handleCartAction({
-              type: "CLEAR_CART_GROCERY",
-            })
-          );
+          clearCart();
 
           router.push(
             `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`
