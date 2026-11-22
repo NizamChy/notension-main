@@ -33,35 +33,70 @@ export function safeLocalStorage(): Storage {
     return memory;
   }
 }
+function warn(message: string, error: unknown) {
+  if (process.env.NODE_ENV !== "production") console.warn(message, error);
+}
+
+/** Reader over the real window.localStorage, even if writes are blocked. */
+function realLocalReader(): Pick<Storage, "getItem"> | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const ls = window.localStorage;
+    return ls ? { getItem: (k) => ls.getItem(k) } : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Zustand persist storage that prefers its own key and, when empty,
  * seeds from the old redux-persist / Fashion data via `fromLegacy`.
+ * With no `storage` argument it uses safeLocalStorage() for its own key and
+ * the real localStorage (when readable) for legacy reads.
  */
 export function legacyAwareStorage<T>(
   key: string,
   version: number,
   fromLegacy: (s: Pick<Storage, "getItem">) => T | null,
-  storage: Storage = safeLocalStorage(),
+  storage?: Storage,
 ): PersistStorage<T> {
+  const own = () => storage ?? safeLocalStorage();
+  const legacyReader = (): Pick<Storage, "getItem"> =>
+    storage ?? realLocalReader() ?? safeLocalStorage();
   return {
     getItem: () => {
-      const raw = storage.getItem(key);
-      if (raw != null) {
-        try {
-          return JSON.parse(raw) as StorageValue<T>;
-        } catch {
-          // corrupt: treat as empty
+      try {
+        const raw = own().getItem(key);
+        if (raw != null) {
+          const parsed: unknown = JSON.parse(raw);
+          if (parsed && typeof parsed === "object" && "state" in parsed) {
+            return parsed as StorageValue<T>;
+          }
         }
+      } catch {
+        // corrupt or unreadable: treat as empty
       }
-      const legacy = fromLegacy(storage);
-      return legacy === null ? null : { state: legacy, version };
+      try {
+        const legacy = fromLegacy(legacyReader());
+        return legacy === null ? null : { state: legacy, version };
+      } catch (error) {
+        warn("legacy read failed", error);
+        return null;
+      }
     },
     setItem: (_name, value) => {
-      storage.setItem(key, JSON.stringify(value));
+      try {
+        own().setItem(key, JSON.stringify(value));
+      } catch (error) {
+        warn("persist write failed", error);
+      }
     },
     removeItem: () => {
-      storage.removeItem(key);
+      try {
+        own().removeItem(key);
+      } catch (error) {
+        warn("persist remove failed", error);
+      }
     },
   };
 }
