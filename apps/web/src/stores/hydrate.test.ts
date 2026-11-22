@@ -3,6 +3,7 @@ import { hydrateStores } from "./hydrate";
 import { legacyAwareStorage } from "./storage";
 import { cartFromLegacy, useCartStore } from "./cartStore";
 import { sessionFromLegacy, useSessionStore } from "./sessionStore";
+import { preferencesFromLegacy, usePreferencesStore } from "./preferencesStore";
 
 function fakeStorage(seed: Record<string, string> = {}): Storage {
   const map = new Map(Object.entries(seed));
@@ -66,5 +67,37 @@ describe("hydrateStores", () => {
   it("resolves even if a store's rehydrate rejects", async () => {
     vi.spyOn(useCartStore.persist, "rehydrate").mockRejectedValue(new Error("boom"));
     await expect(hydrateStores()).resolves.toBeUndefined();
+  });
+
+  it("does not rewrite a saved key", async () => {
+    // Saved at version 0 while the store expects 1 and has no migrate: rehydrate drops it.
+    const fake = fakeStorage({
+      "notension-cart": JSON.stringify({ state: { fashion: [] }, version: 0 }),
+    });
+    const setItem = vi.spyOn(fake, "setItem");
+    useCartStore.persist.setOptions({ storage: legacyAwareStorage("notension-cart", 1, cartFromLegacy, fake) });
+    useSessionStore.persist.setOptions({ storage: legacyAwareStorage("notension-session", 1, sessionFromLegacy, fake) });
+    usePreferencesStore.persist.setOptions({ storage: legacyAwareStorage("notension-preferences", 1, preferencesFromLegacy, fake) });
+
+    await hydrateStores();
+
+    expect(setItem.mock.calls.filter(([k]) => k === "notension-cart")).toHaveLength(0);
+  });
+
+  it("writes a migrated key once", async () => {
+    const root = JSON.stringify({
+      dashboard: JSON.stringify({ currentModule: "Medicine" }),
+      _persist: JSON.stringify({ version: 1, rehydrated: true }),
+    });
+    const fake = fakeStorage({ "persist:root": root });
+    const setItem = vi.spyOn(fake, "setItem");
+    useCartStore.persist.setOptions({ storage: legacyAwareStorage("notension-cart", 1, cartFromLegacy, fake) });
+    useSessionStore.persist.setOptions({ storage: legacyAwareStorage("notension-session", 1, sessionFromLegacy, fake) });
+    usePreferencesStore.persist.setOptions({ storage: legacyAwareStorage("notension-preferences", 1, preferencesFromLegacy, fake) });
+
+    await hydrateStores();
+
+    expect(setItem.mock.calls.filter(([k]) => k === "notension-preferences")).toHaveLength(1);
+    expect(usePreferencesStore.getState().currentModule).toBe("Medicine");
   });
 });

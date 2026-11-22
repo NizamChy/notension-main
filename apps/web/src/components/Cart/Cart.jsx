@@ -1,6 +1,7 @@
 "use client";
 
 import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { cartTotal, useCartStore } from "@/stores/cartStore";
@@ -31,7 +32,7 @@ const Cart = () => {
   const pathname = usePathname();
 
   const userInfo = useSessionStore((s) => s.userInfo);
-  const currentModule = useSelector((state) => state.dashboard.currentModule);
+  const currentModule = usePreferencesStore((s) => s.currentModule);
   const moduleName = currentModule?.toLowerCase();
   const config = CART_MODULES[moduleName];
 

@@ -1,4 +1,5 @@
 import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import {
@@ -34,12 +35,7 @@ export const useFood = () => {
       })
     );
 
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: "Food",
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule("Food");
   };
 
   const exploreFoodModule = () => {
@@ -142,6 +138,7 @@ export const useFood = () => {
               data: res?.data?.result?.shopDetails[0] || {},
             })
           );
+          usePreferencesStore.getState().setCurrentModule("Food");
         }
 
         //   "res?.data?.result?.shopDetails : ",

@@ -1,4 +1,5 @@
 import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
@@ -27,12 +28,7 @@ export const useAllCareService = () => {
   const Axios = getApiClient(ALL_CARE_SERVICE_URL);
 
   const setCurrentModule = () => {
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: "dashboard",
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule("dashboard");
   };
 
   // Fetches services and sliders for the current district. Returns a cancel

@@ -3,6 +3,7 @@ import { cartFromLegacy, initialCartState, useCartStore } from "./cartStore";
 import { resetForSampleSwitch } from "./resetForSampleSwitch";
 import { initialSessionState, sessionFromLegacy, useSessionStore } from "./sessionStore";
 import { legacyAwareStorage } from "./storage";
+import { usePreferencesStore } from "./preferencesStore";
 
 function fakeStorage(seed: Record<string, string> = {}): Storage {
   const map = new Map(Object.entries(seed));
@@ -62,5 +63,11 @@ describe("resetForSampleSwitch", () => {
     expect(cart.medicine.items).toEqual([]);
     expect(cart.fashion.map((l) => l._id)).toEqual(["new"]);
     expect(cart.fashion[0].quantity).toBe(2);
+  });
+
+  it("sample switch resets currentModule", () => {
+    usePreferencesStore.getState().setCurrentModule("Food");
+    resetForSampleSwitch();
+    expect(usePreferencesStore.getState().currentModule).toBe("dashboard");
   });
 });
