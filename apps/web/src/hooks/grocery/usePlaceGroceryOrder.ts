@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-// @ts-expect-error js-cookie ships no types in this repo; only remove() is used
 import Cookies from "js-cookie";
 import { placeOrder as postOrder } from "@/lib/api/grocery";
 import { queryKeys } from "@/lib/api/queryKeys";

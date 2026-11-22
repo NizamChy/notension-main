@@ -18,6 +18,8 @@ export function useGroceryCart() {
   };
 
   const addToCart = (item: Partial<GroceryItem>): boolean => {
+    // The store is still loading (or closed): nothing to save the cart against yet.
+    if (!visitedStore) return false;
     const product = {
       _id: item?._id as string,
       productInfoTable: item?.productInfoTable,

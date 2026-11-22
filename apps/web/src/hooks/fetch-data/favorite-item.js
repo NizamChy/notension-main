@@ -26,8 +26,9 @@ export const useFavouriteItem = (storeRef) => {
   const dispatch = useDispatch();
 
   const byStore = useSelector((state) => state.itemsByStore);
-  const merchantId = storeRef?.merchantId ?? byStore.merchantId;
-  const customstore_id = storeRef?.customstore_id ?? byStore.customstore_id;
+  const source = storeRef ?? byStore;
+  const merchantId = source.merchantId;
+  const customstore_id = source.customstore_id;
 
   const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 

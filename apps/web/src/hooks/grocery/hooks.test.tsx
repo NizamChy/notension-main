@@ -42,6 +42,10 @@ let qc: QueryClient;
 const wrapper = ({ children }: { children: ReactNode }) => {
   const reduxStore = configureStore({
     reducer: { cart: cartReducer, itemsByStore: itemsByStoreReducer, userChoice: userChoiceReducer },
+    // A different store in Redux, as Medicine or Food would leave it.
+    preloadedState: {
+      itemsByStore: { ...itemsByStoreReducer(undefined, { type: "init" }), merchantId: "redux-merchant", customstore_id: "redux-custom" },
+    },
   });
   return (
     <Provider store={reduxStore}>
@@ -55,6 +59,7 @@ beforeEach(() => {
   resetWarnedEndpoints();
   qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   useCartStore.getState().clear("grocery");
+  useCartStore.getState().saveStoreInfo("grocery", {});
   visit(open);
 });
 
@@ -175,5 +180,28 @@ describe("usePlaceGroceryOrder", () => {
     });
     expect(post).toHaveBeenCalledTimes(1);
     expect(result.current.progressing).toBe(true);
+  });
+});
+
+describe("useGroceryCart before the store resolves", () => {
+  it("does nothing until the store is loaded", async () => {
+    const item = (DEMO_GROCERY_ITEMS as { _id: string }[])[0];
+    const { result } = renderHook(() => ({ cart: useGroceryCart(), store: useGroceryStore() }), {
+      wrapper,
+    });
+    let added = true;
+    act(() => {
+      added = result.current.cart.addToCart(item);
+    });
+    expect(added).toBe(false);
+    expect(useCartStore.getState().grocery.items).toHaveLength(0);
+    expect(useCartStore.getState().grocery.storeInfo).toEqual({});
+
+    await waitFor(() => expect(result.current.store.store).toBeDefined());
+    act(() => {
+      added = result.current.cart.addToCart(item);
+    });
+    expect(added).toBe(true);
+    expect(useCartStore.getState().grocery.storeInfo._id).toBe(open._id);
   });
 });
