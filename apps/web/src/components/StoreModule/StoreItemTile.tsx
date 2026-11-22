@@ -2,34 +2,36 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import StoreItemCard from "@/components/StoreModule/StoreItemCard";
-import { discountLabelOf } from "@/components/StoreModule/ProductDetailsView";
-import GroceryItemDetailsModal from "./GroceryItemDetailsModal";
-import { useGroceryCart } from "@/hooks/grocery/useGroceryCart";
-import { useStoreData } from "@/components/StoreModule/useStoreData";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  CommonModal,
+  LoginModalDetails,
+  StoreItemCard,
+  discountLabelOf,
+} from "./legacyViews";
+import ItemDetailsModal from "./ItemDetailsModal";
+import FavoriteItemDetailsModal from "./FavoriteItemDetailsModal";
+import { ITEM_MODULES, itemImageSrc, type ItemModuleName, type StoreItem } from "./moduleItems";
+import { useStoreData } from "./useStoreData";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
-import { GROCERY_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
-import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
-import GroceryFavoriteItemsDetailsModal from "./GroceryFavoriteItemsDetailsModal";
 import { flyToCart } from "@/utils/flyToCart";
 
-const GroceryItems = ({ item, isFavorite = false }) => {
+type Props = { moduleName: ItemModuleName; item: StoreItem; isFavorite?: boolean };
+type StoreParams = { store?: string; storeId?: string; customStoreId?: string };
+
+const StoreItemTile = ({ moduleName, item, isFavorite = false }: Props) => {
+  const config = ITEM_MODULES[moduleName];
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<StoreItem | null>(null);
 
-  const params = useParams();
-  const prevUrlRef = useRef(null);
+  const params = useParams<StoreParams>();
+  const prevUrlRef = useRef<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const dispatch = useDispatch();
-
-  const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useGroceryCart();
+  const { addToCart, getCurrentQty, incrementQty, decrementQty } = config.useCart();
   // The visited store, from the store query (not Redux).
-  const { storeRef } = useStoreData("grocery");
+  const { storeRef } = useStoreData(moduleName);
 
   const {
     addToFavouriteItems,
@@ -39,22 +41,22 @@ const GroceryItems = ({ item, isFavorite = false }) => {
 
   const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
-  const merchantType = 0;
+  const merchantType = config.merchantType;
   // Read straight from the store each render, so the card never lags.
   const currentQuantity = getCurrentQty(item);
-  const isFavoriteAdded = isAddedToFavouriteItems(item?.productInfoTable, merchantType);
+  const isFavoriteAdded = isAddedToFavouriteItems(item?.[config.idField], merchantType);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleAddToCart = (event) => {
+  const handleAddToCart = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
     if (addToCart(item)) flyToCart(event.currentTarget);
   };
 
-  const handleAddToFavorite = (event) => {
+  const handleAddToFavorite = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -65,14 +67,14 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     addToFavouriteItems(item, merchantType);
   };
 
-  const handleRemoveFromFavorite = (event) => {
+  const handleRemoveFromFavorite = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
     const favouriteInfo = {
-      productId: item?.productInfoTable,
-      product_title_eng: item?.product_title_eng,
-      product_title_beng: item?.product_title_beng,
+      productId: item?.[config.idField],
+      [config.titleField]: item?.[config.titleField],
+      [config.titleBengField]: item?.[config.titleBengField],
       pack_size: item?.pack_size,
       app_image: item?.app_image,
     };
@@ -84,28 +86,27 @@ const GroceryItems = ({ item, isFavorite = false }) => {
     }
   };
 
-  const handleProductClick = (event) => {
+  const handleProductClick = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
     setSelectedItem(item);
 
-    dispatch(
-      handleUserChoiceReducer({
-        type: "SAVE_CURRENT_ITEM_DETAILS",
-        data: item,
-      })
-    );
+    // The product page reads the item from the query cache (it was Redux).
+    // A saved favourite is not a store item, so it is not filed.
+    if (!isFavorite && params?.storeId) {
+      config.seedItem(queryClient, params.storeId, item);
+    }
   };
 
-  const handleIncrement = (e, itemId) => {
+  const handleIncrement = (e: MouseEvent<HTMLElement>, itemId: string) => {
     e.preventDefault();
     e.stopPropagation();
 
     incrementQty(itemId);
   };
 
-  const handleDecrement = (e, itemId) => {
+  const handleDecrement = (e: MouseEvent<HTMLElement>, itemId: string) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -113,7 +114,7 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   };
 
   useEffect(() => {
-    const basePath = `/grocery/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
+    const basePath = `${config.basePath}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
     if (selectedItem && item?._id && !isFavorite) {
       if (!prevUrlRef.current) {
@@ -128,28 +129,17 @@ const GroceryItems = ({ item, isFavorite = false }) => {
       if (prevUrlRef.current) {
         window.history.replaceState({}, "", prevUrlRef.current);
         prevUrlRef.current = null;
-
-        dispatch(
-          handleUserChoiceReducer({
-            type: "SAVE_CURRENT_ITEM_DETAILS",
-            data: {},
-          })
-        );
       }
     }
-  }, [selectedItem, item?._id, params, isFavorite, dispatch]);
+  }, [selectedItem, item?._id, params, isFavorite, config.basePath]);
 
   return (
     <>
       <StoreItemCard
-        moduleName="grocery"
-        imageSrc={
-          item?.app_image
-            ? `${GROCERY_ITEMS_IMAGES}/${item?.app_image}`
-            : "/png/dummyImage.png"
-        }
-        title={item?.product_title_eng}
-        subtitle={item?.pack_size}
+        moduleName={moduleName}
+        imageSrc={itemImageSrc(config, item)}
+        title={item?.[config.titleField]}
+        subtitle={config.subtitle(item)}
         salePrice={item?.sale_price}
         mrp={item?.max_retail_price}
         discountLabel={discountLabelOf(item)}
@@ -164,12 +154,13 @@ const GroceryItems = ({ item, isFavorite = false }) => {
         quantity={currentQuantity}
         isAvailable={item?.is_available !== false}
         onAddToCart={handleAddToCart}
-        onIncrement={(e) => handleIncrement(e, item._id)}
-        onDecrement={(e) => handleDecrement(e, item._id)}
+        onIncrement={(e) => handleIncrement(e, item._id as string)}
+        onDecrement={(e) => handleDecrement(e, item._id as string)}
       />
 
       {selectedItem && !isFavorite && (
-        <GroceryItemDetailsModal
+        <ItemDetailsModal
+          moduleName={moduleName}
           isOpen={!!selectedItem}
           onClose={() => setSelectedItem(null)}
           item={selectedItem}
@@ -177,7 +168,8 @@ const GroceryItems = ({ item, isFavorite = false }) => {
       )}
 
       {selectedItem && isFavorite && (
-        <GroceryFavoriteItemsDetailsModal
+        <FavoriteItemDetailsModal
+          moduleName={moduleName}
           isOpen={!!selectedItem}
           onClose={() => setSelectedItem(null)}
           item={selectedItem}
@@ -195,4 +187,4 @@ const GroceryItems = ({ item, isFavorite = false }) => {
   );
 };
 
-export default GroceryItems;
+export default StoreItemTile;

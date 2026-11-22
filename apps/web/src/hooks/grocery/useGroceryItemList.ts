@@ -29,6 +29,8 @@ export function useGroceryItemList(q: ItemListQuery | null) {
     items,
     isLoading: enabled && query.isLoading,
     notFound: query.isSuccess && items.length === 0,
+    // Page 1 failed (after retries): the list is over, as with the old hook.
+    isError: query.isError,
     // A failed page ends the list, as the old hook did.
     hasMore: enabled && !!query.hasNextPage && !query.isError,
     loadMore: () => {

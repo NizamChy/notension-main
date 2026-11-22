@@ -8,7 +8,7 @@ import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import StoreCategoryDrawer from "@/components/StoreModule/StoreCategoryDrawer";
 import { STORE_PAGE_CLASS } from "@/components/StoreModule/storeModules";
-import CategorySidebar from "@/components/Grocery/GroceryCategorySection/CategorySidebar";
+import StoreCategorySidebar from "@/components/StoreModule/StoreCategorySidebar";
 import { useGroceryStore } from "@/hooks/grocery/useGroceryStore";
 import { useStoreRef } from "@/hooks/grocery/useStoreRef";
 import { usePreferencesStore } from "@/stores/preferencesStore";
@@ -36,7 +36,7 @@ export default function GroceryStoreLayout({ children }: { children: ReactNode }
       <div className="flex justify-center">
         <div className="lg:w-[20%] hidden lg:block">
           <div className="fixed top-0 left-0 w-[20%] h-full">
-            <CategorySidebar />
+            <StoreCategorySidebar moduleName="grocery" />
           </div>
         </div>
 

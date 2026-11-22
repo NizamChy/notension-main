@@ -34,7 +34,7 @@ export {
 } from "./grocery/data";
 export { DEMO_GROCERY_PRODUCTS } from "./grocery/data";
 
-const PAGE_SIZE = 24; // useGroceryProduct treats < 24 results as the last page
+const PAGE_SIZE = 24; // useGroceryItemList treats < 24 results as the last page
 
 const SERVICE = "GROCERY";
 

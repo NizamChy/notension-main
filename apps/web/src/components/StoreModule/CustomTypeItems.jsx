@@ -41,7 +41,7 @@ const CustomTypeItems = ({ moduleName, section }) => {
 
       <div className={ITEM_GRID_CLASS}>
         {items.map((item) => (
-          <ItemCard key={item?._id} item={item} />
+          <ItemCard key={item?._id} moduleName={moduleName} item={item} />
         ))}
       </div>
     </section>
