@@ -119,19 +119,31 @@ export const PaymentOptions = ({ options, value, onChange, name = "payment" }) =
 const fieldClass =
   "block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 transition focus:border-primary/50 focus:outline-hidden focus:ring-4 focus:ring-[#0C3F8E]/10";
 
-export const TextField = ({ label, required, multiline, className = "", ...props }) => (
-  <label className={`block ${className}`}>
-    <span className="mb-1.5 block text-sm font-medium text-gray-700">
-      {label}
-      {required && <span className="ml-0.5 text-[#D92D20]">*</span>}
-    </span>
-    {multiline ? (
-      <textarea rows={3} required={required} className={`${fieldClass} resize-none`} {...props} />
-    ) : (
-      <input required={required} className={fieldClass} {...props} />
-    )}
-  </label>
-);
+// `error` (optional) shows under the field and is linked to it for screen
+// readers. `props.id` is required when `error` is used.
+export const TextField = ({ label, required, multiline, className = "", error, ...props }) => {
+  const errorProps = error
+    ? { "aria-invalid": true, "aria-describedby": `${props.id}-error` }
+    : {};
+  return (
+    <label className={`block ${className}`}>
+      <span className="mb-1.5 block text-sm font-medium text-gray-700">
+        {label}
+        {required && <span className="ml-0.5 text-[#D92D20]">*</span>}
+      </span>
+      {multiline ? (
+        <textarea rows={3} required={required} className={`${fieldClass} resize-none`} {...errorProps} {...props} />
+      ) : (
+        <input required={required} className={fieldClass} {...errorProps} {...props} />
+      )}
+      {error && (
+        <span id={`${props.id}-error`} role="alert" className="mt-1 block text-sm text-[#D92D20]">
+          {error}
+        </span>
+      )}
+    </label>
+  );
+};
 
 // Right-hand summary card: items, price rows and the place-order button.
 export const SummaryCard = ({ title = "Order summary", meta, children, footer }) => (

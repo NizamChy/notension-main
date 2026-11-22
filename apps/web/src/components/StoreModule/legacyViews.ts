@@ -13,6 +13,7 @@ import ProductDetailsPageJs from "./ProductDetailsPage";
 import StoreListJs from "./StoreList";
 import { InfiniteItemGrid as InfiniteItemGridJs, TypeBreadcrumb as TypeBreadcrumbJs } from "./ItemBrowse";
 import { EmptyState as EmptyStateJs, PageHeader as PageHeaderJs } from "@/components/shared/UI/UI";
+import { PriceRow as PriceRowJs } from "@/components/shared/CartUI/CartUI";
 import CommonModalJs from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetailsJs from "@/components/LoginSection/LoginModalDetails";
 import FavoriteStoresJs from "@/components/FavoriteSection/FavoriteStores";
@@ -150,4 +151,11 @@ export const FavoriteStores = FavoriteStoresJs as ComponentType<{
   onStoreClick: (shop: never) => void;
   favoritesHref: string;
   browseHref: string;
+}>;
+
+export const PriceRow = PriceRowJs as ComponentType<{
+  label: ReactNode;
+  value: ReactNode;
+  strong?: boolean;
+  hint?: ReactNode;
 }>;

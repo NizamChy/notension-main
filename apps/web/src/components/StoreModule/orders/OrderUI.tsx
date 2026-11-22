@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,12 +15,11 @@ import {
   HiOutlineBuildingStorefront,
 } from "react-icons/hi2";
 import { lineTotal } from "@/utils/price";
-import { formatTaka, PriceRow } from "@/components/shared/CartUI/CartUI";
+import { formatTaka } from "@/components/shared/CartUI/CartUI";
+import { EmptyState, PageHeader, PriceRow } from "../legacyViews";
 import {
   CARD,
-  PageHeader,
   Skeleton,
-  EmptyState,
   StatusBadge,
   SECONDARY_BUTTON,
 } from "@/components/shared/UI/UI";
@@ -28,10 +27,48 @@ import {
 // Presentation pieces shared by the grocery, medicine and food order pages
 // (list, desktop modal and the mobile details page).
 
-export const shortOrderId = (order) =>
+type Amount = number | string | null;
+
+/** One ordered line, as any of the three modules' order APIs send it. */
+export type OrderLineView = {
+  _id?: string;
+  quantity?: Amount;
+  sale_price?: Amount;
+  app_image?: string | null;
+  product_title_eng?: string;
+  item_title_eng?: string;
+  title?: string;
+};
+
+/**
+ * An order as these views read it. Loose on purpose: Medicine and Food (JS)
+ * pass their own order shapes, and every field is shown with a fallback.
+ */
+export type OrderView = {
+  _id?: string;
+  order_id?: string;
+  order_status?: string;
+  createdAt?: string;
+  merchantInfo?: {
+    shop_name?: string;
+    shop_address?: string;
+    contact_no?: string;
+    alternative_contact_no?: string;
+  };
+  customerInfo?: { customer_address?: string };
+  orderItems?: OrderLineView[];
+  subTotal?: Amount;
+  deliveryCharge?: Amount;
+  less_amount?: Amount;
+  vatAmount?: Amount;
+  totalAmount?: Amount;
+  paymet_method?: string;
+};
+
+export const shortOrderId = (order: OrderView | null | undefined) =>
   order?.order_id?.split("-").pop() || "—";
 
-export const formatOrderDate = (date, long = false) => {
+export const formatOrderDate = (date: string | null | undefined, long = false) => {
   if (!date) return "—";
   const d = new Date(date);
   if (Number.isNaN(d.getTime())) return "—";
@@ -42,20 +79,28 @@ export const formatOrderDate = (date, long = false) => {
   });
 };
 
-export const orderItemCount = (order) =>
+export const orderItemCount = (order: OrderView | null | undefined) =>
   (order?.orderItems || []).reduce(
     (count, item) => count + (Number(item?.quantity) || 0),
     0
   );
 
-const itemTitle = (item) =>
+const itemTitle = (item: OrderLineView | null | undefined) =>
   item?.product_title_eng || item?.item_title_eng || item?.title || "Item";
 
 // ---------------------------------------------------------------------------
 // Orders list
 // ---------------------------------------------------------------------------
 
-export const OrderCard = ({ order, onView, href }) => {
+export const OrderCard = ({
+  order,
+  onView,
+  href,
+}: {
+  order: OrderView;
+  onView: () => void;
+  href: string;
+}) => {
   const count = orderItemCount(order);
 
   return (
@@ -143,7 +188,17 @@ const OrderCardSkeleton = () => (
   </div>
 );
 
-export const OrdersListView = ({ orders, loading, onView, hrefFor }) => {
+export const OrdersListView = <O extends OrderView>({
+  orders,
+  loading,
+  onView,
+  hrefFor,
+}: {
+  orders: O[] | null | undefined;
+  loading: boolean;
+  onView: (order: O) => void;
+  hrefFor: (order: O) => string;
+}) => {
   const count = orders?.length || 0;
 
   return (
@@ -164,7 +219,7 @@ export const OrdersListView = ({ orders, loading, onView, hrefFor }) => {
         </div>
       ) : count > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2">
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <OrderCard
               key={order?._id}
               order={order}
@@ -190,7 +245,7 @@ export const OrdersListView = ({ orders, loading, onView, hrefFor }) => {
 
 const STEPS = ["Placed", "Confirmed", "On the way", "Delivered"];
 
-const progressStep = (status = "") => {
+const progressStep = (status: string = "") => {
   const s = String(status).toLowerCase();
   if (/(cancel|reject|fail|declin)/.test(s)) return -1;
   if (/(deliver|complete|done)/.test(s)) return 3;
@@ -199,7 +254,7 @@ const progressStep = (status = "") => {
   return 0;
 };
 
-export const OrderProgress = ({ status }) => {
+export const OrderProgress = ({ status }: { status?: string }) => {
   const current = progressStep(status);
 
   if (current < 0) {
@@ -252,7 +307,15 @@ export const OrderProgress = ({ status }) => {
   );
 };
 
-const DetailBlock = ({ icon, title, children }) => (
+const DetailBlock = ({
+  icon,
+  title,
+  children,
+}: {
+  icon: ReactNode;
+  title: string;
+  children: ReactNode;
+}) => (
   <div className="flex gap-3 rounded-xl border border-gray-100 bg-gray-50/60 p-3.5">
     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-base text-primary dark:text-[#7FB2FF]">
       {icon}
@@ -266,7 +329,7 @@ const DetailBlock = ({ icon, title, children }) => (
   </div>
 );
 
-const SectionHeading = ({ children, meta }) => (
+const SectionHeading = ({ children, meta }: { children: ReactNode; meta?: string }) => (
   <div className="mb-3 flex items-baseline justify-between gap-3">
     <h3 className="text-sm font-semibold text-gray-900">{children}</h3>
     {meta && <span className="text-xs text-gray-500">{meta}</span>}
@@ -274,8 +337,14 @@ const SectionHeading = ({ children, meta }) => (
 );
 
 // Everything about one order. `imageBase` is the module's item image URL.
-export const OrderDetails = ({ order, imageBase }) => {
-  const merchant = order?.merchantInfo || {};
+export const OrderDetails = ({
+  order,
+  imageBase,
+}: {
+  order: OrderView | null | undefined;
+  imageBase: string;
+}) => {
+  const merchant: NonNullable<OrderView["merchantInfo"]> = order?.merchantInfo || {};
   const phones = [merchant.contact_no, merchant.alternative_contact_no]
     .filter(Boolean)
     .join(", ");
@@ -411,7 +480,17 @@ export const OrderDetailsSkeleton = () => (
 );
 
 // Mobile / direct-link page frame around OrderDetails.
-export const OrderDetailsPage = ({ order, imageBase, backHref, notFound }) => (
+export const OrderDetailsPage = ({
+  order,
+  imageBase,
+  backHref,
+  notFound,
+}: {
+  order: OrderView | null | undefined;
+  imageBase: string;
+  backHref?: string;
+  notFound?: boolean;
+}) => (
   <div className="mx-auto w-full max-w-3xl">
     {backHref && (
       <Link

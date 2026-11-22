@@ -32,6 +32,7 @@ const CheckoutCard = ({
   grandTotal,
   remarks,
   setRemarks,
+  remarksError,
   paymentData,
   paymentOption,
   setPaymentOption,
@@ -82,6 +83,7 @@ const CheckoutCard = ({
           placeholder="E.g. call before delivery, gate code…"
           value={remarks}
           onChange={(e) => setRemarks(e.target.value)}
+          error={remarksError}
         />
       </CheckoutStep>
     </>

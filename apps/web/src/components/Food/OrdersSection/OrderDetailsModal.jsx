@@ -1,7 +1,7 @@
 import React from "react";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
-import { OrderDetails } from "@/components/Grocery/OrdersSection/OrderUI";
+import { OrderDetails } from "@/components/StoreModule/orders/OrderUI";
 
 const OrderDetailsModal = ({ isOpen, onClose, order }) => {
   return (

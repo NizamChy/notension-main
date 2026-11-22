@@ -5,8 +5,11 @@ import { useSessionStore } from "@/stores/sessionStore";
 
 const none: Order[] = [];
 
-/** The logged-in customer's grocery orders. */
-export function useGroceryOrders(): { orders: Order[]; isLoading: boolean } {
+/**
+ * The logged-in customer's grocery orders. `isLoggedIn` is true when the
+ * session has a customer id, as the order pages checked before.
+ */
+export function useGroceryOrders(): { orders: Order[]; isLoading: boolean; isLoggedIn: boolean } {
   const isLoggedin = useSessionStore((s) => s.isLoggedin);
   const userInfo = useSessionStore((s) => s.userInfo);
   const id = typeof userInfo._id === "string" ? userInfo._id : "";
@@ -16,5 +19,5 @@ export function useGroceryOrders(): { orders: Order[]; isLoading: boolean } {
     queryFn: () => getOrders({ _id: id, custom_id: customId }),
     enabled: isLoggedin && !!id,
   });
-  return { orders: query.data ?? none, isLoading: query.isLoading };
+  return { orders: query.data ?? none, isLoading: query.isLoading, isLoggedIn: !!id };
 }

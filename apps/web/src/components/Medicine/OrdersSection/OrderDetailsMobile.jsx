@@ -11,7 +11,7 @@ import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
 import {
   OrderDetailsPage,
   OrderDetailsSkeleton,
-} from "@/components/Grocery/OrdersSection/OrderUI";
+} from "@/components/StoreModule/orders/OrderUI";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const [loginDismissed, setLoginDismissed] = useState(false);

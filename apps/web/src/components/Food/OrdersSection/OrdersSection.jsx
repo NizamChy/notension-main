@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams } from "next/navigation";
 import { useOrderFood } from "@/hooks/place-order/useOrderFood";
-import { OrdersListView } from "@/components/Grocery/OrdersSection/OrderUI";
+import { OrdersListView } from "@/components/StoreModule/orders/OrderUI";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 

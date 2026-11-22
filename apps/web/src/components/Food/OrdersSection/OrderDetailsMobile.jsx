@@ -11,7 +11,7 @@ import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import {
   OrderDetailsPage,
   OrderDetailsSkeleton,
-} from "@/components/Grocery/OrdersSection/OrderUI";
+} from "@/components/StoreModule/orders/OrderUI";
 
 const OrderDetailsMobile = ({ orderId }) => {
   const [loginDismissed, setLoginDismissed] = useState(false);

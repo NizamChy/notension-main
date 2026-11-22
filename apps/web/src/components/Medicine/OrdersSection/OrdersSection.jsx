@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { useParams } from "next/navigation";
-import { OrdersListView } from "@/components/Grocery/OrdersSection/OrderUI";
+import { OrdersListView } from "@/components/StoreModule/orders/OrderUI";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { useOrderMedicine } from "@/hooks/place-order/useOrderMedicine";
