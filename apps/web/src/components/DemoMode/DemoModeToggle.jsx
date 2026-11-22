@@ -1,7 +1,7 @@
 "use client";
 
 import { useSessionStore } from "@/stores/sessionStore";
-import { useCartStore } from "@/stores/cartStore";
+import { resetForSampleSwitch } from "@/stores/resetForSampleSwitch";
 import Cookies from "js-cookie";
 import { persistor } from "@/redux/store";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -66,9 +66,8 @@ const DemoModeToggle = () => {
     Cookies.remove("user_info");
     persistor.pause();
     await persistor.purge();
-    // The session and cart stores keep their own copy; clear it too.
-    useSessionStore.persist.clearStorage();
-    useCartStore.persist.clearStorage();
+    // The session and cart stores keep their own copy; reset it too.
+    resetForSampleSwitch();
     window.location.reload();
   };
 
