@@ -188,7 +188,7 @@ export const demoAdapter = async (config) => {
     data: body,
     status,
     statusText: status === 200 ? "OK" : "Demo",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", "x-notension-source": "demo" },
     config,
     request: {},
   };
