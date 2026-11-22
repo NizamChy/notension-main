@@ -15,7 +15,9 @@ import { GROCERY_URL, MEDICINE_URL, USER_URL } from "@/api-endpoints/env";
 
 const Axios = getApiClient(USER_URL);
 
-export const useFavouriteItem = () => {
+// storeRef: a store the caller already knows (the grocery hooks pass the visited store).
+// Without it (Medicine) the store comes from state.itemsByStore, as before.
+export const useFavouriteItem = (storeRef) => {
   const [message, setMessage] = useState("");
   const [visible, setVisible] = useState(false);
   const [itemDetails, setItemDetails] = useState(null);
@@ -23,9 +25,9 @@ export const useFavouriteItem = () => {
 
   const dispatch = useDispatch();
 
-  const { merchantId, customstore_id } = useSelector(
-    (state) => state.itemsByStore
-  );
+  const byStore = useSelector((state) => state.itemsByStore);
+  const merchantId = storeRef?.merchantId ?? byStore.merchantId;
+  const customstore_id = storeRef?.customstore_id ?? byStore.customstore_id;
 
   const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
