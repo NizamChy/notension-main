@@ -135,8 +135,9 @@ pattern.
   `currentProviderDetails`. Leave the old keys in place until the last PR (so a
   rollback to the old build still finds its data). Server-data parts are not
   copied; TanStack Query refetches them. Covered by unit tests with real
-  sample `persist:root` payloads (empty, old v0, v1, full cart in all three
-  modules).
+  sample `persist:root` payloads (empty, old v0, v1, full cart in food,
+  grocery and medicine) and Fashion `"cart"` payloads (empty, full, corrupt
+  JSON).
 - **Bridge while migrating:** until a module is migrated it still reads Redux.
   To avoid two sources of truth, the cart and session move to Zustand in PR 1
   in one go, and Redux `cart`/session reads are replaced by thin hooks
