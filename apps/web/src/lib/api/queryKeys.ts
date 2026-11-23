@@ -13,6 +13,17 @@ export const queryKeys = {
     item: (storeId: string, productId: string) => ["grocery", "item", storeId, productId] as const,
     orders: (customerId: string) => ["grocery", "orders", customerId] as const,
   },
+  medicine: {
+    all: () => ["medicine"] as const,
+    nearest: (districtId: string, lat: string, lng: string) =>
+      ["medicine", "nearest", districtId, lat, lng] as const,
+    searchStores: (text: string) => ["medicine", "searchStores", text] as const,
+    store: (storeId: string, customStoreId: string) =>
+      ["medicine", "store", storeId, customStoreId] as const,
+    items: (storeId: string, q: ItemListQuery) => ["medicine", "items", storeId, q] as const,
+    item: (storeId: string, productId: string) => ["medicine", "item", storeId, productId] as const,
+    orders: (customerId: string) => ["medicine", "orders", customerId] as const,
+  },
   user: {
     all: () => ["user"] as const,
     me: () => ["user", "me"] as const,

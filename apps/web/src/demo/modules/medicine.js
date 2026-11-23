@@ -179,6 +179,14 @@ const sampleOrder = (customerId, customCustomerId) => {
     order_id: "MED-20261102-1001",
     customer_id: customerId,
     custom_customer_id: customCustomerId,
+    customerInfo: {
+      customer_name: "Demo User",
+      customer_address: "House 12, Road 45, Gulshan 2, Dhaka",
+      contact_no: "01700000000",
+      alternative_contact_no: "",
+      latitude: null,
+      longitude: null,
+    },
     merchant_id: s._id,
     custom_merchant_id: s.custom_store_id,
     merchantInfo: {
@@ -196,6 +204,8 @@ const sampleOrder = (customerId, customCustomerId) => {
     totalAmount: subTotal + s.max_delivery_charge,
     paymet_method: "Cash on Delivery",
     shortNote: "",
+    customer_rating: 0,
+    customer_review: "",
     order_status: "Delivered",
     createdAt: "2026-11-02T10:15:00.000Z",
     updatedAt: "2026-11-02T13:40:00.000Z",
@@ -208,8 +218,23 @@ const placeOrder = ({ body }) => {
     return demoResponse(400, { success: false, message: "Order has no items" });
   }
   const now = new Date().toISOString();
+  // Defaults for what the contract's order has and a thin request may not.
   const created = {
+    customer_id: "",
+    custom_customer_id: "",
+    shortNote: "",
+    customer_rating: 0,
+    customer_review: "",
     ...order,
+    customerInfo: {
+      customer_name: "",
+      customer_address: "",
+      contact_no: "",
+      alternative_contact_no: "",
+      latitude: null,
+      longitude: null,
+      ...(order.customerInfo || {}),
+    },
     ...nextOrderId(),
     order_status: "Pending",
     createdAt: now,
