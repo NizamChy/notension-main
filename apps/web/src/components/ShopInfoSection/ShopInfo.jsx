@@ -12,13 +12,12 @@ import {
 import { CARD } from "../shared/UI/UI";
 import { useStoreData } from "../StoreModule/useStoreData";
 
-// The visited store per module. Food and Medicine still keep it in Redux;
-// Grocery reads the store query. moduleName is fixed per instance, so the
+// The visited store per module. Food still keeps it in Redux; Grocery and
+// Medicine read their store query. moduleName is fixed per instance, so the
 // hook a ShopInfo calls never changes.
 const useFoodStore = () => useSelector((state) => state.dashboard.visitedFoodStore);
 const useGroceryStoreInfo = () => useStoreData("grocery").store;
-const useMedicineStoreInfo = () =>
-  useSelector((state) => state.dashboard.visitedMedicineStore);
+const useMedicineStoreInfo = () => useStoreData("medicine").store;
 
 const VISITED_STORE_HOOKS = {
   food: useFoodStore,

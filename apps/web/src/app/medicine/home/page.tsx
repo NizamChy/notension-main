@@ -1,7 +1,7 @@
 import React from "react";
 import FindStoreHero from "@/components/StoreModule/FindStoreHero";
-import FavoriteShop from "@/components/Medicine/FavoriteSection/FavoriteShop";
-import MedicineSection from "@/components/Medicine/MedicineSection/MedicineSection";
+import FavoriteStores from "@/components/StoreModule/FavoriteStores";
+import StoreListSection from "@/components/StoreModule/StoreListSection";
 
 // Hero, saved stores, then the stores near the delivery location, so the
 // page is useful without another click.
@@ -12,8 +12,8 @@ const page = () => {
         <FindStoreHero moduleName="medicine" />
       </div>
 
-      <FavoriteShop isFavoriteRoute={false} />
-      <MedicineSection />
+      <FavoriteStores moduleName="medicine" isFavoriteRoute={false} />
+      <StoreListSection moduleName="medicine" />
     </>
   );
 };

@@ -5,7 +5,13 @@ import notify from "@/utils/notify";
 import React, { type MouseEvent } from "react";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { ProductDetailsView, ProductQuickView, discountLabelOf } from "./legacyViews";
-import { ITEM_MODULES, itemImageSrc, savingsOf, type ItemModuleName, type StoreItem } from "./moduleItems";
+import {
+  ITEM_MODULES,
+  itemImageSrc,
+  quickViewExtras,
+  type ItemModuleName,
+  type StoreItem,
+} from "./moduleItems";
 import { useStoreData } from "./useStoreData";
 import { flyToCart } from "@/utils/flyToCart";
 
@@ -90,12 +96,11 @@ const ItemDetailsModal = ({ moduleName, isOpen, onClose, item }: Props) => {
         variant="modal"
         imageSrc={itemImageSrc(config, item)}
         title={item?.[config.titleField]}
-        altTitle={item?.[config.titleBengField]}
-        chips={[item?.pack_size]}
+        {...quickViewExtras(config.detailExtras(item))}
         discountLabel={discountLabelOf(item)}
         salePrice={item?.sale_price}
         mrp={item?.max_retail_price}
-        savings={savingsOf(item)}
+        savings={config.savings(item)}
         quantity={currentQuantity}
         onAddToCart={handleAddToCart}
         onIncrement={(e) => handleIncrement(e, item._id as string)}

@@ -33,7 +33,7 @@ export {
   DEMO_MEDICINE_SLIDER,
 };
 
-const PAGE_SIZE = 24; // useMedicine treats < 24 results as the last page
+const PAGE_SIZE = 24; // useMedicineItemList treats < 24 results as the last page
 
 const toRad = (deg) => (deg * Math.PI) / 180;
 // Distance in metres (ShopInfoCard divides by 1000 to show km).

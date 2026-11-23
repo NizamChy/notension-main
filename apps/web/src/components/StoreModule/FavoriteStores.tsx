@@ -8,8 +8,12 @@ import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import { toSlug } from "@/utils/slug";
 
 // Favourites stay in Redux (userChoice).
-const FAVORITE_STORES: Record<ItemModuleName, { stateKey: "favouriteGroceryStore"; label: string }> = {
+const FAVORITE_STORES: Record<
+  ItemModuleName,
+  { stateKey: "favouriteGroceryStore" | "favouriteMedicineStore"; label: string }
+> = {
   grocery: { stateKey: "favouriteGroceryStore", label: "grocery" },
+  medicine: { stateKey: "favouriteMedicineStore", label: "medicine" },
 };
 
 type SavedStore = { shop_name?: string; storeId?: string; custom_store_id?: string };

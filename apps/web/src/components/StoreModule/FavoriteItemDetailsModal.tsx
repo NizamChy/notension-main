@@ -10,7 +10,13 @@ import {
   ProductQuickView,
   discountLabelOf,
 } from "./legacyViews";
-import { ITEM_MODULES, itemImageSrc, savingsOf, type ItemModuleName, type StoreItem } from "./moduleItems";
+import {
+  ITEM_MODULES,
+  itemImageSrc,
+  quickViewExtras,
+  type ItemModuleName,
+  type StoreItem,
+} from "./moduleItems";
 import { useStoreData } from "./useStoreData";
 import { flyToCart } from "@/utils/flyToCart";
 
@@ -73,7 +79,20 @@ const FavoriteItemDetailsModal = ({ moduleName, isOpen, onClose, item }: Props) 
     event.preventDefault();
     event.stopPropagation();
 
-    removeFromfavoriteItems(item, merchantType);
+    if (config.favouriteRemoval === "saved") {
+      removeFromfavoriteItems(item, merchantType);
+      return;
+    }
+    removeFromfavoriteItems(
+      {
+        productId: itemDetails?.[config.idField],
+        [config.titleField]: itemDetails?.[config.titleField],
+        [config.titleBengField]: itemDetails?.[config.titleBengField],
+        pack_size: itemDetails?.pack_size,
+        app_image: itemDetails?.app_image,
+      },
+      merchantType,
+    );
   };
 
   const handleIncrement = (e: MouseEvent<HTMLElement>, itemId: string) => {
@@ -106,12 +125,11 @@ const FavoriteItemDetailsModal = ({ moduleName, isOpen, onClose, item }: Props) 
           variant="modal"
           imageSrc={itemImageSrc(config, itemDetails)}
           title={itemDetails?.[config.titleField]}
-          altTitle={itemDetails?.[config.titleBengField]}
-          chips={[itemDetails?.pack_size]}
+          {...quickViewExtras(config.detailExtras(itemDetails))}
           discountLabel={discountLabelOf(itemDetails)}
           salePrice={itemDetails?.sale_price}
           mrp={itemDetails?.max_retail_price}
-          savings={savingsOf(itemDetails)}
+          savings={config.savings(itemDetails)}
           quantity={currentQuantity}
           onAddToCart={handleAddToCart}
           onIncrement={(e) => handleIncrement(e, itemDetails?._id as string)}

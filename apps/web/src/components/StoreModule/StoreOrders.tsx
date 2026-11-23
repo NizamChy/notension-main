@@ -4,15 +4,19 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { CommonModal, LoginModalDetails } from "./legacyViews";
 import { useGroceryOrders } from "@/hooks/grocery/useGroceryOrders";
-import { ITEM_MODULES } from "./moduleItems";
+import { useMedicineOrders } from "@/hooks/medicine/useMedicineOrders";
+import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import OrderDetailsModal from "./orders/OrderDetailsModal";
 import { OrdersListView, type OrderView } from "./orders/OrderUI";
 
-type Props = { moduleName: "grocery" };
+type Props = { moduleName: ItemModuleName };
 type StoreParams = { store?: string; storeId?: string; customStoreId?: string };
 
 // Per-module order queries. Medicine joins in PR 3.
-const ORDER_MODULES = { grocery: { useOrders: useGroceryOrders } } as const;
+const ORDER_MODULES = {
+  grocery: { useOrders: useGroceryOrders },
+  medicine: { useOrders: useMedicineOrders },
+} as const;
 
 const StoreOrders = ({ moduleName }: Props) => {
   const { basePath, imageBaseUrl } = ITEM_MODULES[moduleName];
@@ -24,7 +28,9 @@ const StoreOrders = ({ moduleName }: Props) => {
   const params = useParams<StoreParams>();
   // Loads once someone is signed in (also right after signing in through
   // the modal on this page).
-  const { orders, isLoading, isLoggedIn } = useOrders();
+  const result = useOrders();
+  const { isLoading, isLoggedIn } = result;
+  const orders: OrderView[] = result.orders;
 
   const isModalOpen = !isLoggedIn && !loginDismissed;
   const closeModal = () => setLoginDismissed(true);

@@ -7,6 +7,8 @@ import { CommonModal, LoginModalDetails } from "./legacyViews";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import { PAYMENT_DATA } from "@/components/shared/Checkout/paymentOptions";
 import { usePlaceGroceryOrder } from "@/hooks/grocery/usePlaceGroceryOrder";
+import { usePlaceMedicineOrder } from "@/hooks/medicine/usePlaceMedicineOrder";
+import type { ItemModuleName } from "./moduleItems";
 import { useStoreRef } from "@/hooks/grocery/useStoreRef";
 import { checkoutFormSchema, type CheckoutForm } from "@/lib/api/schemas/checkoutForm";
 import { useZodForm } from "@/lib/forms/useZodForm";
@@ -15,11 +17,12 @@ import { useModuleCart } from "@/stores/useModuleCart";
 import notify from "@/utils/notify";
 import { orderTotals } from "@/utils/price";
 
-type Props = { moduleName: "grocery" };
+type Props = { moduleName: ItemModuleName };
 
 // Per-module parts of the checkout. Medicine joins in PR 3.
 const CHECKOUT_MODULES = {
   grocery: { usePlaceOrder: usePlaceGroceryOrder, homePath: "/grocery" },
+  medicine: { usePlaceOrder: usePlaceMedicineOrder, homePath: "/medicine" },
 } as const;
 
 const StoreCheckout = ({ moduleName }: Props) => {

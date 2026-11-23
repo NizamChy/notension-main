@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { StoreList } from "./legacyViews";
 import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import { useNearestGroceryStores } from "@/hooks/grocery/useGroceryStores";
+import { useNearestMedicineStores } from "@/hooks/medicine/useMedicineStores";
 import { usePreferencesStore } from "@/stores/preferencesStore";
 import { toSlug } from "@/utils/slug";
 
@@ -30,6 +31,15 @@ const STORE_LISTS: Record<ItemModuleName, StoreListConfig> = {
     emptyTitle: "No grocery stores nearby",
     emptyText:
       "We don't have a grocery store delivering to this area yet. Try changing your delivery location.",
+  },
+  medicine: {
+    useNearest: useNearestMedicineStores,
+    currentModule: "Medicine",
+    title: "Pharmacies near you",
+    subtitle: "Pick a pharmacy to start ordering",
+    emptyTitle: "No pharmacies nearby",
+    emptyText:
+      "We don't have a pharmacy delivering to this area yet. Try changing your delivery location.",
   },
 };
 

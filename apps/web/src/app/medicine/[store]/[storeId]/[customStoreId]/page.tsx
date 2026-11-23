@@ -1,10 +1,10 @@
 import React from "react";
-import OrdersSection from "@/components/Medicine/OrdersSection/OrdersSection";
+import StoreHome from "@/components/StoreModule/StoreHome";
 
 const page = () => {
   return (
     <>
-      <OrdersSection />
+      <StoreHome moduleName="medicine" />
     </>
   );
 };

@@ -77,7 +77,7 @@ const SubTypeItems = ({ moduleName }: Props) => {
             title={selectedSubType?.sub_type_name}
             subtitle={
               items?.length > 0
-                ? `${items.length}${hasMore ? "+" : ""} products`
+                ? `${items.length}${hasMore ? "+" : ""} ${config.labels.items}`
                 : null
             }
           />
@@ -90,7 +90,7 @@ const SubTypeItems = ({ moduleName }: Props) => {
             renderItem={(item) => (
               <StoreItemTile key={item?._id} moduleName={moduleName} item={item} />
             )}
-            emptyText="This category has no products in stock right now."
+            emptyText={config.labels.subTypeEmptyText}
           />
         </div>
       )}

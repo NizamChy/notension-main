@@ -46,7 +46,10 @@ export const ProductDetailsView = ProductDetailsViewJs as ComponentType<{
   imageSrc: string;
   title?: Text;
   altTitle?: Text;
+  highlight?: Text;
+  byline?: Text;
   chips?: Text[];
+  badges?: { label: string; tone: string }[];
   discountLabel?: Text;
   salePrice?: Amount;
   mrp?: Amount;
