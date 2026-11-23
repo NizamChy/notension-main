@@ -25,7 +25,7 @@ function ProfileForm({ doc, onSaved }: { doc: DoctorProfile; onSaved: () => Prom
     try {
       const body = Object.fromEntries(FIELDS.map((k) => [k, NUMBERS.includes(k) ? Number(form[k] || 0) : String(form[k]).trim()]));
       const res = await adminApi("/doctor/profile", { method: "PATCH", body });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       await onSaved();
     } catch (err) {
       notify.error((err as Error).message);

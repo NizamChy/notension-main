@@ -77,7 +77,7 @@ function DeliveryCard({ o, onChanged }: { o: RiderOrder; onChanged: () => Promis
     setAsking(false);
     try {
       const res = await adminApi(`/rider/orders/${o.id}/status`, { method: "PATCH", body: { status: o.nextStatus } });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       await onChanged();
     } catch (err) {
       notify.error((err as Error).message);

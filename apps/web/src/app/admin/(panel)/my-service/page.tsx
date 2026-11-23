@@ -24,7 +24,7 @@ function ListingCard({ p, onChanged }: { p: ProviderListing; onChanged: () => Pr
     setBusy(key);
     try {
       const res = await adminApi(`/provider/listings/${p.id}`, { method: "PATCH", body });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       await onChanged();
     } catch (err) {
       notify.error((err as Error).message);

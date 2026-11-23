@@ -71,7 +71,7 @@ function LinkBox({ user, kind }: { user: AdminUser; kind: KindKey }) {
     setBusy(id);
     try {
       const res = await adminApi(`${k.path}/${id}/user`, { method: "PATCH", body: { userId } });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       await queryClient.invalidateQueries({ queryKey: ["admin", "profile-links"] });
       await queryClient.invalidateQueries({ queryKey: ["admin", "profile-search"] });
       if (userId) setSearch(null);

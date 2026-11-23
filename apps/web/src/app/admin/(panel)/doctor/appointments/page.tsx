@@ -22,7 +22,7 @@ function AppointmentCard({ a, onChanged }: { a: Appointment; onChanged: () => Pr
     setBusy(status);
     try {
       const res = await adminApi(`/doctor/appointments/${a.id}`, { method: "PATCH", body: { status } });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       await onChanged();
     } catch (err) {
       notify.error((err as Error).message);

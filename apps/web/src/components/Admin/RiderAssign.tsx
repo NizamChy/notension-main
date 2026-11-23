@@ -27,7 +27,7 @@ export default function RiderAssign({ order }: { order: OrderDetail }) {
     setBusy(true);
     try {
       const res = await adminApi(`/orders/${order.id}/rider`, { method: "PATCH", body: { riderId } });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       await queryClient.invalidateQueries({ queryKey: ["admin"] });
     } catch (err) {
       notify.error((err as Error).message);

@@ -22,7 +22,7 @@ function ChamberCard({ ch, onChanged }: { ch: Chamber; onChanged: () => Promise<
     setBusy(key);
     try {
       const res = await adminApi(`/doctor/chambers/${ch.id}`, { method: "PATCH", body });
-      notify.success(res.message);
+      notify.success(res.message ?? "Done");
       setEditing(false);
       await onChanged();
     } catch (err) {
