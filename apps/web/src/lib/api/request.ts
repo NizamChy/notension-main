@@ -61,3 +61,16 @@ export async function apiPost<S extends z.ZodType>(
     endpoint: `POST ${service} ${path}`,
   });
 }
+
+export async function apiPut<S extends z.ZodType>(
+  service: Service,
+  path: string,
+  body: unknown,
+  schema: S,
+): Promise<z.infer<S>> {
+  const response = await getApiClient(SERVICE_URLS[service]).put(path, body);
+  return validate(schema, response.data, {
+    source: sourceOf(response.headers),
+    endpoint: `PUT ${service} ${path}`,
+  });
+}
