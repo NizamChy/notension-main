@@ -1,0 +1,81 @@
+"use client";
+
+import { useSessionStore } from "@/stores/sessionStore";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import OrderDetailsContent from "./OrderDetailsContent";
+import { FASHION_CONTAINER } from "../shared/FashionSection";
+import { useProductOrder } from "../hooks/fetchData/useProductOrder";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import {
+  CARD,
+  EmptyState,
+  PageHeader,
+  Skeleton,
+} from "@/components/shared/UI/UI";
+
+// The session keeps the customer as an untyped record; ids are strings.
+const asId = (value: unknown) => (typeof value === "string" ? value : undefined);
+
+const OrderDetailsMobile = () => {
+  const [loginDismissed, setLoginDismissed] = useState(false);
+
+  const params = useParams<{ orderId?: string }>();
+  const orderId = params?.orderId;
+
+  const userInfo = useSessionStore((s) => s.userInfo);
+  const { useAllOrderByCustomer } = useProductOrder();
+  const { data: orderInfo, isLoading } = useAllOrderByCustomer(
+    asId(userInfo?._id),
+    asId(userInfo?.custom_id)
+  );
+
+  const order = orderInfo && orderInfo?.find((order) => order?._id === orderId);
+
+  // Logged-out visitors get the login modal until they sign in or close it.
+  const isModalOpen = !userInfo?._id && !loginDismissed;
+  const closeModal = () => setLoginDismissed(true);
+
+  return (
+    <>
+      {userInfo?._id && (
+        <div className="min-h-content bg-gray-50">
+          <div className={`${FASHION_CONTAINER} max-w-3xl! py-6 md:py-10`}>
+            <PageHeader
+              title="Order details"
+              back="/fashion-lifestyle/orders"
+              backLabel="My orders"
+            />
+
+            {isLoading ? (
+              <div className={`${CARD} space-y-4 p-5`} aria-hidden>
+                <Skeleton className="h-6 w-1/3 rounded-full!" />
+                <Skeleton className="h-24 w-full" />
+                <Skeleton className="h-40 w-full" />
+              </div>
+            ) : order ? (
+              <div className={`${CARD} p-4 sm:p-6`}>
+                <OrderDetailsContent order={order} />
+              </div>
+            ) : (
+              <EmptyState
+                icon={<HiOutlineShoppingBag />}
+                title="Order not found"
+                text="We couldn't find this order in your history."
+              />
+            )}
+          </div>
+        </div>
+      )}
+      {isModalOpen && (
+        <CommonModal isOpen={isModalOpen} onClose={closeModal}>
+          <LoginModalDetails onClose={closeModal} type="private-route" />
+        </CommonModal>
+      )}
+    </>
+  );
+};
+
+export default OrderDetailsMobile;
