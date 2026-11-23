@@ -317,7 +317,7 @@ Then stop and ask the owner before pushing / opening the PR to `main` (workflow:
 | 5 ✅ | Fashion (done, see `2026-11-23-web-modernization-pr5-fashion.md`) | typed API on the `fashion` contract; wishlist from `userChoice` → `useWishlistStore` (`notension-wishlist`); `currentProductDetails` → query cache |
 | 6 ✅ | Health Care (done, see `2026-11-23-web-modernization-pr6-healthcare.md`) | typed API on the `healthCare` contract + TanStack Query; `doctorInfo` slice unused; patients/appointments → `useHealthStore` (`notension-health`); booking URL carries `?doctor=&center=`; UTC date bug fixed (`parseLocalYMD`) |
 | 7 ✅ | All Care (done, see `2026-11-23-web-modernization-pr7-allcare.md`) | typed API + TanStack Query; selected service/provider come from the URL, so no preferences field was needed |
-| 8 | Account / Login / Admin / shared / common / StoreModule / LandingPage | `user` server fields, favourites, `common/` vs `shared/` overlap |
+| 8 ✅ | Account / shared (done, see `2026-11-23-web-modernization-pr8-account.md`) | favourites → `useFavouritesStore` (`notension-favourites`, push-only saves); `common/` merged into `shared/` |
 | 9 | Finish | remove Redux, redux-persist, PersistGate (SSR blank fix), delete `persist:root` + `"cart"`, `allowJs: false` |
 
 Spec deviation (builder's call): the spec lists `usePreferencesStore` in PR 1. It moves to PR 2 because its fields are only read by module code, and each store migrates independently from `persist:root` (kept until PR 9), so there is never two sources of truth for a field.
