@@ -3,7 +3,7 @@
 import notify from "@/utils/notify";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { StoreList } from "./legacyViews";
+import StoreList from "./StoreList";
 import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import { useNearestGroceryStores } from "@/hooks/grocery/useGroceryStores";
 import { useNearestMedicineStores } from "@/hooks/medicine/useMedicineStores";

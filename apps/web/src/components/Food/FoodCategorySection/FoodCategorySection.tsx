@@ -10,8 +10,8 @@ import {
   CARD_HOVER,
   PAGE_CONTAINER,
   Skeleton,
+  SectionTitle,
 } from "@/components/shared/UI/UI";
-import { SectionTitle } from "@/components/StoreModule/legacyViews";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { useFoodModule } from "@/hooks/food/useFoodModule";

@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import React from "react";
 import { LuStethoscope } from "react-icons/lu";
 import { useDoctorsByDept, useFindDoctor } from "@/hooks/healthCare/useDoctors";
-import { EmptyState, PageHeader } from "@/components/StoreModule/legacyViews";
+import { EmptyState, PageHeader } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import NearestDoctorSlider from "../NearestDoctor/NearestDoctorSlider";

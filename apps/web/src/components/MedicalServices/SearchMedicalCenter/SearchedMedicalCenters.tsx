@@ -4,7 +4,7 @@ import { LuSearch, LuSearchX } from "react-icons/lu";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import { useCenterSearch } from "@/hooks/healthCare/useCenters";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import CenterGrid from "../Layout/CenterGrid";
 import { MedicalContainer, MedicalSectionTitle } from "../Layout/MedicalLayout";
 import { CenterCardSkeleton, SkeletonGrid } from "../Layout/MedicalUI";

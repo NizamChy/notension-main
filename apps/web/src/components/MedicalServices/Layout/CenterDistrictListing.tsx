@@ -5,7 +5,7 @@ import { LuHospital } from "react-icons/lu";
 import { useCentersByDistrict } from "@/hooks/healthCare/useCenters";
 import type { Banner, CenterType } from "@/lib/api/healthCare";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import CenterHero from "./CenterHero";
 import CenterGrid from "./CenterGrid";
 import { MedicalPageBody, MedicalSectionTitle } from "./MedicalLayout";

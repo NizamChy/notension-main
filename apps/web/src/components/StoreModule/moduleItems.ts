@@ -8,6 +8,7 @@ import { seedMedicineItem, useMedicineItem } from "@/hooks/medicine/useMedicineI
 import { useMedicineItemList } from "@/hooks/medicine/useMedicineItemList";
 import type { GroceryItem, ItemListQuery } from "@/lib/api/grocery";
 import type { MedicineItem } from "@/lib/api/medicine";
+import type { BadgeTone } from "@/components/shared/UI/UI";
 
 /**
  * A product as the shared item components read it: a store list item, or a
@@ -41,7 +42,7 @@ export type ItemResult = Omit<ReturnType<typeof useGroceryItem>, "item"> & {
 };
 
 type Text = string | null | undefined;
-type Badge = { label: string; tone: string };
+type Badge = { label: string; tone: BadgeTone };
 
 /** What the product details (page and quick views) show beyond the basics. */
 export type DetailExtras = {

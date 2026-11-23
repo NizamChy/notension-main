@@ -2,7 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import React from "react";
-import { InfiniteItemGrid, PageHeader } from "./legacyViews";
+import { InfiniteItemGrid } from "./ItemBrowse";
+import { PageHeader } from "@/components/shared/UI/UI";
 import StoreItemTile from "./StoreItemTile";
 import { ITEM_MODULES, type ItemModuleName, type StoreItem } from "./moduleItems";
 

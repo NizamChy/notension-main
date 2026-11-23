@@ -10,12 +10,10 @@ import {
   CARD,
   PRIMARY_BUTTON,
   SECONDARY_BUTTON,
-} from "@/components/shared/UI/UI";
-import {
-  CheckoutStep,
   EmptyState,
   PageHeader,
-} from "@/components/StoreModule/legacyViews";
+} from "@/components/shared/UI/UI";
+import { CheckoutStep } from "@/components/shared/Checkout/CheckoutUI";
 import type { Chamber } from "@/lib/api/healthCare";
 import PatientInfo from "./PatientInfo";
 import RegisterPatient from "./RegisterPatient";

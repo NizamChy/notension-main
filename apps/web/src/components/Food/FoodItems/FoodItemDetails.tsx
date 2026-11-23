@@ -18,8 +18,8 @@ import {
   CARD,
   Skeleton,
   SECONDARY_BUTTON,
+  EmptyState,
 } from "@/components/shared/UI/UI";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
 import {
   FOOD_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SearchInput } from "@/components/StoreModule/legacyViews";
+import SearchInput from "@/components/shared/Search/SearchInput";
 
 const MedicalCenterSearchbar = () => {
   const [searchText, setSearchText] = useState("");

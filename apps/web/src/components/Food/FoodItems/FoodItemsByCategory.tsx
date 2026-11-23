@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { useParams } from "next/navigation";
 import MenuSection, { MenuSkeleton } from "./MenuSection";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import type { FoodItem } from "@/lib/api/food";
 
 const FoodItemsByCategory = () => {
