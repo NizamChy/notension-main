@@ -1,5 +1,5 @@
 import loader from "@/utils/googleMapsLoader";
-import { ALL_DISTRICTS } from "../../../../public/AllDistrictsData/AllDistricts";
+import { ALL_DISTRICTS } from "@/data/allDistricts";
 
 // The Maps types (@types/google.maps) aren't installed, so these are the
 // shapes of the geocoder / places results this file reads.

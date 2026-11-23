@@ -1,5 +1,5 @@
 // Locations that have demo data. District IDs come from
-// public/AllDistrictsData/AllDistricts.js, the same list the location picker
+// src/data/allDistricts.ts, the same list the location picker
 // matches against, so picking these places on the map also finds demo data.
 // Any other district shows the normal "nothing found" states.
 
