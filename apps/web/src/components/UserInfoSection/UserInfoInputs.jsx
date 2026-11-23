@@ -3,7 +3,7 @@
 import notify from "@/utils/notify";
 import { isLengthBetween } from "@/utils/validation";
 import React, { useState } from "react";
-import RoundLoader from "../common/RoundLoader";
+import RoundLoader from "@/components/shared/RoundLoader/BarsLoader";
 import OtpInput from "../LoginSection/OtpInput";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
 import { TextField } from "@/components/shared/Checkout/CheckoutUI";

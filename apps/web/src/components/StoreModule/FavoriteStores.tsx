@@ -1,23 +1,19 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useFavouriteEntries } from "@/stores/favouritesStore";
 import { useRouter } from "next/navigation";
 import { FavoriteStores as FavoriteStoresView } from "./legacyViews";
 import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import { toSlug } from "@/utils/slug";
 
-// Favourites stay in Redux (userChoice).
-const FAVORITE_STORES: Record<
-  ItemModuleName,
-  { stateKey: "favouriteGroceryStore" | "favouriteMedicineStore"; label: string }
-> = {
-  grocery: { stateKey: "favouriteGroceryStore", label: "grocery" },
-  medicine: { stateKey: "favouriteMedicineStore", label: "medicine" },
+// The module's merchantType in the favourite store lists.
+const FAVORITE_STORES: Record<ItemModuleName, { merchantType: number; label: string }> = {
+  grocery: { merchantType: 0, label: "grocery" },
+  medicine: { merchantType: 1, label: "medicine" },
 };
 
 type SavedStore = { shop_name?: string; storeId?: string; custom_store_id?: string };
-type FavoritesState = { userChoice: Record<string, SavedStore[]> };
 
 type Props = { moduleName: ItemModuleName; isFavoriteRoute?: boolean };
 
@@ -25,12 +21,10 @@ type Props = { moduleName: ItemModuleName; isFavoriteRoute?: boolean };
 // favourite-stores page (`isFavoriteRoute`).
 const FavoriteStores = ({ moduleName, isFavoriteRoute = false }: Props) => {
   const { basePath } = ITEM_MODULES[moduleName];
-  const { stateKey, label } = FAVORITE_STORES[moduleName];
+  const { merchantType, label } = FAVORITE_STORES[moduleName];
   const router = useRouter();
 
-  const favouriteStores = useSelector(
-    (state: FavoritesState) => state.userChoice[stateKey]
-  );
+  const favouriteStores = useFavouriteEntries("store", merchantType) as SavedStore[];
 
   const handleStoreClick = (shop: SavedStore) => {
     if (!shop || !shop?.shop_name) return;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Loader from "../common/Loader";
+import Loader from "@/components/shared/Loader/Loader";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { FaWhatsapp, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";

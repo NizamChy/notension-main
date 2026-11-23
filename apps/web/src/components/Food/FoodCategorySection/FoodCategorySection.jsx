@@ -3,7 +3,7 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import Image from "next/image";
-import Slider from "../../common/Slider";
+import Slider from "@/components/shared/Slider/Slider";
 import { HiOutlineMapPin } from "react-icons/hi2";
 import {
   CARD,

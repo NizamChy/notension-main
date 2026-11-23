@@ -5,12 +5,12 @@ import { useCartStore } from "@/stores/cartStore";
 import { AiOutlinePhone } from "react-icons/ai";
 import { IoLocationOutline, IoPersonOutline } from "react-icons/io5";
 import { lineTotal } from "@/utils/price";
-import { CART_MODULES } from "../Cart/cartModules";
+import { CART_MODULES } from "@/components/Cart/cartModules";
 import {
   formatTaka,
   PriceRow,
   PrimaryButton,
-} from "../shared/CartUI/CartUI";
+} from "@/components/shared/CartUI/CartUI";
 import {
   CheckoutLayout,
   CheckoutStep,
@@ -19,7 +19,7 @@ import {
   SummaryCard,
   SummaryItem,
   TextField,
-} from "../shared/Checkout/CheckoutUI";
+} from "./CheckoutUI";
 
 // Shared checkout page for the grocery, medicine and food stores.
 const CheckoutCard = ({

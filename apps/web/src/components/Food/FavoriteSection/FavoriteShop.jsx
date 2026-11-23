@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useFavouriteEntries } from "@/stores/favouritesStore";
 import { useRouter } from "next/navigation";
 import FavoriteStores from "@/components/FavoriteSection/FavoriteStores";
 import { toSlug } from "@/utils/slug";
@@ -9,9 +9,7 @@ import { toSlug } from "@/utils/slug";
 const FavoriteShop = ({ isFavoriteRoute = false }) => {
   const router = useRouter();
 
-  const favouriteFoodShop = useSelector(
-    (state) => state.userChoice.favouriteFoodShop
-  );
+  const favouriteFoodShop = useFavouriteEntries("store", 2);
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop.shop_name) return;

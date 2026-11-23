@@ -3,6 +3,7 @@ import { usePreferencesStore } from "./preferencesStore";
 import { useSessionStore } from "./sessionStore";
 import { useWishlistStore } from "./wishlistStore";
 import { useHealthStore } from "./healthStore";
+import { useFavouritesStore } from "./favouritesStore";
 import type { LegacyAwareStorage } from "./storage";
 
 type Persisted = {
@@ -36,6 +37,7 @@ export async function hydrateStores(): Promise<void> {
       usePreferencesStore,
       useWishlistStore,
       useHealthStore,
+      useFavouritesStore,
     ];
     const needsWrite = stores.map((s) => !hasOwnValue(s));
     await Promise.all(stores.map((s) => s.persist.rehydrate()));
