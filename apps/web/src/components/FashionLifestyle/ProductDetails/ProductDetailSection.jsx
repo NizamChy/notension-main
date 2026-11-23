@@ -16,9 +16,8 @@ import { HiCheck, HiMinus, HiPlus } from "react-icons/hi";
 import { HiOutlineMapPin, HiOutlineShoppingBag } from "react-icons/hi2";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "../shared/Cart/CartDrawer";
-import { useDispatch, useSelector } from "react-redux";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import { useIsWishlisted, useWishlistStore } from "@/stores/wishlistStore";
 import { FASHION_CONTAINER } from "../shared/FashionSection";
 import {
   CARD,
@@ -61,20 +60,13 @@ const ProductDetailSection = () => {
   const { addToCart } = useCart();
   const { useProductById } = useCategoryItem();
 
-  const dispatch = useDispatch();
-
   // The slug is "<title-slug>_<productId>".
   const productId = params?.slugId?.split("_").pop() || null;
 
-  // Redux has the product when it was opened from a list. A direct link (or
-  // a reload with cleared state) fetches it by id instead.
-  const { currentProductDetails } = useSelector((state) => state.product);
-  const hasReduxProduct =
-    !!productId && currentProductDetails?._id === productId;
-  const { data: fetchedProduct, isLoading: isFetching } = useProductById(
-    hasReduxProduct ? null : productId
-  );
-  const product = hasReduxProduct ? currentProductDetails : fetchedProduct;
+  // A product card seeds the query when it is clicked; a direct link (or a
+  // reload) fetches the product by id.
+  const { data: product, isLoading: isFetching } = useProductById(productId);
+  const isFavourite = useIsWishlisted(product?._id);
   const colorsArray = product?.colors?.split(",");
   const sizesArray = product?.sizes?.split(",");
 
@@ -87,10 +79,6 @@ const ProductDetailSection = () => {
     setSelectedImage(product?.images_by_color?.[0] || product?.web_image);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product?._id]);
-
-  const favouriteFashionItems = useSelector(
-    (state) => state.userChoice.favouriteFashionItems
-  );
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -131,38 +119,10 @@ const ProductDetailSection = () => {
     flyToCart(from).then(toggleCart);
   };
 
-  const toggleWishlist = (e, productId, product) => {
+  const toggleWishlist = (e) => {
     e.preventDefault();
-
-    if (favouriteFashionItems?.find((product) => product?._id === productId)) {
-      removeFromReducer({
-        productId: productId,
-      });
-    } else {
-      addToReducer({
-        itemInfo: [product],
-      });
-    }
-  };
-
-  const addToReducer = (itemInfo) => {
-    dispatch(
-      handleUserChoiceReducer({
-        type: "ADD_TO_FAVOURITE_FASHION_ITEMS",
-        data: itemInfo,
-      })
-    );
-    notify.success("Added to favourites");
-  };
-
-  const removeFromReducer = (Info) => {
-    dispatch(
-      handleUserChoiceReducer({
-        type: "REMOVE_FROM_FAVOURITE_FASHION_ITEMS",
-        data: Info,
-      })
-    );
-    notify.success("Removed from favourites");
+    const added = useWishlistStore.getState().toggle(product);
+    notify.success(added ? "Added to favourites" : "Removed from favourites");
   };
 
   if (!product && isFetching) return <DetailSkeleton />;
@@ -184,9 +144,6 @@ const ProductDetailSection = () => {
     );
   }
 
-  const isFavourite = !!favouriteFashionItems?.find(
-    (item) => item?._id === product?._id
-  );
   const variants = product?.images_by_color || [];
   const variantIndex = variants.indexOf(selectedImage);
   const variantName =
@@ -339,7 +296,7 @@ const ProductDetailSection = () => {
 
               <button
                 type="button"
-                onClick={(e) => toggleWishlist(e, product?._id, product)}
+                onClick={toggleWishlist}
                 aria-pressed={isFavourite}
                 aria-label={
                   isFavourite ? "Remove from wishlist" : "Add to wishlist"
