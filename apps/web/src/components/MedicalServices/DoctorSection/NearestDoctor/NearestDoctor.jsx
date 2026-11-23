@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LuStethoscope } from "react-icons/lu";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { useNearestDoctors } from "@/hooks/healthCare/useDoctors";
 import { EmptyState } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import {
@@ -12,14 +12,7 @@ import {
 import { DoctorCardSkeleton, SkeletonGrid } from "../../Layout/MedicalUI";
 
 const NearestDoctor = () => {
-  const [doctorsInfo, setDoctorsInfo] = useState(null);
-
-  const { getNearestDoctorsInfo, progressing, allLoaded } = useDoctor();
-  const loading = progressing || !allLoaded;
-
-  useEffect(() => {
-    getNearestDoctorsInfo(setDoctorsInfo);
-  }, []);
+  const { doctors: doctorsInfo, isLoading: loading } = useNearestDoctors();
 
   return (
     <section className="min-h-[40vh]">

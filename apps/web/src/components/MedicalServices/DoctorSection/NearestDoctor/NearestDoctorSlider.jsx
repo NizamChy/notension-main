@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useFindDoctor } from "@/hooks/healthCare/useDoctors";
 import DoctorCommonSlider from "../DoctorCommonSlider/DoctorCommonSlider";
 
 const NearestDoctorSlider = ({
@@ -9,9 +9,7 @@ const NearestDoctorSlider = ({
   hideWhenEmpty = false,
   wide = false,
 }) => {
-  const nearestDoctorsSlider = useSelector(
-    (state) => state.doctorInfo.nearestDoctorsSlider
-  );
+  const { nearestDoctorBanner: nearestDoctorsSlider } = useFindDoctor();
 
   if (hideWhenEmpty && !nearestDoctorsSlider?.length) return null;
 

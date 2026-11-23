@@ -2,26 +2,21 @@
 
 import { LuSearch, LuSearchX } from "react-icons/lu";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useCenter } from "@/hooks/fetch-data/useCenter";
+import React from "react";
+import { useCenterSearch } from "@/hooks/healthCare/useCenters";
 import { EmptyState } from "@/components/shared/UI/UI";
 import CenterGrid from "../Layout/CenterGrid";
 import { MedicalContainer, MedicalSectionTitle } from "../Layout/MedicalLayout";
 import { CenterCardSkeleton, SkeletonGrid } from "../Layout/MedicalUI";
 
 const SearchedMedicalCenters = () => {
-  const [centerInfo, setCenterInfo] = useState([]);
-  const { searchConsultationCenter, progressing } = useCenter();
-
   const searchParams = useSearchParams();
   const searchText = searchParams.get("query");
 
-  const centerType = "Consultation Center";
-
-  useEffect(() => {
-    if (!searchText) return;
-    searchConsultationCenter(centerType, searchText, setCenterInfo);
-  }, [searchText]);
+  const { centers: centerInfo, isLoading: progressing } = useCenterSearch(
+    "Consultation Center",
+    searchText ?? "",
+  );
 
   return (
     <MedicalContainer className="py-6 md:py-10">

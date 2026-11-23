@@ -2,10 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { LuArrowRight, LuMapPin, LuNavigation, LuPhone } from "react-icons/lu";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { Badge, CARD, CARD_HOVER } from "@/components/shared/UI/UI";
 import {
   centerTypeLabel,
@@ -16,16 +14,8 @@ import {
 
 const MedicalCenterCard = ({ center, onClick, children }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const handleMedicalCenterClick = () => {
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CENTER_INFO",
-        data: center,
-      })
-    );
-
     router.push(
       `/medical-services/doctor/consultation-center/visit/${center?._id}`
     );

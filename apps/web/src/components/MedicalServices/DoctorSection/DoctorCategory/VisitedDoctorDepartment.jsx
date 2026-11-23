@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import DepartmentGrid from "./DepartmentGrid";
-import { useDispatch, useSelector } from "react-redux";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const VisitedDoctorDepartment = ({
   sliceStart = 0,
@@ -17,23 +15,15 @@ const VisitedDoctorDepartment = ({
   allDeptInfo,
 }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-
-  const { currentCenter } = useSelector((state) => state.doctorInfo);
+  // The centre page this grid sits on.
+  const centerId = useParams()?.id;
 
   const handleDeptClick = (e, dept) => {
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CURRENT_DEPT_INFO",
-        data: dept?.deptInfo,
-      })
-    );
-
     router.push(
-      `/medical-services/doctor/dept/${dept?.deptInfo?._id}/center/${currentCenter?._id}`
+      `/medical-services/doctor/dept/${dept?.deptInfo?._id}/center/${centerId}`
     );
   };
 

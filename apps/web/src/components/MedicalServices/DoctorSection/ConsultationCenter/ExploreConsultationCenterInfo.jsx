@@ -2,7 +2,6 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import { LuHeart, LuMapPin, LuPhone } from "react-icons/lu";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
@@ -11,11 +10,11 @@ import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { centerTypeLabel, resolveHealthImage } from "../../Layout/MedicalUI";
 
-const ExploreConsultationCenterInfo = () => {
+/** The centre's banner, type, contacts and favourite button. */
+const ExploreConsultationCenterInfo = ({ center: currentCenter }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
-  const { currentCenter } = useSelector((state) => state.doctorInfo);
   const userInfo = useSessionStore((s) => s.userInfo);
 
   const merchantType = 3;

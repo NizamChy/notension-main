@@ -4,8 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LuBuilding2, LuTrash2 } from "react-icons/lu";
-import { useDispatch, useSelector } from "react-redux";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
+import { useSelector } from "react-redux";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 import {
   EmptyState,
@@ -20,7 +19,6 @@ import {
 
 const FavoriteConsultationCenter = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const { removeFromfavoriteList } = useFavouriteList();
 
@@ -33,21 +31,6 @@ const FavoriteConsultationCenter = () => {
   const handleMedicalCenterClick = (e, center) => {
     e.preventDefault();
     e.stopPropagation();
-
-    const centerInfo = {
-      _id: center?.mongodbId,
-      address: center?.address,
-      center_name: center?.center_name,
-      center_type: "Consultation Center",
-      medical_center_banner_app: center?.medical_center_banner_app,
-    };
-
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CENTER_INFO",
-        data: centerInfo,
-      })
-    );
 
     router.push(
       `/medical-services/doctor/consultation-center/visit/${center?.mongodbId}`

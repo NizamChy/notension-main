@@ -1,10 +1,9 @@
 "use client";
 
 import DoctorNav from "./DoctorNav";
-import React, { useEffect } from "react";
+import React from "react";
 import DoctorSlider from "./DoctorSlider";
-import { useSelector } from "react-redux";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { useFindDoctor } from "@/hooks/healthCare/useDoctors";
 import { Skeleton } from "@/components/shared/UI/UI";
 import DoctorDepartment from "../DoctorCategory/DoctorDepartment";
 import PopularDoctorSlider from "../PopularDoctor/PopularDoctorSlider";
@@ -15,12 +14,7 @@ const MORE_DEPARTMENTS = { title: "More departments", subtitle: null };
 const MORE_DOCTORS = { title: "More specialists", subtitle: null };
 
 const DoctorHome = () => {
-  const { exploreFindDoctor } = useDoctor();
-  const { isLoading } = useSelector((state) => state.doctorInfo);
-
-  useEffect(() => {
-    exploreFindDoctor();
-  }, []);
+  const { isLoading } = useFindDoctor();
 
   return (
     <MedicalPageBody>

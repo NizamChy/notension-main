@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useFindDoctor } from "@/hooks/healthCare/useDoctors";
 import DoctorCarousel from "./DoctorCarousel";
 
 const PopularDoctorSlider = ({
@@ -10,9 +10,7 @@ const PopularDoctorSlider = ({
   title,
   subtitle,
 }) => {
-  const { popularDoctors, isLoading } = useSelector(
-    (state) => state.doctorInfo
-  );
+  const { popularDoctors, isLoading } = useFindDoctor();
 
   // The page shows a single loader while doctor data loads.
   if (isLoading || !(popularDoctors?.length > startValue)) return null;

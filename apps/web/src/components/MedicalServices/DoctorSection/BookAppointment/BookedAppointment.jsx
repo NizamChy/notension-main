@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { useHealthStore } from "@/stores/healthStore";
 import { LuBuilding2, LuCalendarDays, LuClock, LuUserRound } from "react-icons/lu";
-import { useDispatch, useSelector } from "react-redux";
-import { handleUserReducer } from "@/redux/userReducer";
-import { toLocalYMD } from "@/utils/date";
+import { parseLocalYMD, toLocalYMD } from "@/utils/date";
 import {
   Badge,
   CARD,
@@ -57,7 +56,9 @@ const formatDate = (date) => {
     "NOV",
     "DEC",
   ];
-  const dateObj = new Date(date);
+  // A plain date is that day locally (new Date("YYYY-MM-DD") would be UTC
+  // midnight, the previous day west of UTC).
+  const dateObj = parseLocalYMD(date);
   const day = dateObj.getDate();
   const month = months[dateObj.getMonth()];
 
@@ -79,31 +80,12 @@ const DateCard = ({ date }) => {
 };
 
 const BookedAppointment = () => {
-  const dispatch = useDispatch();
-  const { bookedAppoinmentInfo } = useSelector((state) => state.user);
+  const bookedAppoinmentInfo = useHealthStore((s) => s.appointments);
 
+  // Past appointments drop off the list.
   useEffect(() => {
-    const currentDate = toLocalYMD();
-    const pastAppointments = bookedAppoinmentInfo.filter(
-      (appointment) =>
-        new Date(appointment?.appointment_date).getTime() <
-        new Date(currentDate).getTime()
-    );
-
-    if (pastAppointments?.length > 0) {
-      pastAppointments?.forEach((appointment) => {
-        dispatch(
-          handleUserReducer({
-            type: "UPDATE_BOOKED_APPOINTMENT_INFO",
-            data: {
-              action: "delete",
-              appoinmentData: appointment,
-            },
-          })
-        );
-      });
-    }
-  }, [bookedAppoinmentInfo, dispatch]);
+    useHealthStore.getState().prunePastAppointments(toLocalYMD());
+  }, [bookedAppoinmentInfo]);
 
   return (
     <MedicalContainer className="py-6 md:py-10">

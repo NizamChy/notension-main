@@ -1,11 +1,10 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LuStethoscope } from "react-icons/lu";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { useDoctorsByCenter, useFindDoctor } from "@/hooks/healthCare/useDoctors";
+import { useConsultationCenter } from "@/hooks/healthCare/useCenters";
 import { EmptyState } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -22,67 +21,51 @@ import {
 } from "../../Layout/MedicalUI";
 
 const DoctorsByCenter = () => {
-  const [pageNo, setPageNo] = useState(1);
-  const [doctorsInfo, setDoctorsInfo] = useState([]);
-
-  const { getDoctorsInfoByCenter, loadingMore, allLoaded } = useDoctor();
-  const { currentDept, currentCenter } = useSelector((state) => state.doctorInfo);
-  const dispatch = useDispatch();
-
   const params = useParams();
   const deptId = params?.deptId;
   const centerId = params?.centerId;
 
-  // Saved department/centre only count when they match the URL; otherwise
-  // take them from the doctors' chambers (direct links, other tabs).
+  const {
+    doctors: doctorsInfo,
+    isLoading,
+    hasMore,
+    loadMore,
+  } = useDoctorsByCenter(centerId, deptId);
+  const { departments } = useFindDoctor();
+  const { center } = useConsultationCenter(centerId);
+
+  // The department and centre in the URL; the doctors' chambers fill in
+  // while those load.
   const dept =
-    currentDept?._id === deptId ? currentDept : doctorsInfo?.[0]?.deptInfo;
+    departments.find((d) => d?._id === deptId) || doctorsInfo?.[0]?.deptInfo;
   const chamberCenter = doctorsInfo?.[0]?.consultationCenterInfo;
-
-  useEffect(() => {
-    getDoctorsInfoByCenter(centerId, deptId, setDoctorsInfo, pageNo, setPageNo);
-    // getDoctorsInfoByCenter is recreated on every render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [centerId, deptId]);
-
-  useEffect(() => {
-    if (chamberCenter?._id === centerId && currentCenter?._id !== centerId) {
-      dispatch(handleDoctorReducer({ type: "SAVE_CENTER_INFO", data: chamberCenter }));
-    }
-  }, [chamberCenter, centerId, currentCenter?._id, dispatch]);
+  const shownCenter =
+    center || (chamberCenter?._id === centerId ? chamberCenter : null);
 
   return (
     <MedicalPageBody className="min-h-content">
-      <ExploreConsultationCenterInfo />
+      <ExploreConsultationCenterInfo center={shownCenter} />
 
       <section>
         <MedicalSectionTitle
           subtitle={
             doctorsInfo?.length > 0
-              ? `${doctorsInfo.length}${loadingMore && !allLoaded ? "+" : ""} doctors at this centre`
+              ? `${doctorsInfo.length}${hasMore ? "+" : ""} doctors at this centre`
               : null
           }
         >
           {dept?.dept_name ? `${dept.dept_name} specialists` : "Doctors"}
         </MedicalSectionTitle>
 
-        {!allLoaded && doctorsInfo?.length < 1 && (
+        {isLoading && (
           <SkeletonGrid count={3} item={DoctorCardSkeleton} />
         )}
 
         {doctorsInfo && doctorsInfo?.length > 0 ? (
           <InfiniteScroll
             dataLength={doctorsInfo?.length}
-            next={() => {
-              getDoctorsInfoByCenter(
-                centerId,
-                deptId,
-                setDoctorsInfo,
-                pageNo,
-                setPageNo
-              );
-            }}
-            hasMore={loadingMore}
+            next={loadMore}
+            hasMore={hasMore}
             loader={<InlineSpinner />}
             style={{ overflow: "visible" }}
           >
@@ -98,7 +81,7 @@ const DoctorsByCenter = () => {
           </InfiniteScroll>
         ) : null}
 
-        {allLoaded && doctorsInfo?.length < 1 && (
+        {!isLoading && doctorsInfo?.length < 1 && (
           <EmptyState
             icon={<LuStethoscope />}
             title="No doctor found in this department"

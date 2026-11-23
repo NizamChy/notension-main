@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LuHospital } from "react-icons/lu";
-import { useCenter } from "@/hooks/fetch-data/useCenter";
+import { useCentersByDistrict } from "@/hooks/healthCare/useCenters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { EmptyState } from "@/components/shared/UI/UI";
 import CenterHero from "./CenterHero";
@@ -24,15 +24,13 @@ const CenterDistrictListing = ({
   listSubtitle,
   emptyTitle = "No centres found in your district",
 }) => {
-  const [pageNo, setPageNo] = useState(1);
-  const [centerInfo, setCenterInfo] = useState([]);
-
-  const { getCenterInfoByDistrict, loadingMore, allLoaded, banner } =
-    useCenter();
-
-  useEffect(() => {
-    getCenterInfoByDistrict(centerType, setCenterInfo, pageNo, setPageNo);
-  }, []);
+  const {
+    centers: centerInfo,
+    banner,
+    isLoading,
+    hasMore,
+    loadMore,
+  } = useCentersByDistrict(centerType);
 
   // All banners except the last one go to the slider.
   const slider = banner?.length > 1 ? banner.slice(0, -1) : [];
@@ -52,7 +50,7 @@ const CenterDistrictListing = ({
       <section>
         <MedicalSectionTitle subtitle={listSubtitle}>{listTitle}</MedicalSectionTitle>
 
-        {!allLoaded && centerInfo?.length < 1 && (
+        {isLoading && (
           <SkeletonGrid
             count={4}
             item={CenterCardSkeleton}
@@ -63,15 +61,8 @@ const CenterDistrictListing = ({
         {centerInfo && centerInfo?.length > 0 ? (
           <InfiniteScroll
             dataLength={centerInfo?.length}
-            next={() => {
-              getCenterInfoByDistrict(
-                centerType,
-                setCenterInfo,
-                pageNo,
-                setPageNo
-              );
-            }}
-            hasMore={loadingMore}
+            next={loadMore}
+            hasMore={hasMore}
             loader={<InlineSpinner />}
             style={{ overflow: "visible" }}
           >
@@ -79,7 +70,7 @@ const CenterDistrictListing = ({
           </InfiniteScroll>
         ) : null}
 
-        {allLoaded && centerInfo?.length < 1 && (
+        {!isLoading && centerInfo?.length < 1 && (
           <EmptyState
             icon={<LuHospital />}
             title={emptyTitle}

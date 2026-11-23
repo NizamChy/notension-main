@@ -3,8 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import DepartmentGrid from "./DepartmentGrid";
-import { useDispatch, useSelector } from "react-redux";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
+import { useFindDoctor } from "@/hooks/healthCare/useDoctors";
 
 const DoctorDepartment = ({
   sliceStart = 0,
@@ -16,20 +15,12 @@ const DoctorDepartment = ({
   subtitle,
 }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const { allDeptInfo, isLoading } = useSelector((state) => state.doctorInfo);
+  const { departments: allDeptInfo, isLoading } = useFindDoctor();
 
   const handleDeptClick = (e, dept) => {
     e.preventDefault();
     e.stopPropagation();
-
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CURRENT_DEPT_INFO",
-        data: dept,
-      })
-    );
 
     router.push(`/medical-services/doctor/dept/${dept?._id}`);
   };

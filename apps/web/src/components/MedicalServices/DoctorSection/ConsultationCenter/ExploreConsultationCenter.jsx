@@ -1,13 +1,11 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { EmptyState, SECONDARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
-import { useCenter } from "@/hooks/fetch-data/useCenter";
+import { useConsultationCenter } from "@/hooks/healthCare/useCenters";
 import ExploreConsultationCenterInfo from "./ExploreConsultationCenterInfo";
 import VisitedDoctorDepartment from "../DoctorCategory/VisitedDoctorDepartment";
 import VisitedPopularDoctorSlider from "../PopularDoctor/VisitedPopularDoctorSlider";
@@ -26,49 +24,15 @@ const DEPARTMENTS = {
 const MORE_DEPARTMENTS = { title: "More departments", subtitle: null };
 
 const ExploreConsultationCenter = () => {
-  const [slider, setSlider] = useState([]);
-  const [allDeptInfo, setAllDeptInfo] = useState([]);
-  const [exploreInfo, setExploreInfo] = useState(null);
-
-  const params = useParams();
-  const dispatch = useDispatch();
-  const { exploreConsultationCenter, progressing } = useCenter();
-  const { currentCenter } = useSelector((state) => state.doctorInfo);
-
-  // The URL decides which centre this is. The centre saved when a card was
-  // clicked only fills in the type; a direct link loads the centre itself.
-  const centerId = params?.id;
-  const savedType =
-    currentCenter?._id === centerId ? currentCenter?.center_type : undefined;
-
-  useEffect(() => {
-    if (!centerId) return;
-    exploreConsultationCenter(
-      { _id: centerId, center_type: savedType },
-      setExploreInfo,
-    );
-    // exploreConsultationCenter is recreated on every render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [centerId]);
-
-  useEffect(() => {
-    if (progressing) return;
-    const info = exploreInfo?.centerInfo;
-    // Always store the full record: the favourites page saves only a stub
-    // (no contacts, generic type) before navigating here.
-    if (info?._id === centerId) {
-      dispatch(handleDoctorReducer({ type: "SAVE_CENTER_INFO", data: info }));
-    }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSlider(exploreInfo?.popularDoctorsByCenter || []);
-    setAllDeptInfo(exploreInfo?.departmentsInfoByCenter || []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exploreInfo]);
-
-  // exploreInfo is null until the request finishes. A centre id the API
-  // doesn't know must not fall back to the centre saved from an earlier visit.
-  const loading = progressing || exploreInfo === null;
-  const notFound = !loading && exploreInfo?.centerInfo?._id !== centerId;
+  // The URL decides which centre this is.
+  const centerId = useParams()?.id;
+  const {
+    center,
+    popularDoctors: slider,
+    departments: allDeptInfo,
+    isLoading: loading,
+    notFound,
+  } = useConsultationCenter(centerId);
 
   return (
     <div className="min-h-content">
@@ -99,7 +63,7 @@ const ExploreConsultationCenter = () => {
         </MedicalPageBody>
       ) : (
         <MedicalPageBody>
-          <ExploreConsultationCenterInfo />
+          <ExploreConsultationCenterInfo center={center} />
 
           {slider?.length > 0 && (
             <VisitedPopularDoctorSlider
