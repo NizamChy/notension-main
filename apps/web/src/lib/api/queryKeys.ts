@@ -73,6 +73,12 @@ export const queryKeys = {
     center: (centerId: string) => ["healthCare", "center", centerId] as const,
     patients: (userId: string) => ["healthCare", "patients", userId] as const,
   },
+  allCare: {
+    all: () => ["allCare"] as const,
+    services: (districtId: string) => ["allCare", "services", districtId] as const,
+    providers: (serviceId: string, districtId: string, lat: string, lng: string) =>
+      ["allCare", "providers", serviceId, districtId, lat, lng] as const,
+  },
   user: {
     all: () => ["user"] as const,
     me: () => ["user", "me"] as const,

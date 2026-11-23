@@ -1,13 +1,12 @@
 "use client";
 
-import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { EmptyState, PAGE_CONTAINER } from "@/components/shared/UI/UI";
 import ServicesArea from "@/components/AllCareServices/ServicesArea";
 import ServicesSlider from "@/components/AllCareServices/ServicesSlider";
-import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
+import { useCareServices } from "@/hooks/allCare/useAllCare";
 import AllCareServices from "@/components/AllCareServices/AllCareServices";
 
 // Each group of services (a slice of the service list) follows its own
@@ -23,19 +22,13 @@ const SECTIONS = [
 ];
 
 const AllCareHome = () => {
-  const { exploreAllCareService } = useAllCareService();
-  const { careSlider, allServicesInfo, isLoading } = useSelector(
-    (state) => state.allCare
-  );
-  const districtId = useSessionStore((s) => s.districtId);
+  // Services and sliders for the user's district (refetched when it changes).
+  const { services: allServicesInfo, slider, isLoading } = useCareServices();
 
-  // Refetch whenever the user's district changes. Persisted data is kept on
-  // screen meanwhile only if it was fetched for this same district (the
-  // reducer clears it otherwise).
+  // All Care counts as the dashboard (as the old explore call set it).
   useEffect(() => {
-    return exploreAllCareService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [districtId]);
+    usePreferencesStore.getState().setCurrentModule("dashboard");
+  }, []);
 
   const isEmpty = !isLoading && !(allServicesInfo?.length > 0);
 
@@ -58,7 +51,7 @@ const AllCareHome = () => {
         ) : (
           SECTIONS.map(([sliderKey, start, end, title]) => (
             <React.Fragment key={sliderKey}>
-              <ServicesSlider slider={careSlider?.[0]?.[sliderKey]} />
+              <ServicesSlider slider={slider?.[sliderKey]} />
               <ServicesArea
                 sliceStart={start}
                 sliceEnd={end}
