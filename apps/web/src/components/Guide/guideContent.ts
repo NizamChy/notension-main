@@ -3,7 +3,7 @@
 // Keep it in step with the code: order statuses come from
 // apps/api/src/db/schema/commerce.ts, rider moves from
 // apps/api/src/modules/admin/service-panels.ts, permissions from
-// apps/web/src/components/Admin/perms.js.
+// apps/web/src/components/Admin/perms.ts.
 
 export type GuideLang = "en" | "bn";
 export type GuideText = Record<GuideLang, string>;
