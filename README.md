@@ -27,7 +27,7 @@ reached, so it still works without a backend.
 
 - Monorepo: npm workspaces and [Turborepo](https://turborepo.com)
 - [Next.js 16](https://nextjs.org) (App Router) and React 19
-- TypeScript 7 (existing code is JavaScript and moves over gradually)
+- TypeScript 7 (the web app is TypeScript only: `allowJs: false`, and lint rejects new .js/.jsx files under `src`)
 - Tailwind CSS 4
 - Zod for shared, validated business rules (`packages/shared`)
 - Vitest for unit tests, Playwright for smoke tests
@@ -105,7 +105,7 @@ Never commit `.env.local` or real keys.
 > domains in Google Cloud. The SMS key should move to a server-side route
 > (without the `NEXT_PUBLIC_` prefix) so it is not exposed.
 
-The location picker (`src/components/shared/Map/LocationPicker.jsx`) is
+The location picker (`src/components/shared/Map/LocationPicker.tsx`) is
 built to stay inside Google Maps' free monthly usage: the Maps script loads
 only when the picker opens, one map is created per opening, and the address
 under the pin is looked up only after the map stops moving, with results
@@ -144,7 +144,7 @@ Demo mode turns itself on when the API is down, and can be chosen by hand:
   With it on, **Log in as Demo User** uses the demo sign-in.
 
 State: `apps/web/src/demo/backendStatus.ts`. Banner:
-`apps/web/src/components/shared/BackendStatus/BackendStatusBanner.jsx`.
+`apps/web/src/components/shared/BackendStatus/BackendStatusBanner.tsx`.
 
 To add or change demo data, see
 [`apps/web/src/demo/README.md`](apps/web/src/demo/README.md). The API's seed

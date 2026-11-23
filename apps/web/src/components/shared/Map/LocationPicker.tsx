@@ -28,7 +28,7 @@ import {
   type PlaceResult,
   type PlaceSummary,
 } from "./locationUtils";
-import { ALL_DISTRICTS } from "../../../../public/AllDistrictsData/AllDistricts";
+import { ALL_DISTRICTS } from "@/data/allDistricts";
 
 // The Maps types (@types/google.maps) aren't installed; these are the parts
 // of the map, autocomplete and listener objects this picker uses.

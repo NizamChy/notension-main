@@ -1,4 +1,12 @@
-export const ALL_DISTRICTS = [
+// The districts the location picker matches a map address against.
+export type District = {
+  _id: string;
+  district_name: string;
+  description: string;
+  districtImg: string;
+};
+
+export const ALL_DISTRICTS: District[] = [
   {
     _id: "64f032f6c6635d0242c01e03",
     district_name: "Dhaka (ঢাকা)",
