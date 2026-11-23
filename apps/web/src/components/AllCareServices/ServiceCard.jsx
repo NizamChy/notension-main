@@ -2,26 +2,16 @@
 
 import React from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { MdHomeRepairService } from "react-icons/md";
-import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { getAllCareServiceIcon } from "@/utils/allCareServiceIcon";
 
 // Service category tile: illustration on a soft tile, name underneath.
 const ServiceCard = ({ service }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const icon = getAllCareServiceIcon(service);
 
   const handleServiceClick = () => {
-    dispatch(
-      handleAllCareReducer({
-        type: "SAVE_CURRENT_SERVICE_INFO",
-        data: service,
-      })
-    );
-
     router.push(`/all-care-services/service/${service?._id}`);
   };
 

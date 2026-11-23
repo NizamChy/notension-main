@@ -2,7 +2,7 @@
 
 import React from "react";
 import ServiceCard from "./ServiceCard";
-import { useSelector } from "react-redux";
+import { useCareServices } from "@/hooks/allCare/useAllCare";
 import { Skeleton } from "@/components/shared/UI/UI";
 
 const GRID =
@@ -14,7 +14,7 @@ const ServicesArea = ({
   sliceStart = 0,
   title = "Your Trusted Partner for Every Service",
 }) => {
-  const { allServicesInfo, isLoading } = useSelector((state) => state.allCare);
+  const { services: allServicesInfo, isLoading } = useCareServices();
 
   // While loading, only the first group shows placeholders.
   if (isLoading) {
