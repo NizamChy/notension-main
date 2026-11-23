@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LuBuilding2, LuTrash2 } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { useFavouriteEntries } from "@/stores/favouritesStore";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 import {
   EmptyState,
@@ -22,9 +22,7 @@ const FavoriteConsultationCenter = () => {
 
   const { removeFromfavoriteList } = useFavouriteList();
 
-  const favouriteConsultationCentre = useSelector(
-    (state) => state.userChoice.favouriteConsultationCentre
-  );
+  const favouriteConsultationCentre = useFavouriteEntries("list", 3);
 
   let merchantType = 3;
 

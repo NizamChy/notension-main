@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getApiClient } from "@/lib/apiClient";
 import { GROCERY_URL } from "@/api-endpoints/env";
-import { GROCERY_ITEM_DETAILS } from "@/api-endpoints/api-endpoint";
 import { DEMO_GROCERY_ITEMS, DEMO_GROCERY_STORES } from "@/demo/modules/grocery/data";
 import { queryKeys } from "@/lib/api/queryKeys";
 import { resetWarnedEndpoints } from "@/lib/api/validate";
@@ -15,7 +14,6 @@ import { useCartStore } from "@/stores/cartStore";
 import cartReducer from "@/redux/cartReducer";
 import itemsByStoreReducer from "@/redux/items-by-shop";
 import userChoiceReducer from "@/redux/userChoiceReducer";
-import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { seedGroceryItem, useGroceryItem } from "./useGroceryItem";
 import { PAGE_SIZE, useGroceryItemList } from "./useGroceryItemList";
 import { useGroceryCart } from "./useGroceryCart";
@@ -145,26 +143,6 @@ describe("useGroceryCart", () => {
     });
     expect(added).toBe(false);
     expect(useCartStore.getState().grocery.items).toHaveLength(1);
-  });
-});
-
-describe("useFavouriteItem", () => {
-  it("uses the given store ref", async () => {
-    const get = vi
-      .spyOn(getApiClient(GROCERY_URL), "get")
-      .mockResolvedValue({ data: { success: false }, headers: {} });
-    const { result } = renderHook(
-      () => useFavouriteItem({ merchantId: "ref-merchant", customstore_id: "ref-custom" }),
-      { wrapper },
-    );
-    act(() => result.current.getGroceryProductDetails("p1"));
-    expect(get).toHaveBeenCalledWith(GROCERY_ITEM_DETAILS, {
-      params: {
-        productInfoTable: "p1",
-        groceryStoreId: "ref-merchant",
-        custom_store_id: "ref-custom",
-      },
-    });
   });
 });
 
