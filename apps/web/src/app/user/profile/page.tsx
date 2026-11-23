@@ -13,9 +13,7 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <>
-      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
-          required; this page passes none. */}
-      <Navbar search={undefined} leading={undefined} actions={undefined} />
+      <Navbar />
       <div className="min-h-content pt-16 lg:pt-[72px]">
         <UserProfile />
       </div>

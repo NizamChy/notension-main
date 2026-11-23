@@ -12,9 +12,7 @@ export const metadata: Metadata = {
 export default function GuidePage() {
   return (
     <>
-      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
-          required; this page passes none. */}
-      <Navbar search={undefined} leading={undefined} actions={undefined} />
+      <Navbar />
       <main className="bg-gray-50 pt-16 lg:pt-[72px]">
         <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
           <Guide stickyTop="lg:top-24" />

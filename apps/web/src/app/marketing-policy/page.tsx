@@ -19,9 +19,7 @@ const NotoSansBengali = Noto_Sans_Bengali({
 const page = () => {
   return (
     <section className={NotoSansBengali.className}>
-      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
-          required; this page passes none. */}
-      <Navbar search={undefined} leading={undefined} actions={undefined} />
+      <Navbar />
       {/* Offset for the fixed navbar, as in the module layouts. */}
       <main className="pt-16 lg:pt-[72px]">
         <MarketingPolicy />

@@ -10,9 +10,7 @@ export const metadata = {
 export default function FoodLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
-          required; this layout passes none. */}
-      <Navbar search={undefined} leading={undefined} actions={undefined} />
+      <Navbar />
       <div className="pt-16 lg:pt-[72px]">{children}</div>
     </>
   );

@@ -17,9 +17,7 @@ const Mono = ({ children }: { children: ReactNode }) => <span className="font-mo
 export default function DemoAccountsPage() {
   return (
     <>
-      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
-          required; this page passes none. */}
-      <Navbar search={undefined} leading={undefined} actions={undefined} />
+      <Navbar />
       <main className="bg-gray-50 pt-16 lg:pt-[72px]">
         <div className="mx-auto max-w-5xl px-4 py-8 md:py-12">
           <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">Demo accounts</h1>

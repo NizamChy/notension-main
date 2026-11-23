@@ -44,9 +44,7 @@ const page = () => {
             Log in with your mobile number to continue
           </p>
 
-          {/* boundary: legacy JS caller. LoginModalDetails is JS, so TS reads
-              redirectTo as required; this page passes none. */}
-          <LoginModalDetails type="login" showHeading={false} redirectTo={undefined} />
+          <LoginModalDetails type="login" showHeading={false} />
         </div>
 
         <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-gray-500">
