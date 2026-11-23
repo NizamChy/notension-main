@@ -6,7 +6,7 @@ import { usePatients } from "@/hooks/healthCare/usePatients";
 import { parseLocalYMD } from "@/utils/date";
 import { SECONDARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
 import AppointmentModalDetails, { type PatientRecord } from "./AppointmentModalDetails";
-import { CommonModal } from "@/components/StoreModule/legacyViews";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const PatientInfo = () => {
   const [visibleCount, setVisibleCount] = useState(4);

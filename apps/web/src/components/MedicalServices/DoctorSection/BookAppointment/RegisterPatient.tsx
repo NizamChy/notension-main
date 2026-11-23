@@ -4,7 +4,7 @@ import React, { useState, type ChangeEvent, type FormEvent } from "react";
 import { LuInfo, LuUserPlus } from "react-icons/lu";
 import { usePatients } from "@/hooks/healthCare/usePatients";
 import notify from "@/utils/notify";
-import { TextField } from "@/components/StoreModule/legacyViews";
+import { TextField } from "@/components/shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
 
 const selectClass =

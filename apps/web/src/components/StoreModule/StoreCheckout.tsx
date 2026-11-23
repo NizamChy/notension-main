@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import CheckoutCard from "@/components/shared/Checkout/CheckoutCard";
-import { CommonModal, LoginModalDetails } from "./legacyViews";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import { PAYMENT_DATA } from "@/components/shared/Checkout/paymentOptions";
 import { usePlaceGroceryOrder } from "@/hooks/grocery/usePlaceGroceryOrder";

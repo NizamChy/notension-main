@@ -1,4 +1,4 @@
-import { CommonModal } from "../legacyViews";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { OrderDetails, type OrderView } from "./OrderUI";
 
 // The desktop order details popup. `imageBase` is the module's item image URL.

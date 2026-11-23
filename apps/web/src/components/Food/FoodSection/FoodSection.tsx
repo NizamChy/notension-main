@@ -12,8 +12,9 @@ import Link from "next/link";
 import {
   PAGE_CONTAINER,
   SECONDARY_BUTTON,
+  SectionTitle,
 } from "@/components/shared/UI/UI";
-import { NoStoreFound, SectionTitle } from "@/components/StoreModule/legacyViews";
+import NoStoreFound from "@/components/ShopInfoSection/NoStoreFound";
 import type { FoodNearbyStore } from "@/lib/api/food";
 
 export const STORE_GRID =

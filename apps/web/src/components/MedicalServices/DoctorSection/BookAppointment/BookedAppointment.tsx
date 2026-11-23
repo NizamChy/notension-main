@@ -10,8 +10,9 @@ import {
   CARD,
   PRIMARY_BUTTON,
   StatusBadge,
+  EmptyState,
+  PageHeader,
 } from "@/components/shared/UI/UI";
-import { EmptyState, PageHeader } from "@/components/StoreModule/legacyViews";
 import { MedicalContainer } from "../../Layout/MedicalLayout";
 import { MetaItem } from "../../Layout/MedicalUI";
 

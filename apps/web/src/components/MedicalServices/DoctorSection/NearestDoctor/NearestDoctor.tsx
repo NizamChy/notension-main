@@ -3,7 +3,7 @@
 import React from "react";
 import { LuStethoscope } from "react-icons/lu";
 import { useNearestDoctors } from "@/hooks/healthCare/useDoctors";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import {
   MedicalCardGrid,

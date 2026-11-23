@@ -15,13 +15,14 @@ import {
   HiOutlineBuildingStorefront,
 } from "react-icons/hi2";
 import { lineTotal } from "@/utils/price";
-import { formatTaka } from "@/components/shared/CartUI/CartUI";
-import { EmptyState, PageHeader, PriceRow } from "../legacyViews";
+import { formatTaka, PriceRow } from "@/components/shared/CartUI/CartUI";
 import {
   CARD,
   Skeleton,
   StatusBadge,
   SECONDARY_BUTTON,
+  EmptyState,
+  PageHeader,
 } from "@/components/shared/UI/UI";
 
 // Presentation pieces shared by the grocery, medicine and food order pages

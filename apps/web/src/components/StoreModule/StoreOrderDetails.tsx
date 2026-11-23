@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { CommonModal, LoginModalDetails } from "./legacyViews";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import { OrderDetailsPage, OrderDetailsSkeleton } from "./orders/OrderUI";
 import { ORDER_MODULES, type OrderModuleName } from "./orders/orderModules";
 

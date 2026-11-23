@@ -3,7 +3,7 @@
 import React from "react";
 import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { HiOutlineFire } from "react-icons/hi2";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import MenuSection, { MenuSkeleton } from "./MenuSection";
 import { POPULAR_SECTION } from "@/components/Food/CategorySidebar/useMenuNav";
 
