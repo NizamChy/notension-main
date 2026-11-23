@@ -171,8 +171,24 @@ export const routes = [
 
       orderCounter += 1;
       const now = new Date();
+      // Defaults for what the contract's order has and a thin request may not.
       const order = {
+        customer_id: "",
+        custom_customer_id: "",
+        custom_merchant_id: store.custom_store_id,
+        shortNote: "",
+        customer_rating: 0,
+        customer_review: "",
         ...body,
+        customerInfo: {
+          customer_name: "",
+          customer_address: "",
+          contact_no: "",
+          alternative_contact_no: "",
+          latitude: null,
+          longitude: null,
+          ...(body.customerInfo || {}),
+        },
         _id: hexId("60", orderCounter),
         order_id: `FOOD-${datePart(now)}-${2000 + orderCounter}`,
         merchantInfo: body.merchantInfo?.shop_name
