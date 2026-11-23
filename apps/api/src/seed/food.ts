@@ -1,4 +1,4 @@
-// Imports the web app's food demo data (apps/web/src/demo/modules/food/data.js),
+// Imports the web app's food demo data (apps/web/src/demo/modules/food/data.ts),
 // keeping its ids so links and stored carts keep working.
 import { DEMO_LOCATIONS } from "@/demo/demoLocations";
 import {

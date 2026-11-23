@@ -1,6 +1,6 @@
 // Health care endpoints (doctors, centres, service providers) with the paths
 // and response shapes the web app already uses (HEALTH_CARE in
-// src/api-endpoints/api-endpoint.js). Patients and appointments are in
+// src/api-endpoints/api-endpoint.ts). Patients and appointments are in
 // ./appointments.ts.
 import { zValidator } from "@hono/zod-validator";
 import { healthCare as contract } from "@notension/shared";

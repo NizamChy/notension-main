@@ -83,7 +83,7 @@
 
 /* ---------------------------------------------------------------------------
    Theme. Light is the default; the "dark" class on <html> (set by
-   ThemeToggle and the inline script in app/layout.js) switches to dark.
+   ThemeToggle and the inline script in app/layout.tsx) switches to dark.
    The gray / slate scales and deepGray / mediumGray / lightGray read these
    variables (@theme above), so dark mode flips them everywhere.
    Values are "R G B" so Tailwind opacity modifiers keep working.

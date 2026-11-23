@@ -1,5 +1,5 @@
 // The medicine API as the web app reads it today (legacy field names, see
-// apps/web/src/demo/modules/medicine.js). The API builds these shapes and the
+// apps/web/src/demo/modules/medicine.ts). The API builds these shapes and the
 // tests validate every response against them.
 import { z } from "zod";
 import { order as groceryOrder } from "./grocery";

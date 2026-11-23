@@ -1,6 +1,6 @@
 // Food reads with the paths and response shapes the web app already uses
 // (EXPLORE_FOOD_MODULE, NEAREST_FOOD_STORE, SEARCH_FOOD_STORE,
-// EXPLORE_FOOD_STORE). Responses match demo mode (src/demo/modules/food.js)
+// EXPLORE_FOOD_STORE). Responses match demo mode (src/demo/modules/food.ts)
 // and are typed by the shared contract.
 import { zValidator } from "@hono/zod-validator";
 import { food as contract } from "@notension/shared";

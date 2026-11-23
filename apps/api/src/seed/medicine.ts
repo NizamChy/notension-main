@@ -1,5 +1,5 @@
 // Loads the web app's medicine demo data (apps/web/src/demo/modules/medicine/
-// data.js) into the shared catalogue tables, keeping the demo ids.
+// data.ts) into the shared catalogue tables, keeping the demo ids.
 import { DEMO_LOCATIONS } from "@/demo/demoLocations";
 import {
   DEMO_MEDICINE_ITEMS,

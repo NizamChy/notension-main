@@ -1,5 +1,5 @@
 // The food API must answer exactly like the web app's demo mode
-// (src/demo/modules/food.js). Each case sends the same request to both and
+// (src/demo/modules/food.ts). Each case sends the same request to both and
 // compares the bodies; API responses are also checked against the contract.
 import { food as contract } from "@notension/shared";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";

@@ -73,7 +73,7 @@ export default function FoodStoreLayout({ children }: { children: ReactNode }) {
               <RestaurantHeaderSkeleton />
               <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-8">
                 <div className="hidden lg:block">
-                  <CategorySidebar loading setIsScroll={undefined} />
+                  <CategorySidebar loading />
                 </div>
                 <MenuSkeleton count={6} />
               </div>

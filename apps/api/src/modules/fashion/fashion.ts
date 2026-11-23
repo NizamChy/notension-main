@@ -1,5 +1,5 @@
 // Fashion & lifestyle catalogue on the paths and response shapes the web app
-// already uses (FASHION_BASE_URL + src/api-endpoints/api-endpoint.js): the
+// already uses (FASHION_BASE_URL + src/api-endpoints/api-endpoint.ts): the
 // taxonomy, brands, product lists (by men/women/kids, or filtered by type),
 // a shop and the taxonomy each shop sells.
 import { zValidator } from "@hono/zod-validator";

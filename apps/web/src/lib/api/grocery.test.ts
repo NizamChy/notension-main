@@ -22,7 +22,7 @@ import {
 const dhaka = DEMO_LOCATIONS[0];
 const demoStore = DEMO_GROCERY_STORES.find(
   (s: { districtId: string }) => s.districtId === dhaka.districtId,
-);
+)!;
 const ref: StoreRef = { storeId: demoStore._id, customStoreId: demoStore.custom_store_id };
 
 beforeEach(() => {

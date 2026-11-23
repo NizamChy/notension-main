@@ -1,5 +1,5 @@
 // Medicine endpoints with the paths and response shapes the web app already
-// uses (MEDICINE_* in src/api-endpoints/api-endpoint.js). Stores, products and
+// uses (MEDICINE_* in src/api-endpoints/api-endpoint.ts). Stores, products and
 // store items live in the shared catalogue tables with module = "medicine";
 // the medicine-only product fields (generic name, company, strength,
 // prescription) are in products.attrs.
