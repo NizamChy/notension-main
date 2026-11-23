@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { IMAGE_URL } from "@/api-endpoints/env";
 import {
   HiOutlineClock,
@@ -10,11 +10,18 @@ import {
   HiOutlinePhone,
 } from "react-icons/hi2";
 import { CARD } from "../shared/UI/UI";
+import { useStoreData } from "../StoreModule/useStoreData";
 
-const STORE_STATE_KEYS = {
-  food: "visitedFoodStore",
-  grocery: "visitedGroceryStore",
-  medicine: "visitedMedicineStore",
+// The visited store per module, from each module's store query. moduleName
+// is fixed per instance, so the hook a ShopInfo calls never changes.
+const useFoodStoreInfo = () => useFoodStore().store;
+const useGroceryStoreInfo = () => useStoreData("grocery").store;
+const useMedicineStoreInfo = () => useStoreData("medicine").store;
+
+const VISITED_STORE_HOOKS = {
+  food: useFoodStoreInfo,
+  grocery: useGroceryStoreInfo,
+  medicine: useMedicineStoreInfo,
 };
 
 const InfoLine = ({ icon: Icon, children, title }) => (
@@ -35,9 +42,8 @@ const InfoLine = ({ icon: Icon, children, title }) => (
 // - layout="row" (food): a full-width store header — banner thumbnail on the
 //   left, details on the right.
 const ShopInfo = ({ moduleName = "medicine", layout = "card" }) => {
-  const store = useSelector(
-    (state) => state.dashboard[STORE_STATE_KEYS[moduleName]],
-  );
+  const useVisitedStore = VISITED_STORE_HOOKS[moduleName];
+  const store = useVisitedStore();
 
   if (!store?._id) return null;
 

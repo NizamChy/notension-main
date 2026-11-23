@@ -1,5 +1,11 @@
-import { useMedicine } from "@/hooks/fetch-data/useMedicine";
-import { useGroceryShop } from "@/hooks/fetch-data/useGroceryShop";
+import {
+  useGrocerySearchStores,
+  useNearestGroceryStores,
+} from "@/hooks/grocery/useGroceryStores";
+import {
+  useMedicineSearchStores,
+  useNearestMedicineStores,
+} from "@/hooks/medicine/useMedicineStores";
 import {
   GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES,
   MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
@@ -12,7 +18,7 @@ export const STORE_MODULES = {
   grocery: {
     basePath: "/grocery",
     sliderImageBaseUrl: GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES,
-    useShop: useGroceryShop,
+    useStores: { nearest: useNearestGroceryStores, search: useGrocerySearchStores },
     customTypes: {
       specialOffer: "64f5a306baa57a4707524d6e",
       dealOfTheDay: "6525306cf79d9e77f12a2a63",
@@ -22,7 +28,7 @@ export const STORE_MODULES = {
   medicine: {
     basePath: "/medicine",
     sliderImageBaseUrl: MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
-    useShop: useMedicine,
+    useStores: { nearest: useNearestMedicineStores, search: useMedicineSearchStores },
     customTypes: {
       specialOffer: "65128cbd20db0921f13b40b3",
       dealOfTheDay: "64ec724d538280d7999a2d39",

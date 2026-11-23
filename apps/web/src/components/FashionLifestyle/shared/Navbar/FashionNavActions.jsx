@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useWishlistStore } from "@/stores/wishlistStore";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import CartDrawer from "../Cart/CartDrawer";
@@ -20,9 +20,7 @@ const CountBadge = ({ count }) =>
 const FashionNavActions = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { getCartCount } = useCart();
-  const favouriteFashionItems = useSelector(
-    (state) => state.userChoice.favouriteFashionItems,
-  );
+  const wishlistCount = useWishlistStore((s) => s.items.length);
 
   return (
     <>
@@ -32,7 +30,7 @@ const FashionNavActions = () => {
         className={`${NAV_ICON_BUTTON} hidden text-[22px] sm:flex`}
       >
         <IoMdHeartEmpty />
-        <CountBadge count={favouriteFashionItems?.length} />
+        <CountBadge count={wishlistCount} />
       </Link>
 
       <button

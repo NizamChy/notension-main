@@ -1,6 +1,6 @@
 import "./globals.css";
 import AppToaster from "@/components/shared/Toast/AppToaster";
-import ReduxProvider from "@/redux/ReduxProvider";
+import StoreProvider from "@/stores/StoreProvider";
 import { LocationBoundary } from "@/components/shared/Map/locationRefresh";
 import { Hind_Siliguri } from "next/font/google";
 import QueryProvider from "@/components/shared/Providers/QueryProvider";
@@ -36,13 +36,13 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className={hindSiliguri.className}>
-        <ReduxProvider>
+        <StoreProvider>
           <QueryProvider>
             <AppToaster />
             <LocationBoundary>{children}</LocationBoundary>
             <BackendStatusBanner />
           </QueryProvider>
-        </ReduxProvider>
+        </StoreProvider>
       </body>
     </html>
   );

@@ -2,16 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
 import { MdHomeRepairService } from "react-icons/md";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import NearestInfoCard from "./NearestInfoCard";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PopularInfoSlider from "./PopularInfoSlider";
 import ServiceBannerSlider from "./ServiceBannerSlider";
-import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
+import { useCareProviders, useCareService } from "@/hooks/allCare/useAllCare";
 import { getAllCareServiceIcon } from "@/utils/allCareServiceIcon";
 import {
   EmptyState,
@@ -43,62 +42,20 @@ const ProviderSkeletons = () => (
 );
 
 const ExploreService = () => {
-  const [pageNo, setPageNo] = useState(1);
-  const [popularInfo, setPopularInfo] = useState([]);
-  const [nearestInfo, setNearestInfo] = useState([]);
-  // Set once the first provider response arrives, so the empty state does
-  // not flash before the request starts.
-  const [loaded, setLoaded] = useState(false);
-
   const params = useParams();
   const serviceId = params?.serviceId || null;
 
-  const { exploreCareProvider, progressing } = useAllCareService();
-  // Separate hook instance so loading the service list does not toggle the
-  // providers' loader.
-  const { exploreAllCareService } = useAllCareService();
+  const { service, isLoading: servicesLoading } = useCareService(serviceId);
+  // Providers are per district: the query refetches when the location changes.
   const {
-    currentService,
-    allServicesInfo,
-    servicesDistrictId,
-    isLoading: servicesLoading,
-  } = useSelector((state) => state.allCare);
-  const districtId = useSelector((state) => state.user.districtId);
-
-  // The clicked service is saved in Redux, but on a direct link or reload it
-  // can be missing or belong to another service, so fall back to looking the
-  // id up in the service list.
-  const service =
-    currentService?._id === serviceId
-      ? currentService
-      : allServicesInfo?.find((item) => item?._id === serviceId);
+    popular: popularInfo,
+    nearest: nearestInfo,
+    isLoading: isLoadingProviders,
+  } = useCareProviders(serviceId);
 
   const slider = service?.sliderInfo?.service_slider;
   const icon = service ? getAllCareServiceIcon(service) : null;
 
-  // Load the service list when it is missing for this district and the
-  // service could not be found otherwise.
-  useEffect(() => {
-    if (service || servicesDistrictId === districtId) return;
-    return exploreAllCareService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceId, districtId, !!service]);
-
-  // Providers are per district: refetch when the user's location changes.
-  useEffect(() => {
-    return exploreCareProvider(
-      serviceId,
-      (list) => {
-        setPopularInfo(list);
-        setLoaded(true);
-      },
-      setNearestInfo,
-      pageNo
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceId, districtId, pageNo]);
-
-  const isLoadingProviders = progressing || !loaded;
   const hasProviders = popularInfo?.length > 0 || nearestInfo?.length > 0;
 
   return (

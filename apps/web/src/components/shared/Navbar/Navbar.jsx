@@ -1,9 +1,9 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 import { useParams, usePathname } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import { BsCartCheck } from "react-icons/bs";
@@ -59,7 +59,7 @@ const FASHION_ACCOUNT_ITEMS = [
 const Navbar = ({ search, leading, actions }) => {
   const pathname = usePathname();
   const params = useParams();
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   // Panels remember the path they were opened on, so they close by
   // themselves after navigating.

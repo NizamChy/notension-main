@@ -8,7 +8,7 @@ import FashionProductCard, {
 } from "../Card/FashionProductCard";
 import { useCategoryItem } from "../../hooks/fetchData/useCategoryItem";
 import ProductCardSkeleton from "../SkeletonLoading/ProductCardSkeleton";
-import NoItemFound from "@/components/common/NoItemFound";
+import NoItemFound from "@/components/shared/NoItemFound/NoItemFound";
 
 const FashionSearchedProducts = () => {
   const { useSearchedProductsByType } = useCategoryItem();

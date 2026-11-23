@@ -1,6 +1,7 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { useSessionStore } from "@/stores/sessionStore";
+import { useFavouriteEntries } from "@/stores/favouritesStore";
 import React, { useEffect, useState } from "react";
 import { HiOutlineHeart } from "react-icons/hi2";
 import { ITEM_CARDS } from "./itemCards";
@@ -11,12 +12,12 @@ import CommonModal from "@/components/shared/CommonModal/CommonModal";
 
 const FAVORITES = {
   grocery: {
-    stateKey: "favouriteGroceryItems",
+    merchantType: 0,
     title: "Favourite groceries",
     noun: "groceries",
   },
   medicine: {
-    stateKey: "favouriteMedicineItems",
+    merchantType: 1,
     title: "Favourite medicines",
     noun: "medicines",
   },
@@ -25,11 +26,11 @@ const FAVORITES = {
 const FavoriteItems = ({ moduleName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { stateKey, title, noun } = FAVORITES[moduleName];
+  const { merchantType, title, noun } = FAVORITES[moduleName];
   const ItemCard = ITEM_CARDS[moduleName];
 
-  const { userInfo } = useSelector((state) => state.user);
-  const favoriteItems = useSelector((state) => state.userChoice[stateKey]);
+  const userInfo = useSessionStore((s) => s.userInfo);
+  const favoriteItems = useFavouriteEntries("item", merchantType);
   const count = favoriteItems?.length || 0;
 
   const closeModal = () => setIsModalOpen(false);
@@ -57,7 +58,12 @@ const FavoriteItems = ({ moduleName }) => {
           {count > 0 ? (
             <div className={ITEM_GRID_CLASS}>
               {favoriteItems.map((item) => (
-                <ItemCard key={item?.productId} item={item} isFavorite={true} />
+                <ItemCard
+                  key={item?.productId}
+                  moduleName={moduleName}
+                  item={item}
+                  isFavorite={true}
+                />
               ))}
             </div>
           ) : (

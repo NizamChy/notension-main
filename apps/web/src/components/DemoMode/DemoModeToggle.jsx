@@ -1,11 +1,10 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
+import { resetForSampleSwitch } from "@/stores/resetForSampleSwitch";
 import Cookies from "js-cookie";
-import { persistor } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { HiCheck } from "react-icons/hi2";
-import { handleUserReducer } from "@/redux/userReducer";
 import {
   getBackendStatus,
   getServerBackendStatus,
@@ -32,10 +31,7 @@ const DemoModeToggle = () => {
   const [isSwitching, setIsSwitching] = useState(false);
   const panelRef = useRef(null);
 
-  const dispatch = useDispatch();
-  const districtId = useSelector(
-    (state) => state.user.currentUserLocation?.districtId,
-  );
+  const districtId = useSessionStore((s) => s.currentUserLocation?.districtId);
 
   const server = useSyncExternalStore(
     subscribeBackendStatus,
@@ -61,24 +57,18 @@ const DemoModeToggle = () => {
 
   // Sample and live data must not mix (carts, favourites, logged-in user),
   // so switching clears the saved app state and reloads.
-  const handleToggle = async () => {
+  const handleToggle = () => {
     if (isSwitching) return;
     setIsSwitching(true);
 
     setSampleDataForced(!forced);
     Cookies.remove("user_info");
-    persistor.pause();
-    await persistor.purge();
+    resetForSampleSwitch();
     window.location.reload();
   };
 
   const handleLocation = (location) => {
-    dispatch(
-      handleUserReducer({
-        type: "SAVE_USER_CURRENT_LOCATION",
-        data: toUserLocation(location),
-      }),
-    );
+    useSessionStore.getState().saveLocation(toUserLocation(location));
     setIsOpen(false);
   };
 

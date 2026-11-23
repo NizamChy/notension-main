@@ -1,3 +1,5 @@
+import { useSessionStore } from "@/stores/sessionStore";
+import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import Cookies from "js-cookie";
 import { useState } from "react";
@@ -10,12 +12,11 @@ import {
   CUSTOMER_LOGOUT,
 } from "@/api-endpoints/api-endpoint";
 import { isLiveService } from "@/api-endpoints/live";
-import { persistor } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/env";
-import { useDispatch, useSelector } from "react-redux";
-import { handleUserReducer } from "@/redux/userReducer";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import { logout } from "@/stores/logout";
+import { useWishlistStore } from "@/stores/wishlistStore";
+import { useFavouritesStore } from "@/stores/favouritesStore";
 import { toUserLocation } from "@/utils/userLocation";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
 import { isSampleDataForced } from "@/demo/backendStatus";
@@ -32,12 +33,12 @@ export const useUser = () => {
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const { userLatitude, userLongitude, districtId, currentUserLocation } =
-    useSelector((state) => state.user);
+  const { userLatitude, userLongitude, districtId, currentUserLocation } = useSessionStore(
+    useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId, currentUserLocation: s.currentUserLocation })),
+  );
 
-  const loggedinUserInfo = useSelector((state) => state.user.userInfo);
+  const loggedinUserInfo = useSessionStore((s) => s.userInfo);
 
   const [userInfo, setUserInfo] = useState({
     _id: loggedinUserInfo?._id || "",
@@ -112,12 +113,7 @@ export const useUser = () => {
               districtName: result?.district_name_by_location,
             });
 
-            dispatch(
-              handleUserReducer({
-                type: "SAVE_USER_CURRENT_LOCATION",
-                data: userLocation,
-              })
-            );
+            useSessionStore.getState().saveLocation(userLocation);
           }
         }
 
@@ -229,12 +225,7 @@ export const useUser = () => {
   };
 
   const saveLoggedInUserInfo = (user) => {
-    dispatch(
-      handleUserReducer({
-        type: "SAVE_LOGGEDIN_INFO",
-        data: user,
-      })
-    );
+    useSessionStore.getState().login(user);
 
     // Only the user id is stored: it lets a future proxy/middleware route
     // guard know the user is logged in. No name/phone (PII) in cookies.
@@ -250,12 +241,12 @@ export const useUser = () => {
     if (isLiveLogin()) await Axios.post(CUSTOMER_LOGOUT).catch(() => {});
     Cookies.remove("user_info");
 
-    dispatch(handleUserReducer({ type: "LOGOUT_USER" }));
-    dispatch(handleUserChoiceReducer({ type: "CLEAR_FAVOURITES" }));
+    logout();
+    // The account's wishlist and favourites go too.
+    useWishlistStore.getState().clear();
+    useFavouritesStore.getState().clear();
 
-    persistor.purge().then(() => {
-      router.push("/");
-    });
+    router.push("/");
   };
 
   return {

@@ -1,8 +1,8 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
 import { isLengthBetween } from "@/utils/validation";
-import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import {
   HiOutlineMapPin,
@@ -21,7 +21,7 @@ import { PrimaryButton } from "../shared/CartUI/CartUI";
 // useUser() starts from that account's saved details.
 const UpdateAddressForm = () => {
   const { progressing, userInfo, handleDataChange, registerUser } = useUser();
-  const { userInfo: savedUserInfo } = useSelector((state) => state.user);
+  const savedUserInfo = useSessionStore((s) => s.userInfo);
 
   const handleUpdateUser = (e) => {
     e.preventDefault();
@@ -145,7 +145,7 @@ const UpdateAddressForm = () => {
 };
 
 const UpdateAddress = () => {
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
   const [loginDismissed, setLoginDismissed] = useState(false);
 
   if (userInfo?._id) return <UpdateAddressForm key={userInfo._id} />;

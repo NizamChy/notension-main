@@ -1,8 +1,8 @@
 "use client";
 
+import { useSessionStore } from "@/stores/sessionStore";
 import CartItem from "./CartItem";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { HiArrowRight } from "react-icons/hi";
 import { useCart } from "../../context/CartContext";
@@ -21,7 +21,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const router = useRouter();
   const { cartItems, getCartCount, getCartTotal } = useCart();
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useSessionStore((s) => s.userInfo);
 
   const count = getCartCount() || 0;
   const hasItems = cartItems?.length > 0;

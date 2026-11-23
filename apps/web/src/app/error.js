@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import ErrorPage from "@/components/common/ErrorPage";
+import ErrorPage from "@/components/shared/ErrorPage/ErrorPage";
 
 const GlobalError = ({ error, reset }) => {
   useEffect(() => {

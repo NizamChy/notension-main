@@ -1,13 +1,11 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useStoreData } from "./useStoreData";
 import CommonSlider from "./CommonSlider";
 
 const CategoryBannerCarousel = ({ moduleName }) => {
-  const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider,
-  );
+  const { slider: DashboardSlider } = useStoreData(moduleName);
 
   return (
     <CommonSlider

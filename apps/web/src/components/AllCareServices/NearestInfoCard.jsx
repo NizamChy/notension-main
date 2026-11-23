@@ -2,12 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { HiArrowRight } from "react-icons/hi";
 import { HiStar, HiOutlineMapPin } from "react-icons/hi2";
 import { MdStorefront } from "react-icons/md";
-import { handleAllCareReducer } from "@/redux/allCareReducer";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 
 // Provider card: banner, logo, name, rating, address and distance. Opens the
@@ -15,16 +13,8 @@ import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 const NearestInfoCard = ({ provider }) => {
   const router = useRouter();
   const params = useParams();
-  const dispatch = useDispatch();
 
   const handleProviderClick = () => {
-    dispatch(
-      handleAllCareReducer({
-        type: "SAVE_CURRENT_PROVIDER_DETAILS",
-        data: provider,
-      })
-    );
-
     // The ids let the details page load the provider on a direct link.
     router.push(
       `/all-care-services/provider-details?serviceId=${params?.serviceId}&id=${provider?._id}`

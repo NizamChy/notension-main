@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
+import React, { useMemo, useState } from "react";
+import { cartTotal, useCartStore } from "@/stores/cartStore";
 import { HiArrowRight } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -15,12 +17,22 @@ import CommonModal from "../shared/CommonModal/CommonModal";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import { CartEmpty, PrimaryButton, formatTaka } from "../shared/CartUI/CartUI";
 
-// Stable empty list so the selector does not return a new array each call.
-const NO_ITEMS = [];
+// Stable empty cart so the selector does not return a new object each call.
+const NO_CART = { items: [], storeInfo: {}, startAt: 0 };
+
+// No module open (or a module without a cart): no visited store.
+const useNoStore = () => null;
 
 // Floating cart button + cart drawer for the grocery, medicine and food
-// stores.
+// stores. Each module reads its visited store with its own hook, so the cart
+// remounts when the current module changes.
 const Cart = () => {
+  const currentModule = usePreferencesStore((s) => s.currentModule);
+  const moduleName = currentModule?.toLowerCase();
+  return <ModuleCart key={moduleName} moduleName={moduleName} />;
+};
+
+const ModuleCart = ({ moduleName }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,22 +40,16 @@ const Cart = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const userInfo = useSelector((state) => state.user.userInfo);
-  const currentModule = useSelector((state) => state.dashboard.currentModule);
-  const moduleName = currentModule?.toLowerCase();
+  const userInfo = useSessionStore((s) => s.userInfo);
   const config = CART_MODULES[moduleName];
 
-  const items = useSelector((state) =>
-    config ? state.cart[config.itemsKey] : NO_ITEMS,
-  );
-  const total = useSelector((state) => (config ? state.cart[config.totalKey] : 0));
-  const visitedStore = useSelector((state) =>
-    config ? state.dashboard[config.visitedStoreKey] : null,
-  );
+  const cart = useCartStore((state) => (config ? state[moduleName] : NO_CART));
+  const items = cart.items;
+  const total = useMemo(() => cartTotal(cart), [cart]);
+  const useVisitedStore = config?.useVisitedStore ?? useNoStore;
+  const visitedStore = useVisitedStore();
   // The store the items were added from, which may not be the page's store.
-  const cartStore = useSelector((state) =>
-    config ? state.cart[config.storeInfoKey] : null,
-  );
+  const cartStore = config ? cart.storeInfo : null;
 
   const count = items?.length || 0;
   const hasItems = count > 0;

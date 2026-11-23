@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import SubtypeSkeleton from "./SubtypeSkeleton";
 import { useParams, useRouter } from "next/navigation";
 import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { getStoreModule, toSlug } from "./storeModules";
+import { useStoreData } from "./useStoreData";
 import {
   CARD,
   CARD_HOVER,
@@ -58,7 +58,7 @@ const TypeSection = ({ moduleName }) => {
 
   const typeId = params?.typeSlugId?.split("_")[1];
 
-  const { typeInfo, isLoading } = useSelector((state) => state.dashboard);
+  const { typeInfo, isLoading } = useStoreData(moduleName);
 
   const selectedType = typeInfo?.find(
     (type) => type?.id === typeId || type?.custom_type_id === typeId,

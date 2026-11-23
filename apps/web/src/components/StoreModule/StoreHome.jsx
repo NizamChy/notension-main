@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useStoreData } from "./useStoreData";
 import CommonSlider from "./CommonSlider";
 import CustomTypeItems from "./CustomTypeItems";
 import ShopInfo from "@/components/ShopInfoSection/ShopInfo";
@@ -10,9 +10,7 @@ import CategoryBannerCarousel from "./CategoryBannerCarousel";
 // A grocery / medicine store's home page: hero slider + shop card, then the
 // custom-type item rows with a pair of promo sliders between them.
 const StoreHome = ({ moduleName }) => {
-  const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider,
-  );
+  const { slider: DashboardSlider } = useStoreData(moduleName);
   const second = DashboardSlider?.[0]?.second_slider;
   const third = DashboardSlider?.[0]?.third_slider;
 

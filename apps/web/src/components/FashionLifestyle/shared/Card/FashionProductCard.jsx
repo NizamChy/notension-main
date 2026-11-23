@@ -6,11 +6,11 @@ import Image from "next/image";
 import notify from "@/utils/notify";
 import { FiHeart } from "react-icons/fi";
 import { slugify } from "../../utils/slugify";
-import { useDispatch, useSelector } from "react-redux";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
-import { handleProductReducer } from "@/redux/productReducer";
 import { formatTaka } from "@/components/shared/CartUI/CartUI";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
+import { useQueryClient } from "@tanstack/react-query";
+import { useIsWishlisted, useWishlistStore } from "@/stores/wishlistStore";
+import { seedFashionProduct } from "../../hooks/fetchData/useCategoryItem";
 
 /** Standard grid columns for product grids across the fashion module. */
 export const PRODUCT_GRID_CLASS =
@@ -32,10 +32,8 @@ const FashionProductCard = ({
   showWishlist = true,
   className = "",
 }) => {
-  const dispatch = useDispatch();
-  const favouriteFashionItems = useSelector(
-    (state) => state.userChoice?.favouriteFashionItems
-  );
+  const queryClient = useQueryClient();
+  const isFavourite = useIsWishlisted(product?._id);
 
   const productHref =
     href ||
@@ -54,40 +52,16 @@ const FashionProductCard = ({
       : product?.category_info?.category_name ||
         product?.brand_info?.brand_name;
 
-  const isFavourite = !!favouriteFashionItems?.find(
-    (item) => item?._id === product?._id
-  );
-
-  const handleProductClick = () => {
-    dispatch(
-      handleProductReducer({
-        type: "SAVE_CURRENT_PRODUCT_DETAILS",
-        data: product,
-      })
-    );
-  };
+  // The details page then shows the product at once instead of searching for it.
+  const handleProductClick = () => seedFashionProduct(queryClient, product);
 
   const toggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isFavourite) {
-      dispatch(
-        handleUserChoiceReducer({
-          type: "REMOVE_FROM_FAVOURITE_FASHION_ITEMS",
-          data: { merchantType: 3, productId: product?._id },
-        })
-      );
-      notify.success("Removed from favourites");
-    } else {
-      dispatch(
-        handleUserChoiceReducer({
-          type: "ADD_TO_FAVOURITE_FASHION_ITEMS",
-          data: { merchantType: 3, itemInfo: [product] },
-        })
-      );
-      notify.success("Added to favourites");
-    }
+    if (!product?._id) return;
+    const added = useWishlistStore.getState().toggle(product);
+    notify.success(added ? "Added to favourites" : "Removed from favourites");
   };
 
   // Status tags sit top-left; the discount gets its own orange tag.

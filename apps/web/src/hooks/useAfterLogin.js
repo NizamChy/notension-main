@@ -1,6 +1,6 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import { useParams, useRouter } from "next/navigation";
 
 const ROUTE_BY_TYPE = {
@@ -21,7 +21,7 @@ export const useAfterLogin = (type = "login", onClose = () => {}, redirectTo) =>
   const router = useRouter();
   const params = useParams();
 
-  const currentModule = useSelector((state) => state.dashboard.currentModule);
+  const currentModule = usePreferencesStore((s) => s.currentModule);
   const moduleName = currentModule.toLowerCase();
 
   return () => {

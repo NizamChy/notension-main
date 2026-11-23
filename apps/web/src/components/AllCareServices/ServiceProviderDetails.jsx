@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Loader from "../common/Loader";
-import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import Loader from "@/components/shared/Loader/Loader";
+import React from "react";
 import { useSearchParams } from "next/navigation";
 import { FaWhatsapp, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { HiChevronLeft } from "react-icons/hi";
@@ -19,7 +18,7 @@ import {
   HiStar,
 } from "react-icons/hi2";
 import { MdStorefront } from "react-icons/md";
-import { useAllCareService } from "@/hooks/fetch-data/useAllCareService";
+import { useCareProvider } from "@/hooks/allCare/useAllCare";
 import { SERVICE_PROVIDER_IMAGES } from "@/api-endpoints/api-endpoint";
 import {
   Badge,
@@ -65,36 +64,16 @@ const InfoRow = ({ icon: Icon, label, children }) => (
 );
 
 const ServiceProviderDetails = () => {
-  const [popularList, setPopularList] = useState([]);
-  const [nearestList, setNearestList] = useState([]);
-  const [requested, setRequested] = useState(false);
-
   const searchParams = useSearchParams();
   const providerId = searchParams.get("id");
   const serviceId = searchParams.get("serviceId");
 
-  const { exploreCareProvider, progressing } = useAllCareService();
-  const { currentProviderDetails: reduxProvider } = useSelector(
-    (state) => state.allCare
+  // The provider comes from its service's provider list (there is no
+  // provider-by-id endpoint); a card click already has that list cached.
+  const { provider: currentProviderDetails, isLoading } = useCareProvider(
+    serviceId,
+    providerId,
   );
-  const districtId = useSelector((state) => state.user.districtId);
-
-  // Redux has the provider when it was opened from a list (and for old links
-  // without an id). A direct link (or a reload with cleared state) looks it
-  // up in the service's provider list instead (no provider-by-id endpoint).
-  const hasReduxProvider = !providerId || reduxProvider?._id === providerId;
-  const currentProviderDetails = hasReduxProvider
-    ? reduxProvider
-    : [...popularList, ...nearestList].find(
-        (provider) => provider?._id === providerId
-      );
-
-  useEffect(() => {
-    if (hasReduxProvider || !serviceId) return;
-    setRequested(true);
-    return exploreCareProvider(serviceId, setPopularList, setNearestList, 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerId, serviceId, hasReduxProvider, districtId]);
 
   const rating = toNumberOrNull(currentProviderDetails?.rating);
   const hasRating = rating != null && rating > 0 && rating <= 5;
@@ -106,7 +85,7 @@ const ServiceProviderDetails = () => {
       ? `/all-care-services/service/${serviceId}`
       : "/all-care-services";
 
-  if (!currentProviderDetails && (progressing || (serviceId && !requested))) {
+  if (!currentProviderDetails && isLoading) {
     return <Loader />;
   }
 

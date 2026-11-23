@@ -190,8 +190,13 @@ const createOrder = ({ body }) => {
   const orderItems = items.map((item) => {
     const product = fashionProducts.find((p) => p._id === item?._id);
     const image = item?.ordered_img || product?.web_image || null;
+    // Like the API: the catalogue fills what the cart line leaves out.
     return {
       ...item,
+      brand_info: product?.brand_info ?? null,
+      product_size: item?.product_size || null,
+      product_color: item?.product_color || null,
+      ordered_img: item?.ordered_img || null,
       quantity: toNumber(item?.quantity) || 1,
       sale_price: toNumber(item?.sale_price ?? product?.sale_price),
       app_image: image,
@@ -207,6 +212,11 @@ const createOrder = ({ body }) => {
 
   const order = {
     ...body,
+    customerInfo: {
+      ...body?.customerInfo,
+      latitude: body?.customerInfo?.latitude ?? null,
+      longitude: body?.customerInfo?.longitude ?? null,
+    },
     _id: newOrderId(),
     order_id: orderNumber(now),
     orderItems,
