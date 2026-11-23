@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { useParams } from "next/navigation";
 import MenuSection, { MenuSkeleton } from "./MenuSection";
 import { EmptyState } from "@/components/shared/UI/UI";
@@ -14,7 +14,7 @@ const FoodItemsByCategory = () => {
   const params = useParams();
   const catId = params?.catId || null;
 
-  const { productInfoByShop } = useSelector((state) => state.itemsByStore);
+  const { productInfoByShop } = useFoodStore();
 
   useEffect(() => {
     if (!catId) return;

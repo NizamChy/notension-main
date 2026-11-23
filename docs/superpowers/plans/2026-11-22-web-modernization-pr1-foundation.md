@@ -313,7 +313,7 @@ Then stop and ask the owner before pushing / opening the PR to `main` (workflow:
 |----|-------|-------|
 | 2 ✅ | Grocery (done, see `2026-11-22-web-modernization-pr2-grocery.md`) | TS, TanStack Query on `apiGet` + `groceryItems`/`store` keys, drop its `itemsByStore`/`dashboard`/`product` reads, forms → RHF, migrate grocery selection fields from `userChoice`/`itemsByStore` into a new `usePreferencesStore` (key `notension-preferences`, legacy reader from Task 2), shared components extracted for reuse by Medicine |
 | 3 ✅ | Medicine (done, see `2026-11-23-web-modernization-pr3-medicine.md`) | reuse PR 2 shared components (Grocery↔Medicine duplication cleanup) |
-| 4 | Food | |
+| 4 ✅ | Food (done, see `2026-11-23-web-modernization-pr4-food.md`) | data layer typed + TanStack Query; Food UI components still .jsx (follow-up) |
 | 5 | Fashion | wishlists from `userChoice` |
 | 6 | Health Care | `doctorInfo` slice, patients/appointments (fixes BookedAppointment UTC date bug) |
 | 7 | All Care | `allCare` selection fields → preferences store |

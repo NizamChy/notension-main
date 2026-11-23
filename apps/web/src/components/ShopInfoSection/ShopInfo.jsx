@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { IMAGE_URL } from "@/api-endpoints/env";
 import {
   HiOutlineClock,
@@ -12,15 +12,14 @@ import {
 import { CARD } from "../shared/UI/UI";
 import { useStoreData } from "../StoreModule/useStoreData";
 
-// The visited store per module. Food still keeps it in Redux; Grocery and
-// Medicine read their store query. moduleName is fixed per instance, so the
-// hook a ShopInfo calls never changes.
-const useFoodStore = () => useSelector((state) => state.dashboard.visitedFoodStore);
+// The visited store per module, from each module's store query. moduleName
+// is fixed per instance, so the hook a ShopInfo calls never changes.
+const useFoodStoreInfo = () => useFoodStore().store;
 const useGroceryStoreInfo = () => useStoreData("grocery").store;
 const useMedicineStoreInfo = () => useStoreData("medicine").store;
 
 const VISITED_STORE_HOOKS = {
-  food: useFoodStore,
+  food: useFoodStoreInfo,
   grocery: useGroceryStoreInfo,
   medicine: useMedicineStoreInfo,
 };

@@ -1,15 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import DishCartControl from "./DishCartControl";
 import FoodItemDetailsModal from "./FoodItemDetailsModal";
-import useFoodItems from "@/hooks/fetch-data/useFoodItems";
+import { useFoodCart } from "@/hooks/food/useFoodCart";
 import { formatTaka } from "@/components/shared/CartUI/CartUI";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { CARD, CARD_HOVER } from "@/components/shared/UI/UI";
 import { discountLabelOf } from "./dishUtils";
 import { flyToCart } from "@/utils/flyToCart";
@@ -22,10 +20,9 @@ const FoodItems = ({ item }) => {
 
   const params = useParams();
   const prevUrlRef = useRef(null);
-  const dispatch = useDispatch();
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useFoodItems();
+    useFoodCart();
 
   const handleAddToCart = (event) => {
     event.preventDefault();
@@ -52,14 +49,8 @@ const FoodItems = ({ item }) => {
     event.preventDefault();
     event.stopPropagation();
 
+    // The dish page finds the dish in the cached restaurant menu.
     setSelectedItem(item);
-
-    dispatch(
-      handleUserChoiceReducer({
-        type: "SAVE_CURRENT_ITEM_DETAILS",
-        data: item,
-      })
-    );
   };
 
   useEffect(() => {
@@ -83,13 +74,6 @@ const FoodItems = ({ item }) => {
       if (prevUrlRef.current) {
         window.history.pushState({}, "", prevUrlRef.current);
         prevUrlRef.current = null;
-
-        dispatch(
-          handleUserChoiceReducer({
-            type: "SAVE_CURRENT_ITEM_DETAILS",
-            data: {},
-          })
-        );
       }
     }
   }, [selectedItem, item?._id, params]);

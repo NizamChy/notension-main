@@ -3,16 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import notify from "@/utils/notify";
-import { useSelector } from "react-redux";
+import { useFoodItem, useFoodStore } from "@/hooks/food/useFoodStore";
 import { useParams } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { getApiClient } from "@/lib/apiClient";
 import React, { useEffect, useState } from "react";
-import { FOOD_URL } from "@/api-endpoints/env";
 import DishCartControl from "./DishCartControl";
 import { discountLabelOf, dishImageOf } from "./dishUtils";
-import useFoodItems from "@/hooks/fetch-data/useFoodItems";
+import { useFoodCart } from "@/hooks/food/useFoodCart";
 import { formatTaka, PrimaryButton } from "@/components/shared/CartUI/CartUI";
 import {
   Badge,
@@ -22,7 +20,6 @@ import {
   SECONDARY_BUTTON,
 } from "@/components/shared/UI/UI";
 import {
-  EXPLORE_FOOD_STORE,
   FOOD_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
 import { flyToCart } from "@/utils/flyToCart";
@@ -43,62 +40,16 @@ const DetailsSkeleton = () => (
 const FoodItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentQuantity, setCurrentQuantity] = useState(0);
-  const [fetchedItem, setFetchedItem] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
-  const [notFound, setNotFound] = useState(false);
-
   const params = useParams();
   const productId = params?.productId;
 
-  const { currentItemDetails } = useSelector((state) => state.userChoice);
-  const storeName = useSelector(
-    (state) => state.dashboard.visitedFoodStore?.shop_name
-  );
-
-  // Redux has the item when it was opened from a list. A direct link (or a
-  // reload with cleared state) looks it up in the store's menu instead (the
-  // food backend has no item-by-id endpoint).
-  const hasReduxItem = !!productId && currentItemDetails?._id === productId;
-  const item = hasReduxItem ? currentItemDetails : fetchedItem;
-
-  useEffect(() => {
-    if (!productId || hasReduxItem) return;
-
-    let cancelled = false;
-    setIsFetching(true);
-    setNotFound(false);
-
-    getApiClient(FOOD_URL)
-      .get(EXPLORE_FOOD_STORE, {
-        params: {
-          storeId: params?.storeId,
-          custom_store_id: params?.customStoreId,
-        },
-      })
-      .then((res) => {
-        if (cancelled) return;
-        const found = res?.data?.result?.allProduct?.find(
-          (product) => product?._id === productId
-        );
-        if (found) {
-          setFetchedItem(found);
-        } else {
-          setNotFound(true);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setNotFound(true);
-      })
-      .finally(() => {
-        if (!cancelled) setIsFetching(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [productId, hasReduxItem, params?.storeId, params?.customStoreId]);
+  // The dish is looked up in the restaurant's menu query (the food backend
+  // has no item-by-id endpoint); opened from the menu, that is already cached.
+  const { item, isLoading: isFetching, notFound } = useFoodItem(productId);
+  const { store } = useFoodStore();
+  const storeName = store?.shop_name;
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useFoodItems();
+    useFoodCart();
 
   const handleAddToCart = async (event) => {
     event.preventDefault();

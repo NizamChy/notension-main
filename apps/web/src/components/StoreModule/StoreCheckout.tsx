@@ -8,6 +8,7 @@ import { CheckoutEmpty } from "@/components/shared/Checkout/CheckoutUI";
 import { PAYMENT_DATA } from "@/components/shared/Checkout/paymentOptions";
 import { usePlaceGroceryOrder } from "@/hooks/grocery/usePlaceGroceryOrder";
 import { usePlaceMedicineOrder } from "@/hooks/medicine/usePlaceMedicineOrder";
+import { usePlaceFoodOrder } from "@/hooks/food/usePlaceFoodOrder";
 import type { ItemModuleName } from "./moduleItems";
 import { useStoreRef } from "@/hooks/grocery/useStoreRef";
 import { checkoutFormSchema, type CheckoutForm } from "@/lib/api/schemas/checkoutForm";
@@ -17,16 +18,27 @@ import { useModuleCart } from "@/stores/useModuleCart";
 import notify from "@/utils/notify";
 import { orderTotals } from "@/utils/price";
 
-type Props = { moduleName: ItemModuleName };
+type CheckoutModuleName = ItemModuleName | "food";
+type Props = { moduleName: CheckoutModuleName };
 
-// Per-module parts of the checkout. Medicine joins in PR 3.
-const CHECKOUT_MODULES = {
-  grocery: { usePlaceOrder: usePlaceGroceryOrder, homePath: "/grocery" },
-  medicine: { usePlaceOrder: usePlaceMedicineOrder, homePath: "/medicine" },
-} as const;
+type CheckoutModule = {
+  usePlaceOrder: () => { progressing: boolean; placeOrder: (body: unknown) => void };
+  homePath: string;
+  /** Where the order's store ids come from: the page URL or the cart's store. */
+  merchantFrom: "url" | "cart";
+  /** "form": FormData with `orderObj` (grocery, medicine); "json": the order itself (food). */
+  body: "form" | "json";
+};
+
+// Per-module parts of the checkout.
+const CHECKOUT_MODULES: Record<CheckoutModuleName, CheckoutModule> = {
+  grocery: { usePlaceOrder: usePlaceGroceryOrder, homePath: "/grocery", merchantFrom: "url", body: "form" },
+  medicine: { usePlaceOrder: usePlaceMedicineOrder, homePath: "/medicine", merchantFrom: "url", body: "form" },
+  food: { usePlaceOrder: usePlaceFoodOrder, homePath: "/food", merchantFrom: "cart", body: "json" },
+};
 
 const StoreCheckout = ({ moduleName }: Props) => {
-  const { usePlaceOrder, homePath } = CHECKOUT_MODULES[moduleName];
+  const { usePlaceOrder, homePath, merchantFrom, body } = CHECKOUT_MODULES[moduleName];
 
   const form = useZodForm(checkoutFormSchema, {
     defaultValues: { remarks: "", paymentOption: PAYMENT_DATA[0].label },
@@ -72,15 +84,17 @@ const StoreCheckout = ({ moduleName }: Props) => {
         latitude: userLatitude,
         longitude: userLongitude,
       },
-      merchant_id: storeRef?.storeId,
-      custom_merchant_id: storeRef?.customStoreId,
+      merchant_id: merchantFrom === "url" ? storeRef?.storeId : storeInfo?._id,
+      custom_merchant_id:
+        merchantFrom === "url" ? storeRef?.customStoreId : storeInfo?.custom_store_id,
       merchantInfo: {
         shop_name: storeInfo?.shop_name,
         shop_address: storeInfo?.shop_address,
         contact_no: storeInfo?.contact_no,
         alternative_contact_no: storeInfo?.alternative_contact_no,
       },
-      order_list_image: [],
+      // The food checkout never sent this field.
+      ...(body === "form" ? { order_list_image: [] } : {}),
       orderItems: items,
       subTotal: totalPrice,
       less_amount: discount,
@@ -93,6 +107,10 @@ const StoreCheckout = ({ moduleName }: Props) => {
       customer_review: "",
     };
 
+    if (body === "json") {
+      placeOrder(itemOrderObj);
+      return;
+    }
     const formData = new FormData();
     formData.append("orderObj", JSON.stringify(itemOrderObj));
     placeOrder(formData);
