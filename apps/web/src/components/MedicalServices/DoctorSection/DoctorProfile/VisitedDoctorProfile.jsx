@@ -1,7 +1,7 @@
 "use client";
 
 import { useSessionStore } from "@/stores/sessionStore";
-import Loader from "@/components/common/Loader";
+import Loader from "@/components/shared/Loader/Loader";
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { bookingPath, chamberAt, useDoctorProfile } from "@/hooks/healthCare/useDoctors";

@@ -3,7 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 import Cart from "@/components/Cart/Cart";
 import StoreUnavailable from "@/components/ShopInfoSection/StoreUnavailable";
-import Loader from "@/components/common/Loader";
+import Loader from "@/components/shared/Loader/Loader";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import StoreCategoryDrawer from "@/components/StoreModule/StoreCategoryDrawer";

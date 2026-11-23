@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import Loader from "@/components/common/Loader";
+import Loader from "@/components/shared/Loader/Loader";
 import ServiceProviderDetails from "@/components/AllCareServices/ServiceProviderDetails";
 
 const page = () => {
