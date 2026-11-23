@@ -2,7 +2,13 @@
 // render. TS reads every prop of a JS component as required and `any`; these
 // give them the props the JS actually takes. Drop an entry once its component
 // is converted.
-import type { ComponentType, MouseEvent, ReactNode } from "react";
+import type {
+  ChangeEventHandler,
+  ComponentType,
+  InputHTMLAttributes,
+  MouseEvent,
+  ReactNode,
+} from "react";
 import StoreItemCardJs from "./StoreItemCard";
 import ProductDetailsViewJs, {
   ProductDetailsSkeleton as ProductDetailsSkeletonJs,
@@ -12,8 +18,18 @@ import ProductQuickViewJs from "./ProductQuickView";
 import ProductDetailsPageJs from "./ProductDetailsPage";
 import StoreListJs from "./StoreList";
 import { InfiniteItemGrid as InfiniteItemGridJs, TypeBreadcrumb as TypeBreadcrumbJs } from "./ItemBrowse";
-import { EmptyState as EmptyStateJs, PageHeader as PageHeaderJs } from "@/components/shared/UI/UI";
+import {
+  EmptyState as EmptyStateJs,
+  PageHeader as PageHeaderJs,
+  SectionTitle as SectionTitleJs,
+} from "@/components/shared/UI/UI";
+import SearchInputJs from "@/components/shared/Search/SearchInput";
+import NoStoreFoundJs from "@/components/ShopInfoSection/NoStoreFound";
 import { PriceRow as PriceRowJs } from "@/components/shared/CartUI/CartUI";
+import {
+  CheckoutStep as CheckoutStepJs,
+  TextField as TextFieldJs,
+} from "@/components/shared/Checkout/CheckoutUI";
 import CommonModalJs from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetailsJs from "@/components/LoginSection/LoginModalDetails";
 import FavoriteStoresJs from "@/components/FavoriteSection/FavoriteStores";
@@ -162,3 +178,47 @@ export const PriceRow = PriceRowJs as ComponentType<{
   strong?: boolean;
   hint?: ReactNode;
 }>;
+
+export const SectionTitle = SectionTitleJs as ComponentType<{
+  title: ReactNode;
+  subtitle?: ReactNode;
+  href?: string;
+  linkLabel?: string;
+  action?: ReactNode;
+  className?: string;
+}>;
+
+export const SearchInput = SearchInputJs as ComponentType<{
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit?: (value: string) => void;
+  placeholder?: string;
+  label?: string;
+  leading?: ReactNode;
+  autoFocus?: boolean;
+  size?: "md" | "lg";
+  className?: string;
+}>;
+
+export const NoStoreFound = NoStoreFoundJs as ComponentType<{
+  title?: string;
+  text?: string;
+  action?: ReactNode;
+}>;
+
+export const CheckoutStep = CheckoutStepJs as ComponentType<{
+  step: number;
+  title: ReactNode;
+  action?: ReactNode;
+  children?: ReactNode;
+}>;
+
+export const TextField = TextFieldJs as ComponentType<
+  Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
+    label: ReactNode;
+    multiline?: boolean;
+    error?: ReactNode;
+    // Renders a <textarea> when `multiline`.
+    onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  }
+>;
