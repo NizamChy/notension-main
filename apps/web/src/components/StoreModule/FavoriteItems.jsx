@@ -58,7 +58,12 @@ const FavoriteItems = ({ moduleName }) => {
           {count > 0 ? (
             <div className={ITEM_GRID_CLASS}>
               {favoriteItems.map((item) => (
-                <ItemCard key={item?.productId} item={item} isFavorite={true} />
+                <ItemCard
+                  key={item?.productId}
+                  moduleName={moduleName}
+                  item={item}
+                  isFavorite={true}
+                />
               ))}
             </div>
           ) : (

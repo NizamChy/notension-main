@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { HiChevronRight } from "react-icons/hi";
 import { useParams, useRouter } from "next/navigation";
 import { getStoreModule, toSlug } from "./storeModules";
 import { getCategoryIcon } from "./categoryIcons";
+import { useStoreData } from "./useStoreData";
 
 // Category tree of a grocery / medicine store. Used by the desktop sidebar
 // and the mobile drawer. `onNavigate` runs after a leaf is picked.
@@ -18,7 +18,7 @@ export const StoreCategoryList = ({ moduleName, onNavigate }) => {
   const { basePath } = getStoreModule(moduleName);
   const storePath = `${basePath}/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 
-  const typeInfo = useSelector((state) => state.dashboard.typeInfo);
+  const { typeInfo } = useStoreData(moduleName);
 
   const handleType = (index, data) => {
     setOpenIndex((prev) => (prev === index ? null : index));

@@ -380,6 +380,14 @@ export const DEMO_GROCERY_PAST_ORDERS = (() => {
       _id: oid("f101", 1),
       order_id: "GRO-20261028-1042",
       order_status: "Delivered",
+      customerInfo: {
+        customer_name: "Demo Customer",
+        customer_address: "",
+        contact_no: "01700000000",
+        alternative_contact_no: "",
+        latitude: null,
+        longitude: null,
+      },
       merchant_id: shop._id,
       custom_merchant_id: shop.custom_store_id,
       merchantInfo: {

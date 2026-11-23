@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useStoreData } from "./useStoreData";
 import CommonSlider from "./CommonSlider";
 import CustomTypeItems from "./CustomTypeItems";
 import { getStoreModule } from "./storeModules";
 
 const CustomTypeSection = ({ moduleName, customTypeId }) => {
-  const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider,
-  );
+  const { slider: DashboardSlider } = useStoreData(moduleName);
   const { customTypes } = getStoreModule(moduleName);
 
   // customTypes maps a section name to its backend custom type ID.

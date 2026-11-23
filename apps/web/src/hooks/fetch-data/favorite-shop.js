@@ -1,4 +1,5 @@
 import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import { getApiClient } from "@/lib/apiClient";
 import { useState } from "react";
 import notify from "@/utils/notify";
@@ -184,21 +185,11 @@ export const useFavouriteStore = () => {
       })
     );
 
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: module,
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule(module);
   };
 
   const setCurrentModule = () => {
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: "dashboard",
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule("dashboard");
   };
 
   return {

@@ -50,6 +50,11 @@ function realLocalReader(): Pick<Storage, "getItem"> | null {
   }
 }
 
+export type LegacyAwareStorage<T> = PersistStorage<T> & {
+  /** True when the store's own key holds a value (so no legacy seeding happens). */
+  hasOwn: () => boolean;
+};
+
 /**
  * Zustand persist storage that prefers its own key and, when empty,
  * seeds from the old redux-persist / Fashion data via `fromLegacy`.
@@ -61,11 +66,18 @@ export function legacyAwareStorage<T>(
   version: number,
   fromLegacy: (s: Pick<Storage, "getItem">) => T | null,
   storage?: Storage,
-): PersistStorage<T> {
+): LegacyAwareStorage<T> {
   const own = () => storage ?? safeLocalStorage();
   const legacyReader = (): Pick<Storage, "getItem"> =>
     storage ?? realLocalReader() ?? safeLocalStorage();
   return {
+    hasOwn: () => {
+      try {
+        return own().getItem(key) != null;
+      } catch {
+        return false;
+      }
+    },
     getItem: () => {
       try {
         const raw = own().getItem(key);

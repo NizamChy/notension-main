@@ -1,24 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { BiCategory } from "react-icons/bi";
 import Drawer from "@/components/shared/Drawer/Drawer";
 import { NAV_ICON_BUTTON } from "@/components/shared/Navbar/navStyles";
 import { StoreCategoryList } from "./StoreCategorySidebar";
-
-const VISITED_STORE_KEY = {
-  grocery: "visitedGroceryStore",
-  medicine: "visitedMedicineStore",
-};
+import { useStoreData } from "./useStoreData";
 
 // Navbar button + drawer with the store's categories, below lg (lg+ has
 // the fixed sidebar).
 const StoreCategoryDrawer = ({ moduleName }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const store = useSelector(
-    (state) => state.dashboard[VISITED_STORE_KEY[moduleName]],
-  );
+  const { store } = useStoreData(moduleName);
 
   return (
     <div className="lg:hidden">

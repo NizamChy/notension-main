@@ -1,4 +1,5 @@
 import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import { getApiClient } from "@/lib/apiClient";
 import {
   ADD_TO_FAVOURITE,
@@ -160,12 +161,7 @@ export const useFavouriteList = () => {
   };
 
   const setCurrentModule = () => {
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: "dashboard",
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule("dashboard");
   };
 
   return {

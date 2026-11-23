@@ -1,4 +1,5 @@
 import { useSessionStore } from "@/stores/sessionStore";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import { useShallow } from "zustand/react/shallow";
 import { getApiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
@@ -43,12 +44,7 @@ export const useMedicine = () => {
   const Axios = getApiClient(MEDICINE_URL);
 
   const setCurrentModule = () => {
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: "dashboard",
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule("dashboard");
   };
 
   const saveItemsToReducer = (items) => {
@@ -68,12 +64,7 @@ export const useMedicine = () => {
       })
     );
 
-    dispatch(
-      handleDashboardReducer({
-        type: "SET_CURRENT_MODULE",
-        data: "Medicine",
-      })
-    );
+    usePreferencesStore.getState().setCurrentModule("Medicine");
   };
 
   const getNearestMedicineStoreInfo = (setNearestInfo, distance) => {
