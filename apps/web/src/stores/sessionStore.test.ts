@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import store from "@/redux/store";
 import { legacyAwareStorage } from "./storage";
 import { logout } from "./logout";
 import {
@@ -120,17 +119,12 @@ describe("session store", () => {
 });
 
 describe("logout", () => {
-  it("clears session and dispatches LOGOUT_USER", () => {
-    const spy = vi.spyOn(store, "dispatch");
+  it("clears the account and keeps the location", () => {
     get().saveLocation(loc);
     get().login({ name: "A" });
     logout();
     expect(get().isLoggedin).toBe(false);
+    expect(get().userInfo).toEqual({});
     expect(get().currentUserLocation).toEqual(loc);
-    expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        payload: { type: "LOGOUT_USER" },
-      }),
-    );
   });
 });

@@ -12,14 +12,11 @@ import {
   CUSTOMER_LOGOUT,
 } from "@/api-endpoints/api-endpoint";
 import { isLiveService } from "@/api-endpoints/live";
-import { persistor } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/env";
-import { useDispatch } from "react-redux";
 import { logout } from "@/stores/logout";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { useFavouritesStore } from "@/stores/favouritesStore";
-import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { toUserLocation } from "@/utils/userLocation";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
 import { isSampleDataForced } from "@/demo/backendStatus";
@@ -36,7 +33,6 @@ export const useUser = () => {
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const { userLatitude, userLongitude, districtId, currentUserLocation } = useSessionStore(
     useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId, currentUserLocation: s.currentUserLocation })),
@@ -246,14 +242,11 @@ export const useUser = () => {
     Cookies.remove("user_info");
 
     logout();
-    dispatch(handleUserChoiceReducer({ type: "CLEAR_FAVOURITES" }));
-    // The wishlist and favourites left Redux; they are cleared on logout as before.
+    // The account's wishlist and favourites go too.
     useWishlistStore.getState().clear();
     useFavouritesStore.getState().clear();
 
-    persistor.purge().then(() => {
-      router.push("/");
-    });
+    router.push("/");
   };
 
   return {

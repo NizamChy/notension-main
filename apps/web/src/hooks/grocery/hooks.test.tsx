@@ -2,8 +2,6 @@
 import type { ReactNode } from "react";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { configureStore } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getApiClient } from "@/lib/apiClient";
 import { GROCERY_URL } from "@/api-endpoints/env";
@@ -11,9 +9,6 @@ import { DEMO_GROCERY_ITEMS, DEMO_GROCERY_STORES } from "@/demo/modules/grocery/
 import { queryKeys } from "@/lib/api/queryKeys";
 import { resetWarnedEndpoints } from "@/lib/api/validate";
 import { useCartStore } from "@/stores/cartStore";
-import cartReducer from "@/redux/cartReducer";
-import itemsByStoreReducer from "@/redux/items-by-shop";
-import userChoiceReducer from "@/redux/userChoiceReducer";
 import { seedGroceryItem, useGroceryItem } from "./useGroceryItem";
 import { PAGE_SIZE, useGroceryItemList } from "./useGroceryItemList";
 import { useGroceryCart } from "./useGroceryCart";
@@ -37,20 +32,9 @@ const visit = (s: DemoStore) => {
 };
 
 let qc: QueryClient;
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const reduxStore = configureStore({
-    reducer: { cart: cartReducer, itemsByStore: itemsByStoreReducer, userChoice: userChoiceReducer },
-    // A different store in Redux, as Medicine or Food would leave it.
-    preloadedState: {
-      itemsByStore: { ...itemsByStoreReducer(undefined, { type: "init" }), merchantId: "redux-merchant", customstore_id: "redux-custom" },
-    },
-  });
-  return (
-    <Provider store={reduxStore}>
-      <QueryClientProvider client={qc}>{children}</QueryClientProvider>
-    </Provider>
-  );
-};
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <QueryClientProvider client={qc}>{children}</QueryClientProvider>
+);
 
 beforeEach(() => {
   window.localStorage.setItem("notension-sample-data", "on");

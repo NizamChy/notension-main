@@ -5,6 +5,7 @@ import { useWishlistStore } from "./wishlistStore";
 import { useHealthStore } from "./healthStore";
 import { useFavouritesStore } from "./favouritesStore";
 import type { LegacyAwareStorage } from "./storage";
+import { removeLegacyData } from "./legacy";
 
 type Persisted = {
   persist: {
@@ -24,10 +25,11 @@ function hasOwnValue(store: Persisted): boolean {
 
 /**
  * Loads the Zustand stores from storage. A store whose own key was empty
- * (first load after the Redux era) is then written under the new key, so
- * migrated data never depends on `persist:root` again. A store with a saved
- * key is never rewritten here, even if rehydrate dropped it. Never rejects,
- * so the PersistGate always lifts even if a store fails to rehydrate.
+ * (first load after the Redux era) is then written under the new key, and
+ * once every store is saved the old `persist:root` / `cart` keys are deleted.
+ * A store with a saved key is never rewritten here, even if rehydrate dropped
+ * it. Never rejects, so the app always renders even if a store fails to
+ * rehydrate (the old keys are then kept for the next load).
  */
 export async function hydrateStores(): Promise<void> {
   try {
@@ -45,6 +47,7 @@ export async function hydrateStores(): Promise<void> {
       // An empty setState runs the persist middleware's write.
       if (needsWrite[i]) s.setState({});
     });
+    removeLegacyData();
   } catch (error) {
     // Keep initial state; the app still renders.
     if (process.env.NODE_ENV !== "production") console.warn("store hydration failed", error);

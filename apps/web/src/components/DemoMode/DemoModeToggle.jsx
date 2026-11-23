@@ -3,7 +3,6 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import { resetForSampleSwitch } from "@/stores/resetForSampleSwitch";
 import Cookies from "js-cookie";
-import { persistor } from "@/redux/store";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { HiCheck } from "react-icons/hi2";
 import {
@@ -58,15 +57,12 @@ const DemoModeToggle = () => {
 
   // Sample and live data must not mix (carts, favourites, logged-in user),
   // so switching clears the saved app state and reloads.
-  const handleToggle = async () => {
+  const handleToggle = () => {
     if (isSwitching) return;
     setIsSwitching(true);
 
     setSampleDataForced(!forced);
     Cookies.remove("user_info");
-    persistor.pause();
-    await persistor.purge();
-    // The session and cart stores keep their own copy; reset it too.
     resetForSampleSwitch();
     window.location.reload();
   };
