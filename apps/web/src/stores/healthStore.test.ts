@@ -4,8 +4,7 @@ import { resetForSampleSwitch } from "./resetForSampleSwitch";
 import { legacyAwareStorage } from "./storage";
 import { healthFromLegacy, useHealthStore, type HealthState } from "./healthStore";
 
-vi.mock("@/redux/store", () => ({ default: { dispatch: vi.fn() } }));
-const { logout } = await import("./logout");
+import { logout } from "./logout";
 
 function fakeStorage(seed: Record<string, string> = {}): Storage {
   const map = new Map(Object.entries(seed));

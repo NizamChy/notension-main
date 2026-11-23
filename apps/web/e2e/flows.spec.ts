@@ -180,6 +180,10 @@ test("old saved cart is kept", async ({ page }) => {
 
   await page.goto("/fashion-lifestyle");
   await expect(page.getByRole("button", { name: "Shopping bag" })).toHaveText("1");
+
+  // Once migrated, the old keys are gone.
+  const legacy = await page.evaluate(() => [localStorage.getItem("persist:root"), localStorage.getItem("cart")]);
+  expect(legacy).toEqual([null, null]);
 });
 
 test("old login is kept", async ({ page }) => {

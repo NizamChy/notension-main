@@ -21,7 +21,7 @@ if (typeof window !== "undefined") {
   startBackendCheck();
 }
 
-// Runs after redux-persist rehydrates and before the app renders: a first
+// Runs after the saved stores load and before the app renders: a first
 // visit starts in Dhaka, which has data in every module.
 export const applyDemoDefaults = () => {
   const { currentUserLocation } = useSessionStore.getState();

@@ -36,3 +36,17 @@ export function readLegacyFashionCart(storage: Reader): Record<string, unknown>[
   const parsed = parseJson(storage.getItem("cart"));
   return Array.isArray(parsed) ? (parsed as Record<string, unknown>[]) : [];
 }
+
+/**
+ * Deletes the old redux-persist and Fashion keys. Called once every store has
+ * been loaded and saved under its own key, so nothing reads them any more.
+ */
+export function removeLegacyData(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem("persist:root");
+    window.localStorage.removeItem("cart");
+  } catch {
+    // Storage blocked: nothing to remove.
+  }
+}

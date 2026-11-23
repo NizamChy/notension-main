@@ -2,8 +2,6 @@
 import type { ReactNode } from "react";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { configureStore } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getApiClient } from "@/lib/apiClient";
 import { MEDICINE_URL } from "@/api-endpoints/env";
@@ -11,7 +9,6 @@ import { DEMO_MEDICINE_ITEMS, DEMO_MEDICINE_STORES } from "@/demo/modules/medici
 import { queryKeys } from "@/lib/api/queryKeys";
 import { resetWarnedEndpoints } from "@/lib/api/validate";
 import { useCartStore } from "@/stores/cartStore";
-import cartReducer from "@/redux/cartReducer";
 import { PAGE_SIZE } from "@/hooks/grocery/useGroceryItemList";
 import { seedMedicineItem, useMedicineItem } from "./useMedicineItem";
 import { useMedicineItemList } from "./useMedicineItemList";
@@ -37,14 +34,9 @@ const visit = (storeId: string, customStoreId: string) => {
 };
 
 let qc: QueryClient;
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const reduxStore = configureStore({ reducer: { cart: cartReducer } });
-  return (
-    <Provider store={reduxStore}>
-      <QueryClientProvider client={qc}>{children}</QueryClientProvider>
-    </Provider>
-  );
-};
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <QueryClientProvider client={qc}>{children}</QueryClientProvider>
+);
 
 beforeEach(() => {
   window.localStorage.setItem("notension-sample-data", "on");

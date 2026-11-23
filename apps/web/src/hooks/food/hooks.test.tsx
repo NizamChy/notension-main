@@ -2,8 +2,6 @@
 import type { ReactNode } from "react";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { configureStore } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getApiClient } from "@/lib/apiClient";
 import { FOOD_URL } from "@/api-endpoints/env";
@@ -14,8 +12,6 @@ import { resetWarnedEndpoints } from "@/lib/api/validate";
 import type { FoodExploreResult } from "@/lib/api/food";
 import { useCartStore } from "@/stores/cartStore";
 import { useSessionStore } from "@/stores/sessionStore";
-import cartReducer from "@/redux/cartReducer";
-import itemsByStoreReducer, { handleItemsByStoreReducer } from "@/redux/items-by-shop";
 import { useFoodCategory, useFoodModule } from "./useFoodModule";
 import { toFoodMenu, useFoodItem, useFoodStore } from "./useFoodStore";
 import { useFoodCart } from "./useFoodCart";
@@ -40,14 +36,9 @@ const visit = (s: { _id: string; custom_store_id: string }) => {
 };
 
 let qc: QueryClient;
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const reduxStore = configureStore({ reducer: { cart: cartReducer } });
-  return (
-    <Provider store={reduxStore}>
-      <QueryClientProvider client={qc}>{children}</QueryClientProvider>
-    </Provider>
-  );
-};
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <QueryClientProvider client={qc}>{children}</QueryClientProvider>
+);
 
 beforeEach(() => {
   window.localStorage.setItem("notension-sample-data", "on");
@@ -63,29 +54,6 @@ afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
   window.localStorage.clear();
-});
-
-describe("toFoodMenu", () => {
-  it("matches the old EXPLORE_FOOD_STORE_ITEMS reducer", () => {
-    const route = (
-      DEMO_ROUTES as {
-        service: string;
-        path: string;
-        handler: (r: { query: Record<string, string> }) => { result: FoodExploreResult };
-      }[]
-    ).find((r) => r.service === "FOOD" && r.path === EXPLORE_FOOD_STORE)!;
-    for (const s of stores.filter((x) => !x.is_closed)) {
-      const data = route.handler({ query: { storeId: s._id, custom_store_id: s.custom_store_id } }).result;
-      const old = itemsByStoreReducer(
-        undefined,
-        handleItemsByStoreReducer({ type: "EXPLORE_FOOD_STORE_ITEMS", data }),
-      );
-      const got = toFoodMenu(data);
-      expect(got.productCategory).toEqual(old.productCategory);
-      expect(got.productInfoByShop).toEqual(old.productInfoByShop);
-      expect(got.popularItem).toEqual(old.popularItem);
-    }
-  });
 });
 
 describe("useFoodModule / useFoodCategory", () => {
