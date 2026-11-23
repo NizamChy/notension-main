@@ -311,7 +311,7 @@ Then stop and ask the owner before pushing / opening the PR to `main` (workflow:
 
 | PR | Scope | Notes |
 |----|-------|-------|
-| 2 | Grocery | TS, TanStack Query on `apiGet` + `groceryItems`/`store` keys, drop its `itemsByStore`/`dashboard`/`product` reads, forms → RHF, migrate grocery selection fields from `userChoice`/`itemsByStore` into a new `usePreferencesStore` (key `notension-preferences`, legacy reader from Task 2), shared components extracted for reuse by Medicine |
+| 2 ✅ | Grocery (done, see `2026-11-22-web-modernization-pr2-grocery.md`) | TS, TanStack Query on `apiGet` + `groceryItems`/`store` keys, drop its `itemsByStore`/`dashboard`/`product` reads, forms → RHF, migrate grocery selection fields from `userChoice`/`itemsByStore` into a new `usePreferencesStore` (key `notension-preferences`, legacy reader from Task 2), shared components extracted for reuse by Medicine |
 | 3 | Medicine | reuse PR 2 shared components (Grocery↔Medicine duplication cleanup) |
 | 4 | Food | |
 | 5 | Fashion | wishlists from `userChoice` |

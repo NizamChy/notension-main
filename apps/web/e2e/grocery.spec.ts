@@ -116,3 +116,62 @@ test("closed store shows unavailable", async ({ page }) => {
   await expect(page.getByText("This store is closed right now")).toBeVisible();
   await expect(page.getByRole("link", { name: "Find stores nearby" })).toBeVisible();
 });
+
+// ---- Cross-module (PR 2 review focus) -------------------------------------
+
+// First demo pharmacy (demo oid "66a1" + 1).
+const MEDICINE_STORE_PATH =
+  "/medicine/gulshan-care-pharmacy/66a100000000000000000001/MS100101";
+
+test("medicine then grocery uses the grocery store", async ({ page }) => {
+  // Medicine still writes its store into Redux (itemsByStore). Grocery must
+  // take its store from the URL, or the demo search (filtered by store id)
+  // would find nothing.
+  await page.goto(MEDICINE_STORE_PATH);
+  await expect(page.getByRole("heading", { name: "Special Offer" })).toBeVisible();
+
+  await openStore(page);
+  await page.getByRole("button", { name: "Search", exact: true }).click();
+  const box = page.getByRole("searchbox", { name: "Search products in this store" });
+  await box.fill("chini");
+  await box.press("Enter");
+  await expect(page.getByRole("button", { name: `View ${PRODUCT_TITLE}` }).first()).toBeVisible();
+
+  // A favourite added here shows on this store's favourites page.
+  await page.goto(`${STORE_PATH}/checkout`);
+  const demoLogin = page.getByRole("button", { name: "Log in as Demo User" });
+  await demoLogin.click();
+  // The modal closes once the session is saved.
+  await expect(demoLogin).toHaveCount(0);
+  await openStore(page);
+  await page.getByRole("button", { name: "Add to favourites" }).first().click();
+  await expect(page.getByRole("button", { name: "Remove from favourites" }).first()).toBeVisible();
+});
+
+test("old saved module is kept", async ({ page }) => {
+  // A visitor who was in Food before the deploy: persist:root only.
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem("e2e-module-seeded")) return;
+    sessionStorage.setItem("e2e-module-seeded", "1");
+    localStorage.setItem(
+      "persist:root",
+      JSON.stringify({
+        dashboard: JSON.stringify({ currentModule: "Food" }),
+        _persist: JSON.stringify({ version: 1, rehydrated: true }),
+      }),
+    );
+  });
+  await page.goto("/");
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem("notension-preferences")))
+    .toContain('"currentModule":"Food"');
+});
+
+test("reload on product page", async ({ page }) => {
+  // Open the product from a list (the quick view writes the product URL).
+  await page.goto(`${STORE_PATH}/search?query=chini`);
+  await page.getByRole("button", { name: `View ${PRODUCT_TITLE}` }).first().click();
+  await expect(page).toHaveURL(/\/product\/[0-9a-f]{24}$/);
+  await page.reload();
+  await expect(page.getByRole("heading", { name: PRODUCT_TITLE }).first()).toBeVisible();
+});
