@@ -20,12 +20,16 @@ import { useFavouritesStore } from "@/stores/favouritesStore";
 import { toUserLocation } from "@/utils/userLocation";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
 import { isSampleDataForced } from "@/demo/backendStatus";
+import type { customer } from "@notension/shared";
+
+// What the old and the new API send back for a customer; fields may be missing.
+type CustomerInfo = Partial<customer.Customer>;
 
 const Axios = getApiClient(USER_URL);
 
 // Login runs on the new API (OTP checked on the server, session cookie) when
 // USER is a live service; otherwise the old flow, answered by demo mode.
-// Chosen sample data uses the demo sign-in (demo/modules/user.js).
+// Chosen sample data uses the demo sign-in (demo/modules/user.ts).
 export const isLiveLogin = () => isLiveService("USER") && !isSampleDataForced();
 
 export const useUser = () => {
@@ -38,7 +42,8 @@ export const useUser = () => {
     useShallow((s) => ({ userLatitude: s.userLatitude, userLongitude: s.userLongitude, districtId: s.districtId, currentUserLocation: s.currentUserLocation })),
   );
 
-  const loggedinUserInfo = useSessionStore((s) => s.userInfo);
+  // The store keeps the customer the API sent (see saveLoggedInUserInfo).
+  const loggedinUserInfo = useSessionStore((s) => s.userInfo) as CustomerInfo;
 
   const [userInfo, setUserInfo] = useState({
     _id: loggedinUserInfo?._id || "",
@@ -67,7 +72,7 @@ export const useUser = () => {
     // district_id: 10,
   });
 
-  const getOtp = (props) => {
+  const getOtp = (props: { contact_no: string; [field: string]: unknown }) => {
 
     handleDataChange(props.contact_no, "contact_no");
     setProgressing(true);
@@ -117,7 +122,7 @@ export const useUser = () => {
           }
         }
 
-        // Answered by demo data (demo/modules/user.js), which shows the code
+        // Answered by demo data (demo/modules/user.ts), which shows the code
         // itself.
         setProgressing(false);
         return true;
@@ -131,14 +136,14 @@ export const useUser = () => {
       });
   };
 
-  const handleDataChange = (value, name) => {
+  const handleDataChange = (value: unknown, name: string) => {
     setUserInfo((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const setUserData = (user) => {
+  const setUserData = (user: CustomerInfo | undefined) => {
     setUserInfo((prev) => ({
       ...prev,
       _id: user?._id || "",
@@ -175,7 +180,7 @@ export const useUser = () => {
   // Live login: the server checks the code and sets the session cookie.
   // Resolves to { ok, isNew }; a new account still needs a name and address
   // (registerUser) before it counts as logged in here.
-  const verifyOtp = (contactNo, otp) => {
+  const verifyOtp = (contactNo: string, otp: string) => {
     setProgressing(true);
     return Axios.post(VERIFY_OTP, { contact_no: contactNo, otp })
       .then((res) => {
@@ -224,7 +229,7 @@ export const useUser = () => {
       .finally(() => setProgressing(false));
   };
 
-  const saveLoggedInUserInfo = (user) => {
+  const saveLoggedInUserInfo = (user: CustomerInfo & Record<string, unknown>) => {
     useSessionStore.getState().login(user);
 
     // Only the user id is stored: it lets a future proxy/middleware route

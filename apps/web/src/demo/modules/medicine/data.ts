@@ -2,9 +2,9 @@
 // image generator can read it too. Image fields hold paths under
 // public/demo/ (the /demo-images rewrite drops the first segment).
 
-const oid = (tag, n) => `${tag}${n.toString(16).padStart(24 - tag.length, "0")}`;
+const oid = (tag: string, n: number) => `${tag}${n.toString(16).padStart(24 - tag.length, "0")}`;
 
-// Custom type IDs the UI matches against (src/components/StoreModule/storeModules.js).
+// Custom type IDs the UI matches against (src/components/StoreModule/storeModules.ts).
 export const MEDICINE_CUSTOM_TYPES = {
   specialOffer: "65128cbd20db0921f13b40b3",
   dealOfTheDay: "64ec724d538280d7999a2d39",
@@ -16,7 +16,7 @@ const CHITTAGONG = "64f03388fdd8ffc6aa95bdb9";
 
 // ---------------------------------------------------------------- stores
 
-const store = (n, fields) => ({
+const store = <T extends { latitude: number; longitude: number }>(n: number, fields: T) => ({
   _id: oid("66a1", n),
   is_active: true,
   is_banned: false,
@@ -143,17 +143,18 @@ export const DEMO_MEDICINE_TYPES = [
   { n: 8, name: "Women's Health", statusType: "General" },
   { n: 9, name: "Baby Care", statusType: "General" },
   { n: 10, name: "Personal Care", statusType: "General" },
-].map((t) => ({
+].map((t: { n: number; name: string; statusType: string; id?: string }) => ({
   _id: t.id || oid("66a2", t.n),
   type_name: t.name,
   custom_type_id: `MT${String(t.n).padStart(4, "0")}`,
   statusType: t.statusType,
 }));
 
-const typeId = (n) => DEMO_MEDICINE_TYPES[n - 1]._id;
+// `n` is a type number from the list above.
+const typeId = (n: number) => DEMO_MEDICINE_TYPES[n - 1]!._id;
 
 // [n, type n, name, colour]
-const SUBTYPE_ROWS = [
+const SUBTYPE_ROWS: [n: number, typeN: number, name: string, color: string][] = [
   [1, 1, "Pain Relief", "#e0f2fe"],
   [2, 1, "Fever & Cold", "#fee2e2"],
   [3, 1, "Gastric & Acidity", "#fef3c7"],
@@ -187,7 +188,8 @@ export const DEMO_MEDICINE_SUBTYPES = SUBTYPE_ROWS.map(
   }),
 );
 
-const subtypeId = (n) => DEMO_MEDICINE_SUBTYPES[n - 1]._id;
+// `n` is a subtype number from SUBTYPE_ROWS.
+const subtypeId = (n: number) => DEMO_MEDICINE_SUBTYPES[n - 1]!._id;
 
 // ------------------------------------------------------------- products
 
@@ -196,7 +198,24 @@ const { specialOffer: SO, dealOfTheDay: DD, popularItem: PI } =
 
 // [n, subtype n, title, bengali title, generic, company, strength, pack size,
 //  unit, MRP, discount %, prescription?, custom types, shape]
-const PRODUCT_ROWS = [
+type ProductRow = [
+  n: number,
+  subN: number,
+  title: string,
+  titleBn: string,
+  generic: string,
+  company: string,
+  strength: string,
+  pack: string,
+  unit: string,
+  mrp: number,
+  less: number,
+  rx: boolean,
+  customTypes: string[],
+  shape: string,
+];
+
+const PRODUCT_ROWS: ProductRow[] = [
   [1, 1, "Napa 500mg", "নাপা ৫০০ মি.গ্রা.", "Paracetamol", "Beximco Pharmaceuticals", "500mg", "10 tablets (1 strip)", "strip", 12, 0, false, [PI], "pill"],
   [2, 1, "Napa Extra", "নাপা এক্সট্রা", "Paracetamol + Caffeine", "Beximco Pharmaceuticals", "500mg+65mg", "10 tablets (1 strip)", "strip", 25, 8, false, [SO], "pill"],
   [3, 1, "Ace Plus", "এইস প্লাস", "Paracetamol + Caffeine", "Square Pharmaceuticals", "500mg+65mg", "10 tablets (1 strip)", "strip", 25, 0, false, [PI], "pill"],
@@ -251,7 +270,7 @@ const PRODUCT_ROWS = [
   [52, 21, "Dettol Hand Wash", "ডেটল হ্যান্ড ওয়াশ", "Antibacterial Hand Wash", "Reckitt Benckiser", "200ml", "200ml pump bottle", "bottle", 150, 0, false, [], "bottle"],
 ];
 
-const slugify = (text) =>
+const slugify = (text: string) =>
   text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -259,7 +278,7 @@ const slugify = (text) =>
 
 export const DEMO_MEDICINE_PRODUCTS = PRODUCT_ROWS.map(
   ([n, subN, title, titleBn, generic, company, strength, pack, unit, mrp, less, rx, customTypes, shape]) => {
-    const sub = DEMO_MEDICINE_SUBTYPES[subN - 1];
+    const sub = DEMO_MEDICINE_SUBTYPES[subN - 1]!;
     return {
       _id: oid("66a4", n),
       item_title_eng: title,
@@ -287,7 +306,7 @@ export const DEMO_MEDICINE_PRODUCTS = PRODUCT_ROWS.map(
 );
 
 // Products each store does NOT stock (by product number). Store 1 stocks all.
-const NOT_STOCKED = {
+const NOT_STOCKED: Record<number, number[]> = {
   1: [],
   2: [4, 8, 18, 30, 36, 44, 50],
   3: [7, 11, 16, 20, 28, 33, 37, 42, 47, 49],
@@ -295,16 +314,17 @@ const NOT_STOCKED = {
   5: [2, 4, 6, 7, 8, 11, 12, 15, 16, 18, 20, 22, 24, 26, 28, 30, 32, 33, 36, 37, 39, 42, 44, 46, 47, 49, 50, 52],
 };
 // Products that are listed but currently out of stock.
-const OUT_OF_STOCK = { 1: [44], 2: [19], 3: [38], 4: [40], 5: [] };
+const OUT_OF_STOCK: Record<number, number[]> = { 1: [44], 2: [19], 3: [38], 4: [40], 5: [] };
 
 // One item per (store, product): the shape the item endpoints return.
 export const DEMO_MEDICINE_ITEMS = DEMO_MEDICINE_STORES.flatMap((s, si) => {
   const storeNo = si + 1;
   return DEMO_MEDICINE_PRODUCTS.filter(
-    (_, pi) => !NOT_STOCKED[storeNo].includes(pi + 1),
+    // Both lists have an entry for every store.
+    (_, pi) => !NOT_STOCKED[storeNo]!.includes(pi + 1),
   ).map((p) => {
     const productNo = parseInt(p._id.slice(4), 16);
-    const available = !OUT_OF_STOCK[storeNo].includes(productNo);
+    const available = !OUT_OF_STOCK[storeNo]!.includes(productNo);
     const { _id, shape, color, ...rest } = p;
     return {
       ...rest,
@@ -323,7 +343,7 @@ export const DEMO_MEDICINE_ITEMS = DEMO_MEDICINE_STORES.flatMap((s, si) => {
 
 // --------------------------------------------------------------- sliders
 
-const slide = (n, file) => ({ _id: oid("66a6", n), file_name: `medicine/${file}` });
+const slide = (n: number, file: string) => ({ _id: oid("66a6", n), file_name: `medicine/${file}` });
 
 export const DEMO_MEDICINE_SLIDER = [
   {

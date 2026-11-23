@@ -3,7 +3,8 @@ import { Loader } from "@googlemaps/js-api-loader";
 // One shared loader: the Maps script is fetched once, only when a map or the
 // location picker is first needed.
 const loader = new Loader({
-  apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  // May be unset (a fresh clone); passed on as it is.
+  apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
   version: "weekly",
   libraries: ["places"],
   language: "en",

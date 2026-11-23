@@ -4,18 +4,22 @@ import { DEMO_ACCOUNTS, DEMO_CUSTOMER, DEMO_PASSWORD } from "@notension/shared";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import { roleLabel } from "@/components/Admin/api";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Demo accounts",
   description: "Sign-ins for every NoTension role, for trying the demo: admin, store teams, rider, doctor and customer.",
 };
 
-const Mono = ({ children }) => <span className="font-mono text-gray-900">{children}</span>;
+const Mono = ({ children }: { children: ReactNode }) => <span className="font-mono text-gray-900">{children}</span>;
 
 export default function DemoAccountsPage() {
   return (
     <>
-      <Navbar />
+      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
+          required; this page passes none. */}
+      <Navbar search={undefined} leading={undefined} actions={undefined} />
       <main className="bg-gray-50 pt-16 lg:pt-[72px]">
         <div className="mx-auto max-w-5xl px-4 py-8 md:py-12">
           <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">Demo accounts</h1>

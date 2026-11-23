@@ -1,4 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios, {
+  AxiosError,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from "axios";
 import {
   FOOD_URL,
   USER_URL,
@@ -17,7 +21,27 @@ import { isBackendOffline, isSampleDataForced, markBackendOffline } from "./back
 // network. Every route belongs to one backend ("service"), matched by the
 // base URL the request was sent to.
 
-const SERVICE_BASES = {
+// `params` (the route's `:name` segments), `query` and `body` are whatever the
+// app sent, so handlers read them field by field the way the real backend
+// did: `any` on purpose.
+type RequestData = any;
+
+export type DemoRequest = {
+  params: Record<string, RequestData>;
+  query: Record<string, RequestData>;
+  body: RequestData;
+  path: string;
+  method: string;
+};
+
+export type DemoRoute = {
+  service: string;
+  method: string;
+  path: string;
+  handler: (request: DemoRequest) => unknown;
+};
+
+const SERVICE_BASES: Record<string, string> = {
   FOOD: FOOD_URL,
   USER: USER_URL,
   GROCERY: GROCERY_URL,
@@ -30,21 +54,21 @@ const SERVICE_BASES = {
 
 const LATENCY_MS = 250;
 
-const trimSlashes = (value = "") => value.replace(/\/+$/, "");
+const trimSlashes = (value: string = "") => value.replace(/\/+$/, "");
 const normalizePath = (value = "") =>
   `/${value.replace(/^\/+/, "").replace(/\/{2,}/g, "/")}`.replace(/\/+$/, "") ||
   "/";
 
 const isAbsolute = (url = "") => /^https?:\/\//i.test(url);
 
-const resolveRequest = (config) => {
+const resolveRequest = (config: InternalAxiosRequestConfig) => {
   const rawUrl = config.url || "";
   const fullUrl = isAbsolute(rawUrl)
     ? rawUrl
     : `${trimSlashes(config.baseURL || "")}/${rawUrl.replace(/^\/+/, "")}`;
 
-  const [withoutQuery, queryString = ""] = fullUrl.split("?");
-  const query = {
+  const [withoutQuery = "", queryString = ""] = fullUrl.split("?");
+  const query: Record<string, RequestData> = {
     ...Object.fromEntries(new URLSearchParams(queryString)),
     ...(config.params || {}),
   };
@@ -68,24 +92,25 @@ const resolveRequest = (config) => {
   return { service: null, path: normalizePath(withoutQuery), query };
 };
 
-const matchPath = (pattern, path) => {
+const matchPath = (pattern: string, path: string) => {
   const patternParts = normalizePath(pattern).split("/");
   const pathParts = path.split("/");
   if (patternParts.length !== pathParts.length) return null;
 
-  const params = {};
+  const params: Record<string, string> = {};
   for (let i = 0; i < patternParts.length; i += 1) {
-    const part = patternParts[i];
+    const part = patternParts[i] ?? "";
+    const value = pathParts[i] ?? "";
     if (part.startsWith(":")) {
-      params[part.slice(1)] = decodeURIComponent(pathParts[i]);
-    } else if (part !== pathParts[i]) {
+      params[part.slice(1)] = decodeURIComponent(value);
+    } else if (part !== value) {
       return null;
     }
   }
   return params;
 };
 
-const parseBody = (data) => {
+const parseBody = (data: unknown): RequestData => {
   if (data == null) return {};
   if (typeof data === "string") {
     try {
@@ -103,36 +128,48 @@ const parseBody = (data) => {
 // Handlers return the response body. To answer with another status, return
 // `demoResponse(status, body)`.
 const STATUS = Symbol("demoStatus");
-export const demoResponse = (status, body) => ({ [STATUS]: status, body });
+type DemoStatusResponse = { [STATUS]: number; body: unknown };
+export const demoResponse = (status: number, body: unknown): DemoStatusResponse => ({
+  [STATUS]: status,
+  body,
+});
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const isStatusResponse = (result: unknown): result is DemoStatusResponse =>
+  Boolean(result && (result as Partial<DemoStatusResponse>)[STATUS]);
 
-// Services on the new API (see live.js) go to the network.
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Services on the new API (see live.ts) go to the network.
 const networkAdapter = axios.getAdapter(["fetch", "xhr", "http"]);
 
 // Did this request fail because the API is down (rather than refusing the
 // request)? A read is retried from demo data on any server failure. A write
 // only when it surely never reached the API, so an order is never placed
 // twice.
-const isOutage = (error, method) => {
-  if (axios.isCancel(error) || error?.code === AxiosError.ERR_CANCELED) return false;
-  const status = error?.response?.status;
+const isOutage = (error: unknown, method: string) => {
+  if (axios.isCancel(error)) return false;
+  const { code, response } = (error ?? {}) as Partial<AxiosError>;
+  if (code === AxiosError.ERR_CANCELED) return false;
+  const status = response?.status;
   if (method === "GET") return !status || status >= 500;
-  return status ? [502, 503].includes(status) : error?.code === AxiosError.ERR_NETWORK;
+  return status ? [502, 503].includes(status) : code === AxiosError.ERR_NETWORK;
 };
 
 const OFFLINE_MESSAGE = "Our server isn't responding right now. Please try again in a few minutes.";
 
-export const demoAdapter = async (config) => {
+export const demoAdapter = async (
+  config: InternalAxiosRequestConfig,
+): Promise<AxiosResponse> => {
   const method = (config.method || "get").toUpperCase();
   const { service, path, query } = resolveRequest(config);
 
-  // Endpoints on the new API go to the network (see live.js). While the API
+  // Endpoints on the new API go to the network (see live.ts). While the API
   // is down, or the visitor chose sample data, they get demo data
-  // (src/demo/backendStatus.js).
+  // (src/demo/backendStatus.ts).
   const forced = isSampleDataForced();
   let fallback = false;
-  if (isLiveRequest(service, path)) {
+  // `service` is null for a URL outside every backend; passed on unchanged.
+  if (isLiveRequest(service as string, path)) {
     if (!forced && !isBackendOffline()) {
       try {
         return await networkAdapter(config);
@@ -145,7 +182,7 @@ export const demoAdapter = async (config) => {
   }
 
   let status = fallback ? 503 : 404;
-  let body = { success: false, message: fallback ? OFFLINE_MESSAGE : "Not available in demo mode" };
+  let body: unknown = { success: false, message: fallback ? OFFLINE_MESSAGE : "Not available in demo mode" };
 
   // During an outage, sign-in and favourites need the real account, so they
   // wait for the API. Chosen sample data has its own demo sign-in.
@@ -160,13 +197,13 @@ export const demoAdapter = async (config) => {
     const params = matchPath(route.path, path);
     try {
       const result = await route.handler({
-        params,
+        params: params ?? {},
         query,
         body: parseBody(config.data),
         path,
         method,
       });
-      if (result && result[STATUS]) {
+      if (isStatusResponse(result)) {
         status = result[STATUS];
         body = result.body;
       } else {
@@ -184,7 +221,7 @@ export const demoAdapter = async (config) => {
 
   await sleep(LATENCY_MS);
 
-  const response = {
+  const response: AxiosResponse = {
     data: body,
     status,
     statusText: status === 200 ? "OK" : "Demo",
@@ -193,7 +230,7 @@ export const demoAdapter = async (config) => {
     request: {},
   };
 
-  const validateStatus = config.validateStatus || ((s) => s >= 200 && s < 300);
+  const validateStatus = config.validateStatus || ((s: number) => s >= 200 && s < 300);
   if (validateStatus(status)) return response;
 
   throw new AxiosError(

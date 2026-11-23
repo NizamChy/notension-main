@@ -10,7 +10,9 @@ const page = () => {
     <>
       <div className="min-h-content">
         <div className="pb-16 lg:pb-20">
-          <Navbar />
+          {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
+              required; this page passes none. */}
+          <Navbar search={undefined} leading={undefined} actions={undefined} />
         </div>
         <LocationMobile />
         <LandingPage />

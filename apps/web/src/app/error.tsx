@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import ErrorPage from "@/components/shared/ErrorPage/ErrorPage";
 
-const GlobalError = ({ error, reset }) => {
+const GlobalError = ({ error, reset }: { error: unknown; reset: () => void }) => {
   useEffect(() => {
     console.error(error);
   }, [error]);

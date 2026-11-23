@@ -7,7 +7,7 @@
 
 const ICON_DIR = "/images/all-care-services/services";
 
-const ICON_RULES = [
+const ICON_RULES: [RegExp, number][] = [
   [/computer (training|course)|ms office/, 22],
   [/laptop|computer/, 12],
   [/\btv\b|television|electronics/, 9],
@@ -55,7 +55,9 @@ const ICON_RULES = [
   [/water filter|purifier/, 45],
 ];
 
-export const getAllCareServiceIcon = (service) => {
+export const getAllCareServiceIcon = (
+  service: { service_name_eng?: string | null } | null | undefined,
+) => {
   const name = String(service?.service_name_eng || "").toLowerCase();
   if (!name) return null;
 

@@ -1,13 +1,14 @@
 // Food demo data (stores, menus, sliders, sample orders). Kept apart from
-// the routes in ../food.js so the API seed can load it without the demo
+// the routes in ../food.ts so the API seed can load it without the demo
 // adapter (which pulls in browser-only code).
 import { DEMO_LOCATIONS } from "../../demoLocations";
 
 // Fixed 24-char lowercase hex ids: "66f00d" + 2-char kind + counter.
-export const hexId = (kind, n) => `66f00d${kind}${n.toString(16).padStart(16, "0")}`;
+export const hexId = (kind: string, n: number) => `66f00d${kind}${n.toString(16).padStart(16, "0")}`;
 
-export const DHAKA = DEMO_LOCATIONS.find((l) => l.key === "dhaka");
-export const CHITTAGONG = DEMO_LOCATIONS.find((l) => l.key === "chittagong");
+// Both are in DEMO_LOCATIONS.
+export const DHAKA = DEMO_LOCATIONS.find((l) => l.key === "dhaka")!;
+export const CHITTAGONG = DEMO_LOCATIONS.find((l) => l.key === "chittagong")!;
 
 export const CREATED_AT = "2026-01-15T09:00:00.000Z";
 
@@ -15,7 +16,7 @@ export const CREATED_AT = "2026-01-15T09:00:00.000Z";
 // Store categories (the food landing page reads shopCategory[0..7])
 // ---------------------------------------------------------------------------
 
-export const STORE_CATEGORY_ROWS = [
+export const STORE_CATEGORY_ROWS: [key: string, name: string][] = [
   // [key, name]
   ["biryani", "Biryani & Bangla"],
   ["fastfood", "Burgers & Fast Food"],
@@ -40,14 +41,15 @@ export const DEMO_FOOD_STORE_CATEGORIES = STORE_CATEGORY_ROWS.map(
   }),
 );
 
-export const storeCategoryId = (key) =>
-  DEMO_FOOD_STORE_CATEGORIES.find((c) => c.key === key)._id;
+// Every key used below is in STORE_CATEGORY_ROWS.
+export const storeCategoryId = (key: string) =>
+  DEMO_FOOD_STORE_CATEGORIES.find((c) => c.key === key)!._id;
 
 // ---------------------------------------------------------------------------
 // Product categories (menu sections inside a store)
 // ---------------------------------------------------------------------------
 
-export const PRODUCT_CATEGORY_ROWS = [
+export const PRODUCT_CATEGORY_ROWS: [key: string, name: string][] = [
   // [key, name]
   ["biryani", "Biryani & Rice"],
   ["curry", "Bangla Curry"],
@@ -75,7 +77,7 @@ export const DEMO_FOOD_PRODUCT_CATEGORIES = PRODUCT_CATEGORY_ROWS.map(
   }),
 );
 
-export const productCategoryByKey = (key) =>
+export const productCategoryByKey = (key: string) =>
   DEMO_FOOD_PRODUCT_CATEGORIES.find((c) => c.key === key);
 
 // ---------------------------------------------------------------------------
@@ -273,13 +275,25 @@ export const DEMO_FOOD_STORES = STORE_ROWS.map((row, index) => {
   };
 });
 
-export const storeByKey = (key) => DEMO_FOOD_STORES.find((s) => s.key === key);
+export const storeByKey = (key: string) => DEMO_FOOD_STORES.find((s) => s.key === key);
 
 // ---------------------------------------------------------------------------
 // Menu items
 // ---------------------------------------------------------------------------
 
-export const ITEM_ROWS = [
+type ItemRow = [
+  key: string,
+  store: string,
+  category: string,
+  title: string,
+  bengali: string,
+  pack: string,
+  mrp: number,
+  sale: number,
+  popular: boolean,
+];
+
+export const ITEM_ROWS: ItemRow[] = [
   // [key, store, category, title, bengali title, pack size, MRP, sale price, popular]
   // Kacchi Ghor (Dhaka)
   ["kacchi", "kacchi", "biryani", "Mutton Kacchi Biryani", "মাটন কাচ্চি বিরিয়ানি", "1 plate", 420, 380, true],
@@ -337,14 +351,15 @@ export const ITEM_ROWS = [
 
 export const DEMO_FOOD_ITEMS = ITEM_ROWS.map(
   ([key, storeKey, catKey, title, bengali, pack, mrp, sale, popular], index) => {
-    const store = storeByKey(storeKey);
+    // Every row names a store and a category defined above.
+    const store = storeByKey(storeKey)!;
     const discount = mrp - sale;
     return {
       _id: hexId("40", index + 1),
       custom_product_id: `FI-${String(index + 1).padStart(4, "0")}`,
       storeId: store._id,
       custom_store_id: store.custom_store_id,
-      productCategory: productCategoryByKey(catKey)._id,
+      productCategory: productCategoryByKey(catKey)!._id,
       product_title_eng: title,
       product_title_beng: bengali,
       pack_size: pack,
@@ -368,7 +383,7 @@ export const DEMO_FOOD_ITEMS = ITEM_ROWS.map(
 // Landing page sliders (per district)
 // ---------------------------------------------------------------------------
 
-export const slide = (n, file) => ({ _id: hexId("50", n), file_name: `food/${file}` });
+export const slide = (n: number, file: string) => ({ _id: hexId("50", n), file_name: `food/${file}` });
 
 export const DEMO_FOOD_SLIDERS = {
   [DHAKA.districtId]: {
@@ -393,21 +408,21 @@ export const DEMO_FOOD_SLIDERS = {
 // Helpers
 // ---------------------------------------------------------------------------
 
-export const ok = (result, message = "Success") => ({
+export const ok = <T,>(result: T, message = "Success") => ({
   success: true,
   status: 200,
   message,
   result,
 });
 
-export const toNum = (value) => {
-  const n = parseFloat(value);
+export const toNum = (value: unknown) => {
+  const n = parseFloat(String(value));
   return Number.isFinite(n) ? n : null;
 };
 
 // Great-circle distance in metres.
-export const distanceMetres = (lat1, lng1, lat2, lng2) => {
-  const rad = (d) => (d * Math.PI) / 180;
+export const distanceMetres = (lat1: number, lng1: number, lat2: number, lng2: number) => {
+  const rad = (d: number) => (d * Math.PI) / 180;
   const dLat = rad(lat2 - lat1);
   const dLng = rad(lng2 - lng1);
   const a =
@@ -416,34 +431,39 @@ export const distanceMetres = (lat1, lng1, lat2, lng2) => {
   return Math.round(6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 };
 
-export const publicStore = (store) => {
+export const publicStore = <T extends { key: string }>(store: T): Omit<T, "key"> => {
   const { key: _key, ...rest } = store;
   return rest;
 };
 
-export const inCategory = (store, categoryId) =>
+export const inCategory = (store: { StoreCategory: string[] }, categoryId?: string) =>
   !categoryId || store.StoreCategory.includes(categoryId);
 
 // ---------------------------------------------------------------------------
 // Orders (kept in memory for the page session)
 // ---------------------------------------------------------------------------
 
-export const datePart = (date) =>
+export const datePart = (date: Date) =>
   `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(
     date.getDate(),
   ).padStart(2, "0")}`;
 
-export const merchantInfoOf = (store) => ({
+type FoodStore = (typeof DEMO_FOOD_STORES)[number];
+
+export const merchantInfoOf = (
+  store: Pick<FoodStore, "shop_name" | "shop_address" | "contact_no" | "alternative_contact_no">,
+) => ({
   shop_name: store.shop_name,
   shop_address: store.shop_address,
   contact_no: store.contact_no,
   alternative_contact_no: store.alternative_contact_no,
 });
 
-export const orderLine = (itemKey, quantity) => {
+// Only called with items defined above.
+export const orderLine = (itemKey: string, quantity: number) => {
   const item = DEMO_FOOD_ITEMS.find(
     (i) => i.app_image === `food/item-${itemKey}.webp`,
-  );
+  )!;
   return {
     _id: item._id,
     productCategory: item.productCategory,
@@ -462,7 +482,7 @@ export const orderLine = (itemKey, quantity) => {
 };
 
 // Two past orders shown in every signed-in customer's history.
-export const pastOrdersFor = (customerId, customCustomerId) => {
+export const pastOrdersFor = (customerId: string, customCustomerId?: string) => {
   const history = [
     {
       n: 1,
@@ -487,7 +507,7 @@ export const pastOrdersFor = (customerId, customCustomerId) => {
   ];
 
   return history.map((h) => {
-    const store = storeByKey(h.storeKey);
+    const store = storeByKey(h.storeKey)!;
     const subTotal = h.lines.reduce((s, l) => s + l.sale_price * l.quantity, 0);
     return {
       _id: hexId("61", h.n),

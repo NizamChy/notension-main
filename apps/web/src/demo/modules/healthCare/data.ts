@@ -1,6 +1,6 @@
 // Demo data for the HEALTH_CARE backend (doctors, consultation centers,
 // hospitals, diagnostic / eye / dental centers). The routes are in
-// ../healthCare.js; apps/api seeds its database from this file.
+// ../healthCare.ts; apps/api seeds its database from this file.
 //
 // Image fields hold a path under public/demo/. Components build image URLs
 // as `${HEALTH_CARE_IMAGES}/${file}`, and the /demo-images rewrite drops the
@@ -9,20 +9,20 @@
 
 import { DEMO_LOCATIONS } from "../../demoLocations";
 
-const IMG = (file) => `health-care/${file}`;
+const IMG = (file: string) => `health-care/${file}`;
 
 const [DHAKA, CHITTAGONG] = DEMO_LOCATIONS;
 const DHAKA_ID = DHAKA.districtId;
 const CTG_ID = CHITTAGONG.districtId;
 
 // 24-char lowercase hex ids: "6650" + 2-char kind + 18-digit number.
-export const oid = (kind, n) => `6650${kind}${String(n).padStart(18, "0")}`;
+export const oid = (kind: string, n: number) => `6650${kind}${String(n).padStart(18, "0")}`;
 
 // ---------------------------------------------------------------------------
 // Banners
 // ---------------------------------------------------------------------------
 
-const banner = (n, file, title) => ({
+const banner = (n: number, file: string, title: string) => ({
   _id: oid("ba", n),
   file_name: IMG(file),
   title,
@@ -90,7 +90,12 @@ export const MEDICAL_SERVICE_BANNER = [
 // Departments
 // ---------------------------------------------------------------------------
 
-const dept = (n, dept_name, slug, dept_name_bn) => ({
+const dept = <Slug extends string>(
+  n: number,
+  dept_name: string,
+  slug: Slug,
+  dept_name_bn: string,
+) => ({
   _id: oid("de", n),
   slug,
   dept_name,
@@ -122,15 +127,24 @@ export const DEMO_DEPARTMENTS = [
   dept(16, "Physical Medicine", "physical-medicine", "ফিজিক্যাল মেডিসিন"),
 ];
 
+type Department = (typeof DEMO_DEPARTMENTS)[number];
+
 const DEPT = Object.fromEntries(
   DEMO_DEPARTMENTS.map((d) => [d.slug, d]),
-);
+) as Record<Department["slug"], Department>;
 
 // ---------------------------------------------------------------------------
 // Centers (hospitals, diagnostic, eye, dental and consultation centers)
 // ---------------------------------------------------------------------------
 
-const center = (n, districtId, center_type, center_name, slug, rest) => ({
+const center = <Rest extends object>(
+  n: number,
+  districtId: string,
+  center_type: string,
+  center_name: string,
+  slug: string,
+  rest: Rest,
+) => ({
   _id: oid("ce", n),
   center_name,
   center_type,
@@ -274,13 +288,14 @@ export const DEMO_CENTERS = [
   }),
 ];
 
-const C = (n) => DEMO_CENTERS[n - 1];
+// `n` is a center number from the list above.
+const C = (n: number) => DEMO_CENTERS[n - 1]!;
 
 // ---------------------------------------------------------------------------
 // Doctors
 // ---------------------------------------------------------------------------
 
-const doctor = (n, districtId, d, info) => ({
+const doctor = <Info extends object>(n: number, districtId: string, d: Department, info: Info) => ({
   _id: oid("d0", n),
   district_id: districtId,
   department: d._id,
@@ -492,8 +507,9 @@ export const DEMO_DOCTORS = [
   }),
 ];
 
-const D = (n) => DEMO_DOCTORS[n - 1];
-const deptById = (id) => DEMO_DEPARTMENTS.find((d) => d._id === id);
+// `n` is a doctor number from the list above.
+const D = (n: number) => DEMO_DOCTORS[n - 1]!;
+const deptById = (id: string) => DEMO_DEPARTMENTS.find((d) => d._id === id);
 
 // ---------------------------------------------------------------------------
 // Chambers (doctor x center) with weekly schedules
@@ -511,6 +527,14 @@ const WEEKDAYS = [
 ];
 
 const CLOSED = { start: "00:00", end: "00:00" };
+
+type Slot = { start: string; end: string };
+type ScheduleTemplate = {
+  morning?: Slot;
+  afternoon?: Slot;
+  evening?: Slot;
+  off: string[];
+};
 
 // Weekly schedule templates: which slots are open and the off days.
 const SCHEDULES = {
@@ -535,17 +559,17 @@ const SCHEDULES = {
     evening: { start: "07:00 PM", end: "10:00 PM" },
     off: [],
   },
-};
+} satisfies Record<string, ScheduleTemplate>;
 
-const dayRange = (days) => {
+const dayRange = (days: string[]) => {
   if (days.length === 0) return "";
   if (days.length === 1) return days[0];
   const idx = days.map((d) => WEEKDAYS.indexOf(d));
-  const contiguous = idx.every((v, i) => i === 0 || v === idx[i - 1] + 1);
+  const contiguous = idx.every((v, i) => i === 0 || v === idx[i - 1]! + 1);
   return contiguous ? `${days[0]} - ${days[days.length - 1]}` : days.join(", ");
 };
 
-const buildSchedule = (template) =>
+const buildSchedule = (template: ScheduleTemplate) =>
   WEEKDAYS.map((day_name) => {
     const is_closed = template.off.includes(day_name);
     return {
@@ -557,11 +581,11 @@ const buildSchedule = (template) =>
     };
   });
 
-const buildSlotTexts = (template) => {
+const buildSlotTexts = (template: ScheduleTemplate) => {
   const onDays = dayRange(WEEKDAYS.filter((d) => !template.off.includes(d)));
-  const texts = ["morning", "afternoon", "evening"]
+  const texts = (["morning", "afternoon", "evening"] as const)
     .filter((key) => template[key])
-    .map((key) => `${onDays}: ${template[key].start} - ${template[key].end}`);
+    .map((key) => `${onDays}: ${template[key]!.start} - ${template[key]!.end}`);
   texts.push(
     template.off.length
       ? `Off day: ${template.off.join(", ")}`
@@ -570,16 +594,23 @@ const buildSlotTexts = (template) => {
   return texts;
 };
 
-const chamber = (n, doctorNo, centerNo, scheduleKey, extra = {}) => {
+const chamber = (
+  n: number,
+  doctorNo: number,
+  centerNo: number,
+  scheduleKey: keyof typeof SCHEDULES,
+  extra: { is_popular?: boolean } = {},
+) => {
   const doctorInfo = D(doctorNo);
   const consultationCenterInfo = C(centerNo);
-  const template = SCHEDULES[scheduleKey];
+  const template: ScheduleTemplate = SCHEDULES[scheduleKey];
   const [slot1, slot2, slot3] = buildSlotTexts(template);
   return {
     _id: oid("c7", n),
     doctorInfo,
     consultationCenterInfo,
-    deptInfo: deptById(doctorInfo.department),
+    // Every doctor's department is in DEMO_DEPARTMENTS.
+    deptInfo: deptById(doctorInfo.department)!,
     district_id: consultationCenterInfo.district_id,
     chamber_onDay_time_slot_1: slot1,
     chamber_onDay_time_slot_2: slot2,

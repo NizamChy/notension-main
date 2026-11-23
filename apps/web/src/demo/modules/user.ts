@@ -23,7 +23,7 @@ import {
   REMOVE_FROM_FAVOURITE,
   FAVORITE_INFO,
 } from "@/api-endpoints/api-endpoint";
-import { demoResponse } from "../demoAdapter";
+import { demoResponse, type DemoRequest, type DemoRoute } from "../demoAdapter";
 import { DEFAULT_DEMO_LOCATION } from "../demoLocations";
 import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "../demoUser";
 
@@ -34,16 +34,32 @@ const randomHexId = () =>
     Math.floor(Math.random() * 16).toString(16),
   ).join("");
 
-const isBdMobile = (value) => /^01\d{9}$/.test(String(value || "").trim());
+const isBdMobile = (value: unknown) => /^01\d{9}$/.test(String(value || "").trim());
 
-const fail = (message) => demoResponse(400, { success: false, message });
+const fail = (message: string) => demoResponse(400, { success: false, message });
 
 // ---- Users -------------------------------------------------------------
 
 let nextCustomId = 2;
 
-// useUser.js reads location.coordinates as [latitude, longitude].
-const users = [
+// useUser.ts reads location.coordinates as [latitude, longitude].
+type DemoCustomer = {
+  _id: string;
+  custom_id: string;
+  customer_name: string;
+  customer_address: string;
+  email: string;
+  contact_no: string;
+  alternative_contact_no: string;
+  district_id: string;
+  district_name_by_location: string;
+  district_area_id: string;
+  district_subarea_id: string;
+  ref_contact: string;
+  location: { type: "Point"; coordinates: number[] };
+};
+
+const users: DemoCustomer[] = [
   {
     _id: "65a1d0c0e4b0a1b2c3d4e5f6",
     custom_id: "CUS0000001",
@@ -67,10 +83,10 @@ const users = [
   },
 ];
 
-const findUser = ({ _id, contact_no } = {}) =>
+const findUser = ({ _id, contact_no }: { _id?: string; contact_no?: string } = {}) =>
   users.find((u) => (_id && u._id === _id) || u.contact_no === contact_no);
 
-const sendOtp = ({ body }) => {
+const sendOtp = ({ body }: DemoRequest) => {
   const contactNo = String(body?.contact_no || "").trim();
   if (!isBdMobile(contactNo)) return fail("Invalid mobile number");
 
@@ -88,13 +104,15 @@ const sendOtp = ({ body }) => {
 };
 
 // The same endpoint logs in, registers, and updates name/address.
-// useUser.js sends latitude/longitude swapped (longitude: userLatitude), so
+// useUser.ts sends latitude/longitude swapped (longitude: userLatitude), so
 // [body.longitude, body.latitude] is [latitude, longitude].
-const register = ({ body }) => {
+const register = ({ body }: DemoRequest) => {
   const contactNo = String(body?.contact_no || "").trim();
   if (!isBdMobile(contactNo)) return fail("Invalid mobile number");
 
-  const fields = {
+  const fields: Omit<DemoCustomer, "_id" | "custom_id" | "location"> & {
+    location?: DemoCustomer["location"];
+  } = {
     customer_name: body.customer_name || "",
     customer_address: body.customer_address || "",
     email: body.email || "",
@@ -117,7 +135,7 @@ const register = ({ body }) => {
     return { success: true, message: "Login successful", result: existing };
   }
 
-  const user = {
+  const user: DemoCustomer = {
     _id: randomHexId(),
     custom_id: `CUS${String(nextCustomId++).padStart(7, "0")}`,
     ...fields,
@@ -137,15 +155,23 @@ const register = ({ body }) => {
 // Kept per customer and merchantType. The reducers append `result` to their
 // lists, so add/push answer with an array holding only the new entry.
 
-const favourites = { stores: {}, items: {}, list: {} };
+type FavouriteKind = "stores" | "items" | "list";
+// Saved entries are the request bodies the app sent (minus the customer).
+type FavouriteEntry = Record<string, unknown>;
 
-const listFor = (kind, body) => {
-  const key = `${body?.customerInfo}:${Number(body?.merchantType)}`;
-  if (!favourites[kind][key]) favourites[kind][key] = [];
-  return favourites[kind][key];
+const favourites: Record<FavouriteKind, Record<string, FavouriteEntry[]>> = {
+  stores: {},
+  items: {},
+  list: {},
 };
 
-const toEntry = (body) => {
+const listFor = (kind: FavouriteKind, body: DemoRequest["body"]) => {
+  const key = `${body?.customerInfo}:${Number(body?.merchantType)}`;
+  const lists = favourites[kind];
+  return (lists[key] ??= []);
+};
+
+const toEntry = (body: DemoRequest["body"]): FavouriteEntry => {
   const { customerInfo, custom_customer_id, ...rest } = body;
   return {
     _id: randomHexId(),
@@ -154,13 +180,13 @@ const toEntry = (body) => {
   };
 };
 
-const favouriteHandlers = (kind, idField) => {
-  const guard = (body) =>
+const favouriteHandlers = (kind: FavouriteKind, idField: string) => {
+  const guard = (body: DemoRequest["body"]) =>
     !body?.customerInfo || !body?.[idField]
       ? fail("customerInfo and " + idField + " are required")
       : null;
 
-  const save = (replace) => ({ body }) => {
+  const save = (replace: boolean) => ({ body }: DemoRequest) => {
     const error = guard(body);
     if (error) return error;
 
@@ -173,7 +199,7 @@ const favouriteHandlers = (kind, idField) => {
     return { success: true, message: "Added to favourites", result: [entry] };
   };
 
-  const remove = ({ body }) => {
+  const remove = ({ body }: DemoRequest) => {
     const error = guard(body);
     if (error) return error;
 
@@ -184,7 +210,7 @@ const favouriteHandlers = (kind, idField) => {
   };
 
   // Not called by the app today; answers with what add/push stored.
-  const info = ({ query, body }) => {
+  const info = ({ query, body }: DemoRequest) => {
     const source = { ...query, ...body };
     if (!source.customerInfo) return fail("customerInfo is required");
     if (source.merchantType !== undefined && source.merchantType !== "") {
@@ -204,13 +230,18 @@ const stores = favouriteHandlers("stores", "storeId");
 const items = favouriteHandlers("items", "productId");
 const list = favouriteHandlers("list", "mongodbId");
 
-const post = (path, handler) => ({ service: "USER", method: "POST", path, handler });
-const infoRoutes = (path, handler) => [
+const post = (path: string, handler: DemoRoute["handler"]): DemoRoute => ({
+  service: "USER",
+  method: "POST",
+  path,
+  handler,
+});
+const infoRoutes = (path: string, handler: DemoRoute["handler"]): DemoRoute[] => [
   { service: "USER", method: "GET", path, handler },
   post(path, handler),
 ];
 
-export const routes = [
+export const routes: DemoRoute[] = [
   post(OTP_FOR_REGISTRATION, sendOtp),
   post(USER_REGISTRATION, register),
 

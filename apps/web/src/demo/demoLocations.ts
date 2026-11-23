@@ -3,7 +3,18 @@
 // matches against, so picking these places on the map also finds demo data.
 // Any other district shows the normal "nothing found" states.
 
-export const DEMO_LOCATIONS = [
+export type DemoLocation = {
+  key: string;
+  label: string;
+  districtId: string;
+  districtName: string;
+  latitude: number;
+  longitude: number;
+};
+
+// A tuple, so DEMO_LOCATIONS[0] and `const [DHAKA, CHITTAGONG] = ...` are
+// known to exist.
+export const DEMO_LOCATIONS: [DemoLocation, DemoLocation] = [
   {
     key: "dhaka",
     label: "Dhaka (Gulshan)",
@@ -26,7 +37,7 @@ export const DEFAULT_DEMO_LOCATION = DEMO_LOCATIONS[0];
 
 export const DEMO_DISTRICT_IDS = DEMO_LOCATIONS.map((l) => l.districtId);
 
-export const isDemoDistrict = (districtId) =>
+export const isDemoDistrict = (districtId: string) =>
   DEMO_DISTRICT_IDS.includes(districtId);
 
 // Same shape the map picker saves with SAVE_USER_CURRENT_LOCATION.

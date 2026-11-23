@@ -3,7 +3,7 @@
 import { usePreferencesStore } from "@/stores/preferencesStore";
 import { useParams, useRouter } from "next/navigation";
 
-const ROUTE_BY_TYPE = {
+const ROUTE_BY_TYPE: Record<string, string | undefined> = {
   login: "/",
   doctor: "/medical-services/doctor",
   eyeCareCenter: "/medical-services/eye-care-center",
@@ -17,7 +17,11 @@ const ROUTE_BY_TYPE = {
 // Where to go after a successful login, based on what opened the login
 // (`type`), or `redirectTo` when the caller knows the exact page. Shared by
 // OTP login and demo-user login.
-export const useAfterLogin = (type = "login", onClose = () => {}, redirectTo) => {
+export const useAfterLogin = (
+  type = "login",
+  onClose: () => void = () => {},
+  redirectTo?: string,
+) => {
   const router = useRouter();
   const params = useParams();
 

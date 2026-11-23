@@ -6,9 +6,9 @@ import { DEMO_LOCATIONS } from "../../demoLocations";
 const [DHAKA, CHITTAGONG] = DEMO_LOCATIONS;
 
 // Deterministic 24-char hex ids: "6650" + 4-char tag + 16-digit counter.
-const oid = (tag, n) => `6650${tag}${n.toString(16).padStart(16, "0")}`;
+const oid = (tag: string, n: number) => `6650${tag}${n.toString(16).padStart(16, "0")}`;
 
-// Custom type ids the UI hard-codes (src/components/StoreModule/storeModules.js).
+// Custom type ids the UI hard-codes (src/components/StoreModule/storeModules.ts).
 export const GROCERY_CUSTOM_TYPES = {
   specialOffer: "64f5a306baa57a4707524d6e",
   dealOfTheDay: "6525306cf79d9e77f12a2a63",
@@ -35,7 +35,7 @@ const storeDefaults = {
   closing_time: "11:00 PM",
 };
 
-const store = (info) => ({
+const store = <T extends { shop_latitude: number; shop_longitude: number }>(info: T) => ({
   ...storeDefaults,
   ...info,
   location: {
@@ -157,7 +157,11 @@ export const DEMO_GROCERY_STORES = [
 // ------------------------------------------------------ types & subtypes
 
 // [typeId, name, [[subtypeId, name, image], ...]]
-const TYPE_TREE = [
+const TYPE_TREE: [
+  typeId: string,
+  name: string,
+  subtypes: [subtypeId: string, name: string, image: string][],
+][] = [
   ["6650b00100000000000000c1", "Rice & Grains", [
     ["6650c00100000000000000d1", "Rice", "grocery/sub-rice.webp"],
     ["6650c00100000000000000d2", "Flour & Atta", "grocery/sub-flour.webp"],
@@ -225,7 +229,20 @@ const { specialOffer: SO, dealOfTheDay: DD, popularItem: PI } =
   GROCERY_CUSTOM_TYPES;
 
 // [slug, english, bengali, pack, unit, mrp, sale, subtype, customTypes, extra]
-const PRODUCT_ROWS = [
+type ProductRow = [
+  slug: string,
+  english: string,
+  bengali: string,
+  pack: string,
+  unit: string,
+  mrp: number,
+  sale: number,
+  subtype: string,
+  customTypes: string[],
+  extra?: { is_available?: boolean; stock_qty?: number },
+];
+
+const PRODUCT_ROWS: ProductRow[] = [
   ["chinigura-rice", "Chinigura Aromatic Rice", "চিনিগুড়া চাল", "1 kg", "kg", 160, 150, "Rice", [PI]],
   ["miniket-rice", "Miniket Rice", "মিনিকেট চাল", "5 kg", "kg", 400, 375, "Rice", [SO]],
   ["nazirshail-rice", "Nazirshail Rice", "নাজিরশাইল চাল", "5 kg", "kg", 420, 420, "Rice", []],
@@ -270,7 +287,8 @@ const PRODUCT_ROWS = [
 
 export const DEMO_GROCERY_PRODUCTS = PRODUCT_ROWS.map(
   ([slug, eng, beng, pack, unit, mrp, sale, subName, customTypes, extra], i) => {
-    const subtype = SUB[subName];
+    // Every row names a subtype from TYPE_TREE.
+    const subtype = SUB[subName]!;
     return {
       _id: oid("d001", i + 1),
       slug,
@@ -296,7 +314,7 @@ export const DEMO_GROCERY_PRODUCTS = PRODUCT_ROWS.map(
 
 // Which products each store carries (indexes into DEMO_GROCERY_PRODUCTS).
 const ALL = DEMO_GROCERY_PRODUCTS.map((_, i) => i);
-const STORE_RANGE = {
+const STORE_RANGE: Record<string, number[] | undefined> = {
   GS260001: ALL,
   GS260002: ALL.filter((i) => i % 3 !== 2),
   GS260003: ALL.filter((i) => i % 4 !== 1),
@@ -305,12 +323,13 @@ const STORE_RANGE = {
   GS260012: [1, 2, 5, 7, 8, 15, 16, 18, 22, 25, 27, 31, 34, 38],
 };
 
-const percentOff = (mrp, sale) =>
+const percentOff = (mrp: number, sale: number) =>
   sale < mrp ? Math.round(((mrp - sale) / mrp) * 100) : 0;
 
 export const DEMO_GROCERY_ITEMS = DEMO_GROCERY_STORES.flatMap((shop, s) =>
   (STORE_RANGE[shop.custom_store_id] || []).map((p) => {
-    const product = DEMO_GROCERY_PRODUCTS[p];
+    // STORE_RANGE only holds indexes of DEMO_GROCERY_PRODUCTS.
+    const product = DEMO_GROCERY_PRODUCTS[p]!;
     const { _id: productId, slug, ...rest } = product;
     return {
       ...rest,
@@ -328,7 +347,7 @@ export const DEMO_GROCERY_ITEMS = DEMO_GROCERY_STORES.flatMap((shop, s) =>
 
 // ------------------------------------------------------------- sliders
 
-const slide = (n, file) => ({ _id: oid("f001", n), file_name: `grocery/${file}` });
+const slide = (n: number, file: string) => ({ _id: oid("f001", n), file_name: `grocery/${file}` });
 
 export const DEMO_GROCERY_SLIDER = [
   {
@@ -350,13 +369,14 @@ export const DEMO_GROCERY_SLIDER = [
 
 // A delivered order every logged-in demo customer sees in "Order History".
 export const DEMO_GROCERY_PAST_ORDERS = (() => {
-  const shop = DEMO_GROCERY_STORES[0];
+  // The first store carries every product, so each line is found.
+  const shop = DEMO_GROCERY_STORES[0]!;
   const lines = [0, 7, 15, 24].map((p) => {
     const item = DEMO_GROCERY_ITEMS.find(
       (i) =>
         i.groceryStoreId === shop._id &&
-        i.productInfoTable === DEMO_GROCERY_PRODUCTS[p]._id,
-    );
+        i.productInfoTable === DEMO_GROCERY_PRODUCTS[p]!._id,
+    )!;
     return {
       _id: item._id,
       productInfoTable: item.productInfoTable,

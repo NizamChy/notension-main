@@ -13,7 +13,7 @@ import {
   NEAREST_FOOD_STORE,
   EXPLORE_FOOD_MODULE,
 } from "@/api-endpoints/api-endpoint";
-import { demoResponse } from "../demoAdapter";
+import { demoResponse, type DemoRoute } from "../demoAdapter";
 import { isDemoDistrict } from "../demoLocations";
 
 import {
@@ -34,7 +34,7 @@ import {
 } from "./food/data";
 
 // Orders placed in demo mode (kept in memory for the page session).
-const placedOrders = [];
+const placedOrders: Record<string, unknown>[] = [];
 let orderCounter = 0;
 
 export { DEMO_FOOD_STORE_CATEGORIES, DEMO_FOOD_PRODUCT_CATEGORIES, DEMO_FOOD_STORES, DEMO_FOOD_ITEMS, DEMO_FOOD_SLIDERS };
@@ -43,7 +43,7 @@ export { DEMO_FOOD_STORE_CATEGORIES, DEMO_FOOD_PRODUCT_CATEGORIES, DEMO_FOOD_STO
 // Routes
 // ---------------------------------------------------------------------------
 
-export const routes = [
+export const routes: DemoRoute[] = [
   {
     service: "FOOD",
     method: "GET",
@@ -80,7 +80,8 @@ export const routes = [
             distance: distanceMetres(lat, lng, s.shop_latitude, s.shop_longitude),
           }),
         }))
-        .filter((s) => !hasPoint || !maxDistance || s.distance <= maxDistance)
+        // With a point, every store has a distance.
+        .filter((s) => !hasPoint || !maxDistance || s.distance! <= maxDistance)
         .sort((a, b) => (a.distance || 0) - (b.distance || 0));
 
       return ok(stores);

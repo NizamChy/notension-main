@@ -1,6 +1,6 @@
 // Demo routes for the HEALTH_CARE backend (doctors, consultation centers,
 // hospitals, diagnostic / eye / dental centers, patients and appointments).
-// See src/demo/README.md for the contract. The data is in ./healthCare/data.js.
+// See src/demo/README.md for the contract. The data is in ./healthCare/data.ts.
 
 import {
   GET_PATIENTS,
@@ -20,7 +20,7 @@ import {
   EXPLORE_MEDICAL_SERVICE_PROVIDER,
   FIND_DOCTOR_BY_CONSULTATION_CENTER,
 } from "@/api-endpoints/api-endpoint";
-import { demoResponse } from "../demoAdapter";
+import { demoResponse, type DemoRequest, type DemoRoute } from "../demoAdapter";
 import { DEMO_LOCATIONS, isDemoDistrict } from "../demoLocations";
 import {
   oid,
@@ -44,11 +44,33 @@ const [DHAKA] = DEMO_LOCATIONS;
 // In-memory writes (patients, appointments)
 // ---------------------------------------------------------------------------
 
-const patients = [];
-const appointments = [];
+type Center = (typeof DEMO_CENTERS)[number];
+type Chamber = (typeof DEMO_CHAMBERS)[number];
+
+// A patient as toPatient builds it; the profile fields are strings.
+type Patient = {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: { user_id?: unknown; user?: unknown };
+  [field: string]: unknown;
+};
+
+type Appointment = {
+  doctor_info: unknown;
+  consultation_center_info: unknown;
+  appointment_date: unknown;
+  time_slot: unknown;
+  patient_info: { id?: unknown; patient_name: unknown };
+  serial_no: number;
+  [field: string]: unknown;
+};
+
+const patients: Patient[] = [];
+const appointments: Appointment[] = [];
 let writeCounter = 0;
 
-const newId = (kind) => {
+const newId = (kind: string) => {
   writeCounter += 1;
   const stamp = Date.now().toString(16).slice(-10).padStart(10, "0");
   return `6650${kind}${stamp}${writeCounter.toString(16).padStart(8, "0")}`;
@@ -58,12 +80,22 @@ const newId = (kind) => {
 // Helpers
 // ---------------------------------------------------------------------------
 
-const toNumber = (value) => {
+const toNumber = (value: unknown) => {
   const n = Number(value);
   return Number.isFinite(n) && n !== 0 ? n : null;
 };
 
-const userPoint = ({ latitude, longitude, districtId }) => {
+type Point = { lat: number; lng: number };
+
+const userPoint = ({
+  latitude,
+  longitude,
+  districtId,
+}: {
+  latitude?: unknown;
+  longitude?: unknown;
+  districtId?: unknown;
+}): Point => {
   const lat = toNumber(latitude);
   const lng = toNumber(longitude);
   if (lat !== null && lng !== null) return { lat, lng };
@@ -73,8 +105,8 @@ const userPoint = ({ latitude, longitude, districtId }) => {
 };
 
 // Distance in metres (the center card shows distance / 1000 km).
-const distanceMeters = (a, b) => {
-  const rad = (deg) => (deg * Math.PI) / 180;
+const distanceMeters = (a: Point, b: Point) => {
+  const rad = (deg: number) => (deg * Math.PI) / 180;
   const dLat = rad(b.lat - a.lat);
   const dLng = rad(b.lng - a.lng);
   const h =
@@ -83,39 +115,39 @@ const distanceMeters = (a, b) => {
   return Math.round(2 * 6371000 * Math.asin(Math.sqrt(h)));
 };
 
-const centerPoint = (c) => ({ lat: c.latitude, lng: c.longitude });
+const centerPoint = (c: { latitude: number; longitude: number }) => ({ lat: c.latitude, lng: c.longitude });
 
-const paginate = (list, page) => {
+const paginate = <T,>(list: T[], page: unknown) => {
   const p = Math.max(1, Number(page) || 1);
   return list.slice((p - 1) * PAGE_SIZE, p * PAGE_SIZE);
 };
 
 // "Consultation Center" lists every center where doctors sit; the other
 // types match the center's own type.
-const matchesType = (c, centerType) => {
+const matchesType = (c: Center, centerType: unknown) => {
   if (!centerType || centerType === "Consultation Center") {
     return DEMO_CHAMBERS.some((ch) => ch.consultationCenterInfo._id === c._id);
   }
   return c.center_type === centerType;
 };
 
-const centersFor = (districtId, centerType) =>
+const centersFor = (districtId: string, centerType: unknown) =>
   isDemoDistrict(districtId)
     ? DEMO_CENTERS.filter(
         (c) => c.district_id === districtId && matchesType(c, centerType),
       )
     : [];
 
-const chambersInDistrict = (districtId) =>
+const chambersInDistrict = (districtId: string) =>
   isDemoDistrict(districtId)
     ? DEMO_CHAMBERS.filter((ch) => ch.district_id === districtId)
     : [];
 
-const chambersAtCenter = (centerId) =>
+const chambersAtCenter = (centerId: unknown) =>
   DEMO_CHAMBERS.filter((ch) => ch.consultationCenterInfo._id === centerId);
 
-const firstChamberPerDoctor = (list) => {
-  const seen = new Set();
+const firstChamberPerDoctor = <T extends Pick<Chamber, "doctorInfo">>(list: T[]) => {
+  const seen = new Set<string>();
   return list.filter((ch) => {
     if (seen.has(ch.doctorInfo._id)) return false;
     seen.add(ch.doctorInfo._id);
@@ -129,19 +161,20 @@ const firstChamberPerDoctor = (list) => {
 
 // A patient as the API returns it: every field set, blank when not given.
 const PATIENT_FIELDS = ["patient_name", "contact", "alternative_contact", "date_of_birth", "gender", "email", "address"];
-const toPatient = (body, base = {}) => {
+const toPatient = (body: DemoRequest["body"], base: Partial<Patient> = {}): Patient => {
   const now = new Date().toISOString();
-  const patient = { ...base, createdBy: base.createdBy ?? body.createdBy, updatedAt: now };
+  const patient: Partial<Patient> = { ...base, createdBy: base.createdBy ?? body.createdBy, updatedAt: now };
   for (const field of PATIENT_FIELDS) {
     const value = body[field] ?? base[field];
     patient[field] = typeof value === "string" ? value.trim() : "";
   }
   patient._id = base._id ?? newId("9a");
   patient.createdAt = base.createdAt ?? now;
-  return patient;
+  // _id, createdAt and updatedAt are all set above.
+  return patient as Patient;
 };
 
-export const routes = [
+export const routes: DemoRoute[] = [
   // Medical services home banners.
   {
     service: SERVICE,
@@ -314,7 +347,7 @@ export const routes = [
     path: EXPLORE_CONSULTATION_CENTER,
     handler: ({ query }) => {
       const list = chambersAtCenter(query.CenterID);
-      const departments = [];
+      const departments: { _id: string; deptInfo: Chamber["deptInfo"] }[] = [];
       list.forEach((ch) => {
         if (!departments.some((d) => d._id === ch.deptInfo._id)) {
           departments.push({ _id: ch.deptInfo._id, deptInfo: ch.deptInfo });
@@ -381,7 +414,7 @@ export const routes = [
     method: "POST",
     path: BOOK_APPOINTMENT,
     handler: ({ body }) => {
-      const sameSlot = (a) =>
+      const sameSlot = (a: Appointment) =>
         a.doctor_info === body.doctor_info &&
         a.consultation_center_info === body.consultation_center_info &&
         a.appointment_date === body.appointment_date &&
@@ -415,7 +448,7 @@ export const routes = [
           ch.doctorInfo._id === body.doctor_info &&
           ch.consultationCenterInfo._id === body.consultation_center_info,
       );
-      const saved = {
+      const saved: Appointment = {
         doctor_info: body.doctor_info,
         consultation_center_info: body.consultation_center_info,
         chamber_info: chamber?._id ?? body.consultation_center_info,

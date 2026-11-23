@@ -3,7 +3,7 @@
 //
 // UI notes that shape this data:
 // - ServiceCard picks each service icon from its English name
-//   (src/utils/allCareServiceIcon.js -> services-1.png ... services-45.png);
+//   (src/utils/allCareServiceIcon.ts -> services-1.png ... services-45.png);
 //   names that match no rule get a generic icon.
 // - Banner and provider images are built as `${SERVICE_BANNER_IMAGES}/<file>`
 //   and `${SERVICE_PROVIDER_IMAGES}/<file>`; the demo rewrite drops the
@@ -11,20 +11,20 @@
 //   paths under public/demo/.
 // - Provider distance is in metres (the card divides by 1000).
 
-import { DEMO_LOCATIONS } from "../../demoLocations";
+import { DEMO_LOCATIONS, type DemoLocation } from "../../demoLocations";
 
 const [DHAKA, CHITTAGONG] = DEMO_LOCATIONS;
 
-const BANNER = (name) => `all-care/banners/${name}.webp`;
-const PROVIDER_BANNER = (key) => `all-care/providers/${key}.webp`;
-const PROVIDER_LOGO = (key) => `all-care/logos/${key}.svg`;
+const BANNER = (name: string) => `all-care/banners/${name}.webp`;
+const PROVIDER_BANNER = (key: string) => `all-care/providers/${key}.webp`;
+const PROVIDER_LOGO = (key: string) => `all-care/logos/${key}.svg`;
 
 // ---------------------------------------------------------------------------
 // Services (order matches public/images/all-care-services/services/*.png)
 // ---------------------------------------------------------------------------
 
 // [id, English name, Bangla name, category banner]
-const SERVICE_ROWS = [
+const SERVICE_ROWS: [string, string, string, keyof typeof CATEGORY_PROMO][] = [
   ["6a2c10000000000000000001", "Banking & Loan Assistance", "ব্যাংকিং ও লোন সহায়তা", "cat-professional"],
   ["6a2c10000000000000000002", "Courier & Parcel Delivery", "কুরিয়ার ও পার্সেল ডেলিভারি", "cat-transport"],
   ["6a2c10000000000000000003", "Legal Advice & Documentation", "আইনি পরামর্শ ও দলিল", "cat-professional"],
@@ -110,7 +110,7 @@ const S = Object.fromEntries(
 // Home page sliders (careSlider[0].first_slider ... seventh_slider)
 // ---------------------------------------------------------------------------
 
-const slide = (id, name) => ({ _id: id, file_name: BANNER(name) });
+const slide = (id: string, name: string) => ({ _id: id, file_name: BANNER(name) });
 
 export const CARE_SLIDERS = [
   {
@@ -199,6 +199,23 @@ const provider = ({
   reviews,
   years,
   details,
+}: {
+  id: string;
+  key: string;
+  name: string;
+  district: DemoLocation;
+  address: string;
+  lat: number;
+  lng: number;
+  person: string;
+  phone: string;
+  altPhone: string;
+  // Serial numbers of ALL_SERVICES.
+  services: number[];
+  rating: number;
+  reviews: number;
+  years: number;
+  details: string[];
 }) => ({
   _id: id,
   provider_name: name,

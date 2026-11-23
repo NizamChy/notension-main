@@ -1,4 +1,10 @@
-import toast from "react-hot-toast";
+import toast, {
+  type DefaultToastOptions,
+  type Renderable,
+  type Toast,
+  type ToastOptions,
+  type ValueOrFunction,
+} from "react-hot-toast";
 import {
   HiExclamationTriangle,
   HiInformationCircle,
@@ -14,6 +20,8 @@ export {
 
 // One place for every toast on the site. The look (card, colours, icons,
 // close button, stack limit) lives in components/shared/Toast/AppToaster.
+
+type ToastMessage = ValueOrFunction<Renderable, Toast>;
 
 // How long each kind of toast stays up (ms). Errors stay longer so they can
 // be read; loading stays until it is updated or dismissed.
@@ -33,20 +41,26 @@ export const TOAST_ACCENT = {
   loading: "#0c3f8e",
 };
 
-const accent = (kind) => ({ borderLeft: `4px solid ${TOAST_ACCENT[kind]}` });
+const accent = (kind: keyof typeof TOAST_ACCENT) => ({
+  borderLeft: `4px solid ${TOAST_ACCENT[kind]}`,
+});
 
-const ALERT = { role: "alert", "aria-live": "assertive" };
+const ALERT: Toast["ariaProps"] = { role: "alert", "aria-live": "assertive" };
 
 // The same text firing twice updates one toast instead of stacking two.
-const idFor = (kind, message, options) =>
+const idFor = (kind: string, message: ToastMessage, options?: ToastOptions) =>
   options?.id ?? (typeof message === "string" ? `${kind}:${message}` : undefined);
 
-const withDefaults = (kind, message, options = {}) => ({
+const withDefaults = (
+  kind: string,
+  message: ToastMessage,
+  options: ToastOptions = {},
+) => ({
   ...options,
   id: idFor(kind, message, options),
 });
 
-const OtpMessage = ({ code }) => (
+const OtpMessage = ({ code }: { code: string | number }) => (
   <div className="min-w-0">
     <p className="text-sm font-semibold text-gray-900">
       Your verification code
@@ -64,16 +78,16 @@ const OtpMessage = ({ code }) => (
 );
 
 export const notify = {
-  success: (message, options) =>
+  success: (message: ToastMessage, options?: ToastOptions) =>
     toast.success(message, withDefaults("success", message, options)),
 
-  error: (message = GENERIC_ERROR, options) =>
+  error: (message: ToastMessage = GENERIC_ERROR, options?: ToastOptions) =>
     toast.error(message, {
       ariaProps: ALERT,
       ...withDefaults("error", message, options),
     }),
 
-  info: (message, options) =>
+  info: (message: ToastMessage, options?: ToastOptions) =>
     toast(message, {
       icon: <HiInformationCircle size={22} color={TOAST_ACCENT.info} />,
       duration: TOAST_DURATION.info,
@@ -81,7 +95,7 @@ export const notify = {
       style: { ...accent("info"), ...options?.style },
     }),
 
-  warning: (message, options) =>
+  warning: (message: ToastMessage, options?: ToastOptions) =>
     toast(message, {
       icon: <HiExclamationTriangle size={22} color={TOAST_ACCENT.warning} />,
       duration: TOAST_DURATION.warning,
@@ -90,22 +104,30 @@ export const notify = {
       style: { ...accent("warning"), ...options?.style },
     }),
 
-  loading: (message, options) =>
+  loading: (message: ToastMessage, options?: ToastOptions) =>
     toast.loading(message, withDefaults("loading", message, options)),
 
-  promise: (promise, messages, options) =>
+  promise: <T,>(
+    promise: Promise<T> | (() => Promise<T>),
+    messages?: {
+      loading?: Renderable;
+      success?: ValueOrFunction<Renderable, T>;
+      error?: ValueOrFunction<Renderable, unknown>;
+    },
+    options?: DefaultToastOptions,
+  ) =>
     toast.promise(
       promise,
       {
         loading: messages?.loading ?? "Please wait…",
         success: messages?.success ?? "Done",
-        error: messages?.error ?? ((error) => errorMessage(error)),
+        error: messages?.error ?? ((error: unknown) => errorMessage(error)),
       },
       options
     ),
 
   // Shown when the API returns the code itself (no SMS provider yet).
-  otp: (code) =>
+  otp: (code: string | number) =>
     toast(<OtpMessage code={code} />, {
       id: "otp",
       icon: <HiKey size={22} color={TOAST_ACCENT.info} />,
@@ -113,7 +135,7 @@ export const notify = {
       style: accent("info"),
     }),
 
-  dismiss: (id) => toast.dismiss(id),
+  dismiss: (id?: string) => toast.dismiss(id),
 };
 
 export default notify;

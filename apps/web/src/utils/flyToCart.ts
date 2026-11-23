@@ -9,15 +9,15 @@
 const FLIGHT_MS = 750;
 const MAX_SIZE = 160;
 
-const isVisible = (el) => {
+const isVisible = (el: Element) => {
   const rect = el.getBoundingClientRect();
   return rect.width > 8 && rect.height > 8;
 };
 
-const findSourceImage = (from) => {
-  let el = from;
+const findSourceImage = (from: Element): HTMLImageElement | null => {
+  let el: Element | null = from;
   for (let depth = 0; el && depth < 12; depth += 1, el = el.parentElement) {
-    let best = null;
+    let best: HTMLImageElement | null = null;
     let bestArea = 0;
     el.querySelectorAll?.("img").forEach((img) => {
       if (!img.currentSrc && !img.src) return;
@@ -39,7 +39,7 @@ const findCartTarget = () =>
     return rect.width > 0 && rect.height > 0;
   }) || null;
 
-const bump = (target) => {
+const bump = (target: Element) => {
   // `scale` (not `transform`) so the button keeps its own translate.
   target.animate?.(
     [{ scale: "1" }, { scale: "1.18" }, { scale: "0.95" }, { scale: "1" }],
@@ -48,11 +48,11 @@ const bump = (target) => {
 };
 
 /**
- * @param {Element | null | undefined} from  the clicked element
- * @returns {Promise<void>} resolves when the photo has landed (right away if
- *   there is nothing to animate), so callers can open the cart afterwards.
+ * @param from  the clicked element
+ * @returns resolves when the photo has landed (right away if there is
+ *   nothing to animate), so callers can open the cart afterwards.
  */
-export function flyToCart(from) {
+export function flyToCart(from: Element | null | undefined): Promise<void> {
   if (typeof window === "undefined" || !from?.getBoundingClientRect) {
     return Promise.resolve();
   }
@@ -123,7 +123,7 @@ export function flyToCart(from) {
     { duration: FLIGHT_MS, easing: "cubic-bezier(0.45, 0, 0.55, 1)" },
   );
 
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     let done = false;
     const finish = () => {
       if (done) return;

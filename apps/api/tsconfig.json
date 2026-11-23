@@ -9,6 +9,8 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // The parity tests load the web app's demo routes, which include TSX.
+    "jsx": "react-jsx",
     "types": ["node"],
     "paths": { "@/*": ["../web/src/*"] }
   },

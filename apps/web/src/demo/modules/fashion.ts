@@ -1,8 +1,8 @@
 // Demo routes for the fashion & lifestyle backend (FASHION_BASE_URL).
-// See src/demo/README.md for the contract. Data lives in ./fashion/data.js.
+// See src/demo/README.md for the contract. Data lives in ./fashion/data.ts.
 //
 // The fashion components call the global axios with absolute URLs; demo mode
-// swaps axios.defaults.adapter (src/demo/installDemoMode.js), so the same
+// swaps axios.defaults.adapter (src/demo/installDemoMode.ts), so the same
 // demoAdapter answers them under service "FASHION".
 
 import {
@@ -21,7 +21,7 @@ import {
   ALL_CATEGORY_BY_STORE,
   ALL_SUB_CATEGORY_BY_STORE,
 } from "@/api-endpoints/api-endpoint";
-import { demoResponse } from "../demoAdapter";
+import { demoResponse, type DemoRequest, type DemoRoute } from "../demoAdapter";
 import {
   MEN_TYPE_ID,
   WOMEN_TYPE_ID,
@@ -47,25 +47,25 @@ export {
   fashionSubCategories,
 };
 
-const ok = (data) => ({ success: true, message: "Success", data });
+const ok = (data: unknown) => ({ success: true, message: "Success", data });
 
-const productsOfType = (typeId) =>
+const productsOfType = (typeId: string) =>
   fashionProducts.filter((p) => p.type_info._id === typeId);
 
-const storeProducts = (storeId) =>
+const storeProducts = (storeId: string) =>
   fashionProducts.filter((p) => p.store_info._id === storeId);
 
-const unique = (values) => [...new Set(values)];
+const unique = <T,>(values: T[]) => [...new Set(values)];
 
 // Id of a store/entity link document (24 hex chars, stable per pair).
-const linkId = (entityId, storeId) =>
+const linkId = (entityId: string, storeId: string) =>
   `${entityId.slice(0, 8)}${entityId.slice(-8)}${storeId.slice(-8)}`;
 
-const isSet = (value) => value !== undefined && value !== null && value !== "";
+const isSet = (value: unknown) => value !== undefined && value !== null && value !== "";
 
 // PUT /product-info-by-type/:typeId with any of
 // { store_id, category_info, sub_category_info, is_popular, search_text }.
-const filterProductsByType = ({ params, body }) => {
+const filterProductsByType = ({ params, body }: DemoRequest) => {
   const {
     store_id: storeId,
     category_info: categoryId,
@@ -101,7 +101,7 @@ const filterProductsByType = ({ params, body }) => {
   return ok(products);
 };
 
-const typesByStore = ({ params }) => {
+const typesByStore = ({ params }: DemoRequest) => {
   const products = storeProducts(params.storeId);
   const typeIds = unique(products.map((p) => p.type_info._id));
   return ok(
@@ -115,7 +115,7 @@ const typesByStore = ({ params }) => {
   );
 };
 
-const categoriesByStore = ({ params }) => {
+const categoriesByStore = ({ params }: DemoRequest) => {
   const products = storeProducts(params.storeId);
   const categoryIds = unique(products.map((p) => p.category_info._id));
   return ok(
@@ -135,7 +135,7 @@ const categoriesByStore = ({ params }) => {
   );
 };
 
-const subCategoriesByStore = ({ params }) => {
+const subCategoriesByStore = ({ params }: DemoRequest) => {
   const products = storeProducts(params.storeId);
   const subIds = unique(products.map((p) => p.sub_category_info._id));
   return ok(
@@ -158,7 +158,7 @@ const subCategoriesByStore = ({ params }) => {
 
 // ---------------------------------------------------------------- orders --
 
-const createdOrders = [];
+const createdOrders: Record<string, unknown>[] = [];
 let orderSeq = 0;
 
 const newOrderId = () => {
@@ -167,17 +167,17 @@ const newOrderId = () => {
   return `f0${stamp}${orderSeq.toString(16).padStart(10, "0")}`;
 };
 
-const orderNumber = (date) => {
+const orderNumber = (date: Date) => {
   const ymd = date.toISOString().slice(0, 10).replace(/-/g, "");
   return `FSN-${ymd}-${String(100300 + createdOrders.length + 1)}`;
 };
 
-const toNumber = (value) => {
+const toNumber = (value: unknown) => {
   const n = Number(value);
   return Number.isFinite(n) ? n : 0;
 };
 
-const createOrder = ({ body }) => {
+const createOrder = ({ body }: DemoRequest) => {
   const items = Array.isArray(body?.orderItems) ? body.orderItems : [];
   if (items.length === 0) {
     return demoResponse(400, {
@@ -187,7 +187,8 @@ const createOrder = ({ body }) => {
   }
 
   const now = new Date();
-  const orderItems = items.map((item) => {
+  // Cart lines as the app sent them.
+  const orderItems = items.map((item: DemoRequest["body"]) => {
     const product = fashionProducts.find((p) => p._id === item?._id);
     const image = item?.ordered_img || product?.web_image || null;
     // Like the API: the catalogue fills what the cart line leaves out.
@@ -204,7 +205,7 @@ const createOrder = ({ body }) => {
     };
   });
   const subTotal = orderItems.reduce(
-    (sum, item) => sum + item.sale_price * item.quantity,
+    (sum: number, item: { sale_price: number; quantity: number }) => sum + item.sale_price * item.quantity,
     0,
   );
   const deliveryCharge = toNumber(body?.deliveryCharge);
@@ -239,7 +240,7 @@ const createOrder = ({ body }) => {
   };
 };
 
-const ordersByCustomer = ({ body }) => {
+const ordersByCustomer = ({ body }: DemoRequest) => {
   const customerId = body?.customer_id;
   const customId = body?.custom_customer_id;
   if (!isSet(customerId) && !isSet(customId)) {
@@ -262,7 +263,7 @@ const ordersByCustomer = ({ body }) => {
 
 // ---------------------------------------------------------------- routes --
 
-export const routes = [
+export const routes: DemoRoute[] = [
   { service: "FASHION", method: "GET", path: ALL_TYPE, handler: () => ok(fashionTypes) },
   { service: "FASHION", method: "GET", path: ALL_BRAND, handler: () => ok(fashionBrands) },
   { service: "FASHION", method: "GET", path: ALL_CATEGORY, handler: () => ok(fashionCategories) },

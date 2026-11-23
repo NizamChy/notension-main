@@ -14,13 +14,15 @@ const HEALTH_URL = "/api-proxy/health/health";
 const CHECK_TIMEOUT_MS = 8000;
 const RECHECK_MS = 60 * 1000;
 
-let status = "unknown";
-let recheckTimer = null;
-const listeners = new Set();
+export type BackendStatus = "unknown" | "online" | "offline" | "back";
+
+let status: BackendStatus = "unknown";
+let recheckTimer: ReturnType<typeof setInterval> | null = null;
+const listeners = new Set<() => void>();
 
 export const getBackendStatus = () => status;
 export const isBackendOffline = () => status === "offline";
-export const getServerBackendStatus = () => "unknown";
+export const getServerBackendStatus = (): BackendStatus => "unknown";
 
 // The Demo mode button: sample data even while the API answers. Kept per
 // browser; switching reloads the page (DemoModeToggle).
@@ -35,7 +37,7 @@ export const isSampleDataForced = () => {
   }
 };
 
-export const setSampleDataForced = (on) => {
+export const setSampleDataForced = (on: boolean) => {
   try {
     if (on) window.localStorage.setItem(FORCED_KEY, "on");
     else window.localStorage.removeItem(FORCED_KEY);
@@ -44,12 +46,12 @@ export const setSampleDataForced = (on) => {
   }
 };
 
-export const subscribeBackendStatus = (listener) => {
+export const subscribeBackendStatus = (listener: () => void) => {
   listeners.add(listener);
   return () => listeners.delete(listener);
 };
 
-const setStatus = (next) => {
+const setStatus = (next: BackendStatus) => {
   if (next === status) return;
   status = next;
   listeners.forEach((listener) => listener());
@@ -70,7 +72,7 @@ export const checkBackend = async () => {
 
 const recheck = async () => {
   if (!(await checkBackend())) return;
-  clearInterval(recheckTimer);
+  clearInterval(recheckTimer ?? undefined);
   recheckTimer = null;
   setStatus("back");
 };

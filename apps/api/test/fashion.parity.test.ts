@@ -15,8 +15,8 @@ import { testApp } from "./helpers";
 const MEN = "6880c239098c458993b32675";
 const KIDS = "6880c24c098c458993b32679";
 const BEAUTY = "6880c255098c458993b3267b";
-const STORE = fashionStores[0]._id as string; // Dhaka Fashion House
-const KIDS_STORE = fashionStores[2]._id as string;
+const STORE = fashionStores[0]!._id; // Dhaka Fashion House
+const KIDS_STORE = fashionStores[2]!._id;
 const MISSING = "000000000000000000000000";
 
 let handle: DbHandle;
@@ -80,7 +80,7 @@ const byType = (typeId: string, body?: unknown): Req => ({
 const list = <T extends z.ZodType>(s: T) => contract.ok(z.array(s));
 const products = list(contract.fashionProduct);
 
-const sampleKids = fashionProducts.find((p: any) => p.type_info._id === KIDS && p.is_popular);
+const sampleKids = fashionProducts.find((p: any) => p.type_info._id === KIDS && p.is_popular)!;
 
 const cases: [string, Req, z.ZodType?][] = [
   ["all types", { method: "GET", path: `${P}/type/all-type` }, list(contract.fashionType)],
@@ -111,7 +111,7 @@ const cases: [string, Req, z.ZodType?][] = [
   ["store as number", byType(MEN, { store_id: 1 })],
   ["unknown type", byType(MISSING, {})],
   ["single store", { method: "GET", path: `${P}/store-info/single-store/${STORE}` }, contract.ok(contract.fashionStore)],
-  ["single store with popup", { method: "GET", path: `${P}/store-info/single-store/${fashionStores[1]._id}` }],
+  ["single store with popup", { method: "GET", path: `${P}/store-info/single-store/${fashionStores[1]!._id}` }],
   ["single store missing", { method: "GET", path: `${P}/store-info/single-store/${MISSING}` }],
   ["unknown store types", { method: "GET", path: `${P}/type/all-type-by-store/${MISSING}` }],
   ["unknown store categories", { method: "GET", path: `${P}/category/all-category-by-store/${MISSING}` }],

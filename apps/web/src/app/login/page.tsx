@@ -3,8 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { HiOutlineShieldCheck } from "react-icons/hi2";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Login",
   description:
     "Log in to NoTension with your mobile number.",
@@ -43,7 +44,9 @@ const page = () => {
             Log in with your mobile number to continue
           </p>
 
-          <LoginModalDetails type="login" showHeading={false} />
+          {/* boundary: legacy JS caller. LoginModalDetails is JS, so TS reads
+              redirectTo as required; this page passes none. */}
+          <LoginModalDetails type="login" showHeading={false} redirectTo={undefined} />
         </div>
 
         <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-gray-500">

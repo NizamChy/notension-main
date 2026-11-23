@@ -3,8 +3,9 @@ import { Noto_Sans_Bengali } from "next/font/google";
 import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import MarketingPolicy from "@/components/Policy/MarketingPolicy";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Marketing Policy",
   description:
     "NoTension merchant fees, current offers and partner programme benefits.",
@@ -18,7 +19,9 @@ const NotoSansBengali = Noto_Sans_Bengali({
 const page = () => {
   return (
     <section className={NotoSansBengali.className}>
-      <Navbar />
+      {/* boundary: legacy JS caller. Navbar is JS, so TS reads every prop as
+          required; this page passes none. */}
+      <Navbar search={undefined} leading={undefined} actions={undefined} />
       {/* Offset for the fixed navbar, as in the module layouts. */}
       <main className="pt-16 lg:pt-[72px]">
         <MarketingPolicy />

@@ -11,7 +11,7 @@ import {
   GROCERY_ITEMS_BY_SUBTYPE,
   GROCERY_ITEMS_BY_CUSTOMTYPE,
 } from "@/api-endpoints/api-endpoint";
-import { demoResponse } from "../demoAdapter";
+import { demoResponse, type DemoRequest, type DemoRoute } from "../demoAdapter";
 import { isDemoDistrict } from "../demoLocations";
 import {
   DEMO_GROCERY_TYPES,
@@ -38,29 +38,31 @@ const PAGE_SIZE = 24; // useGroceryItemList treats < 24 results as the last page
 
 const SERVICE = "GROCERY";
 
+type GroceryItem = (typeof DEMO_GROCERY_ITEMS)[number];
+
 // Orders placed during this page session.
-const placedOrders = [];
+const placedOrders: Record<string, unknown>[] = [];
 let orderSeq = 0;
 
-const findStore = (storeId, customStoreId) =>
+const findStore = (storeId: unknown, customStoreId?: unknown) =>
   DEMO_GROCERY_STORES.find(
     (s) => s._id === storeId || (customStoreId && s.custom_store_id === customStoreId),
   );
 
-const storeItems = (query) => {
+const storeItems = (query: DemoRequest["query"]) => {
   const shop = findStore(query.groceryStoreId, query.custom_store_id);
   return shop
     ? DEMO_GROCERY_ITEMS.filter((i) => i.groceryStoreId === shop._id)
     : [];
 };
 
-const paginate = (list, page) => {
+const paginate = <T,>(list: T[], page: string) => {
   const pageNo = Math.max(parseInt(page, 10) || 1, 1);
   return list.slice((pageNo - 1) * PAGE_SIZE, pageNo * PAGE_SIZE);
 };
 
-const toRad = (deg) => (deg * Math.PI) / 180;
-const distanceMeters = (lat1, lng1, lat2, lng2) => {
+const toRad = (deg: number) => (deg * Math.PI) / 180;
+const distanceMeters = (lat1: number, lng1: number, lat2: number, lng2: number) => {
   const dLat = toRad(lat2 - lat1);
   const dLng = toRad(lng2 - lng1);
   const a =
@@ -69,12 +71,12 @@ const distanceMeters = (lat1, lng1, lat2, lng2) => {
   return Math.round(6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 };
 
-const includesText = (value, text) =>
+const includesText = (value: unknown, text: string) =>
   String(value || "").toLowerCase().includes(text);
 
 // ------------------------------------------------------------- handlers
 
-const nearestStores = ({ body }) => {
+const nearestStores = ({ body }: DemoRequest) => {
   const { districtId, shop_latitude, shop_longitude } = body || {};
   if (!isDemoDistrict(districtId)) return { success: true, result: [] };
 
@@ -94,7 +96,7 @@ const nearestStores = ({ body }) => {
   return { success: true, result };
 };
 
-const searchStores = ({ query }) => {
+const searchStores = ({ query }: DemoRequest) => {
   const text = String(query.search || "").trim().toLowerCase();
   if (text.length < 2) return { success: true, result: [] };
 
@@ -107,7 +109,7 @@ const searchStores = ({ query }) => {
   return { success: true, result };
 };
 
-const exploreStore = ({ query }) => {
+const exploreStore = ({ query }: DemoRequest) => {
   const shop = findStore(query.storeId, query.custom_store_id);
   if (!shop) {
     return {
@@ -118,8 +120,8 @@ const exploreStore = ({ query }) => {
   }
 
   const items = DEMO_GROCERY_ITEMS.filter((i) => i.groceryStoreId === shop._id);
-  const carried = (key, id) => items.some((i) => i[key] === id);
-  const byCustomType = (id) =>
+  const carried = (key: keyof GroceryItem, id: string) => items.some((i) => i[key] === id);
+  const byCustomType = (id: string) =>
     items.filter((i) => i.customType.includes(id)).slice(0, PAGE_SIZE);
 
   const ProductTypeByShop = DEMO_GROCERY_TYPES.filter((t) =>
@@ -166,7 +168,7 @@ const exploreStore = ({ query }) => {
   };
 };
 
-const searchItems = ({ query }) => {
+const searchItems = ({ query }: DemoRequest) => {
   const text = String(query.search || "").trim().toLowerCase();
   if (text.length < 2) return { success: true, result: [] };
 
@@ -178,7 +180,7 @@ const searchItems = ({ query }) => {
   return { success: true, result: paginate(matches, query.page) };
 };
 
-const itemsBySubtype = ({ query }) => ({
+const itemsBySubtype = ({ query }: DemoRequest) => ({
   success: true,
   result: paginate(
     storeItems(query).filter((i) => i.productSubtype === query.productSubtype),
@@ -186,7 +188,7 @@ const itemsBySubtype = ({ query }) => ({
   ),
 });
 
-const itemsByCustomType = ({ query }) => ({
+const itemsByCustomType = ({ query }: DemoRequest) => ({
   success: true,
   result: paginate(
     storeItems(query).filter((i) => i.customType.includes(query.customType)),
@@ -194,7 +196,7 @@ const itemsByCustomType = ({ query }) => ({
   ),
 });
 
-const itemDetails = ({ query }) => {
+const itemDetails = ({ query }: DemoRequest) => {
   const item = storeItems(query).find(
     (i) =>
       i.productInfoTable === query.productInfoTable ||
@@ -206,7 +208,7 @@ const itemDetails = ({ query }) => {
   return { success: true, result: item };
 };
 
-const parseOrder = (body) => {
+const parseOrder = (body: DemoRequest["body"]) => {
   if (typeof body?.orderObj === "string") {
     try {
       return JSON.parse(body.orderObj);
@@ -217,7 +219,7 @@ const parseOrder = (body) => {
   return body?.orderObj || body || null;
 };
 
-const placeOrder = ({ body }) => {
+const placeOrder = ({ body }: DemoRequest) => {
   const order = parseOrder(body);
   if (!order || !(order.orderItems?.length > 0)) {
     return demoResponse(400, { success: false, message: "Cart is empty" });
@@ -228,8 +230,8 @@ const placeOrder = ({ body }) => {
   const datePart = now.toISOString().slice(0, 10).replace(/-/g, "");
   const shop = findStore(order.merchant_id);
   // Fill in what the API adds so a placed order has the same shape as a real one.
-  const orderItems = order.orderItems.map((line) => {
-    const item = DEMO_GROCERY_ITEMS.find((i) => i._id === line._id) || {};
+  const orderItems = order.orderItems.map((line: { _id?: unknown; quantity?: unknown }) => {
+    const item: Partial<GroceryItem> = DEMO_GROCERY_ITEMS.find((i) => i._id === line._id) || {};
     return {
       productInfoTable: item.productInfoTable ?? null,
       product_title_eng: item.product_title_eng ?? "",
@@ -247,7 +249,10 @@ const placeOrder = ({ body }) => {
       quantity: Number(line.quantity) || 1,
     };
   });
-  const subTotal = orderItems.reduce((t, l) => t + l.sale_price * l.quantity, 0);
+  const subTotal = orderItems.reduce(
+    (t: number, l: { sale_price: number; quantity: number }) => t + l.sale_price * l.quantity,
+    0,
+  );
   const deliveryCharge = shop?.min_delivery_charge ?? 0;
   const customer = order.customerInfo || {};
   const saved = {
@@ -294,7 +299,7 @@ const placeOrder = ({ body }) => {
   return { success: true, message: "Order placed successfully", result: saved };
 };
 
-const orderInfo = ({ query }) => {
+const orderInfo = ({ query }: DemoRequest) => {
   if (!query.customerId) return { success: true, result: [] };
 
   const mine = placedOrders.filter(
@@ -308,7 +313,7 @@ const orderInfo = ({ query }) => {
   return { success: true, result: [...mine, ...history] };
 };
 
-export const routes = [
+export const routes: DemoRoute[] = [
   { service: SERVICE, method: "POST", path: NEAREST_GROCERY_STORE, handler: nearestStores },
   { service: SERVICE, method: "GET", path: SEARCH_GROCERY_STORE, handler: searchStores },
   { service: SERVICE, method: "GET", path: EXPLORE_GROCERY_STORE, handler: exploreStore },

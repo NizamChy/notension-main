@@ -40,7 +40,7 @@ export const sendOtpResult = z.object({
 });
 
 // Profile fields the app sends to /register. latitude/longitude arrive
-// swapped (see useUser.js): `longitude` holds the latitude.
+// swapped (see useUser.ts): `longitude` holds the latitude.
 const text = z.string().trim().max(300).optional().catch(undefined);
 const coord = z.coerce.number().finite().optional().catch(undefined);
 export const registerInput = z.object({

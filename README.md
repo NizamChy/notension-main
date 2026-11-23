@@ -116,7 +116,7 @@ cached per ~10 m.
 The new API lives in [`apps/api`](apps/api/README.md). It answers the same
 requests as the old backends, module by module, and runs locally with no
 database setup (embedded Postgres). Every module runs on it (list in
-`apps/web/src/api-endpoints/live.js`), called through the web app's
+`apps/web/src/api-endpoints/live.ts`), called through the web app's
 `/api-proxy/<service>` rewrite, which points at `http://localhost:4000` in
 development and `https://notension-api.vercel.app` in production.
 
@@ -126,7 +126,7 @@ Demo mode turns itself on when the API is down, and can be chosen by hand:
 
 - Every request goes to the API first. When the API can't be reached (the
   health check on page load fails, or a request gets no answer or a server
-  error), `src/demo/demoAdapter.js` answers from the routes in
+  error), `src/demo/demoAdapter.ts` answers from the routes in
   `src/demo/modules/` instead. Orders and other writes fall back only when
   they surely never reached the API, so nothing is placed twice.
 - A banner says the site is showing sample data. The API is checked again
@@ -143,7 +143,7 @@ Demo mode turns itself on when the API is down, and can be chosen by hand:
   (saved per browser; switching clears the cart and sign-in and reloads).
   With it on, **Log in as Demo User** uses the demo sign-in.
 
-State: `apps/web/src/demo/backendStatus.js`. Banner:
+State: `apps/web/src/demo/backendStatus.ts`. Banner:
 `apps/web/src/components/shared/BackendStatus/BackendStatusBanner.jsx`.
 
 To add or change demo data, see
@@ -159,7 +159,7 @@ system is set to dark, until the visitor switches.
 How it works:
 
 - The theme is the `dark` class on `<html>`. An inline script in
-  `src/app/layout.js` sets it before the first paint, so the page doesn't
+  `src/app/layout.tsx` sets it before the first paint, so the page doesn't
   flash light. The button is `src/components/shared/ThemeToggle`.
 - The `gray` and `slate` scales and `deepGray` / `mediumGray` / `lightGray`
   read CSS variables (the `@theme` block in `src/app/globals.css`), so they
@@ -190,7 +190,7 @@ Known gaps and planned work, most important first.
 - **Dark mode:** modals, dropdowns and checkout have not been fully reviewed.
   Some white-on-teal and white-on-yellow buttons have low contrast.
 - **Location state:** latitude, longitude and district are stored twice in
-  the user slice (top level and in `currentUserLocation`), and `useUser.js`
+  the user slice (top level and in `currentUserLocation`), and `useUser.ts`
   sends latitude and longitude swapped (demo mode compensates).
 
 ### Known limitations
@@ -217,10 +217,10 @@ apps/
     src/
       app/             Routes (App Router), one folder per module
       components/      UI components, grouped by module
-      api-endpoints/   Backend base URLs (env.js) and endpoint paths
+      api-endpoints/   Backend base URLs (env.ts) and endpoint paths
       demo/            Demo mode: adapter, sample data, locations, demo user
       hooks/           Data-fetching and order hooks
-      lib/apiClient.js Axios client per backend (routes through demo mode)
+      lib/apiClient.ts Axios client per backend (routes through demo mode)
       redux/           Store, slices and persistence
       utils/           Helpers (dates, validation, Google Maps loader)
     e2e/               Playwright smoke tests

@@ -11,8 +11,9 @@ export const toLocalYMD = (date = new Date()) => {
 // A "YYYY-MM-DD" date as local midnight. `new Date("YYYY-MM-DD")` is UTC
 // midnight, which west of UTC is still the previous day. Other strings fall
 // back to the Date parser.
-export const parseLocalYMD = (value) => {
+export const parseLocalYMD = (value: string | number | Date | null | undefined) => {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value ?? "").slice(0, 10));
-  if (!match) return new Date(value);
+  // A missing value gives an Invalid Date, as `new Date(undefined)` does.
+  if (!match) return new Date(value as string | number | Date);
   return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
 };

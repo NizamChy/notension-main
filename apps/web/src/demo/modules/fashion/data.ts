@@ -24,32 +24,40 @@ import navItemsJson from "../../../../public/data/navItems.json";
 const NAV_TYPES = navItemsJson.slice(0, 7);
 
 // 24-char lowercase hex ids: "66f" + 5-char group + 16-digit sequence.
-const makeId = (group, n) => `66f${group}${String(n).padStart(16, "0")}`;
+const makeId = (group: string, n: number) => `66f${group}${String(n).padStart(16, "0")}`;
 
 // NFKC turns styled unicode letters (e.g. "Readymade 𝐒𝐚𝐫𝐞𝐞") into plain ones.
-const clean = (text) => text.normalize("NFKC").trim();
+const clean = (text: string) => text.normalize("NFKC").trim();
 
-const slug = (text) =>
+const slug = (text: string) =>
   clean(text)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-const img = (name) => `fashion/${name}.webp`;
+const img = (name: string) => `fashion/${name}.webp`;
 
 const CREATED_AT = "2026-09-01T10:00:00.000Z";
 
 // Every generated image: { file, shape, color, label, sub?, wide? }.
-export const fashionImageSpecs = [];
-const usedFiles = new Set();
-const addImage = (spec) => {
+type ImageSpec = {
+  file: string;
+  shape: string;
+  color: string;
+  label: string;
+  sub?: string;
+  wide?: string;
+};
+export const fashionImageSpecs: ImageSpec[] = [];
+const usedFiles = new Set<string>();
+const addImage = (spec: ImageSpec) => {
   if (!usedFiles.has(spec.file)) {
     usedFiles.add(spec.file);
     fashionImageSpecs.push(spec);
   }
 };
 // A file name not used yet (product titles can repeat across categories).
-const uniqueFile = (base) => {
+const uniqueFile = (base: string) => {
   let name = base;
   for (let n = 2; usedFiles.has(img(name)); n += 1) name = `${base}-${n}`;
   return img(name);
@@ -58,7 +66,7 @@ const uniqueFile = (base) => {
 // --------------------------------------------------------------- shapes --
 
 // Garment / item silhouette for an item name (first match wins).
-const SHAPE_RULES = [
+const SHAPE_RULES: [RegExp, string][] = [
   [/sock/i, "sock"],
   [/panjabi|sherwani|kabli|fotua/i, "panjabi"],
   [/koti/i, "koti"],
@@ -98,7 +106,7 @@ const SHAPE_RULES = [
   [/toy|tricycle|slider|rocker|tent|ball|learning|activity|swimming|game/i, "toy"],
 ];
 
-const shapeFor = (name, fallback) =>
+const shapeFor = (name: string, fallback: string) =>
   SHAPE_RULES.find(([re]) => re.test(clean(name)))?.[1] || fallback;
 
 // ---------------------------------------------------------------- sizes --
@@ -120,10 +128,12 @@ const SIZES = {
   none: "",
 };
 
+type SizeKey = keyof typeof SIZES;
+
 const NO_SIZE_SHAPES = ["sock", "hijab", "bag", "wallet", "jewel", "cap", "sunglass", "watch"];
 const SHOE_SHAPES = ["shoe", "sandal", "heel"];
 
-const sizesFor = (cfg, subName, shape) => {
+const sizesFor = (cfg: CategoryConfig, subName: string, shape: string) => {
   const name = clean(subName);
   if (/diaper/i.test(name)) return SIZES.diaper;
   if (/luggage|trolley/i.test(name)) return SIZES.luggage;
@@ -140,7 +150,7 @@ const sizesFor = (cfg, subName, shape) => {
   return SIZES[cfg.sizes] ?? SIZES.none;
 };
 
-const sizeChart = (sizes) => {
+const sizeChart = (sizes: string) => {
   if (!sizes) return "null";
   const rows = sizes
     .split(",")
@@ -171,7 +181,9 @@ export const fashionBrands = BRAND_DEFS.map((b, i) => ({
   status: true,
 }));
 
-const brandByKey = Object.fromEntries(
+type FashionBrand = (typeof fashionBrands)[number];
+
+const brandByKey: Record<string, FashionBrand | undefined> = Object.fromEntries(
   BRAND_DEFS.map((b, i) => [b.key, fashionBrands[i]]),
 );
 
@@ -260,13 +272,15 @@ export const fashionStores = STORE_DEFS.map((s, i) => {
   };
 });
 
-const storeByKey = Object.fromEntries(
+type FashionStore = (typeof fashionStores)[number];
+
+const storeByKey: Record<string, FashionStore | undefined> = Object.fromEntries(
   STORE_DEFS.map((s, i) => [s.key, fashionStores[i]]),
 );
 
 // ------------------------------------------------------------- taxonomy --
 
-const TYPE_STYLE = {
+const TYPE_STYLE: Record<string, { shape: string; color: string } | undefined> = {
   "6880c239098c458993b32675": { shape: "panjabi", color: "Navy" },
   "6880c244098c458993b32677": { shape: "saree", color: "Maroon" },
   "6880c24c098c458993b32679": { shape: "frock", color: "Pink" },
@@ -278,7 +292,18 @@ const TYPE_STYLE = {
 
 // Per category (navItems.json category_id): default shape, colours, price
 // range (BDT), size set, material, name qualifiers, stores, brands.
-const CATEGORY_CONFIG = {
+type CategoryConfig = {
+  shape: string;
+  colors: string[];
+  price: [min: number, max: number];
+  sizes: SizeKey;
+  material: string;
+  quals: string[];
+  stores: string[];
+  brands: string[];
+};
+
+const CATEGORY_CONFIG: Record<string, CategoryConfig | undefined> = {
   // Men
   "689845adb3ca3b7d6ef86cb7": { shape: "tshirt", colors: ["Navy", "White", "Black", "Grey"], price: [590, 3990], sizes: "apparel", material: "Cotton", quals: ["Classic", "Premium", "Everyday", "Slim Fit"], stores: ["dfh", "nb"], brands: ["urban", "deshi"] },
   "68984704b3ca3b7d6ef86cbb": { shape: "panjabi", colors: ["White", "Cream", "Maroon", "Olive"], price: [990, 5500], sizes: "panjabi", material: "Cotton", quals: ["Embroidered", "Handloom", "Festive", "Cotton"], stores: ["nb", "dfh"], brands: ["deshi", "jamdani"] },
@@ -336,7 +361,7 @@ const CATEGORY_CONFIG = {
 };
 
 // Names that read badly as "<qualifier> <subcategory>".
-const TITLE_OVERRIDES = {
+const TITLE_OVERRIDES: Record<string, string | undefined> = {
   Weightloss: "Herbal Slimming Green Tea",
   Chocolates: "Assorted Milk Chocolates Box",
   "Baby Food": "Rice & Lentil Baby Cereal",
@@ -363,7 +388,7 @@ const TITLE_OVERRIDES = {
 };
 
 // Price ranges (BDT) for small items, overriding the category range.
-const PRICE_RULES = [
+const PRICE_RULES: [RegExp, [min: number, max: number]][] = [
   [/sock/i, [90, 390]],
   [/wipe|toothpaste|tooth brush|soap|sanitizer|hand wash|bobby|clip|pin|coaster|tissue|face mask|loofah|hairband|headband/i, [90, 590]],
   [/innerwear|underwear|briefs?$|(^| )bra( |$)|sando|petticoat|inner$/i, [190, 890]],
@@ -388,14 +413,39 @@ export const fashionTypes = NAV_TYPES.map((t, i) => {
   };
 });
 
-export const fashionCategories = [];
-export const fashionSubCategories = [];
+type FashionCategory = {
+  _id: string;
+  category_name: string;
+  type_info: string;
+  banner: string;
+  serial_no: number;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type FashionSubCategory = {
+  _id: string;
+  sub_category_name: string;
+  type_info: string;
+  category_info: Pick<FashionCategory, "_id" | "category_name" | "type_info" | "banner">;
+  banner_type_1: string;
+  banner_type_2: string;
+  serial_no: number;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export const fashionCategories: FashionCategory[] = [];
+export const fashionSubCategories: FashionSubCategory[] = [];
 
 NAV_TYPES.forEach((t) => {
   t.categories.forEach((c) => {
-    const cfg = CATEGORY_CONFIG[c.category_id];
+    // Every category in NAV_TYPES has a config.
+    const cfg = CATEGORY_CONFIG[c.category_id]!;
     const banner = img(`cat-${slug(t.type_name)}-${slug(c.name)}`);
-    addImage({ file: banner, shape: cfg.shape, color: cfg.colors[0], label: clean(c.name) });
+    addImage({ file: banner, shape: cfg.shape, color: cfg.colors[0]!, label: clean(c.name) });
     const category = {
       _id: c.category_id,
       category_name: c.name,
@@ -413,7 +463,7 @@ NAV_TYPES.forEach((t) => {
       addImage({
         file,
         shape: shapeFor(s.name, cfg.shape),
-        color: cfg.colors[(j + 1) % cfg.colors.length],
+        color: cfg.colors[(j + 1) % cfg.colors.length]!,
         label: clean(s.name),
       });
       fashionSubCategories.push({
@@ -437,7 +487,7 @@ NAV_TYPES.forEach((t) => {
   });
 });
 
-const findSub = (categoryId, subName) =>
+const findSub = (categoryId: string, subName: string) =>
   fashionSubCategories.find(
     (s) => s.category_info._id === categoryId && s.sub_category_name === subName,
   );
@@ -445,8 +495,8 @@ const findSub = (categoryId, subName) =>
 // ------------------------------------------------------------- products --
 
 const DETAIL_IMAGES = [img("detail-fabric"), img("detail-stitching")];
-addImage({ file: DETAIL_IMAGES[0], shape: "fabric", color: "Beige", label: "Fabric close-up" });
-addImage({ file: DETAIL_IMAGES[1], shape: "stitch", color: "Grey", label: "Fine stitching" });
+addImage({ file: DETAIL_IMAGES[0]!, shape: "fabric", color: "Beige", label: "Fabric close-up" });
+addImage({ file: DETAIL_IMAGES[1]!, shape: "stitch", color: "Grey", label: "Fine stitching" });
 
 const CAT = {
   menTop: "689845adb3ca3b7d6ef86cb7",
@@ -470,7 +520,23 @@ const CAT = {
 // [title, categoryId, subcategory name, brand, store, mrp, sale, sizes key,
 //  colors, material, fit, description, flags]
 // flags: p = popular, n = new, b = bestseller, f = featured
-const CURATED_DEFS = [
+type CuratedDef = [
+  title: string,
+  categoryId: string,
+  subName: string,
+  brand: string,
+  store: string,
+  mrp: number,
+  sale: number,
+  sizeKey: SizeKey,
+  colors: string[],
+  material: string,
+  fit: string,
+  description: string,
+  flags: string,
+];
+
+const CURATED_DEFS: CuratedDef[] = [
   // Men
   ["Embroidered Cotton Panjabi", CAT.menTraditional, "Panjabi", "deshi", "dfh", 2450, 1950, "panjabi", ["White", "Navy", "Maroon"], "100% cotton", "Regular", "Soft cotton panjabi with tone-on-tone neck embroidery, ideal for Jummah and family gatherings.", "pb"],
   ["Silk Blend Eid Panjabi", CAT.menTraditional, "Panjabi", "jamdani", "nb", 4500, 3990, "panjabi", ["Cream", "Maroon"], "Silk blend", "Regular", "Festive silk-blend panjabi with a subtle sheen and hand-finished placket.", "pnf"],
@@ -518,7 +584,7 @@ const CURATED_DEFS = [
   ["Kids School Shoes", CAT.boyFootwear, "School Shoes", "padma", "lsk", 1490, 1490, "kidsShoes", ["Black"], "Synthetic leather", "Regular", "Durable black school shoes with a padded collar.", ""],
 ];
 
-const populatedStore = (store) => ({
+const populatedStore = (store: FashionStore) => ({
   _id: store._id,
   custom_merchant_id: store.custom_merchant_id,
   shop_name: store.shop_name,
@@ -529,14 +595,32 @@ const populatedStore = (store) => ({
   shop_banner_app: store.shop_banner_app,
 });
 
-const roundPrice = (value) => Math.max(90, Math.round(value / 50) * 50 - 10);
+const roundPrice = (value: number) => Math.max(90, Math.round(value / 50) * 50 - 10);
 
-const buildProduct = (n, p) => {
+type ProductDef = {
+  title: string;
+  sub: FashionSubCategory;
+  brand: string;
+  store: string;
+  mrp: number;
+  sale: number;
+  sizes: string;
+  colors: string[];
+  material: string;
+  fit: string;
+  description: string;
+  flags: string;
+  shape: string;
+  colorImages: boolean;
+};
+
+const buildProduct = (n: number, p: ProductDef) => {
   const sub = p.sub;
-  const cat = fashionCategories.find((c) => c._id === sub.category_info._id);
-  const type = fashionTypes.find((t) => t._id === cat.type_info);
+  // Every subcategory's category and type were built above.
+  const cat = fashionCategories.find((c) => c._id === sub.category_info._id)!;
+  const type = fashionTypes.find((t) => t._id === cat.type_info)!;
   const webImage = uniqueFile(slug(p.title));
-  addImage({ file: webImage, shape: p.shape, color: p.colors[0], label: p.title });
+  addImage({ file: webImage, shape: p.shape, color: p.colors[0]!, label: p.title });
 
   const imagesByColor = p.colorImages
     ? p.colors.map((color) => {
@@ -554,7 +638,7 @@ const buildProduct = (n, p) => {
     ["Colours", p.colors.join(", ")],
     ["Origin", "Bangladesh"],
   ]
-    .filter(Boolean)
+    .filter((row): row is string[] => Boolean(row))
     .map(([k, v]) => `<li><strong>${k}:</strong> ${v}</li>`)
     .join("");
 
@@ -566,8 +650,10 @@ const buildProduct = (n, p) => {
     type_info: { _id: type._id, type_name: type.type_name },
     category_info: { _id: cat._id, category_name: cat.category_name },
     sub_category_info: { _id: sub._id, sub_category_name: sub.sub_category_name },
-    brand_info: { ...brandByKey[p.brand] },
-    store_info: populatedStore(storeByKey[p.store]),
+    // Every product names a brand from BRAND_DEFS.
+    brand_info: { ...brandByKey[p.brand]! },
+    // Every product names a store from STORE_DEFS.
+    store_info: populatedStore(storeByKey[p.store]!),
     web_image: webImage,
     app_image: webImage,
     images_by_color: imagesByColor,
@@ -595,13 +681,13 @@ const buildProduct = (n, p) => {
   };
 };
 
-const productDefs = [];
+const productDefs: ProductDef[] = [];
 
 CURATED_DEFS.forEach((def) => {
   const [title, categoryId, subName, brand, store, mrp, sale, sizeKey, colors, material, fit, description, flags] = def;
   const sub = findSub(categoryId, subName);
   if (!sub) throw new Error(`[demo fashion] unknown subcategory ${subName}`);
-  const cfg = CATEGORY_CONFIG[categoryId];
+  const cfg = CATEGORY_CONFIG[categoryId]!;
   productDefs.push({
     title, sub, brand, store, mrp, sale, sizes: SIZES[sizeKey], colors,
     material, fit, description, flags,
@@ -615,14 +701,14 @@ const coveredSubs = new Set(productDefs.map((p) => p.sub._id));
 let g = 0;
 NAV_TYPES.forEach((t) => {
   t.categories.forEach((c) => {
-    const cfg = CATEGORY_CONFIG[c.category_id];
+    const cfg = CATEGORY_CONFIG[c.category_id]!;
     c.subcategories.forEach((s, j) => {
       if (coveredSubs.has(s.id) || SKIP_SUBCATEGORIES.includes(clean(s.name))) return;
       g += 1;
       const subName = clean(s.name);
-      let qual = cfg.quals[j % cfg.quals.length];
+      let qual = cfg.quals[j % cfg.quals.length]!;
       if (subName.toLowerCase().includes(qual.toLowerCase())) {
-        qual = cfg.quals[(j + 1) % cfg.quals.length];
+        qual = cfg.quals[(j + 1) % cfg.quals.length]!;
       }
       const title = TITLE_OVERRIDES[subName] || `${qual} ${subName}`;
       const shape = shapeFor(subName, cfg.shape);
@@ -630,22 +716,23 @@ NAV_TYPES.forEach((t) => {
         PRICE_RULES.find(([re]) => re.test(subName))?.[1] || cfg.price;
       const mrp = roundPrice(min + (((j * 37 + g * 13) % 20) / 19) * (max - min));
       const sale = g % 3 === 0 ? roundPrice(mrp * 0.85) : mrp;
-      const colors = [cfg.colors[j % cfg.colors.length]];
-      if (g % 2 === 0) colors.push(cfg.colors[(j + 1) % cfg.colors.length]);
-      const brand = cfg.brands[j % cfg.brands.length];
+      const colors = [cfg.colors[j % cfg.colors.length]!];
+      if (g % 2 === 0) colors.push(cfg.colors[(j + 1) % cfg.colors.length]!);
+      const brand = cfg.brands[j % cfg.brands.length]!;
       const flags = `${g % 4 === 0 ? "p" : ""}${g % 5 === 1 ? "n" : ""}${g % 7 === 2 ? "b" : ""}`;
       productDefs.push({
         title,
-        sub: findSub(c.category_id, s.name),
+        // Built in the taxonomy loop above.
+        sub: findSub(c.category_id, s.name)!,
         brand,
-        store: cfg.stores[j % cfg.stores.length],
+        store: cfg.stores[j % cfg.stores.length]!,
         mrp,
         sale: Math.min(sale, mrp),
         sizes: sizesFor(cfg, s.name, shape),
         colors,
         material: cfg.material,
         fit: cfg.sizes !== "none" && !NO_SIZE_SHAPES.includes(shape) ? "Regular" : "",
-        description: `${title} by ${brandByKey[brand].brand_name}. ${cfg.material}, quality checked and ready to ship from Dhaka.`,
+        description: `${title} by ${brandByKey[brand]!.brand_name}. ${cfg.material}, quality checked and ready to ship from Dhaka.`,
         flags,
         shape,
         colorImages: false,
@@ -660,7 +747,9 @@ export const fashionProducts = productDefs.map((p, i) => buildProduct(i + 1, p))
 
 // Past orders shown to whoever is logged in (customer ids are filled in by
 // the order-by-customer handler). New orders are added in memory.
-const orderItem = (product, quantity, size) => ({
+type FashionProduct = (typeof fashionProducts)[number];
+
+const orderItem = (product: FashionProduct, quantity: number, size: string | null) => ({
   _id: product._id,
   type_info: product.type_info._id,
   brand_info: product.brand_info,
@@ -681,8 +770,15 @@ const orderItem = (product, quantity, size) => ({
   web_image: product.web_image,
 });
 
-const seedOrder = (n, storeKey, items, status, createdAt, payment) => {
-  const store = storeByKey[storeKey];
+const seedOrder = (
+  n: number,
+  storeKey: string,
+  items: ReturnType<typeof orderItem>[],
+  status: string,
+  createdAt: string,
+  payment: string,
+) => {
+  const store = storeByKey[storeKey]!;
   const subTotal = items.reduce((s, it) => s + it.sale_price * it.quantity, 0);
   const deliveryCharge = 0;
   return {
@@ -720,8 +816,9 @@ const seedOrder = (n, storeKey, items, status, createdAt, payment) => {
   };
 };
 
-const productByTitle = (title) =>
-  fashionProducts.find((p) => p.product_title_eng === title);
+// Only called with curated product titles.
+const productByTitle = (title: string) =>
+  fashionProducts.find((p) => p.product_title_eng === title)!;
 
 export const fashionSeedOrders = [
   seedOrder(

@@ -11,7 +11,7 @@ import {
   NEAREST_MEDICINE_STORE,
   POST_NEAREST_MEDICINE_STORE,
 } from "@/api-endpoints/api-endpoint";
-import { demoResponse } from "../demoAdapter";
+import { demoResponse, type DemoRequest, type DemoRoute } from "../demoAdapter";
 import { isDemoDistrict } from "../demoLocations";
 import {
   MEDICINE_CUSTOM_TYPES,
@@ -35,9 +35,9 @@ export {
 
 const PAGE_SIZE = 24; // useMedicineItemList treats < 24 results as the last page
 
-const toRad = (deg) => (deg * Math.PI) / 180;
+const toRad = (deg: number) => (deg * Math.PI) / 180;
 // Distance in metres (ShopInfoCard divides by 1000 to show km).
-const distanceMetres = (lat1, lng1, lat2, lng2) => {
+const distanceMetres = (lat1: number, lng1: number, lat2: number, lng2: number) => {
   const R = 6371000;
   const dLat = toRad(lat2 - lat1);
   const dLng = toRad(lng2 - lng1);
@@ -47,24 +47,24 @@ const distanceMetres = (lat1, lng1, lat2, lng2) => {
   return Math.round(2 * R * Math.asin(Math.sqrt(a)));
 };
 
-const findStore = (storeId, customStoreId) =>
+const findStore = (storeId: unknown, customStoreId?: unknown) =>
   DEMO_MEDICINE_STORES.find(
     (s) => s._id === storeId || (customStoreId && s.custom_store_id === customStoreId),
   );
 
-const storeItems = (storeId, customStoreId) => {
+const storeItems = (storeId: unknown, customStoreId?: unknown) => {
   const s = findStore(storeId, customStoreId);
   return s ? DEMO_MEDICINE_ITEMS.filter((i) => i.merchantId === s._id) : [];
 };
 
-const paginate = (list, page) => {
+const paginate = <T,>(list: T[], page: string) => {
   const p = Math.max(1, parseInt(page, 10) || 1);
   return list.slice((p - 1) * PAGE_SIZE, p * PAGE_SIZE);
 };
 
-const ok = (result, extra = {}) => ({ success: true, message: "OK", result, ...extra });
+const ok = (result: unknown, extra: Record<string, unknown> = {}) => ({ success: true, message: "OK", result, ...extra });
 
-const nearestStores = ({ body, query }) => {
+const nearestStores = ({ body, query }: DemoRequest) => {
   const input = { ...query, ...body };
   const districtId = input.districtId;
   if (!isDemoDistrict(districtId)) return ok([]);
@@ -83,7 +83,7 @@ const nearestStores = ({ body, query }) => {
 };
 
 // The explore-store result the dashboard and itemsByStore reducers read.
-const exploreStore = ({ query }) => {
+const exploreStore = ({ query }: DemoRequest) => {
   const s = findStore(query.storeId, query.custom_store_id);
   if (!s) {
     return ok({
@@ -99,7 +99,7 @@ const exploreStore = ({ query }) => {
     });
   }
   const items = storeItems(s._id);
-  const byCustomType = (id) => items.filter((i) => i.customType.includes(id));
+  const byCustomType = (id: string) => items.filter((i) => i.customType.includes(id));
 
   const subtypes = DEMO_MEDICINE_SUBTYPES.filter((st) =>
     items.some((i) => i.productSubtype === st._id),
@@ -141,7 +141,7 @@ const exploreStore = ({ query }) => {
 
 // ---------------------------------------------------------------- orders
 
-const orders = [];
+const orders: Record<string, unknown>[] = [];
 let orderSeq = 2000;
 
 const nextOrderId = () => {
@@ -152,7 +152,7 @@ const nextOrderId = () => {
   };
 };
 
-const parseOrder = (body) => {
+const parseOrder = (body: DemoRequest["body"]) => {
   if (typeof body?.orderObj === "string") {
     try {
       return JSON.parse(body.orderObj);
@@ -164,12 +164,13 @@ const parseOrder = (body) => {
 };
 
 // One delivered order so a fresh session has some history to show.
-const sampleOrder = (customerId, customCustomerId) => {
-  const s = DEMO_MEDICINE_STORES[0];
-  const pick = (n, qty) => {
+const sampleOrder = (customerId: string, customCustomerId?: string) => {
+  // The first store stocks every product, so each pick is found.
+  const s = DEMO_MEDICINE_STORES[0]!;
+  const pick = (n: number, qty: number) => {
     const item = DEMO_MEDICINE_ITEMS.find(
-      (i) => i.merchantId === s._id && i.medStoreProductInfo === DEMO_MEDICINE_PRODUCTS[n - 1]._id,
-    );
+      (i) => i.merchantId === s._id && i.medStoreProductInfo === DEMO_MEDICINE_PRODUCTS[n - 1]!._id,
+    )!;
     return { ...item, quantity: qty, delivered_qty: qty, inc_qty: 1 };
   };
   const orderItems = [pick(1, 2), pick(9, 1), pick(31, 1)];
@@ -212,7 +213,7 @@ const sampleOrder = (customerId, customCustomerId) => {
   };
 };
 
-const placeOrder = ({ body }) => {
+const placeOrder = ({ body }: DemoRequest) => {
   const order = parseOrder(body);
   if (!order || (!order.orderItems?.length && !order.order_list_image?.length)) {
     return demoResponse(400, { success: false, message: "Order has no items" });
@@ -244,7 +245,7 @@ const placeOrder = ({ body }) => {
   return ok(created, { message: "Order placed successfully" });
 };
 
-const orderInfo = ({ query }) => {
+const orderInfo = ({ query }: DemoRequest) => {
   const customerId = query.customerId;
   if (!customerId) return ok([]);
   const mine = orders.filter(
@@ -257,7 +258,7 @@ const orderInfo = ({ query }) => {
 
 // ---------------------------------------------------------------- routes
 
-export const routes = [
+export const routes: DemoRoute[] = [
   {
     service: "MEDICINE",
     method: "POST",

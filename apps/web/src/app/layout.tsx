@@ -5,6 +5,8 @@ import { LocationBoundary } from "@/components/shared/Map/locationRefresh";
 import { Hind_Siliguri } from "next/font/google";
 import QueryProvider from "@/components/shared/Providers/QueryProvider";
 import BackendStatusBanner from "@/components/shared/BackendStatus/BackendStatusBanner";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 // const poppins = Poppins({
 //   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -16,7 +18,7 @@ const hindSiliguri = Hind_Siliguri({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: "NoTension | E-commerce Platform",
     template: "NoTension | %s",
@@ -29,7 +31,7 @@ export const metadata = {
 // dark with the toggle, so a saved dark theme doesn't flash light.
 const themeScript = `(function(){try{document.documentElement.classList.toggle("dark",localStorage.getItem("theme")==="dark")}catch(e){}})()`;
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

@@ -5,9 +5,9 @@ import { isLiveService, proxyBase } from "./live";
 // which matches requests by base URL, still answers every request. Real
 // requests to a placeholder simply fail (.invalid never resolves).
 //
-// Services on the new API (NEXT_PUBLIC_LIVE_SERVICES, see live.js) ignore
+// Services on the new API (NEXT_PUBLIC_LIVE_SERVICES, see live.ts) ignore
 // their old backend URL and go through this app's /api-proxy/<service>.
-const base = (value, service) =>
+const base = (value: string | undefined, service: string) =>
   isLiveService(service.toUpperCase())
     ? proxyBase(service)
     : value || `https://${service}.demo.invalid`;
