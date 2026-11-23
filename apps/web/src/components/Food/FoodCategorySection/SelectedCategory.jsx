@@ -2,10 +2,9 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { HiChevronLeft } from "react-icons/hi";
 import React from "react";
-import { useParams } from "next/navigation";
+import { useFoodCategory } from "@/hooks/food/useFoodModule";
 import { PAGE_CONTAINER } from "@/components/shared/UI/UI";
 
 // Header band of a food store category (/food/[id]/...): back link, the
@@ -13,9 +12,8 @@ import { PAGE_CONTAINER } from "@/components/shared/UI/UI";
 // The page below loads the category list when it's missing (useFoodCategory);
 // this header only reads it, so a direct visit makes one request, not two.
 const SelectedCategory = ({ children }) => {
-  const { id: catId } = useParams();
-  const shopCategory = useSelector((state) => state.dashboard.shopCategory);
-  const selectedCategory = shopCategory?.find((item) => item?._id === catId);
+  // Shares the page's category query, so a direct visit makes one request.
+  const { category: selectedCategory } = useFoodCategory();
   const location = useSessionStore((s) => s.currentUserLocation?.districtName);
 
   return (

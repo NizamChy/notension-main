@@ -6,7 +6,7 @@ import FavoriteShop from "@/components/Food/FavoriteSection/FavoriteShop";
 
 // Server component: the design-kit class strings live in a client module,
 // so the card classes are written out here.
-const page = async ({ params }) => {
+const page = async ({ params }: { params: Promise<{ id?: string }> }) => {
   const { id } = await params;
   const catId = id || null;
 

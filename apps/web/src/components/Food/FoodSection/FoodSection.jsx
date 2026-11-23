@@ -2,9 +2,9 @@
 
 import notify from "@/utils/notify";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useFood } from "@/hooks/fetch-data/useFood";
-import { useFoodCategory } from "@/hooks/fetch-data/useFoodCategory";
+import React from "react";
+import { useFoodCategory } from "@/hooks/food/useFoodModule";
+import { useNearestFoodStores } from "@/hooks/food/useFoodStores";
 import { toSlug } from "@/utils/slug";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
@@ -20,12 +20,9 @@ export const STORE_GRID =
   "grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4";
 
 const FoodSection = () => {
-  const [requested, setRequested] = useState(false);
-  const [nearestInfo, setNearestInfo] = useState([]);
-
   const router = useRouter();
-  const { getNearestFoodStoreInfo, progressing } = useFood();
   const { category: selectedCategory, ready } = useFoodCategory();
+  const { stores: nearestInfo, isLoading } = useNearestFoodStores(selectedCategory);
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
@@ -38,19 +35,10 @@ const FoodSection = () => {
     );
   };
 
-  useEffect(() => {
-    if (selectedCategory) {
-      getNearestFoodStoreInfo(setNearestInfo, selectedCategory);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setRequested(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once per category
-  }, [selectedCategory]);
-
   // Skeleton until the first request has finished, then stores or empty.
   // An unknown category (list loaded, id not in it) goes straight to empty.
   const unknownCategory = ready && !selectedCategory;
-  const loading = (!requested && !unknownCategory) || progressing;
+  const loading = (!selectedCategory && !unknownCategory) || isLoading;
   const count = nearestInfo?.length || 0;
 
   return (

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { useParams } from "next/navigation";
 import { IMAGE_URL } from "@/api-endpoints/env";
 import { HiStar } from "react-icons/hi";
@@ -50,8 +50,8 @@ export const RestaurantHeaderSkeleton = () => (
 // delivery time / fee, minimum order, hours, offer and contact.
 const RestaurantHeader = ({ compact = false }) => {
   const params = useParams();
-  const store = useSelector((state) => state.dashboard.visitedFoodStore);
-  const { productCategory } = useSelector((state) => state.itemsByStore);
+  // The restaurant in the URL and its menu, from the store query.
+  const { store, productCategory } = useFoodStore();
 
   if (!store?._id) return null;
 

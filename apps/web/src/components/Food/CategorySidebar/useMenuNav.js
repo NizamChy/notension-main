@@ -1,6 +1,6 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
@@ -19,9 +19,7 @@ const useMenuNav = ({ onNavigate } = {}) => {
   const router = useRouter();
   const params = useParams();
 
-  const { productCategory, popularItem, productInfoByShop } = useSelector(
-    (state) => state.itemsByStore
-  );
+  const { productCategory, popularItem, productInfoByShop } = useFoodStore();
 
   const basePath = `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
   const isHome = !params?.catId && !params?.productId;

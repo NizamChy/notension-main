@@ -1,9 +1,9 @@
 "use client";
 
 import notify from "@/utils/notify";
-import React, { useEffect, useState } from "react";
-import { useFood } from "@/hooks/fetch-data/useFood";
-import { useFoodCategory } from "@/hooks/fetch-data/useFoodCategory";
+import React from "react";
+import { useFoodCategory } from "@/hooks/food/useFoodModule";
+import { useFoodSearchStores } from "@/hooks/food/useFoodStores";
 import { toSlug } from "@/utils/slug";
 import { useRouter, useSearchParams } from "next/navigation";
 import NoStoreFound from "../../ShopInfoSection/NoStoreFound";
@@ -13,15 +13,16 @@ import { STORE_GRID } from "../FoodSection/FoodSection";
 import { PAGE_CONTAINER, SectionTitle } from "@/components/shared/UI/UI";
 
 const FoodSearchedStores = () => {
-  const [requested, setRequested] = useState(false);
-  const [nearestInfo, setNearestInfo] = useState([]);
   const { category: selectedCategory, ready } = useFoodCategory();
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchText = searchParams.get("query");
 
-  const { progressing, handleSearchStore } = useFood();
+  const { stores: nearestInfo, isLoading: progressing } = useFoodSearchStores(
+    searchText ?? "",
+    selectedCategory,
+  );
 
   const handleStoreClick = (shop) => {
     if (!shop || !shop?.shop_name) return;
@@ -34,20 +35,11 @@ const FoodSearchedStores = () => {
     );
   };
 
-  useEffect(() => {
-    if (selectedCategory && searchText) {
-      handleSearchStore(searchText, setNearestInfo, selectedCategory);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setRequested(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- search once per query / category
-  }, [searchText, selectedCategory]);
-
-  // Skeleton while a search runs (and before the first one starts). An
+  // Skeleton while a search runs (and before the category is known). An
   // unknown category (list loaded, id not in it) goes straight to empty.
   const unknownCategory = ready && !selectedCategory;
   const loading =
-    progressing || (!requested && !unknownCategory && searchText?.length > 1);
+    progressing || (!selectedCategory && !unknownCategory && searchText?.length > 1);
   const count = nearestInfo?.length || 0;
 
   return (

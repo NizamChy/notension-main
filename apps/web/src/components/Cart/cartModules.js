@@ -1,6 +1,6 @@
-import useFoodItems from "@/hooks/fetch-data/useFoodItems";
-import { useSelector } from "react-redux";
-import { useOrderFood } from "@/hooks/place-order/useOrderFood";
+import { useFoodCart } from "@/hooks/food/useFoodCart";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
+import { usePlaceFoodOrder } from "@/hooks/food/usePlaceFoodOrder";
 import { useGroceryCart } from "@/hooks/grocery/useGroceryCart";
 import { useGroceryStore } from "@/hooks/grocery/useGroceryStore";
 import { usePlaceGroceryOrder } from "@/hooks/grocery/usePlaceGroceryOrder";
@@ -13,11 +13,9 @@ import {
   MEDICINE_ITEMS_IMAGES,
 } from "@/api-endpoints/api-endpoint";
 
-// The store the shopper has open. Food keeps it in Redux; Grocery and
-// Medicine read it from their store query.
-const useVisitedFoodStore = () =>
-  useSelector((state) => state.dashboard.visitedFoodStore);
+// The store the shopper has open, from each module's store query.
 const NO_STORE = {};
+const useVisitedFoodStore = () => useFoodStore().store ?? NO_STORE;
 const useVisitedGroceryStore = () => useGroceryStore().store ?? NO_STORE;
 const useVisitedMedicineStore = () => useMedicineStore().store ?? NO_STORE;
 
@@ -27,8 +25,8 @@ export const CART_MODULES = {
     useVisitedStore: useVisitedFoodStore,
     imageBaseUrl: FOOD_ITEMS_IMAGES,
     titleField: "product_title_eng",
-    useItems: useFoodItems,
-    useOrder: useOrderFood,
+    useItems: useFoodCart,
+    useOrder: usePlaceFoodOrder,
   },
   grocery: {
     useVisitedStore: useVisitedGroceryStore,

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import DishCartControl from "./DishCartControl";
 import { discountLabelOf } from "./dishUtils";
-import useFoodItems from "@/hooks/fetch-data/useFoodItems";
+import { useFoodCart } from "@/hooks/food/useFoodCart";
 import { FOOD_ITEMS_IMAGES } from "@/api-endpoints/api-endpoint";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import { formatTaka, PrimaryButton } from "@/components/shared/CartUI/CartUI";
@@ -15,7 +15,7 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }) => {
   const [currentQuantity, setCurrentQuantity] = useState(0);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
-    useFoodItems();
+    useFoodCart();
 
   const handleAddToCart = (event) => {
     event.preventDefault();

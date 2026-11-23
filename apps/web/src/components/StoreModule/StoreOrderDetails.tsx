@@ -3,25 +3,16 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { CommonModal, LoginModalDetails } from "./legacyViews";
-import { useGroceryOrders } from "@/hooks/grocery/useGroceryOrders";
-import { useMedicineOrders } from "@/hooks/medicine/useMedicineOrders";
-import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import { OrderDetailsPage, OrderDetailsSkeleton } from "./orders/OrderUI";
+import { ORDER_MODULES, type OrderModuleName } from "./orders/orderModules";
 
-type Props = { moduleName: ItemModuleName; orderId: string | null };
+type Props = { moduleName: OrderModuleName; orderId: string | null };
 type StoreParams = { store?: string; storeId?: string; customStoreId?: string };
-
-// Per-module order queries. Medicine joins in PR 3.
-const ORDER_MODULES = {
-  grocery: { useOrders: useGroceryOrders },
-  medicine: { useOrders: useMedicineOrders },
-} as const;
 
 // The mobile / direct-link page for one order. The order comes from the
 // cached order list; a direct link or reload fetches the list.
 const StoreOrderDetails = ({ moduleName, orderId }: Props) => {
-  const { basePath, imageBaseUrl } = ITEM_MODULES[moduleName];
-  const { useOrders } = ORDER_MODULES[moduleName];
+  const { basePath, imageBase: imageBaseUrl, useOrders } = ORDER_MODULES[moduleName];
   const [loginDismissed, setLoginDismissed] = useState(false);
 
   const params = useParams<StoreParams>();

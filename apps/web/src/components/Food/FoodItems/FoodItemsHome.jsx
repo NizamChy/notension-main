@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { HiOutlineFire } from "react-icons/hi2";
-import { useFood } from "@/hooks/fetch-data/useFood";
 import { EmptyState } from "@/components/shared/UI/UI";
 import MenuSection, { MenuSkeleton } from "./MenuSection";
 import { POPULAR_SECTION } from "@/components/Food/CategorySidebar/useMenuNav";
@@ -12,10 +11,7 @@ const itemCount = (n) => `${n} item${n === 1 ? "" : "s"}`;
 
 // Restaurant home: popular dishes, then the whole menu section by section.
 const FoodItemsHome = () => {
-  const { progressing } = useFood();
-  const { popularItem, productInfoByShop } = useSelector(
-    (state) => state.itemsByStore
-  );
+  const { isLoading: progressing, popularItem, productInfoByShop } = useFoodStore();
 
   const sections = (productInfoByShop || []).filter(
     (section) => section?.itemsInfo?.length > 0

@@ -4,7 +4,6 @@ import { useSessionStore } from "@/stores/sessionStore";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "../../common/Slider";
-import { useSelector } from "react-redux";
 import { HiOutlineMapPin } from "react-icons/hi2";
 import {
   CARD,
@@ -15,7 +14,8 @@ import {
 } from "@/components/shared/UI/UI";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
-import { useFood } from "@/hooks/fetch-data/useFood";
+import { useFoodModule } from "@/hooks/food/useFoodModule";
+import { usePreferencesStore } from "@/stores/preferencesStore";
 import useGatedNavigate from "@/components/shared/LocationModal/useGatedNavigate";
 import { FOOD_SLIDER_TYPE_SUBTYPE_IMAGES } from "@/api-endpoints/api-endpoint";
 
@@ -33,20 +33,22 @@ const SliderPair = ({ first, second }) => {
 
 const FoodCategorySection = () => {
   const pathname = usePathname();
-  const { exploreFoodModule, progressing } = useFood();
   const { requestLocation, locationModal } = useGatedNavigate();
 
   const currentUserLocation = useSessionStore((s) => s.currentUserLocation?.districtName);
 
-  const shopCategory = useSelector((state) => state.dashboard.shopCategory);
-  const DashboardSlider = useSelector(
-    (state) => state.dashboard.DashboardSlider
-  );
+  // Loads once a delivery location is set (as the old mount effect did).
+  const {
+    categories: shopCategory,
+    sliders: DashboardSlider,
+    isLoading: progressing,
+  } = useFoodModule(!!currentUserLocation);
   const sliders = DashboardSlider?.[0] || {};
 
   useEffect(() => {
     if (currentUserLocation) {
-      exploreFoodModule();
+      // The old module load made Food the current module.
+      usePreferencesStore.getState().setCurrentModule("Food");
     } else {
       // No location yet: ask for one, then come back to this page.
       requestLocation(pathname);

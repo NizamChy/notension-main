@@ -54,6 +54,8 @@ export type FoodStoreState = FoodMenu & {
   store?: FoodStore;
   status: StoreStatus;
   isLoading: boolean;
+  /** The explore request failed (after retries). */
+  isError: boolean;
 };
 
 /** The restaurant in the URL: its shop, menu, and whether it is open, closed or missing. */
@@ -78,7 +80,7 @@ export function useFoodStore(): FoodStoreState {
     if (isOpen) usePreferencesStore.getState().setCurrentModule("Food");
   }, [isOpen]);
 
-  return { ...menu, explore, store, status, isLoading: query.isLoading };
+  return { ...menu, explore, store, status, isLoading: query.isLoading, isError: query.isError };
 }
 
 /**
@@ -87,12 +89,13 @@ export function useFoodStore(): FoodStoreState {
  * none when the menu is cached), as the old details page did.
  */
 export function useFoodItem(productId: string | undefined) {
-  const { explore, isLoading, status } = useFoodStore();
+  const { explore, isLoading, isError, status } = useFoodStore();
   const all = (explore as FoodExplore | undefined)?.allProduct;
   const item = productId ? all?.find((p) => p?._id === productId) : undefined;
   return {
     item,
     isLoading,
-    notFound: !isLoading && (status !== null || !!explore) && !item,
+    // A failed load shows as not found, as the old fetch did.
+    notFound: !isLoading && (isError || status !== null || !!explore) && !item,
   };
 }
