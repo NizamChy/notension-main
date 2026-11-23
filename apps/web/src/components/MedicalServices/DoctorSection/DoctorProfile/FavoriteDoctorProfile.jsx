@@ -2,56 +2,41 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import Loader from "@/components/common/Loader";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
+import { bookingPath, useDoctorProfile } from "@/hooks/healthCare/useDoctors";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import DoctorProfileView from "./DoctorProfileView";
 import DoctorNotFound from "./DoctorNotFound";
 
 const FavoriteDoctorProfile = () => {
-  // null until the profile request has finished.
-  const [profileInfo, setProfileInfo] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { getProfileOfDoctor, progressing } = useDoctor();
+  // The booking page of the chamber the login modal was opened for.
+  const [bookingHref, setBookingHref] = useState(null);
 
   const router = useRouter();
   const params = useParams();
 
-  const dispatch = useDispatch();
   const userInfo = useSessionStore((s) => s.userInfo);
 
   const doctorId = params?.id || null;
+  const { chambers: profileInfo, isLoading: progressing } = useDoctorProfile(doctorId);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const isModalOpen = !!bookingHref;
+  const closeModal = () => setBookingHref(null);
 
   const handleBookAppointment = (e, profile) => {
     e.preventDefault();
     e.stopPropagation();
 
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CURRENT_DOCTOR_INFO",
-        data: profile,
-      })
-    );
-
+    // The booking page reads the doctor and centre from its URL.
+    const href = bookingPath(profile?.doctorInfo?._id, profile?.consultationCenterInfo?._id);
     if (!userInfo?._id) {
-      return openModal();
+      return setBookingHref(href);
     } else {
-      router.push("/medical-services/doctor/book-appointment");
+      router.push(href);
     }
   };
-
-  useEffect(() => {
-    getProfileOfDoctor(doctorId, setProfileInfo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- the page remounts for another doctor
-  }, []);
 
   return (
     <>
@@ -72,7 +57,11 @@ const FavoriteDoctorProfile = () => {
 
       {isModalOpen && (
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-          <LoginModalDetails onClose={closeModal} type="appointment" />
+          <LoginModalDetails
+            onClose={closeModal}
+            type="appointment"
+            redirectTo={bookingHref}
+          />
         </CommonModal>
       )}
     </>

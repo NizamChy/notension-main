@@ -1,14 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { LuBuilding2, LuInfo, LuUserPlus } from "react-icons/lu";
+import { LuBuilding2, LuInfo, LuStethoscope, LuUserPlus } from "react-icons/lu";
+import { useBookingChamber } from "@/hooks/healthCare/useDoctors";
 import { CheckoutStep } from "@/components/shared/Checkout/CheckoutUI";
 import { formatTaka } from "@/components/shared/CartUI/CartUI";
 import {
   Badge,
   CARD,
+  EmptyState,
   PageHeader,
+  PRIMARY_BUTTON,
   SECONDARY_BUTTON,
 } from "@/components/shared/UI/UI";
 import PatientInfo from "./PatientInfo";
@@ -72,7 +75,25 @@ const DoctorSummary = ({ chamber }) => {
 
 const AppointmentHome = () => {
   const [showForm, setShowForm] = useState(false);
-  const { currentDoctor } = useSelector((state) => state.doctorInfo);
+  // The doctor and chamber come from the URL (?doctor=&center=).
+  const { chamber: currentDoctor, isLoading, hasDoctor } = useBookingChamber();
+
+  if (!hasDoctor || (!isLoading && !currentDoctor)) {
+    return (
+      <MedicalContainer className="min-h-content py-6 md:py-10">
+        <EmptyState
+          icon={<LuStethoscope />}
+          title="Choose a doctor first"
+          text="Open a doctor's profile and tap Book appointment to pick a chamber."
+          action={
+            <Link href="/medical-services/doctor" className={PRIMARY_BUTTON}>
+              Find a doctor
+            </Link>
+          }
+        />
+      </MedicalContainer>
+    );
+  }
 
   return (
     <MedicalContainer className="min-h-content py-6 md:py-10">

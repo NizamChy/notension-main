@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { LuInfo, LuUserPlus } from "react-icons/lu";
-import { usePatient } from "@/hooks/fetch-data/usePatient";
+import { usePatients } from "@/hooks/healthCare/usePatients";
 import notify from "@/utils/notify";
 import { TextField } from "@/components/shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
@@ -21,7 +21,7 @@ const RegisterPatient = ({ setShowForm = true }) => {
     address: "",
   });
 
-  const { registerPatient, progressing } = usePatient();
+  const { register: registerPatient, progressing } = usePatients();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -1,10 +1,9 @@
 "use client";
 
-import { useSessionStore } from "@/stores/sessionStore";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import { LuChevronRight, LuUsers } from "react-icons/lu";
-import { usePatient } from "@/hooks/fetch-data/usePatient";
+import { usePatients } from "@/hooks/healthCare/usePatients";
+import { parseLocalYMD } from "@/utils/date";
 import { SECONDARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
 import AppointmentModalDetails from "./AppointmentModalDetails";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
@@ -14,15 +13,8 @@ const PatientInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const { progressing, getPatientInfo } = usePatient();
-  const userInfo = useSessionStore((s) => s.userInfo);
-  const { patientInfo } = useSelector((state) => state.user);
-
-  // Load the account's saved patients.
-  useEffect(() => {
-    getPatientInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per account
-  }, [userInfo?._id]);
+  // The account's saved patients, refreshed from the server.
+  const { patients: patientInfo, isLoading: progressing } = usePatients();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -36,7 +28,7 @@ const PatientInfo = () => {
   };
 
   const formatDateOfBirth = (dateString) => {
-    const date = new Date(dateString);
+    const date = parseLocalYMD(dateString);
     return date.toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "2-digit",

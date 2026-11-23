@@ -1,10 +1,9 @@
 "use client";
 
-import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LuStethoscope } from "react-icons/lu";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
+import { useDoctorsByDept, useFindDoctor } from "@/hooks/healthCare/useDoctors";
 import { EmptyState, PageHeader } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -21,30 +20,21 @@ import {
 } from "../../Layout/MedicalUI";
 
 const DoctorInfoByDept = () => {
-  const [pageNo, setPageNo] = useState(1);
-  const [doctorsInfo, setDoctorsInfo] = useState([]);
-
   const params = useParams();
-  const { getDoctorsInfoByDistrict, loadingMore, allLoaded } = useDoctor();
-
-  const { currentDept } = useSelector((state) => state.doctorInfo);
-
   const deptId = params?.deptId || null;
-  // The saved department only counts when it is the one in the URL (a direct
-  // link or another tab may have saved a different one); otherwise read it
-  // from the doctors' chambers.
-  const dept =
-    currentDept?._id === deptId ? currentDept : doctorsInfo?.[0]?.deptInfo;
-  const deptName = dept?.dept_name;
+  const {
+    doctors: doctorsInfo,
+    isLoading,
+    hasMore,
+    loadMore,
+  } = useDoctorsByDept(deptId);
+  const { departments } = useFindDoctor();
 
-  // Reload when the department in the URL changes (the page stays mounted).
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDoctorsInfo([]);
-    getDoctorsInfoByDistrict(deptId, setDoctorsInfo, 1, setPageNo);
-    // getDoctorsInfoByDistrict is recreated on every render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deptId]);
+  // The department in the URL, from the doctor home's list or else from the
+  // doctors' chambers.
+  const dept =
+    departments.find((d) => d?._id === deptId) || doctorsInfo?.[0]?.deptInfo;
+  const deptName = dept?.dept_name;
 
   return (
     <MedicalPageBody>
@@ -66,29 +56,22 @@ const DoctorInfoByDept = () => {
         <MedicalSectionTitle
           subtitle={
             doctorsInfo?.length > 0
-              ? `${doctorsInfo.length}${loadingMore && !allLoaded ? "+" : ""} doctors found`
+              ? `${doctorsInfo.length}${hasMore ? "+" : ""} doctors found`
               : null
           }
         >
           Doctors{deptName ? ` in ${deptName}` : ""}
         </MedicalSectionTitle>
 
-        {!allLoaded && doctorsInfo?.length < 1 && (
+        {isLoading && (
           <SkeletonGrid count={6} item={DoctorCardSkeleton} />
         )}
 
         {doctorsInfo && doctorsInfo?.length > 0 ? (
           <InfiniteScroll
             dataLength={doctorsInfo?.length}
-            next={() => {
-              getDoctorsInfoByDistrict(
-                deptId,
-                setDoctorsInfo,
-                pageNo,
-                setPageNo
-              );
-            }}
-            hasMore={loadingMore}
+            next={loadMore}
+            hasMore={hasMore}
             loader={<InlineSpinner />}
             style={{ overflow: "visible" }}
           >
@@ -100,7 +83,7 @@ const DoctorInfoByDept = () => {
           </InfiniteScroll>
         ) : null}
 
-        {allLoaded && doctorsInfo?.length < 1 && (
+        {!isLoading && doctorsInfo?.length < 1 && (
           <EmptyState
             icon={<LuStethoscope />}
             title="No doctor found in this department"

@@ -2,13 +2,10 @@
 
 import React from "react";
 import DoctorCardView from "./DoctorCardView";
-import { useDispatch } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
 
 const DoctorInfoCard = ({ doctor, isVisited = false }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const params = useParams();
   // visit/[id] names the param `id`, dept/[deptId]/center/[centerId] names
@@ -22,13 +19,6 @@ const DoctorInfoCard = ({ doctor, isVisited = false }) => {
   const handleDoctorClick = (e, doctor) => {
     e.preventDefault();
     e.stopPropagation();
-
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CURRENT_DOCTOR_INFO",
-        data: doctor,
-      })
-    );
 
     router.push(
       centerId

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   LuArrowRight,
   LuBuilding2,
@@ -14,7 +14,7 @@ import {
   LuStethoscope,
 } from "react-icons/lu";
 import { FaTooth } from "react-icons/fa6";
-import { useServiceProvider } from "@/hooks/fetch-data/useServiceProvider";
+import { useMedicalServiceBanners } from "@/hooks/healthCare/useCenters";
 import { CARD, CARD_HOVER } from "@/components/shared/UI/UI";
 import DoctorCommonSlider from "../DoctorSection/DoctorCommonSlider/DoctorCommonSlider";
 import SearchCenter from "../SearchMedicalCenter/SearchCenter";
@@ -84,20 +84,10 @@ const SHORTCUTS = [
 ];
 
 const MedicalService = () => {
-  const [slider, setSlider] = useState([]);
-  const [providerBanner, setProviderBanner] = useState([]);
-
-  const { exploreMedicalServiceProvider } = useServiceProvider();
-
-  useEffect(() => {
-    exploreMedicalServiceProvider(setProviderBanner);
-  }, []);
-
-  useEffect(() => {
-    if (providerBanner && providerBanner?.length > 1) {
-      setSlider(providerBanner?.slice(0, providerBanner?.length - 4));
-    }
-  }, [providerBanner]);
+  const providerBanner = useMedicalServiceBanners();
+  // The last four banners are not part of the slider.
+  const slider =
+    providerBanner.length > 1 ? providerBanner.slice(0, providerBanner.length - 4) : [];
 
   return (
     <div className="min-h-screen pt-16 md:pt-20">

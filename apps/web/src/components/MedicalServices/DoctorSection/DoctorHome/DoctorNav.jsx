@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useFindDoctor } from "@/hooks/healthCare/useDoctors";
 import React from "react";
 import { HEALTH_CARE_IMAGES } from "@/api-endpoints/api-endpoint";
 
@@ -14,7 +14,7 @@ const tiles = [
 // Two shortcut tiles next to the doctor slider. On mobile they are squares;
 // from md up they stretch to the slider's height so the row lines up.
 const DoctorNav = () => {
-  const { findDoctorBanner } = useSelector((state) => state.doctorInfo);
+  const { findDoctorBanner } = useFindDoctor();
 
   // Banners after the first three are the two shortcut tiles.
   const slider = findDoctorBanner?.length > 2 ? findDoctorBanner.slice(3) : [];

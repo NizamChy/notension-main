@@ -1,7 +1,6 @@
 "use client";
 
 import notify from "@/utils/notify";
-import { useSelector } from "react-redux";
 import {
   LuBuilding2,
   LuCalendarCheck,
@@ -11,7 +10,8 @@ import {
   LuUserRound,
 } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
-import { useAppointment } from "@/hooks/fetch-data/useAppointment";
+import { useBookAppointment } from "@/hooks/healthCare/usePatients";
+import { useBookingChamber } from "@/hooks/healthCare/useDoctors";
 import { toLocalYMD } from "@/utils/date";
 import { Badge } from "@/components/shared/UI/UI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
@@ -32,8 +32,8 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }) => {
   const options = { day: "2-digit", month: "2-digit", year: "numeric" };
   const currentDate = today.toLocaleDateString("en-GB", options);
 
-  const { progressing, bookAppointment } = useAppointment();
-  const { currentDoctor } = useSelector((state) => state.doctorInfo);
+  const { progressing, book: bookAppointment } = useBookAppointment();
+  const { chamber: currentDoctor } = useBookingChamber();
 
   const weekday = [
     "Saturday",

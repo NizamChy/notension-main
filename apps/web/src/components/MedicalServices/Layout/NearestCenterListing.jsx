@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LuMapPinned } from "react-icons/lu";
-import { useCenter } from "@/hooks/fetch-data/useCenter";
+import { useNearestCenters } from "@/hooks/healthCare/useCenters";
 import { EmptyState } from "@/components/shared/UI/UI";
 import CenterGrid from "./CenterGrid";
 import {
@@ -20,13 +20,7 @@ const NearestCenterListing = ({
   back,
   backLabel,
 }) => {
-  const [centerInfo, setCenterInfo] = useState([]);
-
-  const { getNearestCenterInfo, progressing } = useCenter();
-
-  useEffect(() => {
-    getNearestCenterInfo(centerType, setCenterInfo);
-  }, []);
+  const { centers: centerInfo, isLoading: progressing } = useNearestCenters(centerType);
 
   return (
     <>

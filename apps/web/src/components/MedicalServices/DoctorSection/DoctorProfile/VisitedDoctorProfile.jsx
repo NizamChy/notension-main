@@ -2,11 +2,9 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import Loader from "@/components/common/Loader";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useDoctor } from "@/hooks/fetch-data/useDoctor";
-import { handleDoctorReducer } from "@/redux/doctorReducer";
+import { bookingPath, chamberAt, useDoctorProfile } from "@/hooks/healthCare/useDoctors";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
@@ -14,22 +12,19 @@ import DoctorProfileView from "./DoctorProfileView";
 import DoctorNotFound from "./DoctorNotFound";
 
 const VisitedDoctorProfile = () => {
-  // null until the profile request has finished.
-  const [profileInfo, setProfileInfo] = useState(null);
   // What the login modal was opened for: "appointment" or "favourite".
   const [loginType, setLoginType] = useState(null);
 
-  const { getProfileOfDoctor, progressing } = useDoctor();
   const { addToFavouriteList, isAddedToFavouriteList } = useFavouriteList();
 
   const userInfo = useSessionStore((s) => s.userInfo);
 
   const params = useParams();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const centerId = params?.id || null;
   const doctorId = params?.doctorId || null;
+  const { chambers: profileInfo, isLoading: progressing } = useDoctorProfile(doctorId);
 
   const merchantType = 4;
 
@@ -45,36 +40,24 @@ const VisitedDoctorProfile = () => {
     addToFavouriteList(visitedDoctor?.doctorInfo, merchantType);
   };
 
-  const handleBookAppointment = () => {
-    dispatch(
-      handleDoctorReducer({
-        type: "SAVE_CURRENT_DOCTOR_INFO",
-        data: visitedDoctor,
-      })
-    );
+  const visitedDoctor = chamberAt(profileInfo, centerId);
+  // The booking page reads the doctor and centre from its URL.
+  const bookingHref = bookingPath(
+    visitedDoctor?.doctorInfo?._id,
+    visitedDoctor?.consultationCenterInfo?._id,
+  );
 
+  const handleBookAppointment = () => {
     if (!userInfo?._id) {
       return setLoginType("appointment");
     } else {
-      router.push("/medical-services/doctor/book-appointment");
+      router.push(bookingHref);
     }
   };
-
-  const visitedDoctor =
-    centerId !== "null"
-      ? profileInfo?.find(
-          (profile) => profile?.consultationCenterInfo?._id === centerId
-        )
-      : profileInfo?.[0];
 
   const isFavoriteAdded =
     !!visitedDoctor &&
     isAddedToFavouriteList(visitedDoctor?.doctorInfo?._id, merchantType);
-
-  useEffect(() => {
-    getProfileOfDoctor(doctorId, setProfileInfo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- the page remounts for another doctor
-  }, []);
 
   if (progressing || !profileInfo) return <Loader />;
   if (!visitedDoctor?.doctorInfo) return <DoctorNotFound />;
@@ -93,7 +76,11 @@ const VisitedDoctorProfile = () => {
 
       {isModalOpen && (
         <CommonModal isOpen={isModalOpen} onClose={closeModal}>
-          <LoginModalDetails onClose={closeModal} type={loginType} />
+          <LoginModalDetails
+            onClose={closeModal}
+            type={loginType}
+            redirectTo={loginType === "appointment" ? bookingHref : undefined}
+          />
         </CommonModal>
       )}
     </>
