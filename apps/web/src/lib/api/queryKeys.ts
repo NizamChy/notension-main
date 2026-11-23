@@ -53,6 +53,26 @@ export const queryKeys = {
     orders: (customerId: string, customId: string) =>
       ["fashion", "orders", customerId, customId] as const,
   },
+  healthCare: {
+    all: () => ["healthCare"] as const,
+    findDoctor: (districtId: string) => ["healthCare", "findDoctor", districtId] as const,
+    medicalServices: (districtId: string) => ["healthCare", "medicalServices", districtId] as const,
+    nearestDoctors: (districtId: string, lat: string, lng: string) =>
+      ["healthCare", "nearestDoctors", districtId, lat, lng] as const,
+    doctorsByDept: (deptId: string, districtId: string) =>
+      ["healthCare", "doctorsByDept", deptId, districtId] as const,
+    doctorsByCenter: (centerId: string, deptId: string) =>
+      ["healthCare", "doctorsByCenter", centerId, deptId] as const,
+    doctorProfile: (doctorId: string) => ["healthCare", "doctorProfile", doctorId] as const,
+    nearestCenters: (centerType: string, districtId: string, lat: string, lng: string) =>
+      ["healthCare", "nearestCenters", centerType, districtId, lat, lng] as const,
+    centersByDistrict: (centerType: string, districtId: string) =>
+      ["healthCare", "centersByDistrict", centerType, districtId] as const,
+    searchCenters: (centerType: string, text: string) =>
+      ["healthCare", "searchCenters", centerType, text] as const,
+    center: (centerId: string) => ["healthCare", "center", centerId] as const,
+    patients: (userId: string) => ["healthCare", "patients", userId] as const,
+  },
   user: {
     all: () => ["user"] as const,
     me: () => ["user", "me"] as const,

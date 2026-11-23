@@ -127,6 +127,20 @@ const firstChamberPerDoctor = (list) => {
 // Routes
 // ---------------------------------------------------------------------------
 
+// A patient as the API returns it: every field set, blank when not given.
+const PATIENT_FIELDS = ["patient_name", "contact", "alternative_contact", "date_of_birth", "gender", "email", "address"];
+const toPatient = (body, base = {}) => {
+  const now = new Date().toISOString();
+  const patient = { ...base, createdBy: base.createdBy ?? body.createdBy, updatedAt: now };
+  for (const field of PATIENT_FIELDS) {
+    const value = body[field] ?? base[field];
+    patient[field] = typeof value === "string" ? value.trim() : "";
+  }
+  patient._id = base._id ?? newId("9a");
+  patient.createdAt = base.createdAt ?? now;
+  return patient;
+};
+
 export const routes = [
   // Medical services home banners.
   {
@@ -339,11 +353,7 @@ export const routes = [
       if (!body.patient_name || String(body.patient_name).trim().length < 3) {
         return demoResponse(400, { success: false, message: "Patient name is required" });
       }
-      const saved = {
-        ...body,
-        _id: newId("9a"),
-        createdAt: new Date().toISOString(),
-      };
+      const saved = toPatient(body);
       patients.push(saved);
       return { success: true, message: "Patient registered successfully", result: saved };
     },
@@ -356,11 +366,11 @@ export const routes = [
       const index = patients.findIndex((p) => p._id === body._id);
       if (index === -1) {
         // Unknown record: the hook replaces it with the returned one.
-        const saved = { ...body, _id: newId("9a"), createdAt: new Date().toISOString() };
+        const saved = toPatient(body);
         patients.push(saved);
         return { success: true, message: "delete", result: saved };
       }
-      patients[index] = { ...patients[index], ...body, updatedAt: new Date().toISOString() };
+      patients[index] = toPatient(body, patients[index]);
       return { success: true, message: "update", result: patients[index] };
     },
   },
@@ -399,8 +409,28 @@ export const routes = [
         };
       }
 
+      // Like the API: the chamber supplies its id, fee and limit.
+      const chamber = DEMO_CHAMBERS.find(
+        (ch) =>
+          ch.doctorInfo._id === body.doctor_info &&
+          ch.consultationCenterInfo._id === body.consultation_center_info,
+      );
       const saved = {
-        ...body,
+        doctor_info: body.doctor_info,
+        consultation_center_info: body.consultation_center_info,
+        chamber_info: chamber?._id ?? body.consultation_center_info,
+        consultation_limit: limit,
+        consultation_fee: chamber?.consultation_fee ?? 0,
+        appointment_date: body.appointment_date,
+        time_slot: body.time_slot,
+        patient_info: {
+          id: body.patient_info?.id,
+          patient_name:
+            patients.find((p) => p._id === body.patient_info?.id)?.patient_name ??
+            body.patient_info?.patient_name ??
+            "",
+        },
+        createdBy: body.createdBy,
         _id: newId("a9"),
         serial_no: booked + 1,
         status: "Booked",
