@@ -1,4 +1,5 @@
 import type { ItemListQuery } from "./grocery";
+import type { ProductFilter } from "./fashion";
 
 // Query keys, rooted at the service name. Module PRs add their own roots.
 export const queryKeys = {
@@ -34,6 +35,23 @@ export const queryKeys = {
     store: (storeId: string, customStoreId: string) =>
       ["food", "store", storeId, customStoreId] as const,
     orders: (customerId: string) => ["food", "orders", customerId] as const,
+  },
+  fashion: {
+    all: () => ["fashion"] as const,
+    types: () => ["fashion", "types"] as const,
+    categories: () => ["fashion", "categories"] as const,
+    subCategories: () => ["fashion", "subCategories"] as const,
+    brands: () => ["fashion", "brands"] as const,
+    allPopular: () => ["fashion", "allPopular"] as const,
+    products: (typeId: string, filter: ProductFilter) =>
+      ["fashion", "products", typeId, filter] as const,
+    product: (productId: string) => ["fashion", "product", productId] as const,
+    store: (storeId: string) => ["fashion", "store", storeId] as const,
+    storeTypes: (storeId: string) => ["fashion", "storeTypes", storeId] as const,
+    storeCategories: (storeId: string) => ["fashion", "storeCategories", storeId] as const,
+    storeSubCategories: (storeId: string) => ["fashion", "storeSubCategories", storeId] as const,
+    orders: (customerId: string, customId: string) =>
+      ["fashion", "orders", customerId, customId] as const,
   },
   user: {
     all: () => ["user"] as const,

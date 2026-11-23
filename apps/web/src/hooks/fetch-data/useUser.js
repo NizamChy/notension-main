@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { USER_URL } from "@/api-endpoints/env";
 import { useDispatch } from "react-redux";
 import { logout } from "@/stores/logout";
+import { useWishlistStore } from "@/stores/wishlistStore";
 import { handleUserChoiceReducer } from "@/redux/userChoiceReducer";
 import { toUserLocation } from "@/utils/userLocation";
 import { DEMO_USER_CONTACT } from "@/demo/demoUser";
@@ -245,6 +246,8 @@ export const useUser = () => {
 
     logout();
     dispatch(handleUserChoiceReducer({ type: "CLEAR_FAVOURITES" }));
+    // The Fashion wishlist left Redux; it is cleared on logout as before.
+    useWishlistStore.getState().clear();
 
     persistor.purge().then(() => {
       router.push("/");

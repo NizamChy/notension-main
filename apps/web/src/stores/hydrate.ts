@@ -1,6 +1,7 @@
 import { useCartStore } from "./cartStore";
 import { usePreferencesStore } from "./preferencesStore";
 import { useSessionStore } from "./sessionStore";
+import { useWishlistStore } from "./wishlistStore";
 import type { LegacyAwareStorage } from "./storage";
 
 type Persisted = {
@@ -28,7 +29,12 @@ function hasOwnValue(store: Persisted): boolean {
  */
 export async function hydrateStores(): Promise<void> {
   try {
-    const stores: Persisted[] = [useCartStore, useSessionStore, usePreferencesStore];
+    const stores: Persisted[] = [
+      useCartStore,
+      useSessionStore,
+      usePreferencesStore,
+      useWishlistStore,
+    ];
     const needsWrite = stores.map((s) => !hasOwnValue(s));
     await Promise.all(stores.map((s) => s.persist.rehydrate()));
     stores.forEach((s, i) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useWishlistStore } from "@/stores/wishlistStore";
 import EmptyWishlist from "./EmptyWishlist";
 import FashionSection from "../shared/FashionSection";
 import { PageHeader } from "@/components/shared/UI/UI";
@@ -10,9 +10,7 @@ import FashionProductCard, {
 } from "../shared/Card/FashionProductCard";
 
 const WishlistProduct = () => {
-  const favouriteFashionItems = useSelector(
-    (state) => state.userChoice.favouriteFashionItems
-  );
+  const favouriteFashionItems = useWishlistStore((s) => s.items);
 
   if (!favouriteFashionItems || favouriteFashionItems?.length === 0)
     return <EmptyWishlist />;

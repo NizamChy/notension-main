@@ -1,7 +1,6 @@
 "use client";
 
 import { useSessionStore } from "@/stores/sessionStore";
-import axios from "axios";
 import { lineTotal } from "@/utils/price";
 import notify from "@/utils/notify";
 import React, { useState } from "react";
@@ -10,8 +9,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { PAYMENT_DATA } from "@/components/shared/Checkout/paymentOptions";
 import { useMutation } from "@tanstack/react-query";
-import { FASHION_BASE_URL } from "@/api-endpoints/env";
-import { CREATE_ORDER } from "@/api-endpoints/api-endpoint";
+import { placeOrder } from "@/lib/api/fashion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import CommonModal from "@/components/shared/CommonModal/CommonModal";
 import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
@@ -61,13 +59,7 @@ const Checkout = () => {
   };
 
   const postOrderMutation = useMutation({
-    mutationFn: async (orderData) => {
-      const response = await axios.post(
-        `${FASHION_BASE_URL}${CREATE_ORDER}`,
-        orderData
-      );
-      return response.data;
-    },
+    mutationFn: placeOrder,
     onSuccess: () => {
       setTotalStores((prev) => prev + 1);
     },

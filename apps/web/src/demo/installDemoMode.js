@@ -4,8 +4,8 @@ import { startBackendCheck } from "./backendStatus";
 import { useSessionStore } from "@/stores/sessionStore";
 import { DEFAULT_DEMO_LOCATION, toUserLocation } from "./demoLocations";
 
-// The fashion module calls the global axios instance directly, so it gets the
-// same adapter as the API clients: the network, or demo data while the API is
+// Anything that calls the global axios instance directly gets the same
+// adapter as the API clients: the network, or demo data while the API is
 // down. This runs when the module is first imported, before any component
 // renders or fetches.
 axios.defaults.adapter = demoAdapter;
