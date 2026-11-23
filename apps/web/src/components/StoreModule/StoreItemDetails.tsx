@@ -5,7 +5,7 @@ import notify from "@/utils/notify";
 import { useParams } from "next/navigation";
 import React, { useState, type MouseEvent } from "react";
 import { ProductDetailsPage, ProductDetailsView, discountLabelOf } from "./legacyViews";
-import { ITEM_MODULES, itemImageSrc, savingsOf, type ItemModuleName, type StoreItem } from "./moduleItems";
+import { ITEM_MODULES, itemImageSrc, type ItemModuleName, type StoreItem } from "./moduleItems";
 import { useStoreData } from "./useStoreData";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
 import { flyToCart } from "@/utils/flyToCart";
@@ -130,17 +130,12 @@ const StoreItemDetails = ({ moduleName }: Props) => {
         <ProductDetailsView
           imageSrc={itemImageSrc(config, item)}
           title={item?.[config.titleField]}
-          altTitle={item?.[config.titleBengField]}
-          chips={[item?.pack_size]}
+          {...config.detailExtras(item)}
           discountLabel={discountLabelOf(item)}
           salePrice={item?.sale_price}
           mrp={item?.max_retail_price}
-          savings={savingsOf(item)}
+          savings={config.savings(item)}
           isAvailable={item?.is_available == null ? null : !!item?.is_available}
-          details={[
-            { label: "Pack size", value: item?.pack_size },
-            { label: "Unit", value: item?.unit_symbol },
-          ]}
           quantity={currentQuantity}
           isBusy={isLoading}
           onAddToCart={handleAddToCart}

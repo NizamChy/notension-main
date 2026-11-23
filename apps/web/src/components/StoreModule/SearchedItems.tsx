@@ -25,7 +25,7 @@ const SearchedItems = ({ moduleName }: Props) => {
         title={`Results for “${searchText || ""}”`}
         subtitle={
           items?.length > 0
-            ? `${items.length}${hasMore ? "+" : ""} products found in this store`
+            ? `${items.length}${hasMore ? "+" : ""} ${config.labels.items} found in this store`
             : null
         }
       />
@@ -38,8 +38,8 @@ const SearchedItems = ({ moduleName }: Props) => {
         renderItem={(item) => (
           <StoreItemTile key={item?._id} moduleName={moduleName} item={item} />
         )}
-        emptyTitle="No products found"
-        emptyText="Check the spelling or try a more general word."
+        emptyTitle={config.labels.searchEmptyTitle}
+        emptyText={config.labels.searchEmptyText}
       />
     </div>
   );

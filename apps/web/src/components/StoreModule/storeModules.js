@@ -1,25 +1,15 @@
-import { useEffect, useState } from "react";
-import { useMedicine } from "@/hooks/fetch-data/useMedicine";
 import {
   useGrocerySearchStores,
   useNearestGroceryStores,
 } from "@/hooks/grocery/useGroceryStores";
 import {
+  useMedicineSearchStores,
+  useNearestMedicineStores,
+} from "@/hooks/medicine/useMedicineStores";
+import {
   GROCERY_SLIDER_TYPE_SUBTYPE_IMAGES,
   MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
 } from "@/api-endpoints/api-endpoint";
-
-// Medicine store search over useMedicine, with the same result shape as
-// useGrocerySearchStores. Behaviour is the old SearchedStores effect.
-const useMedicineSearchStores = (text) => {
-  const [stores, setStores] = useState([]);
-  const { handleSearchStore, progressing } = useMedicine();
-  useEffect(() => {
-    handleSearchStore(text, setStores);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
-  return { stores, isLoading: progressing };
-};
 
 // Per-module settings for the components shared by the grocery and
 // medicine store modules. Tailwind classes are kept as full strings so
@@ -38,7 +28,7 @@ export const STORE_MODULES = {
   medicine: {
     basePath: "/medicine",
     sliderImageBaseUrl: MEDICINE_SLIDER_TYPE_SUBTYPE_IMAGES,
-    useStores: { search: useMedicineSearchStores },
+    useStores: { nearest: useNearestMedicineStores, search: useMedicineSearchStores },
     customTypes: {
       specialOffer: "65128cbd20db0921f13b40b3",
       dealOfTheDay: "64ec724d538280d7999a2d39",

@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 import { storeStatusOf, type ExploreResult, type GroceryExplore } from "@/lib/api/grocery";
+import type { MedicineExploreResult } from "@/lib/api/medicine";
 import { useGroceryStore } from "@/hooks/grocery/useGroceryStore";
+import { useMedicineStore } from "@/hooks/medicine/useMedicineStore";
 
 type ProductType = GroceryExplore["ProductTypeByShop"][number];
 type ProductSubType = GroceryExplore["ProductSubTypeByShop"][number];
@@ -45,12 +46,15 @@ const EMPTY: Omit<StoreData, "isLoading"> = {
 };
 
 /**
- * The store-page data of an explore result. A copy of the old grocery explore
- * cases of dashboardReducer and items-by-shop (see the test), which ran only
- * for an open store.
+ * The store-page data of an explore result. A copy of the old explore cases
+ * of dashboardReducer (EXPLORE_STORE and EXPLORE_MED_STORE are identical) and
+ * items-by-shop (see the test), which ran only for an open store. Medicine
+ * reads the same fields, so its explore is read through the grocery type.
  */
-export function toStoreData(explore: ExploreResult | undefined): Omit<StoreData, "isLoading"> {
-  if (!explore || storeStatusOf(explore) !== null) return EMPTY;
+export function toStoreData(
+  explore: ExploreResult | MedicineExploreResult | undefined,
+): Omit<StoreData, "isLoading"> {
+  if (!explore || storeStatusOf(explore as ExploreResult) !== null) return EMPTY;
   const data = explore as GroceryExplore;
   const shop = data.ShopDetails?.[0] as GroceryExplore["ShopDetails"][number] | undefined;
 
@@ -91,45 +95,10 @@ function useGroceryStoreData(): StoreData {
   return useMemo(() => ({ ...data, isLoading }), [data, isLoading]);
 }
 
-// The Redux slices Medicine still fills (until PR 3).
-type LegacyState = {
-  dashboard: {
-    visitedMedicineStore: Record<string, unknown>;
-    typeInfo: TypeInfo[];
-    typeInfoByShop: unknown[];
-    subtypeInfoByShop: unknown[];
-    DashboardSlider: unknown[];
-    showProductPrice: boolean;
-    isLoading: boolean;
-  };
-  itemsByStore: {
-    specialOfferItem: unknown[];
-    dealOfTheDay: unknown[];
-    popularItem: unknown[];
-    merchantId: string;
-    customstore_id: string;
-  };
-};
-
 function useMedicineStoreData(): StoreData {
-  const dashboard = useSelector((state: LegacyState) => state.dashboard);
-  const items = useSelector((state: LegacyState) => state.itemsByStore);
-  return useMemo(
-    () => ({
-      store: dashboard.visitedMedicineStore,
-      typeInfo: dashboard.typeInfo,
-      typeInfoByShop: dashboard.typeInfoByShop,
-      subtypeInfoByShop: dashboard.subtypeInfoByShop,
-      slider: dashboard.DashboardSlider,
-      showProductPrice: dashboard.showProductPrice,
-      specialOfferItem: items.specialOfferItem,
-      dealOfTheDay: items.dealOfTheDay,
-      popularItem: items.popularItem,
-      storeRef: { merchantId: items.merchantId, customstore_id: items.customstore_id },
-      isLoading: dashboard.isLoading,
-    }),
-    [dashboard, items],
-  );
+  const { explore, isLoading } = useMedicineStore();
+  const data = useMemo(() => toStoreData(explore), [explore]);
+  return useMemo(() => ({ ...data, isLoading }), [data, isLoading]);
 }
 
 const STORE_DATA_HOOKS: Record<StoreModuleName, () => StoreData> = {
@@ -138,9 +107,9 @@ const STORE_DATA_HOOKS: Record<StoreModuleName, () => StoreData> = {
 };
 
 /**
- * What a grocery or medicine store page shows. Grocery reads the explore
- * query; Medicine still reads Redux. A component keeps one module for its
- * whole life, so the hook it calls never changes.
+ * What a grocery or medicine store page shows, from that module's explore
+ * query. A component keeps one module for its whole life, so the hook it
+ * calls never changes.
  */
 export function useStoreData(moduleName: StoreModuleName): StoreData {
   const useData = STORE_DATA_HOOKS[moduleName];
