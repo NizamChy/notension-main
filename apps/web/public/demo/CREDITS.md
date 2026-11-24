@@ -367,7 +367,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [portrait, woman, model](https://pixabay.com/photos/portrait-woman-model-photography-10446748/) | HPphotoretouch | `fashion/comfort-briefs.webp` |
 | [traditional, leather, shoes](https://pixabay.com/photos/traditional-leather-shoes-indian-4367785/) | vireshstudio | `fashion/comfort-jutti.webp` |
 | [sport, clothes, fashion](https://pixabay.com/photos/sport-clothes-fashion-healthy-3501273/) | Engin_Akyurt | `fashion/comfort-lounge-pants.webp` |
-| [pinup, pin up, vintage](https://pixabay.com/photos/pinup-pin-up-vintage-retro-pose-2805448/) | 5267040 | `fashion/comfort-petticoat.webp` |
+| [woman, young, fashion](https://pixabay.com/photos/woman-young-fashion-white-skirt-9634978/) | Surprising_Media | `fashion/comfort-petticoat.webp` |
 | [shoes, sandals, footwear](https://pixabay.com/photos/shoes-sandals-footwear-casual-1489827/) | WOKANDAPIX | `fashion/comfort-sports-shoes-floaters.webp` |
 | [people, woman, nature](https://pixabay.com/photos/people-woman-travel-adventure-trek-2591874/) | StockSnap | `fashion/cosy-hoodie.webp` |
 | [bedroom, cupboard, bed](https://pixabay.com/photos/bedroom-cupboard-bed-room-sofa-1872196/) | manbob86 | `fashion/cosy-sofa-chair-covers.webp` |
@@ -466,7 +466,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [child, people, outdoors](https://pixabay.com/photos/child-people-outdoors-3290929/) | nirajnnd | `fashion/kids-cotton-panjabi-sky-blue.webp`, `fashion/kids-cotton-panjabi-white.webp`, `fashion/kids-cotton-panjabi.webp` |
 | [baby, boy, portrait](https://pixabay.com/photos/baby-boy-portrait-kid-child-6572903/) | Tipos-CreativeWorld | `fashion/kids-eid-panjabi-set-cream.webp`, `fashion/kids-eid-panjabi-set-maroon.webp`, `fashion/kids-eid-panjabi-set.webp` |
 | [shoes, bride, wedding](https://pixabay.com/photos/shoes-bride-wedding-love-couple-8070908/) | NateShot | `fashion/kids-heels-2.webp` |
-| [boys, reading, children](https://pixabay.com/photos/boys-reading-children-book-kids-932821/) | tookapic | `fashion/kids-innerwear-thermals.webp` |
+| [brothers, love, siblings](https://pixabay.com/photos/brothers-love-siblings-family-7635495/) | AlisaDyson | `fashion/kids-innerwear-thermals.webp` |
 | [model, boy model, posing](https://pixabay.com/photos/model-boy-model-posing-background-3016382/) | Sunriseforever | `fashion/kids-jogger-pants-grey.webp`, `fashion/kids-jogger-pants-navy.webp`, `fashion/kids-jogger-pants.webp` |
 | [baby, girl, child](https://pixabay.com/photos/baby-girl-child-cute-baby-girl-2047595/) | TerriC | `fashion/kids-newborn-essentials.webp` |
 | [rc 1 8, off road, buggy](https://pixabay.com/photos/rc-1-8-off-road-buggy-rc-hobby-5288137/) | Bicouli | `fashion/kids-remote-control-toys.webp` |
@@ -548,7 +548,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [wallet, empty, poverty](https://pixabay.com/photos/wallet-empty-poverty-bankrupt-3548021/) | Chronomarchie | `fashion/sub-bag-accessories-men-bag-wallet.webp` |
 | [fashion, shooting, guy](https://pixabay.com/photos/fashion-shooting-guy-man-male-601562/) | stokpic | `fashion/executive-travel-bag.webp`, `fashion/sub-bag-accessories-men-bag-weekender-bag.webp` |
 | [girl, model, lovely](https://pixabay.com/photos/girl-model-lovely-nice-fashion-3054750/) | GreenLana | `fashion/sub-bag-accessories-sunglasses-watches-kids-sunglasses.webp` |
-| [clock, smart, children's watch](https://pixabay.com/photos/clock-smart-childrens-watch-1523531/) | Den1979 | `fashion/sport-kids-watch.webp`, `fashion/sub-bag-accessories-sunglasses-watches-kids-watch.webp` |
+| [clock, wrist, clock face](https://pixabay.com/photos/clock-wrist-clock-face-chronometer-2826537/) | VViktor | `fashion/sport-kids-watch.webp`, `fashion/sub-bag-accessories-sunglasses-watches-kids-watch.webp` |
 | [happy, man, adult](https://pixabay.com/photos/happy-man-adult-city-face-guy-1836445/) | Pexels | `fashion/sub-bag-accessories-sunglasses-watches-men-sunglasses.webp` |
 | [analog watch, time, watch](https://pixabay.com/photos/analog-watch-time-watch-wrist-watch-1869928/) | Pexels | `fashion/sub-bag-accessories-sunglasses-watches-men-watches.webp` |
 | [man, fashion, model](https://pixabay.com/photos/man-fashion-model-fashion-man-930397/) | RyanMcGuire | `fashion/sub-bag-accessories-sunglasses-watches-women-sunglasses.webp` |
@@ -646,7 +646,7 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [beauty, clipping, delijia](https://pixabay.com/photos/beauty-clipping-delijia-kit-88015/) | byrev | `fashion/sub-health-beauty-makeup-nail-care.webp` |
 | [nail art, beautiful flowers, manicure](https://pixabay.com/photos/nail-art-manicure-nails-nail-polish-5653459/) | Mounthive | `fashion/hd-nail-art-kits.webp`, `fashion/sub-health-beauty-makeup-nail-polish-sets.webp` |
 | [manicure, pedicure, cosmetics](https://pixabay.com/photos/manicure-pedicure-cosmetics-care-870857/) | Bru-nO | `fashion/glow-nail-polish-sets.webp`, `fashion/long-wear-nail-polish-remover.webp`, `fashion/sub-health-beauty-makeup-nail-polish.webp` |
-| [bottle, 3d model, cinema 4d](https://pixabay.com/photos/bottle-3d-model-cinema-4d-2823592/) | DTech | `fashion/glow-setting-spray.webp`, `fashion/sub-health-beauty-makeup-setting-spray.webp`, `fashion/sub-health-beauty-skin-care-toners-astringents.webp` |
+| [cosmetics, beauty, products](https://pixabay.com/photos/cosmetics-beauty-products-6051633/) | tihomirlphotography | `fashion/glow-setting-spray.webp`, `fashion/sub-health-beauty-makeup-setting-spray.webp`, `fashion/sub-health-beauty-skin-care-toners-astringents.webp` |
 | [make-up, sponges, facial](https://pixabay.com/photos/make-up-sponges-facial-colorful-3463456/) | taraghb | `fashion/sub-health-beauty-makeup-sponges-applicators.webp` |
 | [cosmetics, makeup, foundation](https://pixabay.com/photos/cosmetics-makeup-foundation-1150881/) | Lisy_ | `fashion/matte-bb-cc-cream.webp`, `fashion/sub-health-beauty-makeup-tinted-moisturizer.webp`, `fashion/sub-health-beauty-makeup-under-eye-concealer.webp` |
 | [estetica, beauty salon, eyebrows](https://pixabay.com/photos/estetica-beauty-salon-eyebrows-tab-2901096/) | agustino | `fashion/long-wear-tweezers.webp`, `fashion/sub-health-beauty-makeup-tweezers.webp` |
@@ -790,7 +790,8 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [vietnam, people, girl](https://pixabay.com/photos/vietnam-people-girl-portrait-9849101/) | Chuotanhls | `fashion/sub-kids-world-girls-clothing-party-wear.webp` |
 | [little girl, pink tutu, winter](https://pixabay.com/photos/little-girl-pink-tutu-winter-snow-8472522/) | JillWellington | `fashion/sub-kids-world-girls-clothing-skirts-shorts.webp` |
 | [girl, young, child](https://pixabay.com/photos/girl-young-child-happy-smiling-406137/) | cherylholt | `fashion/girls-t-shirts.webp`, `fashion/sub-kids-world-girls-clothing-t-shirts.webp` |
-| [kids, smile, eyes](https://pixabay.com/photos/kids-smile-eyes-happy-smiling-joy-3471580/) | silvianrivademar | `fashion/party-innerwear-thermals.webp`, `fashion/sub-kids-world-girls-clothing-tops.webp` |
+| [christmas kids, cookies and milk, christmas](https://pixabay.com/photos/christmas-kids-cookies-and-milk-1073567/) | candice_rose | `fashion/party-innerwear-thermals.webp` |
+| [kids, smile, eyes](https://pixabay.com/photos/kids-smile-eyes-happy-smiling-joy-3471580/) | silvianrivademar | `fashion/sub-kids-world-girls-clothing-tops.webp` |
 | [shoes, girls shoes, sneakers](https://pixabay.com/photos/shoes-girls-shoes-sneakers-2216498/) | Myriams-Fotos | `fashion/canvas-casual-sneakers-black.webp`, `fashion/canvas-casual-sneakers-white.webp`, `fashion/canvas-casual-sneakers.webp`, `fashion/embellished-casual-shoes.webp`, `fashion/sub-foot-wear-women-footwear-casual-shoes.webp`, `fashion/sub-kids-world-girls-footwear-casual-shoes.webp` |
 | [ballet, foot, feet](https://pixabay.com/photos/ballet-foot-feet-dance-wait-4941738/) | tobiaswahl | `fashion/sub-kids-world-girls-footwear-flats.webp` |
 | [shoes, colorful, stones](https://pixabay.com/photos/shoes-colorful-stones-rainbow-1480663/) | chezbeate | `fashion/comfy-flipflops.webp`, `fashion/glitter-flipflops.webp`, `fashion/sub-kids-world-girls-footwear-flipflops.webp` |
@@ -851,7 +852,8 @@ under the [Pixabay Content License](https://pixabay.com/service/license-summary/
 | [black, hijab, head cover](https://pixabay.com/photos/black-hijab-head-cover-hair-scarf-2605605/) | Engin_Akyurt | `fashion/sub-women-burka-and-accessories-hijab.webp` |
 | [model, woman, hijab](https://pixabay.com/photos/model-woman-hijab-beach-muslim-5630849/) | aceembelif | `fashion/sub-women-burka-and-accessories-inner.webp` |
 | [woman, fashion, islam](https://pixabay.com/photos/woman-fashion-islam-clothes-scarf-2605200/) | Engin_Akyurt | `fashion/comfort-hijab-accessories.webp`, `fashion/sub-women-burka-and-accessories-khimar.webp` |
-| [woman, arabic, islam](https://pixabay.com/photos/woman-arabic-islam-scraf-hidden-3037154/) | 6335159 | `fashion/comfort-niqab.webp`, `fashion/premium-muslimah-handsocks.webp`, `fashion/sub-women-burka-and-accessories-muslimah-handsocks.webp` |
+| [woman, arabic, islam](https://pixabay.com/photos/woman-arabic-islam-scraf-hidden-3037154/) | 6335159 | `fashion/comfort-niqab.webp` |
+| [glove, gloves, wool](https://pixabay.com/photos/glove-gloves-wool-hand-mitten-13805/) | PublicDomainPictures | `fashion/premium-muslimah-handsocks.webp`, `fashion/sub-women-burka-and-accessories-muslimah-handsocks.webp` |
 | [hijab, headscarf, portrait](https://pixabay.com/photos/hijab-headscarf-portrait-veil-3064633/) | 6335159 | `fashion/sub-women-burka-and-accessories-niqab.webp` |
 | [muslims, turkey, south](https://pixabay.com/photos/muslims-turkey-south-islam-4556239/) | Peggy_Marco | `fashion/sub-women-burka-and-accessories-party-burka.webp` |
 | [muslim, islam, islamic](https://pixabay.com/photos/muslim-islam-islamic-model-woman-9944195/) | Belal_sheikh | `fashion/sub-women-burka-and-accessories-prayer-dresses-hijab.webp` |
