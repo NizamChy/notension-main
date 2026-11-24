@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import notify from "@/utils/notify";
 import OtpSection from "./OtpSection";
 import React, { useState } from "react";
+import { useZodForm } from "@/lib/forms/useZodForm";
+import { cleanPhone, phoneLoginSchema, toastFirstError, type PhoneLoginForm } from "@/lib/forms/customerForms";
 import { isLiveLogin, useUser } from "@/hooks/fetch-data/useUser";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
 import { DEMO_USER_CONTACT, DEMO_USER_NAME } from "@/demo/demoUser";
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
 import { SECONDARY_BUTTON } from "@/components/shared/UI/UI";
-import UserInfoInputs, { type ProfileInfo } from "../UserInfoSection/UserInfoInputs";
+import UserInfoInputs from "../UserInfoSection/UserInfoInputs";
 
 const ButtonSpinner = () => (
   <span
@@ -36,21 +37,21 @@ const LoginModalDetails = ({
   redirectTo,
   showHeading = true,
 }: Props) => {
-  const [phone, setPhone] = useState("");
+  const form = useZodForm(phoneLoginSchema, { defaultValues: { phone: "" } });
+  const phone = form.watch("phone");
+  const setPhone = (value: string) =>
+    form.setValue("phone", value, { shouldValidate: form.formState.isSubmitted });
   const [otpGenerated, setOtpGenerated] = useState("");
   const [contentType, setContentType] = useState("otp");
 
   const {
     progressing,
     userInfo,
-    handleDataChange,
     getOtp,
     registerUser,
     loginAsDemoUser,
     verifyOtp,
   } = useUser();
-  // useUser is JS and infers its string fields as {}; drop the cast once it is TS.
-  const profileInfo = userInfo as unknown as ProfileInfo;
 
   const afterLogin = useAfterLogin(type, onClose, redirectTo);
 
@@ -59,12 +60,7 @@ const LoginModalDetails = ({
   };
 
   const sendSms = async () => {
-    let cleanedPhone = phone
-      ?.toString()
-      .trim()
-      .replace(/\s+/g, "")
-      .replace(/[-]/g, "")
-      .replace(/^\+?88/, "");
+    const cleanedPhone = cleanPhone(phone);
 
     // Live login: the API makes, sends and checks the code.
     if (isLiveLogin()) {
@@ -84,15 +80,11 @@ const LoginModalDetails = ({
     if (sent) setContentType("userInfo");
   };
 
-  const handleOtp = () => {
-    if (phone?.length < 1) {
-      return notify.warning("Please enter your mobile number.");
-    } else if (phone?.length < 11) {
-      return notify.warning("Please enter a valid 11-digit mobile number.");
-    }
-
-    sendSms();
-  };
+  const handleOtp = () =>
+    void form.handleSubmit(
+      () => sendSms(),
+      toastFirstError<PhoneLoginForm>(["phone"]),
+    )();
 
   return (
     <>
@@ -111,7 +103,11 @@ const LoginModalDetails = ({
               </p>
             </div>
           )}
-          <OtpSection phone={phone} setPhone={setPhone} />
+          <OtpSection
+            phone={phone}
+            setPhone={setPhone}
+            error={form.formState.errors.phone?.message}
+          />
 
           <PrimaryButton onClick={handleOtp} disabled={progressing}>
             {progressing ? (
@@ -165,11 +161,10 @@ const LoginModalDetails = ({
             type={type}
             redirectTo={redirectTo}
             phone={phone}
-            userInfo={profileInfo}
+            userInfo={userInfo}
             otpGenerated={otpGenerated}
             sendSms={sendSms}
             progressing={progressing}
-            handleDataChange={handleDataChange}
             registerUser={registerUser}
             verifyOtp={isLiveLogin() ? verifyOtp : undefined}
           />

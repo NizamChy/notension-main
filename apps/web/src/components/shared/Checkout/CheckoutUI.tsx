@@ -164,6 +164,8 @@ export type TextFieldProps = Omit<
   error?: ReactNode;
   // Renders a <textarea> when `multiline`.
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  /** The field element (react-hook-form's `register` passes one). */
+  ref?: (el: HTMLInputElement | HTMLTextAreaElement | null) => void;
 };
 
 export const TextField = ({

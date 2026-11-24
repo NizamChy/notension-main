@@ -1,13 +1,20 @@
 "use client";
 
 import notify from "@/utils/notify";
-import { isLengthBetween } from "@/utils/validation";
-import React, { useState, type MouseEvent } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import RoundLoader from "@/components/shared/RoundLoader/BarsLoader";
 import OtpInput from "../LoginSection/OtpInput";
 import { useAfterLogin } from "@/hooks/useAfterLogin";
 import { TextField } from "@/components/shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import { useZodForm } from "@/lib/forms/useZodForm";
+import {
+  loginDetailsSchema,
+  toastFirstError,
+  type LoginDetailsForm,
+  type LoginStage,
+  type ProfileForm,
+} from "@/lib/forms/customerForms";
 
 const ButtonSpinner = () => (
   <span
@@ -16,11 +23,8 @@ const ButtonSpinner = () => (
   />
 );
 
-/** The profile fields this form edits. */
-type ProfileField = "customer_name" | "customer_address" | "alternative_contact_no";
-
-/** The form's values (useUser's userInfo). */
-export type ProfileInfo = Partial<Record<ProfileField, string>>;
+/** The profile fields this form edits (prefilled from useUser's userInfo). */
+export type ProfileInfo = Partial<ProfileForm>;
 
 type Props = {
   onClose?: () => void;
@@ -31,11 +35,12 @@ type Props = {
   otpGenerated?: string;
   sendSms: () => void;
   progressing: boolean;
-  handleDataChange: (value: string, name: ProfileField) => void;
-  /** Resolves to whether the account was saved. */
-  registerUser: (successMessage: string) => Promise<boolean>;
+  /** Saves the account with these details; resolves to whether it was saved. */
+  registerUser: (profile: ProfileForm, successMessage: string) => Promise<boolean>;
   verifyOtp?: (contactNo: string, otp: string) => Promise<{ ok: boolean; isNew: boolean }>;
 };
+
+const FIELD_ORDER: (keyof LoginDetailsForm)[] = ["customer_name", "customer_address", "otp"];
 
 const UserInfoInputs = ({
   onClose,
@@ -46,17 +51,38 @@ const UserInfoInputs = ({
   otpGenerated,
   sendSms,
   progressing,
-  handleDataChange,
   registerUser,
   // Live login (new API): the code is checked on the server first; only new
   // accounts then fill in name and address.
   verifyOtp,
 }: Props) => {
-  const [otp, setOtp] = useState("");
   const live = Boolean(verifyOtp);
-  const [stage, setStage] = useState<"code" | "profile" | "all">(live ? "code" : "all");
+  const [stage, setStage] = useState<LoginStage>(live ? "code" : "all");
   const showCode = stage !== "profile";
   const showProfile = stage !== "code";
+
+  const schema = useMemo(() => loginDetailsSchema(stage), [stage]);
+  const form = useZodForm(schema, {
+    defaultValues: {
+      customer_name: userInfo?.customer_name || "",
+      customer_address: userInfo?.customer_address || "",
+      alternative_contact_no: userInfo?.alternative_contact_no || "",
+      otp: "",
+    },
+  });
+  const { errors } = form.formState;
+  const otp = form.watch("otp");
+
+  // The account found by send-otp / verify-otp fills in what the visitor
+  // has not typed yet.
+  const { customer_name = "", customer_address = "", alternative_contact_no = "" } = userInfo ?? {};
+  const { reset, getValues } = form;
+  useEffect(() => {
+    reset(
+      { ...getValues(), customer_name, customer_address, alternative_contact_no },
+      { keepDirtyValues: true, keepErrors: true },
+    );
+  }, [reset, getValues, customer_name, customer_address, alternative_contact_no]);
 
   const afterLogin = useAfterLogin(type, onClose, redirectTo);
 
@@ -64,46 +90,35 @@ const UserInfoInputs = ({
     sendSms();
   };
 
-  const handleVerify = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (otp.length < 6) {
-      return notify.warning("Please enter the 6-digit verification code.");
-    }
-    // The "code" stage only exists in live login, which passes verifyOtp.
-    const { ok, isNew } = await verifyOtp!(phone, otp);
-    if (!ok) return;
-    if (isNew) setStage("profile");
-    else afterLogin();
-  };
-
-  const handleLogin = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (stage === "code") return handleVerify(e);
-
-    if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
-      return notify.warning("Name must be between 3 and 50 characters.");
+  const submit = async (values: LoginDetailsForm) => {
+    if (stage === "code") {
+      // The "code" stage only exists in live login, which passes verifyOtp.
+      const { ok, isNew } = await verifyOtp!(phone, values.otp);
+      if (!ok) return;
+      if (isNew) setStage("profile");
+      else afterLogin();
+      return;
     }
 
-    if (!isLengthBetween(userInfo?.customer_address, 5, 200)) {
-      return notify.warning("Address must be between 5 and 200 characters.");
-    }
-
-    if (!live && otp.length < 1) {
-      return notify.warning("Please enter the verification code.");
-    }
-
-    if (!live && otpGenerated !== otp) {
+    if (!live && otpGenerated !== values.otp) {
       return notify.error("The verification code is incorrect. Please try again.");
     }
 
+    const { customer_name, customer_address, alternative_contact_no } = values;
     const success_message = "Logged in successfully";
-    const loggedIn = await registerUser(success_message);
+    const loggedIn = await registerUser(
+      { customer_name, customer_address, alternative_contact_no },
+      success_message,
+    );
     if (!loggedIn) return;
 
     afterLogin();
+  };
+
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    void form.handleSubmit(submit, toastFirstError<LoginDetailsForm>(FIELD_ORDER))();
   };
 
   return (
@@ -142,9 +157,16 @@ const UserInfoInputs = ({
             </span>
             <OtpInput
               value={otp}
-              onChange={setOtp}
+              onChange={(code) =>
+                form.setValue("otp", code, { shouldValidate: form.formState.isSubmitted })
+              }
               length={live ? 6 : otpGenerated?.length || 4}
             />
+            {errors.otp?.message && (
+              <span role="alert" className="mt-1 block text-center text-sm text-[#D92D20]">
+                {errors.otp.message}
+              </span>
+            )}
             <p className="mt-2 text-center text-sm text-gray-500">
               Didn&apos;t get it?{" "}
               <button
@@ -169,10 +191,8 @@ const UserInfoInputs = ({
               id="customer_name"
               required
               autoComplete="name"
-              value={userInfo?.customer_name || ""}
-              onChange={(e) =>
-                handleDataChange(e.target.value, "customer_name")
-              }
+              error={errors.customer_name?.message}
+              {...form.register("customer_name")}
             />
             <TextField
               label="Address"
@@ -180,10 +200,8 @@ const UserInfoInputs = ({
               required
               multiline
               autoComplete="street-address"
-              value={userInfo?.customer_address || ""}
-              onChange={(e) =>
-                handleDataChange(e.target.value, "customer_address")
-              }
+              error={errors.customer_address?.message}
+              {...form.register("customer_address")}
             />
             <TextField
               label="Alternative number"
@@ -191,15 +209,12 @@ const UserInfoInputs = ({
               type="tel"
               inputMode="tel"
               placeholder="Optional"
-              value={userInfo?.alternative_contact_no || ""}
-              onChange={(e) =>
-                handleDataChange(e.target.value, "alternative_contact_no")
-              }
+              {...form.register("alternative_contact_no")}
             />
           </div>
           )}
 
-          <PrimaryButton onClick={(e) => handleLogin(e)} disabled={progressing}>
+          <PrimaryButton onClick={handleLogin} disabled={progressing}>
             {progressing ? (
               <>
                 <ButtonSpinner />

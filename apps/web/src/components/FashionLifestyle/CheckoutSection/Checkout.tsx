@@ -3,7 +3,13 @@
 import { useSessionStore } from "@/stores/sessionStore";
 import { lineTotal } from "@/utils/price";
 import notify from "@/utils/notify";
-import React, { useState, type ChangeEvent, type FormEvent } from "react";
+import React, { useState } from "react";
+import { useZodForm } from "@/lib/forms/useZodForm";
+import {
+  fashionCheckoutSchema,
+  toastFirstError,
+  type FashionCheckoutForm,
+} from "@/lib/forms/customerForms";
 import OrderSummary, { type BagLine } from "./OrderSummary";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
@@ -31,12 +37,16 @@ const Checkout = () => {
   const userInfo = useSessionStore((s) => s.userInfo);
 
   // The session's userInfo is an untyped record; these fields are strings.
-  const [formData, setFormData] = useState({
-    name: (userInfo?.customer_name as string | undefined) || "",
-    phone: (userInfo?.contact_no as string | undefined) || "",
-    address: (userInfo?.customer_address as string | undefined) || "",
-    paymentOption: PAYMENT_DATA[0].label || "",
+  const form = useZodForm(fashionCheckoutSchema, {
+    defaultValues: {
+      name: (userInfo?.customer_name as string | undefined) || "",
+      phone: (userInfo?.contact_no as string | undefined) || "",
+      address: (userInfo?.customer_address as string | undefined) || "",
+      paymentOption: PAYMENT_DATA[0].label || "",
+    },
   });
+  const { errors } = form.formState;
+  const paymentOption = form.watch("paymentOption");
 
   const { cartItems: bagLines, removeFromCart, clearCart } = useCart();
   // The bag keeps each product's fields as it was added.
@@ -57,13 +67,6 @@ const Checkout = () => {
 
   const groupedItemsLength = Object.keys(groupedItems)?.length;
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const postOrderMutation = useMutation({
     mutationFn: placeOrder,
     onSuccess: () => {
@@ -73,15 +76,9 @@ const Checkout = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const submit = async (formData: FashionCheckoutForm) => {
     // Guard against double submit while orders are being placed.
     if (isSubmitting) return;
-
-    if (!formData?.name || !formData?.phone || !formData?.address) {
-      return notify.warning("Please fill in all required fields.");
-    }
 
     setIsSubmitting(true);
     const failedStores: string[] = [];
@@ -165,6 +162,12 @@ const Checkout = () => {
     clearCart();
   };
 
+  // All three fields share one message, shown once as before.
+  const handleSubmit = form.handleSubmit(
+    submit,
+    toastFirstError<FashionCheckoutForm>(["name", "phone", "address"]),
+  );
+
   const handleGoHomeClick = () => {
     router.push("/fashion-lifestyle");
     setTotalStores(0);
@@ -233,30 +236,30 @@ const Checkout = () => {
                 <TextField
                   label="Full name"
                   required
-                  name="name"
+                  id="checkout-name"
                   autoComplete="name"
-                  value={formData.name}
-                  onChange={handleChange}
+                  error={errors.name?.message}
+                  {...form.register("name")}
                 />
                 <TextField
                   label="Phone number"
                   required
                   type="tel"
-                  name="phone"
+                  id="checkout-phone"
                   autoComplete="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  error={errors.phone?.message}
+                  {...form.register("phone")}
                 />
                 <TextField
                   label="Delivery address"
                   required
                   multiline
-                  name="address"
+                  id="checkout-address"
                   autoComplete="street-address"
                   placeholder="House, road, area, city"
-                  value={formData.address}
-                  onChange={handleChange}
+                  error={errors.address?.message}
                   className="sm:col-span-2"
+                  {...form.register("address")}
                 />
               </div>
             </CheckoutStep>
@@ -265,10 +268,8 @@ const Checkout = () => {
               <PaymentOptions
                 name="paymentOption"
                 options={PAYMENT_DATA}
-                value={formData.paymentOption}
-                onChange={(label) =>
-                  setFormData({ ...formData, paymentOption: label })
-                }
+                value={paymentOption}
+                onChange={(label) => form.setValue("paymentOption", label)}
               />
             </CheckoutStep>
           </form>

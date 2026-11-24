@@ -1,11 +1,26 @@
 "use client";
 
-import React, { useState, type ChangeEvent, type FormEvent } from "react";
+import React from "react";
 import { LuInfo, LuUserPlus } from "react-icons/lu";
 import { usePatients } from "@/hooks/healthCare/usePatients";
-import notify from "@/utils/notify";
 import { TextField } from "@/components/shared/Checkout/CheckoutUI";
 import { PrimaryButton } from "@/components/shared/CartUI/CartUI";
+import { useZodForm } from "@/lib/forms/useZodForm";
+import {
+  patientFormSchema,
+  toastFirstError,
+  type PatientForm,
+} from "@/lib/forms/customerForms";
+
+const EMPTY_PATIENT: PatientForm = {
+  patient_name: "",
+  contact: "",
+  alternative_contact: "",
+  date_of_birth: "",
+  gender: "",
+  email: "",
+  address: "",
+};
 
 const selectClass =
   "block h-[46px] w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-900 transition focus:border-primary/50 focus:outline-hidden focus:ring-4 focus:ring-[#0C3F8E]/10";
@@ -17,54 +32,25 @@ type Props = {
 // The only caller always passes setShowForm (the old `= true` default could
 // not be called, so it is dropped).
 const RegisterPatient = ({ setShowForm }: Props) => {
-  const [formData, setFormData] = useState({
-    patient_name: "",
-    contact: "",
-    alternative_contact: "",
-    date_of_birth: "",
-    gender: "",
-    email: "",
-    address: "",
-  });
+  const form = useZodForm(patientFormSchema, { defaultValues: EMPTY_PATIENT });
+  const { errors } = form.formState;
 
   const { register: registerPatient, progressing } = usePatients();
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (formData?.patient_name?.length < 3) {
-      return notify.warning("Name must be between 3 and 99 characters.");
-    } else if (formData?.contact?.length < 11) {
-      return notify.warning("Please enter a valid 11-digit mobile number.");
-    }
-
-    const registered = await registerPatient(formData);
+  const submit = async (values: PatientForm) => {
+    const registered = await registerPatient(values);
 
     // Keep the form filled in if registration failed so the user can retry.
     if (registered) {
-      setFormData({
-        patient_name: "",
-        contact: "",
-        alternative_contact: "",
-        date_of_birth: "",
-        gender: "",
-        email: "",
-        address: "",
-      });
-
+      form.reset(EMPTY_PATIENT);
       setShowForm(false);
     }
   };
+
+  const handleSubmit = form.handleSubmit(
+    submit,
+    toastFirstError<PatientForm>(["patient_name", "contact"]),
+  );
 
   return (
     <div>
@@ -84,12 +70,11 @@ const RegisterPatient = ({ setShowForm }: Props) => {
           label="Patient name (রোগীর নাম)"
           required
           type="text"
-          name="patient_name"
           id="patient_name"
           placeholder="Full name"
           autoComplete="name"
-          value={formData.patient_name}
-          onChange={handleInputChange}
+          error={errors.patient_name?.message}
+          {...form.register("patient_name")}
         />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -98,22 +83,19 @@ const RegisterPatient = ({ setShowForm }: Props) => {
             required
             type="tel"
             inputMode="numeric"
-            name="contact"
             id="contact"
             placeholder="01XXXXXXXXX"
             autoComplete="tel"
-            value={formData.contact}
-            onChange={handleInputChange}
+            error={errors.contact?.message}
+            {...form.register("contact")}
           />
           <TextField
             label="Alternative number (বিকল্প নাম্বার)"
             type="tel"
             inputMode="numeric"
-            name="alternative_contact"
             id="alternative_contact"
             placeholder="Optional"
-            value={formData.alternative_contact}
-            onChange={handleInputChange}
+            {...form.register("alternative_contact")}
           />
         </div>
 
@@ -121,21 +103,17 @@ const RegisterPatient = ({ setShowForm }: Props) => {
           <TextField
             label="Date of birth (জন্ম তারিখ)"
             type="date"
-            name="date_of_birth"
             id="date_of_birth"
-            value={formData.date_of_birth}
-            onChange={handleInputChange}
+            {...form.register("date_of_birth")}
           />
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium text-gray-700">
               Gender (লিঙ্গ)
             </span>
             <select
-              name="gender"
               id="gender"
-              value={formData.gender}
-              onChange={handleInputChange}
               className={selectClass}
+              {...form.register("gender")}
             >
               <option value="">Select gender</option>
               <option value="male">Male</option>
@@ -148,22 +126,18 @@ const RegisterPatient = ({ setShowForm }: Props) => {
         <TextField
           label="Email (ইমেইল)"
           type="email"
-          name="email"
           id="email"
           placeholder="Optional"
           autoComplete="email"
-          value={formData.email}
-          onChange={handleInputChange}
+          {...form.register("email")}
         />
 
         <TextField
           label="Address (ঠিকানা)"
           multiline
-          name="address"
           id="address"
           placeholder="House, road, area"
-          value={formData.address}
-          onChange={handleInputChange}
+          {...form.register("address")}
         />
 
         <PrimaryButton type="submit" disabled={progressing}>
