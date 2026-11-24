@@ -26,6 +26,7 @@ import { adminApi, statusOf } from "./api";
 import { permsOf, type Perms } from "./perms";
 import type { Me } from "./types";
 import { Button, cx, ErrorBox, Loading, RoleBadge } from "./ui";
+import { admin } from "@notension/shared";
 
 type AdminContextValue = { me: Me; perms: Perms };
 
@@ -44,7 +45,7 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
   const meQuery = useQuery({
     queryKey: ["admin", "me"],
-    queryFn: () => adminApi<Me>("/me").then((r) => r.result),
+    queryFn: () => adminApi("/me", { result: admin.me }).then((r) => r.result),
     retry: false,
     staleTime: 60_000,
   });

@@ -8,6 +8,7 @@ import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, formatDate, MODULES, ORDER_STATUSES, taka, titleCase } from "@/components/Admin/api";
 import type { OrderSummary } from "@/components/Admin/types";
 import { Button, Card, Empty, ErrorBox, Input, Loading, PageHeader, Pagination, Select, StatusBadge, Table, Td } from "@/components/Admin/ui";
+import { admin } from "@notension/shared";
 
 type Filters = { module: string; status: string; storeId: string; q: string; page: number };
 
@@ -34,7 +35,7 @@ function OrdersList() {
 
   const orders = useQuery({
     queryKey: ["admin", "orders", filters],
-    queryFn: () => adminApi<OrderSummary[]>("/orders", { query: filters }),
+    queryFn: () => adminApi("/orders", { query: filters, result: admin.orderSummary.array() }),
     placeholderData: keepPreviousData,
   });
   const myStores = [...perms.stores.values()];

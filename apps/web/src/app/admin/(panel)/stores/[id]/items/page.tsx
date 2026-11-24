@@ -1,13 +1,35 @@
 "use client";
 
-import { useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from "react";
+import { useState, type InputHTMLAttributes, type ReactNode } from "react";
 import { useParams } from "next/navigation";
-import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Controller } from "react-hook-form";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, packLabel, taka, titleCase } from "@/components/Admin/api";
+import { apiChecked, asNumber, errorText } from "@/components/Admin/forms";
 import type { ItemEditMode } from "@/components/Admin/perms";
 import type { Product, StoreDetail, StoreItem } from "@/components/Admin/types";
-import { Badge, Button, Card, Checkbox, Empty, ErrorBox, Field, Input, Loading, Notice, PageHeader, Pagination, Select, Td, type ErrorLike } from "@/components/Admin/ui";
+import {
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Empty,
+  ErrorBox,
+  Field,
+  FieldError,
+  Input,
+  Loading,
+  Notice,
+  PageHeader,
+  Pagination,
+  Select,
+  Td,
+  type ErrorLike,
+} from "@/components/Admin/ui";
+import { useZodForm } from "@/lib/forms/useZodForm";
 
 type ItemKey = "salePrice" | "mrp" | "purchasePrice" | "stockQty" | "isAvailable" | "maxPerOrder" | "discount" | "discountType";
 
@@ -22,49 +44,65 @@ type ItemForm = Record<string, string | boolean>;
 const toForm = (item: StoreItem): ItemForm =>
   Object.fromEntries(FULL.map((k) => [k, NUM.includes(k) ? String(item[k] ?? 0) : (item[k] as boolean | string)]));
 
+// Each number checked by the API's own field schema (admin.priceFields) on
+// the number it gets; unchanged values pass (only changes are sent).
+const itemSchema = (initial: ItemForm) => {
+  const api = admin.priceFields.shape;
+  const shape: Record<string, z.ZodType> = { isAvailable: z.boolean(), discountType: admin.discountType };
+  for (const k of NUM) shape[k] = apiChecked(api[k as keyof typeof api], asNumber, initial[k] as string);
+  return z.object(shape) as unknown as z.ZodType<ItemForm, ItemForm>;
+};
+
 function ItemRow({ item, mode, onSaved }: { item: StoreItem; mode: ItemEditMode; onSaved: () => Promise<unknown> }) {
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState(() => toForm(item));
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<ErrorLike>(null);
-  const set = (k: ItemKey, v: string | boolean) => setForm((f) => ({ ...f, [k]: v }));
+  const [initial] = useState(() => toForm(item));
+  const [schema] = useState(() => itemSchema(initial));
+  const form = useZodForm(schema, { defaultValues: initial });
+  const errors = form.formState.errors;
+  const patch = useMutation({
+    mutationFn: (body: Record<string, string | number | boolean>) => adminApi(`/items/${item.id}`, { method: "PATCH", body }),
+    onSuccess: async () => {
+      setEditing(false);
+      await onSaved();
+    },
+  });
+  const busy = patch.isPending;
+  const error: ErrorLike = patch.error;
 
-  const save = async () => {
+  const save = form.handleSubmit((values) => {
     const keys = mode === "full" ? FULL : STOCK;
     const body: Record<string, string | number | boolean> = {};
     for (const k of keys) {
-      const v = NUM.includes(k) ? Number(form[k] || 0) : form[k];
+      const v = NUM.includes(k) ? Number(values[k] || 0) : values[k];
       if (v !== item[k]) body[k] = v;
     }
     if (!Object.keys(body).length) return setEditing(false);
-    setBusy(true);
-    setError(null);
-    try {
-      await adminApi(`/items/${item.id}`, { method: "PATCH", body });
-      setEditing(false);
-      await onSaved();
-    } catch (err) {
-      setError(err as Error);
-    }
-    setBusy(false);
-  };
+    patch.mutate(body);
+  });
 
-  const quickToggle = async () => {
-    setBusy(true);
-    setError(null);
-    try {
-      await adminApi(`/items/${item.id}`, { method: "PATCH", body: { isAvailable: !item.isAvailable } });
-      await onSaved();
-    } catch (err) {
-      setError(err as Error);
-    }
-    setBusy(false);
-  };
+  const quickToggle = () => patch.mutate({ isAvailable: !item.isAvailable });
 
-  // Number fields hold strings in the form (see toForm).
-  const num = (k: ItemKey, props: InputHTMLAttributes<HTMLInputElement> = {}) => (
-    <Input type="number" min={0} step={k === "stockQty" || k === "maxPerOrder" ? 1 : 0.01} value={form[k] as string} onChange={(e) => set(k, e.target.value)} className="py-1" {...props} />
-  );
+  // Number fields hold strings in the form (see toForm); a table cell shows
+  // the error under the input.
+  const num = (k: ItemKey, props: InputHTMLAttributes<HTMLInputElement> = {}) => {
+    const message = errorText(errors, k);
+    const errorId = `item-${item.id}-${k}-error`;
+    return (
+      <>
+        <Input
+          type="number"
+          min={0}
+          step={k === "stockQty" || k === "maxPerOrder" ? 1 : 0.01}
+          className="py-1"
+          aria-invalid={message ? true : undefined}
+          aria-describedby={message ? errorId : undefined}
+          {...props}
+          {...form.register(k)}
+        />
+        {props["aria-label"] ? <FieldError id={errorId} error={message} /> : null}
+      </>
+    );
+  };
 
   return (
     <>
@@ -86,7 +124,11 @@ function ItemRow({ item, mode, onSaved }: { item: StoreItem; mode: ItemEditMode;
         <Td className="w-24">{editing ? num("stockQty", { "aria-label": "Stock" }) : item.stockQty}</Td>
         <Td>
           {editing ? (
-            <Checkbox label="Available" checked={form.isAvailable as boolean} onChange={(v) => set("isAvailable", v)} />
+            <Controller
+              control={form.control}
+              name="isAvailable"
+              render={({ field }) => <Checkbox label="Available" checked={field.value as boolean} onChange={field.onChange} />}
+            />
           ) : item.isAvailable ? (
             <Badge tone="green">Available</Badge>
           ) : (
@@ -104,9 +146,9 @@ function ItemRow({ item, mode, onSaved }: { item: StoreItem; mode: ItemEditMode;
                   size="sm"
                   variant="ghost"
                   onClick={() => {
-                    setForm(toForm(item));
+                    form.reset(initial);
                     setEditing(false);
-                    setError(null);
+                    patch.reset();
                   }}
                 >
                   Cancel
@@ -129,14 +171,20 @@ function ItemRow({ item, mode, onSaved }: { item: StoreItem; mode: ItemEditMode;
         <tr className="bg-gray-50">
           <td colSpan={5} className="px-3 pb-3">
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
-              <Field label="MRP (৳)">{num("mrp")}</Field>
-              <Field label="Purchase price (৳)">{num("purchasePrice")}</Field>
-              <Field label="Max per order" hint="0 = no limit">
-                {num("maxPerOrder")}
+              <Field label="MRP (৳)" error={errorText(errors, "mrp")}>
+                {(a) => num("mrp", a)}
               </Field>
-              <Field label="Discount">{num("discount")}</Field>
+              <Field label="Purchase price (৳)" error={errorText(errors, "purchasePrice")}>
+                {(a) => num("purchasePrice", a)}
+              </Field>
+              <Field label="Max per order" hint="0 = no limit" error={errorText(errors, "maxPerOrder")}>
+                {(a) => num("maxPerOrder", a)}
+              </Field>
+              <Field label="Discount" error={errorText(errors, "discount")}>
+                {(a) => num("discount", a)}
+              </Field>
               <Field label="Discount type">
-                <Select value={form.discountType as string} onChange={(e) => set("discountType", e.target.value)} className="py-1">
+                <Select {...form.register("discountType")} className="py-1">
                   <option value="percent">Percent (%)</option>
                   <option value="flat">Flat (৳)</option>
                 </Select>
@@ -156,41 +204,48 @@ function ItemRow({ item, mode, onSaved }: { item: StoreItem; mode: ItemEditMode;
   );
 }
 
+// POST /stores/:id/items: sale price (empty = MRP) and stock, checked by
+// the API's own field schemas.
+const addItemSchema = z.object({
+  price: apiChecked(admin.priceFields.shape.salePrice, (v) => (v.trim() === "" ? 0 : Number(v))),
+  stock: apiChecked(admin.priceFields.shape.stockQty, asNumber),
+});
+
 function AddProduct({ store, onAdded }: { store: StoreDetail; onAdded: () => Promise<unknown> }) {
   const [q, setQ] = useState("");
   const [search, setSearch] = useState("");
   const [picked, setPicked] = useState<Product | null>(null);
-  const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("0");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<ErrorLike>(null);
   const [notice, setNotice] = useState<ReactNode>(null);
+  const form = useZodForm(addItemSchema, { defaultValues: { price: "", stock: "0" } });
+  const errors = form.formState.errors;
 
   const results = useQuery({
     queryKey: ["admin", "products", { module: store.module, q: search }],
-    queryFn: () => adminApi<Product[]>("/products", { query: { module: store.module, q: search } }),
+    queryFn: () => adminApi("/products", { query: { module: store.module, q: search }, result: admin.product.array() }),
     enabled: search.length > 0,
   });
 
-  const add = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!picked) return; // unreachable: this form only shows once a product is picked
-    setBusy(true);
-    setError(null);
-    setNotice(null);
-    try {
-      await adminApi(`/stores/${store.id}/items`, {
+  const addItem = useMutation({
+    mutationFn: (p: { product: Product; salePrice: number; stockQty: number }) =>
+      adminApi(`/stores/${store.id}/items`, {
         method: "POST",
-        body: { productId: picked.id, salePrice: Number(price || picked.mrp), mrp: picked.mrp, stockQty: Number(stock || 0) },
-      });
-      setNotice(`${picked.titleEn} added to the store.`);
+        body: { productId: p.product.id, salePrice: p.salePrice, mrp: p.product.mrp, stockQty: p.stockQty },
+        result: admin.createdId,
+      }),
+    onSuccess: async (_res, p) => {
+      setNotice(`${p.product.titleEn} added to the store.`);
       setPicked(null);
       await onAdded();
-    } catch (err) {
-      setError(err as Error);
-    }
-    setBusy(false);
-  };
+    },
+  });
+  const busy = addItem.isPending;
+  const error: ErrorLike = addItem.error;
+
+  const add = form.handleSubmit(({ price, stock }) => {
+    if (!picked) return; // unreachable: this form only shows once a product is picked
+    setNotice(null);
+    addItem.mutate({ product: picked, salePrice: Number(price || picked.mrp), stockQty: Number(stock || 0) });
+  });
 
   return (
     <Card className="mb-4">
@@ -206,11 +261,11 @@ function AddProduct({ store, onAdded }: { store: StoreDetail; onAdded: () => Pro
             </span>
           </p>
           <div className="grid gap-2 sm:grid-cols-[160px_160px_auto]">
-            <Field label="Sale price (৳)">
-              <Input type="number" min={0} step={0.01} value={price} onChange={(e) => setPrice(e.target.value)} placeholder={String(picked.mrp)} />
+            <Field label="Sale price (৳)" error={errorText(errors, "price")}>
+              {(a) => <Input {...a} type="number" min={0} step={0.01} placeholder={String(picked.mrp)} {...form.register("price")} />}
             </Field>
-            <Field label="Stock">
-              <Input type="number" min={0} step={1} value={stock} onChange={(e) => setStock(e.target.value)} />
+            <Field label="Stock" error={errorText(errors, "stock")}>
+              {(a) => <Input {...a} type="number" min={0} step={1} {...form.register("stock")} />}
             </Field>
             <div className="flex items-end gap-2">
               <Button type="submit" loading={busy}>
@@ -254,8 +309,8 @@ function AddProduct({ store, onAdded }: { store: StoreDetail; onAdded: () => Pro
                       variant="secondary"
                       onClick={() => {
                         setPicked(p);
-                        setPrice(String(p.mrp));
-                        setStock("0");
+                        form.reset({ price: String(p.mrp), stock: "0" });
+                        addItem.reset();
                         setNotice(null);
                       }}
                     >
@@ -282,10 +337,13 @@ export default function StoreItemsPage() {
   const [search, setSearch] = useState("");
   const [adding, setAdding] = useState(false);
 
-  const store = useQuery({ queryKey: ["admin", "store", id], queryFn: () => adminApi<StoreDetail>(`/stores/${id}`).then((r) => r.result) });
+  const store = useQuery({
+    queryKey: ["admin", "store", id],
+    queryFn: () => adminApi(`/stores/${id}`, { result: admin.storeDetail }).then((r) => r.result),
+  });
   const items = useQuery({
     queryKey: ["admin", "items", id, filters],
-    queryFn: () => adminApi<StoreItem[]>(`/stores/${id}/items`, { query: filters }),
+    queryFn: () => adminApi(`/stores/${id}/items`, { query: filters, result: admin.storeItem.array() }),
     placeholderData: keepPreviousData,
   });
   const mode = perms.itemEdit(id);

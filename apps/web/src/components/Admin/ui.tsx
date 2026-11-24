@@ -1,7 +1,7 @@
 "use client";
 
 // Small building blocks for the admin panel.
-import { useState } from "react";
+import { useId, useState } from "react";
 import type {
   ButtonHTMLAttributes,
   InputHTMLAttributes,
@@ -75,17 +75,46 @@ export const Select = ({ className, children, ...props }: SelectHTMLAttributes<H
   </select>
 );
 
-type FieldProps = { label: ReactNode; hint?: ReactNode; children: ReactNode; className?: string };
+// Spread onto the control so it points at its error text.
+export type FieldControlProps = { "aria-invalid"?: true; "aria-describedby"?: string };
 
-export function Field({ label, hint, children, className }: FieldProps) {
+type FieldProps = {
+  label: ReactNode;
+  hint?: ReactNode;
+  // A validation message (react-hook-form's fieldState.error.message).
+  error?: string;
+  // The control, or a render prop that gets the a11y props for `error`.
+  children: ReactNode | ((props: FieldControlProps) => ReactNode);
+  className?: string;
+};
+
+export function Field({ label, hint, error, children, className }: FieldProps) {
+  const errorId = `${useId()}-error`;
+  const control =
+    typeof children === "function"
+      ? children({ "aria-invalid": error ? true : undefined, "aria-describedby": error ? errorId : undefined })
+      : children;
   return (
     <label className={cx("block", className)}>
       <span className="mb-1 block text-sm font-medium text-gray-700">{label}</span>
-      {children}
+      {control}
       {hint ? <span className="mt-1 block text-xs text-gray-500">{hint}</span> : null}
+      {error ? (
+        <span id={errorId} role="alert" className="mt-1 block text-xs text-red-600">
+          {error}
+        </span>
+      ) : null}
     </label>
   );
 }
+
+// An error line under a control that has no Field (table cells).
+export const FieldError = ({ id, error }: { id?: string; error?: string }) =>
+  error ? (
+    <span id={id} role="alert" className="mt-1 block text-xs text-red-600">
+      {error}
+    </span>
+  ) : null;
 
 type CheckboxProps = {
   label: ReactNode;

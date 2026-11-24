@@ -1,58 +1,70 @@
 "use client";
 
 // Doctor panel: my public profile (the fields a doctor may change).
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { adminApi } from "@/components/Admin/api";
+import { apiChecked, asNumber, asText, errorText } from "@/components/Admin/forms";
 import { ProfileError, useDoctorProfile } from "@/components/Admin/DoctorPanel";
 import type { DoctorProfile } from "@/components/Admin/types";
 import { Button, Card, Field, Input, Loading, PageHeader } from "@/components/Admin/ui";
+import { useZodForm } from "@/lib/forms/useZodForm";
 import { notify } from "@/utils/notify";
 
 const FIELDS = ["speciality", "designation", "qualifications", "experienceYears", "consultationFee", "followUpFee"] as const;
 const NUMBERS: readonly string[] = ["experienceYears", "consultationFee", "followUpFee"];
 
-type FieldKey = (typeof FIELDS)[number];
+// Each field checked by the API's own schema (admin.doctorProfileFields)
+// on the value it gets. Inputs hold strings.
+const api = admin.doctorProfileFields.shape;
+const profileSchema = z.object(
+  Object.fromEntries(FIELDS.map((k) => [k, apiChecked(api[k], NUMBERS.includes(k) ? asNumber : asText)])) as Record<
+    (typeof FIELDS)[number],
+    z.ZodString
+  >,
+);
+type ProfileValues = z.infer<typeof profileSchema>;
 
 function ProfileForm({ doc, onSaved }: { doc: DoctorProfile; onSaved: () => Promise<unknown> }) {
-  const [form, setForm] = useState<Record<string, string | number>>(() => Object.fromEntries(FIELDS.map((k) => [k, doc[k] ?? ""])));
-  const [busy, setBusy] = useState(false);
-  const set = (k: FieldKey) => (e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.value });
-
-  const submit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      const body = Object.fromEntries(FIELDS.map((k) => [k, NUMBERS.includes(k) ? Number(form[k] || 0) : String(form[k]).trim()]));
-      const res = await adminApi("/doctor/profile", { method: "PATCH", body });
+  const [initial] = useState(() => Object.fromEntries(FIELDS.map((k) => [k, String(doc[k] ?? "")])) as ProfileValues);
+  const form = useZodForm(profileSchema, { defaultValues: initial });
+  const errors = form.formState.errors;
+  const save = useMutation({
+    mutationFn: (values: ProfileValues) => {
+      const body = Object.fromEntries(FIELDS.map((k) => [k, NUMBERS.includes(k) ? Number(values[k] || 0) : values[k].trim()]));
+      return adminApi("/doctor/profile", { method: "PATCH", body });
+    },
+    onSuccess: async (res) => {
       notify.success(res.message ?? "Done");
       await onSaved();
-    } catch (err) {
-      notify.error((err as Error).message);
-    }
-    setBusy(false);
-  };
+    },
+    onError: (err) => notify.error(err.message),
+  });
+  const busy = save.isPending;
+  const submit = form.handleSubmit((values) => save.mutate(values));
 
   return (
     <form onSubmit={submit} className="grid gap-3 sm:grid-cols-2">
-      <Field label="Speciality">
-        <Input value={form.speciality} onChange={set("speciality")} maxLength={200} />
+      <Field label="Speciality" error={errorText(errors, "speciality")}>
+        {(a) => <Input {...a} {...form.register("speciality")} maxLength={200} />}
       </Field>
-      <Field label="Designation">
-        <Input value={form.designation} onChange={set("designation")} maxLength={200} />
+      <Field label="Designation" error={errorText(errors, "designation")}>
+        {(a) => <Input {...a} {...form.register("designation")} maxLength={200} />}
       </Field>
-      <Field label="Qualifications" className="sm:col-span-2">
-        <Input value={form.qualifications} onChange={set("qualifications")} maxLength={500} placeholder="MBBS, FCPS (Medicine)" />
+      <Field label="Qualifications" className="sm:col-span-2" error={errorText(errors, "qualifications")}>
+        {(a) => <Input {...a} {...form.register("qualifications")} maxLength={500} placeholder="MBBS, FCPS (Medicine)" />}
       </Field>
-      <Field label="Years of experience">
-        <Input type="number" min="0" max="80" inputMode="numeric" value={form.experienceYears} onChange={set("experienceYears")} />
+      <Field label="Years of experience" error={errorText(errors, "experienceYears")}>
+        {(a) => <Input {...a} type="number" min="0" max="80" inputMode="numeric" {...form.register("experienceYears")} />}
       </Field>
       <div className="hidden sm:block" />
-      <Field label="Consultation fee (৳)" hint="Shown on your profile. Each chamber has its own fee too.">
-        <Input type="number" min="0" inputMode="numeric" value={form.consultationFee} onChange={set("consultationFee")} />
+      <Field label="Consultation fee (৳)" hint="Shown on your profile. Each chamber has its own fee too." error={errorText(errors, "consultationFee")}>
+        {(a) => <Input {...a} type="number" min="0" inputMode="numeric" {...form.register("consultationFee")} />}
       </Field>
-      <Field label="Follow-up fee (৳)">
-        <Input type="number" min="0" inputMode="numeric" value={form.followUpFee} onChange={set("followUpFee")} />
+      <Field label="Follow-up fee (৳)" error={errorText(errors, "followUpFee")}>
+        {(a) => <Input {...a} type="number" min="0" inputMode="numeric" {...form.register("followUpFee")} />}
       </Field>
       <div className="sm:col-span-2">
         <Button type="submit" loading={busy} className="min-h-11 w-full sm:w-auto">

@@ -9,3 +9,4 @@ export * as favourites from "./contract/favourites";
 export * as fashion from "./contract/fashion";
 export * as healthCare from "./contract/healthCare";
 export * from "./demo-accounts";
+export * as admin from "./contract/admin";

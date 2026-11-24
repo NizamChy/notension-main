@@ -2,34 +2,41 @@
 
 // Doctor panel: my chambers. Open or close booking, and set the fees.
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { adminApi, taka } from "@/components/Admin/api";
+import { apiChecked, asNumber, errorText } from "@/components/Admin/forms";
 import { ProfileError, useDoctorProfile } from "@/components/Admin/DoctorPanel";
 import type { Chamber } from "@/components/Admin/types";
 import { Badge, Button, Card, Empty, Field, Input, Loading, PageHeader } from "@/components/Admin/ui";
+import { useZodForm } from "@/lib/forms/useZodForm";
 import { notify } from "@/utils/notify";
 
-function ChamberCard({ ch, onChanged }: { ch: Chamber; onChanged: () => Promise<unknown> }) {
-  const [busy, setBusy] = useState<string | null>(null);
-  const [editing, setEditing] = useState(false);
-  // Numbers from the API; strings once edited in the inputs.
-  const [fees, setFees] = useState<{ consultationFee: number | string; followUpFee: number | string }>({
-    consultationFee: ch.consultationFee,
-    followUpFee: ch.followUpFee,
-  });
+// The fees, checked by the API's own schema (admin.chamberFields).
+const feesSchema = z.object({
+  consultationFee: apiChecked(admin.chamberFields.shape.consultationFee, asNumber),
+  followUpFee: apiChecked(admin.chamberFields.shape.followUpFee, asNumber),
+});
 
-  const save = async (key: string, body: Record<string, unknown>) => {
-    setBusy(key);
-    try {
-      const res = await adminApi(`/doctor/chambers/${ch.id}`, { method: "PATCH", body });
+function ChamberCard({ ch, onChanged }: { ch: Chamber; onChanged: () => Promise<unknown> }) {
+  const [editing, setEditing] = useState(false);
+  const form = useZodForm(feesSchema, {
+    defaultValues: { consultationFee: String(ch.consultationFee), followUpFee: String(ch.followUpFee) },
+  });
+  const errors = form.formState.errors;
+  const patch = useMutation({
+    mutationFn: ({ body }: { key: string; body: Record<string, unknown> }) =>
+      adminApi(`/doctor/chambers/${ch.id}`, { method: "PATCH", body }),
+    onSuccess: async (res) => {
       notify.success(res.message ?? "Done");
       setEditing(false);
       await onChanged();
-    } catch (err) {
-      notify.error((err as Error).message);
-    }
-    setBusy(null);
-  };
+    },
+    onError: (err) => notify.error(err.message),
+  });
+  const busy = patch.isPending ? patch.variables.key : null;
+  const save = (key: string, body: Record<string, unknown>) => patch.mutate({ key, body });
 
   return (
     <Card className="p-3 md:p-4">
@@ -59,16 +66,15 @@ function ChamberCard({ ch, onChanged }: { ch: Chamber; onChanged: () => Promise<
       {editing ? (
         <form
           className="mt-3 grid grid-cols-2 gap-2"
-          onSubmit={(e) => {
-            e.preventDefault();
-            save("fees", { consultationFee: Number(fees.consultationFee), followUpFee: Number(fees.followUpFee) });
-          }}
+          onSubmit={form.handleSubmit((fees) =>
+            save("fees", { consultationFee: Number(fees.consultationFee), followUpFee: Number(fees.followUpFee) }),
+          )}
         >
-          <Field label="Consultation fee">
-            <Input type="number" min="0" inputMode="numeric" value={fees.consultationFee} onChange={(e) => setFees({ ...fees, consultationFee: e.target.value })} required />
+          <Field label="Consultation fee" error={errorText(errors, "consultationFee")}>
+            {(a) => <Input {...a} type="number" min="0" inputMode="numeric" {...form.register("consultationFee")} required />}
           </Field>
-          <Field label="Follow-up fee">
-            <Input type="number" min="0" inputMode="numeric" value={fees.followUpFee} onChange={(e) => setFees({ ...fees, followUpFee: e.target.value })} required />
+          <Field label="Follow-up fee" error={errorText(errors, "followUpFee")}>
+            {(a) => <Input {...a} type="number" min="0" inputMode="numeric" {...form.register("followUpFee")} required />}
           </Field>
           <Button type="submit" loading={busy === "fees"}>
             Save fees

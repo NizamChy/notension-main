@@ -9,6 +9,7 @@ import { adminApi, formatDate, packLabel, taka } from "@/components/Admin/api";
 import type { DeliveryInfo, OrderStatus, RiderOrder } from "@/components/Admin/types";
 import { Button, Card, cx, Empty, ErrorBox, Loading, PageHeader, Pagination, StatusBadge } from "@/components/Admin/ui";
 import { notify } from "@/utils/notify";
+import { admin } from "@notension/shared";
 
 const mapUrl = (lat: number | null | undefined, lng: number | null | undefined, address: string | undefined) =>
   lat != null && lng != null
@@ -173,7 +174,7 @@ export default function DeliveriesPage() {
   const [page, setPage] = useState(1);
   const list = useQuery({
     queryKey: ["admin", "rider-orders", view, page],
-    queryFn: () => adminApi<RiderOrder[]>("/rider/orders", { query: { view, page } }),
+    queryFn: () => adminApi("/rider/orders", { query: { view, page }, result: admin.riderOrder.array() }),
     placeholderData: keepPreviousData,
     refetchInterval: view === "active" ? 60_000 : false,
   });

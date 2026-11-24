@@ -4,11 +4,13 @@
 // user holding the doctor / service_provider role (admins only).
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import type { z } from "zod";
 import { useAdmin } from "./AdminShell";
 import { adminApi } from "./api";
 import type { AdminUser, LinkedDoctor, LinkedProvider, Role } from "./types";
 import { Button, Input } from "./ui";
 import { notify } from "@/utils/notify";
+import { admin } from "@notension/shared";
 
 // A row from GET /doctors or GET /care-providers: the fields LinkBox reads
 // directly, plus whatever `sub` reads from its own kind.
@@ -22,6 +24,8 @@ type Kind<T extends Linkable> = {
   find: string;
   single: boolean;
   sub: (row: T) => string;
+  // The contract of the list endpoint (`path`).
+  schema: z.ZodType<T[]>;
 };
 
 const KINDS: { doctor: Kind<LinkedDoctor>; provider: Kind<LinkedProvider> } = {
@@ -32,6 +36,7 @@ const KINDS: { doctor: Kind<LinkedDoctor>; provider: Kind<LinkedProvider> } = {
     none: "No doctor profile linked.",
     find: "Find doctor by name or speciality",
     single: true,
+    schema: admin.linkedDoctor.array(),
     sub: (d) => [d.speciality || d.designation, d.departmentName, d.districtName].filter(Boolean).join(" · "),
   },
   provider: {
@@ -41,6 +46,7 @@ const KINDS: { doctor: Kind<LinkedDoctor>; provider: Kind<LinkedProvider> } = {
     none: "No listing linked.",
     find: "Find provider by name or phone",
     single: false,
+    schema: admin.linkedProvider.array(),
     sub: (p) => [p.phone, p.districtName].filter(Boolean).join(" · "),
   },
 };
@@ -59,11 +65,11 @@ function LinkBox({ user, kind }: { user: AdminUser; kind: KindKey }) {
 
   const linked = useQuery({
     queryKey: ["admin", "profile-links", kind, user.id],
-    queryFn: () => adminApi<LinkRow[]>(k.path, { query: { userId: user.id } }).then((r) => r.result),
+    queryFn: () => adminApi(k.path, { query: { userId: user.id }, result: k.schema }).then((r) => r.result),
   });
   const found = useQuery({
     queryKey: ["admin", "profile-search", kind, search],
-    queryFn: () => adminApi<LinkRow[]>(k.path, { query: { q: search } }).then((r) => r.result),
+    queryFn: () => adminApi(k.path, { query: { q: search }, result: k.schema }).then((r) => r.result),
     enabled: search !== null,
   });
 

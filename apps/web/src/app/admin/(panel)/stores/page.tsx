@@ -8,6 +8,7 @@ import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, MODULES, titleCase } from "@/components/Admin/api";
 import type { Store } from "@/components/Admin/types";
 import { Badge, Button, ButtonLink, Card, Empty, ErrorBox, Input, Loading, PageHeader, Pagination, Select, Table, Td } from "@/components/Admin/ui";
+import { admin } from "@notension/shared";
 
 export default function StoresPage() {
   const { perms } = useAdmin();
@@ -17,7 +18,7 @@ export default function StoresPage() {
 
   const stores = useQuery({
     queryKey: ["admin", "stores", filters],
-    queryFn: () => adminApi<Store[]>("/stores", { query: filters }),
+    queryFn: () => adminApi("/stores", { query: filters, result: admin.store.array() }),
     placeholderData: keepPreviousData,
   });
 

@@ -1,7 +1,12 @@
 // The admin / merchant panel always talks to the real API (apps/api), even in
 // demo mode: plain fetch through this site's /api-proxy rewrite, so the staff
 // session cookie is first-party. The demo adapter only hooks the axios
-// clients, never fetch.
+// clients, never fetch. Answers are checked against the shared contract
+// (packages/shared/src/contract/admin.ts), like the customer side's
+// lib/api/request.ts.
+import type { z } from "zod";
+import { admin } from "@notension/shared";
+import { validate } from "@/lib/api/validate";
 import type { ApiResponse, Module, OrderStatus, Role } from "./types";
 
 export const ADMIN_API = "/api-proxy/admin/api/v1/admin";
@@ -63,11 +68,12 @@ type RequestOptions = {
   query?: Record<string, string | number | boolean | null | undefined>;
 };
 
-// R is the shape of `result` for this endpoint (see ./types).
-export async function adminApi<R = unknown>(
+// `result`: the contract schema of this endpoint's `result`; leave it out
+// for answers that carry only a message.
+export async function adminApi<S extends z.ZodType = z.ZodUnknown>(
   path: string,
-  { method = "GET", body, query }: RequestOptions = {},
-): Promise<ApiResponse<R>> {
+  { method = "GET", body, query, result }: RequestOptions & { result?: S } = {},
+): Promise<ApiResponse<z.infer<S>>> {
   let url = ADMIN_API + path;
   if (query) {
     const qs = new URLSearchParams();
@@ -89,7 +95,7 @@ export async function adminApi<R = unknown>(
   } catch {
     throw new ApiError("Can't reach the server. Check your connection and try again.", 0);
   }
-  let data: (ApiResponse<R> & ErrorBody) | null = null;
+  let data: (ApiResponse & ErrorBody) | null = null;
   try {
     data = await res.json();
   } catch {
@@ -102,14 +108,18 @@ export async function adminApi<R = unknown>(
     }
     throw new ApiError(messageOf(data, res.status), res.status);
   }
-  // A 2xx body is always JSON from this API.
-  return data as ApiResponse<R>;
+  // A 2xx body is always JSON from this API. The admin panel always talks
+  // to the real API, so the source is "live".
+  return validate(result ? admin.envelope(result) : admin.messageResponse, data, {
+    source: "live",
+    endpoint: `${method} admin ${path}`,
+  }) as ApiResponse<z.infer<S>>;
 }
 
 // ------------------------------------------------------------- formatting
 
-export const MODULES: Module[] = ["grocery", "medicine", "food", "fashion"];
-export const ORDER_STATUSES: OrderStatus[] = ["Pending", "Accepted", "Processing", "On the way", "Delivered", "Cancelled"];
+export const MODULES: Module[] = [...admin.MODULES];
+export const ORDER_STATUSES: OrderStatus[] = [...admin.ORDER_STATUSES];
 
 const takaFmt = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 });
 export const taka = (n: number | string | null | undefined) => `৳${takaFmt.format(Number(n) || 0)}`;

@@ -1,34 +1,35 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { useMutation } from "@tanstack/react-query";
+import type { z } from "zod";
 import { useAdmin } from "@/components/Admin/AdminShell";
-import { Button, Card, ErrorBox, Field, Input, Notice, PageHeader, RoleBadge, type ErrorLike } from "@/components/Admin/ui";
+import { Button, Card, ErrorBox, Field, Input, Notice, PageHeader, RoleBadge } from "@/components/Admin/ui";
 import { adminApi } from "@/components/Admin/api";
+import { errorText, passwordForm } from "@/components/Admin/forms";
+import { useZodForm } from "@/lib/forms/useZodForm";
 import { isDemoAccountPhone } from "@notension/shared";
+
+const EMPTY = { current: "", next: "", confirm: "" };
 
 export default function AccountPage() {
   const { me } = useAdmin();
-  const [form, setForm] = useState({ current: "", next: "", confirm: "" });
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<ErrorLike>(null);
+  const form = useZodForm(passwordForm, { defaultValues: EMPTY });
+  const errors = form.formState.errors;
   const [notice, setNotice] = useState<ReactNode>(null);
-
-  const submit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setNotice(null);
-    if (form.next.length < 8) return setError("Use at least 8 characters for the new password.");
-    if (form.next !== form.confirm) return setError("The two new passwords don't match.");
-    setBusy(true);
-    try {
-      const res = await adminApi("/password", { method: "POST", body: { current: form.current, next: form.next } });
+  const change = useMutation({
+    mutationFn: ({ current, next }: z.infer<typeof passwordForm>) =>
+      adminApi("/password", { method: "POST", body: { current, next } }),
+    onSuccess: (res) => {
       setNotice(`${res.message}. You've been signed out on your other devices.`);
-      setForm({ current: "", next: "", confirm: "" });
-    } catch (err) {
-      setError(err as Error);
-    }
-    setBusy(false);
-  };
+      form.reset(EMPTY);
+    },
+  });
+
+  const submit = form.handleSubmit((values) => {
+    setNotice(null);
+    change.mutate(values);
+  });
 
   return (
     <>
@@ -50,19 +51,19 @@ export default function AccountPage() {
             <Notice tone="warning">This is a public demo account. Its password stays the demo password and can&apos;t be changed.</Notice>
           ) : (
           <form onSubmit={submit} className="space-y-3">
-            <ErrorBox error={error} />
+            <ErrorBox error={change.error} />
             <Notice>{notice}</Notice>
             <input type="hidden" autoComplete="username" value={me.phone || ""} readOnly />
-            <Field label="Current password">
-              <Input type="password" autoComplete="current-password" value={form.current} onChange={(e) => setForm({ ...form, current: e.target.value })} required />
+            <Field label="Current password" error={errorText(errors, "current")}>
+              {(a) => <Input {...a} type="password" autoComplete="current-password" {...form.register("current")} required />}
             </Field>
-            <Field label="New password" hint="At least 8 characters.">
-              <Input type="password" autoComplete="new-password" value={form.next} onChange={(e) => setForm({ ...form, next: e.target.value })} required />
+            <Field label="New password" hint="At least 8 characters." error={errorText(errors, "next")}>
+              {(a) => <Input {...a} type="password" autoComplete="new-password" {...form.register("next")} required />}
             </Field>
-            <Field label="Confirm new password">
-              <Input type="password" autoComplete="new-password" value={form.confirm} onChange={(e) => setForm({ ...form, confirm: e.target.value })} required />
+            <Field label="Confirm new password" error={errorText(errors, "confirm")}>
+              {(a) => <Input {...a} type="password" autoComplete="new-password" {...form.register("confirm")} required />}
             </Field>
-            <Button type="submit" loading={busy}>
+            <Button type="submit" loading={change.isPending}>
               Change password
             </Button>
           </form>

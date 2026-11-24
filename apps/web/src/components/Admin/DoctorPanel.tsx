@@ -5,11 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { adminApi, statusOf } from "./api";
 import type { AppointmentStatus, DoctorProfile } from "./types";
 import { Badge, Card, ErrorBox, type Tone } from "./ui";
+import { admin } from "@notension/shared";
 
 export const useDoctorProfile = () =>
   useQuery({
     queryKey: ["admin", "doctor-profile"],
-    queryFn: () => adminApi<DoctorProfile>("/doctor/profile").then((r) => r.result),
+    queryFn: () => adminApi("/doctor/profile", { result: admin.doctorProfile }).then((r) => r.result),
     retry: false,
   });
 

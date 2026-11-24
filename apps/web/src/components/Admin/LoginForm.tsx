@@ -1,76 +1,65 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
-import { DEMO_ACCOUNTS, DEMO_PASSWORD } from "@notension/shared";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { z } from "zod";
+import { admin, DEMO_ACCOUNTS, DEMO_PASSWORD } from "@notension/shared";
 import { adminApi, roleLabel } from "./api";
-import type { Me } from "./types";
-import { Button, cx, ErrorBox, Field, Input, Spinner, type ErrorLike } from "./ui";
+import { errorText } from "./forms";
+import { Button, cx, ErrorBox, Field, Input, Spinner } from "./ui";
+import { useZodForm } from "@/lib/forms/useZodForm";
 
 type DemoAccount = (typeof DEMO_ACCOUNTS)[number];
+type LoginValues = z.infer<typeof admin.loginInput>;
 
 export default function LoginForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<ErrorLike>(null);
-  const [busy, setBusy] = useState(false);
+  const form = useZodForm(admin.loginInput, { defaultValues: { phone: "", password: "" } });
+  const errors = form.formState.errors;
   const [demoBusy, setDemoBusy] = useState<string | null>(null);
-
-  const signIn = async (p: string, pw: string) => {
-    setError(null);
-    setBusy(true);
-    try {
-      const res = await adminApi<Me>("/login", { method: "POST", body: { phone: p.trim(), password: pw } });
+  const login = useMutation({
+    mutationFn: ({ phone, password }: LoginValues) =>
+      adminApi("/login", { method: "POST", body: { phone: phone.trim(), password }, result: admin.me }),
+    onSuccess: (res) => {
       queryClient.setQueryData(["admin", "me"], res.result);
       router.replace("/admin");
-      return true;
-    } catch (err) {
-      setError(err as Error);
-      setBusy(false);
-      return false;
-    }
-  };
+    },
+    onError: () => setDemoBusy(null),
+  });
+  // Stays busy after success, while the panel loads.
+  const busy = login.isPending || login.isSuccess;
 
-  const submit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    signIn(phone, password);
-  };
+  const submit = form.handleSubmit((values) => login.mutate(values));
 
   // One click: fill the form with a demo account and sign in.
-  const demoSignIn = async (a: DemoAccount) => {
-    setPhone(a.phone);
-    setPassword(DEMO_PASSWORD);
+  const demoSignIn = (a: DemoAccount) => {
+    form.reset({ phone: a.phone, password: DEMO_PASSWORD });
     setDemoBusy(a.phone);
-    if (!(await signIn(a.phone, DEMO_PASSWORD))) setDemoBusy(null);
+    login.mutate({ phone: a.phone, password: DEMO_PASSWORD });
   };
 
   return (
     <>
       <form onSubmit={submit} className="space-y-4">
-        <ErrorBox error={error} />
-        <Field label="Mobile number">
-          <Input
-            type="tel"
-            inputMode="tel"
-            autoComplete="username"
-            placeholder="01XXXXXXXXX"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
+        <ErrorBox error={login.error} />
+        <Field label="Mobile number" error={errorText(errors, "phone")}>
+          {(a) => (
+            <Input
+              {...a}
+              type="tel"
+              inputMode="tel"
+              autoComplete="username"
+              placeholder="01XXXXXXXXX"
+              {...form.register("phone")}
+              required
+            />
+          )}
         </Field>
-        <Field label="Password">
-          <Input
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <Field label="Password" error={errorText(errors, "password")}>
+          {(a) => <Input {...a} type="password" autoComplete="current-password" {...form.register("password")} required />}
         </Field>
         <Button type="submit" className="w-full py-2.5" loading={busy && !demoBusy}>
           Log in

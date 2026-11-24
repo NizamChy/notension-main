@@ -1,13 +1,25 @@
 "use client";
 
-import { useState, type Dispatch, type FormEvent, type ReactNode, type SetStateAction } from "react";
+import { useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { useParams } from "next/navigation";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, roleLabel, taka, titleCase } from "@/components/Admin/api";
+import { errorText, roleName } from "@/components/Admin/forms";
 import { STORE_ROLES } from "@/components/Admin/perms";
-import { ADMIN_FIELDS, changedFields, MERCHANT_FIELDS, StoreFields, toForm, useKnownDistricts } from "@/components/Admin/StoreFields";
-import type { SetupLinkResult, StoreDetail, StoreStaff } from "@/components/Admin/types";
+import {
+  ADMIN_FIELDS,
+  changedFields,
+  MERCHANT_FIELDS,
+  StoreFields,
+  storeFormSchema,
+  toForm,
+  useKnownDistricts,
+} from "@/components/Admin/StoreFields";
+import type { StoreDetail, StoreStaff } from "@/components/Admin/types";
+import { useZodForm } from "@/lib/forms/useZodForm";
 import {
   Badge,
   Button,
@@ -36,33 +48,30 @@ type SettingsFormProps = {
 function SettingsForm({ store, isAdmin, notice, setNotice }: SettingsFormProps) {
   const queryClient = useQueryClient();
   const fields = isAdmin ? [...ADMIN_FIELDS, ...MERCHANT_FIELDS] : MERCHANT_FIELDS;
-  const [form, setForm] = useState(() => toForm(fields, store));
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<ErrorLike>(null);
+  const [initial] = useState(() => toForm(fields, store));
+  const [schema] = useState(() => storeFormSchema(fields, initial));
+  const form = useZodForm(schema, { defaultValues: initial });
   const districts = useKnownDistricts(isAdmin);
-  const changes = changedFields(fields, form, store);
+  const changes = changedFields(fields, form.watch(), store);
   const dirty = Object.keys(changes).length > 0;
-
-  const save = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setNotice(null);
-    if (!dirty) return;
-    setBusy(true);
-    try {
-      const res = await adminApi(`/stores/${store.id}`, { method: "PATCH", body: changes });
+  const saveStore = useMutation({
+    mutationFn: (body: typeof changes) => adminApi(`/stores/${store.id}`, { method: "PATCH", body }),
+    onSuccess: async (res) => {
       setNotice(res.message);
       await queryClient.invalidateQueries({ queryKey: ["admin", "store", store.id] });
       queryClient.invalidateQueries({ queryKey: ["admin", "stores"] });
-    } catch (err) {
-      setError(err as Error);
-    }
-    setBusy(false);
-  };
+    },
+  });
+
+  const save = form.handleSubmit(() => {
+    setNotice(null);
+    if (!dirty) return;
+    saveStore.mutate(changes);
+  });
 
   return (
     <form onSubmit={save}>
-      <ErrorBox error={error} />
+      <ErrorBox error={saveStore.error} />
       <Notice>{notice}</Notice>
       {isAdmin ? (
         <>
@@ -70,22 +79,21 @@ function SettingsForm({ store, isAdmin, notice, setNotice }: SettingsFormProps) 
           <StoreFields
             fields={ADMIN_FIELDS}
             form={form}
-            setForm={setForm}
             districts={districts.data}
             current={{ id: store.districtId, name: store.districtName || store.districtId }}
           />
           <h3 className="mt-6 mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">Day-to-day settings</h3>
         </>
       ) : null}
-      <StoreFields fields={MERCHANT_FIELDS} form={form} setForm={setForm} />
+      <StoreFields fields={MERCHANT_FIELDS} form={form} />
       <div className="mt-5 flex items-center gap-3">
-        <Button type="submit" loading={busy} disabled={!dirty}>
+        <Button type="submit" loading={saveStore.isPending} disabled={!dirty}>
           Save changes
         </Button>
         {dirty ? (
           <>
             <span className="text-xs text-gray-500">{Object.keys(changes).length} unsaved change(s)</span>
-            <Button variant="ghost" size="sm" onClick={() => setForm(toForm(fields, store))}>
+            <Button variant="ghost" size="sm" onClick={() => form.reset(initial)}>
               Undo
             </Button>
           </>
@@ -117,15 +125,16 @@ function ReadOnlySettings({ store }: { store: StoreDetail }) {
   );
 }
 
+// POST /roles for this store, with the API's own checks on phone and name.
+const staffSchema = z.object({ phone: admin.roleInput.shape.phone, name: roleName, role: z.string() });
+
 function StaffSection({ store }: { store: StoreDetail }) {
   const { perms } = useAdmin();
   const queryClient = useQueryClient();
   const addable = STORE_ROLES.filter((r) => perms.manageRole(r, store.id));
   // role: one of `addable` (the select's options), or "" when there are none.
-  const [form, setForm] = useState<{ phone: string; name: string; role: string }>({
-    phone: "",
-    name: "",
-    role: addable.includes("merchant_staff") ? "merchant_staff" : addable[0] || "",
+  const form = useZodForm(staffSchema, {
+    defaultValues: { phone: "", name: "", role: addable.includes("merchant_staff") ? "merchant_staff" : addable[0] || "" },
   });
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<ErrorLike>(null);
@@ -144,19 +153,19 @@ function StaffSection({ store }: { store: StoreDetail }) {
     setBusy(null);
   };
 
-  const add = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const add = form.handleSubmit((values) =>
     run("add", async () => {
-      const res = await adminApi<SetupLinkResult>("/roles", {
+      const res = await adminApi("/roles", {
         method: "POST",
-        body: { phone: form.phone.trim(), name: form.name.trim() || undefined, role: form.role, storeId: store.id },
+        body: { phone: values.phone.trim(), name: values.name.trim() || undefined, role: values.role, storeId: store.id },
+        result: admin.setupLinkResult,
       });
       setNotice(res.message);
       setLink(res.result.setupLink);
-      setForm((f) => ({ ...f, phone: "", name: "" }));
+      form.reset({ ...values, phone: "", name: "" });
       await queryClient.invalidateQueries({ queryKey: ["admin", "store", store.id] });
-    });
-  };
+    }),
+  );
 
   const remove = (s: StoreStaff) =>
     run(`rm-${s.id}`, async () => {
@@ -167,7 +176,7 @@ function StaffSection({ store }: { store: StoreDetail }) {
 
   const newLink = (s: StoreStaff) =>
     run(`link-${s.id}`, async () => {
-      const res = await adminApi<SetupLinkResult>(`/users/${s.userId}/setup-link`, { method: "POST" });
+      const res = await adminApi(`/users/${s.userId}/setup-link`, { method: "POST", result: admin.setupLinkResult });
       setLink(res.result.setupLink);
       setNotice(`New setup link for ${s.name || s.phone}. Any older link stops working.`);
     });
@@ -214,14 +223,14 @@ function StaffSection({ store }: { store: StoreDetail }) {
         <form onSubmit={add} className="mt-4 border-t border-gray-200 pt-4">
           <p className="mb-2 text-sm font-medium text-gray-700">Add someone to this store</p>
           <div className="grid gap-2 sm:grid-cols-2">
-            <Field label="Mobile number">
-              <Input type="tel" placeholder="01XXXXXXXXX" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
+            <Field label="Mobile number" error={errorText(form.formState.errors, "phone")}>
+              {(a) => <Input {...a} type="tel" placeholder="01XXXXXXXXX" {...form.register("phone")} required />}
             </Field>
-            <Field label="Name (optional)">
-              <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            <Field label="Name (optional)" error={errorText(form.formState.errors, "name")}>
+              {(a) => <Input {...a} {...form.register("name")} />}
             </Field>
             <Field label="Role">
-              <Select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+              <Select {...form.register("role")}>
                 {addable.map((r) => (
                   <option key={r} value={r}>
                     {roleLabel(r)}
@@ -250,7 +259,7 @@ export default function StoreDetailPage() {
   const [notice, setNotice] = useState<ReactNode>(null);
   const store = useQuery({
     queryKey: ["admin", "store", id],
-    queryFn: () => adminApi<StoreDetail>(`/stores/${id}`).then((r) => r.result),
+    queryFn: () => adminApi(`/stores/${id}`, { result: admin.storeDetail }).then((r) => r.result),
   });
 
   if (store.isPending) return <Loading />;

@@ -9,6 +9,7 @@ import { adminApi, formatDate, packLabel, taka, titleCase } from "@/components/A
 import type { DeliveryInfo, OrderDetail, OrderStatus } from "@/components/Admin/types";
 import { Button, Card, ConfirmButton, ErrorBox, Loading, Notice, PageHeader, StatusBadge, Table, Td, type ErrorLike } from "@/components/Admin/ui";
 import RiderAssign from "@/components/Admin/RiderAssign";
+import { admin } from "@notension/shared";
 
 const Row = ({ label, children }: { label: string; children: ReactNode }) => (
   <div className="flex justify-between gap-4 py-1 text-sm">
@@ -27,7 +28,7 @@ export default function OrderDetailPage() {
 
   const order = useQuery({
     queryKey: ["admin", "order", id],
-    queryFn: () => adminApi<OrderDetail>(`/orders/${id}`).then((r) => r.result),
+    queryFn: () => adminApi(`/orders/${id}`, { result: admin.orderDetail }).then((r) => r.result),
   });
 
   const move = async (status: OrderStatus) => {

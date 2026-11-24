@@ -9,6 +9,7 @@ import { AppointmentBadge, ProfileError } from "@/components/Admin/DoctorPanel";
 import type { Appointment, AppointmentStatus } from "@/components/Admin/types";
 import { Button, Card, ConfirmButton, cx, Empty, Input, Loading, PageHeader, Select } from "@/components/Admin/ui";
 import { notify } from "@/utils/notify";
+import { admin } from "@notension/shared";
 
 const dayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const dayLabel = (ymd: string, today: string | undefined) => {
@@ -85,7 +86,7 @@ export default function DoctorAppointmentsPage() {
   const [status, setStatus] = useState("");
   const list = useQuery({
     queryKey: ["admin", "doctor-appointments", date],
-    queryFn: () => adminApi<Appointment[]>("/doctor/appointments", { query: { date } }),
+    queryFn: () => adminApi("/doctor/appointments", { query: { date }, result: admin.appointment.array() }),
     retry: false,
   });
   const reload = () => queryClient.invalidateQueries({ queryKey: ["admin", "doctor-appointments"] });
