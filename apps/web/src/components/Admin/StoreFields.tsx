@@ -1,10 +1,13 @@
 "use client";
 
 // Store settings fields, shared by the store page (edit) and Add store.
-import type { Dispatch, SetStateAction } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Controller, type UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { adminApi } from "./api";
-import type { District, Store } from "./types";
+import { apiChecked, asNullable, asNumber, asText, errorText } from "./forms";
+import type { Store } from "./types";
 import { Checkbox, Field, Input, Select } from "./ui";
 
 // kind: text | ntext (empty = null) | money | number | time | bool | discountType | district
@@ -83,6 +86,25 @@ export function fromForm(field: StoreField, value: string | boolean): string | n
   }
 }
 
+// Form schema for these fields: each checked by the API's own field schema
+// (admin.adminStoreFields) on the value the API gets. With `initial`
+// (editing), unchanged values pass: only changes are sent.
+export function storeFormSchema(fields: StoreField[], initial?: StoreForm, extra: Record<string, z.ZodType> = {}) {
+  const api = admin.adminStoreFields.shape;
+  const shape: Record<string, z.ZodType> = { ...extra };
+  for (const f of fields) {
+    const before = initial?.[f.key];
+    const unchanged = typeof before === "string" ? before : undefined;
+    const check = api[f.key as keyof typeof api];
+    if (f.kind === "bool") shape[f.key] = z.boolean();
+    else if (f.kind === "money" || f.kind === "number") shape[f.key] = apiChecked(check, asNumber, unchanged);
+    else if (f.kind === "ntext" || f.kind === "time") shape[f.key] = apiChecked(check, asNullable, unchanged);
+    else shape[f.key] = apiChecked(check, asText, unchanged);
+  }
+  // Booleans for "bool" fields, strings for the rest (see toForm).
+  return z.object(shape) as unknown as z.ZodType<StoreForm, StoreForm>;
+}
+
 // Only the fields that differ from the saved store.
 export function changedFields(fields: StoreField[], form: StoreForm, store: Partial<Store>) {
   const initial = toForm(fields, store);
@@ -100,22 +122,20 @@ export function useKnownDistricts(enabled: boolean) {
     enabled,
     staleTime: 60 * 60_000,
     queryFn: async (): Promise<DistrictOption[]> =>
-      (await adminApi<District[]>("/districts")).result.map((d) => ({ id: d.id, name: d.name })),
+      (await adminApi("/districts", { result: admin.district.array() })).result.map((d) => ({ id: d.id, name: d.name })),
   });
 }
 
 type StoreFieldsProps = {
   fields: StoreField[];
-  form: StoreForm;
-  setForm: Dispatch<SetStateAction<StoreForm>>;
+  form: UseFormReturn<StoreForm>;
   districts?: DistrictOption[];
   current?: DistrictOption;
 };
 
-export function StoreFields({ fields, form, setForm, districts, current }: StoreFieldsProps) {
-  const set = (key: string, value: string | boolean) => setForm((f) => ({ ...f, [key]: value }));
-  // "bool" fields hold booleans, the rest strings (see toForm).
-  const text = (key: string) => form[key] as string;
+export function StoreFields({ fields, form, districts, current }: StoreFieldsProps) {
+  const { register, control } = form;
+  const errors = form.formState.errors;
   const bools = fields.filter((f) => f.kind === "bool");
   const rest = fields.filter((f) => f.kind !== "bool");
   return (
@@ -123,32 +143,44 @@ export function StoreFields({ fields, form, setForm, districts, current }: Store
       {bools.length ? (
         <div className="flex flex-wrap gap-x-6 gap-y-2">
           {bools.map((f) => (
-            <Checkbox key={f.key} label={f.label} checked={form[f.key] as boolean} onChange={(v) => set(f.key, v)} />
+            <Controller
+              key={f.key}
+              control={control}
+              name={f.key}
+              render={({ field }) => <Checkbox label={f.label} checked={field.value as boolean} onChange={field.onChange} />}
+            />
           ))}
         </div>
       ) : null}
       <div className="grid gap-3 sm:grid-cols-2">
         {rest.map((f) => (
-          <Field key={f.key} label={f.label} hint={f.hint} className={f.wide ? "sm:col-span-2" : undefined}>
-            {f.kind === "discountType" ? (
-              <Select value={text(f.key)} onChange={(e) => set(f.key, e.target.value)}>
+          <Field key={f.key} label={f.label} hint={f.hint} error={errorText(errors, f.key)} className={f.wide ? "sm:col-span-2" : undefined}>
+            {(a) => f.kind === "discountType" ? (
+              <Select {...a} {...register(f.key)}>
                 <option value="percent">Percent (%)</option>
                 <option value="flat">Flat (৳)</option>
               </Select>
             ) : f.kind === "district" ? (
-              <Select value={text(f.key)} onChange={(e) => set(f.key, e.target.value)} required>
-                <option value="">Choose a district</option>
-                {current && !districts?.some((d) => d.id === current.id) ? <option value={current.id}>{current.name}</option> : null}
-                {(districts || []).map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.name}
-                  </option>
-                ))}
-              </Select>
+              // Controlled: the options arrive after the form mounts.
+              <Controller
+                control={control}
+                name={f.key}
+                render={({ field }) => (
+                  <Select {...a} {...field} value={field.value as string} required>
+                    <option value="">Choose a district</option>
+                    {current && !districts?.some((d) => d.id === current.id) ? <option value={current.id}>{current.name}</option> : null}
+                    {(districts || []).map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+              />
             ) : (
               <Input
-                value={text(f.key)}
-                onChange={(e) => set(f.key, e.target.value)}
+                {...a}
+                {...register(f.key)}
                 type={f.kind === "money" || f.kind === "number" ? "number" : "text"}
                 step={f.kind === "number" ? "any" : f.kind === "money" ? "0.01" : undefined}
                 min={f.kind === "money" ? 0 : undefined}

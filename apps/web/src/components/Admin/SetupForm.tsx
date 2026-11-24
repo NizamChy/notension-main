@@ -1,30 +1,36 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { admin } from "@notension/shared";
 import { adminApi } from "./api";
-import type { Me, SetupWho } from "./types";
-import { Button, ErrorBox, Field, Input, Loading, type ErrorLike } from "./ui";
+import { errorText, setupForm } from "./forms";
+import { Button, ErrorBox, Field, Input, Loading } from "./ui";
+import { useZodForm } from "@/lib/forms/useZodForm";
 
 export default function SetupForm() {
   const token = useSearchParams().get("token") || "";
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [error, setError] = useState<ErrorLike>(null);
-  const [busy, setBusy] = useState(false);
+  const form = useZodForm(setupForm, { defaultValues: { password: "", confirm: "" } });
+  const errors = form.formState.errors;
 
   const who = useQuery({
-    queryKey: ["admin-setup", token],
-    queryFn: () => adminApi<SetupWho>("/setup", { query: { token } }).then((r) => r.result),
+    queryKey: ["admin", "setup", token],
+    queryFn: () => adminApi("/setup", { query: { token }, result: admin.setupWho }).then((r) => r.result),
     enabled: !!token,
     retry: false,
     // The link is used up once the password is set; don't re-check it.
     staleTime: Infinity,
     refetchOnWindowFocus: false,
+  });
+  const setup = useMutation({
+    mutationFn: (password: string) => adminApi("/setup", { method: "POST", body: { token, password }, result: admin.me }),
+    onSuccess: (res) => {
+      queryClient.setQueryData(["admin", "me"], res.result);
+      router.replace("/admin");
+    },
   });
 
   if (!token || who.error) {
@@ -40,21 +46,7 @@ export default function SetupForm() {
   }
   if (who.isPending) return <Loading label="Checking your link…" />;
 
-  const submit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    if (password.length < 8) return setError("Use at least 8 characters.");
-    if (password !== confirm) return setError("The two passwords don't match.");
-    setBusy(true);
-    try {
-      const res = await adminApi<Me>("/setup", { method: "POST", body: { token, password } });
-      queryClient.setQueryData(["admin", "me"], res.result);
-      router.replace("/admin");
-    } catch (err) {
-      setError(err as Error);
-      setBusy(false);
-    }
-  };
+  const submit = form.handleSubmit(({ password }) => setup.mutate(password));
 
   return (
     <form onSubmit={submit} className="space-y-4">
@@ -62,16 +54,16 @@ export default function SetupForm() {
         Welcome{who.data?.name ? `, ${who.data.name}` : ""}! You&apos;ll log in with{" "}
         <span className="font-semibold">{who.data?.phone}</span> and the password you choose now.
       </p>
-      <ErrorBox error={error} />
+      <ErrorBox error={setup.error} />
       {/* Lets password managers save the phone number with the password. */}
       <input type="hidden" autoComplete="username" value={who.data?.phone || ""} readOnly />
-      <Field label="New password" hint="At least 8 characters.">
-        <Input type="password" autoComplete="new-password" minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <Field label="New password" hint="At least 8 characters." error={errorText(errors, "password")}>
+        {(a) => <Input {...a} type="password" autoComplete="new-password" minLength={8} {...form.register("password")} required />}
       </Field>
-      <Field label="Confirm password">
-        <Input type="password" autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
+      <Field label="Confirm password" error={errorText(errors, "confirm")}>
+        {(a) => <Input {...a} type="password" autoComplete="new-password" {...form.register("confirm")} required />}
       </Field>
-      <Button type="submit" className="w-full" loading={busy}>
+      <Button type="submit" className="w-full" loading={setup.isPending || setup.isSuccess}>
         Set password and continue
       </Button>
     </form>

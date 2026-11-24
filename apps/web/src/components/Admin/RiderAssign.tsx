@@ -9,6 +9,7 @@ import { adminApi, formatDate } from "./api";
 import type { OrderDetail, Rider } from "./types";
 import { Button, Card, Select } from "./ui";
 import { notify } from "@/utils/notify";
+import { admin } from "@notension/shared";
 
 export default function RiderAssign({ order }: { order: OrderDetail }) {
   const { perms } = useAdmin();
@@ -19,7 +20,7 @@ export default function RiderAssign({ order }: { order: OrderDetail }) {
   const [busy, setBusy] = useState(false);
   const riders = useQuery({
     queryKey: ["admin", "riders"],
-    queryFn: () => adminApi<Rider[]>("/riders").then((r) => r.result),
+    queryFn: () => adminApi("/riders", { result: admin.rider.array() }).then((r) => r.result),
     enabled: canAssign,
   });
 

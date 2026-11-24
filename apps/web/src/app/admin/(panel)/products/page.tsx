@@ -1,11 +1,16 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
-import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState, type ReactNode } from "react";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Controller } from "react-hook-form";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, MODULES, packLabel, taka, titleCase } from "@/components/Admin/api";
-import type { ApiResponse, Product, ProductType } from "@/components/Admin/types";
-import { Button, Card, Empty, ErrorBox, Field, Input, Loading, Notice, PageHeader, Pagination, Select, Table, Td, type ErrorLike } from "@/components/Admin/ui";
+import { apiChecked, asNullable, asNumber, asText, errorText } from "@/components/Admin/forms";
+import type { Product } from "@/components/Admin/types";
+import { Button, Card, Empty, ErrorBox, Field, Input, Loading, Notice, PageHeader, Pagination, Select, Table, Td } from "@/components/Admin/ui";
+import { useZodForm } from "@/lib/forms/useZodForm";
 
 const TEXT = ["titleEn", "titleBn", "packSize", "unit", "image"] as const;
 const NULLABLE: readonly string[] = ["titleBn", "packSize", "unit", "image", "subtypeId"];
@@ -31,6 +36,24 @@ const toApi = (form: ProductForm) => {
   return out;
 };
 
+// Each field checked by the API's own schema (admin.productFields) on the
+// value it gets; when editing, unchanged values pass (only changes are sent).
+const productSchema = (initial: ProductForm, editing: boolean) => {
+  const api = admin.productFields.shape;
+  const keep = (k: string) => (editing ? initial[k] : undefined);
+  return z.object({
+    module: z.string(),
+    titleEn: apiChecked(api.titleEn, asText, keep("titleEn")),
+    titleBn: apiChecked(api.titleBn, asNullable, keep("titleBn")),
+    packSize: apiChecked(api.packSize, asNullable, keep("packSize")),
+    unit: apiChecked(api.unit, asNullable, keep("unit")),
+    mrp: apiChecked(api.mrp, asNumber, keep("mrp")),
+    image: apiChecked(api.image, asNullable, keep("image")),
+    typeId: apiChecked(api.typeId, asText, keep("typeId")),
+    subtypeId: apiChecked(api.subtypeId, asNullable, keep("subtypeId")),
+  });
+};
+
 type ProductEditorProps = {
   product: Product | null;
   module: string;
@@ -39,51 +62,58 @@ type ProductEditorProps = {
 
 function ProductEditor({ product, module, onDone }: ProductEditorProps) {
   const queryClient = useQueryClient();
-  const [form, setForm] = useState(() => (product ? fromProduct(product) : blank(module)));
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<ErrorLike>(null);
-  const set = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
+  const [initial] = useState(() => (product ? fromProduct(product) : blank(module)));
+  const [schema] = useState(() => productSchema(initial, !!product));
+  const form = useZodForm(schema, { defaultValues: initial });
+  const errors = form.formState.errors;
+  const [formModule, typeId] = form.watch(["module", "typeId"]);
 
   const types = useQuery({
-    queryKey: ["admin", "product-types", form.module],
-    queryFn: () => adminApi<ProductType[]>("/product-types", { query: { module: form.module } }).then((r) => r.result),
+    queryKey: ["admin", "product-types", formModule],
+    queryFn: () => adminApi("/product-types", { query: { module: formModule }, result: admin.productType.array() }).then((r) => r.result),
     staleTime: 5 * 60_000,
   });
-  const type = types.data?.find((t) => t.id === form.typeId);
+  const type = types.data?.find((t) => t.id === typeId);
 
-  const save = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setBusy(true);
-    setError(null);
-    try {
-      const body = toApi(form);
-      let res: ApiResponse;
+  const saveProduct = useMutation({
+    mutationFn: (values: ProductForm) => {
+      const body = toApi(values);
       if (product) {
         // Only what changed.
         const before = toApi(fromProduct(product));
         const changes = Object.fromEntries(Object.entries(body).filter(([k, v]) => v !== before[k]));
-        if (!Object.keys(changes).length) return onDone(null);
-        res = await adminApi(`/products/${product.id}`, { method: "PATCH", body: changes });
-      } else {
-        res = await adminApi("/products", { method: "POST", body: { ...body, module: form.module } });
+        if (!Object.keys(changes).length) return Promise.resolve(null);
+        return adminApi(`/products/${product.id}`, { method: "PATCH", body: changes });
       }
+      return adminApi("/products", { method: "POST", body: { ...body, module: values.module }, result: admin.createdId });
+    },
+    onSuccess: async (res, values) => {
+      if (!res) return onDone(null);
       await queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
-      onDone(product ? res.message : `${form.titleEn.trim()} added to the catalogue.`);
-    } catch (err) {
-      setError(err as Error);
-      setBusy(false);
-    }
-  };
+      onDone(product ? res.message : `${values.titleEn.trim()} added to the catalogue.`);
+    },
+  });
+  // Stays busy after a save, until the editor closes.
+  const busy = saveProduct.isPending || saveProduct.isSuccess;
+
+  const save = form.handleSubmit((values) => saveProduct.mutate(values));
 
   return (
     <Card className="mb-4">
       <h2 className="mb-3 font-semibold text-gray-900">{product ? `Edit ${product.titleEn}` : "New product"}</h2>
       <form onSubmit={save} className="space-y-3">
-        <ErrorBox error={error} />
+        <ErrorBox error={saveProduct.error} />
         <div className="grid gap-3 sm:grid-cols-2">
           {!product ? (
             <Field label="Module">
-              <Select value={form.module} onChange={(e) => setForm({ ...form, module: e.target.value, typeId: "", subtypeId: "" })}>
+              <Select
+                {...form.register("module", {
+                  onChange: () => {
+                    form.setValue("typeId", "");
+                    form.setValue("subtypeId", "");
+                  },
+                })}
+              >
                 {MODULES.map((m) => (
                   <option key={m} value={m}>
                     {titleCase(m)}
@@ -92,44 +122,69 @@ function ProductEditor({ product, module, onDone }: ProductEditorProps) {
               </Select>
             </Field>
           ) : null}
-          <Field label="Name (English)">
-            <Input value={form.titleEn} onChange={(e) => set("titleEn", e.target.value)} required minLength={2} />
+          <Field label="Name (English)" error={errorText(errors, "titleEn")}>
+            {(a) => <Input {...a} {...form.register("titleEn")} required minLength={2} />}
           </Field>
-          <Field label="Name (Bangla)">
-            <Input value={form.titleBn} onChange={(e) => set("titleBn", e.target.value)} />
+          <Field label="Name (Bangla)" error={errorText(errors, "titleBn")}>
+            {(a) => <Input {...a} {...form.register("titleBn")} />}
           </Field>
-          <Field label="Pack size" hint="e.g. 500, 1, 12">
-            <Input value={form.packSize} onChange={(e) => set("packSize", e.target.value)} />
+          <Field label="Pack size" hint="e.g. 500, 1, 12" error={errorText(errors, "packSize")}>
+            {(a) => <Input {...a} {...form.register("packSize")} />}
           </Field>
-          <Field label="Unit" hint="e.g. gm, kg, ltr, pcs">
-            <Input value={form.unit} onChange={(e) => set("unit", e.target.value)} />
+          <Field label="Unit" hint="e.g. gm, kg, ltr, pcs" error={errorText(errors, "unit")}>
+            {(a) => <Input {...a} {...form.register("unit")} />}
           </Field>
-          <Field label="MRP (৳)">
-            <Input type="number" min={0} step={0.01} value={form.mrp} onChange={(e) => set("mrp", e.target.value)} required />
+          <Field label="MRP (৳)" error={errorText(errors, "mrp")}>
+            {(a) => <Input {...a} type="number" min={0} step={0.01} {...form.register("mrp")} required />}
           </Field>
-          <Field label="Type">
-            <Select value={form.typeId} onChange={(e) => setForm({ ...form, typeId: e.target.value, subtypeId: "" })} required>
-              <option value="">{types.isPending ? "Loading…" : "Choose a type"}</option>
-              {(types.data || []).map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                  {t.kind === "Custom" ? " (promotion)" : ""}
-                </option>
-              ))}
-            </Select>
+          <Field label="Type" error={errorText(errors, "typeId")}>
+            {(a) => (
+              // Controlled: the options load after the form mounts.
+              <Controller
+                control={form.control}
+                name="typeId"
+                render={({ field }) => (
+                  <Select
+                    {...a}
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      form.setValue("subtypeId", "");
+                    }}
+                    required
+                  >
+                    <option value="">{types.isPending ? "Loading…" : "Choose a type"}</option>
+                    {(types.data || []).map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name}
+                        {t.kind === "Custom" ? " (promotion)" : ""}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+              />
+            )}
           </Field>
-          <Field label="Subtype">
-            <Select value={form.subtypeId} onChange={(e) => set("subtypeId", e.target.value)} disabled={!type?.subtypes.length}>
-              <option value="">{type?.subtypes.length ? "None" : "No subtypes"}</option>
-              {(type?.subtypes || []).map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </Select>
+          <Field label="Subtype" error={errorText(errors, "subtypeId")}>
+            {(a) => (
+              <Controller
+                control={form.control}
+                name="subtypeId"
+                render={({ field }) => (
+                  <Select {...a} {...field} disabled={!type?.subtypes.length}>
+                    <option value="">{type?.subtypes.length ? "None" : "No subtypes"}</option>
+                    {(type?.subtypes || []).map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+              />
+            )}
           </Field>
-          <Field label="Image URL" className="sm:col-span-2">
-            <Input value={form.image} onChange={(e) => set("image", e.target.value)} placeholder="https://…" />
+          <Field label="Image URL" className="sm:col-span-2" error={errorText(errors, "image")}>
+            {(a) => <Input {...a} {...form.register("image")} placeholder="https://…" />}
           </Field>
         </div>
         <ErrorBox error={types.error} />
@@ -155,7 +210,7 @@ export default function ProductsPage() {
 
   const products = useQuery({
     queryKey: ["admin", "products", filters],
-    queryFn: () => adminApi<Product[]>("/products", { query: filters }),
+    queryFn: () => adminApi("/products", { query: filters, result: admin.product.array() }),
     placeholderData: keepPreviousData,
   });
 

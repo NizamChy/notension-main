@@ -1,12 +1,17 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
-import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState, type ReactNode } from "react";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Controller } from "react-hook-form";
+import { z } from "zod";
+import { admin } from "@notension/shared";
 import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, formatDate, roleLabel, titleCase } from "@/components/Admin/api";
 import { grantableRoles, STORE_ROLES } from "@/components/Admin/perms";
 import ProfileLinks from "@/components/Admin/ProfileLinks";
-import type { AdminUser, Role, SetupLinkResult, Store } from "@/components/Admin/types";
+import { errorText, roleName } from "@/components/Admin/forms";
+import type { AdminUser, Role } from "@/components/Admin/types";
+import { useZodForm } from "@/lib/forms/useZodForm";
 import {
   Badge,
   Button,
@@ -26,12 +31,19 @@ import {
   type ErrorLike,
 } from "@/components/Admin/ui";
 
-function StorePicker({ value, onChange }: { value: string; onChange: (storeId: string) => void }) {
+type StorePickerProps = {
+  value: string;
+  onChange: (storeId: string) => void;
+  "aria-invalid"?: true;
+  "aria-describedby"?: string;
+};
+
+function StorePicker({ value, onChange, ...aria }: StorePickerProps) {
   const [q, setQ] = useState("");
   const [search, setSearch] = useState("");
   const stores = useQuery({
     queryKey: ["admin", "stores", { q: search, page: 1, module: "" }],
-    queryFn: () => adminApi<Store[]>("/stores", { query: { q: search, page: 1 } }),
+    queryFn: () => adminApi("/stores", { query: { q: search, page: 1 }, result: admin.store.array() }),
   });
   return (
     <div className="space-y-2">
@@ -51,7 +63,7 @@ function StorePicker({ value, onChange }: { value: string; onChange: (storeId: s
           Find
         </Button>
       </div>
-      <Select value={value} onChange={(e) => onChange(e.target.value)} required aria-label="Store">
+      <Select {...aria} value={value} onChange={(e) => onChange(e.target.value)} required aria-label="Store">
         <option value="">{stores.isPending ? "Loading stores…" : `Choose a store (${stores.data?.total ?? 0} found)`}</option>
         {(stores.data?.result || []).map((s) => (
           <option key={s.id} value={s.id}>
@@ -63,46 +75,49 @@ function StorePicker({ value, onChange }: { value: string; onChange: (storeId: s
   );
 }
 
+// POST /roles, with the API's own checks; a store role needs a store.
+const addRoleSchema = z
+  .object({ phone: admin.roleInput.shape.phone, name: roleName, role: z.string(), storeId: z.string() })
+  .refine((v) => !STORE_ROLES.includes(v.role as Role) || v.storeId !== "", {
+    path: ["storeId"],
+    message: "Choose the store for this role",
+  });
+
 function AddRole({ onAdded }: { onAdded: () => Promise<unknown> }) {
   const { perms } = useAdmin();
   const roles = grantableRoles(perms);
   // role: one of `roles` (the select's options), or "" when there are none.
-  const [form, setForm] = useState<{ phone: string; name: string; role: string; storeId: string }>({
-    phone: "",
-    name: "",
-    role: roles.includes("merchant_owner") ? "merchant_owner" : roles[0] || "",
-    storeId: "",
+  const form = useZodForm(addRoleSchema, {
+    defaultValues: { phone: "", name: "", role: roles.includes("merchant_owner") ? "merchant_owner" : roles[0] || "", storeId: "" },
   });
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<ErrorLike>(null);
+  const errors = form.formState.errors;
   const [notice, setNotice] = useState<ReactNode>(null);
   const [link, setLink] = useState<string | null>(null);
-  const needsStore = STORE_ROLES.includes(form.role as Role);
-
-  if (!roles.length) return null;
-
-  const submit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setBusy(true);
-    setError(null);
-    setNotice(null);
-    setLink(null);
-    try {
-      const res = await adminApi<SetupLinkResult>("/roles", {
-        method: "POST",
-        body: { phone: form.phone.trim(), name: form.name.trim() || undefined, role: form.role, storeId: needsStore ? form.storeId : null },
-      });
+  const needsStore = STORE_ROLES.includes(form.watch("role") as Role);
+  const addRole = useMutation({
+    mutationFn: (body: Record<string, string | null | undefined>) => adminApi("/roles", { method: "POST", body, result: admin.setupLinkResult }),
+    onSuccess: async (res) => {
       setNotice(
         res.result.setupLink ? res.message : `${res.message}. They already have a password, so they can log in at /admin/login.`,
       );
       setLink(res.result.setupLink);
-      setForm((f) => ({ ...f, phone: "", name: "" }));
+      form.reset({ ...form.getValues(), phone: "", name: "" });
       await onAdded();
-    } catch (err) {
-      setError(err as Error);
-    }
-    setBusy(false);
-  };
+    },
+  });
+
+  if (!roles.length) return null;
+
+  const submit = form.handleSubmit((values) => {
+    setNotice(null);
+    setLink(null);
+    addRole.mutate({
+      phone: values.phone.trim(),
+      name: values.name.trim() || undefined,
+      role: values.role,
+      storeId: needsStore ? values.storeId : null,
+    });
+  });
 
   return (
     <Card className="mb-4">
@@ -110,32 +125,40 @@ function AddRole({ onAdded }: { onAdded: () => Promise<unknown> }) {
       <p className="mb-3 text-sm text-gray-500">
         Enter their mobile number. If they&apos;re new, an account is made and you get a setup link to send them.
       </p>
-      <ErrorBox error={error} />
+      <ErrorBox error={addRole.error} />
       <Notice>{notice}</Notice>
       <SetupLinkBox link={link} onClose={() => setLink(null)} />
       <form onSubmit={submit} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <Field label="Mobile number">
-          <Input type="tel" placeholder="01XXXXXXXXX" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
+        <Field label="Mobile number" error={errorText(errors, "phone")}>
+          {(a) => <Input {...a} type="tel" placeholder="01XXXXXXXXX" {...form.register("phone")} required />}
         </Field>
-        <Field label="Name (optional)">
-          <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+        <Field label="Name (optional)" error={errorText(errors, "name")}>
+          {(a) => <Input {...a} {...form.register("name")} />}
         </Field>
-        <Field label="Role">
-          <Select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+        <Field label="Role" error={errorText(errors, "role")}>
+          {(a) => (
+          <Select {...a} {...form.register("role")}>
             {roles.map((r) => (
               <option key={r} value={r}>
                 {roleLabel(r)}
               </option>
             ))}
           </Select>
+          )}
         </Field>
         {needsStore ? (
-          <Field label="Store" className="sm:col-span-2">
-            <StorePicker value={form.storeId} onChange={(storeId) => setForm({ ...form, storeId })} />
+          <Field label="Store" className="sm:col-span-2" error={errorText(errors, "storeId")}>
+            {(a) => (
+              <Controller
+                control={form.control}
+                name="storeId"
+                render={({ field }) => <StorePicker {...a} value={field.value} onChange={field.onChange} />}
+              />
+            )}
           </Field>
         ) : null}
         <div className="flex items-end">
-          <Button type="submit" loading={busy}>
+          <Button type="submit" loading={addRole.isPending}>
             Add role
           </Button>
         </div>
@@ -192,7 +215,7 @@ function UserCard({ u, onChanged }: { u: AdminUser; onChanged: () => Promise<unk
               loading={busy === "link"}
               onClick={() =>
                 run("link", async () => {
-                  const res = await adminApi<SetupLinkResult>(`/users/${u.id}/setup-link`, { method: "POST" });
+                  const res = await adminApi(`/users/${u.id}/setup-link`, { method: "POST", result: admin.setupLinkResult });
                   setLink(res.result.setupLink);
                 })
               }
@@ -275,7 +298,7 @@ export default function UsersPage() {
 
   const users = useQuery({
     queryKey: ["admin", "users", filters],
-    queryFn: () => adminApi<AdminUser[]>("/users", { query: filters }),
+    queryFn: () => adminApi("/users", { query: filters, result: admin.adminUser.array() }),
     placeholderData: keepPreviousData,
   });
   const reload = () => queryClient.invalidateQueries({ queryKey: ["admin", "users"] });

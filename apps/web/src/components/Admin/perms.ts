@@ -1,10 +1,11 @@
 // What the signed-in staff member may do, from GET /me roles. Mirrors the
 // API's access rules (apps/api/src/modules/admin/access.ts) so the panel only
 // shows what will work; the API still checks everything.
+import { admin } from "@notension/shared";
 import type { Me, Module, Role } from "./types";
 
 export const PLATFORM_ROLES: Role[] = ["super_admin", "admin", "support", "finance", "content_manager"];
-export const STORE_ROLES: Role[] = ["merchant_owner", "merchant_manager", "merchant_staff"];
+export const STORE_ROLES: Role[] = [...admin.STORE_ROLES];
 export const SERVICE_ROLES: Role[] = ["rider", "doctor", "service_provider"];
 const MERCHANT_EDIT: Role[] = ["merchant_owner", "merchant_manager"];
 

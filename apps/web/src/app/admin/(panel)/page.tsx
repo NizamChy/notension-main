@@ -7,6 +7,7 @@ import { useAdmin } from "@/components/Admin/AdminShell";
 import { adminApi, ORDER_STATUSES, taka, titleCase } from "@/components/Admin/api";
 import type { Stats } from "@/components/Admin/types";
 import { Card, ErrorBox, Loading, PageHeader, StatusBadge } from "@/components/Admin/ui";
+import { admin } from "@notension/shared";
 
 type TileProps = { label: string; value: ReactNode; sub?: string; href?: string };
 
@@ -60,7 +61,7 @@ function Bars<R extends BarRow>({ rows, label, href }: BarsProps<R>) {
 
 export default function AdminDashboard() {
   const { me, perms } = useAdmin();
-  const stats = useQuery({ queryKey: ["admin", "stats"], queryFn: () => adminApi<Stats>("/stats").then((r) => r.result) });
+  const stats = useQuery({ queryKey: ["admin", "stats"], queryFn: () => adminApi("/stats", { result: admin.stats }).then((r) => r.result) });
 
   const s = stats.data;
   const byStatus = ORDER_STATUSES.map((status) => {

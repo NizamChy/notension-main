@@ -40,7 +40,7 @@ import {
   type AdminEnv,
 } from "./access";
 import { servicePanelRoutes } from "./service-panels";
-import { isDemoAccountPhone } from "@notension/shared";
+import { admin as contract, isDemoAccountPhone } from "@notension/shared";
 import { backupSchema, createBackup, resetToDefault, restoreBackup } from "./data";
 import { checkSetupToken, consumeSetupToken, createSetupLink, ensureUser, grantRole, hasPassword, searchPattern, setPassword } from "./staff";
 
@@ -54,8 +54,6 @@ const P = "/api/v1/admin";
 const MODULES = ["grocery", "medicine", "food", "fashion"] as const;
 const page = z.coerce.number().int().min(1).catch(1).default(1);
 const PAGE = 25;
-
-const password = z.string().min(8, "Use at least 8 characters").max(128);
 
 const withCookies = (c: { header: (k: string, v: string, o?: { append?: boolean }) => void }, headers?: Headers) => {
   for (const cookie of headers?.getSetCookie?.() ?? []) c.header("Set-Cookie", cookie, { append: true });
@@ -136,7 +134,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
 
   app.post(
     `${P}/login`,
-    zValidator("json", z.object({ phone: z.string(), password: z.string().min(1).max(128) })),
+    zValidator("json", contract.loginInput),
     async (c) => {
       const body = c.req.valid("json");
       const phone = normalizeBdPhone(body.phone);
@@ -168,7 +166,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
     return c.json({ success: true, result: u });
   });
 
-  app.post(`${P}/setup`, zValidator("json", z.object({ token: z.string(), password })), async (c) => {
+  app.post(`${P}/setup`, zValidator("json", contract.setupInput), async (c) => {
     const body = c.req.valid("json");
     const userId = await checkSetupToken(db, body.token);
     if (!userId) return c.json({ success: false, message: "This link has expired or was already used" }, 400);
@@ -205,7 +203,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
 
   app.post(
     `${P}/password`,
-    zValidator("json", z.object({ current: z.string().min(1), next: password })),
+    zValidator("json", contract.passwordInput),
     async (c) => {
       const a = c.get("access");
       const body = c.req.valid("json");
@@ -318,62 +316,12 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
     return c.json({ success: true, result: { ...row, staff } });
   });
 
-  const money = z.coerce.number().min(0).max(1_000_000);
-  // Hours are stored the way the customer pages show them ("08:00 AM").
-  // Accepts that form or 24-hour "20:30".
-  const time = z
-    .string()
-    .trim()
-    .transform((s, ctx) => {
-      const m = s.match(/^(\d{1,2}):(\d{2})(?:\s*([AaPp])[Mm])?$/);
-      let h = m ? Number(m[1]) : NaN;
-      const min = m ? Number(m[2]) : NaN;
-      const ampm = m?.[3]?.toUpperCase();
-      if (!m || min > 59 || (ampm ? h < 1 || h > 12 : h > 23)) {
-        ctx.addIssue({ code: "custom", message: "Use a time like 09:00 AM or 21:30" });
-        return z.NEVER;
-      }
-      if (ampm) h = (h % 12) + (ampm === "P" ? 12 : 0);
-      const h12 = h % 12 || 12;
-      return `${String(h12).padStart(2, "0")}:${String(min).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
-    })
-    .nullable();
-  // Fields merchants may change on their own store.
-  const merchantStoreFields = z.object({
-    isClosed: z.boolean(),
-    deliveryNotice: z.string().max(300),
-    opensAt: time,
-    closesAt: time,
-    phone: z.string().max(20),
-    altPhone: z.string().max(20),
-    minOrder: money,
-    minDeliveryCharge: money,
-    maxDeliveryCharge: money,
-    discount: money,
-    discountType: z.enum(["percent", "flat"]),
-    maxDiscount: money,
-    minOrderForDiscount: money,
-    bannerApp: z.string().max(300).nullable(),
-    bannerWeb: z.string().max(300).nullable(),
-  });
-  const adminStoreFields = merchantStoreFields.extend({
-    name: z.string().trim().min(2).max(120),
-    address: z.string().trim().min(3).max(300),
-    areaName: z.string().max(120).nullable(),
-    districtId: z.string().min(1),
-    latitude: z.coerce.number().min(-90).max(90),
-    longitude: z.coerce.number().min(-180).max(180),
-    isActive: z.boolean(),
-    isBanned: z.boolean(),
-    showPrice: z.boolean(),
-  });
-
   app.patch(`${P}/stores/:id`, async (c) => {
     const a = c.get("access");
     const id = c.req.param("id");
     const isAdmin = hasGlobal(a, ["admin"]);
     if (!isAdmin && !canStore(a, id, [], MERCHANT_EDIT)) return forbidden(c);
-    const parsed = (isAdmin ? adminStoreFields : merchantStoreFields).partial().strict().safeParse(await c.req.json());
+    const parsed = contract.storePatchInput(isAdmin).safeParse(await c.req.json());
     if (!parsed.success) return c.json({ success: false, message: parsed.error.issues[0]?.message ?? "Invalid data" }, 400);
     const [row] = await db.update(stores).set(parsed.data).where(eq(stores.id, id)).returning({ id: stores.id });
     if (!row) return c.json({ success: false, message: "Store not found" }, 404);
@@ -384,7 +332,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
 
   app.post(
     `${P}/stores`,
-    zValidator("json", adminStoreFields.partial().required({ name: true, address: true, districtId: true, latitude: true, longitude: true }).extend({ module: z.enum(MODULES), ownerPhone: z.string().optional() })),
+    zValidator("json", contract.createStoreInput),
     async (c) => {
       const a = c.get("access");
       if (!hasGlobal(a, ["admin"])) return forbidden(c);
@@ -454,23 +402,13 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
     },
   );
 
-  const stockFields = z.object({ stockQty: z.coerce.number().int().min(0).max(1_000_000), isAvailable: z.boolean() });
-  const priceFields = stockFields.extend({
-    salePrice: money,
-    purchasePrice: money,
-    mrp: money,
-    maxPerOrder: z.coerce.number().int().min(0).max(10_000),
-    discount: money,
-    discountType: z.enum(["percent", "flat"]),
-  });
-
   app.patch(`${P}/items/:id`, async (c) => {
     const a = c.get("access");
     const [item] = await db.select({ storeId: storeItems.storeId }).from(storeItems).where(eq(storeItems.id, c.req.param("id")));
     if (!item) return c.json({ success: false, message: "Item not found" }, 404);
     const full = canStore(a, item.storeId, ["admin"], MERCHANT_EDIT);
     if (!full && !canStore(a, item.storeId, [], ["merchant_staff"])) return forbidden(c);
-    const parsed = (full ? priceFields : stockFields).partial().strict().safeParse(await c.req.json());
+    const parsed = contract.itemPatchInput(full).safeParse(await c.req.json());
     if (!parsed.success) return c.json({ success: false, message: parsed.error.issues[0]?.message ?? "Invalid data" }, 400);
     await db.update(storeItems).set(parsed.data).where(eq(storeItems.id, c.req.param("id")));
     return c.json({ success: true, message: "Item saved" });
@@ -478,7 +416,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
 
   app.post(
     `${P}/stores/:id/items`,
-    zValidator("json", priceFields.partial().extend({ productId: z.string().min(1) })),
+    zValidator("json", contract.createItemInput),
     async (c) => {
       const a = c.get("access");
       const storeId = c.req.param("id");
@@ -551,17 +489,6 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
     return c.json({ success: true, result: types.map((t) => ({ ...t, subtypes: subtypes.filter((s) => s.typeId === t.id) })) });
   });
 
-  const productFields = z.object({
-    titleEn: z.string().trim().min(2).max(200),
-    titleBn: z.string().trim().max(200).nullable(),
-    packSize: z.string().max(50).nullable(),
-    unit: z.string().max(20).nullable(),
-    mrp: money,
-    image: z.string().max(300).nullable(),
-    typeId: z.string().min(1),
-    subtypeId: z.string().nullable(),
-  });
-
   const slugify = (s: string) =>
     s
       .toLowerCase()
@@ -569,7 +496,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
       .replace(/^-|-$/g, "")
       .slice(0, 80) || "item";
 
-  app.post(`${P}/products`, zValidator("json", productFields.extend({ module: z.enum(MODULES) })), async (c) => {
+  app.post(`${P}/products`, zValidator("json", contract.createProductInput), async (c) => {
     if (!hasGlobal(c.get("access"), ["admin", "content_manager"])) return forbidden(c);
     const body = c.req.valid("json");
     const slug = `${slugify(body.titleEn)}-${Date.now().toString(36)}`;
@@ -579,7 +506,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
 
   app.patch(`${P}/products/:id`, async (c) => {
     if (!hasGlobal(c.get("access"), ["admin", "content_manager"])) return forbidden(c);
-    const parsed = productFields.partial().strict().safeParse(await c.req.json());
+    const parsed = contract.productPatchInput.safeParse(await c.req.json());
     if (!parsed.success) return c.json({ success: false, message: parsed.error.issues[0]?.message ?? "Invalid data" }, 400);
     const [row] = await db.update(products).set(parsed.data).where(eq(products.id, c.req.param("id"))).returning({ id: products.id });
     if (!row) return c.json({ success: false, message: "Product not found" }, 404);
@@ -657,7 +584,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
 
   app.patch(
     `${P}/orders/:id/status`,
-    zValidator("json", z.object({ status: z.enum(ORDER_STATUSES) })),
+    zValidator("json", contract.orderStatusInput),
     async (c) => {
       const a = c.get("access");
       const { status } = c.req.valid("json");
@@ -719,10 +646,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
   // a setup link when the person has no password yet.
   app.post(
     `${P}/roles`,
-    zValidator(
-      "json",
-      z.object({ phone: z.string(), name: z.string().trim().max(100).optional(), role: z.enum(ROLES), storeId: z.string().nullable().optional() }),
-    ),
+    zValidator("json", contract.roleInput),
     async (c) => {
       const a = c.get("access");
       const body = c.req.valid("json");
@@ -774,7 +698,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
     return c.json({ success: true, result: { setupLink: await createSetupLink(db, id, webUrlOf(c)) } });
   });
 
-  app.patch(`${P}/users/:id`, zValidator("json", z.object({ banned: z.boolean() })), async (c) => {
+  app.patch(`${P}/users/:id`, zValidator("json", contract.banInput), async (c) => {
     const a = c.get("access");
     if (!hasGlobal(a, ["admin"])) return forbidden(c);
     const id = c.req.param("id");
@@ -827,7 +751,7 @@ export const adminRoutes = (db: Db, authSetup: Auth, opts: AdminOptions = {}) =>
     }
   });
 
-  app.post(`${P}/reset`, zValidator("json", z.object({ confirm: z.string() })), async (c) => {
+  app.post(`${P}/reset`, zValidator("json", contract.resetInput), async (c) => {
     if (!c.get("access").isSuper) return forbidden(c);
     if (c.req.valid("json").confirm !== "RESET") return c.json({ success: false, message: 'Type RESET to confirm' }, 400);
     const started = Date.now();

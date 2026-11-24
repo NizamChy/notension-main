@@ -10,6 +10,7 @@ import { useAdmin } from "@/components/Admin/AdminShell";
 import { ADMIN_API, adminApi, ApiError, formatDate } from "@/components/Admin/api";
 import type { DataResult } from "@/components/Admin/types";
 import { Button, Card, ErrorBox, inputClass, Notice, PageHeader, Spinner, cx, type ErrorLike } from "@/components/Admin/ui";
+import { admin } from "@notension/shared";
 
 type Counts = Record<string, number>;
 
@@ -195,7 +196,7 @@ function RestoreCard({ onDone }: { onDone: DoneHandler }) {
     setBusy(true);
     setError(null);
     try {
-      const res = await adminApi<DataResult>("/restore", { method: "POST", body: file.data });
+      const res = await adminApi("/restore", { method: "POST", body: file.data, result: admin.dataResult });
       setResult(res.result);
       clear();
       notify.success("Backup restored");
@@ -270,7 +271,7 @@ function ResetCard({ onDone, className }: { onDone: DoneHandler; className?: str
     setError(null);
     setResult(null);
     try {
-      const res = await adminApi<DataResult>("/reset", { method: "POST", body: { confirm: word } });
+      const res = await adminApi("/reset", { method: "POST", body: { confirm: word }, result: admin.dataResult });
       setResult(res.result);
       setWord("");
       notify.success("Data reset to default");
