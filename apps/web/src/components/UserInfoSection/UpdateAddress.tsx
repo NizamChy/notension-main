@@ -2,9 +2,13 @@
 
 import type { customer } from "@notension/shared";
 import { useSessionStore } from "@/stores/sessionStore";
-import notify from "@/utils/notify";
-import { isLengthBetween } from "@/utils/validation";
 import React, { useState, type MouseEvent } from "react";
+import { useZodForm } from "@/lib/forms/useZodForm";
+import {
+  profileFormSchema,
+  toastFirstError,
+  type ProfileForm,
+} from "@/lib/forms/customerForms";
 import {
   HiOutlineMapPin,
   HiOutlinePhone,
@@ -12,7 +16,6 @@ import {
 } from "react-icons/hi2";
 import { useUser } from "@/hooks/fetch-data/useUser";
 import { ProfileHeader, InfoRow } from "./ProfileUI";
-import type { ProfileInfo } from "./UserInfoInputs";
 import LoginModalDetails from "../LoginSection/LoginModalDetails";
 import CommonModal from "../shared/CommonModal/CommonModal";
 import { CARD, PageHeader } from "../shared/UI/UI";
@@ -22,27 +25,31 @@ import { PrimaryButton } from "../shared/CartUI/CartUI";
 // The form; rendered only for a signed-in user and keyed by the account, so
 // useUser() starts from that account's saved details.
 const UpdateAddressForm = () => {
-  const user = useUser();
-  const { progressing, handleDataChange, registerUser } = user;
-  // useUser is JS and infers its string fields as {}; drop the cast once it is TS.
-  const userInfo = user.userInfo as unknown as ProfileInfo;
+  const { progressing, userInfo, registerUser } = useUser();
   // The session keeps the customer the login returned.
   const savedUserInfo = useSessionStore((s) => s.userInfo) as Partial<customer.Customer>;
+
+  const form = useZodForm(profileFormSchema, {
+    defaultValues: {
+      customer_name: userInfo.customer_name,
+      customer_address: userInfo.customer_address,
+      alternative_contact_no: userInfo.alternative_contact_no,
+    },
+  });
+  const { errors } = form.formState;
+
+  const submit = (values: ProfileForm) => {
+    const success_message = "Your details have been updated";
+    void registerUser(values, success_message);
+  };
 
   const handleUpdateUser = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (!isLengthBetween(userInfo?.customer_name, 3, 50)) {
-      return notify.warning("Name must be between 3 and 50 characters.");
-    }
-
-    if (!isLengthBetween(userInfo?.customer_address, 5, 200)) {
-      return notify.warning("Address must be between 5 and 200 characters.");
-    }
-
-    const success_message = "Your details have been updated";
-    registerUser(success_message);
+    void form.handleSubmit(
+      submit,
+      toastFirstError<ProfileForm>(["customer_name", "customer_address"]),
+    )();
   };
 
   return (
@@ -95,10 +102,8 @@ const UpdateAddressForm = () => {
                   id="customer_name"
                   required
                   autoComplete="name"
-                  value={userInfo?.customer_name || ""}
-                  onChange={(e) =>
-                    handleDataChange(e.target.value, "customer_name")
-                  }
+                  error={errors.customer_name?.message}
+                  {...form.register("customer_name")}
                 />
                 <TextField
                   label="Address"
@@ -106,10 +111,8 @@ const UpdateAddressForm = () => {
                   required
                   multiline
                   autoComplete="street-address"
-                  value={userInfo?.customer_address || ""}
-                  onChange={(e) =>
-                    handleDataChange(e.target.value, "customer_address")
-                  }
+                  error={errors.customer_address?.message}
+                  {...form.register("customer_address")}
                 />
                 <TextField
                   label="Alternative number"
@@ -117,10 +120,7 @@ const UpdateAddressForm = () => {
                   type="tel"
                   inputMode="tel"
                   placeholder="Optional"
-                  value={userInfo?.alternative_contact_no || ""}
-                  onChange={(e) =>
-                    handleDataChange(e.target.value, "alternative_contact_no")
-                  }
+                  {...form.register("alternative_contact_no")}
                 />
               </div>
 
