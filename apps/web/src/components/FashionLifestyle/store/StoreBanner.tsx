@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { HiOutlineMapPin, HiOutlinePhone } from "react-icons/hi2";
@@ -14,23 +14,29 @@ import { PRIMARY_BUTTON, Skeleton } from "@/components/shared/UI/UI";
 const imageUrl = (img: string | null | undefined) =>
   img ? `${FASHION_IMAGE_URL}/${img}` : "/png/dummyImage.png";
 
-const StoreBanner = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const hasPopupMessage = (
+  info: { isShowingMsg?: unknown; popup_message?: unknown } | null | undefined,
+) => Boolean(info?.isShowingMsg && info?.popup_message);
 
+const StoreBanner = () => {
   const params = useParams<{ shopSlugId?: string }>();
   const storeId = params?.shopSlugId?.split("_")[1];
 
   const { useStoreInfo } = useStoreItems();
   const { data: storeInfo, isLoading } = useStoreInfo(storeId);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  // Pop the store's message up whenever (new) store info carrying one
+  // arrives — adjusted during render instead of in an effect.
+  const [isModalOpen, setIsModalOpen] = useState(() =>
+    hasPopupMessage(storeInfo),
+  );
+  const [prevStoreInfo, setPrevStoreInfo] = useState(storeInfo);
+  if (storeInfo !== prevStoreInfo) {
+    setPrevStoreInfo(storeInfo);
+    if (hasPopupMessage(storeInfo)) setIsModalOpen(true);
+  }
 
-  useEffect(() => {
-    if (storeInfo?.isShowingMsg && storeInfo?.popup_message) {
-      openModal();
-    }
-  }, [storeInfo]);
+  const closeModal = () => setIsModalOpen(false);
 
   if (isLoading)
     return (

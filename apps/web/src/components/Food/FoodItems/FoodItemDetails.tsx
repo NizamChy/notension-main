@@ -7,7 +7,7 @@ import { useFoodItem, useFoodStore } from "@/hooks/food/useFoodStore";
 import { useParams } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import React, { useEffect, useState, type MouseEvent } from "react";
+import React, { useState, type MouseEvent } from "react";
 import DishCartControl from "./DishCartControl";
 import { discountLabelOf, dishImageOf } from "./dishUtils";
 import { useFoodCart } from "@/hooks/food/useFoodCart";
@@ -40,7 +40,6 @@ const DetailsSkeleton = () => (
 
 const FoodItemDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentQuantity, setCurrentQuantity] = useState(0);
   const params = useParams<{
     store?: string;
     storeId?: string;
@@ -56,6 +55,8 @@ const FoodItemDetails = () => {
   const storeName = store?.shop_name;
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useFoodCart();
+  // Read straight from the cart store; a dish still loading gives 0.
+  const currentQuantity = item ? getCurrentQty(item) : 0;
 
   const handleAddToCart = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -93,12 +94,6 @@ const FoodItemDetails = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    // getCurrentQty reads item?._id, so a dish still loading gives 0.
-    const itemQty = getCurrentQty(item as FoodItem);
-    setCurrentQuantity(itemQty);
-  }, [item, incrementQty, decrementQty]);
 
   const menuPath = `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;
 

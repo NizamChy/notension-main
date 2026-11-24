@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, type PointerEvent } from "react";
+import React, { useState, type PointerEvent } from "react";
 import { FiMaximize2 } from "react-icons/fi";
 import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
 import ImageLightbox from "./ImageLightbox";
@@ -19,8 +19,6 @@ const ImageGallery = ({ product, selectedImage }: Props) => {
   // Hover zoom (mouse only): null, or the pointer position in % of the image.
   const [zoomAt, setZoomAt] = useState<{ x: number; y: number } | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   // Unique, non-empty images only (a missing variant image used to show up
   // as a blank thumbnail).
   const detailImages = [
@@ -33,14 +31,23 @@ const ImageGallery = ({ product, selectedImage }: Props) => {
     ),
   ];
 
-  // Sync parent selectedImage with gallery
-  useEffect(() => {
-    if (selectedImage) {
-      const index = detailImages.indexOf(selectedImage);
-      if (index !== -1) setCurrentImageIndex(index);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedImage]);
+  const indexOfSelected = () => {
+    const index = selectedImage ? detailImages.indexOf(selectedImage) : -1;
+    return index === -1 ? null : index;
+  };
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(
+    () => indexOfSelected() ?? 0,
+  );
+
+  // Jump to the parent's selected image whenever it changes (adjusting state
+  // during render instead of in an effect, per the React docs).
+  const [prevSelectedImage, setPrevSelectedImage] = useState(selectedImage);
+  if (selectedImage !== prevSelectedImage) {
+    setPrevSelectedImage(selectedImage);
+    const index = indexOfSelected();
+    if (index !== null) setCurrentImageIndex(index);
+  }
 
   // Touch and pen get the full-screen viewer instead (tap), so the page can
   // still scroll over the image.

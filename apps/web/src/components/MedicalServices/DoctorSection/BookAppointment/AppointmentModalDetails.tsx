@@ -9,7 +9,7 @@ import {
   LuClock,
   LuUserRound,
 } from "react-icons/lu";
-import React, { useEffect, useState, type MouseEvent } from "react";
+import React, { useState, type MouseEvent } from "react";
 import { useBookAppointment } from "@/hooks/healthCare/usePatients";
 import { useBookingChamber } from "@/hooks/healthCare/useDoctors";
 import { toLocalYMD } from "@/utils/date";
@@ -40,8 +40,6 @@ type Props = {
 
 const AppointmentModalDetails = ({ selectedPatient, onClose }: Props) => {
   const [timeSlot, setTimeSlot] = useState("");
-  // Undefined when no chamber day is open (getNextAppointmentDay finds none).
-  const [Available_Booking_Day, setAvailable_Booking_Day] = useState<string | undefined>("");
 
   const today = new Date();
 
@@ -81,12 +79,10 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }: Props) => {
     return `${strHours}:${strMinutes} ${ampm}`;
   };
 
-  let current_day_name = weekday[(today.getDay() + 1) % 7];
-  const appointmentDays: string[] = [];
+  const current_day_name = weekday[(today.getDay() + 1) % 7];
   const CurrentDay = new Date(today.setDate(today.getDate()));
   const formattedDate = toLocalYMD(CurrentDay);
   const formattedTime = formatAMPM(CurrentDay);
-  const [appointment_date, setAppointment] = useState(formattedDate);
 
   const isTimeInSlot = (current_time: string, slot_start: string, slot_end: string) => {
     const convertTo24Hour = (str: string) => {
@@ -112,53 +108,44 @@ const AppointmentModalDetails = ({ selectedPatient, onClose }: Props) => {
     return `${day}/${month}/${year}`;
   };
 
-  useEffect(() => {
-    currentDoctor?.chamber_schedule?.map((day, i) => {
-      if (
-        !day?.is_closed &&
-        currentDoctor?.appointment_scheduling?.scheduling_type ===
-          "ScheduleForNextDay"
-      ) {
-        appointmentDays.push(day?.day_name);
-      }
-    });
-  }, []);
-
-  const getNextAppointmentDay = (currentDay: string) => {
-    const today = new Date();
+  // The next open chamber day (from today) and its date, or undefined when
+  // none of the open days is a known weekday.
+  const getNextAppointmentDay = (currentDay: string, openDays: string[]) => {
     const currentIndex = weekday.indexOf(currentDay);
     for (let i = 0; i <= 6; i++) {
       const nextIndex = (currentIndex + i) % 7;
-      if (appointmentDays.includes(weekday[nextIndex])) {
-        const appointmetDate = new Date(today.setDate(today.getDate() + i));
-        const formattedDate = toLocalYMD(appointmetDate);
-        setAppointment(formattedDate);
-        return weekday[nextIndex];
+      if (openDays.includes(weekday[nextIndex])) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        return { day: weekday[nextIndex], date: toLocalYMD(date) };
       }
     }
+    return undefined;
   };
 
-  // Work out the bookable day whenever the doctor's schedule is available.
-  useEffect(() => {
-    currentDoctor?.chamber_schedule?.forEach((day) => {
-      if (
-        !day?.is_closed &&
-        currentDoctor?.appointment_scheduling?.scheduling_type ===
-          "ScheduleForNextDay"
-      ) {
-        const nextAppointmentDay = getNextAppointmentDay(current_day_name);
-        setAvailable_Booking_Day(nextAppointmentDay);
-      } else if (
-        !day?.is_closed &&
-        currentDoctor?.appointment_scheduling?.scheduling_type ===
-          "ScheduleForSameDay" &&
-        day?.day_name === current_day_name
-      ) {
-        setAvailable_Booking_Day(day?.day_name);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentDoctor]);
+  // The bookable day (and its date), derived from the doctor's schedule
+  // during render. "" when nothing is bookable; undefined when the doctor
+  // books next-day but no open day matched.
+  const getBooking = (): { day: string | undefined; date: string } => {
+    const schedule = currentDoctor?.chamber_schedule ?? [];
+    const schedulingType = currentDoctor?.appointment_scheduling?.scheduling_type;
+    const openDays = schedule
+      .filter((day) => !day?.is_closed)
+      .map((day) => day?.day_name);
+
+    if (schedulingType === "ScheduleForNextDay" && openDays.length > 0) {
+      const next = getNextAppointmentDay(current_day_name, openDays);
+      return next ?? { day: undefined, date: formattedDate };
+    }
+    if (
+      schedulingType === "ScheduleForSameDay" &&
+      openDays.includes(current_day_name)
+    ) {
+      return { day: current_day_name, date: formattedDate };
+    }
+    return { day: "", date: formattedDate };
+  };
+  const { day: Available_Booking_Day, date: appointment_date } = getBooking();
 
   const handleBookAppointment = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

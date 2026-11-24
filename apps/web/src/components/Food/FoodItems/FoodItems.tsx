@@ -25,13 +25,14 @@ type Props = { item: FoodItem };
 
 const FoodItems = ({ item }: Props) => {
   const [selectedItem, setSelectedItem] = useState<FoodItem | null>(null);
-  const [currentQuantity, setCurrentQuantity] = useState(0);
 
   const params = useParams<{ store?: string; storeId?: string; customStoreId?: string }>();
   const prevUrlRef = useRef<string | null>(null);
 
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useFoodCart();
+  // Read straight from the cart store, so it re-renders with every change.
+  const currentQuantity = getCurrentQty(item);
 
   const handleAddToCart = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -62,11 +63,6 @@ const FoodItems = ({ item }: Props) => {
     // The dish page finds the dish in the cached restaurant menu.
     setSelectedItem(item);
   };
-
-  useEffect(() => {
-    const itemQty = getCurrentQty(item);
-    setCurrentQuantity(itemQty);
-  }, [item, incrementQty, decrementQty]);
 
   useEffect(() => {
     const basePath = `/food/store/${params?.store}/${params?.storeId}/${params?.customStoreId}`;

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useIsClient } from "@/hooks/useIsClient";
 import FilterSection from "./FilterSection";
 import FilterCheckbox from "./FilterCheckbox";
 import PriceRangeSlider from "./PriceRangeSlider";
@@ -85,7 +86,7 @@ const FiltersSidebar = ({
   shopSlugId = null,
   isSubCategoriesLoading,
 }: Props) => {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsClient();
   const [openFilter, setOpenFilter] = useState<string | null>("segment");
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
@@ -101,10 +102,6 @@ const FiltersSidebar = ({
     inStockOnly ? 1 : 0,
     priceRange[0] > 0 || priceRange[1] < 25000 ? 1 : 0,
   ].reduce((a, b) => a + b, 0);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   if (!isMounted) return null;
 
