@@ -3,13 +3,9 @@
 import React, { type MouseEvent } from "react";
 import { HiOutlineCube } from "react-icons/hi2";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
-import {
-  EmptyState,
-  ProductDetailsSkeleton,
-  ProductDetailsView,
-  ProductQuickView,
-  discountLabelOf,
-} from "./legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
+import ProductDetailsView, { ProductDetailsSkeleton, discountLabelOf } from "./ProductDetailsView";
+import ProductQuickView from "./ProductQuickView";
 import {
   ITEM_MODULES,
   itemImageSrc,

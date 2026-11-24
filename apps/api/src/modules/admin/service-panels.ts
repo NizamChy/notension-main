@@ -9,6 +9,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { and, asc, count, desc, eq, gte, ilike, inArray, isNotNull, notInArray, or, type SQL } from "drizzle-orm";
 import type { Hono } from "hono";
+import { admin as contract } from "@notension/shared";
 import { z } from "zod";
 import type { Db } from "../../db/client";
 import {
@@ -33,7 +34,6 @@ import { searchPattern } from "./staff";
 const P = "/api/v1/admin";
 const PAGE = 25;
 const page = z.coerce.number().int().min(1).catch(1).default(1);
-const money = z.coerce.number().min(0).max(1_000_000);
 
 const DONE: ("Delivered" | "Cancelled")[] = ["Delivered", "Cancelled"];
 // What a rider may move their own order to.
@@ -97,7 +97,7 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
 
   app.patch(
     `${P}/orders/:id/rider`,
-    zValidator("json", z.object({ riderId: z.string().min(1).nullable() })),
+    zValidator("json", contract.riderAssignInput),
     async (c) => {
       const a = c.get("access");
       const { riderId } = c.req.valid("json");
@@ -188,7 +188,7 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
 
   app.patch(
     `${P}/rider/orders/:id/status`,
-    zValidator("json", z.object({ status: z.enum(["On the way", "Delivered"]) })),
+    zValidator("json", contract.riderStatusInput),
     async (c) => {
       const a = c.get("access");
       if (!hasOwnRole(a, "rider")) return forbidden(c);
@@ -206,7 +206,7 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
   // ======================================================= profile links
   // Admin only: which login manages which doctor / provider profile.
 
-  const linkBody = zValidator("json", z.object({ userId: z.string().min(1).nullable() }));
+  const linkBody = zValidator("json", contract.profileLinkInput);
   const listQuery = zValidator("query", z.object({ q: z.string().optional(), userId: z.string().optional(), page }));
 
   app.get(`${P}/doctors`, listQuery, async (c) => {
@@ -339,25 +339,14 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
     return c.json({ success: true, result: { ...doc, departmentName: dept?.name ?? "", chambers } });
   });
 
-  const doctorProfileFields = z.object({
-    speciality: z.string().trim().max(200),
-    designation: z.string().trim().max(200),
-    qualifications: z.string().trim().max(500),
-    experienceYears: z.coerce.number().int().min(0).max(80),
-    consultationFee: money,
-    followUpFee: money,
-  });
-
   app.patch(`${P}/doctor/profile`, async (c) => {
     const me = await myDoctor(c);
     if ("error" in me) return me.error;
-    const parsed = doctorProfileFields.partial().strict().safeParse(await c.req.json().catch(() => null));
+    const parsed = contract.doctorProfileFields.partial().strict().safeParse(await c.req.json().catch(() => null));
     if (!parsed.success) return badRequest(c, parsed.error.issues[0]?.message ?? "Invalid data");
     if (Object.keys(parsed.data).length) await db.update(doctors).set(parsed.data).where(eq(doctors.id, me.doc.id));
     return c.json({ success: true, message: "Profile saved" });
   });
-
-  const chamberFields = z.object({ bookingOpen: z.boolean(), consultationFee: money, followUpFee: money });
 
   app.patch(`${P}/doctor/chambers/:id`, async (c) => {
     const me = await myDoctor(c);
@@ -365,7 +354,7 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
     const [ch] = await db.select({ doctorId: doctorChambers.doctorId }).from(doctorChambers).where(eq(doctorChambers.id, c.req.param("id")));
     if (!ch) return notFound(c, "Chamber not found");
     if (ch.doctorId !== me.doc.id) return forbidden(c);
-    const parsed = chamberFields.partial().strict().safeParse(await c.req.json().catch(() => null));
+    const parsed = contract.chamberFields.partial().strict().safeParse(await c.req.json().catch(() => null));
     if (!parsed.success) return badRequest(c, parsed.error.issues[0]?.message ?? "Invalid data");
     if (Object.keys(parsed.data).length) await db.update(doctorChambers).set(parsed.data).where(eq(doctorChambers.id, c.req.param("id")));
     const msg = parsed.data.bookingOpen === undefined ? "Chamber saved" : parsed.data.bookingOpen ? "Booking is open" : "Booking is closed";
@@ -427,7 +416,7 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
 
   app.patch(
     `${P}/doctor/appointments/:id`,
-    zValidator("json", z.object({ status: z.enum(["Visited", "Cancelled", "No-show"]) })),
+    zValidator("json", contract.appointmentStatusInput),
     async (c) => {
       const me = await myDoctor(c);
       if ("error" in me) return me.error;
@@ -486,18 +475,6 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
     });
   });
 
-  const phone = z.string().trim().max(20).nullable();
-  const providerFields = z.object({
-    contactPerson: z.string().trim().max(100).nullable(),
-    phone,
-    altPhone: phone,
-    address: z.string().trim().max(300),
-    serviceHours: z.string().trim().max(200).nullable(),
-    serviceDetails: z.string().trim().max(3000),
-    experienceYears: z.coerce.number().int().min(0).max(80),
-    status: z.enum(["active", "inactive"]),
-  });
-
   app.patch(`${P}/provider/listings/:id`, async (c) => {
     const a = c.get("access");
     if (!hasOwnRole(a, "service_provider")) return forbidden(c);
@@ -505,7 +482,7 @@ export function servicePanelRoutes(app: Hono<AdminEnv>, db: Db) {
     const [row] = await db.select({ userId: careProviders.userId }).from(careProviders).where(eq(careProviders.id, id));
     if (!row) return notFound(c, "Listing not found");
     if (row.userId !== a.userId) return forbidden(c);
-    const parsed = providerFields.partial().strict().safeParse(await c.req.json().catch(() => null));
+    const parsed = contract.providerFields.partial().strict().safeParse(await c.req.json().catch(() => null));
     if (!parsed.success) return badRequest(c, parsed.error.issues[0]?.message ?? "Invalid data");
     if (Object.keys(parsed.data).length) await db.update(careProviders).set(parsed.data).where(eq(careProviders.id, id));
     const msg = parsed.data.status === "inactive" ? "Listing hidden" : parsed.data.status === "active" ? "Listing is live" : "Listing saved";

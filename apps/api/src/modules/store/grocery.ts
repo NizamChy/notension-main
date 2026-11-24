@@ -1,5 +1,5 @@
 // Grocery endpoints with the paths and response shapes the web app already
-// uses (src/api-endpoints/api-endpoint.js). Responses are built from the
+// uses (src/api-endpoints/api-endpoint.ts). Responses are built from the
 // normalised tables and typed by the shared contract.
 import { zValidator } from "@hono/zod-validator";
 import { grocery as contract } from "@notension/shared";

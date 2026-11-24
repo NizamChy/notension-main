@@ -2,14 +2,12 @@
 
 import { useSessionStore } from "@/stores/sessionStore";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type SyntheticEvent } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  CommonModal,
-  LoginModalDetails,
-  StoreItemCard,
-  discountLabelOf,
-} from "./legacyViews";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
+import StoreItemCard from "./StoreItemCard";
+import { discountLabelOf } from "./ProductDetailsView";
 import ItemDetailsModal from "./ItemDetailsModal";
 import FavoriteItemDetailsModal from "./FavoriteItemDetailsModal";
 import { ITEM_MODULES, itemImageSrc, type ItemModuleName, type StoreItem } from "./moduleItems";
@@ -86,7 +84,7 @@ const StoreItemTile = ({ moduleName, item, isFavorite = false }: Props) => {
     }
   };
 
-  const handleProductClick = (event: MouseEvent<HTMLElement>) => {
+  const handleProductClick = (event: SyntheticEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
 

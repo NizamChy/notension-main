@@ -1,0 +1,152 @@
+import React from "react";
+import notify from "@/utils/notify";
+import { FaShop } from "react-icons/fa6";
+import { lineTotal } from "@/utils/price";
+import { FASHION_IMAGE_URL } from "@/api-endpoints/env";
+import {
+  formatTaka,
+  PriceRow,
+  PrimaryButton,
+} from "@/components/shared/CartUI/CartUI";
+import {
+  SummaryCard,
+  SummaryItem,
+} from "@/components/shared/Checkout/CheckoutUI";
+import type { FashionProduct } from "@/lib/api/fashion";
+import type { FashionLine } from "@/stores/cartStore";
+import type { CartContextValue } from "../context/CartContext";
+
+/**
+ * A bag line with the product fields it was added with (the cart store keeps
+ * them as unknown).
+ */
+export type BagLine = FashionLine &
+  Partial<Omit<FashionProduct, "_id" | "max_allowed">>;
+
+type StoreGroup = { shop_name: string | undefined; items: BagLine[] };
+
+type Props = {
+  items: BagLine[];
+  subtotal: number;
+  deliveryCharge: number;
+  total: number;
+  removeFromCart: CartContextValue["removeFromCart"];
+  formId: string;
+  isSubmitting: boolean;
+};
+
+// Order summary grouped by shop. Each shop becomes its own order.
+const OrderSummary = ({
+  items,
+  subtotal,
+  deliveryCharge,
+  total,
+  removeFromCart,
+  formId,
+  isSubmitting,
+}: Props) => {
+  const handleRemoveItem = (
+    productId: string,
+    selectedSize: string | null,
+    selectedImage: string | null
+  ) => {
+    removeFromCart(productId, selectedSize, selectedImage);
+    notify.success("Removed from bag");
+  };
+
+  const groupedItems = items.reduce<Record<string, StoreGroup>>((groups, item) => {
+    // A line without a store is grouped under "undefined", as before.
+    const storeId = String(item?.store_info?._id);
+    if (!groups[storeId]) {
+      groups[storeId] = { shop_name: item?.store_info?.shop_name, items: [] };
+    }
+    groups[storeId].items.push(item);
+    return groups;
+  }, {});
+  const stores = Object.values(groupedItems);
+
+  const itemCount = items.reduce((sum, item) => sum + (item?.quantity || 0), 0);
+
+  return (
+    <SummaryCard
+      meta={`${itemCount} item${itemCount === 1 ? "" : "s"}`}
+      footer={
+        <>
+          <PrimaryButton type="submit" form={formId} disabled={isSubmitting}>
+            {isSubmitting ? "Placing order…" : `Place order · ${formatTaka(total)}`}
+          </PrimaryButton>
+          {stores.length > 1 && (
+            <p className="mt-3 text-center text-xs text-gray-500">
+              Your bag has items from {stores.length} shops, so we&apos;ll place{" "}
+              {stores.length} separate orders.
+            </p>
+          )}
+        </>
+      }
+    >
+      <div className="max-h-[360px] space-y-5 overflow-y-auto pr-1">
+        {stores.map((store, idx) => {
+          const storeSubtotal = store.items.reduce(
+            (sum, item) => sum + lineTotal(item),
+            0
+          );
+          return (
+            <div key={store?.shop_name || idx}>
+              <p className="mb-3 flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <span className="flex min-w-0 items-center gap-1.5">
+                  <FaShop className="shrink-0 text-sm" />
+                  <span className="truncate">{store?.shop_name || "Shop"}</span>
+                </span>
+                {stores.length > 1 && (
+                  <span className="tabular-nums normal-case tracking-normal">
+                    {formatTaka(storeSubtotal)}
+                  </span>
+                )}
+              </p>
+              <ul className="divide-y divide-gray-100">
+                {store.items.map((item, index) => (
+                  <SummaryItem
+                    key={`${item?._id}-${item?.selectedSize}-${index}`}
+                    image={
+                      item?.selectedImage || item?.web_image
+                        ? `${FASHION_IMAGE_URL}/${item.selectedImage || item.web_image}`
+                        : null
+                    }
+                    title={item?.product_title_eng}
+                    meta={[
+                      item?.selectedColor,
+                      item?.selectedSize && `Size ${item.selectedSize}`,
+                      `${formatTaka(item?.sale_price)} each`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                    quantity={item?.quantity}
+                    total={formatTaka(lineTotal(item))}
+                    onRemove={() =>
+                      handleRemoveItem(
+                        item?._id,
+                        item?.selectedSize,
+                        item?.selectedImage
+                      )
+                    }
+                  />
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 space-y-2 border-t border-gray-100 pt-4">
+        <PriceRow label="Subtotal" value={formatTaka(subtotal)} />
+        <PriceRow
+          label="Delivery charge"
+          value={deliveryCharge > 0 ? formatTaka(deliveryCharge) : "Free"}
+        />
+        <PriceRow label="Total" value={formatTaka(total)} strong />
+      </div>
+    </SummaryCard>
+  );
+};
+
+export default OrderSummary;

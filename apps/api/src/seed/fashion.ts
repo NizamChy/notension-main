@@ -1,5 +1,5 @@
 // Loads the web app's fashion demo data (apps/web/src/demo/modules/fashion/
-// data.js), keeping its ids so links and saved bags keep working. The demo's
+// data.ts), keeping its ids so links and saved bags keep working. The demo's
 // past orders (shown to every demo user) are not imported: orders belong to
 // real accounts.
 import { DEMO_LOCATIONS } from "@/demo/demoLocations";

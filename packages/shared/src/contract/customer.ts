@@ -40,7 +40,7 @@ export const sendOtpResult = z.object({
 });
 
 // Profile fields the app sends to /register. latitude/longitude arrive
-// swapped (see useUser.js): `longitude` holds the latitude.
+// swapped (see useUser.ts): `longitude` holds the latitude.
 const text = z.string().trim().max(300).optional().catch(undefined);
 const coord = z.coerce.number().finite().optional().catch(undefined);
 export const registerInput = z.object({
@@ -53,3 +53,37 @@ export const registerInput = z.object({
   latitude: coord,
   longitude: coord,
 });
+
+// ---- Responses the web app reads (apps/api and demo mode) ----
+
+// A customer as the app keeps it. The new API adds `roles`; the old flow
+// (answered by demo data, apps/web/src/demo/modules/user.ts) has none.
+export const sessionCustomer = customer.extend({ roles: z.array(z.string()).optional() });
+export type SessionCustomer = z.infer<typeof sessionCustomer>;
+
+// verify-otp and demo-login (new API). `is_new`: the account has no name
+// yet, so the app asks for name and address next.
+export const loginResult = z.object({
+  success: z.literal(true),
+  message: z.string(),
+  is_new: z.boolean(),
+  result: customer.nullable(),
+});
+
+// send-otp on the old flow (demo data): also says whether the number has an
+// account, and returns it.
+export const legacySendOtpResult = z.object({
+  success: z.literal(true),
+  message: z.string(),
+  user_exist: z.boolean(),
+  result: sessionCustomer.nullable(),
+});
+
+// register (saves name, address and location), on both flows.
+export const profileResult = z.object({
+  success: z.literal(true),
+  message: z.string(),
+  result: sessionCustomer.nullable(),
+});
+
+export const logoutResult = z.object({ success: z.literal(true), message: z.string() });

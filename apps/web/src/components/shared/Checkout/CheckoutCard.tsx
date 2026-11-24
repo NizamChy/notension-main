@@ -1,0 +1,173 @@
+"use client";
+
+import React, { type ReactNode } from "react";
+import { useCartStore, type CartModule } from "@/stores/cartStore";
+import { AiOutlinePhone } from "react-icons/ai";
+import { IoLocationOutline, IoPersonOutline } from "react-icons/io5";
+import { lineTotal } from "@/utils/price";
+import { CART_MODULES } from "@/components/Cart/cartModules";
+import {
+  formatTaka,
+  PriceRow,
+  PrimaryButton,
+} from "@/components/shared/CartUI/CartUI";
+import {
+  CheckoutLayout,
+  CheckoutStep,
+  PaymentOptions,
+  StepLink,
+  SummaryCard,
+  SummaryItem,
+  TextField,
+} from "./CheckoutUI";
+import type { PaymentOption } from "./paymentOptions";
+
+// Cart lines and the session user are loose records; only text and numbers
+// are rendered from them.
+const text = (value: unknown): string | null =>
+  typeof value === "string" ? value : typeof value === "number" ? String(value) : null;
+
+type Props = {
+  moduleName: CartModule;
+  storeName?: unknown;
+  userInfo?: Record<string, unknown> | null;
+  totalPrice: number;
+  shippingCharge: number;
+  discount: number;
+  grandTotal: number;
+  remarks: string;
+  setRemarks: (value: string) => void;
+  remarksError?: ReactNode;
+  paymentData: readonly PaymentOption[];
+  paymentOption: string;
+  setPaymentOption: (label: string) => void;
+  onPlaceOrder: () => void;
+  progressing?: boolean;
+  disabled?: boolean;
+};
+
+// Shared checkout page for the grocery, medicine and food stores.
+const CheckoutCard = ({
+  moduleName,
+  storeName,
+  userInfo,
+  totalPrice,
+  shippingCharge,
+  discount,
+  grandTotal,
+  remarks,
+  setRemarks,
+  remarksError,
+  paymentData,
+  paymentOption,
+  setPaymentOption,
+  onPlaceOrder,
+  progressing,
+  disabled,
+}: Props) => {
+  const { imageBaseUrl, titleField } = CART_MODULES[moduleName];
+  const items = useCartStore((state) => state[moduleName].items);
+  const itemCount = items.reduce((sum, item) => sum + (item?.quantity || 0), 0);
+  const storeLabel = text(storeName);
+
+  const main = (
+    <>
+      <CheckoutStep
+        step={1}
+        title="Delivery details"
+        action={<StepLink href="/user/update-address">Change</StepLink>}
+      >
+        <div className="space-y-2.5 rounded-xl bg-gray-50 p-4 text-sm text-gray-700">
+          <p className="flex items-center gap-2.5 font-semibold text-gray-900">
+            <IoPersonOutline className="shrink-0 text-base text-gray-500" />
+            {text(userInfo?.customer_name) || "—"}
+          </p>
+          <p className="flex items-start gap-2.5">
+            <IoLocationOutline className="mt-0.5 shrink-0 text-base text-gray-500" />
+            <span>{text(userInfo?.customer_address) || "No address added yet"}</span>
+          </p>
+          <p className="flex items-center gap-2.5">
+            <AiOutlinePhone className="shrink-0 text-base text-gray-500" />
+            <span className="tabular-nums">{text(userInfo?.contact_no) || "—"}</span>
+          </p>
+        </div>
+      </CheckoutStep>
+
+      <CheckoutStep step={2} title="Payment method">
+        <PaymentOptions
+          options={paymentData}
+          value={paymentOption}
+          onChange={setPaymentOption}
+        />
+      </CheckoutStep>
+
+      <CheckoutStep step={3} title="Note for the store">
+        <TextField
+          label="Anything the store should know? (optional)"
+          multiline
+          id="remark"
+          placeholder="E.g. call before delivery, gate code…"
+          value={remarks}
+          onChange={(e) => setRemarks(e.target.value)}
+          error={remarksError}
+        />
+      </CheckoutStep>
+    </>
+  );
+
+  const aside = (
+    <SummaryCard
+      meta={`${itemCount} item${itemCount === 1 ? "" : "s"}`}
+      footer={
+        <>
+          <PrimaryButton
+            onClick={onPlaceOrder}
+            disabled={progressing || disabled}
+          >
+            {progressing ? "Placing order…" : `Place order · ${formatTaka(grandTotal)}`}
+          </PrimaryButton>
+          <p className="mt-3 text-center text-xs text-gray-500">
+            By placing this order you agree to our terms of service.
+          </p>
+        </>
+      }
+    >
+      {storeLabel && (
+        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+          From {storeLabel}
+        </p>
+      )}
+      <ul className="max-h-[320px] divide-y divide-gray-100 overflow-y-auto pr-1">
+        {items.map((item) => (
+          <SummaryItem
+            key={item?._id}
+            image={item?.app_image ? `${imageBaseUrl}/${item.app_image}` : null}
+            title={text(item?.[titleField])}
+            meta={`${formatTaka(item?.sale_price)} each`}
+            quantity={item?.quantity}
+            total={formatTaka(lineTotal(item))}
+          />
+        ))}
+      </ul>
+
+      <div className="mt-4 space-y-2 border-t border-gray-100 pt-4">
+        <PriceRow label="Subtotal" value={formatTaka(totalPrice)} />
+        <PriceRow label="Delivery charge" value={formatTaka(shippingCharge)} />
+        {Number(discount) > 0 && (
+          <PriceRow label="Discount" value={`−${formatTaka(discount)}`} />
+        )}
+        <PriceRow label="Total" value={formatTaka(grandTotal)} strong />
+      </div>
+    </SummaryCard>
+  );
+
+  return (
+    <CheckoutLayout
+      subtitle="Review your order and choose how you'd like to pay."
+      main={main}
+      aside={aside}
+    />
+  );
+};
+
+export default CheckoutCard;

@@ -5,7 +5,7 @@ import React from "react";
 import { LuStethoscope } from "react-icons/lu";
 import { useDoctorsByCenter, useFindDoctor } from "@/hooks/healthCare/useDoctors";
 import { useConsultationCenter } from "@/hooks/healthCare/useCenters";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import DoctorInfoCard from "../DoctorCard/DoctorInfoCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ExploreConsultationCenterInfo from "../ConsultationCenter/ExploreConsultationCenterInfo";

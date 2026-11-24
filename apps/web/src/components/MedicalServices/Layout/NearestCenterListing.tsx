@@ -3,7 +3,7 @@
 import React, { type ReactNode } from "react";
 import { LuMapPinned } from "react-icons/lu";
 import { useNearestCenters } from "@/hooks/healthCare/useCenters";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import CenterGrid from "./CenterGrid";
 import {
   MedicalPageBody,

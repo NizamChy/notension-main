@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState, type MouseEvent } from "react";
+import React, { type MouseEvent } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import DishCartControl from "./DishCartControl";
 import { discountLabelOf } from "./dishUtils";
@@ -19,10 +19,10 @@ type Props = {
 };
 
 const FoodItemDetailsModal = ({ isOpen, onClose, item }: Props) => {
-  const [currentQuantity, setCurrentQuantity] = useState(0);
-
   const { addToCart, getCurrentQty, incrementQty, decrementQty } =
     useFoodCart();
+  // Read straight from the cart store, so it re-renders with every change.
+  const currentQuantity = getCurrentQty(item);
 
   const handleAddToCart = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -44,11 +44,6 @@ const FoodItemDetailsModal = ({ isOpen, onClose, item }: Props) => {
 
     decrementQty(itemId);
   };
-
-  useEffect(() => {
-    const itemQty = getCurrentQty(item);
-    setCurrentQuantity(itemQty);
-  }, [item, incrementQty, decrementQty]);
 
   const name = item?.product_title_eng || "Dish";
   const discount = discountLabelOf(item);

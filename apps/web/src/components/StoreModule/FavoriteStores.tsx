@@ -3,7 +3,7 @@
 import React from "react";
 import { useFavouriteEntries } from "@/stores/favouritesStore";
 import { useRouter } from "next/navigation";
-import { FavoriteStores as FavoriteStoresView } from "./legacyViews";
+import FavoriteStoresView from "@/components/FavoriteSection/FavoriteStores";
 import { ITEM_MODULES, type ItemModuleName } from "./moduleItems";
 import { toSlug } from "@/utils/slug";
 

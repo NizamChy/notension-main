@@ -1,44 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useFoodStore } from "@/hooks/food/useFoodStore";
 import { useParams } from "next/navigation";
 import MenuSection, { MenuSkeleton } from "./MenuSection";
-import { EmptyState } from "@/components/StoreModule/legacyViews";
+import { EmptyState } from "@/components/shared/UI/UI";
 import type { FoodItem } from "@/lib/api/food";
 
 const FoodItemsByCategory = () => {
-  const [loading, setLoading] = useState(true);
-  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
-  const [categoryName, setCategoryName] = useState("");
-
   const params = useParams<{ catId?: string }>();
   const catId = params?.catId || null;
 
   const { productInfoByShop } = useFoodStore();
 
-  useEffect(() => {
-    if (!catId) return;
+  if (!catId) return <MenuSkeleton />;
 
-    setLoading(true);
-    const categoryData = productInfoByShop.find(
-      (category) => category?._id === catId
-    );
-
-    if (categoryData && categoryData?.catagory) {
-      setCategoryName(categoryData?.catagory);
-    }
-
-    if (categoryData && categoryData?.itemsInfo) {
-      setFoodItems(categoryData?.itemsInfo);
-    } else {
-      setFoodItems([]);
-    }
-
-    setLoading(false);
-  }, [catId, productInfoByShop]);
-
-  if (loading) return <MenuSkeleton />;
+  // Derived from the cached restaurant menu during render.
+  const categoryData = productInfoByShop.find(
+    (category) => category?._id === catId
+  );
+  const categoryName = categoryData?.catagory || "";
+  const foodItems: FoodItem[] = categoryData?.itemsInfo || [];
 
   if (foodItems?.length > 0) {
     return (

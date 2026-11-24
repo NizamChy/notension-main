@@ -3,7 +3,7 @@
 import React from "react";
 import { useFavouriteEntries, type Favourite } from "@/stores/favouritesStore";
 import { useRouter } from "next/navigation";
-import { FavoriteStores } from "@/components/StoreModule/legacyViews";
+import FavoriteStores from "@/components/FavoriteSection/FavoriteStores";
 import { toSlug } from "@/utils/slug";
 
 type Props = { isFavoriteRoute?: boolean };

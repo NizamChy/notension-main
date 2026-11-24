@@ -12,6 +12,20 @@ const eslintConfig = [
     },
   },
   {
+    // The app is TypeScript only (tsconfig `allowJs: false`). Block new
+    // .js/.jsx files under src so nothing slips back in untyped.
+    files: ["src/**/*.{js,jsx,mjs,cjs}"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "Program",
+          message: "Write new source files as .ts/.tsx — apps/web is TypeScript only.",
+        },
+      ],
+    },
+  },
+  {
     ignores: [".next/**", "node_modules/**", "public/**"],
   },
 ];

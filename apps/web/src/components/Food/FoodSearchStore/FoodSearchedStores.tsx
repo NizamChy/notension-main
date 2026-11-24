@@ -9,8 +9,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ShopInfoCard from "../../ShopInfoSection/ShopInfoCard";
 import ShopInfoCardSkeleton from "../../ShopInfoSection/ShopInfoCardSkeleton";
 import { STORE_GRID } from "../FoodSection/FoodSection";
-import { PAGE_CONTAINER } from "@/components/shared/UI/UI";
-import { NoStoreFound, SectionTitle } from "@/components/StoreModule/legacyViews";
+import { PAGE_CONTAINER, SectionTitle } from "@/components/shared/UI/UI";
+import NoStoreFound from "@/components/ShopInfoSection/NoStoreFound";
 import type { FoodStore } from "@/lib/api/food";
 
 const FoodSearchedStores = () => {

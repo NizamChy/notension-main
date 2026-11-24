@@ -1,16 +1,16 @@
 # Demo mode
 
 The site uses the API. Demo mode is the fallback for when the API is down
-(`backendStatus.js`): `demoAdapter.js` then answers from the routes in
-`modules/*.js` and a banner tells the visitor. The home page's Demo mode button shows the
+(`backendStatus.ts`): `demoAdapter.ts` then answers from the routes in
+`modules/*.ts` and a banner tells the visitor. The home page's Demo mode button shows the
 server status and lets a visitor choose sample data by hand
 (`isSampleDataForced`).
 
 - Image base URLs (`IMAGE_URL`, `FASHION_IMAGE_URL` in
-  `src/api-endpoints/env.js`) always point at `/demo-images/...`, which
+  `src/api-endpoints/env.ts`) always point at `/demo-images/...`, which
   `next.config.mjs` rewrites to `public/demo/`.
 - A first visit starts at `DEFAULT_DEMO_LOCATION` (Dhaka).
-- The API's seed (`apps/api/src/seed`) loads `modules/*/data.js`, so the
+- The API's seed (`apps/api/src/seed`) loads `modules/*/data.ts`, so the
   fallback shows the same stores and products as a fresh database.
 
 ## Adding demo data for a backend
@@ -29,13 +29,13 @@ export const routes = [
 ```
 
 - `service` is the base URL the request was sent to (see `SERVICE_BASES` in
-  `demoAdapter.js`). `path` is the endpoint constant from
-  `src/api-endpoints/api-endpoint.js`. Import the constant, do not retype it.
+  `demoAdapter.ts`). `path` is the endpoint constant from
+  `src/api-endpoints/api-endpoint.ts`. Import the constant, do not retype it.
 - `query` merges the URL query string and axios `params`; `body` is the parsed
   request body.
 - Return the response body exactly as the components read it
   (`res.data...`). For an error status, `return demoResponse(400, body)`.
-- Data only exists for the districts in `demoLocations.js`. Filter by the
+- Data only exists for the districts in `demoLocations.ts`. Filter by the
   district ID the request sends; any other district gets the empty result the
   real backend would give.
 - Writes (orders, bookings, favourites) live in memory for the page session.

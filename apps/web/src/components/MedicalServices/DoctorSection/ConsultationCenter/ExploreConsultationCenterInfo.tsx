@@ -6,7 +6,8 @@ import React, { useState, type MouseEvent } from "react";
 import { LuHeart, LuMapPin, LuPhone } from "react-icons/lu";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
 import { Badge, CARD } from "@/components/shared/UI/UI";
-import { CommonModal, LoginModalDetails } from "@/components/StoreModule/legacyViews";
+import CommonModal from "@/components/shared/CommonModal/CommonModal";
+import LoginModalDetails from "@/components/LoginSection/LoginModalDetails";
 import type { Center } from "@/lib/api/healthCare";
 import { centerTypeLabel, resolveHealthImage } from "../../Layout/MedicalUI";
 

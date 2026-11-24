@@ -10,7 +10,7 @@ type DemoStore = { _id: string; custom_store_id: string; is_closed: boolean };
 type Handler = (req: { query: Record<string, string> }) => { result: ExploreResult };
 
 const explore = (s: DemoStore): ExploreResult => {
-  const route = (DEMO_ROUTES as { service: string; path: string; handler: Handler }[]).find(
+  const route = (DEMO_ROUTES as unknown as { service: string; path: string; handler: Handler }[]).find(
     (r) => r.service === "GROCERY" && r.path === EXPLORE_GROCERY_STORE,
   )!;
   return route.handler({ query: { storeId: s._id, custom_store_id: s.custom_store_id } }).result;

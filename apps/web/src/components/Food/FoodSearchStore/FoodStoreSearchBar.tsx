@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SearchInput } from "@/components/StoreModule/legacyViews";
+import SearchInput from "@/components/shared/Search/SearchInput";
 
 // Store search inside a food category (/food/[id]/...).
 const FoodStoreSearchBar = () => {

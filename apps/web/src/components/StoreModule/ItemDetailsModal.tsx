@@ -4,7 +4,8 @@ import { useSessionStore } from "@/stores/sessionStore";
 import notify from "@/utils/notify";
 import React, { type MouseEvent } from "react";
 import { useFavouriteItem } from "@/hooks/fetch-data/favorite-item";
-import { ProductDetailsView, ProductQuickView, discountLabelOf } from "./legacyViews";
+import ProductDetailsView, { discountLabelOf } from "./ProductDetailsView";
+import ProductQuickView from "./ProductQuickView";
 import {
   ITEM_MODULES,
   itemImageSrc,

@@ -22,19 +22,39 @@ reached, so it still works without a backend.
 | All Care Services | `/all-care-services` | Local service providers (repairs, tutoring, events, construction and more) |
 | User | `/login`, `/user/profile`, `/user/update-address` | Log in with a mobile number and OTP, profile and address |
 | Marketing policy | `/marketing-policy` | Merchant fees and partner policy (Bangla) |
+| Admin panel | `/admin` | Staff sign-in with role-based access: stores, products, orders, users and roles, rider, doctor and service-provider panels, data backup |
+| Guide | `/guide` | Project guide in English and Bangla |
 
 ## Tech stack
 
 - Monorepo: npm workspaces and [Turborepo](https://turborepo.com)
+- TypeScript 7 everywhere. The web app is TypeScript only: `allowJs: false`, and lint rejects new .js/.jsx files under `src`.
+
+**Frontend (`apps/web`)**
+
 - [Next.js 16](https://nextjs.org) (App Router) and React 19
-- TypeScript 7 (existing code is JavaScript and moves over gradually)
 - Tailwind CSS 4
-- Zod for shared, validated business rules (`packages/shared`)
-- Vitest for unit tests, Playwright for smoke tests
-- Redux Toolkit with `redux-persist` for cart, user and module state
-- TanStack Query and Axios for data fetching
+- Zustand (with `persist`) for cart, session, favourites, wishlist and preferences
+- TanStack Query for all server data
+- Typed API client (`src/lib/api`): Axios underneath, every response validated with the shared Zod contract
+- React Hook Form + Zod for forms (`src/lib/forms/useZodForm.ts`)
 - Swiper for sliders, `react-icons`, `react-hot-toast`
 - Google Maps JavaScript API for location
+
+**Backend (`apps/api`)**
+
+- Hono + Zod
+- Drizzle ORM on Postgres + PostGIS: Neon in production, embedded PGlite locally
+- Better Auth: customer phone OTP, staff password, role-based access
+
+**Shared (`packages/shared`)**
+
+- Zod contracts for every API (customer, admin and each module), plus pricing rules and slugs, used by both apps
+
+**Quality**
+
+- Vitest unit tests, Playwright end-to-end tests
+- GitHub Actions CI
 
 > Next.js 16 changes several APIs and conventions. Before changing framework
 > code, read the matching guide in `node_modules/next/dist/docs/` (see
@@ -68,11 +88,11 @@ the footer links to both.
 | `npm run lint` | Run ESLint |
 | `npm run typecheck` | Type-check every package |
 | `npm run test` | Run the unit tests (Vitest) |
-| `npm run e2e` | Run the smoke tests (Playwright, uses the installed Chrome) |
+| `npm run e2e` | Run the end-to-end tests (Playwright, uses the installed Chrome) |
 
 Run these from the repository root. Turborepo runs each task in every
 workspace that has it and caches the results. GitHub Actions runs lint,
-typecheck, tests, build and the smoke tests on every pull request.
+typecheck, tests, build and the end-to-end tests on every pull request.
 
 ## Configuration
 
@@ -105,7 +125,7 @@ Never commit `.env.local` or real keys.
 > domains in Google Cloud. The SMS key should move to a server-side route
 > (without the `NEXT_PUBLIC_` prefix) so it is not exposed.
 
-The location picker (`src/components/shared/Map/LocationPicker.jsx`) is
+The location picker (`src/components/shared/Map/LocationPicker.tsx`) is
 built to stay inside Google Maps' free monthly usage: the Maps script loads
 only when the picker opens, one map is created per opening, and the address
 under the pin is looked up only after the map stops moving, with results
@@ -116,7 +136,7 @@ cached per ~10 m.
 The new API lives in [`apps/api`](apps/api/README.md). It answers the same
 requests as the old backends, module by module, and runs locally with no
 database setup (embedded Postgres). Every module runs on it (list in
-`apps/web/src/api-endpoints/live.js`), called through the web app's
+`apps/web/src/api-endpoints/live.ts`), called through the web app's
 `/api-proxy/<service>` rewrite, which points at `http://localhost:4000` in
 development and `https://notension-api.vercel.app` in production.
 
@@ -126,7 +146,7 @@ Demo mode turns itself on when the API is down, and can be chosen by hand:
 
 - Every request goes to the API first. When the API can't be reached (the
   health check on page load fails, or a request gets no answer or a server
-  error), `src/demo/demoAdapter.js` answers from the routes in
+  error), `src/demo/demoAdapter.ts` answers from the routes in
   `src/demo/modules/` instead. Orders and other writes fall back only when
   they surely never reached the API, so nothing is placed twice.
 - A banner says the site is showing sample data. The API is checked again
@@ -143,8 +163,8 @@ Demo mode turns itself on when the API is down, and can be chosen by hand:
   (saved per browser; switching clears the cart and sign-in and reloads).
   With it on, **Log in as Demo User** uses the demo sign-in.
 
-State: `apps/web/src/demo/backendStatus.js`. Banner:
-`apps/web/src/components/shared/BackendStatus/BackendStatusBanner.jsx`.
+State: `apps/web/src/demo/backendStatus.ts`. Banner:
+`apps/web/src/components/shared/BackendStatus/BackendStatusBanner.tsx`.
 
 To add or change demo data, see
 [`apps/web/src/demo/README.md`](apps/web/src/demo/README.md). The API's seed
@@ -159,7 +179,7 @@ system is set to dark, until the visitor switches.
 How it works:
 
 - The theme is the `dark` class on `<html>`. An inline script in
-  `src/app/layout.js` sets it before the first paint, so the page doesn't
+  `src/app/layout.tsx` sets it before the first paint, so the page doesn't
   flash light. The button is `src/components/shared/ThemeToggle`.
 - The `gray` and `slate` scales and `deepGray` / `mediumGray` / `lightGray`
   read CSS variables (the `@theme` block in `src/app/globals.css`), so they
@@ -177,12 +197,10 @@ Known gaps and planned work, most important first.
 
 - **Security:** restrict the Google Maps key to the site's domains and move
   the SMS gateway call to a server route so its key never reaches the browser.
-- **Fashion product photos:** some products show a photo that doesn't match
-  the item (the demo reuses a shared photo pool).
+- **Baby wipes photos:** the fashion and medicine baby wipes still need a
+  photo without brand labels.
 - **Medicine photos:** a few products share the same generic photo.
 - **Grocery checkout:** the delivery charge shows ৳0.00.
-- **Theme toggle:** two quick clicks don't switch back (the handler reads React
-  state instead of the `dark` class on `<html>`).
 - **Footer:** social icons stay hidden until real URLs are added to
   `SOCIAL_LINKS`. The fashion module still has its own older footer.
 - **Fashion:** one shop name needs correcting in the demo data.
@@ -190,8 +208,9 @@ Known gaps and planned work, most important first.
 - **Dark mode:** modals, dropdowns and checkout have not been fully reviewed.
   Some white-on-teal and white-on-yellow buttons have low contrast.
 - **Location state:** latitude, longitude and district are stored twice in
-  the user slice (top level and in `currentUserLocation`), and `useUser.js`
-  sends latitude and longitude swapped (demo mode compensates).
+  the session store (top level and in `currentUserLocation`), and `useUser.ts`
+  sends latitude and longitude swapped (the backend stores them that way, so
+  fixing it needs a data migration).
 
 ### Known limitations
 
@@ -201,8 +220,15 @@ Known gaps and planned work, most important first.
 
 ### Features not built yet
 
+- Online payment gateway (SSLCommerz / bKash / Nagad); today the payment
+  method is only recorded
+- Customers cancelling their own orders
+- Order status notifications (SMS / push), with background jobs (BullMQ)
+- File uploads to object storage (Cloudflare R2)
+- All Care real booking and a request list in the provider panel
+- Rider cash hand-in report for finance
+- Location search on Places API (New)
 - Doctor video consultation
-- Online payment gateway integration for bKash and Nagad
 - Home sample collection for lab tests
 - Health check-up packages
 - Search doctors by code, plus specialty descriptions and a stats row on the
@@ -217,13 +243,16 @@ apps/
     src/
       app/             Routes (App Router), one folder per module
       components/      UI components, grouped by module
-      api-endpoints/   Backend base URLs (env.js) and endpoint paths
+      api-endpoints/   Backend base URLs (env.ts) and endpoint paths
       demo/            Demo mode: adapter, sample data, locations, demo user
-      hooks/           Data-fetching and order hooks
-      lib/apiClient.js Axios client per backend (routes through demo mode)
-      redux/           Store, slices and persistence
-      utils/           Helpers (dates, validation, Google Maps loader)
-    e2e/               Playwright smoke tests
+      data/            Static data (district list)
+      hooks/           TanStack Query hooks per module
+      lib/api/         Typed API client: requests, Zod validation, query keys
+      lib/forms/       React Hook Form + Zod helpers and form schemas
+      lib/apiClient.ts Axios client per backend (routes through demo mode)
+      stores/          Zustand stores (cart, session, favourites, wishlist...)
+      utils/           Helpers (dates, toasts, Google Maps loader)
+    e2e/               Playwright end-to-end tests
   api/                 Backend: Hono, Zod, Drizzle, Postgres + PostGIS
                        (see apps/api/README.md)
 packages/
@@ -236,13 +265,18 @@ turbo.json             Task pipeline
 ## Deployment
 
 The app is deployed on [Vercel](https://vercel.com). Every pull request gets a
-preview deployment, and merging to `main` deploys to production. The Vercel project's Root
-Directory is `apps/web`. Set the environment variables above in the Vercel
-project settings.
+preview deployment, and merging to `main` deploys to production. There are
+two Vercel projects:
+
+- `notension-main` (Root Directory `apps/web`): <https://notension-main.vercel.app>
+- `notension-api` (Root Directory `apps/api`): <https://notension-api.vercel.app>, with a Neon Postgres database
+
+Set the environment variables above in the Vercel project settings.
 
 ## Contributing
 
 1. Create a branch from `main` (for example `fix/cart-total`).
 2. Make your change and run `npm run lint`, `npm run typecheck`,
-   `npm run test` and `npm run build`.
+   `npm run test`, `npm run build` and `npm run e2e`. New source files must
+   be `.ts`/`.tsx`.
 3. Open a pull request to `main` and check the Vercel preview.

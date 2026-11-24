@@ -6,8 +6,7 @@ import { useFavouriteEntries, type Favourite } from "@/stores/favouritesStore";
 import { useRouter } from "next/navigation";
 import { LuHeart, LuTrash2 } from "react-icons/lu";
 import { useFavouriteList } from "@/hooks/fetch-data/favorite-list";
-import { PRIMARY_BUTTON } from "@/components/shared/UI/UI";
-import { EmptyState, PageHeader } from "@/components/StoreModule/legacyViews";
+import { PRIMARY_BUTTON, EmptyState, PageHeader } from "@/components/shared/UI/UI";
 import DoctorCardView from "../DoctorCard/DoctorCardView";
 import {
   MedicalCardGrid,
