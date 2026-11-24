@@ -7,7 +7,7 @@ import { flyToCart } from "@/utils/flyToCart";
 import ProductInfo from "./ProductInfo";
 import { FiHeart } from "react-icons/fi";
 import ImageGallery from "./ImageGallery";
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useState, type MouseEvent, type ReactNode } from "react";
 import { slugify } from "../utils/slugify";
 import ProductDetails from "./ProductDetails";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -77,11 +77,14 @@ const ProductDetailSection = () => {
     product?.images_by_color?.[0] || product?.web_image
   );
 
-  // A fetched product arrives after the first render.
-  useEffect(() => {
+  // A fetched product arrives after the first render: reset the selected
+  // image whenever the product changes (adjusting state during render instead
+  // of in an effect, per the React docs).
+  const [prevProductId, setPrevProductId] = useState(product?._id);
+  if (product?._id !== prevProductId) {
+    setPrevProductId(product?._id);
     setSelectedImage(product?.images_by_color?.[0] || product?.web_image);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product?._id]);
+  }
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);

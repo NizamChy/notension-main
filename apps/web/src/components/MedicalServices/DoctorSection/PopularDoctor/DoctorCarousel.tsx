@@ -14,6 +14,10 @@ import { MedicalSectionTitle } from "../../Layout/MedicalLayout";
 const arrowClass =
   "flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 [&.swiper-button-lock]:hidden!";
 
+// Null elements (not undefined) stop swiper/react from rendering its own
+// default arrows; the real buttons are bound in onBeforeInit.
+const NAVIGATION_PLACEHOLDER: NavigationOptions = { prevEl: null, nextEl: null };
+
 // Horizontal list of doctor cards with per-instance arrows in the section
 // header. The Swiper is a plain full-width block (not a shrink-wrapped flex
 // item), so it always measures the real container width and never collapses
@@ -68,11 +72,11 @@ const DoctorCarousel = ({
         slidesPerView={1.12}
         spaceBetween={12}
         rewind={true}
-        navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
+        navigation={NAVIGATION_PLACEHOLDER}
         onBeforeInit={(swiper) => {
-          // Refs are attached before Swiper initialises, so bind the
-          // arrows here instead of relying on the first-render values.
-          // `navigation` is set above, so it is the options object here.
+          // Refs are attached before Swiper initialises, so the arrows are
+          // bound here (refs are never read during render). `navigation` is
+          // set above, so it is the options object here.
           (swiper.params.navigation as NavigationOptions).prevEl = prevRef.current;
           (swiper.params.navigation as NavigationOptions).nextEl = nextRef.current;
         }}

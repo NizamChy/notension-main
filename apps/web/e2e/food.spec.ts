@@ -63,6 +63,24 @@ test("restaurant shows its menu and a category page", async ({ page }) => {
   await expect(addButtons(page).first()).toBeVisible();
 });
 
+test("menu quantity stepper follows the cart", async ({ page }) => {
+  await openStore(page);
+  await page.getByRole("button", { name: `Add ${DISH_TITLE} to cart` }).first().click();
+  const more = page.getByRole("button", { name: `Add one more ${DISH_TITLE}` }).first();
+  const qty = more.locator("xpath=preceding-sibling::span[1]");
+  await expect(qty).toHaveText("1");
+  await more.click();
+  await expect(qty).toHaveText("2");
+
+  const less = page.getByRole("button", { name: `Remove one ${DISH_TITLE}` }).first();
+  await less.click();
+  await expect(qty).toHaveText("1");
+  await less.click();
+  await expect(
+    page.getByRole("button", { name: `Add ${DISH_TITLE} to cart` }).first(),
+  ).toBeVisible();
+});
+
 test("dish direct link renders, unknown id shows not found", async ({ page }) => {
   await page.goto(`${STORE_PATH}/product/${DISH_ID}`);
   await expect(page.getByRole("heading", { name: DISH_TITLE }).first()).toBeVisible();

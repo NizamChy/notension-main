@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, type ReactNode } from "react";
+import React, { useEffect, type ReactNode } from "react";
+import { useIsClient } from "@/hooks/useIsClient";
 
 type Props = {
   isOpen: boolean;
@@ -10,12 +11,7 @@ type Props = {
 };
 
 const CommonModal = ({ isOpen, onClose, children, className = "" }: Props) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
+  const mounted = useIsClient();
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
